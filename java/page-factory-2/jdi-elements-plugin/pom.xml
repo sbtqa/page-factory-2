@@ -30,6 +30,12 @@
       <groupId>com.epam.jdi</groupId>
       <artifactId>jdi-uitest-web</artifactId>
       <version>1.0.71</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.testng</groupId>
+          <artifactId>testng</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
