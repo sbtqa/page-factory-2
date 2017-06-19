@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.pagefactory.exceptions;
 
-//TODO Причем тут qautils?
+//TODO change AutoTestError qautils?
 public class WaitException extends AssertionError {
 
     /**
