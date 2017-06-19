@@ -71,7 +71,7 @@ public class SetupStepDefs {
 
         for (Class<?> page : allClasses) {
             List<Class> supers = ClassUtilsExt.getSuperclassesWithInheritance(page);
-            // TODO: I don't understand
+            // TODO: var I don't understand
 //            if (!supers.contains(WebElementsPage.class) && !supers.contains(HtmlElement.class)) {
 //                if (page.getName().contains("$")) {
 //                    continue; //We allow private additional classes but skip it if its not extends WebElementsPage
