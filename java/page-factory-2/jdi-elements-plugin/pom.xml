@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -8,11 +8,12 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
+
   <groupId>ru.sbtqa.tag.pagefactory</groupId>
-  <artifactId>page-factory-utils</artifactId>
+  <artifactId>jdi-elements-plugin</artifactId>
   <packaging>jar</packaging>
 
-  <name>page-factory-utils</name>
+  <name>jdi-elements-plugin</name>
 
   <dependencies>
     <dependency>
@@ -21,24 +22,20 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>cucumber-runner</artifactId>
-      <version>1.0.5</version>
+      <groupId>com.epam.jdi</groupId>
+      <artifactId>jdi-uitest-core</artifactId>
+      <version>1.0.71</version>
     </dependency>
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-api</artifactId>
-      <version>2.53.1</version>
+      <groupId>com.epam.jdi</groupId>
+      <artifactId>jdi-uitest-web</artifactId>
+      <version>1.0.71</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>qa-utils</artifactId>
-      <version>1.2.4</version>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>allure-helper</artifactId>
-      <version>1.2.2</version>
+      <groupId>ru.sbtqa.tag.pagefactory</groupId>
+      <artifactId>page-factory-utils</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
     </dependency>
   </dependencies>
 
