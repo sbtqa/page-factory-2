@@ -19,31 +19,16 @@ import ru.sbtqa.tag.qautils.properties.Props;
 @Aspect
 public class ClickAspect {
 
-//    TODO remove unnecessary symbols
-    @Pointcut("call(* org.openqa.selenium.WebElement.click()) || call(* ru.yandex.qatools.htmlelements.element.*.click()) ")
+    @Pointcut("call(* org.openqa.selenium.WebElement.click())")
     public void clickMethod() {
     }
 
     @Around("clickMethod()")
     public void doAroundClick(ProceedingJoinPoint joinPoint) throws Throwable {
         
-        // Redirect
         WebElement targetWebElement;
         targetWebElement = (WebElement) joinPoint.getTarget();
     
-        // TODO PL 5/30/17 REMOVE REDIRECT
-//        Class<? extends Page> elementRedirect;
-//        if (joinPoint.getTarget() instanceof TypifiedElement) {
-//            targetWebElement = ((TypifiedElement) joinPoint.getTarget()).getWrappedElement();
-//            TypifiedElement typifiedElement = (TypifiedElement) joinPoint.getTarget();
-//            elementRedirect = getElementRedirect(typifiedElement);
-//        } else if (joinPoint.getTarget() instanceof WebElement) {
-//            targetWebElement = (WebElement) joinPoint.getTarget();
-//            elementRedirect = getElementRedirect(targetWebElement);
-//        } else {
-//            return;
-//        }
-
         String elementHighlightStyle = null;
         boolean isVideoHighlightEnabled = Boolean.valueOf(Props.get("video.highlight.enabled"));
         if (isVideoHighlightEnabled) {
@@ -82,11 +67,6 @@ public class ClickAspect {
             joinPoint.proceed();
         }
     
-        // TODO PL 6/6/17
-//        if (null != elementRedirect) {
-//            PageFactory.getInstance().getPage(elementRedirect);
-//        }
-
         if (isVideoHighlightEnabled) {
             WebExtension.highlightElementOff(targetWebElement, elementHighlightStyle);
         }
