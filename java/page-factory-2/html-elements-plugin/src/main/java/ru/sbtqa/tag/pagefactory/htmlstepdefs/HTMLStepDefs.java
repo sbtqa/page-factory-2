@@ -7,12 +7,12 @@ import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.yandex.qatools.htmlelements.element.*;
 
-import static ru.sbtqa.tag.pagefactory.PageReflectUtil.executeMethodByTitleInBlock;
-import static ru.sbtqa.tag.pagefactory.PageReflectUtil.findElementInBlockByTitle;
-import static ru.sbtqa.tag.pagefactory.PageReflectUtil.findListOfElements;
+import static ru.sbtqa.tag.pagefactory.PageReflectUtil.*;
+import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
 
 /**
  * Basic step definitions, that should be available on every project Notations
@@ -197,8 +197,6 @@ public class HTMLStepDefs {
         }
     }
     
-    //TODO change PL доделать шаг проверки чекбокса
-    
     /**
      * Find web element with corresponding title, if it is a check box, select
      * it If it's a WebElement instance, check whether it is already selected,
@@ -209,15 +207,31 @@ public class HTMLStepDefs {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if page was not initialized, or required element
      *                                                           couldn't be found
      */
-//    @And("ru.sbtqa.tag.pagefactory.select.checkBox")
-//    public void setCheckBox(String elementTitle) throws PageException {
-//        WebElement targetElement = getElementByTitle(elementTitle);
-//        if (targetElement.getClass().isAssignableFrom(CheckBox.class)) {
-//            ((CheckBox) targetElement).select();
-//        } else {
-//            setCheckBoxState(targetElement, true);
-//        }
-//        addToReport(elementTitle, " is checked");
-//    }
+    @And("ru.sbtqa.tag.pagefactory.select.checkBox")
+    public void setCheckBox(String elementTitle) throws PageException {
+        WebElement targetElement = getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (targetElement.getClass().isAssignableFrom(CheckBox.class)) {
+            ((CheckBox) targetElement).select();
+        } else {
+            setCheckBoxState(targetElement, true);
+        }
+        PageFactoryUtils.addToReport(elementTitle, " is checked");
+    }
+    
+    /**
+     * Check whether specified element is selected, if it isn't, click it
+     * isSelected() doesn't guarantee correct behavior if given element is not a
+     * selectable (checkbox,dropdown,radiobtn)
+     *
+     * @param webElement a WebElemet object.
+     * @param state a boolean object.
+     */
+    private void setCheckBoxState(WebElement webElement, Boolean state) {
+        if (null != state) {
+            if (webElement.isSelected() != state) {
+                webElement.click();
+            }
+        }
+    }
     
 }
