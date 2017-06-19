@@ -20,6 +20,7 @@
     <module>page-factory-utils</module>
     <module>page-factory-api</module>
     <module>jdi-elements-plugin</module>
+    <module>html-elements-plugin</module>
   </modules>
 
   <dependencies>
