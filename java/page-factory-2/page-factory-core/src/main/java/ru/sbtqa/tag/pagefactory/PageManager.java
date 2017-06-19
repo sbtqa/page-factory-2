@@ -143,7 +143,7 @@ public class PageManager {
     private static Class<?> getPageClass(final String packageName, String title) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         final Set<Class<?>> allClasses = new HashSet<>();
-        // TODO: 5/29/17 Здесь можно хорошо ускориться добавив кэш
+        // TODO: var add cash 5/29/17
         try {
             for (ClassPath.ClassInfo info : ClassPath.from(loader).getAllClasses()) {
                 if (info.getName().startsWith(packageName + ".")) {
