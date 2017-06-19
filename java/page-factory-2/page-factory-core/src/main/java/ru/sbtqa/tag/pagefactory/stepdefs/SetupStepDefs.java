@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allure.TagAllureReporter;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
+import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.support.OnFailureScheduler;
 import ru.sbtqa.tag.qautils.properties.Props;
 import ru.sbtqa.tag.qautils.reflect.ClassUtilsExt;
@@ -71,7 +73,7 @@ public class SetupStepDefs {
 
         for (Class<?> page : allClasses) {
             List<Class> supers = ClassUtilsExt.getSuperclassesWithInheritance(page);
-            // TODO: I don't understand
+            // TODO: var we can't know which plugin we are using
 //            if (!supers.contains(WebElementsPage.class) && !supers.contains(HtmlElement.class)) {
 //                if (page.getName().contains("$")) {
 //                    continue; //We allow private additional classes but skip it if its not extends WebElementsPage

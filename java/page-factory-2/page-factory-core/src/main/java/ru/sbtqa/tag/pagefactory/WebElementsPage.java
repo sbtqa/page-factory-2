@@ -179,23 +179,6 @@ public abstract class WebElementsPage extends Page {
     }
     
     /**
-     * Check whether specified element is selected, if it isn't, click it
-     * isSelected() doesn't guarantee correct behavior if given element is not a
-     * selectable (checkbox,dropdown,radiobtn)
-     *
-     * @param webElement a WebElemet object.
-     * @param state a boolean object.
-     */
-    protected void setCheckBoxState(WebElement webElement, Boolean state) {
-        if (null != state) {
-            if (webElement.isSelected() != state) {
-                webElement.click();
-            }
-        }
-        addToReport(webElement, " is turned to '" + state + "' state");
-    }
-
-    /**
      * Find element with required title, perform
      * {@link #select(WebElement, String, MatchStrategy)} on found element Use
      * exact match strategy
