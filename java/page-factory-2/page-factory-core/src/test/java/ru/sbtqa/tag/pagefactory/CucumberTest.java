@@ -9,5 +9,5 @@ import ru.sbtqa.tag.cucumber.TagCucumber;
         glue = {"ru.sbtqa.tag.pagefactory.stepdefs", "ru.sbtqa.tag.pagefactory.htmlstepdefs", "setting",
         "ru.sbtqa.tag.pagefactory.pages.jdielements"},
         features = {"src/test/resources/tests"},
-        tags = {"@webElementsCheck"})
+        tags = {"@jdiElementsCheck"})
 public class CucumberTest {}

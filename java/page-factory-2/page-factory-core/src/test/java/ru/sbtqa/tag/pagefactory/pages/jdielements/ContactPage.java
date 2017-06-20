@@ -34,8 +34,7 @@ public class ContactPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='hosting'][@value='no']")
     @ElementTitle(value = "hosting no")
     private RadioButtons hostingNo;
-    
-    
+
     @FindBy(xpath = "//button[@type='submit']")
     @ElementTitle(value = "send")
     private Button sendButton;
