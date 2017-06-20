@@ -80,13 +80,6 @@
       <groupId>net.lightbody.bmp</groupId>
       <artifactId>browsermob-core</artifactId>
       <version>2.1.0-beta-4</version>
-      <exclusions>
-        <!--todo exclusion is neccessary only for testing (jetty run)-->
-        <exclusion>
-          <artifactId>servlet-api</artifactId>
-          <groupId>javax.servlet</groupId>
-        </exclusion>
-      </exclusions>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -172,6 +165,18 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.18.1</version>
+        <configuration>
+          <!--browsermob-core version 2.1.0-beta-4 contains servlet-api 2.5.0 and jetty can't normally work.
+           It required 3.1.0 version of servlet-api during test-->
+          <classpathDependencyExcludes>
+            <classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>
+          </classpathDependencyExcludes>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>

@@ -45,9 +45,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git://github.com/sbtqa/page-factory</connection>
-    <developerConnection>scm:git:ssh://github.com:sbtqa/page-factory.git</developerConnection>
-    <url>https://github.com/sbtqa/page-factory/tree/master</url>
+    <connection>scm:git:git://github.com/sbtqa/page-factory-2</connection>
+    <developerConnection>scm:git:ssh://github.com:sbtqa/page-factory-2.git</developerConnection>
+    <url>https://github.com/sbtqa/page-factory-2/tree/master</url>
   </scm>
 
   <properties>
