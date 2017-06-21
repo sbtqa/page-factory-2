@@ -19,6 +19,10 @@ public class AbstractPage extends Page {
     @ElementTitle("Home")
     @FindBy(xpath = "//a[text()='Home']")
     private Button homeButton;
+
+    @ElementTitle("Donations")
+    @FindBy(xpath = "//a[text()='Donations']")
+    private Button donationsButton;
     
     public AbstractPage() {
         JDIUtils.initElementsOnPage(this);
@@ -46,4 +50,6 @@ public class AbstractPage extends Page {
         Input element = (Input) JDIUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         element.sendKeys(value);
     }
+
+
 }
