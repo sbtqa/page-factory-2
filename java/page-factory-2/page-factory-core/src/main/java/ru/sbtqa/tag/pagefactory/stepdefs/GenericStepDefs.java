@@ -21,7 +21,7 @@ import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.executeMethodByTitl
 
 /**
  * Basic step definitions, that should be available on every project Notations
- * used in this class: Block - a class that extends {@link HtmlElement} and has
+ * used in this class: Page - a class that extends {@link ru.sbtqa.tag.pagefactory.Page} and has
  * {@link ru.sbtqa.tag.pagefactory.annotations.ElementTitle} annotation Action -
  * a method with {@link ru.sbtqa.tag.pagefactory.annotations.ActionTitle}
  * annotation in page object List - list of {@link WebElement}'s with
