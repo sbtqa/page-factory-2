@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.pages.jdielements;
 
+import com.epam.jdi.uitests.core.interfaces.complex.IDropDown;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.Input;
 import com.epam.jdi.uitests.web.selenium.elements.common.Text;
@@ -34,8 +35,7 @@ public class ContactPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='hosting'][@value='no']")
     @ElementTitle(value = "hosting no")
     private RadioButtons hostingNo;
-    
-    
+
     @FindBy(xpath = "//button[@type='submit']")
     @ElementTitle(value = "send")
     private Button sendButton;
@@ -43,7 +43,15 @@ public class ContactPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='error_message']")
     @ElementTitle(value = "error msg")
     private Text errorMsg;
-    
+
+    @FindBy(xpath = "//*[@name='state']")
+    @ElementTitle("City")
+    private IDropDown city;
+
+    @FindBy(xpath = "//div[@class='radio']")
+    @ElementTitle("To be or not to be")
+    private RadioButtons toBe;
+
     public ContactPage() {
         JDIUtils.initElementsOnPage(this);
     }
