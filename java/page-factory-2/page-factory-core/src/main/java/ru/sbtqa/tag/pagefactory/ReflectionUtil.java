@@ -29,6 +29,7 @@ public class ReflectionUtil {
      * toString() of corresponding element
      *
      * @param element WebElement to search
+     * @param page page for searching
      * @return title of the given element
      */
     public static String getElementTitle(Page page, WebElement element) {

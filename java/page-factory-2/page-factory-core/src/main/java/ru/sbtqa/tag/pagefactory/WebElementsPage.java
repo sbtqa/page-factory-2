@@ -35,7 +35,7 @@ import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
 
 /**
  * Contains basic actions in particular with web elements
- * If we want to extend this functional -> inherit from this class
+ * If we want to extend this functional - inherit from this class
  */
 public abstract class WebElementsPage extends Page {
 
