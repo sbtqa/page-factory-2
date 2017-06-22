@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory;
 
 import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
-import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.settings.WebSettings;
 import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
@@ -36,7 +35,7 @@ public class JDIUtils {
         WebSettings.logger = new JDILogger();
     }
 
-    public static Element getElementByTitle(Page page, String title) throws PageException {
+    public static Object getElementByTitle(Page page, String title) throws PageException {
         for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
             if (PageFactoryUtils.isRequiredElement(field, title)) {
                 return PageFactoryUtils.getElementByField(page, field);

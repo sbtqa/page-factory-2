@@ -24,6 +24,8 @@ Feature: Check jdi elements functional + ActionTitles mechanism
     * user (fill the field) "last name" "Alexeev"
     * user (click the button) "send"
     * user (check that error message not contains) "Please specify your last name"
+    * user (select dropdown value) "City" "Saint-Petersburg"
+
     * user (click the button) "Donations"
 
     * user is on the page "DonationsJ"

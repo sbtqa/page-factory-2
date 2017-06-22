@@ -3,14 +3,14 @@ package ru.sbtqa.tag.pagefactory.pages.jdielements;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.Input;
 import org.openqa.selenium.support.FindBy;
+import ru.sbtqa.tag.pagefactory.JDIPage;
 import ru.sbtqa.tag.pagefactory.JDIUtils;
-import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 
-public class AbstractPage extends Page {
+public class AbstractPage extends JDIPage {
     
     @ElementTitle("Contact")
     @FindBy(xpath = "//a[text()='Contact']")

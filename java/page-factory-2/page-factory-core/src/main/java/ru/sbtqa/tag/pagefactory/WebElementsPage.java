@@ -9,28 +9,23 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
-import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
-import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
 import ru.sbtqa.tag.pagefactory.drivers.TagMobileDriver;
-import ru.sbtqa.tag.pagefactory.exceptions.*;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.extensions.DriverExtension;
 import ru.sbtqa.tag.pagefactory.extensions.WebExtension;
 import ru.sbtqa.tag.pagefactory.support.AdbConsole;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import static ru.sbtqa.tag.pagefactory.ReflectionUtil.*;
+import static ru.sbtqa.tag.pagefactory.ReflectionUtil.addToReport;
+import static ru.sbtqa.tag.pagefactory.ReflectionUtil.getElementTitle;
 import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
 
 /**
