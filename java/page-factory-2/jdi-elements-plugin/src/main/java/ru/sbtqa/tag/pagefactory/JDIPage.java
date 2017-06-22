@@ -8,7 +8,7 @@ import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 
 /**
  * Contains basic actions in particular with jdi elements
- * If we want to extend this functional -> inherit from this class
+ * If we want to extend this functional - inherit from this class
  */
 public class JDIPage extends Page {
 
