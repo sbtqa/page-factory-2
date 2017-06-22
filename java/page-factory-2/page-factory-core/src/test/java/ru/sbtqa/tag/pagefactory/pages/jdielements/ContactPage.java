@@ -47,7 +47,11 @@ public class ContactPage extends AbstractPage {
     @FindBy(xpath = "//*[@name='state']")
     @ElementTitle("City")
     private IDropDown city;
-    
+
+    @FindBy(xpath = "//div[@class='radio']")
+    @ElementTitle("To be or not to be")
+    private RadioButtons toBe;
+
     public ContactPage() {
         JDIUtils.initElementsOnPage(this);
     }
