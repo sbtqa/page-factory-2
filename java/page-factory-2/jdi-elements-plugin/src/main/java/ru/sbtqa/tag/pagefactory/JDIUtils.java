@@ -24,6 +24,7 @@ public class JDIUtils {
     public static void setJDIConfig(Supplier<WebDriver> driverSupplier)  {
         try {
             WebSettings.initFromProperties();
+            WebSettings.logger = new JDILogger();
         } catch (IOException e) {
             throw new FactoryRuntimeException("Exception occurred during setting jdi", e);
         }
@@ -32,7 +33,6 @@ public class JDIUtils {
     
     public static void initElementsOnPage(Object page) {
         new WebCascadeInit().initElements(page, driverName);
-        WebSettings.logger = new JDILogger();
     }
 
     public static Object getElementByTitle(Page page, String title) throws PageException {
