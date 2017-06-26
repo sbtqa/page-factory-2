@@ -22,17 +22,11 @@
   </properties>
 
   <dependencies>
+
     <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>qa-utils</artifactId>
-      <version>1.2.4</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>cucumber-runner</artifactId>
-      <version>1.0.4</version>
-      <type>jar</type>
+      <groupId>ru.sbtqa.tag.pagefactory</groupId>
+      <artifactId>page-factory-utils</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
@@ -122,11 +116,6 @@
       <artifactId>guava</artifactId>
       <version>18.0</version>
       <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>page-factory-utils</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!--test-->

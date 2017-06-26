@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allure.TagAllureReporter;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
+import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -26,7 +27,7 @@ public class SetupStepDefs {
 
     private static final Logger LOG = LoggerFactory.getLogger(SetupStepDefs.class);
 
-    @Before()
+    @Before
     public void setUp() {
 
         //Apply failure callback
@@ -55,6 +56,8 @@ public class SetupStepDefs {
 
         PageFactory.getDriver();
         PageFactory.getInstance();
+        // reset page context. In the start of all tests we must have a clear context
+        PageContext.resetContext();
 
         Reflections reflections;
         reflections = new Reflections(PageFactory.getPagesPackage());
