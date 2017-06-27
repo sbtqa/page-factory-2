@@ -1,0 +1,38 @@
+language: java
+branches:
+  only:
+  - master
+  - "/^[0-9]+\\.[0-9]+\\.[0-9]+$/"
+addons:
+  sonarqube:
+    token:
+      secure: v1NHpMa897rl5HPVFSYP4FC5UWI8mJZhOmU+02425f2Xv+gBBSCsCoEWQcoc8N3XpxyQa7phmUpsQjtZomWwmwujaNhYdsjTakhRmtt/FrwMP5+QzqhHqeD59FkMsg05wvZTTJ26EmR2ty5tiW6QpbC+cGcf7ZfrKTM48xHL2Uw6jugOxElYSY2O8wAUIsTVDv63rzV8s4wDLZAO1nrsSLMLSsmbJ7mwt3kVsp1VTHTy2cHf/c2/0mDZFGRmF3swB/wevbHBAl+Gvjm+XNrQIolEm+REjuYuDXdGlepTiZuguJEDPMGaPbS7/sAsqoLqeA3gD3GNdIoiqR+lVX/Z79pfVy9wO7gmUwz9OgJ0LhZFdng1U3J/0/bnwLdNmPZhgp7RdDVNka3F7gF64krPuk9qwjxlIdH7q9ZQCBpeGMAN2qo8K5Kd1kniFwsYADA1s87YJGUAGB4LzW59WjmC9li65gGIkKTj1fFU9dElLuuMXDXNAL9teMeG1qJmZa1uqiD4/Yers0v9fgvz58I4k2nuvQII1wQo0kRC3QHaQy2K9IAYJeW7flXuk70CUnF1FMPipFU0+BriAm2FVj9/s7PGBsfc8dkJTi/Y6X/u2DxIABwEKTdaJKdTd7jQ/XHzXmAKhuhyn4bmx+ee40k15BBHMva5HM1itigvJ1wHNdc=
+    github_token:
+      secure: PSkgsAnkSG50UAnKQjxrZGev9vGqVjzz2XSwWBDMFwwskBOxG3UHtDNsG6T1DjTA6lBvoTI2Y4oEk61lO9gtfoevtyam1Pvc4QYZyhV0HPAnk3E0aDSifnlqIp3k3cocA8HSVAKCxibk6eC450SL/OO7xBZyq9N0aAZwWXq0Mm1PxsvEDcz68YcOZdPoA0a4Gx5HQE8Rn5JmhNiQKXVFm84+hGKT8tzNQjUQIbLnBq0OdK2lg1d+nN+QZ3P1ufaosjnPZ07/BVnmFqvUl7a/BaZCxjM80sZ7qRJpKGowDP9XO9xJcgHIi+ChBV9czuE+8xuJMCffQvlkEdcXKAW3jEohompv3HYfQBgvD0Wj5x4t4s7HP1SpwTFc1LNgEEOJvuwjQS6LiHKdwIR/kAXagT37ZhUrM0Z4NGhjNBpmYDBZQVVIUz3Qpg7Kl+qPZQtXjpr12KDYvUhEEpV1n7plZ/4OcsrMKjRoLMxP0USN3E0GJitNdy1Sdx+wTvO/nlnOIdEzmTUSxRKXWjDXaNBfs9WBvnJMSaxM+7IA2VU5ZIL2qlpO164gp0FNHSS7vxInmA2p65CnMN5yxvDApjmahJu/rQhMMD+hfxEF+F9rULAP7o1SCn1zaX4m0/HJ177BGiGT/6UmEEBHSf/gPXfRQMlLLmQvKTJB3lMlTyiosdg=
+jdk:
+- oraclejdk8
+before_install:
+- if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE
+  --import; fi
+- if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE
+  --import-ownertrust; fi
+install:
+- mvn clean --settings .travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true
+  -Dgpg.skip -B -V
+script:
+- sonar-scanner
+deploy:
+- provider: script
+  script: ".travis/deploy.sh"
+  skip_cleanup: true
+  on:
+    repo: sbtqa/page-factory-2
+    branch: master
+    jdk: oraclejdk8
+- provider: script
+  script: ".travis/deploy.sh"
+  skip_cleanup: true
+  on:
+    repo: sbtqa/page-factory-2
+    tags: true
+    jdk: oraclejdk8
