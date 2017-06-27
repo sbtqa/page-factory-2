@@ -184,7 +184,7 @@
                 <artifactItem>
                   <groupId>ru.sbtqa.tag</groupId>
                   <artifactId>test-web-app</artifactId>
-                  <version>1.0</version>
+                  <version>${project.version}</version>
                   <type>war</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${basedir}/src/test/resources</outputDirectory>

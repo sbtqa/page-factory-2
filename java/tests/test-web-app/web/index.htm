@@ -1,0 +1,97 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+    <script src="bootstrap/js/bootstrap.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img style="width: 64px;" src="img/logo.png" alt="Brand">
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="contact.htm">Contact</a></li>
+                    <li><a href="donations.htm">Donations</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+    </nav>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3" role="complementary">
+                <nav class="bs-docs-sidebar hidden-print hidden-sm hidden-xs affix-top">
+                    <ul class="nav bs-docs-sidenav">
+                        <li><a href="#license">License</a></li>
+                        <li><a href="#samples">Samples</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-9" role="main">
+                <div class="jumbotron">
+                    <h1>Test Automation Gears</h1>
+                    <p>TPage-Factory - фреймворк для автоматизированного тестирования через GUI(graphical user
+                        interface, графический пользовательский интерфейс), можно использовать для Web или Android
+                        приложений.</p>
+                    <p>Api-Factory - фрейморк для автоматизированного тестирования через API(application programming
+                        interface, программный интерфейс приложения)</p>
+                    <p>Mq-Factory - фреймворк для автоматизированного тестирования MQ(messages queue), поддерживается
+                        работы со стандартом JMS и Apache Kafka</p>
+                </div>
+                <div id="license">
+                    <p class="h2">License</p>
+                    <hr>
+                    <p class="lead">
+                        Copyright sbtqa
+
+                        Licensed under the Apache License, Version 2.0 (the "License");
+                        you may not use this file except in compliance with the License.
+                        You may obtain a copy of the License at
+
+                        http://www.apache.org/licenses/LICENSE-2.0
+                        Unless required by applicable law or agreed to in writing, software distributed under the
+                        License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+                        express or implied. See the License for the specific language governing permissions and
+                        limitations under the License.
+                    </p>
+                </div>
+                <div id="samples">
+                    <p class="h2">Samples</p>
+                    <hr>
+                    <p class="lead">
+                        Пример проекта с использованием page-factory можно посмотреть здесь.
+                        После клонирования репозитория:
+
+                        в папку src/test/resources/webdrivers положите версию chromedriver для вашей ОС;
+                        в файле src/test/resources/config/application.properties в строке webdriver.drivers.path =
+                        src/test/resources/webdrivers/chromedriver поменяйте путь до драйвера.
+                    </p>
+                </div>
+
+
+            </div><!--/.col-xs-12.col-sm-9-->
+
+
+        </div><!--/row-->
+
+    </div><!--/.container-->
+
+</div>
+
+</body>
+</html>

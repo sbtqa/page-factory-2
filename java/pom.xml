@@ -57,11 +57,12 @@
   </properties>
 
   <modules>
-    <module>page-factory-utils</module>
-    <module>page-factory-api</module>
-    <module>jdi-elements-plugin</module>
-    <module>html-elements-plugin</module>
-    <module>page-factory-core</module>
+    <module>core/page-factory-utils</module>
+    <module>core/page-factory-api</module>
+    <module>tests/test-web-app</module>
+    <module>core/page-factory-core</module>
+    <module>plugins/jdi-elements-plugin</module>
+    <module>plugins/html-elements-plugin</module>
   </modules>
 
   <distributionManagement>
@@ -90,6 +91,12 @@
 
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>2.8.2</version>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
