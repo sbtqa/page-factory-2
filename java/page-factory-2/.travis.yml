@@ -16,6 +16,7 @@ before_install:
   --import; fi
 - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE
   --import-ownertrust; fi
+- cd java/page-factory-2  
 install:
 - mvn clean --settings .travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true
   -Dgpg.skip -B -V
