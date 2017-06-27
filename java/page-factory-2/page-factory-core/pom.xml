@@ -19,6 +19,7 @@
   <properties>
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.2.20.v20161216</jetty.version>
+    <skipTests>false</skipTests>
   </properties>
 
   <dependencies>
@@ -178,6 +179,7 @@
               <goal>copy</goal>
             </goals>
             <configuration>
+              <skip>${skipTests}</skip>
               <artifactItems>
                 <artifactItem>
                   <groupId>ru.sbtqa.tag</groupId>

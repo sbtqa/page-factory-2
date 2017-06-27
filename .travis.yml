@@ -16,21 +16,22 @@ before_install:
   --import; fi
 - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE
   --import-ownertrust; fi
+- cd java/page-factory-2  
 install:
-- mvn clean --settings .travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true
+- mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true
   -Dgpg.skip -B -V
 script:
 - sonar-scanner
 deploy:
 - provider: script
-  script: ".travis/deploy.sh"
+  script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
   skip_cleanup: true
   on:
     repo: sbtqa/page-factory-2
     branch: master
     jdk: oraclejdk8
 - provider: script
-  script: ".travis/deploy.sh"
+  script: "$TRAVIS_BUILD_DIR.travis/deploy.sh"
   skip_cleanup: true
   on:
     repo: sbtqa/page-factory-2
