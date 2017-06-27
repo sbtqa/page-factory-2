@@ -6,9 +6,9 @@ branches:
 addons:
   sonarqube:
     token:
-      secure: PQ+aNz7lsoUvSgMDMWdsVB1RRgUObwrSWAnaoO3t/55iyC/axqPHVj4EKwEjoQayXZpTftNXspl2O2jxFTpU2C6476Y8mu8wH8o1QEQFvXb7R8LucK51kV15a99NgjrCx421MFekSa1p4joYyhHr6nKnRQdufy5v/Zm6C4SGVBqdN5EYBHQT8PX2kW1/7mYsdlad9IIBEgzuNf72KESp3Ff0d3Eiaaq6wmNmM8EYa+1oN+i2AbJ5ww5L4vWyBK4EXTS8Skb7kMptWkKj8O5h826H2MfVGvBODKSaTsCgywz0sTlDud5PO5Ykn8IZjGggU8qvohyHu02VHWCYzwn+BkBeaR66LaEq7hGMUmx2rkb9oD28P8hEe8Wrf3NiIpzQuxx/DG96XDcfR/nHt5YllOiesW+QCnqewo8NmydyqBwQF5GnBa5su+HQ18RdVBISsY35d8EUVHvxAs9a70NujAOZ+LkQdmhTDWqERODBmvc9hNJNdMdUdAyRmpB2QQqxKRmPttNjWjRq4Xae/r184dgXNa7fhpbHqUP3nUDvCDwB+PFPPu/7J7UlQGWlT72SOUTwOTmUjM8YkbxlIKkfjO2hhL09PC65+qEz/oR+S70bJKiNwt9fvUZ2YwqBTHEbCBe39D+n5BhuiDPoNbfqM78QgoCWcHADOhGiJrQ+PJ0=
+      secure: v1NHpMa897rl5HPVFSYP4FC5UWI8mJZhOmU+02425f2Xv+gBBSCsCoEWQcoc8N3XpxyQa7phmUpsQjtZomWwmwujaNhYdsjTakhRmtt/FrwMP5+QzqhHqeD59FkMsg05wvZTTJ26EmR2ty5tiW6QpbC+cGcf7ZfrKTM48xHL2Uw6jugOxElYSY2O8wAUIsTVDv63rzV8s4wDLZAO1nrsSLMLSsmbJ7mwt3kVsp1VTHTy2cHf/c2/0mDZFGRmF3swB/wevbHBAl+Gvjm+XNrQIolEm+REjuYuDXdGlepTiZuguJEDPMGaPbS7/sAsqoLqeA3gD3GNdIoiqR+lVX/Z79pfVy9wO7gmUwz9OgJ0LhZFdng1U3J/0/bnwLdNmPZhgp7RdDVNka3F7gF64krPuk9qwjxlIdH7q9ZQCBpeGMAN2qo8K5Kd1kniFwsYADA1s87YJGUAGB4LzW59WjmC9li65gGIkKTj1fFU9dElLuuMXDXNAL9teMeG1qJmZa1uqiD4/Yers0v9fgvz58I4k2nuvQII1wQo0kRC3QHaQy2K9IAYJeW7flXuk70CUnF1FMPipFU0+BriAm2FVj9/s7PGBsfc8dkJTi/Y6X/u2DxIABwEKTdaJKdTd7jQ/XHzXmAKhuhyn4bmx+ee40k15BBHMva5HM1itigvJ1wHNdc=
     github_token:
-      secure: c/iQKrg4DckDv7d0caioudoBFdkxaBHZpxmBTT0t9kyOaVkHBBWy3jcvrRkak9w1p+MosKmYLE8x3NmbOCC5snB2A6VUlbapjmA5PKh5cMML053dAcSefBaakkbP3egF5YbKu36uaKUMDktECAGrZ9iM4UYnpFnFGnviiW7d9DqhOcWGqBwK9QIiPNGq0eK4dLBP4W1XgFe2gudJ7xbyeezFDSORHOMPYpPcsyQrFov9P052Tc5Y0wnW+E9dXve3JxqXBgMfz8ByyrAQ4OhhcgyLl+KB1CKRZcAof7XIZaf3dl+M37Jym13kZvrzhyC1n5a8er5qLtl99ocoPHl1e4AHyGIt4d+EE7RzCt3x8KCbRdgqdYxmX6b8f+PlfWcxCYIwJe23bMVES6YeloKAW+XUvrWOdaRkGjg0bA8aI8WNRK12KJArbQ+LXHtdKLcR/MvWDyrBzIgKwq9X7yWl04yifXvZ+Ye6GuVINmyaEZN1YgrnLuY6/Vg0AB7ysqA1dc8oAOR2eE3PExHfz2po9aZoTzpxpPqwpcilzpLJfM2JL0ThDJ4k1Hu8WpO+LjhQ5V/2oR/hF7Mm8S+dYe1pLeuQkeWdOAcaPRJaTxtyRUksI2zz7y9hL+5mTubNpWVDU9HofY8BU8yeg1PkahdDIr3B7S2sgAPywT+bZvVHjc4=
+      secure: PSkgsAnkSG50UAnKQjxrZGev9vGqVjzz2XSwWBDMFwwskBOxG3UHtDNsG6T1DjTA6lBvoTI2Y4oEk61lO9gtfoevtyam1Pvc4QYZyhV0HPAnk3E0aDSifnlqIp3k3cocA8HSVAKCxibk6eC450SL/OO7xBZyq9N0aAZwWXq0Mm1PxsvEDcz68YcOZdPoA0a4Gx5HQE8Rn5JmhNiQKXVFm84+hGKT8tzNQjUQIbLnBq0OdK2lg1d+nN+QZ3P1ufaosjnPZ07/BVnmFqvUl7a/BaZCxjM80sZ7qRJpKGowDP9XO9xJcgHIi+ChBV9czuE+8xuJMCffQvlkEdcXKAW3jEohompv3HYfQBgvD0Wj5x4t4s7HP1SpwTFc1LNgEEOJvuwjQS6LiHKdwIR/kAXagT37ZhUrM0Z4NGhjNBpmYDBZQVVIUz3Qpg7Kl+qPZQtXjpr12KDYvUhEEpV1n7plZ/4OcsrMKjRoLMxP0USN3E0GJitNdy1Sdx+wTvO/nlnOIdEzmTUSxRKXWjDXaNBfs9WBvnJMSaxM+7IA2VU5ZIL2qlpO164gp0FNHSS7vxInmA2p65CnMN5yxvDApjmahJu/rQhMMD+hfxEF+F9rULAP7o1SCn1zaX4m0/HJ177BGiGT/6UmEEBHSf/gPXfRQMlLLmQvKTJB3lMlTyiosdg=
 jdk:
 - oraclejdk8
 before_install:
@@ -26,28 +26,13 @@ deploy:
   script: ".travis/deploy.sh"
   skip_cleanup: true
   on:
-    repo: sbtqa/page-factory
+    repo: sbtqa/page-factory-2
     branch: master
     jdk: oraclejdk8
 - provider: script
   script: ".travis/deploy.sh"
   skip_cleanup: true
   on:
-    repo: sbtqa/page-factory
+    repo: sbtqa/page-factory-2
     tags: true
     jdk: oraclejdk8
-notifications:
-  email: false
-  slack:
-    rooms:
-    - secure: mFVdf0bKCOTqAIy+FZmMXUYPfJX0HrjZJ88kpM90aB/ihu+wIu49HoloSWiayXETl7A4h/21QBTXVDW0gRxqEhg9lKTpdWrNcOA/bG9vWN3xE4OcE3E7EVz1yL4dTWiMnKJkW+TcwKGhWv0z9hRin6A4jQANyJ88qd9MQNviO2yVIZBRGnqrXEVIYppwp7mb1jhwIdY6D1BJYudxRU+RZ9bYzumOkJ6ig+Qf2CNb0Cf1kho3Z+VM+Kg+qvOyPvnadZltlNbxfrUgEhd501uI4YVrSZXifPKNGeA7lRWHbtgnpV6HWQvFjINd8QKGcqBzY32PtB7ZSqNOMLkg2ombNk76fDln9M2BtAvDzNB2z9o+KdBnzzPHQ9qSUu7J3c24/74CIHtFSr1A//pnkSBlIZgMnOTsyqrI0tUY6+FtbKt0DuOjUXaYL3jOvHeFKFLPG3CTDOekTrbO3U1HPbMF/bIz9mfvMxgmdrbUtTCpSTRarB0KMI1+XWpxpAo1zz+sNVNlmD3Izx16jCerkw7Ogxuk3+Kf+kVkuZgn5giCxOrYD2aMqtIifA2Hh7N4Ox45CSD8395dzVG9Oty6I/VKadboHp8zorSYBhulju5VcTR+iRamwbAsEndvKUJHckzmtC0qnIXo0NxmgHycb4reoMajQyLZvrqB0a7FD/vnuJ8=
-    on_success: change
-    on_failure: always
-    template:
-    - 'Build status: %{message}'
-    - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{commit_message}"
-    - 'Change view : %{compare_url}'
-    - 'Build details : %{build_url}'
-env:
-  global:
-    secure: rfyON3jM66UwhPbn3e0y4fv1sjvRJprccYlTqjlTgAJTJLtTd5XPvJv5hXZNT6d92IqQFE5g3rs5hLya/2MWeLN2/c16cGDFFZiuleRRUTPUU8jqfKK9lYK/ehxas3+qKjs4M2irFvenzW/Y2IWrUzw7c2ovJUDmy4xnXt/RgtSR0xsYhju+wf1NFIOFnfWQIJIW8/Piqkwk5pSnM6qP42xskYSkHgpWNmfFRRP+7usyKERgQgRS7HJ+IT7MA0bQRN3TJonRFlljK33gtBK1Z1kR+dVBm/Cs8zcnkCfo3Rf9+rIqYBPVs4KvbNtS+Xuh49kS1uQn8BAFZ/z9kQHq/GLjPO/uhwO8aspi2PvnWBvZi/RyzDVULxrKFk7Awgq59NcSAQAptQ90WIEslRbuxVFlGPAiDNOeh/F9trqcLPpo657F7osIWvL72z43aqCIS/zR+yGEIb8uHw5o7dBU5MRFxMDnTqPi3eEWwQu6/V3ukyiHuGfnFsFCGDX4j9nVy0PC0YRmI8pqWe8+uMKv9woGxXaGfqh8zSUw2w2eST7WmItd93vTmGw7oPnXK8lc82SEkjgri20HDneq5c+b+KNNZQ/MdYO9OUnRhkbVV2H1dsEWaE7VplE+nb5k8YTgtdGTfeoC6rZnlcBF+0OJdwhAtcljwXjCZCgxA3AQvG4=
