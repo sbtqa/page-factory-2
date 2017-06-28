@@ -1,0 +1,231 @@
+<html>
+<head>
+    <title>Contact</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+    <script src="jquery/jquery-3.2.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="jquery/jquery.validate.min.js"></script>
+    <script src="jquery/additional-methods.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#contact_form').validate({
+                rules: {
+                    first_name: {
+                        required: true
+                    },
+                    last_name: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    first_name: "Please specify your first name",
+                    last_name: "Please specify your last name",
+                    email: {
+                        required: "We need your email address to contact you",
+                        email: "Your email address must be in the format of name@domain.com"
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    return true;
+                },
+                submitHandler: function (event, validator) {
+                    $("#error_message").hide();
+                    $("#success_message").show();
+                },
+                invalidHandler: function (event, validator) {
+                    var message = "";
+                    var err= validator.errorList;
+                    for(var i=0; i < err.length; i++){
+                        console.log(err[i].message);
+                        message += err[i].message + "<br>";
+                    }
+
+                    $("#error_message").html(message);
+                    $("#error_message").show();
+                    $("#success_message").hide();
+
+                }
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img style="width: 64px;" src="img/logo.png" alt="Brand">
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.htm">Home</a></li>
+                    <li class="active"><a href="#">Contact</a></li>
+                    <li><a href="donations.htm">Donations</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+    </nav>
+</div>
+<div class="container">
+
+    <form class="well form-horizontal" action="" method="post" id="contact_form">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Contact Us Today!</legend>
+
+            <!-- Messages -->
+            <div class="alert alert-success" role="alert" id="success_message" hidden>Success <i
+                    class="glyphicon glyphicon-thumbs-up"> </i>Thanks for contacting us, we will get back to you
+                shortly.
+            </div>
+
+            <div class="alert alert-warning" role="alert" id="error_message" hidden><i
+                    class="glyphicon glyphicon-thumbs-down"></i> You input incorrect data
+            </div>
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">First Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="first_name" placeholder="First Name" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Last Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="last_name" placeholder="Last Name" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label">E-Mail</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input name="email" placeholder="E-Mail Address" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Phone #</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                        <input name="phone" placeholder="(000)000-0000" class="form-control" type="tel">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Address</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                        <input name="address" placeholder="Address" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">City</label>
+                <div class="col-md-4 selectContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                        <select name="state" class="form-control selectpicker">
+                            <option disabled>Please select your city</option>
+                            <option>Saint-Petersburg</option>
+                            <option>Moscow</option>
+                            <option>Omsk</option>
+                            <option>Novosibirsk</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label">Website or domain name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                        <input name="website" placeholder="Website or domain name" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">To be or not to be</label>
+                <div class="col-md-4">
+                    <div class="radio">
+                        <label><input type="radio" name="hosting" value="yes"/>To be</label>
+
+                        <label><input type="radio" name="hosting" value="no"/>Not</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Text area -->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Project Description</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <textarea class="form-control" name="Comment" placeholder="Project Description"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-warning">Send <span class="glyphicon glyphicon-send"></span>
+                    </button>
+                </div>
+            </div>
+
+
+        </fieldset>
+    </form>
+</div>
+</div><!-- /.container -->
+</body>
+</html>
