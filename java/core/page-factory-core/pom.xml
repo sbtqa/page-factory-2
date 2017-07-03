@@ -15,7 +15,7 @@
   <packaging>jar</packaging>
 
   <name>page-factory-core</name>
-  <description>page-factory description</description>
+  <description>page-factory-core description</description>
 
   <properties>
     <renamed.war>test-web-app.war</renamed.war>
