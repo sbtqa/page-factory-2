@@ -75,7 +75,7 @@ public class WebExtension {
 
     /**
      * @param webElement a {@link org.openqa.selenium.WebElement} object.
-     * @param timeout in seconds
+     * @param timeout in milliseconds
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
     public static void waitForTextInInputExists(WebElement webElement, long timeout) throws WaitException {
