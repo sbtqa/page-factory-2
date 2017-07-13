@@ -10,6 +10,7 @@ import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.findRedirect;
 import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByField;
 
 /**
@@ -56,6 +57,26 @@ public class ReflectionUtil {
     public static void addToReport(WebElement webElement, String text) {
         String elementTitle = getElementTitle(PageContext.getCurrentPage(), webElement);
         PageFactoryUtils.addToReport(elementTitle, text);
+    }
+
+    /**
+     * Return class for redirect if annotation contains and null if not present
+     *
+     * @param element element, redirect for which is being searched
+     * @return class of the page object, element redirects to
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException
+     * if failed to find redirect
+     */
+    public static Class<? extends Page> getElementRedirect(Page page, WebElement element) throws ElementDescriptionException {
+        try {
+            if (null == page) {
+                LOG.warn("Current page not initialized yet. You must initialize it by hands at first time only.");
+                return null;
+            }
+            return findRedirect(page, element);
+        } catch (IllegalArgumentException ex) {
+            throw new ElementDescriptionException("Failed to get element redirect", ex);
+        }
     }
     
 }

@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.util;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +9,7 @@ import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.cucumber.TagCucumber;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageContext;
-import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
-import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
-import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
-import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
+import ru.sbtqa.tag.pagefactory.annotations.*;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
@@ -27,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class PageFactoryUtils {
     
@@ -231,5 +230,37 @@ public class PageFactoryUtils {
         }
         throw new PageException("There is no '" + title + "' validation rule in '" + page.getPageTitle() + "' page.");
     }
-    
+
+    /**
+     * Search for the given element among the parent object fields,
+     * check whether it has a {@link
+     * RedirectsTo} annotation, and return a redirection page class, if so.
+     * Search goes in recursion if it meets HtmlElement field, as given
+     * element could be inside of the block
+     *
+     * @param element element that is being checked for redirection
+     * @param parent parent object
+     * @return class of the page, this element redirects to
+     */
+    public static Class<? extends Page> findRedirect(Object parent, Object element) {
+        List<Field> fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(parent.getClass());
+
+        for (Field field : fields) {
+            RedirectsTo redirect = field.getAnnotation(RedirectsTo.class);
+            if (redirect != null) {
+                try {
+                    field.setAccessible(true);
+                    Object targetField = field.get(parent);
+                    if (targetField != null) {
+                        if (targetField == element) {
+                            return redirect.page();
+                        }
+                    }
+                } catch (NoSuchElementException | StaleElementReferenceException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+                    LOG.debug("Failed to get page destination to redirect for element", ex);
+                }
+            }
+        }
+        return null;
+    }
 }

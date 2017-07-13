@@ -6,16 +6,27 @@ import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.sbtqa.tag.pagefactory.annotations.RedirectsTo;
 
 public class AbstractPage extends WebElementsPage {
-    
+
     @ElementTitle("Contact")
     @FindBy(xpath = "//a[text()='Contact']")
-    private WebElement contactButton;
-    
+    protected WebElement contactButton;
+
+    @ElementTitle("ContactRedirect")
+    @FindBy(xpath = "//a[text()='Contact']")
+    @RedirectsTo(page = ContactPage.class)
+    private WebElement contactButtonWithRedirect;
+
     @ElementTitle("Home")
     @FindBy(xpath = "//a[text()='Home']")
-    private WebElement homeButton;
+    protected WebElement homeButton;
+
+    @ElementTitle("HomeRedirect")
+    @FindBy(xpath = "//a[text()='Home']")
+    @RedirectsTo(page = IndexPage.class)
+    private WebElement homeButtonWithRedirect;
     
     public AbstractPage() {
         PageFactory.initElements(PageFactory.getDriver(), this);

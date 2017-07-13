@@ -10,11 +10,15 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.Page;
+import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.extensions.WebExtension;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.qautils.properties.Props;
+
+import static ru.sbtqa.tag.pagefactory.ReflectionUtil.getElementRedirect;
 
 @Aspect
 public class ClickAspect {
@@ -25,10 +29,9 @@ public class ClickAspect {
 
     @Around("clickMethod()")
     public void doAroundClick(ProceedingJoinPoint joinPoint) throws Throwable {
-        
-        WebElement targetWebElement;
-        targetWebElement = (WebElement) joinPoint.getTarget();
-    
+
+        WebElement targetWebElement = (WebElement) joinPoint.getTarget();
+
         String elementHighlightStyle = null;
         boolean isVideoHighlightEnabled = Boolean.valueOf(Props.get("video.highlight.enabled"));
         if (isVideoHighlightEnabled) {
@@ -65,6 +68,12 @@ public class ClickAspect {
             }
         } else {
             joinPoint.proceed();
+        }
+
+        // Redirect
+        Class<? extends Page> elementRedirect = getElementRedirect(PageContext.getCurrentPage(), targetWebElement);
+        if (null != elementRedirect) {
+            PageFactory.getInstance().getPage(elementRedirect);
         }
     
         if (isVideoHighlightEnabled) {
