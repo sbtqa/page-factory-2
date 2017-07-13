@@ -30,15 +30,7 @@ public class ClickAspect {
     @Around("clickMethod()")
     public void doAroundClick(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        // Redirect
         WebElement targetWebElement = (WebElement) joinPoint.getTarget();
-
-        Class<? extends Page> elementRedirect;
-        if (joinPoint.getTarget() instanceof WebElement) {
-            elementRedirect = getElementRedirect(PageContext.getCurrentPage(), targetWebElement);
-        } else {
-            return;
-        }
 
         String elementHighlightStyle = null;
         boolean isVideoHighlightEnabled = Boolean.valueOf(Props.get("video.highlight.enabled"));
@@ -78,6 +70,8 @@ public class ClickAspect {
             joinPoint.proceed();
         }
 
+        // Redirect
+        Class<? extends Page> elementRedirect = getElementRedirect(PageContext.getCurrentPage(), targetWebElement);
         if (null != elementRedirect) {
             PageFactory.getInstance().getPage(elementRedirect);
         }
