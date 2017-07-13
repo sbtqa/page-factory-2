@@ -23,9 +23,10 @@ public class DriverExtension {
      * Wait until element present
      *
      * @param webElement Desired web element
+     * @return Expected WebElement
      */
-    public static void waitUntilElementPresent(WebElement webElement) {
-        new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds()).
+    public static WebElement waitUntilElementPresent(WebElement webElement) {
+        return new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds()).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -33,10 +34,11 @@ public class DriverExtension {
      * Wait until element present
      *
      * @param webElement Desired web element
-     * @param timeout Timeout in seconds
+     * @param timeout    Timeout in seconds
+     * @return Expected WebElement
      */
-    public static void waitUntilElementPresent(WebElement webElement, int timeout) {
-        new WebDriverWait(PageFactory.getDriver(), timeout).
+    public static WebElement waitUntilElementPresent(WebElement webElement, int timeout) {
+        return new WebDriverWait(PageFactory.getDriver(), timeout).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -44,9 +46,10 @@ public class DriverExtension {
      * Wait until element present
      *
      * @param webElement Desired web element
+     * @return Expected WebElement
      */
-    public static void waitUntilElementToBeClickable(WebElement webElement) {
-        new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds()).
+    public static WebElement waitUntilElementToBeClickable(WebElement webElement) {
+        return new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds()).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -54,10 +57,11 @@ public class DriverExtension {
      * Wait until element present
      *
      * @param webElement Desired web element
-     * @param timeout Timeout in seconds
+     * @param timeout    Timeout in seconds
+     * @return Expected WebElement
      */
-    public static void waitUntilElementToBeClickable(WebElement webElement, int timeout) {
-        new WebDriverWait(PageFactory.getDriver(), timeout).
+    public static WebElement waitUntilElementToBeClickable(WebElement webElement, int timeout) {
+        return new WebDriverWait(PageFactory.getDriver(), timeout).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -86,30 +90,26 @@ public class DriverExtension {
      * @return return appeared WebElement
      */
     public static WebElement waitUntilElementAppearsInDom(By by) {
-        new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds())
+        return new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds())
                 .until(ExpectedConditions.presenceOfElementLocated(by));
-
-        return PageFactory.getDriver().findElement(by);
     }
 
     /**
      * Wait until element present
      *
-     * @param by a {@link org.openqa.selenium.By} object.
+     * @param by      a {@link org.openqa.selenium.By} object.
      * @param timeout timeout in seconds
      * @return return appeared WebElement
      */
     public static WebElement waitUntilElementAppearsInDom(By by, long timeout) {
-        new WebDriverWait(PageFactory.getDriver(), timeout)
+        return new WebDriverWait(PageFactory.getDriver(), timeout)
                 .until(ExpectedConditions.presenceOfElementLocated(by));
-
-        return PageFactory.getDriver().findElement(by);
     }
 
     /**
      * Wait until element gone from dom
      *
-     * @param timeout in milliseconds
+     * @param timeout    in milliseconds
      * @param webElement a {@link org.openqa.selenium.WebElement} object.
      */
     public static void waitUntilElementGoneFromDom(WebElement webElement, long timeout) {
@@ -129,7 +129,6 @@ public class DriverExtension {
     }
 
     /**
-     *
      * @param element a {@link org.openqa.selenium.WebElement} object.
      */
     public static void waitUntilElementGetInvisible(WebElement element) {
@@ -142,7 +141,7 @@ public class DriverExtension {
      * waitForElementGetEnabled.</p>
      *
      * @param webElement a {@link org.openqa.selenium.WebElement} object.
-     * @param timeout a long.
+     * @param timeout    a long.
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
     public static void waitForElementGetEnabled(WebElement webElement, long timeout) throws WaitException {
@@ -184,7 +183,7 @@ public class DriverExtension {
      * If messageText is empty, text doesn't matter
      *
      * @param messageText text of an alert. If empty string is provided, it is being ignored
-     * @param decision true - accept, false - dismiss
+     * @param decision    true - accept, false - dismiss
      * @throws WaitException in case if alert didn't appear during default wait timeout
      */
     public static void interactWithAlert(String messageText, boolean decision) throws WaitException {
@@ -210,11 +209,9 @@ public class DriverExtension {
         throw new WaitException("Timed out after '" + PageFactory.getTimeOutInSeconds() + "' seconds waiting for alert to accept");
     }
 
-    
 
     /**
-     *
-     * @param text a {@link java.lang.String} object.
+     * @param text    a {@link java.lang.String} object.
      * @param timeout a {int} object. wait text during sec period
      * @return true if exists
      */
@@ -230,7 +227,6 @@ public class DriverExtension {
     }
 
     /**
-     *
      * @param sec a int.
      */
     private static void sleep(int sec) {
