@@ -81,8 +81,8 @@ public class DesiredCapabilitiesParser {
                     capabilities.setCapability(ChromeOptions.CAPABILITY, options);
                 }
             } else {
-                if ("true".equals(capabilityValue.toLowerCase()) ||
-                        "false".equals(capabilityValue.toLowerCase())) {
+                if ("true".equalsIgnoreCase(capabilityValue) ||
+                        "false".equalsIgnoreCase(capabilityValue)) {
                     capabilities.setCapability(capability, Boolean.valueOf(capabilityValue));
                 } else {
                     capabilities.setCapability(capability, capabilityValue);
