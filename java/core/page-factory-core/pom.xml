@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-support</artifactId>
-      <version>2.53.1</version>
+      <version>${selenium.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -65,11 +65,17 @@
       <artifactId>java-client</artifactId>
       <version>4.1.2</version>
       <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-java</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-chrome-driver</artifactId>
-      <version>2.53.1</version>
+      <version>${selenium.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -87,19 +93,19 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-firefox-driver</artifactId>
-      <version>2.53.1</version>
+      <version>${selenium.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-safari-driver</artifactId>
-      <version>2.53.1</version>
+      <version>${selenium.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-ie-driver</artifactId>
-      <version>2.53.0</version>
+      <version>${selenium.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -116,7 +122,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>18.0</version>
+      <version>22.0</version>
       <type>jar</type>
     </dependency>
     <dependency>
