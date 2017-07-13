@@ -14,6 +14,7 @@ import ru.sbtqa.tag.pagefactory.PageFactory;
 import static ru.sbtqa.tag.pagefactory.extensions.DriverExtension.waitUntilElementAppearsInDom;
 
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
+import ru.sbtqa.tag.qautils.managers.DateManager;
 
 public class WebExtension {
 
@@ -76,12 +77,18 @@ public class WebExtension {
 
     /**
      * @param webElement a {@link org.openqa.selenium.WebElement} object.
-     * @param timeout    in seconds
-     * @throws org.openqa.selenium.TimeoutException
+     * @param timeout in seconds
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
     public static void waitForTextInInputExists(WebElement webElement, long timeout) throws WaitException {
-        new WebDriverWait(PageFactory.getDriver(), timeout)
-                .until((ExpectedCondition<Boolean>) driver -> !webElement.getAttribute("value").isEmpty());
+        long timeoutTime = DateManager.getCurrentTimestamp() + timeout;
+        while (timeoutTime > DateManager.getCurrentTimestamp()) {
+            sleep(1);
+            if (!webElement.getAttribute("value").isEmpty()) {
+                return;
+            }
+        }
+        throw new WaitException("Timed out after '" + timeout + "' milliseconds waiting for existence of '" + webElement + "'");
     }
 
     /**
