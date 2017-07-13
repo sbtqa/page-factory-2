@@ -31,6 +31,12 @@
           <artifactId>htmlelements-java</artifactId>
           <version>1.17-JAVA7</version>
           <type>jar</type>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.seleniumhq.selenium</groupId>
+                  <artifactId>selenium-java</artifactId>
+              </exclusion>
+          </exclusions>
       </dependency>
   </dependencies>
 
