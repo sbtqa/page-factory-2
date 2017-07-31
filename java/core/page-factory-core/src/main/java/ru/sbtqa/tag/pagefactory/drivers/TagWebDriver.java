@@ -49,12 +49,12 @@ public class TagWebDriver {
     private static final String WEBDRIVER_STARTING_URL = Props.get("webdriver.starting.url");
     private static final String WEBDRIVER_PROXY = Props.get("webdriver.proxy");
     private static final boolean WEBDRIVER_BROWSER_IE_KILL_ON_DISPOSE = Boolean.parseBoolean(Props.get("webdriver.browser.ie.killOnDispose", "false"));
-    private static final String WEBDRIVER_BROWSER_NAME = Props.get("webdriver.browser.name").toLowerCase().equals("ie")
+    private static final String WEBDRIVER_BROWSER_NAME = Props.get("webdriver.browser.name").equalsIgnoreCase("ie")
             // Normalize it for ie shorten name (ie)
             ? BrowserType.IE : Props.get("webdriver.browser.name").toLowerCase();
-    private static final boolean IS_IE = WEBDRIVER_BROWSER_NAME.equals(BrowserType.IE.toLowerCase())
-            || WEBDRIVER_BROWSER_NAME.equals(BrowserType.IE_HTA.toLowerCase())
-            || WEBDRIVER_BROWSER_NAME.equals(BrowserType.IEXPLORE.toLowerCase());
+    private static final boolean IS_IE = WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.IE)
+            || WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.IE_HTA)
+            || WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.IEXPLORE);
 
     private static final String VIDEO_ENABLED = Props.get("video.enabled", "false");
 
@@ -100,15 +100,15 @@ public class TagWebDriver {
         }
         capabilities.setBrowserName(WEBDRIVER_BROWSER_NAME);
 
-        if (WEBDRIVER_BROWSER_NAME.equals(BrowserType.FIREFOX.toLowerCase())) {
+        if (WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.FIREFOX)) {
             if (WEBDRIVER_URL.isEmpty()) {
                 setWebDriver(new FirefoxDriver(capabilities));
             }
-        } else if (WEBDRIVER_BROWSER_NAME.equals(BrowserType.SAFARI.toLowerCase())) {
+        } else if (WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.SAFARI)) {
             if (WEBDRIVER_URL.isEmpty()) {
                 setWebDriver(new SafariDriver(capabilities));
             }
-        } else if (WEBDRIVER_BROWSER_NAME.equals(BrowserType.CHROME.toLowerCase())) {
+        } else if (WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.CHROME)) {
             if (!WEBDRIVER_PATH.isEmpty()) {
                 System.setProperty("webdriver.chrome.driver", new File(WEBDRIVER_PATH).getAbsolutePath());
             } else {
@@ -118,9 +118,9 @@ public class TagWebDriver {
             if (WEBDRIVER_URL.isEmpty()) {
                 setWebDriver(new ChromeDriver(capabilities));
             }
-        } else if (WEBDRIVER_BROWSER_NAME.equals(BrowserType.IE.toLowerCase())
-                || WEBDRIVER_BROWSER_NAME.equals(BrowserType.IE_HTA.toLowerCase())
-                || WEBDRIVER_BROWSER_NAME.equals(BrowserType.IEXPLORE.toLowerCase())) {
+        } else if (WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.IE)
+                || WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.IE_HTA)
+                || WEBDRIVER_BROWSER_NAME.equalsIgnoreCase(BrowserType.IEXPLORE)) {
             if (!WEBDRIVER_PATH.isEmpty()) {
                 System.setProperty("webdriver.ie.driver", new File(WEBDRIVER_PATH).getAbsolutePath());
             } else {
