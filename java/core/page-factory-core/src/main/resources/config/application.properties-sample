@@ -55,3 +55,7 @@ webdriver.url = http://127.0.0.1:4444/wd/hub
 
 #optional. kill ie browser process after test (ONLY FOR WINDOWS)
 webdriver.browser.ie.killOnDispose = true
+
+#optional.
+webdriver.capability.unexpectedAlertBehaviour = ignore
+#webdriver.capability.marionette = false
