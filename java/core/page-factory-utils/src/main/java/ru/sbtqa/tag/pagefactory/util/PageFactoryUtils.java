@@ -252,7 +252,7 @@ public class PageFactoryUtils {
                     field.setAccessible(true);
                     Object targetField = field.get(parent);
                     if (targetField != null) {
-                        if (targetField == element) {
+                        if (targetField.equals(element)) {
                             return redirect.page();
                         }
                     }
