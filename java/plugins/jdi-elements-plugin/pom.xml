@@ -9,6 +9,9 @@
     <relativePath>../..</relativePath>
   </parent>
 
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
 
   <groupId>ru.sbtqa.tag.pagefactory</groupId>
   <artifactId>jdi-elements-plugin</artifactId>
