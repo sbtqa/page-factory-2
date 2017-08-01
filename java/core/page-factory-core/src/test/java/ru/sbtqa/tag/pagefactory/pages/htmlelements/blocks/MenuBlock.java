@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.pages.htmlelements;
+package ru.sbtqa.tag.pagefactory.pages.htmlelements.blocks;
 
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;

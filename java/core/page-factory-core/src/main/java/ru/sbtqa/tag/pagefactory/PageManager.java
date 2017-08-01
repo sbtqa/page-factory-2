@@ -52,7 +52,7 @@ public class PageManager {
 
         if (null == PageContext.getCurrentPage() || !PageContext.getCurrentPageTitle().equals(title)) {
             if (null != PageContext.getCurrentPage()) {
-                getPage(PageContext.getCurrentPage().getClass().getPackage().getName(), title);
+                getPage(pagesPackage, title);
             }
             if (null == PageContext.getCurrentPage()) {
                 getPage(pagesPackage, title);
@@ -110,7 +110,7 @@ public class PageManager {
      */
     public static Page changeUrlByTitle(String title) throws PageInitializationException {
         if (null != PageContext.getCurrentPage()) {
-            PageContext.setCurrentPage(changeUrlByTitle(PageContext.getCurrentPage().getClass().getPackage().getName(), title));
+            PageContext.setCurrentPage(changeUrlByTitle(pagesPackage, title));
         }
         if (null == PageContext.getCurrentPage()) {
             PageContext.setCurrentPage(changeUrlByTitle(pagesPackage, title));
