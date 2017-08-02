@@ -1,10 +1,11 @@
-package ru.sbtqa.tag.pagefactory.pages.htmlelements;
+package ru.sbtqa.tag.pagefactory.pages.htmlelements.IndexPages;
 
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.pages.htmlelements.blocks.MenuBlock;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
