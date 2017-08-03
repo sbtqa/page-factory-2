@@ -42,7 +42,7 @@ public class JDIUtils {
             }
         }
 
-        throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, page.getPageTitle()));
+        throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, page.getTitle()));
     }
 
 }
