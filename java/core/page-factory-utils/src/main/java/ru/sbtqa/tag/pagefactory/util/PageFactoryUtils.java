@@ -172,7 +172,7 @@ public class PageFactoryUtils {
             }
         }
         
-        throw new NoSuchMethodException("There is no '" + title + "' method on '" + page.getPageTitle() + "' page object");
+        throw new NoSuchMethodException("There is no '" + title + "' method on '" + page.getTitle() + "' page object");
     }
     
     /**
@@ -202,7 +202,7 @@ public class PageFactoryUtils {
             }
         }
         
-        throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, page.getPageTitle()));
+        throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, page.getTitle()));
     }
     
     /**
@@ -228,7 +228,7 @@ public class PageFactoryUtils {
                 return;
             }
         }
-        throw new PageException("There is no '" + title + "' validation rule in '" + page.getPageTitle() + "' page.");
+        throw new PageException("There is no '" + title + "' validation rule in '" + page.getTitle() + "' page.");
     }
 
     /**
