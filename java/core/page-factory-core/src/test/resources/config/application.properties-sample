@@ -58,4 +58,6 @@ webdriver.browser.ie.killOnDispose = true
 
 #optional.
 webdriver.capability.unexpectedAlertBehaviour = ignore
-#webdriver.capability.marionette = false
+
+#option for all browsers
+webdriver.*.capability.marionette = false

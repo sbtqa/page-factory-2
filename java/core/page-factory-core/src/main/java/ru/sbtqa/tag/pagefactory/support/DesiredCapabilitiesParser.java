@@ -1,11 +1,15 @@
 package ru.sbtqa.tag.pagefactory.support;
 
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.qautils.properties.Props;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DesiredCapabilitiesParser {
 
@@ -17,21 +21,28 @@ public class DesiredCapabilitiesParser {
     public DesiredCapabilities parse() {
         final DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        final String capsPrefix = "webdriver.capability.";
+        capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+
+        // We allow use "webdriver.*.capability.something" pattern to set "something" capability in all browsers
+        final String capsRegExp = "webdriver.(" + TagWebDriver.getBrowserName().toLowerCase() +"|\\*).capability.(.*)";
         Set<String> propKeys = Props.getProps().stringPropertyNames();
         List<String> capabilitiesFromProps = new ArrayList<>();
 
         for (String prop : propKeys) {
-            if (prop.startsWith(capsPrefix)) {
+            if (prop.matches(capsRegExp)) {
                 capabilitiesFromProps.add(prop);
             }
         }
 
         final Map<String, Object> options = new HashMap<>();
 
+        Matcher capsMatcher;
         for (String rawCapabilityKey : capabilitiesFromProps) {
 
-            String capability = rawCapabilityKey.substring(capsPrefix.length());
+            // find second group in key with capability name
+            capsMatcher = Pattern.compile(capsRegExp).matcher(rawCapabilityKey);
+            capsMatcher.find();
+            String capability = capsMatcher.group(2);
             String capabilityValue = Props.get(rawCapabilityKey);
 
             if (capability.startsWith("options") && "Chrome".equals(TagWebDriver.getBrowserName())) {
