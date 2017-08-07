@@ -57,7 +57,7 @@ webdriver.url = http://127.0.0.1:4444/wd/hub
 webdriver.browser.ie.killOnDispose = true
 
 #optional.
-webdriver.capability.unexpectedAlertBehaviour = ignore
+webdriver.*.capability.unexpectedAlertBehaviour = ignore
 
 #option for all browsers
 webdriver.*.capability.marionette = false
