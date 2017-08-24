@@ -8,6 +8,8 @@ import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.qautils.properties.Props;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DesiredCapabilitiesParser {
 
@@ -21,21 +23,26 @@ public class DesiredCapabilitiesParser {
 
         capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 
-        final String capsPrefix = "webdriver." + TagWebDriver.getBrowserName().toLowerCase() + ".capability.";
+        // We allow use "webdriver.*.capability.something" pattern to set "something" capability in all browsers
+        final String capsRegExp = "webdriver.(" + TagWebDriver.getBrowserName().toLowerCase() +"|\\*).capability.(.*)";
         Set<String> propKeys = Props.getProps().stringPropertyNames();
         List<String> capabilitiesFromProps = new ArrayList<>();
 
         for (String prop : propKeys) {
-            if (prop.startsWith(capsPrefix)) {
+            if (prop.matches(capsRegExp)) {
                 capabilitiesFromProps.add(prop);
             }
         }
 
         final Map<String, Object> options = new HashMap<>();
 
+        Matcher capsMatcher;
         for (String rawCapabilityKey : capabilitiesFromProps) {
 
-            String capability = rawCapabilityKey.substring(capsPrefix.length());
+            // find second group in key with capability name
+            capsMatcher = Pattern.compile(capsRegExp).matcher(rawCapabilityKey);
+            capsMatcher.find();
+            String capability = capsMatcher.group(2);
             String capabilityValue = Props.get(rawCapabilityKey);
 
             if (capability.startsWith("options") && "Chrome".equals(TagWebDriver.getBrowserName())) {
