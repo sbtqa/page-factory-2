@@ -2,26 +2,29 @@ package ru.sbtqa.tag.pagefactory.stepdefs;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebElement;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.allure.TagAllureReporter;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
-import ru.sbtqa.tag.pagefactory.support.OnFailureScheduler;
-import ru.sbtqa.tag.qautils.properties.Props;
+import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 import ru.sbtqa.tag.qautils.reflect.ClassUtilsExt;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.sbtqa.tag.videorecorder.VideoRecorder;
-
-import java.io.File;
-import java.lang.reflect.Field;
-import java.util.*;
 
 public class SetupStepDefs {
 
@@ -29,9 +32,6 @@ public class SetupStepDefs {
 
     @Before
     public void setUp() {
-
-        //Apply failure callback
-        TagAllureReporter.applyFailureCallback(OnFailureScheduler.class);
 
         //try to connect logger property file if exists
         String path = "src/test/resources/config/log4j.properties";
@@ -43,14 +43,13 @@ public class SetupStepDefs {
         }
 
         try {
-            //TODO fix if task.to.kill does not exist in application.properties
-            String[] tasks = Props.get("tasks.to.kill").split(",");
+            String[] tasks = Properties.INSTANCE.getProperties().getTasksToKill().split(",");
             if (tasks.length > 0) {
                 for (String task : tasks) {
                     Runtime.getRuntime().exec("taskkill /IM " + task.trim() + " /F");
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.debug("Failed to kill one of task to kill", e);
         }
 

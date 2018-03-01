@@ -153,6 +153,7 @@ public class PageFactoryUtils {
     /**
      * Find method with corresponding title on current page, and execute it
      *
+     * @param page
      * @param title title of the method to call
      * @param param parameters that will be passed to method
      * @throws java.lang.NoSuchMethodException if required method couldn't be

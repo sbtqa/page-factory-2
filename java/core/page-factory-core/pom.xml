@@ -54,6 +54,11 @@
       <version>1.0.6</version>
       <type>jar</type>
     </dependency>
+     <dependency> 
+      <groupId>ru.sbtqa</groupId> 
+      <artifactId>webdrivermanager</artifactId> 
+      <version>2.2.1</version> 
+    </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-support</artifactId>
@@ -129,6 +134,11 @@
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
       <version>1.8.7</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aeonbits.owner</groupId>
+      <artifactId>owner</artifactId>
+      <version>1.0.9</version>
     </dependency>
 
     <!--test-->

@@ -13,7 +13,8 @@ import ru.sbtqa.tag.pagefactory.drivers.TagMobileDriver;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.support.Environment;
-import ru.sbtqa.tag.qautils.properties.Props;
+import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 import ru.sbtqa.tag.videorecorder.VideoRecorder;
 
 /**
@@ -30,9 +31,7 @@ public class PageFactory {
     private static VideoRecorder videoRecorder;
     private static boolean aspectsDisabled = false;
 
-    private static final String ENVIRONMENT = Props.get("driver.environment");
-    private static final String PAGES_PACKAGE = Props.get("page.package");
-    private static final String TIMEOUT = Props.get("page.load.timeout");
+    private static final Configuration PROPERTIES = Properties.INSTANCE.getProperties();
 
     private static final String ENVIRONMENT_WEB = "web";
     private static final String ENVIRONMENT_MOBILE = "mobile";
@@ -78,54 +77,33 @@ public class PageFactory {
         org.openqa.selenium.support.PageFactory.initElements(decorator, page);
     }
 
-    /**
-     * Get PageFactory instance
-     *
-     * @return PageFactory
-     */
     public static PageManager getInstance() {
         if (null == pageManager) {
-            pageManager = new PageManager(PAGES_PACKAGE);
+            pageManager = new PageManager(getPagesPackage());
         }
         return pageManager;
     }
 
-    /**
-     * Get driver actions
-     *
-     * @return Actions
-     */
+    public static String getPagesPackage() {
+        return PROPERTIES.getPagesPackage();
+    }
+
     public static Actions getActions() {
         if (null == actions) {
             actions = new Actions(getWebDriver());
         }
         return actions;
     }
-
-    /**
-     * @return the pagesPackage
-     */
-    public static String getPagesPackage() {
-        return PAGES_PACKAGE;
-    }
-
-    /**
-     * @return the timeOut
-     */
-    public static int getTimeOut() {
-        return Integer.parseInt(TIMEOUT);
-    }
-
-    /**
-     * @return the timeOut
-     */
+    
     public static int getTimeOutInSeconds() {
-        return Integer.parseInt(TIMEOUT) / 1000;
+        return getTimeOut() / 1000;
     }
 
-    /**
-     * @return the pageRepository
-     */
+    public static int getTimeOut() {
+        return PROPERTIES.getTimeout();
+    }
+
+
     public static Map<Class<? extends WebElementsPage>, Map<Field, String>> getPageRepository() {
         return PAGES_REPOSITORY;
     }
@@ -153,13 +131,14 @@ public class PageFactory {
     }
 
     public static Environment getEnvironment() {
-        switch (ENVIRONMENT) {
+        String environment = PROPERTIES.getEnvironment();
+        switch (environment) {
             case ENVIRONMENT_WEB:
                 return Environment.WEB;
             case ENVIRONMENT_MOBILE:
                 return Environment.MOBILE;
             default:
-                throw new FactoryRuntimeException("Environment '" + ENVIRONMENT + "' is not supported");
+                throw new FactoryRuntimeException("Environment '" + environment + "' is not supported");
         }
     }
 }

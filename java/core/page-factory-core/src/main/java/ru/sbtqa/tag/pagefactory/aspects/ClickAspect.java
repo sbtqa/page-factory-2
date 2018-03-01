@@ -9,6 +9,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import static org.openqa.selenium.remote.BrowserType.CHROME;
+import static org.openqa.selenium.remote.BrowserType.IE;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageContext;
@@ -16,9 +18,9 @@ import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.extensions.WebExtension;
 import ru.sbtqa.tag.pagefactory.support.Environment;
-import ru.sbtqa.tag.qautils.properties.Props;
 
 import static ru.sbtqa.tag.pagefactory.ReflectionUtil.getElementRedirect;
+import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
 @Aspect
 public class ClickAspect {
@@ -33,7 +35,7 @@ public class ClickAspect {
         WebElement targetWebElement = (WebElement) joinPoint.getTarget();
 
         String elementHighlightStyle = null;
-        boolean isVideoHighlightEnabled = Boolean.valueOf(Props.get("video.highlight.enabled"));
+        boolean isVideoHighlightEnabled = Properties.INSTANCE.getProperties().isVideoHighlightEnabled();
         if (isVideoHighlightEnabled) {
             elementHighlightStyle = WebExtension.highlightElementOn(targetWebElement);
         }
@@ -44,7 +46,7 @@ public class ClickAspect {
 
         if (!PageFactory.isAspectsDisabled()) {
             Actions actions = new Actions(PageFactory.getWebDriver());
-            if ("IE".equals(TagWebDriver.getBrowserName())) {
+            if (IE.equals(TagWebDriver.getBrowserName())) {
                 Dimension size = PageFactory.getWebDriver().manage().window().getSize();
                 Point elementLocation = (targetWebElement).getLocation();
                 Dimension elementSize = (targetWebElement).getSize();
@@ -57,8 +59,8 @@ public class ClickAspect {
             }
 
             switch (TagWebDriver.getBrowserName()) {
-                case "Chrome":
-                case "IE":
+                case CHROME:
+                case IE:
                     actions.moveToElement(targetWebElement);
                     actions.click();
                     actions.build().perform();
