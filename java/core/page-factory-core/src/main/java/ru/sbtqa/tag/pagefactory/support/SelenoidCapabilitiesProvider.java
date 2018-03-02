@@ -14,7 +14,7 @@ public class SelenoidCapabilitiesProvider {
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesProvider.class);
 
     private static final Configuration PROPERTIES = Properties.getProperties();
-    
+
     public static void apply(DesiredCapabilities capabilities) {
 
         setVersion(capabilities, PROPERTIES.getSelenoidBrowserVersion());
@@ -30,7 +30,7 @@ public class SelenoidCapabilitiesProvider {
         setCapability(capabilities, "hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability(capabilities, "applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
         setCapability(capabilities, "labels", PROPERTIES.getSelenoidContainerLables());
-        
+
         if (TagWebDriver.getBrowserName().equalsIgnoreCase(OPERA)) {
             capabilities.setCapability("operaOptions", new HashMap<String, String>() {
                 {

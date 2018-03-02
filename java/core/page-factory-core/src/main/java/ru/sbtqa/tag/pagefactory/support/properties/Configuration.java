@@ -20,6 +20,22 @@ public interface Configuration extends Config {
 
     @Key("webdriver.browser.name")
     String getBrowserName();
+
+    @Key("webdriver.browser.version")
+    @DefaultValue("")
+    String getBrowserVersion();
+
+    @Key("webdriver.browser.path")
+    @DefaultValue("")
+    String getBrowserPath();
+
+    @Key("webdriver.browser.size")
+    @DefaultValue("")
+    String getBrowserSize();
+
+    @Key("webdriver.browser.ie.killOnDispose")
+    @DefaultValue("false")
+    boolean isIEKillOnDispose();
     
     @Key("webdriver.create.attempts")
     @DefaultValue("3")
@@ -37,10 +53,6 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getWebDriverVersion();
 
-    @Key("webdriver.browser.version")
-    @DefaultValue("")
-    String getBrowserVersion();
-
     @Key("webdriver.nexus.url")
     @DefaultValue("")
     String getNexusUrl();
@@ -49,10 +61,6 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getOsArchitecture();
 
-    @Key("webdriver.browser.path")
-    @DefaultValue("")
-    String getBrowserPath();
-
     @Key("webdriver.url")
     @DefaultValue("")
     String getWebDriverUrl();
@@ -60,20 +68,49 @@ public interface Configuration extends Config {
     @Key("webdriver.proxy")
     @DefaultValue("")
     String getProxy();
-
-    @Key("webdriver.browser.ie.killOnDispose")
-    @DefaultValue("false")
-    boolean isIEKillOnDispose();
-
+    
     
     @Key("video.highlight.enabled")
     @DefaultValue("false")
     boolean isVideoHighlightEnabled();
+    
+    @Key("video.enabled")
+    @DefaultValue("false")
+    boolean isVideoEnabled();
 
     @Key("tasks.to.kill")
     @DefaultValue("")
     String getTasksToKill();
 
+    
+    @Key("appium.url")
+    @DefaultValue("")
+    String getAppiumUrl();
+    
+    @Key("appium.device.name")
+    @DefaultValue("")
+    String getAppiumDeviceName();
+    
+    @Key("appium.device.platform")
+    @DefaultValue("")
+    String getAppiumDevicePlatform();
+    
+    @Key("appium.app.package")
+    @DefaultValue("")
+    String getAppiumAppPackage();
+    
+    @Key("appium.app.activity")
+    @DefaultValue("")
+    String getAppiumAppActivity();
+    
+    @Key("appium.fill.adb")
+    @DefaultValue("false")
+    boolean isAppiumFillAdb();
+    
+    @Key("appium.click.adb")
+    @DefaultValue("false")
+    boolean isAppiumClickAdb();
+    
     
     @Key("selenoid.browserVersion")
     @DefaultValue("")
