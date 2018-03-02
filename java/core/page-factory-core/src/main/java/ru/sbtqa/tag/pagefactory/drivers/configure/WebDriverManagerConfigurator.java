@@ -30,7 +30,7 @@ public class WebDriverManagerConfigurator {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebDriverManagerConfigurator.class);
 
-    private static final Configuration PROPERTIES = Properties.INSTANCE.getProperties();
+    private static final Configuration PROPERTIES = Properties.getProperties();
 
     private static final String MAPPING_FILES_PATH = "drivers/mapping/";
     private static final String MAPPING_FILES_EXTENSION = ".json";

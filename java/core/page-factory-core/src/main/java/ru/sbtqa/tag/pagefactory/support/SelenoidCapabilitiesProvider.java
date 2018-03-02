@@ -13,7 +13,7 @@ public class SelenoidCapabilitiesProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesProvider.class);
 
-    private static final Configuration PROPERTIES = Properties.INSTANCE.getProperties();
+    private static final Configuration PROPERTIES = Properties.getProperties();
     
     public static void apply(DesiredCapabilities capabilities) {
 

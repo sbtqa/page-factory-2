@@ -15,6 +15,13 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import static org.openqa.selenium.remote.BrowserType.CHROME;
+import static org.openqa.selenium.remote.BrowserType.FIREFOX;
+import static org.openqa.selenium.remote.BrowserType.IE;
+import static org.openqa.selenium.remote.BrowserType.IEXPLORE;
+import static org.openqa.selenium.remote.BrowserType.IE_HTA;
+import static org.openqa.selenium.remote.BrowserType.SAFARI;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
@@ -24,21 +31,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageFactory;
+import static ru.sbtqa.tag.pagefactory.PageFactory.getTimeOutInSeconds;
+import ru.sbtqa.tag.pagefactory.drivers.configure.ProxyConfigurator;
+import ru.sbtqa.tag.pagefactory.drivers.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
 import ru.sbtqa.tag.pagefactory.support.DesiredCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.SelenoidCapabilitiesProvider;
-import static org.openqa.selenium.remote.BrowserType.CHROME;
-import static org.openqa.selenium.remote.BrowserType.FIREFOX;
-import static org.openqa.selenium.remote.BrowserType.IE;
-import static org.openqa.selenium.remote.BrowserType.IEXPLORE;
-import static org.openqa.selenium.remote.BrowserType.IE_HTA;
-import static org.openqa.selenium.remote.BrowserType.SAFARI;
-import org.openqa.selenium.remote.CapabilityType;
-import static ru.sbtqa.tag.pagefactory.PageFactory.getTimeOutInSeconds;
-import ru.sbtqa.tag.pagefactory.drivers.configure.ProxyConfigurator;
-import ru.sbtqa.tag.pagefactory.drivers.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
@@ -47,7 +47,7 @@ public class TagWebDriver {
     private static final Logger LOG = LoggerFactory.getLogger(TagWebDriver.class);
 
     private static WebDriver webDriver;
-    private static final Configuration PROPERTIES = Properties.INSTANCE.getProperties();
+    private static final Configuration PROPERTIES = Properties.getProperties();
 
     private TagWebDriver() {
     }

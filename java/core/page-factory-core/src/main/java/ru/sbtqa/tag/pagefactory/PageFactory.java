@@ -31,7 +31,7 @@ public class PageFactory {
     private static VideoRecorder videoRecorder;
     private static boolean aspectsDisabled = false;
 
-    private static final Configuration PROPERTIES = Properties.INSTANCE.getProperties();
+    private static final Configuration PROPERTIES = Properties.getProperties();
 
     private static final String ENVIRONMENT_WEB = "web";
     private static final String ENVIRONMENT_MOBILE = "mobile";

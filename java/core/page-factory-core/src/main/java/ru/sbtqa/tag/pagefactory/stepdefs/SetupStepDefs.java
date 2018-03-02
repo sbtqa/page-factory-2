@@ -43,7 +43,7 @@ public class SetupStepDefs {
         }
 
         try {
-            String[] tasks = Properties.INSTANCE.getProperties().getTasksToKill().split(",");
+            String[] tasks = Properties.getProperties().getTasksToKill().split(",");
             if (tasks.length > 0) {
                 for (String task : tasks) {
                     Runtime.getRuntime().exec("taskkill /IM " + task.trim() + " /F");

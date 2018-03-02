@@ -35,7 +35,7 @@ public class ClickAspect {
         WebElement targetWebElement = (WebElement) joinPoint.getTarget();
 
         String elementHighlightStyle = null;
-        boolean isVideoHighlightEnabled = Properties.INSTANCE.getProperties().isVideoHighlightEnabled();
+        boolean isVideoHighlightEnabled = Properties.getProperties().isVideoHighlightEnabled();
         if (isVideoHighlightEnabled) {
             elementHighlightStyle = WebExtension.highlightElementOn(targetWebElement);
         }
