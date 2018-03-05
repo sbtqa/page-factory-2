@@ -16,12 +16,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import static org.openqa.selenium.remote.BrowserType.CHROME;
-import static org.openqa.selenium.remote.BrowserType.FIREFOX;
-import static org.openqa.selenium.remote.BrowserType.IE;
-import static org.openqa.selenium.remote.BrowserType.IEXPLORE;
-import static org.openqa.selenium.remote.BrowserType.IE_HTA;
-import static org.openqa.selenium.remote.BrowserType.SAFARI;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -32,11 +26,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageFactory;
-import static ru.sbtqa.tag.pagefactory.PageFactory.getTimeOutInSeconds;
 import ru.sbtqa.tag.pagefactory.drivers.configure.ProxyConfigurator;
 import ru.sbtqa.tag.pagefactory.drivers.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.CHROME;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.FIREFOX;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.IEXPLORE;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.INTERNET_EXPLORER;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.SAFARI;
 import ru.sbtqa.tag.pagefactory.support.DesiredCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.SelenoidCapabilitiesProvider;
@@ -70,7 +69,7 @@ public class TagWebDriver {
             LOG.info("Attempt {} to start web driver", i);
             try {
                 createDriver();
-                break;
+                return;
             } catch (UnreachableBrowserException e) {
                 LOG.warn("Failed to create web driver. Attempt number {}", i, e);
                 dispose();
@@ -111,7 +110,7 @@ public class TagWebDriver {
             }
         }
 
-        webDriver.manage().timeouts().pageLoadTimeout(getTimeOutInSeconds(), TimeUnit.SECONDS);
+        webDriver.manage().timeouts().pageLoadTimeout(PageFactory.getTimeOutInSeconds(), TimeUnit.SECONDS);
         setBrowserSize();
         webDriver.get(PROPERTIES.getStartingUrl());
     }
@@ -125,7 +124,7 @@ public class TagWebDriver {
     private static boolean isIE() {
         String browserName = getBrowserName();
         return browserName.equalsIgnoreCase(IE)
-                || browserName.equalsIgnoreCase(IE_HTA)
+                || browserName.equalsIgnoreCase(INTERNET_EXPLORER)
                 || browserName.equalsIgnoreCase(IEXPLORE);
     }
 

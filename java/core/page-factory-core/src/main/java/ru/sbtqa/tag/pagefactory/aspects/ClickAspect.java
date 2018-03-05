@@ -9,17 +9,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import static org.openqa.selenium.remote.BrowserType.CHROME;
-import static org.openqa.selenium.remote.BrowserType.IE;
 import ru.sbtqa.tag.datajack.Stash;
-import ru.sbtqa.tag.pagefactory.Page;
-import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.extensions.WebExtension;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.CHROME;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
 import ru.sbtqa.tag.pagefactory.support.Environment;
-
-import static ru.sbtqa.tag.pagefactory.ReflectionUtil.getElementRedirect;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
 @Aspect
@@ -72,12 +68,6 @@ public class ClickAspect {
             joinPoint.proceed();
         }
 
-        // Redirect
-        Class<? extends Page> elementRedirect = getElementRedirect(PageContext.getCurrentPage(), targetWebElement);
-        if (null != elementRedirect) {
-            PageFactory.getInstance().getPage(elementRedirect);
-        }
-    
         if (isVideoHighlightEnabled) {
             WebExtension.highlightElementOff(targetWebElement, elementHighlightStyle);
         }

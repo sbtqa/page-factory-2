@@ -20,9 +20,9 @@ import java.util.regex.Pattern;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
-import static org.openqa.selenium.remote.BrowserType.IE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
@@ -84,14 +84,17 @@ public class WebDriverManagerConfigurator {
     }
 
     private static void configureWebDriverManagerArch(BrowserManager webDriverManager) {
-        if (!PROPERTIES.getOsArchitecture().isEmpty()) {
-            if (Architecture.valueOf("X" + PROPERTIES.getOsArchitecture()) == Architecture.X32) {
-                LOG.info("Forcing driver arch to X{}", PROPERTIES.getOsArchitecture());
-                webDriverManager.arch32();
-            }
-            if (Architecture.valueOf("X" + PROPERTIES.getOsArchitecture()) == Architecture.X64) {
-                LOG.info("Forcing driver arch to X{}", PROPERTIES.getOsArchitecture());
-                webDriverManager.arch64();
+        String osArchitecture = PROPERTIES.getOsArchitecture();
+        if (!osArchitecture.isEmpty()) {
+            switch (Architecture.valueOf("X" + PROPERTIES.getOsArchitecture())) {
+                case X32:
+                    LOG.info("Forcing driver arch to X{}", PROPERTIES.getOsArchitecture());
+                    webDriverManager.arch32();
+                    break;
+                case X64:
+                    LOG.info("Forcing driver arch to X{}", PROPERTIES.getOsArchitecture());
+                    webDriverManager.arch64();
+                    break;
             }
         }
     }

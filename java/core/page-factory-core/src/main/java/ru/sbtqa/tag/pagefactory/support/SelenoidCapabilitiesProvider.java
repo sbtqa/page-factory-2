@@ -1,11 +1,11 @@
 package ru.sbtqa.tag.pagefactory.support;
 
 import java.util.HashMap;
-import static org.openqa.selenium.remote.BrowserType.OPERA;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.OPERA;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
