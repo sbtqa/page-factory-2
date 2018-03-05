@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
@@ -111,7 +112,7 @@ public class TagWebDriver {
         }
 
         webDriver.manage().timeouts().pageLoadTimeout(getTimeOutInSeconds(), TimeUnit.SECONDS);
-        webDriver.manage().window().maximize();
+        setBrowserSize();
         webDriver.get(PROPERTIES.getStartingUrl());
     }
 
@@ -126,6 +127,17 @@ public class TagWebDriver {
         return browserName.equalsIgnoreCase(IE)
                 || browserName.equalsIgnoreCase(IE_HTA)
                 || browserName.equalsIgnoreCase(IEXPLORE);
+    }
+
+    private static void setBrowserSize() {
+        if (!PROPERTIES.getBrowserSize().isEmpty()) {
+            String[] size = PROPERTIES.getBrowserSize().split("x");
+            int width = Integer.parseInt(size[0]);
+            int height = Integer.parseInt(size[1]);
+            webDriver.manage().window().setSize(new Dimension(width, height));
+        } else {
+            webDriver.manage().window().maximize();
+        }
     }
 
     public static void dispose() {
