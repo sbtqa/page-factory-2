@@ -69,14 +69,14 @@ public class TagWebDriver {
             LOG.info("Attempt {} to start web driver", i);
             try {
                 createDriver();
-                return;
             } catch (UnreachableBrowserException e) {
                 LOG.warn("Failed to create web driver. Attempt number {}", i, e);
                 dispose();
+                continue;
             } catch (UnsupportedBrowserException | MalformedURLException e) {
                 LOG.error("Failed to create web driver", e);
-                return;
             }
+            return;
         }
     }
 
