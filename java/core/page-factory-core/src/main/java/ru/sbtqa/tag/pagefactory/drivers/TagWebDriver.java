@@ -130,13 +130,13 @@ public class TagWebDriver {
     }
 
     private static void setBrowserSize() {
-        if (!PROPERTIES.getBrowserSize().isEmpty()) {
+        if (PROPERTIES.getBrowserSize().isEmpty()) {
+            webDriver.manage().window().maximize();
+        } else {
             String[] size = PROPERTIES.getBrowserSize().split("x");
             int width = Integer.parseInt(size[0]);
             int height = Integer.parseInt(size[1]);
             webDriver.manage().window().setSize(new Dimension(width, height));
-        } else {
-            webDriver.manage().window().maximize();
         }
     }
 
