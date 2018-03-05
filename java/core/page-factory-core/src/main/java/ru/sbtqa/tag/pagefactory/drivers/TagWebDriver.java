@@ -75,7 +75,7 @@ public class TagWebDriver {
                 dispose();
             } catch (UnsupportedBrowserException | MalformedURLException e) {
                 LOG.error("Failed to create web driver", e);
-                break;
+                return;
             }
         }
     }
