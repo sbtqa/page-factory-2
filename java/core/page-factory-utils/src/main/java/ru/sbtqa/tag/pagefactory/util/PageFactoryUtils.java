@@ -1,5 +1,13 @@
 package ru.sbtqa.tag.pagefactory.util;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
@@ -17,15 +25,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 public class PageFactoryUtils {
     
