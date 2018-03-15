@@ -1,13 +1,19 @@
 package ru.sbtqa.tag.pagefactory.support;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.CHROME;
 import ru.sbtqa.tag.qautils.properties.Props;
-
-import java.util.*;
 
 public class DesiredCapabilitiesParser {
 
@@ -21,24 +27,28 @@ public class DesiredCapabilitiesParser {
 
         capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 
-        final String capsPrefix = "webdriver." + TagWebDriver.getBrowserName().toLowerCase() + ".capability.";
+        final String capsRegExp = "webdriver.(" + TagWebDriver.getBrowserName().toLowerCase() +"|\\*).capability.(.*)";
         Set<String> propKeys = Props.getProps().stringPropertyNames();
         List<String> capabilitiesFromProps = new ArrayList<>();
 
         for (String prop : propKeys) {
-            if (prop.startsWith(capsPrefix)) {
+            if (prop.matches(capsRegExp)) {
                 capabilitiesFromProps.add(prop);
             }
         }
 
         final Map<String, Object> options = new HashMap<>();
 
+        Matcher capsMatcher;
         for (String rawCapabilityKey : capabilitiesFromProps) {
 
-            String capability = rawCapabilityKey.substring(capsPrefix.length());
+            // find second group in key with capability name
+            capsMatcher = Pattern.compile(capsRegExp).matcher(rawCapabilityKey);
+            capsMatcher.find();
+            String capability = capsMatcher.group(2);
             String capabilityValue = Props.get(rawCapabilityKey);
 
-            if (capability.startsWith("options") && "Chrome".equals(TagWebDriver.getBrowserName())) {
+            if (capability.startsWith("options") && CHROME.equals(TagWebDriver.getBrowserName())) {
                 // For Chrome options must be parsed and specified as a data structure.
                 // For non-chrome browsers options could be passed as string
                 String optionsCapability = capability.substring("options.".length());

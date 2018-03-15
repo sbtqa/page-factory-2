@@ -81,4 +81,12 @@ public class TagMobileDriver {
     public static String getDeviceUDID() {
         return deviceUdId;
     }
+    
+    public static void setMobileDriver(AppiumDriver<AndroidElement> aMobileDriver) {
+        mobileDriver = aMobileDriver;
+    }
+    
+    public static boolean isDriverInitialized(){
+        return mobileDriver != null;
+    }
 }

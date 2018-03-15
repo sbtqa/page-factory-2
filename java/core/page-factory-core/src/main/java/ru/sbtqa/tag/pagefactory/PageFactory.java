@@ -17,9 +17,6 @@ import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 import ru.sbtqa.tag.videorecorder.VideoRecorder;
 
-/**
- * Общая информация о контексте теста
- */
 public class PageFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageFactory.class);
@@ -30,6 +27,7 @@ public class PageFactory {
     private static PageManager pageManager;
     private static VideoRecorder videoRecorder;
     private static boolean aspectsDisabled = false;
+    private static boolean sharingProcessing = false;
 
     private static final Configuration PROPERTIES = Properties.getProperties();
 
@@ -44,7 +42,6 @@ public class PageFactory {
         return (AppiumDriver) getDriver();
     }
 
-
     public static WebDriver getDriver() {
         switch (getEnvironment()) {
             case WEB:
@@ -57,6 +54,7 @@ public class PageFactory {
     }
 
     public static void dispose() {
+        pageManager = null;
         switch (getEnvironment()) {
             case WEB:
                 TagWebDriver.dispose();
@@ -68,7 +66,19 @@ public class PageFactory {
                 throw new FactoryRuntimeException("Failed to dispose");
         }
     }
-
+    
+    public static Environment getEnvironment() {
+        String environment = PROPERTIES.getEnvironment();
+        switch (environment) {
+            case ENVIRONMENT_WEB:
+                return Environment.WEB;
+            case ENVIRONMENT_MOBILE:
+                return Environment.MOBILE;
+            default:
+                throw new FactoryRuntimeException("Environment '" + environment + "' is not supported");
+        }
+    }
+    
     public static void initElements(WebDriver driver, Object page) {
         org.openqa.selenium.support.PageFactory.initElements(driver, page);
     }
@@ -103,11 +113,10 @@ public class PageFactory {
         return PROPERTIES.getTimeout();
     }
 
-
     public static Map<Class<? extends WebElementsPage>, Map<Field, String>> getPageRepository() {
         return PAGES_REPOSITORY;
     }
-
+        
     /**
      * Affects click and sendKeys aspects only
      *
@@ -129,16 +138,20 @@ public class PageFactory {
     public static void setVideoRecorderToNull() {
         videoRecorder = null;
     }
+    
+    public static boolean isVideoRecorderEnabled() {
+        return PROPERTIES.isVideoEnabled();
+    }
+    
+    public static boolean isSharingProcessing() {
+        return sharingProcessing;
+    }
 
-    public static Environment getEnvironment() {
-        String environment = PROPERTIES.getEnvironment();
-        switch (environment) {
-            case ENVIRONMENT_WEB:
-                return Environment.WEB;
-            case ENVIRONMENT_MOBILE:
-                return Environment.MOBILE;
-            default:
-                throw new FactoryRuntimeException("Environment '" + environment + "' is not supported");
-        }
+    public static void setSharingProcessing(boolean aSharingProcessing) {
+        sharingProcessing = aSharingProcessing;
+    }
+
+    public static boolean isDriverInitialized(){
+        return TagWebDriver.isDriverInitialized() || TagMobileDriver.isDriverInitialized();
     }
 }
