@@ -21,6 +21,8 @@ import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
+import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 import ru.sbtqa.tag.qautils.reflect.ClassUtilsExt;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
@@ -102,13 +104,16 @@ public class SetupStepDefs {
 
     @After
     public void tearDown() {
-        if (VideoRecorder.getInstance().isVideoStarted()) {
-            String videoPath = VideoRecorder.getInstance().stopRecording();
-            if (videoPath != null) {
-                ParamsHelper.addVideoParameter(VideoRecorder.getInstance().getVideoPath());
-                VideoRecorder.getInstance().resetVideoRecorder();
-            }
+        if (PageFactory.isVideoRecorderEnabled() && VideoRecorder.getInstance().isVideoStarted()) {
+            ParamsHelper.addParam("Video url", VideoRecorder.getInstance().stopRecording());
+            VideoRecorder.getInstance().resetVideoRecorder();
         }
-        PageFactory.dispose();
+
+        if (PageFactory.getEnvironment() == Environment.WEB && TagWebDriver.isWebDriverShared()) {
+            LOG.info("Webdriver sharing is processing...");
+            PageFactory.setSharingProcessing(true);
+        } else {
+            PageFactory.dispose();
+        }
     }
 }
