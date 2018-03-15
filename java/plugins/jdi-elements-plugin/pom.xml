@@ -26,6 +26,17 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>ru.sbtqa.tag.pagefactory</groupId>
+      <artifactId>page-factory-utils</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag</groupId>
+      <artifactId>allure-helper</artifactId>
+      <version>${tag.version.allurehelper}</version>
+    </dependency>
+    <dependency>
       <groupId>com.epam.jdi</groupId>
       <artifactId>jdi-uitest-core</artifactId>
       <version>1.0.71</version>
@@ -44,12 +55,6 @@
           <artifactId>selenium-java</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>page-factory-utils</artifactId>
-      <version>${project.version}</version>
-      <type>jar</type>
     </dependency>
   </dependencies>
 
