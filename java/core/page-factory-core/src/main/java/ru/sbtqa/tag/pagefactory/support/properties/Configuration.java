@@ -68,6 +68,10 @@ public interface Configuration extends Config {
     @Key("webdriver.proxy")
     @DefaultValue("")
     String getProxy();
+
+    @Key("webdriver.shared")
+    @DefaultValue("false")
+    boolean isWebDriverShared();
     
     
     @Key("video.highlight.enabled")
@@ -81,6 +85,10 @@ public interface Configuration extends Config {
     @Key("tasks.to.kill")
     @DefaultValue("")
     String getTasksToKill();
+
+    @Key("screenshot.strategy")
+    @DefaultValue("raw")
+    String getScreenshotStrategy();
 
     
     @Key("appium.url")
