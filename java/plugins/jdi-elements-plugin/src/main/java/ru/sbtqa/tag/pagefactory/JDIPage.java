@@ -2,9 +2,9 @@ package ru.sbtqa.tag.pagefactory;
 
 
 import com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown;
+import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 
 /**
  * Contains basic actions in particular with jdi elements
@@ -27,7 +27,7 @@ public class JDIPage extends Page {
         Object element = JDIUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         ((Dropdown) element).select(value);
 
-        PageFactoryUtils.addToReport(elementTitle, value);
+        ParamsHelper.addParam(elementTitle, value);
     }
 
 
