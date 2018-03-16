@@ -117,20 +117,10 @@ public class PageFactory {
         return PAGES_REPOSITORY;
     }
         
-    /**
-     * Affects click and sendKeys aspects only
-     *
-     * @return the aspectsDisabled default false
-     */
     public static boolean isAspectsEnabled() {
         return PROPERTIES.isAspectEnabled();
     }
 
-    /**
-     * Affects click and sendKeys aspects only
-     *
-     * @param aAspectsEnabled default false
-     */
     public static void setAspectsEnabled(boolean aAspectsEnabled) {
         aspectsDisabled = aAspectsEnabled;
     }
