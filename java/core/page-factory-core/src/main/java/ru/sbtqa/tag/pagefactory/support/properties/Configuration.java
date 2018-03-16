@@ -17,6 +17,10 @@ public interface Configuration extends Config {
     @Key("page.package")
     String getPagesPackage();
 
+    @Key("page.aspect.enabled")
+    @DefaultValue("true")
+    boolean isAspectEnabled();
+
 
     @Key("webdriver.browser.name")
     String getBrowserName();
