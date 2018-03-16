@@ -9,7 +9,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageFactory;
-import static ru.sbtqa.tag.pagefactory.PageFactory.setAspectsDisabled;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
@@ -57,7 +56,7 @@ public class TagMobileDriver {
             throw new FactoryRuntimeException("Could not parse appium url. Check 'appium.url' property", e);
         }
 
-        setAspectsDisabled(true);
+        PageFactory.setAspectsEnabled(false);
         LOG.debug("Aspect disabled");
         mobileDriver = new AndroidDriver<>(url, capabilities);
         LOG.info("Mobile driver created {}", mobileDriver);

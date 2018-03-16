@@ -27,7 +27,7 @@ public class PageFactory {
     private static PageManager pageManager;
     private static VideoRecorder videoRecorder;
     private static boolean aspectsDisabled = false;
-    private static boolean sharingProcessing = false;
+    private static boolean sharingIsActive = false;
 
     private static final Configuration PROPERTIES = Properties.getProperties();
 
@@ -122,17 +122,17 @@ public class PageFactory {
      *
      * @return the aspectsDisabled default false
      */
-    public static boolean isAspectsDisabled() {
-        return aspectsDisabled;
+    public static boolean isAspectsEnabled() {
+        return PROPERTIES.isAspectEnabled();
     }
 
     /**
      * Affects click and sendKeys aspects only
      *
-     * @param aAspectsDisabled default false
+     * @param aAspectsEnabled default false
      */
-    public static void setAspectsDisabled(boolean aAspectsDisabled) {
-        aspectsDisabled = aAspectsDisabled;
+    public static void setAspectsEnabled(boolean aAspectsEnabled) {
+        aspectsDisabled = aAspectsEnabled;
     }
 
     public static void setVideoRecorderToNull() {
@@ -143,12 +143,12 @@ public class PageFactory {
         return PROPERTIES.isVideoEnabled();
     }
     
-    public static boolean isSharingProcessing() {
-        return sharingProcessing;
+    public static boolean isSharingActive() {
+        return sharingIsActive;
     }
 
-    public static void setSharingProcessing(boolean aSharingProcessing) {
-        sharingProcessing = aSharingProcessing;
+    public static void setSharingIsActive(boolean aSharingProcessing) {
+        sharingIsActive = aSharingProcessing;
     }
 
     public static boolean isDriverInitialized(){
