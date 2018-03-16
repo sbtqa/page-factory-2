@@ -15,7 +15,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
-import ru.sbtqa.tag.videorecorder.VideoRecorder;
 
 public class PageFactory {
 
@@ -25,11 +24,10 @@ public class PageFactory {
 
     private static Actions actions;
     private static PageManager pageManager;
-    private static VideoRecorder videoRecorder;
-    private static boolean aspectsEnabled = false;
-    private static boolean sharingIsActive = false;
 
     private static final Configuration PROPERTIES = Properties.getProperties();
+    private static boolean aspectsEnabled = PROPERTIES.isAspectEnabled();
+    private static boolean sharingIsActive = false;
 
     private static final String ENVIRONMENT_WEB = "web";
     private static final String ENVIRONMENT_MOBILE = "mobile";
@@ -118,17 +116,13 @@ public class PageFactory {
     }
         
     public static boolean isAspectsEnabled() {
-        return PROPERTIES.isAspectEnabled();
+        return aspectsEnabled;
     }
 
     public static void setAspectsEnabled(boolean aAspectsEnabled) {
         aspectsEnabled = aAspectsEnabled;
     }
 
-    public static void setVideoRecorderToNull() {
-        videoRecorder = null;
-    }
-    
     public static boolean isVideoRecorderEnabled() {
         return PROPERTIES.isVideoEnabled();
     }

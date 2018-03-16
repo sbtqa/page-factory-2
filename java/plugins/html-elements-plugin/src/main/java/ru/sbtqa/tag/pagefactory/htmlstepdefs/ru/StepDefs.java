@@ -2,9 +2,7 @@ package ru.sbtqa.tag.pagefactory.htmlstepdefs.ru;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.ru.И;
-import org.openqa.selenium.NoSuchElementException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.htmlstepdefs.HTMLStepDefs;
 
 public class StepDefs extends HTMLStepDefs {
@@ -14,8 +12,7 @@ public class StepDefs extends HTMLStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\)$")
-    public void userActionInBlockNoParams(String block, String action) throws PageInitializationException,
-            NoSuchMethodException, NoSuchElementException {
+    public void userActionInBlockNoParams(String block, String action) throws NoSuchMethodException {
         super.userActionInBlockNoParams(block, action);
     }
 
@@ -24,7 +21,7 @@ public class StepDefs extends HTMLStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\) с параметрами из таблицы$")
-    public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws NoSuchMethodException {
         super.userActionInBlockTableParam(block, action, dataTable);
     }
 
@@ -33,7 +30,7 @@ public class StepDefs extends HTMLStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\) с параметром \"([^\"]*)\"$")
-    public void userActionInBlockOneParam(String block, String action, String param) throws PageInitializationException, NoSuchMethodException {
+    public void userActionInBlockOneParam(String block, String action, String param) throws NoSuchMethodException {
         super.userActionInBlockOneParam(block, action, param);
     }
 
@@ -42,7 +39,7 @@ public class StepDefs extends HTMLStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\) с параметрами \"([^\"]*)\" \"([^\"]*)\"$")
-    public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
+    public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws NoSuchMethodException {
         super.userActionInBlockTwoParams(block, action, param1, param2);
     }
 

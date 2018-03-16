@@ -49,13 +49,10 @@ public class HTMLStepDefs {
      *
      * @param block path or name of the block
      * @param action title of the action to execute
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
-     * @throws NoSuchElementException if block with given name couldn't be found
      */
-    public void userActionInBlockNoParams(String block, String action) throws PageInitializationException,
-            NoSuchMethodException, NoSuchElementException {
+    public void userActionInBlockNoParams(String block, String action) throws NoSuchMethodException {
         PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
     }
 
@@ -71,7 +68,7 @@ public class HTMLStepDefs {
      * specified block
      * @throws NoSuchElementException if block with given name couldn't be found
      */
-    public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws NoSuchMethodException {
         PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
     }
 
@@ -87,7 +84,7 @@ public class HTMLStepDefs {
      * specified block
      * @throws NoSuchElementException if block with given name couldn't be found
      */
-    public void userActionInBlockOneParam(String block, String action, String param) throws PageInitializationException, NoSuchMethodException {
+    public void userActionInBlockOneParam(String block, String action, String param) throws NoSuchMethodException {
         PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
     }
 
@@ -104,7 +101,7 @@ public class HTMLStepDefs {
      * specified block
      * @throws NoSuchElementException if block with given name couldn't be found
      */
-    public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
+    public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws NoSuchMethodException {
         PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
     }
 
