@@ -26,7 +26,7 @@ public class PageFactory {
     private static Actions actions;
     private static PageManager pageManager;
     private static VideoRecorder videoRecorder;
-    private static boolean aspectsDisabled = false;
+    private static boolean aspectsEnabled = false;
     private static boolean sharingIsActive = false;
 
     private static final Configuration PROPERTIES = Properties.getProperties();
@@ -122,7 +122,7 @@ public class PageFactory {
     }
 
     public static void setAspectsEnabled(boolean aAspectsEnabled) {
-        aspectsDisabled = aAspectsEnabled;
+        aspectsEnabled = aAspectsEnabled;
     }
 
     public static void setVideoRecorderToNull() {

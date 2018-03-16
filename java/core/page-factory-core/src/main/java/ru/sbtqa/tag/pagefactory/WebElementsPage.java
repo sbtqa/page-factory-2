@@ -25,8 +25,8 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 /**
- * Contains basic actions in particular with web elements If we want to extend
- * this functional - inherit from this class
+ * Contains basic actions in particular with web elements 
+ * If we want to extend this functional - inherit from this class
  */
 public abstract class WebElementsPage extends Page {
 
@@ -109,8 +109,7 @@ public abstract class WebElementsPage extends Page {
      * initialized, or required element couldn't be found
      */
     @ActionTitles({
-        @ActionTitle("ru.sbtqa.tag.pagefactory.click.link")
-        ,
+        @ActionTitle("ru.sbtqa.tag.pagefactory.click.link"),
         @ActionTitle("ru.sbtqa.tag.pagefactory.click.button")})
     public void clickElementByTitle(String elementTitle) throws PageException {
         WebElement webElement;
