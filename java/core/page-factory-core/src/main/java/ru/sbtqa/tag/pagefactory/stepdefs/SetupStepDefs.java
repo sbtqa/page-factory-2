@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebElement;
 import org.reflections.Reflections;
@@ -21,8 +22,9 @@ import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
+import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
-import ru.sbtqa.tag.qautils.reflect.ClassUtilsExt;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.sbtqa.tag.videorecorder.VideoRecorder;
 
@@ -30,57 +32,63 @@ public class SetupStepDefs {
 
     private static final Logger LOG = LoggerFactory.getLogger(SetupStepDefs.class);
 
+    private static final String DEFAULT_LOG_PROPERTIES_PATH = "src/test/resources/config/log4j.properties";
+
     @Before
     public void setUp() {
-
-        //try to connect logger property file if exists
-        String path = "src/test/resources/config/log4j.properties";
-        if (new File(path).exists()) {
-            PropertyConfigurator.configure(path);
-            LOG.info("Log4j proprties were picked up on the path " + path);
-        } else {
-            LOG.warn("There is no log4j.properties on the path " + path);
-        }
-
-        try {
-            String[] tasks = Properties.getProperties().getTasksToKill().split(",");
-            if (tasks.length > 0) {
-                for (String task : tasks) {
-                    Runtime.getRuntime().exec("taskkill /IM " + task.trim() + " /F");
-                }
-            }
-        } catch (IOException e) {
-            LOG.debug("Failed to kill one of task to kill", e);
-        }
+        connectToLogProperties();
+        stopTasksToKill();
 
         PageFactory.getDriver();
         PageFactory.getInstance();
-        // reset page context. In the start of all tests we must have a clear context
         PageContext.resetContext();
 
-        Reflections reflections;
-        reflections = new Reflections(PageFactory.getPagesPackage());
+        cachePages();
 
-        Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
-        Set<Class<?>> allClasses = new HashSet();
-        for (String clazz : allClassesString) {
-            try {
-                allClasses.add(Class.forName(clazz));
-            } catch (ClassNotFoundException e) {
-                LOG.warn("Cannot add all classes to set from package storage", e);
+        startVideo();
+    }
+
+    private void connectToLogProperties() {
+        if (new File(DEFAULT_LOG_PROPERTIES_PATH).exists()) {
+            PropertyConfigurator.configure(DEFAULT_LOG_PROPERTIES_PATH);
+            LOG.info("Log4j properties were picked up on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
+        } else {
+            LOG.warn("There is no log4j.properties on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
+        }
+    }
+
+    private void stopTasksToKill() {
+        String tasks = Properties.getProperties().getTasksToKill();
+        if (!PageFactory.isSharingActive() && !tasks.isEmpty()) {
+            for (String task : tasks.split(",")) {
+                stopTask(task);
             }
         }
+    }
 
+    private void stopTask(String task) {
+        try {
+            if (SystemUtils.IS_OS_WINDOWS) {
+                Runtime.getRuntime().exec("taskkill /IM " + task.trim() + " /F");
+            } else {
+                Runtime.getRuntime().exec("killall " + task.trim());
+            }
+        } catch (IOException e) {
+            LOG.debug("Failed to kill " + task, e);
+        }
+    }
+
+    private void startVideo() {
+        if (PageFactory.isVideoRecorderEnabled()) {
+            VideoRecorder.getInstance().startRecording();
+        }
+    }
+
+    private void cachePages() {
+        Set<Class<?>> allClasses = new HashSet();
+        allClasses.addAll(getAllClasses());
+        
         for (Class<?> page : allClasses) {
-            List<Class> supers = ClassUtilsExt.getSuperclassesWithInheritance(page);
-            // TODO: var we can't know which plugin we are using
-//            if (!supers.contains(WebElementsPage.class) && !supers.contains(HtmlElement.class)) {
-//                if (page.getName().contains("$")) {
-//                    continue; //We allow private additional classes but skip it if its not extends WebElementsPage
-//                } else {
-//                    throw new FactoryRuntimeException("Class " + page.getName() + " is not extended from WebElementsPage class. Check you webdriver.pages.package property.");
-//                }
-//            }
             List<Field> fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(page);
             Map<Field, String> fieldsMap = new HashMap<>();
             for (Field field : fields) {
@@ -99,16 +107,43 @@ public class SetupStepDefs {
             PageFactory.getPageRepository().put((Class<? extends WebElementsPage>) page, fieldsMap);
         }
     }
+    
+    private Set<Class<?>> getAllClasses() {
+        Set<Class<?>> allClasses = new HashSet();
+        
+        Reflections reflections = new Reflections(PageFactory.getPagesPackage());
+        Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
+        
+        for (String clazz : allClassesString) {
+            try {
+                allClasses.add(Class.forName(clazz));
+            } catch (ClassNotFoundException e) {
+                LOG.warn("Cannot add to cache class with name {}", clazz, e);
+            }
+        }
+        
+        return allClasses;
+    }
 
     @After
     public void tearDown() {
-        if (VideoRecorder.getInstance().isVideoStarted()) {
-            String videoPath = VideoRecorder.getInstance().stopRecording();
-            if (videoPath != null) {
-                ParamsHelper.addVideoParameter(VideoRecorder.getInstance().getVideoPath());
-                VideoRecorder.getInstance().resetVideoRecorder();
-            }
+        stopVideo();
+        demountDriver();
+    }
+
+    private void stopVideo() {
+        if (PageFactory.isVideoRecorderEnabled() && VideoRecorder.getInstance().isVideoStarted()) {
+            ParamsHelper.addParam("Video url", VideoRecorder.getInstance().stopRecording());
+            VideoRecorder.getInstance().resetVideoRecorder();
         }
-        PageFactory.dispose();
+    }
+
+    private void demountDriver() {
+        if (PageFactory.getEnvironment() == Environment.WEB && TagWebDriver.isWebDriverShared()) {
+            LOG.info("Webdriver sharing is processing...");
+            PageFactory.setSharingIsActive(true);
+        } else {
+            PageFactory.dispose();
+        }
     }
 }

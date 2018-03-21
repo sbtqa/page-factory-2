@@ -24,22 +24,17 @@
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>cucumber-runner</artifactId>
-      <version>1.0.5</version>
+      <version>${tag.version.cucumberrunner}</version>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag</groupId>
+      <artifactId>qa-utils</artifactId>
+      <version>${tag.version.qautils}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-api</artifactId>
       <version>${selenium.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>qa-utils</artifactId>
-      <version>1.2.4</version>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>allure-helper</artifactId>
-      <version>1.2.2</version>
     </dependency>
   </dependencies>
 

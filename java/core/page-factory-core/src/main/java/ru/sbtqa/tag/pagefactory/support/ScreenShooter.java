@@ -13,18 +13,20 @@ import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageFactory;
-import ru.yandex.qatools.allure.annotations.Attachment;
+import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
 public class ScreenShooter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ScreenShooter.class);
+
+    private static final Configuration PROPERTIES = Properties.getProperties();
 
     /**
      * Takes screenshot with driver
      *
      * @return screenshot in byte array
      */
-    @Attachment(type = "image/png", value = "Screenshot")
     public static byte[] takeWithDriver() {
         return ((TakesScreenshot) PageFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
     }
@@ -34,7 +36,6 @@ public class ScreenShooter {
      *
      * @return screenshot in byte array
      */
-    @Attachment(type = "image/png", value = "Full Screen Screenshot")
     public static byte[] takeRaw() {
         try {
             Rectangle screenBounds = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
@@ -48,4 +49,18 @@ public class ScreenShooter {
         }
     }
 
+    /**
+     * Takes screenshot as indicated in application.properties
+     *
+     * @return screenshot in byte array
+     */
+    public static byte[] take() {
+        switch (PROPERTIES.getScreenshotStrategy()) {
+            case "driver":
+                return ScreenShooter.takeWithDriver();
+            case "raw":
+            default:
+                return ScreenShooter.takeRaw();
+        }
+    }
 }

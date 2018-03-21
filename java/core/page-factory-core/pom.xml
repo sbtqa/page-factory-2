@@ -39,25 +39,31 @@
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>datajack</artifactId>
-      <version>1.2.0</version>
+      <version>${tag.version.datajack}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>allure-helper</artifactId>
-      <version>1.2.0</version>
+      <version>${tag.version.allurehelper}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>video-recorder</artifactId>
-      <version>1.0.6</version>
+      <version>${tag.version.videorecorder}</version>
       <type>jar</type>
     </dependency>
      <dependency> 
       <groupId>ru.sbtqa</groupId> 
       <artifactId>webdrivermanager</artifactId> 
-      <version>2.2.2</version> 
+      <version>${tag.version.webdrivermanager}</version> 
+    </dependency>
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-core</artifactId>
+      <version>1.2.5</version>
+      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -86,13 +92,13 @@
     <dependency>
       <groupId>net.lightbody.bmp</groupId>
       <artifactId>browsermob-core</artifactId>
-      <version>2.1.0-beta-4</version>
+      <version>2.1.5</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>net.lightbody.bmp</groupId>
       <artifactId>browsermob-core-littleproxy</artifactId>
-      <version>2.1.0-beta-4</version>
+      <version>2.1.0-beta-6</version>
       <type>jar</type>
     </dependency>
     <dependency>

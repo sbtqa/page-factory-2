@@ -1,11 +1,15 @@
 package ru.sbtqa.tag.pagefactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
@@ -20,16 +24,8 @@ import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import static ru.sbtqa.tag.pagefactory.ReflectionUtil.addToReport;
-import static ru.sbtqa.tag.pagefactory.ReflectionUtil.getElementTitle;
-import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
-
 /**
- * Contains basic actions in particular with web elements
+ * Contains basic actions in particular with web elements 
  * If we want to extend this functional - inherit from this class
  */
 public abstract class WebElementsPage extends Page {
@@ -48,13 +44,13 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.fill.field")
     public void fillField(String elementTitle, String text) throws PageException {
-        WebElement webElement = getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         webElement.click();
-        
+
         if (PageFactory.getEnvironment() == Environment.WEB) {
             webElement.clear();
         }
-        
+
         if (PageFactory.getEnvironment() == Environment.MOBILE && TagMobileDriver.getAppiumClickAdb()) {
             // set ADBKeyBoard as default
             AdbConsole.execute("ime set com.android.adbkeyboard/.AdbIME");
@@ -63,8 +59,8 @@ public abstract class WebElementsPage extends Page {
         } else {
             webElement.sendKeys(text);
         }
-        
-        PageFactoryUtils.addToReport(elementTitle, text);
+
+        ParamsHelper.addParam(elementTitle, text);
     }
 
     /**
@@ -84,7 +80,7 @@ public abstract class WebElementsPage extends Page {
             webElement.sendKeys(text);
         }
 
-        addToReport(webElement, text);
+        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), text);
     }
 
     /**
@@ -101,7 +97,7 @@ public abstract class WebElementsPage extends Page {
         } else {
             webElement.click();
         }
-        addToReport(webElement, " is clicked");
+        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), " is clicked");
     }
 
     /**
@@ -113,13 +109,12 @@ public abstract class WebElementsPage extends Page {
      * initialized, or required element couldn't be found
      */
     @ActionTitles({
-        @ActionTitle("ru.sbtqa.tag.pagefactory.click.link")
-        ,
-            @ActionTitle("ru.sbtqa.tag.pagefactory.click.button")})
+        @ActionTitle("ru.sbtqa.tag.pagefactory.click.link"),
+        @ActionTitle("ru.sbtqa.tag.pagefactory.click.button")})
     public void clickElementByTitle(String elementTitle) throws PageException {
         WebElement webElement;
         try {
-            webElement = getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+            webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
             DriverExtension.waitForElementGetEnabled(webElement, PageFactory.getTimeOut());
         } catch (NoSuchElementException | WaitException e) {
             LOG.warn("Failed to find element by title {}", elementTitle, e);
@@ -139,7 +134,7 @@ public abstract class WebElementsPage extends Page {
         Keys key = Keys.valueOf(keyName.toUpperCase());
         Actions actions = PageFactory.getActions();
         actions.sendKeys(key).perform();
-        PageFactoryUtils.addToReport(keyName, " is pressed");
+        ParamsHelper.addParam(keyName, " is pressed");
     }
 
     /**
@@ -155,11 +150,11 @@ public abstract class WebElementsPage extends Page {
     public void pressKey(String keyName, String elementTitle) throws PageException {
         Keys key = Keys.valueOf(keyName.toUpperCase());
         Actions actions = PageFactory.getActions();
-        actions.moveToElement(getElementByTitle(PageContext.getCurrentPage(), elementTitle));
+        actions.moveToElement(PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle));
         actions.click();
         actions.sendKeys(key);
         actions.build().perform();
-        PageFactoryUtils.addToReport(keyName, " is pressed on element " + elementTitle + "'");
+        ParamsHelper.addParam(keyName, " is pressed on element " + elementTitle + "'");
     }
 
     /**
@@ -170,9 +165,9 @@ public abstract class WebElementsPage extends Page {
      */
     protected void pressKey(WebElement webElement, Keys keyName) {
         webElement.sendKeys(keyName);
-        addToReport(webElement, " is pressed by key '" + keyName + "'");
+        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), " is pressed by key '" + keyName + "'");
     }
-    
+
     /**
      * Find element with required title, perform
      * {@link #select(WebElement, String, MatchStrategy)} on found element Use
@@ -185,7 +180,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.select")
     public void select(String elementTitle, String option) throws PageException {
-        WebElement webElement = getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (null != option) {
             select(webElement, option, MatchStrategy.EXACT);
         }
@@ -203,7 +198,7 @@ public abstract class WebElementsPage extends Page {
      * element couldn't be found, or current page isn't initialized
      */
     protected void select(String elementTitle, String option, MatchStrategy strategy) throws PageException {
-        WebElement webElement = getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         select(webElement, option, strategy);
     }
 
@@ -250,10 +245,10 @@ public abstract class WebElementsPage extends Page {
         }
 
         if (!isSelectionMade) {
-            throw new AutotestError("There is no element '" + option + "' in " + getElementTitle(PageContext.getCurrentPage(), webElement));
+            throw new AutotestError("There is no element '" + option + "' in " + ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement));
         }
 
-        addToReport(webElement, option);
+        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), option);
     }
 
     /**
@@ -339,7 +334,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.value")
     public void checkValue(String elementTitle, String text) throws PageException {
-        checkValue(text, getElementByTitle(PageContext.getCurrentPage(), elementTitle), MatchStrategy.EXACT);
+        checkValue(text, PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle), MatchStrategy.EXACT);
     }
 
     /**
@@ -427,7 +422,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.not.empty")
     public void checkFieldIsNotEmpty(String elementTitle) throws PageException {
-        WebElement webElement = getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         checkFieldIsNotEmpty(webElement);
     }
 
@@ -444,7 +439,7 @@ public abstract class WebElementsPage extends Page {
         try {
             Assert.assertFalse(value.replaceAll("\\s+", "").isEmpty());
         } catch (Exception | AssertionError e) {
-            throw new AutotestError("The field" + getElementTitle(PageContext.getCurrentPage(), webElement) + " is empty", e);
+            throw new AutotestError("The field" + ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement) + " is empty", e);
         }
     }
 
@@ -460,7 +455,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.values.not.equal")
     public void checkValuesAreNotEqual(String text, String elementTitle) throws PageException {
-        WebElement webElement = getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (checkValuesAreNotEqual(text, webElement)) {
             throw new AutotestError("'" + text + "' is equal with '" + elementTitle + "' value");
         }
@@ -498,5 +493,5 @@ public abstract class WebElementsPage extends Page {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }
-    
+
 }

@@ -15,11 +15,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
-import ru.sbtqa.tag.videorecorder.VideoRecorder;
 
-/**
- * Общая информация о контексте теста
- */
 public class PageFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageFactory.class);
@@ -28,10 +24,10 @@ public class PageFactory {
 
     private static Actions actions;
     private static PageManager pageManager;
-    private static VideoRecorder videoRecorder;
-    private static boolean aspectsDisabled = false;
 
     private static final Configuration PROPERTIES = Properties.getProperties();
+    private static boolean aspectsEnabled = PROPERTIES.isAspectEnabled();
+    private static boolean sharingIsActive = false;
 
     private static final String ENVIRONMENT_WEB = "web";
     private static final String ENVIRONMENT_MOBILE = "mobile";
@@ -43,7 +39,6 @@ public class PageFactory {
     public static AppiumDriver getMobileDriver() {
         return (AppiumDriver) getDriver();
     }
-
 
     public static WebDriver getDriver() {
         switch (getEnvironment()) {
@@ -57,6 +52,7 @@ public class PageFactory {
     }
 
     public static void dispose() {
+        pageManager = null;
         switch (getEnvironment()) {
             case WEB:
                 TagWebDriver.dispose();
@@ -68,7 +64,19 @@ public class PageFactory {
                 throw new FactoryRuntimeException("Failed to dispose");
         }
     }
-
+    
+    public static Environment getEnvironment() {
+        String environment = PROPERTIES.getEnvironment();
+        switch (environment) {
+            case ENVIRONMENT_WEB:
+                return Environment.WEB;
+            case ENVIRONMENT_MOBILE:
+                return Environment.MOBILE;
+            default:
+                throw new FactoryRuntimeException("Environment '" + environment + "' is not supported");
+        }
+    }
+    
     public static void initElements(WebDriver driver, Object page) {
         org.openqa.selenium.support.PageFactory.initElements(driver, page);
     }
@@ -103,42 +111,31 @@ public class PageFactory {
         return PROPERTIES.getTimeout();
     }
 
-
     public static Map<Class<? extends WebElementsPage>, Map<Field, String>> getPageRepository() {
         return PAGES_REPOSITORY;
     }
-
-    /**
-     * Affects click and sendKeys aspects only
-     *
-     * @return the aspectsDisabled default false
-     */
-    public static boolean isAspectsDisabled() {
-        return aspectsDisabled;
+        
+    public static boolean isAspectsEnabled() {
+        return aspectsEnabled;
     }
 
-    /**
-     * Affects click and sendKeys aspects only
-     *
-     * @param aAspectsDisabled default false
-     */
-    public static void setAspectsDisabled(boolean aAspectsDisabled) {
-        aspectsDisabled = aAspectsDisabled;
+    public static void setAspectsEnabled(boolean aAspectsEnabled) {
+        aspectsEnabled = aAspectsEnabled;
     }
 
-    public static void setVideoRecorderToNull() {
-        videoRecorder = null;
+    public static boolean isVideoRecorderEnabled() {
+        return PROPERTIES.isVideoEnabled();
+    }
+    
+    public static boolean isSharingActive() {
+        return sharingIsActive;
     }
 
-    public static Environment getEnvironment() {
-        String environment = PROPERTIES.getEnvironment();
-        switch (environment) {
-            case ENVIRONMENT_WEB:
-                return Environment.WEB;
-            case ENVIRONMENT_MOBILE:
-                return Environment.MOBILE;
-            default:
-                throw new FactoryRuntimeException("Environment '" + environment + "' is not supported");
-        }
+    public static void setSharingIsActive(boolean aSharingProcessing) {
+        sharingIsActive = aSharingProcessing;
+    }
+
+    public static boolean isDriverInitialized(){
+        return TagWebDriver.isDriverInitialized() || TagMobileDriver.isDriverInitialized();
     }
 }

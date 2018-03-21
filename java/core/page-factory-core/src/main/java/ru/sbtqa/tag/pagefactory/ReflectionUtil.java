@@ -1,15 +1,12 @@
 package ru.sbtqa.tag.pagefactory;
 
+import java.lang.reflect.Field;
+import java.util.Map;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
-
-import java.lang.reflect.Field;
-import java.util.Map;
-
 import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByField;
 
 /**
@@ -43,19 +40,6 @@ public class ReflectionUtil {
             }
         }
         return element.toString();
-    }
-    
-    /**
-     * Get title annotation of specified WebElement, and add it as a
-     * parameter to allure report results, with corresponding value. If
-     * there is no title annotation, log warning and exit
-     *
-     * @param webElement WebElement to add
-     * @param text value for the specified element
-     */
-    public static void addToReport(WebElement webElement, String text) {
-        String elementTitle = getElementTitle(PageContext.getCurrentPage(), webElement);
-        PageFactoryUtils.addToReport(elementTitle, text);
     }
 }
  
