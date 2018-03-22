@@ -5,5 +5,5 @@
 /java/plugins/html-elements-plugin/target/
 /java/plugins/jdi-elements-plugin/target/
 /java/target/
-/.idea/
-/*.iml
+.idea/
+*.iml
