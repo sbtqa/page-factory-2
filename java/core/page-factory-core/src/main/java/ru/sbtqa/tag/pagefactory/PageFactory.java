@@ -24,7 +24,7 @@ public class PageFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageFactory.class);
 
-    private static final Map<Class<? extends WebElementsPage>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
+    private static final Map<Class<? extends Page>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
 
     private static Actions actions;
     private static PageManager pageManager;
@@ -104,7 +104,7 @@ public class PageFactory {
     }
 
 
-    public static Map<Class<? extends WebElementsPage>, Map<Field, String>> getPageRepository() {
+    public static Map<Class<? extends Page>, Map<Field, String>> getPageRepository() {
         return PAGES_REPOSITORY;
     }
 

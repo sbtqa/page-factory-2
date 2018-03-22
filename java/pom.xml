@@ -65,6 +65,7 @@
     <module>core/page-factory-core</module>
     <module>plugins/jdi-elements-plugin</module>
     <module>plugins/html-elements-plugin</module>
+    <module>plugins/web-elements-plugin</module>
   </modules>
 
   <distributionManagement>

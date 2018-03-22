@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: pagefactory.CucumberTest
+-------------------------------------------------------------------------------
+Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 26.454 sec - in pagefactory.CucumberTest

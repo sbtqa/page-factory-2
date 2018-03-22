@@ -11,9 +11,9 @@ import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
 /**
  * Page with common action with html-elements
  */
-public class HTMLPage extends Page {
-    
-    
+public class HTMLPage extends WebElementsPage {
+
+
     /**
      * Find web element with corresponding title, if it is a check box, select
      * it If it's a WebElement instance, check whether it is already selected,

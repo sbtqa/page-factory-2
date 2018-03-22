@@ -22,7 +22,7 @@ public class DesiredCapabilitiesParser {
         capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 
         final String capsPrefix = "webdriver." + TagWebDriver.getBrowserName().toLowerCase() + ".capability.";
-        Set<String> propKeys = Props.getProps().stringPropertyNames();
+        Set<String> propKeys = Props.getInstance().getProps().stringPropertyNames();
         List<String> capabilitiesFromProps = new ArrayList<>();
 
         for (String prop : propKeys) {
