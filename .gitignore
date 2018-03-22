@@ -5,4 +5,4 @@
 /java/plugins/html-elements-plugin/target/
 /java/plugins/jdi-elements-plugin/target/
 /.idea/
-*.iml
+/*.iml
