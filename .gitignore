@@ -4,5 +4,6 @@
 /java/core/page-factory-utils/target/
 /java/plugins/html-elements-plugin/target/
 /java/plugins/jdi-elements-plugin/target/
+/java/target/
 /.idea/
 /*.iml

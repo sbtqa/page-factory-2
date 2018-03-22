@@ -213,4 +213,8 @@ public class TagWebDriver {
     public static boolean isDriverInitialized() {
         return webDriver != null;
     }
+    
+    public static boolean isWebDriverShared() {
+        return PROPERTIES.isWebDriverShared();
+    }
 }

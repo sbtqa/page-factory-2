@@ -40,7 +40,7 @@ public class ClickAspect {
             Stash.put("beforeClickHandles", PageFactory.getWebDriver().getWindowHandles());
         }
 
-        if (!PageFactory.isAspectsDisabled()) {
+        if (PageFactory.isAspectsEnabled()) {
             Actions actions = new Actions(PageFactory.getWebDriver());
             if (IE.equals(TagWebDriver.getBrowserName())) {
                 Dimension size = PageFactory.getWebDriver().manage().window().getSize();

@@ -1,18 +1,16 @@
 package ru.sbtqa.tag.pagefactory.htmlstepdefs;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.en.And;
+import java.util.Locale;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.PageContext;
+import ru.sbtqa.tag.pagefactory.PageReflectUtil;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.yandex.qatools.htmlelements.element.*;
-
-import static ru.sbtqa.tag.pagefactory.PageReflectUtil.*;
-import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
 
 /**
  * Basic step definitions, that should be available on every project Notations
@@ -51,15 +49,11 @@ public class HTMLStepDefs {
      *
      * @param block path or name of the block
      * @param action title of the action to execute
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
-     * @throws NoSuchElementException if block with given name couldn't be found
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionInBlockNoParams")
-    public void userActionInBlockNoParams(String block, String action) throws PageInitializationException,
-            NoSuchMethodException, NoSuchElementException {
-        executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
+    public void userActionInBlockNoParams(String block, String action) throws NoSuchMethodException {
+        PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
     }
 
     /**
@@ -74,13 +68,10 @@ public class HTMLStepDefs {
      * specified block
      * @throws NoSuchElementException if block with given name couldn't be found
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionInBlockTableParam")
-    public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
+    public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws NoSuchMethodException {
+        PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
     }
-    
-    
-    
+
     /**
      * Execute action with one parameter inside block element User|he keywords
      * are optional
@@ -93,9 +84,8 @@ public class HTMLStepDefs {
      * specified block
      * @throws NoSuchElementException if block with given name couldn't be found
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionInBlockOneParam")
-    public void userActionInBlockOneParam(String block, String action, String param) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
+    public void userActionInBlockOneParam(String block, String action, String param) throws NoSuchMethodException {
+        PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
     }
 
     /**
@@ -111,9 +101,8 @@ public class HTMLStepDefs {
      * specified block
      * @throws NoSuchElementException if block with given name couldn't be found
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionInBlockTwoParams")
-    public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
+    public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws NoSuchMethodException {
+        PageReflectUtil.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
     }
 
     /**
@@ -127,50 +116,44 @@ public class HTMLStepDefs {
      * @throws PageException if current page is not initialized, or element
      * wasn't found
      */
-    @And("ru.sbtqa.tag.pagefactory.findElementInBlock")
     public void findElementInBlock(String block, String elementType, String elementTitle) throws PageException {
+        String[] packages = this.getClass().getCanonicalName().split("\\."); 
+        String currentLanguage = packages[packages.length - 2]; 
+        I18N i18n = I18N.getI18n(this.getClass(), new Locale(currentLanguage));
+        String key = i18n.getKey(elementType);
         Class<? extends WebElement> clazz;
-        switch (elementType) {
-            case "element":
-            case "элемент":
+        switch (key) {
+            case "ru.sbtqa.tag.pagefactory.type.element":
                 clazz = WebElement.class;
                 break;
-            case "textinput":
-            case "текстовое поле":
+            case "ru.sbtqa.tag.pagefactory.type.textinput":
                 clazz = TextInput.class;
                 break;
-            case "checkbox":
-            case "чекбокс":
+            case "ru.sbtqa.tag.pagefactory.type.checkbox":
                 clazz = CheckBox.class;
                 break;
-            case "radiobutton":
-            case "радиобатон":
+            case "ru.sbtqa.tag.pagefactory.type.radiobutton":
                 clazz = Radio.class;
                 break;
-            case "table":
-            case "таблицу":
+            case "ru.sbtqa.tag.pagefactory.type.table":
                 clazz = Table.class;
                 break;
-            case "header":
-            case "заголовок":
+            case "ru.sbtqa.tag.pagefactory.type.header":
                 clazz = TextBlock.class;
                 break;
-            case "button":
-            case "кнопку":
+            case "ru.sbtqa.tag.pagefactory.type.button":
                 clazz = Button.class;
                 break;
-            case "link":
-            case "ссылку":
+            case "ru.sbtqa.tag.pagefactory.type.link":
                 clazz = Link.class;
                 break;
-            case "image":
-            case "изображение":
+            case "ru.sbtqa.tag.pagefactory.type.image":
                 clazz = Image.class;
                 break;
             default:
                 clazz = WebElement.class;
         }
-        findElementInBlockByTitle(PageContext.getCurrentPage(), block, elementTitle, clazz);
+        PageReflectUtil.findElementInBlockByTitle(PageContext.getCurrentPage(), block, elementTitle, clazz);
     }
 
     /**
@@ -183,17 +166,16 @@ public class HTMLStepDefs {
      * @throws PageException if page wasn't initialized of required list wasn't
      * found
      */
-    @And("ru.sbtqa.tag.pagefactory.findElementInList")
     public void findElementInList(String listTitle, String value) throws PageException {
         boolean found = false;
-        for (WebElement webElement : findListOfElements(PageContext.getCurrentPage(), listTitle)) {
+        for (WebElement webElement : PageReflectUtil.findListOfElements(PageContext.getCurrentPage(), listTitle)) {
             if (webElement.getText().equals(value)) {
                 found = true;
                 break;
             }
         }
         if (!found) {
-            throw new AutotestError(String.format("ru.sbtqa.tag.pagefactory.Element with text '%s' is absent in list '%s'", value, listTitle));
+            throw new AutotestError(String.format("Element with text '%s' is absent in list '%s'", value, listTitle));
         }
     }
     

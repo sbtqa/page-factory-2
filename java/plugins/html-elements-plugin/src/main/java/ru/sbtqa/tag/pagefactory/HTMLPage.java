@@ -1,12 +1,11 @@
 package ru.sbtqa.tag.pagefactory;
 
 import org.openqa.selenium.WebElement;
+import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
-import ru.yandex.qatools.htmlelements.element.CheckBox;
-
 import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
+import ru.yandex.qatools.htmlelements.element.CheckBox;
 
 /**
  * Page with common action with html-elements
@@ -32,7 +31,7 @@ public class HTMLPage extends WebElementsPage {
         } else {
             setCheckBoxState(targetElement, true);
         }
-        PageFactoryUtils.addToReport(elementTitle, " is checked");
+        ParamsHelper.addParam(elementTitle, " is checked");
     }
     
     /**

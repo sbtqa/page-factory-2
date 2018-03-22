@@ -1,23 +1,24 @@
 package ru.sbtqa.tag.pagefactory.stepdefs;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.en.And;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
 import ru.sbtqa.tag.pagefactory.extensions.MobileExtension;
 import ru.sbtqa.tag.pagefactory.support.Environment;
+import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.DirectionStrategy;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.executeMethodByTitle;
+import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 /**
  * Basic step definitions, that should be available on every project Notations
@@ -44,6 +45,8 @@ import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.executeMethodByTitl
  */
 public class GenericStepDefs {
 
+    private static final Logger LOG = LoggerFactory.getLogger(GenericStepDefs.class);
+    
     /**
      * Initialize a page with corresponding title (defined via
      * {@link ru.sbtqa.tag.pagefactory.annotations.PageEntry} annotation)
@@ -52,10 +55,9 @@ public class GenericStepDefs {
      * @param title of the page to initialize
      * @throws PageInitializationException if page initialization failed
      */
-    @And("ru.sbtqa.tag.pagefactory.openPage")
     public void openPage(String title) throws PageInitializationException {
-        if (PageFactory.getEnvironment() != Environment.MOBILE && 
-	      !PageFactory.getWebDriver().getWindowHandles().isEmpty()) {
+        if (PageFactory.getEnvironment() != Environment.MOBILE
+                && !PageFactory.getWebDriver().getWindowHandles().isEmpty()) {
             for (String windowHandle : PageFactory.getWebDriver().getWindowHandles()) {
                 PageFactory.getWebDriver().switchTo().window(windowHandle);
             }
@@ -70,9 +72,8 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionNoParams")
     public void userActionNoParams(String action) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitle(PageContext.getCurrentPage(), action);
+        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action);
     }
 
     /**
@@ -83,9 +84,8 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionOneParam")
     public void userActionOneParam(String action, String param) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitle(PageContext.getCurrentPage(), action, param);
+        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param);
     }
 
     /**
@@ -97,9 +97,8 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionTwoParams")
     public void userActionTwoParams(String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2);
+        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2);
     }
 
     /**
@@ -107,18 +106,17 @@ public class GenericStepDefs {
      *
      * @param action title of the action to execute
      * @param param1 first parameter
-     * @param param2 second patrameter
+     * @param param2 second parameter
      * @param param3 third parameter
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionThreeParams")
     public void userActionThreeParams(String action, String param1, String param2, String param3) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2, param3);
+        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2, param3);
     }
 
     /**
-     * Execute action with parameters from given {@link cucumber.api.DataTable}
+     * Execute action with parameters from given {@link DataTable}
      * User|he keywords are optional
      *
      * @param action title of the action to execute
@@ -126,13 +124,12 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionTableParam")
     public void userActionTableParam(String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitle(PageContext.getCurrentPage(), action, dataTable);
+        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, dataTable);
     }
 
     /**
-     * Execute action with string parameter and {@link cucumber.api.DataTable}
+     * Execute action with string parameter and {@link DataTable}
      * User|he keywords are optional
      *
      * @param action title of the action to execute
@@ -141,9 +138,8 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @And("ru.sbtqa.tag.pagefactory.userDoActionWithObject")
     public void userDoActionWithObject(String action, String param, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitle(PageContext.getCurrentPage(), action, param, dataTable);
+        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param, dataTable);
     }
 
     /**
@@ -155,34 +151,31 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @And("ru.sbtqa.tag.pagefactory.userActionListParam")
     public void userActionListParam(String action, List<String> list) throws PageInitializationException, NoSuchMethodException {
-        executeMethodByTitle(PageContext.getCurrentPage(), action, list);
+        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, list);
     }
 
     /**
      * Open a copy for current page in a new browser tab User|he keywords are
      * optional
      */
-    @And("ru.sbtqa.tag.pagefactory.openCopyPage")
     public void openCopyPage() {
         String pageUrl = PageFactory.getWebDriver().getCurrentUrl();
-        ((JavascriptExecutor) PageFactory.getWebDriver()).executeScript("ru.sbtqa.tag.pagefactory.window.open('" + pageUrl + "', '_blank')");
+        ((JavascriptExecutor) PageFactory.getWebDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
         List<String> tabs = new ArrayList<>(PageFactory.getWebDriver().getWindowHandles());
         PageFactory.getWebDriver().switchTo().window(tabs.get(tabs.size() - 1));
-        Assert.assertEquals("ru.sbtqa.tag.pagefactory.Fails to open a new page. "
-                + "URL is different from the expected: ", pageUrl, PageFactory.getWebDriver().getCurrentUrl());
     }
 
     /**
      * Switch to a neighbour browser tab
      */
-    @And("ru.sbtqa.tag.pagefactory.switchesToNextTab")
     public void switchesToNextTab() {
+        String currentTab = PageFactory.getWebDriver().getWindowHandle();
         List<String> tabs = new ArrayList<>(PageFactory.getWebDriver().getWindowHandles());
         for (int i = 0; i < tabs.size(); i++) {
-            if (tabs.get(i).equals(PageFactory.getWebDriver().getWindowHandle())) {
+            if (tabs.get(i).equals(currentTab)) {
                 PageFactory.getWebDriver().switchTo().window(tabs.get(i + 1));
+                return;
             }
         }
     }
@@ -192,9 +185,8 @@ public class GenericStepDefs {
      *
      * @param url url for comparison
      */
-    @And("ru.sbtqa.tag.pagefactory.urlMatches")
     public void urlMatches(String url) {
-        Assert.assertEquals("ru.sbtqa.tag.pagefactory.URL is different from the expected: ", url, PageFactory.getWebDriver().getCurrentUrl());
+        Assert.assertEquals("URL is different from the expected: ", url, PageFactory.getWebDriver().getCurrentUrl());
     }
 
     /**
@@ -202,7 +194,6 @@ public class GenericStepDefs {
      *
      * @param title title of the page to open
      */
-    @And("ru.sbtqa.tag.pagefactory.closingCurrentWin")
     public void closingCurrentWin(String title) {
         PageFactory.getWebDriver().close();
         for (String windowHandle : PageFactory.getWebDriver().getWindowHandles()) {
@@ -211,15 +202,23 @@ public class GenericStepDefs {
                 return;
             }
         }
-        throw new AutotestError("ru.sbtqa.tag.pagefactory.Unable to return to the previously opened page: " + title);
+        throw new AutotestError("Unable to return to the previously opened page: " + title);
     }
 
     /**
      * Return to previous location (via browser "back" button)
      */
-    @And("ru.sbtqa.tag.pagefactory.backPage")
     public void backPage() {
         PageFactory.getWebDriver().navigate().back();
+    }
+
+    /**
+     * Go to specified url
+     *
+     * @param url url to go to
+     */
+    public void goToUrl(String url) {
+        PageFactory.getWebDriver().get(url);
     }
 
     /**
@@ -230,30 +229,45 @@ public class GenericStepDefs {
      * @throws PageInitializationException if page with corresponding URL is
      * absent or couldn't be initialized
      */
-    @And("ru.sbtqa.tag.pagefactory.goToPageByUrl")
     public void goToPageByUrl(String url) throws PageInitializationException {
-        PageFactory.getInstance().changeUrlByTitle(url);
+        PageManager.changeUrlByTitle(url);
     }
 
     /**
      * Refresh browser page
      */
-    @And("ru.sbtqa.tag.pagefactory.reInitPage")
     public void reInitPage() {
         PageFactory.getWebDriver().navigate().refresh();
     }
-    
+
     /**
      * Swipe until text is visible
-     * 
+     *
      * @param direction direction to swipe
      * @param text text on page to swipe to
      * @throws SwipeException if the text is not found or swipe depth is reached
      */
-    @And("ru.sbtqa.tag.pagefactory.swipeToText")
     public void swipeToText(String direction, String text) throws SwipeException {
         MobileExtension.swipeToText(DirectionStrategy.valueOf(direction.toUpperCase()), text);
     }
-    
-    
+
+    /**
+     * Swipe until text is visible for Android
+     *
+     * @param strategy contains or exact
+     * @param text text on page to swipe to
+     * @throws SwipeException if the text is not found
+     */
+    public void swipeToTextAndroid(String text, String strategy) throws SwipeException {
+        MobileExtension.swipeToText(MatchStrategy.valueOf(strategy), text);
+    }
+
+    /**
+     * Element is focused
+     *
+     * @param element element to focus on
+     */
+    public void isElementFocused(String element) {
+        LOG.warn("Note that isElementFocused method is still an empty!");
+    }
 }
