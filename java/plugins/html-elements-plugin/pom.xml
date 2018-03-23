@@ -29,11 +29,6 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>allure-helper</artifactId>
-      <version>${tag.version.allurehelper}</version>
-    </dependency>
-    <dependency>
       <groupId>ru.sbtqa.htmlelements</groupId>
       <artifactId>htmlelements-java</artifactId>
       <version>1.17-JAVA7</version>
