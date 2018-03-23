@@ -111,7 +111,6 @@ public class PageFactory {
         return PROPERTIES.getTimeout();
     }
 
-
     public static Map<Class<? extends Page>, Map<Field, String>> getPageRepository() {
         return PAGES_REPOSITORY;
     }

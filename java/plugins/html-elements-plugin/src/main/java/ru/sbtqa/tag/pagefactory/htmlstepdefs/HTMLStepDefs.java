@@ -114,7 +114,7 @@ public class HTMLStepDefs {
         String[] packages = this.getClass().getCanonicalName().split("\\."); 
         String currentLanguage = packages[packages.length - 2]; 
         I18N i18n = I18N.getI18n(this.getClass(), new Locale(currentLanguage));
-        String key = i18n.get(elementType);
+        String key = i18n.getKey(elementType);
         Class<? extends WebElement> clazz;
         switch (key) {
             case "ru.sbtqa.tag.pagefactory.type.element":

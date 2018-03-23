@@ -4,6 +4,8 @@ import cucumber.api.java.Before;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -14,7 +16,9 @@ import static java.lang.Runtime.getRuntime;
  * Created by Liza on 07.06.17.
  */
 public class JettySettings {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(JettySettings.class);
+
     public static final String WAR_PATH = "src/test/resources/test-web-app.war";
     public static final int PORT = 8181;
     
@@ -33,7 +37,7 @@ public class JettySettings {
                     try {
                         server.stop();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        LOG.error(e.getMessage());
                     }
                 }
             }));

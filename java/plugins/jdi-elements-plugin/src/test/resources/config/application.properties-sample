@@ -5,10 +5,10 @@ driver.environment = mobile
 #path to page objects
 page.package = ru.sbtqa.tag.mobilefactory.entries
 
-#default wait timeout in milliseconds
+#default wait timeout in milliseconds. 20000 by default
 page.load.timeout = 60000
 
-#optional. false by default
+#optional. False by default
 video.enabled = false
 video.path.dest = /tmp/video
 video.path.temp = /tmp/video
@@ -20,7 +20,6 @@ screenshot.strategy = driver
 #optional. tasks to kill before test (ONLY FOR WINDOWS)
 tasks.to.kill = iexplorer,chrome
 
-
 #IN CASE OF MOBILE
 #parameters for mobile driver create
 appium.url = http://127.0.0.1:4723/wd/hub
@@ -29,8 +28,8 @@ appium.device.platform = 6.0
 appium.app.package = com.android.settings
 appium.app.activity = .Settings
 
-#optional. Avoid appium and fill fields throw adb 
-#(make sure that ADBKeyBoard is installed on android emulator for unicode support). 
+#optional. Avoid appium and fill fields throw adb
+#(make sure that ADBKeyBoard is installed on android emulator for unicode support).
 #False by default
 appium.fill.adb = false
 #optional. Avoid appium and click on elements throw adb by location. False by default
@@ -39,7 +38,25 @@ appium.click.adb = false
 #IN CASE OF WEB
 #parameters for web driver create
 webdriver.browser.name = Chrome
+
+#optional. In case you specified this param, we will try to automatically find corresponding driver version
+webdriver.browser.version
+
+#optional. Specify this param if your browser installed in custom location.
+webdriver.browser.path
+
+#optional. Open this url when the browser starts. about:blank by default
 webdriver.starting.url = http://google.com
+
+#optional. In case if you want drivers to be downloaded from nexus. If not specified we will try to use default
+#repos to download drivers
+webdriver.nexus.url = http://your.nexus.repo.with.drivers.com/
+
+#optional. In case if you want to force wdm to download driver based on this arch.
+webdriver.os.arch
+
+#optional. Forces to download this driver version if it is available. LATEST by default
+webdriver.version = 2.35
 
 #optional. The number of start  attempts webdriver. 3 by default
 webdriver.create.attempts = 3
@@ -47,11 +64,42 @@ webdriver.create.attempts = 3
 #optional
 webdriver.proxy = http://proxy.com:8080
 
-#optional. If path is not specified webdrivers will be searched in system PATH
+#optional. If path is not specified webdrivers will be downloaded automatically
 webdriver.drivers.path = src/test/resources/webdrivers/chromedriver.exe
+
+#optional. Kill ie browser process after test (ONLY FOR WINDOWS). False by default
+webdriver.browser.ie.killOnDispose = false
+
+#optional. Share webdriver between tests. False by default
+webdriver.shared = false
+
+#optional. The path where are the files to download
+webdriver.upload.dir=C:\Temp\upload\
+
+#optional. Specify the size of window browser (this parameter need if you use browser in Docker container)
+webdriver.browser.size = 1920x1080
 
 #optional. In case of using remote WebDriver
 webdriver.url = http://127.0.0.1:4444/wd/hub
 
-#optional. kill ie browser process after test (ONLY FOR WINDOWS)
-webdriver.browser.ie.killOnDispose = true
+#CAPABILITIES. OPTIONAL
+#browser capabilities
+webdriver.chrome.capability.acceptSslCerts=true
+webdriver.chrome.capability.options.args=user-data-dir=C:\\workspace\\user-data\\,start-maximized
+webdriver.chrome.capability.options.prefs=key1=>val1,key2=>val2
+webdriver.*.capability.marionette = false
+webdriver.*.capability.unexpectedAlertBehaviour = ignore
+
+#selenoid
+selenoid.browserVersion = 58.0
+selenoid.enableVNC = true
+selenoid.screenResolution = 1280x1024x24
+selenoid.enableVideo = true
+selenoid.video.name = my-cool-video.mp4
+selenoid.video.screenSize = 1024x768
+selenoid.video.frameRate = 24
+selenoid.nameOfTests = myCoolTestName
+selenoid.timeZone = Europe/Moscow
+selenoid.hostEntries = example.com:192.168.0.1,test.com:192.168.0.2
+selenoid.applicationContainers = spring-application-main:my-cool-app,spring-application-gateway
+selenoid.containerLables = environment:testing,build-number:14353

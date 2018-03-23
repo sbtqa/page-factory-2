@@ -12,7 +12,6 @@ import ru.yandex.qatools.htmlelements.element.CheckBox;
  */
 public class HTMLPage extends WebElementsPage {
 
-
     /**
      * Find web element with corresponding title, if it is a check box, select
      * it If it's a WebElement instance, check whether it is already selected,
