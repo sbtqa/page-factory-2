@@ -18,9 +18,9 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
+import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
-import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.support.Environment;
@@ -104,7 +104,7 @@ public class SetupStepDefs {
                 }
             }
 
-            PageFactory.getPageRepository().put((Class<? extends WebElementsPage>) page, fieldsMap);
+            PageFactory.getPageRepository().put((Class<? extends Page>) page, fieldsMap);
         }
     }
     
