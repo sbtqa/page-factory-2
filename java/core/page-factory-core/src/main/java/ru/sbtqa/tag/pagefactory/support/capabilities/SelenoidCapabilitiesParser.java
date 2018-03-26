@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.support.capabilities;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
@@ -79,11 +80,10 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     }
 
     private void handleOpera() {
-        capabilities.setCapability("operaOptions", new HashMap<String, String>() {
-            {
-                put("binary", "/usr/bin/opera");
-            }
-        });
+        Map<String, String> operaOptions = new HashMap<>();
+        operaOptions.put("binary", "/usr/bin/opera");
+
+        capabilities.setCapability("operaOptions", operaOptions);
     }
 
     private void handleIe() {

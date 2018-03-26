@@ -31,20 +31,11 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
             String capabilityName = cutPrefix(capabilityWithPrefix);
             String capabilityValue = Props.get(capabilityWithPrefix);
 
-            switch (TagWebDriver.getBrowserName()) {
-                case CHROME:
-                    if (capabilityName.startsWith("options")) {
-                        capabilityName = capabilityName.replaceFirst("options.", "");
-                        chromeOptions.putAll(getOptionsChromeCapabilities(capabilityName, capabilityValue));
-                        break;
-                    }
-                default:
-                    if (isBoolean(capabilityValue)) {
-                        capabilities.setCapability(capabilityName, Boolean.valueOf(capabilityValue));
-                    } else {
-                        capabilities.setCapability(capabilityName, capabilityValue);
-                    }
+            if (CHROME.equals(TagWebDriver.getBrowserName())) {
+                cacheChromeOptions(capabilityName, capabilityValue);
             }
+
+            setCapability(capabilityName, capabilityValue);
         }
 
         if (!chromeOptions.isEmpty()) {
@@ -70,6 +61,13 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
         Matcher matcher = Pattern.compile(CAPABILITY_WITH_PREFIX_REGEX).matcher(capabilityWithPrefix);
         matcher.find();
         return matcher.group(2);
+    }
+
+    private void cacheChromeOptions(String capabilityName, String capabilityValue) {
+        if (capabilityName.startsWith("options")) {
+            capabilityName = capabilityName.replaceFirst("options.", "");
+            chromeOptions.putAll(getOptionsChromeCapabilities(capabilityName, capabilityValue));
+        }
     }
 
     private Map<String, Object> getOptionsChromeCapabilities(String capabilityName, String capabilityValue) {
@@ -113,6 +111,14 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
         }
 
         return options;
+    }
+
+    private void setCapability(String capabilityName, String capabilityValue) {
+        if (isBoolean(capabilityValue)) {
+            capabilities.setCapability(capabilityName, Boolean.valueOf(capabilityValue));
+        } else {
+            capabilities.setCapability(capabilityName, capabilityValue);
+        }
     }
 
     private boolean isBoolean(String string) {
