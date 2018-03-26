@@ -11,7 +11,6 @@ import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;

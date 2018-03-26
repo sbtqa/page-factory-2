@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory;
 
-import io.appium.java_client.AppiumDriver;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;

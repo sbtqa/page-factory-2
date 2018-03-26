@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory.pages.jdielements;
 
 import cucumber.api.java.Before;
 import ru.sbtqa.tag.pagefactory.JDIUtils;
-import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 
 public class StepDefs {

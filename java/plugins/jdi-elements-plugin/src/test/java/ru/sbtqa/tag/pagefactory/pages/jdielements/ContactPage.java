@@ -9,7 +9,6 @@ import com.epam.jdi.uitests.web.selenium.elements.complex.Selector;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import ru.sbtqa.tag.pagefactory.JDIUtils;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
