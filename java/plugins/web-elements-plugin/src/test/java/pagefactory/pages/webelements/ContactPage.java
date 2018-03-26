@@ -1,6 +1,7 @@
 package pagefactory.pages.webelements;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.PageFactory;
@@ -40,8 +41,8 @@ public class ContactPage extends AbstractPage {
     @ElementTitle(value = "error msg")
     private WebElement errorMsg;
     
-    public ContactPage() {
-        PageFactory.initElements(PageFactory.getDriver(), this);
+    public ContactPage(WebDriver driver) {
+        super(driver);
     }
     
     @ActionTitle("check that error message contains")

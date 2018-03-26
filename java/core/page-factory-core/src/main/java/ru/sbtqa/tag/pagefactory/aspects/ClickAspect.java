@@ -10,6 +10,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.extensions.WebExtension;
@@ -37,18 +38,18 @@ public class ClickAspect {
         }
 
         if (PageFactory.getEnvironment() == Environment.WEB) {
-            Stash.put("beforeClickHandles", PageFactory.getWebDriver().getWindowHandles());
+            Stash.put("beforeClickHandles", PageContext.getCurrentPage().getDriver().getWindowHandles());
         }
 
         if (PageFactory.isAspectsEnabled()) {
-            Actions actions = new Actions(PageFactory.getWebDriver());
+            Actions actions = new Actions(PageContext.getCurrentPage().getDriver());
             if (IE.equals(TagWebDriver.getBrowserName())) {
-                Dimension size = PageFactory.getWebDriver().manage().window().getSize();
+                Dimension size = PageContext.getCurrentPage().getDriver().manage().window().getSize();
                 Point elementLocation = (targetWebElement).getLocation();
                 Dimension elementSize = (targetWebElement).getSize();
                 //scroll to invisible element
                 if (size.getHeight() < (elementLocation.getY() + elementSize.getHeight() + 200)) {
-                    ((JavascriptExecutor) PageFactory.getWebDriver()).
+                    ((JavascriptExecutor) PageContext.getCurrentPage().getDriver()).
                           executeScript("window.scroll(" + elementLocation.getX() + ","
                                 + (elementLocation.getY() - 200) + ");");
                 }

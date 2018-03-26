@@ -2,6 +2,7 @@ package ru.sbtqa.tag.pagefactory.pages.jdielements;
 
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.Input;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.JDIPage;
 import ru.sbtqa.tag.pagefactory.JDIUtils;
@@ -24,8 +25,8 @@ public class AbstractPage extends JDIPage {
     @FindBy(xpath = "//a[text()='Donations']")
     private Button donationsButton;
     
-    public AbstractPage() {
-        JDIUtils.initElementsOnPage(this);
+    public AbstractPage(WebDriver driver) {
+        super(driver);
     }
     
     @ActionTitle("go to page")

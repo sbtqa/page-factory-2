@@ -12,6 +12,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
@@ -28,7 +29,7 @@ public class ScreenShooter {
      * @return screenshot in byte array
      */
     public static byte[] takeWithDriver() {
-        return ((TakesScreenshot) PageFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) PageContext.getCurrentPage().getDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
     /**

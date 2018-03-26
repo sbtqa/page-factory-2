@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 
 import static ru.sbtqa.tag.pagefactory.extensions.DriverExtension.waitUntilElementAppearsInDom;
@@ -33,9 +34,9 @@ public class WebExtension {
             throw new IllegalArgumentException("Getting value is not support in element without id");
         }
 
-        WebElement possibleTextMatcher = PageFactory.getWebDriver().findElement(By.xpath("//*[@id='" + elementId + "']/.."));
+        WebElement possibleTextMatcher = PageContext.getCurrentPage().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/.."));
         if (possibleTextMatcher.getText().isEmpty()) {
-            possibleTextMatcher = PageFactory.getWebDriver().findElement(By.xpath("//*[@id='" + elementId + "']/../.."));
+            possibleTextMatcher = PageContext.getCurrentPage().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/../.."));
             if ("tr".equals(possibleTextMatcher.getTagName())) {
                 elementValue = possibleTextMatcher.getText();
             }
@@ -56,13 +57,13 @@ public class WebExtension {
         long timeoutTime = System.currentTimeMillis() + PageFactory.getTimeOut();
         while (timeoutTime > System.currentTimeMillis()) {
             try {
-                if ("complete".equals((String) ((JavascriptExecutor) PageFactory.getWebDriver()).executeScript("return document.readyState"))) {
+                if ("complete".equals((String) ((JavascriptExecutor) PageContext.getCurrentPage().getDriver()).executeScript("return document.readyState"))) {
                     return;
                 }
                 sleep(1);
             } catch (Exception | AssertionError e) {
                 LOG.debug("WebElementsPage does not become to ready state", e);
-                PageFactory.getWebDriver().navigate().refresh();
+                PageContext.getCurrentPage().getDriver().navigate().refresh();
                 LOG.debug("WebElementsPage refreshed");
                 if ((stopRecursion.length == 0) || (stopRecursion.length > 0 && !stopRecursion[0])) {
                     waitForPageToLoad(true);
@@ -118,7 +119,7 @@ public class WebExtension {
         long timeoutTime = System.currentTimeMillis() + timeout;
 
         while (timeoutTime > System.currentTimeMillis()) {
-            Set<String> currentHandles = PageFactory.getWebDriver().getWindowHandles();
+            Set<String> currentHandles = PageContext.getCurrentPage().getDriver().getWindowHandles();
 
             if (currentHandles.size() != existingHandles.size()
                     || (currentHandles.size() == existingHandles.size() && !currentHandles.equals(existingHandles))) {
@@ -151,7 +152,7 @@ public class WebExtension {
      */
     public static String highlightElementOn(WebElement webElement) {
         try {
-            JavascriptExecutor js = (JavascriptExecutor) PageFactory.getWebDriver();
+            JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
             String style = (String) js.executeScript("return arguments[0].style.border", webElement);
             js.executeScript("arguments[0].style.border='3px solid red'", webElement);
             return style;
@@ -172,7 +173,7 @@ public class WebExtension {
             return;
         }
         try {
-            JavascriptExecutor js = (JavascriptExecutor) PageFactory.getWebDriver();
+            JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
             js.executeScript("arguments[0].style.border='" + style + "'", webElement);
         } catch (Exception e) {
             LOG.debug("Something went wrong with element highlight", e);

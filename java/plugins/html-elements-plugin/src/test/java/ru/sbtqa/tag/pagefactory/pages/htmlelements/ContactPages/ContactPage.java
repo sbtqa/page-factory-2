@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.pages.htmlelements.ContactPages;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.HTMLPage;
@@ -50,9 +51,8 @@ public class ContactPage extends HTMLPage {
     @ElementTitle(value = "error msg")
     private TextBlock errorMsg;
     
-    public ContactPage() {
-        PageFactory.initElements(new HtmlElementDecorator(
-                new HtmlElementLocatorFactory(PageFactory.getDriver())), this);
+    public ContactPage(WebDriver driver) {
+        super(driver);
     }
     
     @ActionTitle("check that error message contains")

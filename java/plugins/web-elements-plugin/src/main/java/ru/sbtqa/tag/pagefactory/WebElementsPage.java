@@ -6,6 +6,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,16 @@ import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 public abstract class WebElementsPage extends Page {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebElementsPage.class);
+
+    public WebElementsPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    public WebElementsPage(WebDriver driver, FieldDecorator decorator) {
+        super(driver);
+        PageFactory.initElements(decorator, this);
+    }
 
     /**
      * Find element with specified title annotation, and fill it with given text
@@ -221,7 +232,7 @@ public abstract class WebElementsPage extends Page {
                 + " content.push(options[i].text)"
                 + "}"
                 + "return content";
-        List<String> options = (ArrayList<String>) ((JavascriptExecutor) PageFactory.getDriver()).
+        List<String> options = (ArrayList<String>) ((JavascriptExecutor) getDriver()).
                 executeScript(jsString, webElement);
 
         boolean isSelectionMade = false;
@@ -314,7 +325,7 @@ public abstract class WebElementsPage extends Page {
         try {
             String popupHandle = WebExtension.findNewWindowHandle((Set<String>) Stash.getValue("beforeClickHandles"));
             if (null != popupHandle && !popupHandle.isEmpty()) {
-                PageFactory.getWebDriver().switchTo().window(popupHandle);
+                getDriver().switchTo().window(popupHandle);
             }
             assertTextAppears(text);
         } catch (Exception ex) {

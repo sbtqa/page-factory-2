@@ -3,6 +3,7 @@ package ru.sbtqa.tag.pagefactory.pages.jdielements;
 import com.epam.jdi.uitests.core.interfaces.complex.interfaces.ICell;
 import com.epam.jdi.uitests.core.interfaces.complex.interfaces.ITable;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JTable;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,10 @@ public class DonationsPage extends AbstractPage {
     @JTable(root = @FindBy(css = ".table-bordered"))
     @ElementTitle("Table")
     public ITable table;
+
+    public DonationsPage(WebDriver driver) {
+        super(driver);
+    }
 
 
     @ActionTitle("read table")

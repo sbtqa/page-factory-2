@@ -15,4 +15,12 @@
 
   <name>page-factory-api</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-api</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+    </dependencies>
+
 </project>

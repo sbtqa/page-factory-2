@@ -1,5 +1,6 @@
 package pagefactory.pages.webelements;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.PageFactory;
@@ -29,7 +30,7 @@ public class IndexPage extends AbstractPage {
         }
     }
     
-    public IndexPage() {
-        PageFactory.initElements(PageFactory.getDriver(), this);
+    public IndexPage(WebDriver driver) {
+        super(driver);
     }
 }

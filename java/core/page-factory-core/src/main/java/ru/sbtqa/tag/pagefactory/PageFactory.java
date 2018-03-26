@@ -32,25 +32,6 @@ public class PageFactory {
     private static final String ENVIRONMENT_WEB = "web";
     private static final String ENVIRONMENT_MOBILE = "mobile";
 
-    public static WebDriver getWebDriver() {
-        return getDriver();
-    }
-
-    public static AppiumDriver getMobileDriver() {
-        return (AppiumDriver) getDriver();
-    }
-
-    public static WebDriver getDriver() {
-        switch (getEnvironment()) {
-            case WEB:
-                return TagWebDriver.getDriver();
-            case MOBILE:
-                return TagMobileDriver.getDriver();
-            default:
-                throw new FactoryRuntimeException("Failed to get driver");
-        }
-    }
-
     public static void dispose() {
         pageManager = null;
         switch (getEnvironment()) {
@@ -98,7 +79,7 @@ public class PageFactory {
 
     public static Actions getActions() {
         if (null == actions) {
-            actions = new Actions(getWebDriver());
+            actions = new Actions(PageContext.getCurrentPage().getDriver());
         }
         return actions;
     }
