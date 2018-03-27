@@ -36,9 +36,9 @@ import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.IEXPLORE;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.INTERNET_EXPLORER;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.SAFARI;
-import ru.sbtqa.tag.pagefactory.support.DesiredCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.support.Environment;
-import ru.sbtqa.tag.pagefactory.support.SelenoidCapabilitiesProvider;
+import ru.sbtqa.tag.pagefactory.support.capabilities.SelenoidCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.support.capabilities.WebDriverCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
@@ -81,7 +81,7 @@ public class TagWebDriver {
     }
 
     private static void createDriver() throws UnsupportedBrowserException, MalformedURLException {
-        DesiredCapabilities capabilities = new DesiredCapabilitiesParser().parse();
+        DesiredCapabilities capabilities = new WebDriverCapabilitiesParser().parse();
 
         if (!PROPERTIES.getProxy().isEmpty()) {
             Proxy seleniumProxy = ProxyConfigurator.configureProxy();
@@ -102,7 +102,7 @@ public class TagWebDriver {
             } else if (browserName.equalsIgnoreCase(CHROME)) {
                 WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), CHROME);
                 setWebDriver(new ChromeDriver(capabilities));
-            } else if (isIE()) {
+            } else if (browserName.equalsIgnoreCase(IE)) {
                 WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), IE);
                 setWebDriver(new InternetExplorerDriver(capabilities));
             } else {
@@ -117,15 +117,8 @@ public class TagWebDriver {
 
     private static WebDriver createRemoteWebDriver(String webDriverUrl, DesiredCapabilities capabilities) throws MalformedURLException {
         URL remoteUrl = new URL(webDriverUrl);
-        SelenoidCapabilitiesProvider.apply(capabilities);
+        capabilities.merge(new SelenoidCapabilitiesParser().parse());
         return new RemoteWebDriver(remoteUrl, capabilities);
-    }
-
-    private static boolean isIE() {
-        String browserName = getBrowserName();
-        return browserName.equalsIgnoreCase(IE)
-                || browserName.equalsIgnoreCase(INTERNET_EXPLORER)
-                || browserName.equalsIgnoreCase(IEXPLORE);
     }
 
     private static void setBrowserSize() {
@@ -147,7 +140,7 @@ public class TagWebDriver {
         closeAllAlerts();
         closeAllWindowHandles();
 
-        if (isIE() && PROPERTIES.isIEKillOnDispose()) {
+        if (IE.equals(getBrowserName()) && PROPERTIES.isIEKillOnDispose()) {
             terminateProcessIE();
         }
 
@@ -207,9 +200,15 @@ public class TagWebDriver {
     }
 
     private static String adaptBrowserName(String browserName) {
-        return browserName.equalsIgnoreCase("ie") ? IE : browserName;
+        return isIE(browserName) ? IE : browserName.toLowerCase();
     }
 
+    private static boolean isIE(String browserName) {
+        return browserName.equalsIgnoreCase(IE)
+                || browserName.equalsIgnoreCase(INTERNET_EXPLORER)
+                || browserName.equalsIgnoreCase(IEXPLORE);
+    }
+    
     public static boolean isDriverInitialized() {
         return webDriver != null;
     }

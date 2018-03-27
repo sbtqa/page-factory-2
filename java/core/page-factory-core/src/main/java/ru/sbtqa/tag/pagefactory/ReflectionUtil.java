@@ -6,6 +6,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByField;
 
@@ -33,6 +34,10 @@ public class ReflectionUtil {
         for (Map.Entry<Field, String> entry : PageFactory.getPageRepository().get(page.getClass()).entrySet()) {
             try {
                 if (getElementByField(page, entry.getKey()) == element) {
+                    ElementTitle elementTitle = entry.getKey().getAnnotation(ElementTitle.class); 
+                    if (elementTitle != null && !elementTitle.value().isEmpty()) { 
+                        return elementTitle.value(); 
+                    }
                     return entry.getValue();
                 }
             } catch (java.util.NoSuchElementException | StaleElementReferenceException | ElementDescriptionException ex) {
