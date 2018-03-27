@@ -3,6 +3,7 @@ package pagefactory.pages.webelements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.RedirectsTo;
