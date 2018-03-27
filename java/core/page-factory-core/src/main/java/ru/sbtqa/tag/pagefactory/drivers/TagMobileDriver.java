@@ -13,7 +13,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
-import ru.sbtqa.tag.videorecorder.VideoRecorder;
 
 public class TagMobileDriver {
 
@@ -29,10 +28,6 @@ public class TagMobileDriver {
         }
 
         if (null == mobileDriver) {
-            if (PROPERTIES.isVideoEnabled()) {
-                VideoRecorder.getInstance().startRecording();
-            }
-
             createDriver();
         }
         return mobileDriver;
@@ -64,9 +59,15 @@ public class TagMobileDriver {
     }
 
     public static void dispose() {
-        if (mobileDriver != null) {
-            mobileDriver.quit();
-        }
+        if (mobileDriver == null) { 
+            return; 
+        } 
+ 
+        try { 
+            mobileDriver.quit(); 
+        } finally { 
+            setMobileDriver(null); 
+        } 
     }
 
     public static boolean isAppiumFillAdb() {

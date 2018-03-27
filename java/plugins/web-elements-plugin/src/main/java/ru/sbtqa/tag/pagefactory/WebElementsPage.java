@@ -15,6 +15,7 @@ import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.drivers.TagMobileDriver;
+import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.extensions.DriverExtension;
@@ -127,7 +128,7 @@ public abstract class WebElementsPage extends Page {
         try {
             webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
             DriverExtension.waitForElementGetEnabled(webElement, PageFactory.getTimeOut());
-        } catch (NoSuchElementException | WaitException e) {
+        } catch (NoSuchElementException | WaitException | ElementNotFoundException e) {
             LOG.warn("Failed to find element by title {}", elementTitle, e);
             webElement = DriverExtension.waitUntilElementAppearsInDom(By.partialLinkText(elementTitle));
         }
