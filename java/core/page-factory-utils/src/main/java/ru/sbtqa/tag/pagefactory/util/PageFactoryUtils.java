@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class PageFactoryUtils {
                     MethodUtils.invokeMethod(page, method.getName(), param);
                     return;
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new FactoryRuntimeException("Failed to invoke method", e);
+                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e)); 
                 }
             }
         }

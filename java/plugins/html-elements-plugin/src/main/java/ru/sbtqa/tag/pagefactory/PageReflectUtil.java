@@ -1,5 +1,12 @@
 package ru.sbtqa.tag.pagefactory;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.NoSuchElementException;
@@ -9,24 +16,20 @@ import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
+import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
-
-import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.*;
 
 /**
  * Static methods for finding block and execution methods by ActionTitles
  * And some methods for recursive search
  */
-public class PageReflectUtil {
+public class PageReflectUtil extends PageFactoryUtils {
+    
+    private static boolean isUsedBlock = false; 
+    private static WebElement usedBlock = null;
     
     /**
      * Find element with required title and type inside of the given block.
@@ -43,7 +46,7 @@ public class PageReflectUtil {
     private static <T extends WebElement> T findElementInBlock(HtmlElement block, String elementTitle, Class<T> type)
             throws ElementDescriptionException {
         for (Field f : FieldUtils.getAllFields(block.getClass())) {
-            if (isRequiredElement(f, elementTitle) && f.getType().equals(type)) {
+            if (isRequiredElement(f, elementTitle) && type.isAssignableFrom(f.getType())) {
                 f.setAccessible(true);
                 try {
                     return type.cast(f.get(block));
@@ -152,6 +155,9 @@ public class PageReflectUtil {
      * chain of blocks. Otherwise, given block will be searched recursively on
      * the page
      *
+     * @param <T> supposed type of the field. if field cannot be cast into
+     * this type, it will fail
+     * @param page the page on which the method will be executed
      * @param blockPath block or block chain where element will be searched
      * @param title value of ElementTitle annotation of required element
      * @param type type of the searched element
@@ -178,6 +184,7 @@ public class PageReflectUtil {
      * WebElement instance. It still could be casted to HtmlElement and
      * TypifiedElement any class that extend them.
      *
+     * @param page the page on which the method will be executed
      * @param blockPath block or block chain where element will be searched
      * @param title value of ElementTitle annotation of required element
      * @return WebElement
@@ -195,6 +202,7 @@ public class PageReflectUtil {
      * ${@link PageReflectUtil#findListOfElements(String, Class, Object)}  for detailed
      * description
      *
+     * @param page the page on which the method will be executed
      * @param listTitle value of ElementTitle annotation of required element
      * @param type type of elements in list that is being searched for
      * @param <T> type of elements in returned list
@@ -244,6 +252,7 @@ public class PageReflectUtil {
      * ${@link PageReflectUtil#findListOfElements(String, Class, Object)} for detailed
      * description
      *
+     * @param page the page on which the method will be executed
      * @param listTitle value of ElementTitle annotation of required element
      * @return list of WebElement's
      * @throws PageException if nothing found or current page is not initialized
@@ -258,6 +267,7 @@ public class PageReflectUtil {
      * ${@link PageReflectUtil#findListOfElements(String, Class, Object)} for detailed
      * description
      *
+     * @param page the page on which the method will be executed
      * @param blockPath full path or just a name of the block to search
      * @param listTitle value of ElementTitle annotation of required element
      * @param type type of elements in list that is being searched for
@@ -276,6 +286,7 @@ public class PageReflectUtil {
      * ${@link PageReflectUtil#findListOfElements(String, Class, Object)} for detailed
      * description
      *
+     * @param page the page on which the method will be executed
      * @param blockPath full path or just a name of the block to search
      * @param listTitle value of ElementTitle annotation of required element
      * @return list of WebElement's
@@ -290,6 +301,7 @@ public class PageReflectUtil {
      * This wrapper finds only one block. Search is being performed on a current
      * page
      *
+     * @param page the page on which the method will be executed
      * @param blockPath full path or just a name of the block to search
      * @return first found block object
      * @throws java.util.NoSuchElementException if couldn't find any block
@@ -311,6 +323,7 @@ public class PageReflectUtil {
      * See {@link PageReflectUtil#findBlocks(String, Object, boolean)} for description.
      * Search is being performed on a current page
      *
+     * @param page the page on which the method will be executed
      * @param blockPath full path or just a name of the block to search
      * @return list of objects that were found by specified path
      */
@@ -325,6 +338,7 @@ public class PageReflectUtil {
     /**
      * Execute parameter-less method inside of the given block element.
      *
+     * @param page the page on which the method will be executed
      * @param block block title, or a block chain string separated with '-&gt;'
      * symbols
      * @param actionTitle title of the action to execute
@@ -340,6 +354,7 @@ public class PageReflectUtil {
      * element !BEWARE! If there are several elements found by specified block
      * path, a first one will be used!
      *
+     * @param page the page on which the method will be executed
      * @param blockPath block title, or a block chain string separated with
      * '-&gt;' symbols
      * @param actionTitle title of the action to execute
@@ -366,6 +381,22 @@ public class PageReflectUtil {
                 }
             }
         }
+ 
+        isUsedBlock = true; 
+        usedBlock = block; 
+        List<Method> methodList = getDeclaredMethods(page.getClass()); 
+        for (Method method : methodList) { 
+            if (isRequiredAction(method, actionTitle)) { 
+                try { 
+                    method.setAccessible(true); 
+                    MethodUtils.invokeMethod(page, method.getName(), parameters); 
+                    return; 
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) { 
+                    throw new FactoryRuntimeException(String.format("Failed to execute method '%s' in the following block: '%s'", 
+                            actionTitle, blockPath), e); 
+                } 
+            } 
+        }
         
         throw new NoSuchMethodException(String.format("There is no '%s' method in block '%s'", actionTitle, blockPath));
     }
@@ -375,18 +406,62 @@ public class PageReflectUtil {
      * fields
      *
      * @param <T> TODO
+     * @param page the page on which the method will be executed
      * @param title a {@link String} object.
      * @return a {@link org.openqa.selenium.WebElement} object.
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException TODO
      */
     @SuppressWarnings(value = "unchecked")
     public static  <T extends TypifiedElement> T getTypifiedElementByTitle(Page page, String title) throws PageException {
-        for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
-            if (isRequiredElement(field, title) && isChildOf(TypifiedElement.class, field)) {
-                return getElementByField(page, field);
+        if (!isUsedBlock) { 
+            for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
+                if (isRequiredElement(field, title) && isChildOf(TypifiedElement.class, field)) {
+                    return getElementByField(page, field);
+                }
             }
+        } else { 
+            for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(usedBlock)){ 
+                if (isRequiredElementInBlock(field, title)) { 
+                    return getElementByField(usedBlock, field); 
+                } 
+            } 
         }
         throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, PageContext.getCurrentPageTitle()));
     }
+
+    public static <T> T getElementByField(Object parentObject, Field field) throws ElementDescriptionException {
+        Object element = PageFactoryUtils.getElementByField(parentObject, field);
+        isUsedBlock = false; 
+        usedBlock = null;
+        
+        return (T) element;
+    }
     
+    /** 
+    * Check whether {@link Name} annotation of the field has a 
+    * required value 
+    * 
+    * @param field field to check 
+    * @param title value of ElementTitle annotation of required element 
+    * @return true|false 
+    */ 
+    private static boolean isRequiredElementInBlock(Field field, String title) { 
+       return getFieldTitleInBlock(field).equals(title); 
+    }
+    
+    /** 
+    * Return value of {@link Name} annotation for the field. If 
+    * none present, return empty string 
+    * 
+    * @param field field to check 
+    * @return either an element title, or an empty string 
+    */ 
+    private static String getFieldTitleInBlock(Field field) { 
+       for (Annotation a : field.getAnnotations()) { 
+           if (a instanceof Name) { 
+               return ((Name) a).value(); 
+           } 
+       } 
+       return ""; 
+    }
 }
