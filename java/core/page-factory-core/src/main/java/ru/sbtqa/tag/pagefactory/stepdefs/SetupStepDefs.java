@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.stepdefs;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import java.io.File;
@@ -9,15 +10,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import cucumber.runtime.junit.ExecutionUnitRunner;
+import cucumber.runtime.junit.JUnitReporter;
+import cucumber.runtime.model.CucumberFeature;
+import cucumber.runtime.model.CucumberScenario;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebElement;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
+import ru.sbtqa.tag.pagefactory.FeatureContext;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
@@ -35,17 +43,31 @@ public class SetupStepDefs {
     private static final String DEFAULT_LOG_PROPERTIES_PATH = "src/test/resources/config/log4j.properties";
 
     @Before
-    public void setUp() {
+    public void setUp(Scenario scenario) {
         connectToLogProperties();
         stopTasksToKill();
-
         PageFactory.getDriver();
         PageFactory.getInstance();
         PageContext.resetContext();
-
         cachePages();
-
         startVideo();
+
+        Locale locale = pullLocaleFromScenario(scenario);
+        FeatureContext.setLocale(locale);
+    }
+
+    private Locale pullLocaleFromScenario(Scenario scenario) {
+        CucumberFeature cucumberFeature = null;
+        try {
+            JUnitReporter reporter = (JUnitReporter) FieldUtils.getDeclaredField(scenario.getClass(), "reporter", true).get(scenario);
+            ExecutionUnitRunner executionUnitRunner = (ExecutionUnitRunner) FieldUtils.getDeclaredField(reporter.getClass(), "executionUnitRunner", true).get(reporter);
+            CucumberScenario cucumberScenario = (CucumberScenario) FieldUtils.getDeclaredField(executionUnitRunner.getClass(), "cucumberScenario", true).get(executionUnitRunner);
+            cucumberFeature = (CucumberFeature) FieldUtils.getField(cucumberScenario.getClass(), "cucumberFeature", true).get(cucumberScenario);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return cucumberFeature.getI18n().getLocale();
     }
 
     private void connectToLogProperties() {
@@ -87,7 +109,7 @@ public class SetupStepDefs {
     private void cachePages() {
         Set<Class<?>> allClasses = new HashSet();
         allClasses.addAll(getAllClasses());
-        
+
         for (Class<?> page : allClasses) {
             List<Field> fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(page);
             Map<Field, String> fieldsMap = new HashMap<>();
@@ -107,13 +129,13 @@ public class SetupStepDefs {
             PageFactory.getPageRepository().put((Class<? extends Page>) page, fieldsMap);
         }
     }
-    
+
     private Set<Class<?>> getAllClasses() {
         Set<Class<?>> allClasses = new HashSet();
-        
+
         Reflections reflections = new Reflections(PageFactory.getPagesPackage());
         Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
-        
+
         for (String clazz : allClassesString) {
             try {
                 allClasses.add(Class.forName(clazz));
@@ -121,7 +143,7 @@ public class SetupStepDefs {
                 LOG.warn("Cannot add to cache class with name {}", clazz, e);
             }
         }
-        
+
         return allClasses;
     }
 
