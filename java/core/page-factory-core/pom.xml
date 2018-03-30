@@ -54,9 +54,15 @@
       <version>${tag.version.webdrivermanager}</version> 
     </dependency>
     <dependency>
-      <groupId>info.cukes</groupId>
-      <artifactId>cucumber-core</artifactId>
-      <version>1.2.5</version>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>${cucumber.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
