@@ -3,9 +3,12 @@ package ru.sbtqa.tag.pagefactory.stepdefs;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.runtime.io.MultiLoader;
+import cucumber.runtime.model.CucumberFeature;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,12 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import cucumber.runtime.junit.ExecutionUnitRunner;
-import cucumber.runtime.junit.JUnitReporter;
-import cucumber.runtime.model.CucumberFeature;
-import cucumber.runtime.model.CucumberScenario;
 import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebElement;
 import org.reflections.Reflections;
@@ -44,6 +42,7 @@ public class SetupStepDefs {
 
     @Before
     public void setUp(Scenario scenario) {
+        setScenarioLocaleToFeatureContext(scenario.getUri());
         connectToLogProperties();
         stopTasksToKill();
         PageFactory.getDriver();
@@ -51,23 +50,17 @@ public class SetupStepDefs {
         PageContext.resetContext();
         cachePages();
         startVideo();
-
-        Locale locale = pullLocaleFromScenario(scenario);
-        FeatureContext.setLocale(locale);
     }
 
-    private Locale pullLocaleFromScenario(Scenario scenario) {
-        CucumberFeature cucumberFeature = null;
-        try {
-            JUnitReporter reporter = (JUnitReporter) FieldUtils.getDeclaredField(scenario.getClass(), "reporter", true).get(scenario);
-            ExecutionUnitRunner executionUnitRunner = (ExecutionUnitRunner) FieldUtils.getDeclaredField(reporter.getClass(), "executionUnitRunner", true).get(reporter);
-            CucumberScenario cucumberScenario = (CucumberScenario) FieldUtils.getDeclaredField(executionUnitRunner.getClass(), "cucumberScenario", true).get(executionUnitRunner);
-            cucumberFeature = (CucumberFeature) FieldUtils.getField(cucumberScenario.getClass(), "cucumberFeature", true).get(cucumberScenario);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
 
-        return cucumberFeature.getI18n().getLocale();
+    private void setScenarioLocaleToFeatureContext(String scenarioUri) {
+        List<String> scenarioPaths = new ArrayList<>();
+        scenarioPaths.add(scenarioUri);
+
+        CucumberFeature load = CucumberFeature.load(new MultiLoader(ClassLoader.getSystemClassLoader()), scenarioPaths).get(0);
+        String language = load.getGherkinFeature().getFeature().getLanguage();
+
+        FeatureContext.setLocale(new Locale(language));
     }
 
     private void connectToLogProperties() {

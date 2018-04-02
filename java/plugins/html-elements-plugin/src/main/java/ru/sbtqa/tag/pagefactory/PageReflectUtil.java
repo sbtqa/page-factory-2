@@ -1,12 +1,5 @@
 package ru.sbtqa.tag.pagefactory;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.NoSuchElementException;
@@ -21,6 +14,13 @@ import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Static methods for finding block and execution methods by ActionTitles
@@ -30,7 +30,7 @@ public class PageReflectUtil extends PageFactoryUtils {
     
     private static boolean isUsedBlock = false; 
     private static WebElement usedBlock = null;
-    
+
     /**
      * Find element with required title and type inside of the given block.
      * Return null if didn't find any
