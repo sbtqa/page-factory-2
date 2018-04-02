@@ -1,9 +1,6 @@
 package ru.sbtqa.tag.pagefactory;
 
 
-/**
- * Contain current Page instance
- */
 public class PageContext {
 
     private static String currentPageTitle;
@@ -21,10 +18,6 @@ public class PageContext {
         return currentPage;
     }
     
-    /**
-     * Set current page and currentTitle
-     * @param currentPage
-     */
     public static void setCurrentPage(Page currentPage) {
         PageContext.currentPage = currentPage;
         PageContext.setCurrentPageTitle(currentPage.getTitle());

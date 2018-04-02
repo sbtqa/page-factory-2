@@ -12,7 +12,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.cucumber.TagCucumber;
+import ru.sbtqa.tag.pagefactory.FeatureContext;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
@@ -29,7 +29,7 @@ import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 public class PageFactoryUtils {
     
     public static final Logger LOG = LoggerFactory.getLogger(PageFactoryUtils.class);
-    
+
     /**
      * Find method with corresponding title on current page, and execute it
      *
@@ -64,9 +64,7 @@ public class PageFactoryUtils {
      * @return list of methods. could be empty list
      */
     public static List<Method> getDeclaredMethods(Class clazz) {
-        List<Method> methods = new ArrayList<>();
-        
-        methods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
+        List<Method> methods = new ArrayList<>(Arrays.asList(clazz.getDeclaredMethods()));
         
         Class supp = clazz.getSuperclass();
         
@@ -101,7 +99,7 @@ public class PageFactoryUtils {
         for (ActionTitle action : actionList) {
             String actionValue = action.value();
             try {
-                I18N i18n = I18N.getI18n(method.getDeclaringClass(), TagCucumber.getFeature().getI18n().getLocale());
+                I18N i18n = I18N.getI18n(method.getDeclaringClass(), FeatureContext.getLocale());
                 actionValue = i18n.get(action.value());
             } catch (I18NRuntimeException e) {
                 LOG.debug("There is no bundle for translation class. Leave it as is", e);
