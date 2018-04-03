@@ -3,17 +3,13 @@ package ru.sbtqa.tag.pagefactory.stepdefs;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.runtime.io.MultiLoader;
-import cucumber.runtime.model.CucumberFeature;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang3.SystemUtils;
@@ -23,13 +19,15 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
-import ru.sbtqa.tag.pagefactory.FeatureContext;
+import ru.sbtqa.tag.allurehelper.Type;
 import ru.sbtqa.tag.pagefactory.Page;
-import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.support.Environment;
+import ru.sbtqa.tag.pagefactory.support.ScreenShooter;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.sbtqa.tag.videorecorder.VideoRecorder;
@@ -42,7 +40,7 @@ public class SetupStepDefs {
 
     @Before
     public void setUp(Scenario scenario) {
-        setScenarioLocaleToFeatureContext(scenario.getUri());
+        ScenarioContext.setScenario(scenario);
         connectToLogProperties();
         stopTasksToKill();
         PageFactory.getDriver();
@@ -50,17 +48,6 @@ public class SetupStepDefs {
         PageContext.resetContext();
         cachePages();
         startVideo();
-    }
-
-
-    private void setScenarioLocaleToFeatureContext(String scenarioUri) {
-        List<String> scenarioPaths = new ArrayList<>();
-        scenarioPaths.add(scenarioUri);
-
-        CucumberFeature load = CucumberFeature.load(new MultiLoader(ClassLoader.getSystemClassLoader()), scenarioPaths).get(0);
-        String language = load.getGherkinFeature().getFeature().getLanguage();
-
-        FeatureContext.setLocale(new Locale(language));
     }
 
     private void connectToLogProperties() {
@@ -142,8 +129,16 @@ public class SetupStepDefs {
 
     @After
     public void tearDown() {
+        attachScreenshotToReport();
         stopVideo();
         demountDriver();
+    }
+
+    private void attachScreenshotToReport() {
+        boolean isScenarioFailed = ScenarioContext.getScenario().isFailed();
+        if (isScenarioFailed && PageFactory.isDriverInitialized()) {
+            ParamsHelper.addAttachmentToRender(ScreenShooter.take(), "Screenshot", Type.PNG);
+        }
     }
 
     private void stopVideo() {

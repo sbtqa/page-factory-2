@@ -2,15 +2,16 @@ package ru.sbtqa.tag.pagefactory.htmlstepdefs;
 
 import cucumber.api.DataTable;
 import java.util.Locale;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageReflectUtil;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.i18n.I18N;
-import ru.yandex.qatools.htmlelements.element.*;
+import ru.yandex.qatools.htmlelements.element.CheckBox;
+import ru.yandex.qatools.htmlelements.element.Radio;
+import ru.yandex.qatools.htmlelements.element.TextBlock;
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
 /**
  * Basic step definitions, that should be available on every project Notations

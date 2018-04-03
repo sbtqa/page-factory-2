@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.util;
 
+import cucumber.api.Scenario;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,16 +13,17 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.FeatureContext;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
+import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.qautils.cucumber.CucumberUtils;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
@@ -99,7 +101,8 @@ public class PageFactoryUtils {
         for (ActionTitle action : actionList) {
             String actionValue = action.value();
             try {
-                I18N i18n = I18N.getI18n(method.getDeclaringClass(), FeatureContext.getLocale());
+                Scenario currentScenario = ScenarioContext.getScenario();
+                I18N i18n = I18N.getI18n(method.getDeclaringClass(), CucumberUtils.getLocale(currentScenario));
                 actionValue = i18n.get(action.value());
             } catch (I18NRuntimeException e) {
                 LOG.debug("There is no bundle for translation class. Leave it as is", e);

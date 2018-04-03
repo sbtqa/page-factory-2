@@ -1,10 +1,14 @@
-package ru.sbtqa.tag.pagefactory;
+package ru.sbtqa.tag.pagefactory.context;
 
+
+import ru.sbtqa.tag.pagefactory.Page;
 
 public class PageContext {
 
     private static String currentPageTitle;
     private static Page currentPage;
+
+    private PageContext() {}
 
     public static String getCurrentPageTitle() {
         return currentPageTitle;

@@ -15,4 +15,12 @@
 
   <name>page-factory-api</name>
 
+  <dependencies>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
 </project>
