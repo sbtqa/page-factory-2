@@ -2,12 +2,15 @@ package ru.sbtqa.tag.pagefactory;
 
 import com.google.common.reflect.ClassPath;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.drivers.TagMobileDriver;
+import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -35,8 +38,8 @@ public class PageManager {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException
      * TODO
      */
-    public Page getPage(Class<? extends Page> page) throws PageInitializationException {
-        return bootstrapPage(page);
+    public Page getPage(Class<? extends Page> page, WebDriver driver) throws PageInitializationException {
+        return bootstrapPage(page, driver);
     }
 
     /**
@@ -52,10 +55,20 @@ public class PageManager {
 
         if (null == PageContext.getCurrentPage() || !PageContext.getCurrentPageTitle().equals(title)) {
             if (null != PageContext.getCurrentPage()) {
-                getPage(pagesPackage, title);
+                getPage(pagesPackage, title, PageContext.getCurrentPage().getDriver());
             }
             if (null == PageContext.getCurrentPage()) {
-                getPage(pagesPackage, title);
+                Environment environment = PageFactory.getEnvironment();
+                switch (environment) {
+                    case WEB:
+                        getPage(pagesPackage, title, TagWebDriver.getDriver());
+                        break;
+                    case MOBILE:
+                        getPage(pagesPackage, title, TagMobileDriver.getDriver());
+                        break;
+                    default:
+                        throw new AutotestError("Unknown environment" + environment);
+                }
             }
             if (null == PageContext.getCurrentPage()) {
                 throw new AutotestError("WebElementsPage object with title '" + title + "' is not registered");
@@ -82,20 +95,20 @@ public class PageManager {
 
         Annotation annotation = pageClass.getAnnotation(PageEntry.class);
         if (annotation != null && !((PageEntry) annotation).url().isEmpty()) {
-            if (PageFactory.getWebDriver().getCurrentUrl() == null) {
+            if (PageContext.getCurrentPage().getDriver().getCurrentUrl() == null) {
                 throw new AutotestError("Current URL is null");
             } else {
                 try {
-                    URL currentUrl = new URL(PageFactory.getWebDriver().getCurrentUrl());
+                    URL currentUrl = new URL(PageContext.getCurrentPage().getDriver().getCurrentUrl());
                     String finalUrl = new URL(currentUrl.getProtocol(), currentUrl.getHost(), currentUrl.getPort(),
                             ((PageEntry) annotation).url()).toString();
-                    PageFactory.getWebDriver().navigate().to(finalUrl);
+                    PageContext.getCurrentPage().getDriver().navigate().to(finalUrl);
                 } catch (MalformedURLException ex) {
                     LOG.error("Failed to get current url", ex);
                 }
             }
 
-            return bootstrapPage(pageClass);
+            return bootstrapPage(pageClass, PageContext.getCurrentPage().getDriver());
         }
 
         throw new AutotestError("WebElementsPage " + title + " doesn't have fast URL in PageEntry");
@@ -130,8 +143,8 @@ public class PageManager {
      * @return a WebElementsPage object.
      * @throws PageInitializationException {@inheritDoc}
      */
-    public Page getPage(String packageName, String title) throws PageInitializationException {
-        return bootstrapPage(getPageClass(packageName, title));
+    public Page getPage(String packageName, String title, WebDriver driver) throws PageInitializationException {
+        return bootstrapPage(getPageClass(packageName, title), driver);
     }
 
     /**
@@ -182,13 +195,13 @@ public class PageManager {
      * @throws PageInitializationException if failed to execute corresponding
      * page constructor
      */
-    private static Page bootstrapPage(Class<?> page) throws PageInitializationException {
+    private static Page bootstrapPage(Class<?> page, WebDriver driver) throws PageInitializationException {
         if (page != null) {
             try {
                 @SuppressWarnings("unchecked")
-                Constructor<Page> constructor = ((Constructor<Page>) page.getConstructor());
+                Constructor<Page> constructor = ((Constructor<Page>) page.getConstructor(WebDriver.class));
                 constructor.setAccessible(true);
-                Page currentPage = constructor.newInstance();
+                Page currentPage = constructor.newInstance(driver);
                 PageContext.setCurrentPage(currentPage);
                 return currentPage;
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

@@ -1,16 +1,24 @@
 package ru.sbtqa.tag.pagefactory;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
 /**
  * Page with common action with html-elements
  */
 public class HTMLPage extends WebElementsPage {
+
+    public HTMLPage(WebDriver driver) {
+        super(driver, new HtmlElementDecorator(
+                new HtmlElementLocatorFactory(driver)));
+    }
 
     /**
      * Find web element with corresponding title, if it is a check box, select

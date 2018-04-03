@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.extensions;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import java.util.List;
 import org.openqa.selenium.Dimension;
@@ -8,6 +9,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
 import ru.sbtqa.tag.qautils.strategies.DirectionStrategy;
@@ -67,7 +69,8 @@ public class MobileExtension {
      * @throws SwipeException if there is an error while swiping
      */
     public static void swipe(DirectionStrategy direction, int time) throws SwipeException {
-        Dimension size = PageFactory.getMobileDriver().manage().window().getSize();
+        AppiumDriver mobileDriver = (AppiumDriver) PageContext.getCurrentPage().getDriver();
+        Dimension size = mobileDriver.manage().window().getSize();
         swipe(new Point(0, 0), size, direction, time);
     }
 
@@ -110,7 +113,8 @@ public class MobileExtension {
         int x = location.getX();
         int y = location.getY();
         LOG.debug("Swipe parameters: location {}, dimension {}, direction {}, time {}", location, size, direction, time);
-        PageFactory.getMobileDriver().swipe(x + startx, y + starty, x + endx, y + endy, time);
+        AppiumDriver mobileDriver = (AppiumDriver) PageContext.getCurrentPage().getDriver();
+        mobileDriver.swipe(x + startx, y + starty, x + endx, y + endy, time);
     }
 
     /**
@@ -147,14 +151,16 @@ public class MobileExtension {
      */
     public static void swipeToText(DirectionStrategy direction, String text, MatchStrategy strategy, int depth) throws SwipeException {
         for (int depthCounter = 0; depthCounter < depth; depthCounter++) {
-            String oldPageSource = PageFactory.getDriver().getPageSource();
+            AppiumDriver mobileDriver = (AppiumDriver) PageContext.getCurrentPage().getDriver();
+            String oldPageSource = mobileDriver.getPageSource();
             switch (strategy) {
                 case EXACT:
-                    if (PageFactory.getMobileDriver().findElementsByXPath("//*[@text='" + text + "']").size() > 0) {
+
+                    if (mobileDriver.findElementsByXPath("//*[@text='" + text + "']").size() > 0) {
                         return;
                     }
                 case CONTAINS:
-                    List<WebElement> textViews = PageFactory.getMobileDriver().findElementsByClassName("android.widget.TextView");
+                    List<WebElement> textViews = mobileDriver.findElementsByClassName("android.widget.TextView");
                     if (textViews.size() > 0) {
                         for (WebElement textView : textViews) {
                             if (textView.getText().contains(text)) {
@@ -165,7 +171,7 @@ public class MobileExtension {
             }
             swipe(direction);
 
-            if (PageFactory.getDriver().getPageSource().equals(oldPageSource)) {
+            if (mobileDriver.getPageSource().equals(oldPageSource)) {
                 throw new SwipeException("Swiping limit is reached. Text not found");
             }
         }
@@ -183,10 +189,11 @@ public class MobileExtension {
      * @throws SwipeException if there is an error while swiping
      */
     public static void swipeToText(MatchStrategy strategy, String text) throws SwipeException {
+        AppiumDriver mobileDriver = (AppiumDriver) PageContext.getCurrentPage().getDriver();
         switch (strategy) {
             case EXACT:
                 try {
-                    PageFactory.getMobileDriver().findElement(MobileBy
+                    mobileDriver.findElement(MobileBy
                             .AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0))"
                                     + ".scrollIntoView(new UiSelector().text(\"" + text + "\").instance(0))"));
                 } catch (NoSuchElementException e) {
@@ -195,7 +202,7 @@ public class MobileExtension {
                 break;
             case CONTAINS:
                 try {
-                    PageFactory.getMobileDriver().findElement(MobileBy
+                    mobileDriver.findElement(MobileBy
                             .AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0))"
                                     + ".scrollIntoView(new UiSelector().textContains(\"" + text + "\").instance(0))"));
                 } catch (NoSuchElementException e) {

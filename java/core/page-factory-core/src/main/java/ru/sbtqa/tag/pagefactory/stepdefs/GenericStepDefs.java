@@ -56,10 +56,13 @@ public class GenericStepDefs {
      * @throws PageInitializationException if page initialization failed
      */
     public void openPage(String title) throws PageInitializationException {
+        if(PageContext.getCurrentPage() == null) {
+            PageFactory.getInstance().getPage(title);
+        }
         if (PageFactory.getEnvironment() != Environment.MOBILE
-                && !PageFactory.getWebDriver().getWindowHandles().isEmpty()) {
-            for (String windowHandle : PageFactory.getWebDriver().getWindowHandles()) {
-                PageFactory.getWebDriver().switchTo().window(windowHandle);
+                && !PageContext.getCurrentPage().getDriver().getWindowHandles().isEmpty()) {
+            for (String windowHandle : PageContext.getCurrentPage().getDriver().getWindowHandles()) {
+                PageContext.getCurrentPage().getDriver().switchTo().window(windowHandle);
             }
         }
         PageFactory.getInstance().getPage(title);
@@ -160,21 +163,21 @@ public class GenericStepDefs {
      * optional
      */
     public void openCopyPage() {
-        String pageUrl = PageFactory.getWebDriver().getCurrentUrl();
-        ((JavascriptExecutor) PageFactory.getWebDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
-        List<String> tabs = new ArrayList<>(PageFactory.getWebDriver().getWindowHandles());
-        PageFactory.getWebDriver().switchTo().window(tabs.get(tabs.size() - 1));
+        String pageUrl = PageContext.getCurrentPage().getDriver().getCurrentUrl();
+        ((JavascriptExecutor) PageContext.getCurrentPage().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
+        List<String> tabs = new ArrayList<>(PageContext.getCurrentPage().getDriver().getWindowHandles());
+        PageContext.getCurrentPage().getDriver().switchTo().window(tabs.get(tabs.size() - 1));
     }
 
     /**
      * Switch to a neighbour browser tab
      */
     public void switchesToNextTab() {
-        String currentTab = PageFactory.getWebDriver().getWindowHandle();
-        List<String> tabs = new ArrayList<>(PageFactory.getWebDriver().getWindowHandles());
+        String currentTab = PageContext.getCurrentPage().getDriver().getWindowHandle();
+        List<String> tabs = new ArrayList<>(PageContext.getCurrentPage().getDriver().getWindowHandles());
         for (int i = 0; i < tabs.size(); i++) {
             if (tabs.get(i).equals(currentTab)) {
-                PageFactory.getWebDriver().switchTo().window(tabs.get(i + 1));
+                PageContext.getCurrentPage().getDriver().switchTo().window(tabs.get(i + 1));
                 return;
             }
         }
@@ -186,7 +189,7 @@ public class GenericStepDefs {
      * @param url url for comparison
      */
     public void urlMatches(String url) {
-        Assert.assertEquals("URL is different from the expected: ", url, PageFactory.getWebDriver().getCurrentUrl());
+        Assert.assertEquals("URL is different from the expected: ", url, PageContext.getCurrentPage().getDriver().getCurrentUrl());
     }
 
     /**
@@ -195,10 +198,10 @@ public class GenericStepDefs {
      * @param title title of the page to open
      */
     public void closingCurrentWin(String title) {
-        PageFactory.getWebDriver().close();
-        for (String windowHandle : PageFactory.getWebDriver().getWindowHandles()) {
-            PageFactory.getWebDriver().switchTo().window(windowHandle);
-            if (PageFactory.getWebDriver().getTitle().equals(title)) {
+        PageContext.getCurrentPage().getDriver().close();
+        for (String windowHandle : PageContext.getCurrentPage().getDriver().getWindowHandles()) {
+            PageContext.getCurrentPage().getDriver().switchTo().window(windowHandle);
+            if (PageContext.getCurrentPage().getDriver().getTitle().equals(title)) {
                 return;
             }
         }
@@ -209,7 +212,7 @@ public class GenericStepDefs {
      * Return to previous location (via browser "back" button)
      */
     public void backPage() {
-        PageFactory.getWebDriver().navigate().back();
+        PageContext.getCurrentPage().getDriver().navigate().back();
     }
 
     /**
@@ -218,7 +221,7 @@ public class GenericStepDefs {
      * @param url url to go to
      */
     public void goToUrl(String url) {
-        PageFactory.getWebDriver().get(url);
+        PageContext.getCurrentPage().getDriver().get(url);
     }
 
     /**
@@ -237,7 +240,7 @@ public class GenericStepDefs {
      * Refresh browser page
      */
     public void reInitPage() {
-        PageFactory.getWebDriver().navigate().refresh();
+        PageContext.getCurrentPage().getDriver().navigate().refresh();
     }
 
     /**

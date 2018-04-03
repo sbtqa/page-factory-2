@@ -38,13 +38,9 @@ public class SetupStepDefs {
     public void setUp() {
         connectToLogProperties();
         stopTasksToKill();
-
-        PageFactory.getDriver();
         PageFactory.getInstance();
         PageContext.resetContext();
-
         cachePages();
-
         startVideo();
     }
 

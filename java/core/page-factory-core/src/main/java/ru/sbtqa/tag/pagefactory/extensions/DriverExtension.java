@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.qautils.managers.DateManager;
@@ -26,7 +27,7 @@ public class DriverExtension {
      * @return Expected WebElement
      */
     public static WebElement waitUntilElementPresent(WebElement webElement) {
-        return new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds()).
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), PageFactory.getTimeOutInSeconds()).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -38,7 +39,7 @@ public class DriverExtension {
      * @return Expected WebElement
      */
     public static WebElement waitUntilElementPresent(WebElement webElement, int timeout) {
-        return new WebDriverWait(PageFactory.getDriver(), timeout).
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), timeout).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -49,7 +50,7 @@ public class DriverExtension {
      * @return Expected WebElement
      */
     public static WebElement waitUntilElementToBeClickable(WebElement webElement) {
-        return new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds()).
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), PageFactory.getTimeOutInSeconds()).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -61,7 +62,7 @@ public class DriverExtension {
      * @return Expected WebElement
      */
     public static WebElement waitUntilElementToBeClickable(WebElement webElement, int timeout) {
-        return new WebDriverWait(PageFactory.getDriver(), timeout).
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), timeout).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -72,13 +73,13 @@ public class DriverExtension {
      */
     public static void waitUntilPagePrepared(WebElement webElement) {
         try {
-            new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds() / 2).
+            new WebDriverWait(PageContext.getCurrentPage().getDriver(), PageFactory.getTimeOutInSeconds() / 2).
                     until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception | AssertionError e) {
             LOG.debug("Element {} does not become visible after timeout", webElement, e);
-            PageFactory.getDriver().navigate().refresh();
+            PageContext.getCurrentPage().getDriver().navigate().refresh();
             LOG.debug("WebElementsPage refreshed");
-            new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds()).
+            new WebDriverWait(PageContext.getCurrentPage().getDriver(), PageFactory.getTimeOutInSeconds()).
                     until(ExpectedConditions.visibilityOf(webElement));
         }
     }
@@ -90,7 +91,7 @@ public class DriverExtension {
      * @return return appeared WebElement
      */
     public static WebElement waitUntilElementAppearsInDom(By by) {
-        return new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds())
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), PageFactory.getTimeOutInSeconds())
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
@@ -102,7 +103,7 @@ public class DriverExtension {
      * @return return appeared WebElement
      */
     public static WebElement waitUntilElementAppearsInDom(By by, long timeout) {
-        return new WebDriverWait(PageFactory.getDriver(), timeout)
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), timeout)
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
@@ -132,7 +133,7 @@ public class DriverExtension {
      * @param element a {@link org.openqa.selenium.WebElement} object.
      */
     public static void waitUntilElementGetInvisible(WebElement element) {
-        new WebDriverWait(PageFactory.getDriver(), PageFactory.getTimeOutInSeconds())
+        new WebDriverWait(PageContext.getCurrentPage().getDriver(), PageFactory.getTimeOutInSeconds())
                 .until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
     }
 
@@ -191,7 +192,7 @@ public class DriverExtension {
 
         while (timeoutTime > System.currentTimeMillis()) {
             try {
-                Alert alert = PageFactory.getDriver().switchTo().alert();
+                Alert alert = PageContext.getCurrentPage().getDriver().switchTo().alert();
                 if (!messageText.isEmpty()) {
                     Assert.assertEquals(alert.getText(), messageText);
                 }
@@ -217,7 +218,7 @@ public class DriverExtension {
      */
     public static boolean checkElementWithTextIsPresent(String text, int timeout) {
         try {
-            new WebDriverWait(PageFactory.getDriver(), timeout)
+            new WebDriverWait(PageContext.getCurrentPage().getDriver(), timeout)
                     .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + text + "')]")));
             return true;
         } catch (TimeoutException e) {
