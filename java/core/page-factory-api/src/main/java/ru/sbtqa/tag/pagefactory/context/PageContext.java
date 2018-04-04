@@ -1,13 +1,14 @@
-package ru.sbtqa.tag.pagefactory;
+package ru.sbtqa.tag.pagefactory.context;
 
+import ru.sbtqa.tag.pagefactory.Page;
 
-/**
- * Contain current Page instance
- */
 public class PageContext {
 
     private static String currentPageTitle;
     private static Page currentPage;
+
+    private PageContext() {
+    }
 
     public static String getCurrentPageTitle() {
         return currentPageTitle;
@@ -16,20 +17,16 @@ public class PageContext {
     private static void setCurrentPageTitle(String currentPageTitle) {
         PageContext.currentPageTitle = currentPageTitle;
     }
-    
+
     public static Page getCurrentPage() {
         return currentPage;
     }
-    
-    /**
-     * Set current page and currentTitle
-     * @param currentPage
-     */
+
     public static void setCurrentPage(Page currentPage) {
         PageContext.currentPage = currentPage;
         PageContext.setCurrentPageTitle(currentPage.getTitle());
     }
-    
+
     public static void resetContext() {
         currentPage = null;
         currentPageTitle = null;

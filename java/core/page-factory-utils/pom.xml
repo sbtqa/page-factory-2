@@ -23,11 +23,6 @@
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>cucumber-runner</artifactId>
-      <version>${tag.version.cucumberrunner}</version>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
       <artifactId>qa-utils</artifactId>
       <version>${tag.version.qautils}</version>
     </dependency>

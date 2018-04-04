@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.stepdefs;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import java.io.File;
@@ -18,12 +19,15 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
+import ru.sbtqa.tag.allurehelper.Type;
 import ru.sbtqa.tag.pagefactory.Page;
-import ru.sbtqa.tag.pagefactory.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.support.Environment;
+import ru.sbtqa.tag.pagefactory.support.ScreenShooter;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.sbtqa.tag.videorecorder.VideoRecorder;
@@ -35,16 +39,14 @@ public class SetupStepDefs {
     private static final String DEFAULT_LOG_PROPERTIES_PATH = "src/test/resources/config/log4j.properties";
 
     @Before
-    public void setUp() {
+    public void setUp(Scenario scenario) {
+        ScenarioContext.setScenario(scenario);
         connectToLogProperties();
         stopTasksToKill();
-
         PageFactory.getDriver();
         PageFactory.getInstance();
         PageContext.resetContext();
-
         cachePages();
-
         startVideo();
     }
 
@@ -87,7 +89,7 @@ public class SetupStepDefs {
     private void cachePages() {
         Set<Class<?>> allClasses = new HashSet();
         allClasses.addAll(getAllClasses());
-        
+
         for (Class<?> page : allClasses) {
             List<Field> fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(page);
             Map<Field, String> fieldsMap = new HashMap<>();
@@ -107,13 +109,13 @@ public class SetupStepDefs {
             PageFactory.getPageRepository().put((Class<? extends Page>) page, fieldsMap);
         }
     }
-    
+
     private Set<Class<?>> getAllClasses() {
         Set<Class<?>> allClasses = new HashSet();
-        
+
         Reflections reflections = new Reflections(PageFactory.getPagesPackage());
         Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
-        
+
         for (String clazz : allClassesString) {
             try {
                 allClasses.add(Class.forName(clazz));
@@ -121,14 +123,22 @@ public class SetupStepDefs {
                 LOG.warn("Cannot add to cache class with name {}", clazz, e);
             }
         }
-        
+
         return allClasses;
     }
 
     @After
     public void tearDown() {
+        attachScreenshotToReport();
         stopVideo();
         demountDriver();
+    }
+
+    private void attachScreenshotToReport() {
+        boolean isScenarioFailed = ScenarioContext.getScenario().isFailed();
+        if (isScenarioFailed && PageFactory.isDriverInitialized()) {
+            ParamsHelper.addAttachmentToRender(ScreenShooter.take(), "Screenshot", Type.PNG);
+        }
     }
 
     private void stopVideo() {

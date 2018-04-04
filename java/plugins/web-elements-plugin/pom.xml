@@ -11,10 +11,9 @@
         <relativePath>../..</relativePath>
     </parent>
 
-
     <groupId>ru.sbtqa.tag.pagefactory</groupId>
     <artifactId>web-elements-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <name>web-elements-plugin</name>
 

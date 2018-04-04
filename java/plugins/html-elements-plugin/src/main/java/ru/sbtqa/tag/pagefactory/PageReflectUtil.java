@@ -12,6 +12,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
@@ -30,7 +31,7 @@ public class PageReflectUtil extends PageFactoryUtils {
     
     private static boolean isUsedBlock = false; 
     private static WebElement usedBlock = null;
-    
+
     /**
      * Find element with required title and type inside of the given block.
      * Return null if didn't find any
@@ -457,7 +458,7 @@ public class PageReflectUtil extends PageFactoryUtils {
     * @return either an element title, or an empty string 
     */ 
     private static String getFieldTitleInBlock(Field field) { 
-       for (Annotation a : field.getAnnotations()) { 
+       for (Annotation a : field.getAnnotations()) {
            if (a instanceof Name) { 
                return ((Name) a).value(); 
            } 
