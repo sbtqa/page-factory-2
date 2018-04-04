@@ -99,12 +99,10 @@ public class PageFactoryUtils {
             actionList.add(actionTitle);
         }
 
-        Scenario currentScenario = ScenarioContext.getScenario();
+        I18N i18n = getI18nByCurrentScenario(method);
         for (ActionTitle action : actionList) {
             String actionValue = action.value();
             try {
-                Locale currentScenarioLocale = CucumberUtils.getLocale(currentScenario);
-                I18N i18n = I18N.getI18n(method.getDeclaringClass(), currentScenarioLocale);
                 actionValue = i18n.get(action.value());
             } catch (I18NRuntimeException e) {
                 LOG.debug("There is no bundle for translation class. Leave it as is", e);
@@ -116,6 +114,13 @@ public class PageFactoryUtils {
         }
         
         return false;
+    }
+
+    private static I18N getI18nByCurrentScenario(Method method) {
+        Scenario scenario = ScenarioContext.getScenario();
+        Locale currentScenarioLocale = CucumberUtils.getLocale(scenario);
+
+        return I18N.getI18n(method.getDeclaringClass(), currentScenarioLocale);
     }
     
     /**
