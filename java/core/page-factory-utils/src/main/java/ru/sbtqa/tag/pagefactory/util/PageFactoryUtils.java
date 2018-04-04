@@ -99,7 +99,7 @@ public class PageFactoryUtils {
             actionList.add(actionTitle);
         }
 
-        I18N i18n = getI18nByCurrentScenario(method);
+        I18N i18n = I18N.getI18n(method.getClass(), ScenarioContext.getScenario());
         for (ActionTitle action : actionList) {
             String actionValue = action.value();
             try {
@@ -116,13 +116,6 @@ public class PageFactoryUtils {
         return false;
     }
 
-    private static I18N getI18nByCurrentScenario(Method method) {
-        Scenario scenario = ScenarioContext.getScenario();
-        Locale currentScenarioLocale = CucumberUtils.getLocale(scenario);
-
-        return I18N.getI18n(method.getDeclaringClass(), currentScenarioLocale);
-    }
-    
     /**
      * Find specified WebElement by title annotation among current page fields
      *
