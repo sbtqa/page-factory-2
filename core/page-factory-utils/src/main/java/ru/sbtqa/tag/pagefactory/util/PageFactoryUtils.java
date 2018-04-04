@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.util;
 
-import cucumber.api.Scenario;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -8,7 +7,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.WebElement;
@@ -24,7 +22,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.qautils.cucumber.CucumberUtils;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
@@ -99,7 +96,7 @@ public class PageFactoryUtils {
             actionList.add(actionTitle);
         }
 
-        I18N i18n = getI18nByCurrentScenario(method);
+        I18N i18n = I18N.getI18n(method.getClass(), ScenarioContext.getScenario());
         for (ActionTitle action : actionList) {
             String actionValue = action.value();
             try {
@@ -116,13 +113,6 @@ public class PageFactoryUtils {
         return false;
     }
 
-    private static I18N getI18nByCurrentScenario(Method method) {
-        Scenario scenario = ScenarioContext.getScenario();
-        Locale currentScenarioLocale = CucumberUtils.getLocale(scenario);
-
-        return I18N.getI18n(method.getDeclaringClass(), currentScenarioLocale);
-    }
-    
     /**
      * Find specified WebElement by title annotation among current page fields
      *
