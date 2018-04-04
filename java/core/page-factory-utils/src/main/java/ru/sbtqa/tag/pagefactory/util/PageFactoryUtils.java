@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.WebElement;
@@ -97,12 +98,13 @@ public class PageFactoryUtils {
         if (actionTitle != null) {
             actionList.add(actionTitle);
         }
-        
+
+        Scenario currentScenario = ScenarioContext.getScenario();
         for (ActionTitle action : actionList) {
             String actionValue = action.value();
             try {
-                Scenario currentScenario = ScenarioContext.getScenario();
-                I18N i18n = I18N.getI18n(method.getDeclaringClass(), CucumberUtils.getLocale(currentScenario));
+                Locale currentScenarioLocale = CucumberUtils.getLocale(currentScenario);
+                I18N i18n = I18N.getI18n(method.getDeclaringClass(), currentScenarioLocale);
                 actionValue = i18n.get(action.value());
             } catch (I18NRuntimeException e) {
                 LOG.debug("There is no bundle for translation class. Leave it as is", e);
