@@ -7,21 +7,17 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
-import ru.sbtqa.tag.pagefactory.drivers.TagMobileDriver;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.extensions.DriverExtension;
 import ru.sbtqa.tag.pagefactory.extensions.WebExtension;
-import ru.sbtqa.tag.pagefactory.support.AdbConsole;
-import ru.sbtqa.tag.pagefactory.support.Environment;
+import ru.sbtqa.tag.pagefactory.util.ActionsExt;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
@@ -31,8 +27,6 @@ import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
  * If we want to extend this functional - inherit from this class
  */
 public abstract class WebElementsPage extends Page {
-
-    private static final Logger LOG = LoggerFactory.getLogger(WebElementsPage.class);
 
     /**
      * Find element with specified title annotation, and fill it with given text
@@ -47,59 +41,7 @@ public abstract class WebElementsPage extends Page {
     @ActionTitle("ru.sbtqa.tag.pagefactory.fill.field")
     public void fillField(String elementTitle, String text) throws PageException {
         WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        webElement.click();
-
-        if (PageFactory.getEnvironment() == Environment.WEB) {
-            webElement.clear();
-        }
-
-        if (PageFactory.getEnvironment() == Environment.MOBILE && TagMobileDriver.getAppiumClickAdb()) {
-            // set ADBKeyBoard as default
-            AdbConsole.execute("ime set com.android.adbkeyboard/.AdbIME");
-            // send broadcast intent via adb
-            AdbConsole.execute(String.format("am broadcast -a ADB_INPUT_TEXT --es msg '%s'", text));
-        } else {
-            webElement.sendKeys(text);
-        }
-
-        ParamsHelper.addParam(elementTitle, text);
-    }
-
-    /**
-     * Same as {@link #fillField(String, String)}, but accepts particular
-     * WebElement object and interacts with it
-     *
-     * @param webElement an object to interact with
-     * @param text string text to send to element
-     */
-    protected void fillField(WebElement webElement, String text) {
-        if (null != text) {
-            try {
-                webElement.clear();
-            } catch (InvalidElementStateException | NullPointerException e) {
-                LOG.debug("Failed to clear web element {}", webElement, e);
-            }
-            webElement.sendKeys(text);
-        }
-
-        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), text);
-    }
-
-    /**
-     * Click the specified link element
-     *
-     * @param webElement a WebElement object to click
-     */
-    protected void clickWebElement(WebElement webElement) {
-        if (PageFactory.getEnvironment() == Environment.MOBILE && TagMobileDriver.getAppiumClickAdb()) {
-            // get center point of element to tap on it
-            int x = webElement.getLocation().getX() + webElement.getSize().getWidth() / 2;
-            int y = webElement.getLocation().getY() + webElement.getSize().getHeight() / 2;
-            AdbConsole.execute(String.format("input tap %s %s", x, y));
-        } else {
-            webElement.click();
-        }
-        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), " is clicked");
+        ActionsExt.fill(webElement, text);
     }
 
     /**
@@ -113,16 +55,9 @@ public abstract class WebElementsPage extends Page {
     @ActionTitles({
             @ActionTitle("ru.sbtqa.tag.pagefactory.click.link"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.click.button")})
-    public void clickElementByTitle(String elementTitle) throws PageException {
-        WebElement webElement;
-        try {
-            webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-            DriverExtension.waitForElementGetEnabled(webElement, PageFactory.getTimeOut());
-        } catch (NoSuchElementException | WaitException | ElementNotFoundException e) {
-            LOG.warn("Failed to find element by title {}", elementTitle, e);
-            webElement = DriverExtension.waitUntilElementAppearsInDom(By.partialLinkText(elementTitle));
-        }
-        clickWebElement(webElement);
+    public void click(String elementTitle) throws PageException {
+        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        ActionsExt.click(webElement);
     }
 
     /**
@@ -134,9 +69,8 @@ public abstract class WebElementsPage extends Page {
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName) {
         Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = PageFactory.getActions();
+        Actions actions = new Actions(getDriver());
         actions.sendKeys(key).perform();
-        ParamsHelper.addParam(keyName, " is pressed");
     }
 
     /**
@@ -151,12 +85,11 @@ public abstract class WebElementsPage extends Page {
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName, String elementTitle) throws PageException {
         Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = PageFactory.getActions();
+        Actions actions = new Actions(getDriver());
         actions.moveToElement(PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle));
         actions.click();
         actions.sendKeys(key);
         actions.build().perform();
-        ParamsHelper.addParam(keyName, " is pressed on element " + elementTitle + "'");
     }
 
     /**

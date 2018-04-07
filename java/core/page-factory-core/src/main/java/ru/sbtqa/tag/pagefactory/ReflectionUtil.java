@@ -31,7 +31,7 @@ public class ReflectionUtil {
      * @return title of the given element
      */
     public static String getElementTitle(Page page, WebElement element) {
-        for (Map.Entry<Field, String> entry : PageFactory.getPageRepository().get(page.getClass()).entrySet()) {
+        for (Map.Entry<Field, String> entry : PageManager.getPageRepository().get(page.getClass()).entrySet()) {
             try {
                 if (getElementByField(page, entry.getKey()) == element) {
                     ElementTitle elementTitle = entry.getKey().getAnnotation(ElementTitle.class); 
