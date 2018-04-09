@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.drivers;
+package ru.sbtqa.tag.pagefactory;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -8,32 +8,21 @@ import java.net.URL;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
-import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
-public class TagMobileDriver {
+public class MobileDriverService implements DriverService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TagMobileDriver.class);
+    private final Logger LOG = LoggerFactory.getLogger(MobileDriverService.class);
 
     private static final Configuration PROPERTIES = Properties.getProperties();
-    private static AppiumDriver<AndroidElement> mobileDriver;
-    private static String deviceUdId;
+    private AppiumDriver<AndroidElement> mobileDriver;
+    private String deviceUdId;
 
-    public static AppiumDriver<AndroidElement> getDriver() {
-        if (Environment.MOBILE != PageFactory.getEnvironment()) {
-            throw new FactoryRuntimeException("Failed to get mobile driver while environment is not mobile");
-        }
-
-        if (null == mobileDriver) {
-            createDriver();
-        }
-        return mobileDriver;
-    }
-
-    private static void createDriver() {
+    @Override
+    public void mountDriver() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("deviceName", PROPERTIES.getAppiumDeviceName());
         capabilities.setCapability("platformVersion", PROPERTIES.getAppiumDevicePlatform());
@@ -58,35 +47,41 @@ public class TagMobileDriver {
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
     }
 
-    public static void dispose() {
-        if (mobileDriver == null) { 
-            return; 
-        } 
- 
-        try { 
-            mobileDriver.quit(); 
-        } finally { 
-            setMobileDriver(null); 
-        } 
+    @Override
+    public void demountDriver() {
+        if (mobileDriver == null) {
+            return;
+        }
+
+        try {
+            mobileDriver.quit();
+        } finally {
+            setMobileDriver(null);
+        }
     }
 
-    public static boolean isAppiumFillAdb() {
+    @Override
+    public AppiumDriver<AndroidElement> getDriver() {
+        return mobileDriver;
+    }
+
+    public boolean isAppiumFillAdb() {
         return PROPERTIES.isAppiumFillAdb();
     }
 
-    public static boolean getAppiumClickAdb() {
+    public boolean getAppiumClickAdb() {
         return PROPERTIES.isAppiumClickAdb();
     }
 
-    public static String getDeviceUDID() {
+    public String getDeviceUDID() {
         return deviceUdId;
     }
     
-    public static void setMobileDriver(AppiumDriver<AndroidElement> aMobileDriver) {
+    public void setMobileDriver(AppiumDriver<AndroidElement> aMobileDriver) {
         mobileDriver = aMobileDriver;
     }
     
-    public static boolean isDriverInitialized(){
+    public boolean isDriverInitialized(){
         return mobileDriver != null;
     }
 }

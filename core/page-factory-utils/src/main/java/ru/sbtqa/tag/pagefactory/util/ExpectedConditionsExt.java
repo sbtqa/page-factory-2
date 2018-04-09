@@ -161,8 +161,8 @@ public class ExpectedConditionsExt {
      *
      * @throws WaitException if alert didn't appear during timeout
      */
-    public static void acceptAlert() throws WaitException {
-        interactWithAlert("", true);
+    public static void acceptAlert(Page page) throws WaitException {
+        interactWithAlert(page,"", true);
     }
 
     /**
@@ -170,8 +170,8 @@ public class ExpectedConditionsExt {
      *
      * @throws WaitException if alert didn't appear during timeout
      */
-    public static void dismissAlert() throws WaitException {
-        interactWithAlert("", false);
+    public static void dismissAlert(Page page) throws WaitException {
+        interactWithAlert(page, "", false);
     }
 
     /**

@@ -12,12 +12,10 @@ import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
-import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.extensions.DriverExtension;
-import ru.sbtqa.tag.pagefactory.extensions.WebExtension;
 import ru.sbtqa.tag.pagefactory.util.ActionsExt;
+import ru.sbtqa.tag.pagefactory.util.ExpectedConditionsExt;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
@@ -90,17 +88,6 @@ public abstract class WebElementsPage extends Page {
         actions.click();
         actions.sendKeys(key);
         actions.build().perform();
-    }
-
-    /**
-     * Send key to element and add corresponding parameter to allure report
-     *
-     * @param webElement WebElement to send keys in
-     * @param keyName name of the key. See available key names in {@link Keys}
-     */
-    protected void pressKey(WebElement webElement, Keys keyName) {
-        webElement.sendKeys(keyName);
-        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), " is pressed by key '" + keyName + "'");
     }
 
     /**
@@ -195,7 +182,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.accept.alert")
     public void acceptAlert(String text) throws WaitException {
-        DriverExtension.interactWithAlert(text, true);
+        ExpectedConditionsExt.acceptAlert();
     }
 
     /**
@@ -207,7 +194,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.dismiss.alert")
     public void dismissAlert(String text) throws WaitException {
-        DriverExtension.interactWithAlert(text, false);
+        ExpectedConditionsExt.dismissAlert();
     }
 
     /**
@@ -420,11 +407,10 @@ public abstract class WebElementsPage extends Page {
      * @param text a {@link java.lang.String} object.
      */
     @ActionTitles({
-            @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present")
-            ,
+            @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.text.visible")})
     public void checkElementWithTextIsPresent(String text) {
-        if (!DriverExtension.checkElementWithTextIsPresent(text, PageFactory.getTimeOutInSeconds())) {
+        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(PageContext.getCurrentPage(), text, PageFactory.getTimeOutInSeconds())) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }

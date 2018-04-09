@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.extensions;
+package ru.sbtqa.tag.pagefactory;
 
 import java.util.Set;
 
@@ -7,7 +7,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
 
 import static ru.sbtqa.tag.pagefactory.extensions.DriverExtension.waitUntilElementAppearsInDom;
 

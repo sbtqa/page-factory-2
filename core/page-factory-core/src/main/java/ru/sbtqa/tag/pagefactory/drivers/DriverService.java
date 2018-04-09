@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 public interface DriverService {
 
-    WebDriver mountDriver();
+    void mountDriver();
     void demountDriver();
+    <T extends WebDriver> T getDriver();
 }

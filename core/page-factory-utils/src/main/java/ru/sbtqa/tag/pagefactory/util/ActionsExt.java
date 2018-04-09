@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.util;
 
 import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +26,9 @@ public class ActionsExt {
     public static void click(WebElement webElement) {
         ExpectedConditionsExt.waitForElementGetEnabled(webElement, PageFactory.getTimeOut());
         webElement.click();
+    }
+
+    public void pressKey(WebElement webElement, Keys keyName) {
+        webElement.sendKeys(keyName);
     }
 }

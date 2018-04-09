@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.extensions;
+package ru.sbtqa.tag.pagefactory;
 
 import io.appium.java_client.MobileBy;
 import java.util.List;
@@ -8,7 +8,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
 import ru.sbtqa.tag.qautils.strategies.DirectionStrategy;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;

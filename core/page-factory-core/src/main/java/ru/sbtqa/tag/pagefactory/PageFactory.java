@@ -2,8 +2,6 @@ package ru.sbtqa.tag.pagefactory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import ru.sbtqa.tag.pagefactory.drivers.TagMobileDriver;
-import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
@@ -62,7 +60,7 @@ public class PageFactory {
         sharingIsActive = aSharingProcessing;
     }
 
-    public static boolean isDriverInitialized(){
-        return TagWebDriver.isDriverInitialized() || TagMobileDriver.isDriverInitialized();
-    }
+//    public static boolean isDriverInitialized(){
+//        return TagWebDriver.isDriverInitialized() || TagMobileDriver.isDriverInitialized();
+//    }
 }
