@@ -96,15 +96,17 @@ public class PageFactoryUtils {
             actionList.add(actionTitle);
         }
 
-        I18N i18n = I18N.getI18n(method.getClass(), ScenarioContext.getScenario());
+        I18N i18n = null;
+        try {
+            i18n = I18N.getI18n(method.getDeclaringClass(), ScenarioContext.getScenario());
+        } catch (I18NRuntimeException e) {
+            LOG.debug("There is no bundle for translation class. Leave it as is", e);
+        }
+
         for (ActionTitle action : actionList) {
-            String actionValue = action.value();
-            try {
-                actionValue = i18n.get(action.value());
-            } catch (I18NRuntimeException e) {
-                LOG.debug("There is no bundle for translation class. Leave it as is", e);
-            }
-            
+            String actionValue;
+            actionValue = (i18n != null) ? i18n.get(action.value()) :  action.value();
+
             if (actionValue.equals(title)) {
                 return true;
             }
