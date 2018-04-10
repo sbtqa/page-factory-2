@@ -1,8 +1,10 @@
 package pagefactory.pages.webelements;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.TestEnvironment;
 import ru.sbtqa.tag.pagefactory.WebElementsPage;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -29,7 +31,8 @@ public class AbstractPage extends WebElementsPage {
     private WebElement homeButtonWithRedirect;
     
     public AbstractPage() {
-        PageFactory.initElements(PageFactory.getDriver(), this);
+        WebDriver webDriver = TestEnvironment.getDriverService().getDriver();
+        PageFactory.initElements(webDriver, this);
     }
     
     @ActionTitle("go to page")

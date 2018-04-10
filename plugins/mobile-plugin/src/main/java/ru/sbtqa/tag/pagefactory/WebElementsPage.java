@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.support.AdbConsole;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 
 /**

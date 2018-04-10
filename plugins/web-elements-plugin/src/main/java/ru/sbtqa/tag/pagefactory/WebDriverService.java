@@ -42,14 +42,10 @@ import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
 public class WebDriverService implements DriverService {
 
-    private final Logger LOG = LoggerFactory.getLogger(WebDriverService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebDriverService.class);
+    private static final Configuration PROPERTIES = Properties.getProperties();
 
     private WebDriver webDriver;
-    private final Configuration PROPERTIES = Properties.getProperties();
-
-    WebDriverService() {
-        mountDriver();
-    }
 
     @Override
     public WebDriver getDriver() {
@@ -69,6 +65,7 @@ public class WebDriverService implements DriverService {
             } catch (UnsupportedBrowserException | MalformedURLException e) {
                 LOG.error("Failed to create web driver", e);
             }
+            return;
         }
     }
 
@@ -107,7 +104,7 @@ public class WebDriverService implements DriverService {
         webDriver.get(PROPERTIES.getStartingUrl());
     }
 
-    private org.openqa.selenium.WebDriver createRemoteWebDriver(String webDriverUrl, DesiredCapabilities capabilities) throws MalformedURLException {
+    private WebDriver createRemoteWebDriver(String webDriverUrl, DesiredCapabilities capabilities) throws MalformedURLException {
         URL remoteUrl = new URL(webDriverUrl);
         capabilities.merge(new SelenoidCapabilitiesParser().parse());
         return new RemoteWebDriver(remoteUrl, capabilities);

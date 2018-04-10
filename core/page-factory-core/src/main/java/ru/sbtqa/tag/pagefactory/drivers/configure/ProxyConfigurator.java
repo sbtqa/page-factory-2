@@ -10,8 +10,6 @@ public class ProxyConfigurator {
     public static Proxy configureProxy() {
         BrowserMobProxy browserMobProxy = new BrowserMobProxyServer();
         browserMobProxy.start(0);
-        Proxy seleniumProxy = ClientUtil.createSeleniumProxy(browserMobProxy);
-        
-        return seleniumProxy;
+        return ClientUtil.createSeleniumProxy(browserMobProxy);
     }
 }

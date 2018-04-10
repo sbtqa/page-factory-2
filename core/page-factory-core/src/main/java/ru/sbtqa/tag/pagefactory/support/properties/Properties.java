@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.pagefactory.support.properties;
 
 import org.aeonbits.owner.ConfigFactory;
-import ru.sbtqa.tag.pagefactory.support.Environment;
 
 public class Properties {
 
@@ -20,11 +19,11 @@ public class Properties {
     }
 
     private static void verificate() {
-        checkOnEmpty(config.getEnvironment(), "driver.environment");
+//        checkOnEmpty(config.getEnvironment(), "driver.environment");
         checkOnEmpty(config.getPagesPackage(), "page.package");
-        if (config.getEnvironment().equalsIgnoreCase(Environment.WEB.toString())) {
-            checkOnEmpty(config.getBrowserName(), "webdriver.browser.name");
-        }
+//        if (config.getEnvironment().equalsIgnoreCase(Environment.WEB.toString())) {
+//            checkOnEmpty(config.getBrowserName(), "webdriver.browser.name");
+//        }
     }
 
     private static <T extends Object> void checkOnEmpty(T property, String key) {

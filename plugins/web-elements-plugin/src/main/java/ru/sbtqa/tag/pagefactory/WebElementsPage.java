@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
@@ -67,7 +69,7 @@ public abstract class WebElementsPage extends Page {
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName) {
         Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = new Actions(getDriver());
+        Actions actions = new Actions((WebDriver) PageContext.getCurrentPage());
         actions.sendKeys(key).perform();
     }
 
@@ -83,7 +85,7 @@ public abstract class WebElementsPage extends Page {
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName, String elementTitle) throws PageException {
         Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = new Actions(getDriver());
+        Actions actions = new Actions((WebDriver) PageContext.getCurrentPage());
         actions.moveToElement(PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle));
         actions.click();
         actions.sendKeys(key);
@@ -143,7 +145,7 @@ public abstract class WebElementsPage extends Page {
                 + " content.push(options[i].text)"
                 + "}"
                 + "return content";
-        List<String> options = (ArrayList<String>) ((JavascriptExecutor) PageFactory.getDriver()).
+        List<String> options = (ArrayList<String>) ((JavascriptExecutor) PageContext.getCurrentPage()).
                 executeScript(jsString, webElement);
 
         boolean isSelectionMade = false;
@@ -169,8 +171,6 @@ public abstract class WebElementsPage extends Page {
         if (!isSelectionMade) {
             throw new AutotestError("There is no element '" + option + "' in " + ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement));
         }
-
-        ParamsHelper.addParam(ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement), option);
     }
 
     /**
@@ -182,7 +182,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.accept.alert")
     public void acceptAlert(String text) throws WaitException {
-        ExpectedConditionsExt.acceptAlert();
+        ExpectedConditionsExt.acceptAlert(TestEnvironment.getDriverService().getDriver());
     }
 
     /**
@@ -194,7 +194,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.dismiss.alert")
     public void dismissAlert(String text) throws WaitException {
-        ExpectedConditionsExt.dismissAlert();
+        ExpectedConditionsExt.dismissAlert(TestEnvironment.getDriverService().getDriver());
     }
 
     /**
@@ -236,7 +236,7 @@ public abstract class WebElementsPage extends Page {
         try {
             String popupHandle = WebExtension.findNewWindowHandle((Set<String>) Stash.getValue("beforeClickHandles"));
             if (null != popupHandle && !popupHandle.isEmpty()) {
-                PageFactory.getWebDriver().switchTo().window(popupHandle);
+                TestEnvironment.getDriverService().getDriver().switchTo().window(popupHandle);
             }
             assertTextAppears(text);
         } catch (Exception ex) {
@@ -410,7 +410,7 @@ public abstract class WebElementsPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.text.visible")})
     public void checkElementWithTextIsPresent(String text) {
-        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(PageContext.getCurrentPage(), text, PageFactory.getTimeOutInSeconds())) {
+        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(TestEnvironment.getDriverService().getDriver(), text, PageFactory.getTimeOutInSeconds())) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }

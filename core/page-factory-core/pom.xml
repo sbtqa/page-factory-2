@@ -32,14 +32,14 @@
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>datajack</artifactId>
-      <version>${tag.version.datajack}</version>
+      <artifactId>allure-helper</artifactId>
+      <version>1.4.1</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>allure-helper</artifactId>
-      <version>${tag.version.allurehelper}</version>
+      <artifactId>datajack</artifactId>
+      <version>${tag.version.datajack}</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -147,5 +147,4 @@
       <version>1.0.9</version>
     </dependency>
   </dependencies>
-
 </project>

@@ -7,7 +7,6 @@ import com.google.gson.stream.JsonReader;
 import io.github.bonigarcia.wdm.Architecture;
 import io.github.bonigarcia.wdm.BrowserManager;
 import io.github.bonigarcia.wdm.OperativeSystem;
-import static io.github.bonigarcia.wdm.OperativeSystem.LINUX;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;

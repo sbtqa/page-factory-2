@@ -8,17 +8,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
+import ru.sbtqa.tag.pagefactory.TestEnvironment;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
-import ru.sbtqa.tag.pagefactory.extensions.MobileExtension;
-import ru.sbtqa.tag.pagefactory.support.Environment;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-import ru.sbtqa.tag.qautils.strategies.DirectionStrategy;
-import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 /**
  * Basic step definitions, that should be available on every project Notations
@@ -56,12 +52,12 @@ public class GenericStepDefs {
      * @throws PageInitializationException if page initialization failed
      */
     public void openPage(String title) throws PageInitializationException {
-        if (PageFactory.getEnvironment() != Environment.MOBILE
-                && !PageFactory.getWebDriver().getWindowHandles().isEmpty()) {
-            for (String windowHandle : PageFactory.getWebDriver().getWindowHandles()) {
-                PageFactory.getWebDriver().switchTo().window(windowHandle);
-            }
-        }
+//        if (PageFactory.getEnvironment() != Environment.MOBILE
+//                && !TestEnvironment.getDriverService().getDriver().getWindowHandles().isEmpty()) {
+//            for (String windowHandle : TestEnvironment.getDriverService().getDriver().getWindowHandles()) {
+//                TestEnvironment.getDriverService().getDriver().switchTo().window(windowHandle);
+//            }
+//        }
         PageFactory.getInstance().getPage(title);
     }
 
@@ -160,21 +156,21 @@ public class GenericStepDefs {
      * optional
      */
     public void openCopyPage() {
-        String pageUrl = PageFactory.getWebDriver().getCurrentUrl();
-        ((JavascriptExecutor) PageFactory.getWebDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
-        List<String> tabs = new ArrayList<>(PageFactory.getWebDriver().getWindowHandles());
-        PageFactory.getWebDriver().switchTo().window(tabs.get(tabs.size() - 1));
+        String pageUrl = TestEnvironment.getDriverService().getDriver().getCurrentUrl();
+        ((JavascriptExecutor) TestEnvironment.getDriverService().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
+        List<String> tabs = new ArrayList<>(TestEnvironment.getDriverService().getDriver().getWindowHandles());
+        TestEnvironment.getDriverService().getDriver().switchTo().window(tabs.get(tabs.size() - 1));
     }
 
     /**
      * Switch to a neighbour browser tab
      */
     public void switchesToNextTab() {
-        String currentTab = PageFactory.getWebDriver().getWindowHandle();
-        List<String> tabs = new ArrayList<>(PageFactory.getWebDriver().getWindowHandles());
+        String currentTab = TestEnvironment.getDriverService().getDriver().getWindowHandle();
+        List<String> tabs = new ArrayList<>(TestEnvironment.getDriverService().getDriver().getWindowHandles());
         for (int i = 0; i < tabs.size(); i++) {
             if (tabs.get(i).equals(currentTab)) {
-                PageFactory.getWebDriver().switchTo().window(tabs.get(i + 1));
+                TestEnvironment.getDriverService().getDriver().switchTo().window(tabs.get(i + 1));
                 return;
             }
         }
@@ -186,7 +182,7 @@ public class GenericStepDefs {
      * @param url url for comparison
      */
     public void urlMatches(String url) {
-        Assert.assertEquals("URL is different from the expected: ", url, PageFactory.getWebDriver().getCurrentUrl());
+        Assert.assertEquals("URL is different from the expected: ", url, TestEnvironment.getDriverService().getDriver().getCurrentUrl());
     }
 
     /**
@@ -195,10 +191,10 @@ public class GenericStepDefs {
      * @param title title of the page to open
      */
     public void closingCurrentWin(String title) {
-        PageFactory.getWebDriver().close();
-        for (String windowHandle : PageFactory.getWebDriver().getWindowHandles()) {
-            PageFactory.getWebDriver().switchTo().window(windowHandle);
-            if (PageFactory.getWebDriver().getTitle().equals(title)) {
+        TestEnvironment.getDriverService().getDriver().close();
+        for (String windowHandle : TestEnvironment.getDriverService().getDriver().getWindowHandles()) {
+            TestEnvironment.getDriverService().getDriver().switchTo().window(windowHandle);
+            if (TestEnvironment.getDriverService().getDriver().getTitle().equals(title)) {
                 return;
             }
         }
@@ -209,7 +205,7 @@ public class GenericStepDefs {
      * Return to previous location (via browser "back" button)
      */
     public void backPage() {
-        PageFactory.getWebDriver().navigate().back();
+        TestEnvironment.getDriverService().getDriver().navigate().back();
     }
 
     /**
@@ -218,7 +214,7 @@ public class GenericStepDefs {
      * @param url url to go to
      */
     public void goToUrl(String url) {
-        PageFactory.getWebDriver().get(url);
+        TestEnvironment.getDriverService().getDriver().get(url);
     }
 
     /**
@@ -237,29 +233,7 @@ public class GenericStepDefs {
      * Refresh browser page
      */
     public void reInitPage() {
-        PageFactory.getWebDriver().navigate().refresh();
-    }
-
-    /**
-     * Swipe until text is visible
-     *
-     * @param direction direction to swipe
-     * @param text text on page to swipe to
-     * @throws SwipeException if the text is not found or swipe depth is reached
-     */
-    public void swipeToText(String direction, String text) throws SwipeException {
-        MobileExtension.swipeToText(DirectionStrategy.valueOf(direction.toUpperCase()), text);
-    }
-
-    /**
-     * Swipe until text is visible for Android
-     *
-     * @param strategy contains or exact
-     * @param text text on page to swipe to
-     * @throws SwipeException if the text is not found
-     */
-    public void swipeToTextAndroid(String text, String strategy) throws SwipeException {
-        MobileExtension.swipeToText(MatchStrategy.valueOf(strategy), text);
+        TestEnvironment.getDriverService().getDriver().navigate().refresh();
     }
 
     /**

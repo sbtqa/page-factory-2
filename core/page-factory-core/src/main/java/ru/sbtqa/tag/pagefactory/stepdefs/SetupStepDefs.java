@@ -9,14 +9,10 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.allurehelper.ParamsHelper;
-import ru.sbtqa.tag.allurehelper.Type;
 import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.TestEnvironment;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
-import ru.sbtqa.tag.pagefactory.drivers.TagWebDriver;
-import ru.sbtqa.tag.pagefactory.support.Environment;
-import ru.sbtqa.tag.pagefactory.support.ScreenShooter;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 import ru.sbtqa.tag.videorecorder.VideoRecorder;
 
@@ -26,8 +22,10 @@ public class SetupStepDefs {
 
     private static final String DEFAULT_LOG_PROPERTIES_PATH = "src/test/resources/config/log4j.properties";
 
-    @Before
+    @Before(order = 10001)
     public void setUp(Scenario scenario) {
+        TestEnvironment.getDriverService().mountDriver();
+        TestEnvironment.setProperties(Properties.getProperties());
         ScenarioContext.setScenario(scenario);
         connectToLogProperties();
         stopTasksToKill();
@@ -76,29 +74,20 @@ public class SetupStepDefs {
     public void tearDown() {
         attachScreenshotToReport();
         stopVideo();
-        demountDriver();
+        TestEnvironment.getDriverService().demountDriver();
     }
 
     private void attachScreenshotToReport() {
-        boolean isScenarioFailed = ScenarioContext.getScenario().isFailed();
-        if (isScenarioFailed && PageFactory.isDriverInitialized()) {
-            ParamsHelper.addAttachmentToRender(ScreenShooter.take(), "Screenshot", Type.PNG);
-        }
+//        boolean isScenarioFailed = ScenarioContext.getScenario().isFailed();
+//        if (isScenarioFailed && PageFactory.isDriverInitialized()) {
+//            ParamsHelper.addAttachmentToRender(ScreenShooter.take(), "Screenshot", Type.PNG);
+//        }
     }
 
     private void stopVideo() {
         if (PageFactory.isVideoRecorderEnabled() && VideoRecorder.getInstance().isVideoStarted()) {
-            ParamsHelper.addParam("Video url", VideoRecorder.getInstance().stopRecording());
+//            ParamsHelper.addParam("Video url", VideoRecorder.getInstance().stopRecording());
             VideoRecorder.getInstance().resetVideoRecorder();
-        }
-    }
-
-    private void demountDriver() {
-        if (PageFactory.getEnvironment() == Environment.WEB && TagWebDriver.isWebDriverShared()) {
-            LOG.info("Webdriver sharing is processing...");
-            PageFactory.setSharingIsActive(true);
-        } else {
-            PageFactory.dispose();
         }
     }
 }

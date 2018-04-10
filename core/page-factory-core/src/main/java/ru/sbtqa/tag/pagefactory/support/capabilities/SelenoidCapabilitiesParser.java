@@ -6,6 +6,7 @@ import java.util.Map;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.TestEnvironment;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.OPERA;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
@@ -66,7 +67,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     }
 
     private void setBrowserDefaultCapabilities() {
-        switch (TagWebDriver.getBrowserName().toLowerCase()) {
+        switch (TestEnvironment.getProperties().getBrowserName().toLowerCase()) {
             case OPERA:
                 handleOpera();
                 break;

@@ -4,7 +4,6 @@ import cucumber.api.DataTable;
 import cucumber.api.java.ru.И;
 import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
 import ru.sbtqa.tag.pagefactory.stepdefs.GenericStepDefs;
 
 public class StepDefs extends GenericStepDefs {
@@ -153,24 +152,6 @@ public class StepDefs extends GenericStepDefs {
         super.reInitPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^пользователь свайпает экран \"([^\"]*)\" до текста \"([^\"]*)\"$")
-    public void swipeToText(String direction, String text) throws SwipeException {
-        super.swipeToText(direction, text);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^пользователь свайпает до текста \"([^\"]*)\" используя стратегию \"([^\"]*)\"$")
-    public void swipeToTextAndroid(String text, String strategy) throws SwipeException {
-        super.swipeToTextAndroid(text, strategy);
-    }
-    
     /**
      * {@inheritDoc}
      */

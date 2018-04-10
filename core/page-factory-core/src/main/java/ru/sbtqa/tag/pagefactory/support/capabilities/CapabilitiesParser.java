@@ -4,5 +4,5 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public interface CapabilitiesParser {
     
-    public DesiredCapabilities parse();
+    DesiredCapabilities parse();
 }

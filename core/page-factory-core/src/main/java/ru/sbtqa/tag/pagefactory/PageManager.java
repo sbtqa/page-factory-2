@@ -188,15 +188,16 @@ public class PageManager {
         }
 
         Annotation annotation = pageClass.getAnnotation(PageEntry.class);
+        String currentUrl = TestEnvironment.getDriverService().getDriver().getCurrentUrl();
         if (annotation != null && !((PageEntry) annotation).url().isEmpty()) {
-            if (PageContext.getCurrentPage().getDriver().getCurrentUrl() == null) {
+            if (currentUrl == null) {
                 throw new AutotestError("Current URL is null");
             } else {
                 try {
-                    URL currentUrl = new URL(PageContext.getCurrentPage().getDriver().getCurrentUrl());
-                    String finalUrl = new URL(currentUrl.getProtocol(), currentUrl.getHost(), currentUrl.getPort(),
+                    URL newUrl = new URL(currentUrl);
+                    String finalUrl = new URL(newUrl.getProtocol(), newUrl.getHost(), newUrl.getPort(),
                             ((PageEntry) annotation).url()).toString();
-                    PageContext.getCurrentPage().getDriver().navigate().to(finalUrl);
+                    TestEnvironment.getDriverService().getDriver().navigate().to(finalUrl);
                 } catch (MalformedURLException ex) {
                     LOG.error("Failed to get current url", ex);
                 }

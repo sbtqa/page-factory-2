@@ -10,9 +10,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.TestEnvironment;
 import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
@@ -23,12 +24,28 @@ public class ScreenShooter {
     private static final Configuration PROPERTIES = Properties.getProperties();
 
     /**
+     * Takes screenshot as indicated in application.properties
+     *
+     * @return screenshot in byte array
+     */
+    public static byte[] take() {
+        switch (PROPERTIES.getScreenshotStrategy()) {
+            case "driver":
+                return ScreenShooter.takeWithDriver();
+            case "raw":
+            default:
+                return ScreenShooter.takeRaw();
+        }
+    }
+
+    /**
      * Takes screenshot with driver
      *
      * @return screenshot in byte array
      */
     public static byte[] takeWithDriver() {
-        return ((TakesScreenshot) PageFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
+        WebDriver driver = TestEnvironment.getDriverService().getDriver();
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     /**
@@ -49,18 +66,5 @@ public class ScreenShooter {
         }
     }
 
-    /**
-     * Takes screenshot as indicated in application.properties
-     *
-     * @return screenshot in byte array
-     */
-    public static byte[] take() {
-        switch (PROPERTIES.getScreenshotStrategy()) {
-            case "driver":
-                return ScreenShooter.takeWithDriver();
-            case "raw":
-            default:
-                return ScreenShooter.takeRaw();
-        }
-    }
+
 }

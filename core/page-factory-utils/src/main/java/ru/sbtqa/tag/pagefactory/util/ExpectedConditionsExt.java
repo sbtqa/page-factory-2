@@ -1,12 +1,17 @@
 package ru.sbtqa.tag.pagefactory.util;
 
 import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.qautils.managers.DateManager;
@@ -21,8 +26,8 @@ public class ExpectedConditionsExt {
      * @param webElement Desired web element
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementPresent(Page page, WebElement webElement) {
-        return new WebDriverWait(page.getDriver(), PageFactory.getTimeOutInSeconds()).
+    public static WebElement waitUntilElementPresent(WebDriver driver, WebElement webElement) {
+        return new WebDriverWait(driver, PageFactory.getTimeOutInSeconds()).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -33,8 +38,8 @@ public class ExpectedConditionsExt {
      * @param timeout    Timeout in seconds
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementPresent(Page page, WebElement webElement, int timeout) {
-        return new WebDriverWait(page.getDriver(), timeout).
+    public static WebElement waitUntilElementPresent(WebDriver driver, WebElement webElement, int timeout) {
+        return new WebDriverWait(driver, timeout).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -44,8 +49,8 @@ public class ExpectedConditionsExt {
      * @param webElement Desired web element
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementToBeClickable(Page page, WebElement webElement) {
-        return new WebDriverWait(page.getDriver(), PageFactory.getTimeOutInSeconds()).
+    public static WebElement waitUntilElementToBeClickable(WebDriver driver, WebElement webElement) {
+        return new WebDriverWait(driver, PageFactory.getTimeOutInSeconds()).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -56,8 +61,8 @@ public class ExpectedConditionsExt {
      * @param timeout    Timeout in seconds
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementToBeClickable(Page page, WebElement webElement, int timeout) {
-        return new WebDriverWait(page.getDriver(), timeout).
+    public static WebElement waitUntilElementToBeClickable(WebDriver driver, WebElement webElement, int timeout) {
+        return new WebDriverWait(driver, timeout).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -66,15 +71,15 @@ public class ExpectedConditionsExt {
      *
      * @param webElement Desired web element
      */
-    public static void waitUntilPagePrepared(Page page, WebElement webElement) {
+    public static void waitUntilPagePrepared(WebDriver driver, WebElement webElement) {
         try {
-            new WebDriverWait(page.getDriver(), PageFactory.getTimeOutInSeconds() / 2).
+            new WebDriverWait(driver, PageFactory.getTimeOutInSeconds() / 2).
                     until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception | AssertionError e) {
             LOG.debug("Element {} does not become visible after timeout", webElement, e);
-            page.getDriver().navigate().refresh();
+            driver.navigate().refresh();
             LOG.debug("WebElementsPage refreshed");
-            new WebDriverWait(page.getDriver(), PageFactory.getTimeOutInSeconds()).
+            new WebDriverWait(driver, PageFactory.getTimeOutInSeconds()).
                     until(ExpectedConditions.visibilityOf(webElement));
         }
     }
@@ -85,8 +90,8 @@ public class ExpectedConditionsExt {
      * @param by a {@link By} object.
      * @return return appeared WebElement
      */
-    public static WebElement waitUntilElementAppearsInDom(Page page, By by) {
-        return new WebDriverWait(page.getDriver(), PageFactory.getTimeOutInSeconds())
+    public static WebElement waitUntilElementAppearsInDom(WebDriver driver, By by) {
+        return new WebDriverWait(driver, PageFactory.getTimeOutInSeconds())
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
@@ -97,8 +102,8 @@ public class ExpectedConditionsExt {
      * @param timeout timeout in seconds
      * @return return appeared WebElement
      */
-    public static WebElement waitUntilElementAppearsInDom(Page page, By by, long timeout) {
-        return new WebDriverWait(page.getDriver(), timeout)
+    public static WebElement waitUntilElementAppearsInDom(WebDriver driver, By by, long timeout) {
+        return new WebDriverWait(driver, timeout)
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
@@ -127,8 +132,8 @@ public class ExpectedConditionsExt {
     /**
      * @param element a {@link WebElement} object.
      */
-    public static void waitUntilElementGetInvisible(Page page, WebElement element) {
-        new WebDriverWait(page.getDriver(), PageFactory.getTimeOutInSeconds())
+    public static void waitUntilElementGetInvisible(WebDriver driver, WebElement element) {
+        new WebDriverWait(driver, PageFactory.getTimeOutInSeconds())
                 .until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
     }
 
@@ -161,8 +166,8 @@ public class ExpectedConditionsExt {
      *
      * @throws WaitException if alert didn't appear during timeout
      */
-    public static void acceptAlert(Page page) throws WaitException {
-        interactWithAlert(page,"", true);
+    public static void acceptAlert(WebDriver webDriver) throws WaitException {
+        interactWithAlert(webDriver,"", true);
     }
 
     /**
@@ -170,8 +175,8 @@ public class ExpectedConditionsExt {
      *
      * @throws WaitException if alert didn't appear during timeout
      */
-    public static void dismissAlert(Page page) throws WaitException {
-        interactWithAlert(page, "", false);
+    public static void dismissAlert(WebDriver webDriver) throws WaitException {
+        interactWithAlert(webDriver, "", false);
     }
 
     /**
@@ -182,12 +187,12 @@ public class ExpectedConditionsExt {
      * @param decision    true - accept, false - dismiss
      * @throws WaitException in case if alert didn't appear during default wait timeout
      */
-    public static void interactWithAlert(Page page, String messageText, boolean decision) throws WaitException {
+    public static void interactWithAlert(WebDriver driver, String messageText, boolean decision) throws WaitException {
         long timeoutTime = System.currentTimeMillis() + PageFactory.getTimeOut();
 
         while (timeoutTime > System.currentTimeMillis()) {
             try {
-                Alert alert = page.getDriver().switchTo().alert();
+                Alert alert = driver.switchTo().alert();
                 if (!messageText.isEmpty()) {
                     Assert.assertEquals(alert.getText(), messageText);
                 }
@@ -211,9 +216,9 @@ public class ExpectedConditionsExt {
      * @param timeout a {int} object. wait text during sec period
      * @return true if exists
      */
-    public static boolean checkElementWithTextIsPresent(Page page, String text, int timeout) {
+    public static boolean checkElementWithTextIsPresent(WebDriver driver, String text, int timeout) {
         try {
-            new WebDriverWait(page.getDriver(), timeout)
+            new WebDriverWait(driver, timeout)
                     .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + text + "')]")));
             return true;
         } catch (TimeoutException e) {
