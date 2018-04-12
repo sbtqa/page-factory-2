@@ -30,6 +30,11 @@
             <version>${project.version}</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber2-jvm</artifactId>
+            <version>2.6.0</version>
+        </dependency>
 
         <!--test-->
         <dependency>
@@ -104,6 +109,8 @@
                     </classpathDependencyExcludes>
                     <argLine>
                           -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.8.10/aspectjweaver-1.8.10.jar"
+                            -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
+
                     </argLine>
                 </configuration>
             </plugin>

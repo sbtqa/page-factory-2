@@ -40,7 +40,7 @@ public abstract class WebElementsPage extends Page {
      * initialized, or required element couldn't be found
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.fill.field")
-    public void fillField(String elementTitle, String text) throws PageException {
+    public void fill(String elementTitle, String text) throws PageException {
         WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         ActionsExt.fill(webElement, text);
     }
