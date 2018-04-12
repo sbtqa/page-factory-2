@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.aspects;
+package ru.sbtqa.tag.pagefactory.web.aspects;
 
 import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.ProceedingJoinPoint;

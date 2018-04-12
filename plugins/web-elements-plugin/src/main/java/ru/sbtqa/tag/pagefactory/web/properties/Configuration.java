@@ -8,4 +8,12 @@ public interface Configuration extends ru.sbtqa.tag.pagefactory.properties.Confi
     @Key("aspects.highlight.enabled")
     @DefaultValue("false")
     boolean isHighlightEnabled();
+
+    @Key("aspects.click.actions.enabled")
+    @DefaultValue("false")
+    boolean isClickViaSeleniumActionsEnabled();
+
+    @Key("aspects.scroll.to.element.enabled")
+    @DefaultValue("false")
+    boolean isScrollToElementEnabled();
 }

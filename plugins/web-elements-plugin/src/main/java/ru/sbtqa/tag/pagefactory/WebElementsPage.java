@@ -1,8 +1,5 @@
 package ru.sbtqa.tag.pagefactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -21,6 +18,10 @@ import ru.sbtqa.tag.pagefactory.util.ExpectedConditionsExt;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Contains basic actions in particular with web elements
