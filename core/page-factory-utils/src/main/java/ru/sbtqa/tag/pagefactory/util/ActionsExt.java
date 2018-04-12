@@ -5,7 +5,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
 
 public class ActionsExt {
 
@@ -24,7 +23,7 @@ public class ActionsExt {
     }
 
     public static void click(WebElement webElement) {
-        ExpectedConditionsExt.waitForElementGetEnabled(webElement, PageFactory.getTimeOut());
+        ExpectedConditionsExt.waitForElementGetEnabled(webElement, 10000);
         webElement.click();
     }
 

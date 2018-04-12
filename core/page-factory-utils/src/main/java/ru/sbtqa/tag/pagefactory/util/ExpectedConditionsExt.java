@@ -12,13 +12,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.qautils.managers.DateManager;
 
 public class ExpectedConditionsExt {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExpectedConditionsExt.class);
+    // TODO !!!
+//    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     /**
      * Wait until element present
@@ -27,7 +28,7 @@ public class ExpectedConditionsExt {
      * @return Expected WebElement
      */
     public static WebElement waitUntilElementPresent(WebDriver driver, WebElement webElement) {
-        return new WebDriverWait(driver, PageFactory.getTimeOutInSeconds()).
+        return new WebDriverWait(driver, 1).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -50,7 +51,7 @@ public class ExpectedConditionsExt {
      * @return Expected WebElement
      */
     public static WebElement waitUntilElementToBeClickable(WebDriver driver, WebElement webElement) {
-        return new WebDriverWait(driver, PageFactory.getTimeOutInSeconds()).
+        return new WebDriverWait(driver, 1).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -73,13 +74,13 @@ public class ExpectedConditionsExt {
      */
     public static void waitUntilPagePrepared(WebDriver driver, WebElement webElement) {
         try {
-            new WebDriverWait(driver, PageFactory.getTimeOutInSeconds() / 2).
+            new WebDriverWait(driver, 1 / 2).
                     until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception | AssertionError e) {
             LOG.debug("Element {} does not become visible after timeout", webElement, e);
             driver.navigate().refresh();
             LOG.debug("WebElementsPage refreshed");
-            new WebDriverWait(driver, PageFactory.getTimeOutInSeconds()).
+            new WebDriverWait(driver, 1).
                     until(ExpectedConditions.visibilityOf(webElement));
         }
     }
@@ -91,7 +92,7 @@ public class ExpectedConditionsExt {
      * @return return appeared WebElement
      */
     public static WebElement waitUntilElementAppearsInDom(WebDriver driver, By by) {
-        return new WebDriverWait(driver, PageFactory.getTimeOutInSeconds())
+        return new WebDriverWait(driver, 1)
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
@@ -133,7 +134,7 @@ public class ExpectedConditionsExt {
      * @param element a {@link WebElement} object.
      */
     public static void waitUntilElementGetInvisible(WebDriver driver, WebElement element) {
-        new WebDriverWait(driver, PageFactory.getTimeOutInSeconds())
+        new WebDriverWait(driver, 1)
                 .until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
     }
 
@@ -188,7 +189,7 @@ public class ExpectedConditionsExt {
      * @throws WaitException in case if alert didn't appear during default wait timeout
      */
     public static void interactWithAlert(WebDriver driver, String messageText, boolean decision) throws WaitException {
-        long timeoutTime = System.currentTimeMillis() + PageFactory.getTimeOut();
+        long timeoutTime = System.currentTimeMillis() + 1000;
 
         while (timeoutTime > System.currentTimeMillis()) {
             try {
@@ -207,7 +208,7 @@ public class ExpectedConditionsExt {
             }
             sleep(1);
         }
-        throw new WaitException("Timed out after '" + PageFactory.getTimeOutInSeconds() + "' seconds waiting for alert to accept");
+        throw new WaitException("Timed out after '" + 1 + "' seconds waiting for alert to accept");
     }
 
 
@@ -232,7 +233,7 @@ public class ExpectedConditionsExt {
      */
     private static void sleep(int sec) {
         try {
-            Thread.sleep(sec * 1000L);
+            Thread.sleep(sec * 100L);
         } catch (InterruptedException e) {
             LOG.warn("Error while thread is sleeping", e);
             Thread.currentThread().interrupt();

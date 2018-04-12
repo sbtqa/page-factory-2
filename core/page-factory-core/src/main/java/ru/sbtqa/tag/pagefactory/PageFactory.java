@@ -1,15 +1,15 @@
 package ru.sbtqa.tag.pagefactory;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.support.properties.Properties;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 public class PageFactory {
 
     private static PageManager pageManager;
 
-    private static final Configuration PROPERTIES = Properties.getProperties();
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
     private static boolean aspectsEnabled = PROPERTIES.isAspectEnabled();
     private static boolean sharingIsActive = false;
     

@@ -57,6 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
                 <executions>
                     <execution>
                         <id>default-testCompile</id>
@@ -101,6 +102,9 @@
                     <classpathDependencyExcludes>
                         <classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>
                     </classpathDependencyExcludes>
+                    <argLine>
+                          -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.8.10/aspectjweaver-1.8.10.jar"
+                    </argLine>
                 </configuration>
             </plugin>
             <plugin>

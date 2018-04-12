@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,9 +26,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.configure.ProxyConfigurator;
+import ru.sbtqa.tag.pagefactory.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
-import ru.sbtqa.tag.pagefactory.drivers.configure.ProxyConfigurator;
-import ru.sbtqa.tag.pagefactory.drivers.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.CHROME;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.FIREFOX;
@@ -37,13 +38,12 @@ import static ru.sbtqa.tag.pagefactory.support.BrowserType.INTERNET_EXPLORER;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.SAFARI;
 import ru.sbtqa.tag.pagefactory.support.capabilities.SelenoidCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.support.capabilities.WebDriverCapabilitiesParser;
-import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.support.properties.Properties;
+import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
 
 public class WebDriverService implements DriverService {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebDriverService.class);
-    private static final Configuration PROPERTIES = Properties.getProperties();
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     private WebDriver webDriver;
 

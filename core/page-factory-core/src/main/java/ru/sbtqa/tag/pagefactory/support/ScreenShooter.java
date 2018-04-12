@@ -8,20 +8,20 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.TestEnvironment;
-import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.support.properties.Properties;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 public class ScreenShooter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ScreenShooter.class);
 
-    private static final Configuration PROPERTIES = Properties.getProperties();
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     /**
      * Takes screenshot as indicated in application.properties

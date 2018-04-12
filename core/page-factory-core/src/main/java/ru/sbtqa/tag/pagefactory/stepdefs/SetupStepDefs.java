@@ -3,8 +3,7 @@ package ru.sbtqa.tag.pagefactory.stepdefs;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.TestEnvironment;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
@@ -15,13 +14,13 @@ import ru.sbtqa.tag.pagefactory.events.KillProcessesTask;
 import ru.sbtqa.tag.pagefactory.events.StartVideoTask;
 import ru.sbtqa.tag.pagefactory.events.StopVideoTask;
 import ru.sbtqa.tag.pagefactory.events.TaskHandler;
-import ru.sbtqa.tag.pagefactory.support.properties.Properties;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 public class SetupStepDefs {
 
     @Before(order = 10001)
     public void setUp(Scenario scenario) {
-        TestEnvironment.setProperties(Properties.getProperties());
+        TestEnvironment.setProperties(ConfigFactory.create(Configuration.class));
         TestEnvironment.getDriverService().mountDriver();
         ScenarioContext.setScenario(scenario);
 

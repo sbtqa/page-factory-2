@@ -1,15 +1,14 @@
-package ru.sbtqa.tag.pagefactory.support.properties;
+package ru.sbtqa.tag.pagefactory.properties;
 
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.Sources;
 
 @Sources("classpath:config/application.properties")
 public interface Configuration extends Config {
-
     @Key("driver.environment")
     String getEnvironment();
 
-    
+
     @Key("page.load.timeout")
     @DefaultValue("20000")
     int getTimeout();
@@ -40,7 +39,7 @@ public interface Configuration extends Config {
     @Key("webdriver.browser.ie.killOnDispose")
     @DefaultValue("false")
     boolean isIEKillOnDispose();
-    
+
     @Key("webdriver.create.attempts")
     @DefaultValue("3")
     int getWebDriverCreateAttempts();
@@ -76,12 +75,12 @@ public interface Configuration extends Config {
     @Key("webdriver.shared")
     @DefaultValue("false")
     boolean isWebDriverShared();
-    
-    
+
+
     @Key("video.highlight.enabled")
     @DefaultValue("false")
     boolean isVideoHighlightEnabled();
-    
+
     @Key("video.enabled")
     @DefaultValue("false")
     boolean isVideoEnabled();
@@ -94,36 +93,36 @@ public interface Configuration extends Config {
     @DefaultValue("raw")
     String getScreenshotStrategy();
 
-    
+
     @Key("appium.url")
     @DefaultValue("")
     String getAppiumUrl();
-    
+
     @Key("appium.device.name")
     @DefaultValue("")
     String getAppiumDeviceName();
-    
+
     @Key("appium.device.platform")
     @DefaultValue("")
     String getAppiumDevicePlatform();
-    
+
     @Key("appium.app.package")
     @DefaultValue("")
     String getAppiumAppPackage();
-    
+
     @Key("appium.app.activity")
     @DefaultValue("")
     String getAppiumAppActivity();
-    
+
     @Key("appium.fill.adb")
     @DefaultValue("false")
     boolean isAppiumFillAdb();
-    
+
     @Key("appium.click.adb")
     @DefaultValue("false")
     boolean isAppiumClickAdb();
-    
-    
+
+
     @Key("selenoid.browserVersion")
     @DefaultValue("")
     String getSelenoidBrowserVersion();

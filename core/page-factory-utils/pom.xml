@@ -22,11 +22,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>page-factory-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>qa-utils</artifactId>
       <version>${tag.version.qautils}</version>
@@ -35,6 +30,17 @@
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-api</artifactId>
       <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-support</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+      <!--TODO спрятать в qa-utils-->
+      <groupId>org.aeonbits.owner</groupId>
+      <artifactId>owner</artifactId>
+      <version>1.0.9</version>
     </dependency>
   </dependencies>
 

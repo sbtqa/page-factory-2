@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.pagefactory;
 
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
-import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 // Статичное хранилище для инфраструктуры
 public class TestEnvironment {

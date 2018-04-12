@@ -3,20 +3,20 @@ package ru.sbtqa.tag.pagefactory.support.capabilities;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.TestEnvironment;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
 import static ru.sbtqa.tag.pagefactory.support.BrowserType.OPERA;
-import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.support.properties.Properties;
 
 public class SelenoidCapabilitiesParser implements CapabilitiesParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
-    private static final Configuration PROPERTIES = Properties.getProperties();
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
     private static final String VIDEONAME_FORMAT = new Date().toString().replaceAll("\\s","") + "-%s";
 
     private final DesiredCapabilities capabilities = new DesiredCapabilities();

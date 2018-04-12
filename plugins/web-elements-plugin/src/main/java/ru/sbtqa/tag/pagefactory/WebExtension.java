@@ -140,21 +140,24 @@ public class WebExtension {
         return findNewWindowHandle(existingHandles, PageFactory.getTimeOut());
     }
 
+
+    public static String getElementBorderStyle(WebElement webElement) {
+        JavascriptExecutor js = (JavascriptExecutor) TestEnvironment.getDriverService().getDriver();
+        return (String) js.executeScript("return arguments[0].style.border", webElement);
+    }
+
     /**
      * Turn on element highlight
      *
      * @param webElement TODO
      * @return initial element style
      */
-    public static String highlightElementOn(WebElement webElement) {
+    public static void highlightElementOn(WebElement webElement) {
         try {
             JavascriptExecutor js = (JavascriptExecutor) TestEnvironment.getDriverService().getDriver();
-            String style = (String) js.executeScript("return arguments[0].style.border", webElement);
             js.executeScript("arguments[0].style.border='3px solid red'", webElement);
-            return style;
         } catch (Exception e) {
             LOG.warn("Something went wrong with element highlight", e);
-            return null;
         }
     }
 
@@ -162,15 +165,13 @@ public class WebExtension {
      * Turn off element highlight
      *
      * @param webElement TODO
-     * @param style      element style to set
+     * @param originalStyle      element style to set
      */
-    public static void highlightElementOff(WebElement webElement, String style) {
-        if (style == null) {
-            return;
-        }
+    public static void highlightElementOff(WebElement webElement, String originalStyle) {
+        originalStyle = (originalStyle == null) ? "" : originalStyle;
         try {
             JavascriptExecutor js = (JavascriptExecutor) TestEnvironment.getDriverService().getDriver();
-            js.executeScript("arguments[0].style.border='" + style + "'", webElement);
+            js.executeScript("arguments[0].style.border='" + originalStyle + "'", webElement);
         } catch (Exception e) {
             LOG.debug("Something went wrong with element highlight", e);
         }

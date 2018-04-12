@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.support.properties;
+package ru.sbtqa.tag.pagefactory.properties;
 
 public class PropertyMissingRuntimeException extends RuntimeException {
 
