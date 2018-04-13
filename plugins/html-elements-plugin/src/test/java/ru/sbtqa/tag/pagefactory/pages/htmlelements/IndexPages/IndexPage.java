@@ -3,7 +3,7 @@ package ru.sbtqa.tag.pagefactory.pages.htmlelements.IndexPages;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.HTMLPage;
 import ru.sbtqa.tag.pagefactory.PageFactory;
-import ru.sbtqa.tag.pagefactory.TestEnvironment;
+import ru.sbtqa.tag.pagefactory.Environment;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.pages.htmlelements.blocks.MenuBlock;
@@ -27,6 +27,6 @@ public class IndexPage extends HTMLPage {
     
     public IndexPage() {
         PageFactory.initElements(new HtmlElementDecorator(
-                new HtmlElementLocatorFactory(TestEnvironment.getDriverService().getDriver())), this);
+                new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())), this);
     }
 }

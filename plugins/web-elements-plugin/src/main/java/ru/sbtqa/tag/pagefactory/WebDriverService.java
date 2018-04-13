@@ -26,18 +26,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.configure.ProxyConfigurator;
-import ru.sbtqa.tag.pagefactory.configure.WebDriverManagerConfigurator;
+import ru.sbtqa.tag.pagefactory.capabilities.SelenoidCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.capabilities.WebDriverCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.CHROME;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.FIREFOX;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.IEXPLORE;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.INTERNET_EXPLORER;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.SAFARI;
-import ru.sbtqa.tag.pagefactory.support.capabilities.SelenoidCapabilitiesParser;
-import ru.sbtqa.tag.pagefactory.support.capabilities.WebDriverCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
+import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
 
 public class WebDriverService implements DriverService {

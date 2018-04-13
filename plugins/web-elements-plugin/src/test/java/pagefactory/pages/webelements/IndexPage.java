@@ -3,8 +3,8 @@ package pagefactory.pages.webelements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import ru.sbtqa.tag.pagefactory.Environment;
 import ru.sbtqa.tag.pagefactory.PageFactory;
-import ru.sbtqa.tag.pagefactory.TestEnvironment;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
@@ -32,7 +32,7 @@ public class IndexPage extends AbstractPage {
     }
     
     public IndexPage() {
-        WebDriver webDriver = TestEnvironment.getDriverService().getDriver();
+        WebDriver webDriver = Environment.getDriverService().getDriver();
         PageFactory.initElements(webDriver, this);
     }
 }

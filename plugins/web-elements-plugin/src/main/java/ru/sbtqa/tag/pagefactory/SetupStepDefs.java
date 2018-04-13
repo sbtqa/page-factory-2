@@ -6,6 +6,6 @@ public class SetupStepDefs {
 
     @Before
     public void setUp() {
-        TestEnvironment.setDriverService(new WebDriverService());
+        Environment.setDriverService(new WebDriverService());
     }
 }

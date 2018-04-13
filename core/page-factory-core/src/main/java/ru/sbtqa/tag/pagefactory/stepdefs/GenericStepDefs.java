@@ -8,9 +8,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.Environment;
 import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
-import ru.sbtqa.tag.pagefactory.TestEnvironment;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
@@ -53,9 +53,9 @@ public class GenericStepDefs {
      */
     public void openPage(String title) throws PageInitializationException {
 //        if (PageFactory.getEnvironment() != Environment.MOBILE
-//                && !TestEnvironment.getDriverService().getDriver().getWindowHandles().isEmpty()) {
-//            for (String windowHandle : TestEnvironment.getDriverService().getDriver().getWindowHandles()) {
-//                TestEnvironment.getDriverService().getDriver().switchTo().window(windowHandle);
+//                && !Environment.getDriverService().getDriver().getWindowHandles().isEmpty()) {
+//            for (String windowHandle : Environment.getDriverService().getDriver().getWindowHandles()) {
+//                Environment.getDriverService().getDriver().switchTo().window(windowHandle);
 //            }
 //        }
         PageFactory.getInstance().getPage(title);
@@ -156,21 +156,21 @@ public class GenericStepDefs {
      * optional
      */
     public void openCopyPage() {
-        String pageUrl = TestEnvironment.getDriverService().getDriver().getCurrentUrl();
-        ((JavascriptExecutor) TestEnvironment.getDriverService().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
-        List<String> tabs = new ArrayList<>(TestEnvironment.getDriverService().getDriver().getWindowHandles());
-        TestEnvironment.getDriverService().getDriver().switchTo().window(tabs.get(tabs.size() - 1));
+        String pageUrl = Environment.getDriverService().getDriver().getCurrentUrl();
+        ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
+        List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
+        Environment.getDriverService().getDriver().switchTo().window(tabs.get(tabs.size() - 1));
     }
 
     /**
      * Switch to a neighbour browser tab
      */
     public void switchesToNextTab() {
-        String currentTab = TestEnvironment.getDriverService().getDriver().getWindowHandle();
-        List<String> tabs = new ArrayList<>(TestEnvironment.getDriverService().getDriver().getWindowHandles());
+        String currentTab = Environment.getDriverService().getDriver().getWindowHandle();
+        List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
         for (int i = 0; i < tabs.size(); i++) {
             if (tabs.get(i).equals(currentTab)) {
-                TestEnvironment.getDriverService().getDriver().switchTo().window(tabs.get(i + 1));
+                Environment.getDriverService().getDriver().switchTo().window(tabs.get(i + 1));
                 return;
             }
         }
@@ -182,7 +182,7 @@ public class GenericStepDefs {
      * @param url url for comparison
      */
     public void urlMatches(String url) {
-        Assert.assertEquals("URL is different from the expected: ", url, TestEnvironment.getDriverService().getDriver().getCurrentUrl());
+        Assert.assertEquals("URL is different from the expected: ", url, Environment.getDriverService().getDriver().getCurrentUrl());
     }
 
     /**
@@ -191,10 +191,10 @@ public class GenericStepDefs {
      * @param title title of the page to open
      */
     public void closingCurrentWin(String title) {
-        TestEnvironment.getDriverService().getDriver().close();
-        for (String windowHandle : TestEnvironment.getDriverService().getDriver().getWindowHandles()) {
-            TestEnvironment.getDriverService().getDriver().switchTo().window(windowHandle);
-            if (TestEnvironment.getDriverService().getDriver().getTitle().equals(title)) {
+        Environment.getDriverService().getDriver().close();
+        for (String windowHandle : Environment.getDriverService().getDriver().getWindowHandles()) {
+            Environment.getDriverService().getDriver().switchTo().window(windowHandle);
+            if (Environment.getDriverService().getDriver().getTitle().equals(title)) {
                 return;
             }
         }
@@ -205,7 +205,7 @@ public class GenericStepDefs {
      * Return to previous location (via browser "back" button)
      */
     public void backPage() {
-        TestEnvironment.getDriverService().getDriver().navigate().back();
+        Environment.getDriverService().getDriver().navigate().back();
     }
 
     /**
@@ -214,7 +214,7 @@ public class GenericStepDefs {
      * @param url url to go to
      */
     public void goToUrl(String url) {
-        TestEnvironment.getDriverService().getDriver().get(url);
+        Environment.getDriverService().getDriver().get(url);
     }
 
     /**
@@ -233,7 +233,7 @@ public class GenericStepDefs {
      * Refresh browser page
      */
     public void reInitPage() {
-        TestEnvironment.getDriverService().getDriver().navigate().refresh();
+        Environment.getDriverService().getDriver().navigate().refresh();
     }
 
     /**

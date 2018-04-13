@@ -14,7 +14,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.TestEnvironment;
+import ru.sbtqa.tag.pagefactory.Environment;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 public class ScreenShooter {
@@ -44,7 +44,7 @@ public class ScreenShooter {
      * @return screenshot in byte array
      */
     public static byte[] takeWithDriver() {
-        WebDriver driver = TestEnvironment.getDriverService().getDriver();
+        WebDriver driver = Environment.getDriverService().getDriver();
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 

@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.configure;
+package ru.sbtqa.tag.pagefactory.web.configure;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

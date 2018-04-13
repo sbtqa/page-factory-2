@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.openqa.selenium.*;
-import ru.sbtqa.tag.pagefactory.TestEnvironment;
+import ru.sbtqa.tag.pagefactory.Environment;
 import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
 
 @Aspect
@@ -22,7 +22,7 @@ public class ScrollToElement {
     @Around("isScrollToElementEnabled()")
     public void highlight(ProceedingJoinPoint joinPoint) throws Throwable {
         WebElement webElement = (WebElement) joinPoint.getTarget();
-        WebDriver webDriver = TestEnvironment.getDriverService().getDriver();
+        WebDriver webDriver = Environment.getDriverService().getDriver();
 
         Dimension size = webDriver.manage().window().getSize();
         Point elementLocation = (webElement).getLocation();

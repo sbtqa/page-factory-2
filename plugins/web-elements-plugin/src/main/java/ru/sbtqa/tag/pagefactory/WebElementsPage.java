@@ -183,7 +183,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.accept.alert")
     public void acceptAlert(String text) throws WaitException {
-        ExpectedConditionsExt.acceptAlert(TestEnvironment.getDriverService().getDriver());
+        ExpectedConditionsExt.acceptAlert(Environment.getDriverService().getDriver());
     }
 
     /**
@@ -195,7 +195,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.dismiss.alert")
     public void dismissAlert(String text) throws WaitException {
-        ExpectedConditionsExt.dismissAlert(TestEnvironment.getDriverService().getDriver());
+        ExpectedConditionsExt.dismissAlert(Environment.getDriverService().getDriver());
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class WebElementsPage extends Page {
         try {
             String popupHandle = WebExtension.findNewWindowHandle((Set<String>) Stash.getValue("beforeClickHandles"));
             if (null != popupHandle && !popupHandle.isEmpty()) {
-                TestEnvironment.getDriverService().getDriver().switchTo().window(popupHandle);
+                Environment.getDriverService().getDriver().switchTo().window(popupHandle);
             }
             assertTextAppears(text);
         } catch (Exception ex) {
@@ -411,7 +411,7 @@ public abstract class WebElementsPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.text.visible")})
     public void checkElementWithTextIsPresent(String text) {
-        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(TestEnvironment.getDriverService().getDriver(), text, PageFactory.getTimeOutInSeconds())) {
+        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(Environment.getDriverService().getDriver(), text, PageFactory.getTimeOutInSeconds())) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }
