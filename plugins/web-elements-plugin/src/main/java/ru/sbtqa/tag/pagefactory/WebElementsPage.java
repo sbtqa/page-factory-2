@@ -1,5 +1,8 @@
 package ru.sbtqa.tag.pagefactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -19,10 +22,6 @@ import ru.sbtqa.tag.pagefactory.util.ExpectedConditionsExt;
 import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Contains basic actions in particular with web elements
@@ -412,7 +411,7 @@ public abstract class WebElementsPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.text.visible")})
     public void checkElementWithTextIsPresent(String text) {
-        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(Environment.getDriverService().getDriver(), text, PageFactory.getTimeOutInSeconds())) {
+        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(Environment.getDriverService().getDriver(), text, PROPERTIES.getTimeout())) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }

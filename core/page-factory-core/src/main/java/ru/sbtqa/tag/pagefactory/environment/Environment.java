@@ -6,7 +6,6 @@ import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 public class Environment {
 
     private static DriverService driverService;
-//    private static Configuration properties;
 
     public static void setDriverService(DriverService driverService) {
         Environment.driverService = driverService;
@@ -15,12 +14,4 @@ public class Environment {
     public static DriverService getDriverService() {
         return driverService;
     }
-
-//    public static Configuration getProperties() {
-//        return properties;
-//    }
-//
-//    public static void setProperties(Configuration properties) {
-//        Environment.properties = properties;
-//    }
 }

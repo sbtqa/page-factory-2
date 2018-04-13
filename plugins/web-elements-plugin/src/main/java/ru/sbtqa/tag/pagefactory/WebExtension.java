@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.pagefactory;
 
 import java.util.Set;
-
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -9,12 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.util.ExpectedConditionsExt;
 import ru.sbtqa.tag.qautils.managers.DateManager;
 
 public class WebExtension {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebExtension.class);
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     /**
      * Get outer element text. Used for get text from checkboxes and radio
@@ -51,7 +53,7 @@ public class WebExtension {
      */
     public static void waitForPageToLoad(boolean... stopRecursion) throws WaitException {
 
-        long timeoutTime = System.currentTimeMillis() + PageFactory.getTimeOut();
+        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
         while (timeoutTime > System.currentTimeMillis()) {
             try {
                 if ("complete".equals((String) ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("return document.readyState"))) {
@@ -68,7 +70,7 @@ public class WebExtension {
             }
         }
 
-        throw new WaitException("Timed out after " + PageFactory.getTimeOutInSeconds() + " seconds waiting for preparedness of page");
+        throw new WaitException("Timed out after " + PROPERTIES.getTimeout() + " seconds waiting for preparedness of page");
     }
 
     /**
@@ -95,7 +97,7 @@ public class WebExtension {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
     public static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent) throws WaitException {
-        long timeoutTime = System.currentTimeMillis() + PageFactory.getTimeOut();
+        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
         WebElement body = ExpectedConditionsExt.waitUntilElementAppearsInDom(Environment.getDriverService().getDriver(), By.tagName("body"));
         while (timeoutTime > System.currentTimeMillis()) {
             sleep(1);
@@ -103,7 +105,7 @@ public class WebExtension {
                 return;
             }
         }
-        throw new WaitException("Timed out after '" + PageFactory.getTimeOutInSeconds() + "' seconds waiting for presence of '" + text + "' in page source");
+        throw new WaitException("Timed out after '" + PROPERTIES.getTimeout() + "' seconds waiting for presence of '" + text + "' in page source");
     }
 
     /**
@@ -138,7 +140,7 @@ public class WebExtension {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
     public static String findNewWindowHandle(Set<String> existingHandles) throws WaitException {
-        return findNewWindowHandle(existingHandles, PageFactory.getTimeOut());
+        return findNewWindowHandle(existingHandles, PROPERTIES.getTimeout() / 1000);
     }
 
 

@@ -5,8 +5,8 @@ driver.environment = mobile
 #path to page objects
 page.package = ru.sbtqa.tag.mobilefactory.entries
 
-#default wait timeout in milliseconds. 20000 by default
-page.load.timeout = 60000
+#default wait timeout in seconds. 20 by default
+timeout = 20
 
 #optional. False by default
 video.enabled = false

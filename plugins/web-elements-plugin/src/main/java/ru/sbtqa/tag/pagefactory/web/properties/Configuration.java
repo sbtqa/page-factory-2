@@ -16,12 +16,4 @@ public interface Configuration extends ru.sbtqa.tag.pagefactory.properties.Confi
     @Key("aspects.scroll.to.element.enabled")
     @DefaultValue("false")
     boolean isScrollToElementEnabled();
-
-    @Key("aspects.report.fill.enabled")
-    @DefaultValue("true")
-    boolean isFillReportEnabled();
-
-    @Key("aspects.report.click.enabled")
-    @DefaultValue("true")
-    boolean isClickReportEnabled();
 }

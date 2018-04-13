@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.pagefactory.util;
 
+import javax.security.auth.login.Configuration;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -18,7 +20,6 @@ import ru.sbtqa.tag.qautils.managers.DateManager;
 public class ExpectedConditionsExt {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExpectedConditionsExt.class);
-    // TODO !!!
 //    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     /**
@@ -217,9 +218,9 @@ public class ExpectedConditionsExt {
      * @param timeout a {int} object. wait text during sec period
      * @return true if exists
      */
-    public static boolean checkElementWithTextIsPresent(WebDriver driver, String text, int timeout) {
+    public static boolean checkElementWithTextIsPresent(WebDriver driver, String text) {
         try {
-            new WebDriverWait(driver, timeout)
+            new WebDriverWait(driver, PROPERTIES)
                     .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + text + "')]")));
             return true;
         } catch (TimeoutException e) {

@@ -9,8 +9,8 @@ public interface Configuration extends Config {
     String getEnvironment();
 
 
-    @Key("page.load.timeout")
-    @DefaultValue("20000")
+    @Key("timeout")
+    @DefaultValue("20")
     int getTimeout();
 
     @Key("page.package")
@@ -170,4 +170,12 @@ public interface Configuration extends Config {
     @Key("selenoid.containerLables")
     @DefaultValue("")
     String getSelenoidContainerLables();
+
+    @Key("aspects.report.fill.enabled")
+    @DefaultValue("true")
+    boolean isFillReportEnabled();
+
+    @Key("aspects.report.click.enabled")
+    @DefaultValue("true")
+    boolean isClickReportEnabled();
 }

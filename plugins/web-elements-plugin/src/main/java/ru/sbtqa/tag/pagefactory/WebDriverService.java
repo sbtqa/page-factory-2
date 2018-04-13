@@ -95,7 +95,7 @@ public class WebDriverService implements DriverService {
             }
         }
 
-        webDriver.manage().timeouts().pageLoadTimeout(PageFactory.getTimeOutInSeconds(), TimeUnit.SECONDS);
+        webDriver.manage().timeouts().pageLoadTimeout(PROPERTIES.getTimeout(), TimeUnit.SECONDS);
         setBrowserSize();
         webDriver.get(PROPERTIES.getStartingUrl());
     }
