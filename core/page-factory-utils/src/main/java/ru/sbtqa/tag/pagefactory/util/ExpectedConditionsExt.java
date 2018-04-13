@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.pagefactory.util;
 
-import javax.security.auth.login.Configuration;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -218,9 +216,9 @@ public class ExpectedConditionsExt {
      * @param timeout a {int} object. wait text during sec period
      * @return true if exists
      */
-    public static boolean checkElementWithTextIsPresent(WebDriver driver, String text) {
+    public static boolean checkElementWithTextIsPresent(WebDriver driver, String text, long timeout) {
         try {
-            new WebDriverWait(driver, PROPERTIES)
+            new WebDriverWait(driver, 1)
                     .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + text + "')]")));
             return true;
         } catch (TimeoutException e) {

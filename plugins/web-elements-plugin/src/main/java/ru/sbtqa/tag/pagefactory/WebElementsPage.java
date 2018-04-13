@@ -411,7 +411,7 @@ public abstract class WebElementsPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.text.visible")})
     public void checkElementWithTextIsPresent(String text) {
-        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(Environment.getDriverService().getDriver(), text, PROPERTIES.getTimeout())) {
+        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(Environment.getDriverService().getDriver(), text, 10)) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }

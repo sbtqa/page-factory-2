@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.aspects;
+package ru.sbtqa.tag.pagefactory.aspects.report;
 
 import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.JoinPoint;
@@ -9,13 +9,13 @@ import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 @Aspect
-public class Report {
+public class Fill {
 
-    private static final Configuration properties = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     @Pointcut("execution(* ru.sbtqa.tag.pagefactory.*.fill(..)) && if()")
     public static boolean isFillReportEnabled() {
-        return properties.isFillReportEnabled();
+        return PROPERTIES.isFillReportEnabled();
     }
 
     @After("isFillReportEnabled()")
@@ -25,5 +25,4 @@ public class Report {
 
         ParamsHelper.addParam("\"%s\" is filled with text \"%s\"", new String[]{elementTitle, text});
     }
-
 }

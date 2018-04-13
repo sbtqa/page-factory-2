@@ -6,6 +6,6 @@ public class StartVideoTask implements Task {
 
     @Override
     public void handle() {
-            VideoRecorder.getInstance().startRecording();
+        VideoRecorder.getInstance().startRecording();
     }
 }

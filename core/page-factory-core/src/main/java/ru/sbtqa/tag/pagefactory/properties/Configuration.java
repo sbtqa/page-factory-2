@@ -171,6 +171,7 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getSelenoidContainerLables();
 
+
     @Key("aspects.report.fill.enabled")
     @DefaultValue("true")
     boolean isFillReportEnabled();
@@ -178,4 +179,16 @@ public interface Configuration extends Config {
     @Key("aspects.report.click.enabled")
     @DefaultValue("true")
     boolean isClickReportEnabled();
+
+    @Key("aspects.report.press.key.enabled")
+    @DefaultValue("true")
+    boolean isPressKeyReportEnabled();
+
+    @Key("aspects.report.set.checkbox.enabled")
+    @DefaultValue("true")
+    boolean isSetCheckboxReportEnabled();
+
+    @Key("aspects.report.select.enabled")
+    @DefaultValue("true")
+    boolean isSelectReportEnabled();
 }

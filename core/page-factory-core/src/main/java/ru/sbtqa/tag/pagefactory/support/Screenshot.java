@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 
-public enum ScreenshotUtils {
+public enum Screenshot {
     DRIVER {
         public byte[] take() {
             WebDriver webDriver = Environment.getDriverService().getDriver();
@@ -31,7 +31,7 @@ public enum ScreenshotUtils {
                 ImageIO.write(picture, "png", bytes);
                 return bytes.toByteArray();
             } catch (AWTException | IOException ex) {
-                Logger log = LoggerFactory.getLogger(ScreenShooter.class);
+                Logger log = LoggerFactory.getLogger(Screenshot.class);
                 log.error("Failed to get full screenshot on test failure because of IOException", ex);
                 return "".getBytes();
             }

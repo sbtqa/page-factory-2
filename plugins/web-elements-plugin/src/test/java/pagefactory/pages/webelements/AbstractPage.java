@@ -13,7 +13,7 @@ import ru.sbtqa.tag.pagefactory.annotations.RedirectsTo;
 public class AbstractPage extends WebElementsPage {
 
     @ElementTitle("Contact")
-    @FindBy(xpath = "//a[text()='Contact']")
+    @FindBy(xpath = "//a[text()='Contactss']")
     protected WebElement contactButton;
 
     @ElementTitle("ContactRedirect")
