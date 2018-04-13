@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.pagefactory.web.environment;
 
 import org.aeonbits.owner.ConfigFactory;
-import ru.sbtqa.tag.pagefactory.Environment;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 

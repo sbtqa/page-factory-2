@@ -23,15 +23,21 @@
   <name>jdi-elements-plugin</name>
 
   <dependencies>
+    <!--<dependency>-->
+      <!--<groupId>ru.sbtqa.tag.pagefactory</groupId>-->
+      <!--<artifactId>page-factory-core</artifactId>-->
+      <!--<version>${project.version}</version>-->
+      <!--<type>jar</type>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>ru.sbtqa.tag.pagefactory</groupId>-->
+      <!--<artifactId>page-factory-utils</artifactId>-->
+      <!--<version>${project.version}</version>-->
+      <!--<type>jar</type>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>page-factory-core</artifactId>
-      <version>${project.version}</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>page-factory-utils</artifactId>
+      <artifactId>web-elements-plugin</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>

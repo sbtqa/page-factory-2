@@ -22,8 +22,8 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
 import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 
 public class WebDriverManagerConfigurator {
 
@@ -56,7 +56,7 @@ public class WebDriverManagerConfigurator {
         if (PROPERTIES.getWebDriverVersion().isEmpty()) {
             LOG.info("Trying to determine driver version based on browser version.");
             if (PROPERTIES.getBrowserVersion().isEmpty()) {
-                if (browserType.equalsIgnoreCase(IE)) {
+                if (browserType.equalsIgnoreCase(BrowserName.IE.toString())) {
                     LOG.warn("You use IE browser. Switching to LATEST driver version. "
                             + "You can specify driver version by using 'webdriver.version' param.");
                 } else {
@@ -69,7 +69,7 @@ public class WebDriverManagerConfigurator {
             LOG.info("Forcing driver version to {}", PROPERTIES.getWebDriverVersion());
             driverVersion = PROPERTIES.getWebDriverVersion();
         }
-        if (driverVersion == null && !browserType.equalsIgnoreCase(IE)) {
+        if (driverVersion == null && !browserType.equalsIgnoreCase(BrowserName.IE.toString())) {
             LOG.warn("Can't determine driver version. Rolling back to LATEST by default.");
         }
         webDriverManager.version(driverVersion);

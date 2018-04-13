@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory;
+package ru.sbtqa.tag.pagefactory.environment;
 
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 

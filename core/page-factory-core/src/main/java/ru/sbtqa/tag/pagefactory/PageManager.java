@@ -1,6 +1,20 @@
 package ru.sbtqa.tag.pagefactory;
 
 import com.google.common.reflect.ClassPath;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.WebElement;
 import org.reflections.Reflections;
@@ -9,28 +23,30 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
-
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
 
 public class PageManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageManager.class);
-
     private static final Map<Class<? extends Page>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+
     private static String pagesPackage;
+    private static PageManager pageManager;
 
     public PageManager(String pagesPackage) {
         this.pagesPackage = pagesPackage;
+    }
+
+    public static PageManager getInstance() {
+        if (null == pageManager) {
+            pageManager = new PageManager(PROPERTIES.getPagesPackage());
+        }
+        return pageManager;
     }
 
     public static Map<Class<? extends Page>, Map<Field, String>> getPageRepository() {
@@ -236,7 +252,7 @@ public class PageManager {
     private Set<Class<?>> getAllClasses() {
         Set<Class<?>> allClasses = new HashSet();
 
-        Reflections reflections = new Reflections(PageFactory.getPagesPackage());
+        Reflections reflections = new Reflections(PROPERTIES.getPagesPackage());
         Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
 
         for (String clazz : allClassesString) {

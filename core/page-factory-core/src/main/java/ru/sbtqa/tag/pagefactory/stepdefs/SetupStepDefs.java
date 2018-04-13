@@ -3,16 +3,16 @@ package ru.sbtqa.tag.pagefactory.stepdefs;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import ru.sbtqa.tag.pagefactory.Environment;
-import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
-import ru.sbtqa.tag.pagefactory.events.AttachScreenshotToReportTask;
-import ru.sbtqa.tag.pagefactory.events.ConnectToLogTask;
-import ru.sbtqa.tag.pagefactory.events.KillProcessesTask;
-import ru.sbtqa.tag.pagefactory.events.StartVideoTask;
-import ru.sbtqa.tag.pagefactory.events.StopVideoTask;
-import ru.sbtqa.tag.pagefactory.events.TaskHandler;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.tasks.AttachScreenshotToReportTask;
+import ru.sbtqa.tag.pagefactory.tasks.ConnectToLogTask;
+import ru.sbtqa.tag.pagefactory.tasks.KillProcessesTask;
+import ru.sbtqa.tag.pagefactory.tasks.StartVideoTask;
+import ru.sbtqa.tag.pagefactory.tasks.StopVideoTask;
+import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
 public class SetupStepDefs {
 
@@ -27,7 +27,7 @@ public class SetupStepDefs {
         TaskHandler.addTask(new StartVideoTask());
         TaskHandler.handleTasks();
 
-        PageFactory.getInstance().cachePages();
+        PageManager.getInstance().cachePages();
         PageContext.resetContext();
     }
 

@@ -1,18 +1,16 @@
-package ru.sbtqa.tag.pagefactory.events;
+package ru.sbtqa.tag.pagefactory.tasks;
 
 import java.io.IOException;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.stepdefs.SetupStepDefs;
 
 public class KillProcessesTask implements Task {
 
     private static final Logger LOG = LoggerFactory.getLogger(SetupStepDefs.class);
-    private static final String DEFAULT_LOG_PROPERTIES_PATH = "src/test/resources/config/log4j.properties";
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     @Override
@@ -22,7 +20,7 @@ public class KillProcessesTask implements Task {
 
     private void stopTasksToKill() {
         String tasks = PROPERTIES.getTasksToKill();
-        if (!PageFactory.isSharingActive() && !tasks.isEmpty()) {
+        if (!PROPERTIES.isWebDriverShared() && !tasks.isEmpty()) {
             for (String task : tasks.split(",")) {
                 stopTask(task);
             }

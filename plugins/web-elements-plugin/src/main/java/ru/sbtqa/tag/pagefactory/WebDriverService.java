@@ -32,7 +32,9 @@ import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
 import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
 import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
+import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 
 public class WebDriverService implements DriverService {
 
@@ -71,22 +73,22 @@ public class WebDriverService implements DriverService {
             capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
         }
 
-        String browserName = getBrowserName();
-        capabilities.setBrowserName(browserName);
+        BrowserName browserName = WebEnvironment.getBrowserName();
+        capabilities.setBrowserName(browserName.toString());
 
         String webDriverUrl = PROPERTIES.getWebDriverUrl();
         if (!webDriverUrl.isEmpty()) {
             setWebDriver(createRemoteWebDriver(webDriverUrl, capabilities));
         } else {
-            if (browserName.equalsIgnoreCase(FIREFOX)) {
+            if (browserName.equals(BrowserName.FIREFOX)) {
                 setWebDriver(new FirefoxDriver(capabilities));
-            } else if (browserName.equalsIgnoreCase(SAFARI)) {
+            } else if (browserName.equals(BrowserName.SAFARI)) {
                 setWebDriver(new SafariDriver(capabilities));
-            } else if (browserName.equalsIgnoreCase(CHROME)) {
-                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), CHROME);
+            } else if (browserName.equals(BrowserName.CHROME)) {
+                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.toString());
                 setWebDriver(new ChromeDriver(capabilities));
-            } else if (browserName.equalsIgnoreCase(IE)) {
-                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), IE);
+            } else if (browserName.equals(BrowserName.IE)) {
+                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), BrowserName.IE.toString());
                 setWebDriver(new InternetExplorerDriver(capabilities));
             } else {
                 throw new UnsupportedBrowserException("'" + browserName + "' is not supported yet");
@@ -129,7 +131,8 @@ public class WebDriverService implements DriverService {
         closeAllAlerts();
         closeAllWindowHandles();
 
-        if (IE.equals(getBrowserName()) && PROPERTIES.isIEKillOnDispose()) {
+        if (BrowserName.IE.equals(WebEnvironment.getBrowserName())
+                && PROPERTIES.isIEKillOnDispose()) {
             terminateProcessIE();
         }
 
@@ -184,20 +187,6 @@ public class WebDriverService implements DriverService {
         webDriver = aWebDriver;
     }
 
-    public String getBrowserName() {
-        return adaptBrowserName(PROPERTIES.getBrowserName());
-    }
-
-    private String adaptBrowserName(String browserName) {
-        return isIE(browserName) ? IE : browserName.toLowerCase();
-    }
-
-    private boolean isIE(String browserName) {
-        return browserName.equalsIgnoreCase(IE)
-                || browserName.equalsIgnoreCase(INTERNET_EXPLORER)
-                || browserName.equalsIgnoreCase(IEXPLORE);
-    }
-    
     public boolean isDriverInitialized() {
         return webDriver != null;
     }

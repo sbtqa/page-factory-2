@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.events;
+package ru.sbtqa.tag.pagefactory.tasks;
 
 public interface Task {
 

@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import ru.sbtqa.tag.pagefactory.Environment;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
 
 @Aspect

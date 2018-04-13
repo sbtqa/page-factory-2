@@ -9,8 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import ru.sbtqa.tag.pagefactory.Environment;
-import static ru.sbtqa.tag.pagefactory.support.BrowserType.CHROME;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
+import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 import ru.sbtqa.tag.qautils.properties.Props;
 
 public class WebDriverCapabilitiesParser implements CapabilitiesParser {
@@ -31,7 +32,7 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
             String capabilityName = cutPrefix(capabilityWithPrefix);
             String capabilityValue = Props.get(capabilityWithPrefix);
 
-            if (CHROME.equals(Environment.getDriverService().getDriver())) {
+            if (BrowserName.CHROME.equals(WebEnvironment.getBrowserName())) {
                 cacheChromeOptions(capabilityName, capabilityValue);
             }
 

@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.datajack.Stash;
-import ru.sbtqa.tag.pagefactory.Environment;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 @Aspect
 public class StashWindowHandles {
