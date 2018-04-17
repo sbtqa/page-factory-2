@@ -22,7 +22,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)\\((.*?)\\)$")
-    public void userActionNoParams(String action) throws PageInitializationException, NoSuchMethodException {
+    public void userActionNoParams(String action) throws NoSuchMethodException {
         super.userActionNoParams(action);
     }
 
@@ -31,7 +31,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)\\((.*?)\\) (?:с параметром |)\"([^\"]*)\"$")
-    public void userActionOneParam(String action, String param) throws PageInitializationException, NoSuchMethodException {
+    public void userActionOneParam(String action, String param) throws NoSuchMethodException {
         super.userActionOneParam(action, param);
     }
 
@@ -40,7 +40,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)\\((.*?)\\) (?:с параметрами |)\"([^\"]*)\" \"([^\"]*)\"$")
-    public void userActionTwoParams(String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
+    public void userActionTwoParams(String action, String param1, String param2) throws NoSuchMethodException {
         super.userActionTwoParams(action, param1, param2);
     }
 
@@ -49,7 +49,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)\\((.*?)\\) (?:с параметрами |)\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public void userActionThreeParams(String action, String param1, String param2, String param3) throws PageInitializationException, NoSuchMethodException {
+    public void userActionThreeParams(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         super.userActionThreeParams(action, param1, param2, param3);
     }
 
@@ -58,7 +58,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)\\((.*?)\\) данными$")
-    public void userActionTableParam(String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userActionTableParam(String action, DataTable dataTable) throws NoSuchMethodException {
         super.userActionTableParam(action, dataTable);
     }
 
@@ -67,7 +67,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)\\((.*?)\\) [^\"]*\"([^\"]*)\" данными$")
-    public void userDoActionWithObject(String action, String param, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userDoActionWithObject(String action, String param, DataTable dataTable) throws NoSuchMethodException {
         super.userDoActionWithObject(action, param, dataTable);
     }
 
@@ -76,88 +76,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он |)\\((.*?)\\) из списка$")
-    public void userActionListParam(String action, List<String> list) throws PageInitializationException, NoSuchMethodException {
+    public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {
         super.userActionListParam(action, list);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^открывается копия страницы в новой вкладке$")
-    public void openCopyPage() {
-        super.openCopyPage();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^(?:пользователь |он |)переключается на соседнюю вкладку$")
-    public void switchesToNextTab() {
-        super.switchesToNextTab();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^URL соответствует \"(.*?)\"$")
-    public void urlMatches(String url) {
-        super.urlMatches(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^(?:пользователь |он |)закрывает текущее окно и возвращается на \"(.*?)\"$")
-    public void closingCurrentWin(String title) {
-        super.closingCurrentWin(title);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^(?:пользователь |он |)нажимает назад в браузере$")
-    public void backPage() {
-        super.backPage();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^(?:пользователь |он |)переходит на страницу \"(.*?)\" по ссылке$")
-    public void goToUrl(String url) {
-        super.goToUrl(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^(?:пользователь |он |)(?:переходит на|открывает) url \"(.*?)\"$")
-    public void goToPageByUrl(String url) throws PageInitializationException {
-        super.goToPageByUrl(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^обновляем страницу$")
-    public void reInitPage() {
-        super.reInitPage();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^в фокусе находится элемент \"([^\"]*)\"$")
-    public void isElementFocused(String element) {
-        super.isElementFocused(element);
     }
 }

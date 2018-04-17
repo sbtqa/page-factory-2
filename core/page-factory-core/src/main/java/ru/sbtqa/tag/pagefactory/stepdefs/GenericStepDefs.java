@@ -1,19 +1,14 @@
 package ru.sbtqa.tag.pagefactory.stepdefs;
 
 import cucumber.api.DataTable;
-import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
-import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
-import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 /**
  * Basic step definitions, that should be available on every project Notations
@@ -61,7 +56,7 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public void userActionNoParams(String action) throws PageInitializationException, NoSuchMethodException {
+    public void userActionNoParams(String action) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action);
     }
 
@@ -73,7 +68,7 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public void userActionOneParam(String action, String param) throws PageInitializationException, NoSuchMethodException {
+    public void userActionOneParam(String action, String param) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param);
     }
 
@@ -86,7 +81,7 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public void userActionTwoParams(String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
+    public void userActionTwoParams(String action, String param1, String param2) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2);
     }
 
@@ -100,7 +95,7 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public void userActionThreeParams(String action, String param1, String param2, String param3) throws PageInitializationException, NoSuchMethodException {
+    public void userActionThreeParams(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2, param3);
     }
 
@@ -113,7 +108,7 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public void userActionTableParam(String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userActionTableParam(String action, DataTable dataTable) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, dataTable);
     }
 
@@ -127,7 +122,7 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public void userDoActionWithObject(String action, String param, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userDoActionWithObject(String action, String param, DataTable dataTable) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param, dataTable);
     }
 
@@ -140,93 +135,8 @@ public class GenericStepDefs {
      * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public void userActionListParam(String action, List<String> list) throws PageInitializationException, NoSuchMethodException {
+    public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, list);
-    }
-
-    /**
-     * Open a copy for current page in a new browser tab User|he keywords are
-     * optional
-     */
-    public void openCopyPage() {
-        String pageUrl = Environment.getDriverService().getDriver().getCurrentUrl();
-        ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
-        List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
-        Environment.getDriverService().getDriver().switchTo().window(tabs.get(tabs.size() - 1));
-    }
-
-    /**
-     * Switch to a neighbour browser tab
-     */
-    public void switchesToNextTab() {
-        String currentTab = Environment.getDriverService().getDriver().getWindowHandle();
-        List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
-        for (int i = 0; i < tabs.size(); i++) {
-            if (tabs.get(i).equals(currentTab)) {
-                Environment.getDriverService().getDriver().switchTo().window(tabs.get(i + 1));
-                return;
-            }
-        }
-    }
-
-    /**
-     * Check that current URL matches the inputted one
-     *
-     * @param url url for comparison
-     */
-    public void urlMatches(String url) {
-        Assert.assertEquals("URL is different from the expected: ", url, Environment.getDriverService().getDriver().getCurrentUrl());
-    }
-
-    /**
-     * Close current browser tab and open a tab with given name
-     *
-     * @param title title of the page to open
-     */
-    public void closingCurrentWin(String title) {
-        Environment.getDriverService().getDriver().close();
-        for (String windowHandle : Environment.getDriverService().getDriver().getWindowHandles()) {
-            Environment.getDriverService().getDriver().switchTo().window(windowHandle);
-            if (Environment.getDriverService().getDriver().getTitle().equals(title)) {
-                return;
-            }
-        }
-        throw new AutotestError("Unable to return to the previously opened page: " + title);
-    }
-
-    /**
-     * Return to previous location (via browser "back" button)
-     */
-    public void backPage() {
-        Environment.getDriverService().getDriver().navigate().back();
-    }
-
-    /**
-     * Go to specified url
-     *
-     * @param url url to go to
-     */
-    public void goToUrl(String url) {
-        Environment.getDriverService().getDriver().get(url);
-    }
-
-    /**
-     * Initialize a page with corresponding URL
-     *
-     * @param url value of the
-     * {@link ru.sbtqa.tag.pagefactory.annotations.PageEntry#url} to search for
-     * @throws PageInitializationException if page with corresponding URL is
-     * absent or couldn't be initialized
-     */
-    public void goToPageByUrl(String url) throws PageInitializationException {
-        PageManager.changeUrlByTitle(url);
-    }
-
-    /**
-     * Refresh browser page
-     */
-    public void reInitPage() {
-        Environment.getDriverService().getDriver().navigate().refresh();
     }
 
     /**

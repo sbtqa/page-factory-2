@@ -1,17 +1,14 @@
 package setting;
 
 import cucumber.api.java.Before;
+import java.io.File;
+import static java.lang.Runtime.getRuntime;
+import java.lang.management.ManagementFactory;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.PageFactory;
-
-import java.io.File;
-import java.lang.management.ManagementFactory;
-
-import static java.lang.Runtime.getRuntime;
 
 /**
  * Created by Liza on 07.06.17.
@@ -31,7 +28,7 @@ public class JettySettings {
     public void startJetty() throws Exception {
     
         if (dunit) {
-            // stop jetty after all tests
+            // stop jetty after all features
             getRuntime().addShutdownHook(new Thread(new Runnable() {
                 @Override
                 public void run() {

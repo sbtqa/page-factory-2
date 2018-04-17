@@ -35,7 +35,7 @@ public class ReflectionUtils {
 
     /**
      * Search for the given WebElement in page repository storage, that is being
-     * generated during preconditions to all tests. If element is found, return
+     * generated during preconditions to all features. If element is found, return
      * its title annotation. If nothing found, log debug message and return
      * toString() of corresponding element
      *

@@ -22,7 +22,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @And("^user \\((.*?)\\)$")
-    public void userActionNoParams(String action) throws PageInitializationException, NoSuchMethodException {
+    public void userActionNoParams(String action) throws NoSuchMethodException {
         super.userActionNoParams(action);
     }
 
@@ -31,7 +31,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @And("^user \\((.*?)\\) (?:with param |)\"([^\"]*)\"$")
-    public void userActionOneParam(String action, String param) throws PageInitializationException, NoSuchMethodException {
+    public void userActionOneParam(String action, String param) throws NoSuchMethodException {
         super.userActionOneParam(action, param);
     }
 
@@ -40,7 +40,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @And("^user \\((.*?)\\) (?:with the parameters |)\"([^\"]*)\" \"([^\"]*)\"$")
-    public void userActionTwoParams(String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
+    public void userActionTwoParams(String action, String param1, String param2) throws NoSuchMethodException {
         super.userActionTwoParams(action, param1, param2);
     }
 
@@ -49,7 +49,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @And("^user \\((.*?)\\) (?:with the parameters |)\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public void userActionThreeParams(String action, String param1, String param2, String param3) throws PageInitializationException, NoSuchMethodException {
+    public void userActionThreeParams(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         super.userActionThreeParams(action, param1, param2, param3);
     }
 
@@ -58,7 +58,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @And("^user \\((.*?)\\) data$")
-    public void userActionTableParam(String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userActionTableParam(String action, DataTable dataTable) throws NoSuchMethodException {
         super.userActionTableParam(action, dataTable);
     }
 
@@ -67,7 +67,7 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @And("^user \\((.*?)\\) [^\"]*\"([^\"]*) data$")
-    public void userDoActionWithObject(String action, String param, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
+    public void userDoActionWithObject(String action, String param, DataTable dataTable) throws NoSuchMethodException {
         super.userDoActionWithObject(action, param, dataTable);
     }
 
@@ -76,80 +76,8 @@ public class StepDefs extends GenericStepDefs {
      */
     @Override
     @And("^user \\((.*?)\\) from the list$")
-    public void userActionListParam(String action, List<String> list) throws PageInitializationException, NoSuchMethodException {
+    public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {
         super.userActionListParam(action, list);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^copy of the page is being opened in a new tab$")
-    public void openCopyPage() {
-        super.openCopyPage();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user switches to the next tab$")
-    public void switchesToNextTab() {
-        super.switchesToNextTab();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^URL matches \"(.*?)\"$")
-    public void urlMatches(String url) {
-        super.urlMatches(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user closes the current window and returns to \"(.*?)\"$")
-    public void closingCurrentWin(String title) {
-        super.closingCurrentWin(title);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user push back in the browser$")
-    public void backPage() {
-        super.backPage();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user navigates to page \"(.*?)\"$")
-    public void goToUrl(String url) {
-        super.goToUrl(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user navigates to url \"(.*?)\"$")
-    public void goToPageByUrl(String url) throws PageInitializationException {
-        super.goToPageByUrl(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user refreshes the page$")
-    public void reInitPage() {
-        super.reInitPage();
     }
 
     /**

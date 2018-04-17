@@ -15,7 +15,7 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
 public class SetupStepDefs {
 
-    @Before(order = 10001)
+    @Before(order = 99999)
     public void setUp(Scenario scenario) {
         Environment.getDriverService().mountDriver();
         ScenarioContext.setScenario(scenario);
@@ -29,7 +29,7 @@ public class SetupStepDefs {
         PageContext.resetContext();
     }
 
-    @After(order = 10001)
+    @After(order = 99999)
     public void tearDown() {
         TaskHandler.addTask(new StopVideoTask());
         TaskHandler.handleTasks();

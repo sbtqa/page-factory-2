@@ -23,18 +23,6 @@
   <name>jdi-elements-plugin</name>
 
   <dependencies>
-    <!--<dependency>-->
-      <!--<groupId>ru.sbtqa.tag.pagefactory</groupId>-->
-      <!--<artifactId>page-factory-core</artifactId>-->
-      <!--<version>${project.version}</version>-->
-      <!--<type>jar</type>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>ru.sbtqa.tag.pagefactory</groupId>-->
-      <!--<artifactId>page-factory-utils</artifactId>-->
-      <!--<version>${project.version}</version>-->
-      <!--<type>jar</type>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
       <artifactId>web-elements-plugin</artifactId>
@@ -86,7 +74,7 @@
 
   <build>
     <plugins>
-      <!--We use jdi-elements-plugin in tests. It need Java 8 during tests-->
+      <!--We use jdi-elements-plugin in features. It need Java 8 during features-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

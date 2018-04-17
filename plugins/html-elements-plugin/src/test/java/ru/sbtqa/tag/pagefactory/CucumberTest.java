@@ -9,5 +9,5 @@ import org.junit.runner.RunWith;
         glue = {"ru.sbtqa.tag.pagefactory.stepdefs", "ru.sbtqa.tag.pagefactory.htmlstepdefs",
                 "setting"
         },
-        features = {"src/test/resources/tests"})
+        features = {"src/test/resources/features"})
 public class CucumberTest {}

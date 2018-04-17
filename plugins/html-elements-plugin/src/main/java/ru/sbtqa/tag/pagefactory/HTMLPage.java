@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.pagefactory;
 
 import org.openqa.selenium.WebElement;
-import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import static ru.sbtqa.tag.pagefactory.utils.ReflectionUtils.getElementByTitle;
@@ -30,7 +29,6 @@ public class HTMLPage extends WebPage {
         } else {
             setCheckBoxState(targetElement, true);
         }
-        ParamsHelper.addParam(elementTitle, " is checked");
     }
     
     /**
