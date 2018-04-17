@@ -14,11 +14,13 @@ public class WebPageChecks implements PageChecks {
     private static final String TITLE = "title";
 
     @Override
-    public boolean checkEquality(WebElement webElement, String text) {
+    public boolean checkEquality(Object element, String text) {
+        WebElement webElement = (WebElement) element;
         return checkEquality(webElement, text, MatchStrategy.EXACT);
     }
 
-    public boolean checkEquality(WebElement webElement, String text, MatchStrategy matchStrategy) {
+    public boolean checkEquality(Object element, String text, MatchStrategy matchStrategy) {
+        WebElement webElement = (WebElement) element;
         String value = getWebElementValue(webElement);
 
         if (matchStrategy == MatchStrategy.EXACT) {
@@ -45,7 +47,8 @@ public class WebPageChecks implements PageChecks {
      * @param webElement WebElement to check
      */
     @Override
-    public boolean checkEmptiness(WebElement webElement) {
+    public boolean checkEmptiness(Object element) {
+        WebElement webElement = (WebElement) element;
         String value = getWebElementValue(webElement);
         return "".equals(value) || value.isEmpty();
     }

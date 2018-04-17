@@ -17,7 +17,8 @@ public class WebPageActions implements PageActions {
     private static final Logger LOG = LoggerFactory.getLogger(WebPageActions.class);
 
     @Override
-    public void fill(WebElement webElement, String text) {
+    public void fill(Object element, String text) {
+        WebElement webElement = (WebElement) element;
         click(webElement);
         if (null != text) {
             clear(webElement);
@@ -25,7 +26,8 @@ public class WebPageActions implements PageActions {
         webElement.sendKeys(text);
     }
 
-    public void clear(WebElement webElement) {
+    public void clear(Object element) {
+        WebElement webElement = (WebElement) element;
         try {
             webElement.clear();
         } catch (InvalidElementStateException | NullPointerException e) {
@@ -34,13 +36,15 @@ public class WebPageActions implements PageActions {
     }
 
     @Override
-    public void click(WebElement webElement) {
+    public void click(Object element) {
+        WebElement webElement = (WebElement) element;
         WebExpectedConditionsUtils.waitForElementGetEnabled(webElement);
         webElement.click();
     }
 
     @Override
-    public void press(WebElement webElement, String keyName) {
+    public void press(Object element, String keyName) {
+        WebElement webElement = (WebElement) element;
         Actions actions = new Actions(PageContext.getCurrentPage().getDriver());
 
         if (null != webElement) {
@@ -53,13 +57,15 @@ public class WebPageActions implements PageActions {
     }
 
     @Override
-    public void select(WebElement webElement, String option) {
+    public void select(Object element, String option) {
+        WebElement webElement = (WebElement) element;
         Select select = new Select(webElement);
         select.selectByValue(option);
     }
 
     @Override
-    public void setCheckbox(WebElement webElement, boolean state) {
+    public void setCheckbox(Object element, boolean state) {
+        WebElement webElement = (WebElement) element;
         if (webElement.isSelected() != state) {
             webElement.click();
         }

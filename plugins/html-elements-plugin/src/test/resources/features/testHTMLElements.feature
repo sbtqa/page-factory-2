@@ -17,7 +17,6 @@ Feature: Check html yandex elements functional + ActionTitles mechanism
     * user (click the button) "send"
     * user (check that error message not contains) "Please specify your first name"
 
-
     * user (check that error message contains) "Please specify your last name"
     * user (click the button) "send"
     * user (check that error message contains) "Please specify your last name"
@@ -25,6 +24,8 @@ Feature: Check html yandex elements functional + ActionTitles mechanism
     * user (fill the field) "last name" "Alexeev"
     * user (click the button) "send"
     * user (check that error message not contains) "Please specify your last name"
+
+    * user (select checkbox) "checkbox"
 
     * user in block "menu" (go to page) with a parameter "Home"
     * user is on the page "Main"

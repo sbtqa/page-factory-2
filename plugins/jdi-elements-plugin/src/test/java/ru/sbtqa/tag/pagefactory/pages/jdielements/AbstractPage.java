@@ -4,11 +4,8 @@ import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.JDIPage;
-import ru.sbtqa.tag.pagefactory.JDIUtils;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
-import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 
 public class AbstractPage extends JDIPage {
 
@@ -40,18 +37,4 @@ public class AbstractPage extends JDIPage {
                 break;
         }
     }
-
-    @ActionTitle("click the button")
-    public void clickButton(String elementTitle) throws PageException {
-        Button element = (Button) JDIUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        element.click();
-    }
-//
-//    @ActionTitle("fill the field")
-//    public void fillField(String elementTitle, String value) throws PageException {
-//        Input element = (Input) JDIUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-//        element.sendKeys(value);
-//    }
-
-
 }

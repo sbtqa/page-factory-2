@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.stepdefs;
+package ru.sbtqa.tag.pagefactory.web.stepdefs;
 
 import cucumber.api.DataTable;
 import java.util.ArrayList;

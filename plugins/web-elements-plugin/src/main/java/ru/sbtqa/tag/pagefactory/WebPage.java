@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
@@ -22,7 +21,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * Contains basic actions in particular with web elements
  * If we want to extend this functional - inherit from this class
  */
-public abstract class WebPage extends Page {
+public abstract class WebPage<T extends Object> extends Page {
 
     PageActions pageActions = Environment.getPageActions();
     PageChecks pageChecks = Environment.getPageChecks();
@@ -49,8 +48,8 @@ public abstract class WebPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.fill.field")
     public void fill(String elementTitle, String text) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        pageActions.fill(webElement, text);
+        T element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.fill(element, text);
     }
 
     /**
@@ -65,8 +64,8 @@ public abstract class WebPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.click.link"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.click.button")})
     public void click(String elementTitle) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        pageActions.click(webElement);
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.click(element);
     }
 
     /**
@@ -91,8 +90,8 @@ public abstract class WebPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName, String elementTitle) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        pageActions.press(webElement, keyName);
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.press(element, keyName);
     }
 
     /**
@@ -105,8 +104,8 @@ public abstract class WebPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.select")
     public void select(String elementTitle, String option) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        pageActions.select(webElement, option);
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.select(element, option);
     }
 
     /**
@@ -118,10 +117,10 @@ public abstract class WebPage extends Page {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if page was not
      * initialized, or required element couldn't be found
      */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.select.checkBox")
+    @ActionTitle("ru.sbtqa.tag.pagefactory.select.checkbox")
     public void setCheckBox(String elementTitle) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        pageActions.setCheckbox(webElement, true);
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.setCheckbox(element, true);
     }
 
 
@@ -135,8 +134,8 @@ public abstract class WebPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.value")
     public void checkValueIsEqual(String elementTitle, String text) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        if (!pageChecks.checkEquality(webElement, text)) {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (!pageChecks.checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'");
         }
     }
@@ -153,8 +152,8 @@ public abstract class WebPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.values.not.equal")
     public void checkValueIsNotEqual(String text, String elementTitle) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        if (pageChecks.checkEquality(webElement, text)) {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (pageChecks.checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is equal with '" + text + "'");
         }
     }
@@ -168,16 +167,16 @@ public abstract class WebPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.not.empty")
     public void checkNotEmpty(String elementTitle) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        if (pageChecks.checkEmptiness(webElement)) {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (pageChecks.checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is empty");
         }
     }
 
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.empty")
     public void checkEmpty(String elementTitle) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        if (!pageChecks.checkEmptiness(webElement)) {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (!pageChecks.checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is not empty");
         }
     }

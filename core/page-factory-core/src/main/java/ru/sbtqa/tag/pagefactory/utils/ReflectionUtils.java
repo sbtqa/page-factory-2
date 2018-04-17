@@ -154,7 +154,7 @@ public class ReflectionUtils {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if failed to
      * find corresponding element or element type is set incorrectly
      */
-    public static WebElement getElementByTitle(Page page, String title) throws PageException {
+    public static <T extends Object> T getElementByTitle(Page page, String title) throws PageException {
         for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
             if (isRequiredElement(field, title)) {
                 return getElementByField(page, field);

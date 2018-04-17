@@ -16,7 +16,6 @@
       * user (click the button) "send"
       * user (check that error message not contains) "Please specify your first name"
 
-
       * user (check that error message contains) "Please specify your last name"
       * user (click the button) "send"
       * user (check that error message contains) "Please specify your last name"

@@ -4,14 +4,9 @@ import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
 import com.epam.jdi.uitests.web.settings.WebSettings;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.function.Supplier;
 import org.openqa.selenium.WebDriver;
-import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
-import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
-import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 /**
  * Utils methods for jdi-plugin
@@ -33,15 +28,4 @@ public class JDIUtils {
     public static void initElementsOnPage(Object page) {
         new WebCascadeInit().initElements(page, driverName);
     }
-
-    public static Object getElementByTitle(Page page, String title) throws PageException {
-        for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
-            if (ReflectionUtils.isRequiredElement(field, title)) {
-                return ReflectionUtils.getElementByField(page, field);
-            }
-        }
-
-        throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, page.getTitle()));
-    }
-
 }

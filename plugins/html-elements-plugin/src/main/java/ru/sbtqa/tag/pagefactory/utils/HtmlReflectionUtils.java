@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory;
+package ru.sbtqa.tag.pagefactory.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -11,13 +11,13 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
@@ -27,7 +27,7 @@ import ru.yandex.qatools.htmlelements.element.TypifiedElement;
  * Static methods for finding block and execution methods by ActionTitles
  * And some methods for recursive search
  */
-public class PageReflectUtil extends ReflectionUtils {
+public class HtmlReflectionUtils extends ReflectionUtils {
     
     private static boolean isUsedBlock = false; 
     private static WebElement usedBlock = null;
@@ -181,7 +181,7 @@ public class PageReflectUtil extends ReflectionUtils {
     
     /**
      * Acts exactly like
-     * {@link PageReflectUtil#findElementInBlockByTitle(Page, String, String, Class)}, but return a
+     * {@link HtmlReflectionUtils#findElementInBlockByTitle(Page, String, String, Class)}, but return a
      * WebElement instance. It still could be casted to HtmlElement and
      * TypifiedElement any class that extend them.
      *
@@ -200,7 +200,7 @@ public class PageReflectUtil extends ReflectionUtils {
     
     /**
      * Finds elements list in context of current page See
-     * ${@link PageReflectUtil#findListOfElements(String, Class, Object)}  for detailed
+     * ${@link HtmlReflectionUtils#findListOfElements(String, Class, Object)}  for detailed
      * description
      *
      * @param page the page on which the method will be executed
@@ -250,7 +250,7 @@ public class PageReflectUtil extends ReflectionUtils {
 
     /**
      * Finds elements list in context of current page See
-     * ${@link PageReflectUtil#findListOfElements(String, Class, Object)} for detailed
+     * ${@link HtmlReflectionUtils#findListOfElements(String, Class, Object)} for detailed
      * description
      *
      * @param page the page on which the method will be executed
@@ -265,7 +265,7 @@ public class PageReflectUtil extends ReflectionUtils {
     
     /**
      * Find elements list in context of required block See
-     * ${@link PageReflectUtil#findListOfElements(String, Class, Object)} for detailed
+     * ${@link HtmlReflectionUtils#findListOfElements(String, Class, Object)} for detailed
      * description
      *
      * @param page the page on which the method will be executed
@@ -284,7 +284,7 @@ public class PageReflectUtil extends ReflectionUtils {
     
     /**
      * Finds elements list in context of required block See
-     * ${@link PageReflectUtil#findListOfElements(String, Class, Object)} for detailed
+     * ${@link HtmlReflectionUtils#findListOfElements(String, Class, Object)} for detailed
      * description
      *
      * @param page the page on which the method will be executed
@@ -298,7 +298,7 @@ public class PageReflectUtil extends ReflectionUtils {
     }
     
     /**
-     * See {@link PageReflectUtil#findBlocks(String, Object, boolean)} for description.
+     * See {@link HtmlReflectionUtils#findBlocks(String, Object, boolean)} for description.
      * This wrapper finds only one block. Search is being performed on a current
      * page
      *
@@ -321,7 +321,7 @@ public class PageReflectUtil extends ReflectionUtils {
     }
     
     /**
-     * See {@link PageReflectUtil#findBlocks(String, Object, boolean)} for description.
+     * See {@link HtmlReflectionUtils#findBlocks(String, Object, boolean)} for description.
      * Search is being performed on a current page
      *
      * @param page the page on which the method will be executed
@@ -382,7 +382,8 @@ public class PageReflectUtil extends ReflectionUtils {
                 }
             }
         }
- 
+
+        // TODO WTF??
         isUsedBlock = true; 
         usedBlock = block; 
         List<Method> methodList = getDeclaredMethods(page.getClass()); 

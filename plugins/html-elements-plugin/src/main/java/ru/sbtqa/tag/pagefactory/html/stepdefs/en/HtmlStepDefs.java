@@ -1,11 +1,11 @@
-package ru.sbtqa.tag.pagefactory.htmlstepdefs.en;
+package ru.sbtqa.tag.pagefactory.html.stepdefs.en;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.htmlstepdefs.HTMLStepDefs;
+import ru.sbtqa.tag.pagefactory.html.stepdefs.HtmlGenericStepDefs;
 
-public class StepDefs extends HTMLStepDefs {
+public class HtmlStepDefs extends HtmlGenericStepDefs {
 
     /**
      * {@inheritDoc}
