@@ -7,14 +7,14 @@ import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 
 public class SelenoidCapabilitiesParser implements CapabilitiesParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
     private static final String VIDEONAME_FORMAT = new Date().toString().replaceAll("\\s","") + "-%s";
 
     private final DesiredCapabilities capabilities = new DesiredCapabilities();

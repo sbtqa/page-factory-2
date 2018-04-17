@@ -12,7 +12,7 @@ import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 /**
@@ -51,12 +51,6 @@ public class GenericStepDefs {
      * @throws PageInitializationException if page initialization failed
      */
     public void openPage(String title) throws PageInitializationException {
-//        if (PageFactory.getEnvironment() != Environment.MOBILE
-//                && !Environment.getDriverService().getDriver().getWindowHandles().isEmpty()) {
-//            for (String windowHandle : Environment.getDriverService().getDriver().getWindowHandles()) {
-//                Environment.getDriverService().getDriver().switchTo().window(windowHandle);
-//            }
-//        }
         PageManager.getInstance().getPage(title);
     }
 
@@ -68,7 +62,7 @@ public class GenericStepDefs {
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionNoParams(String action) throws PageInitializationException, NoSuchMethodException {
-        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action);
+        ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action);
     }
 
     /**
@@ -80,7 +74,7 @@ public class GenericStepDefs {
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionOneParam(String action, String param) throws PageInitializationException, NoSuchMethodException {
-        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param);
+        ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param);
     }
 
     /**
@@ -93,7 +87,7 @@ public class GenericStepDefs {
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionTwoParams(String action, String param1, String param2) throws PageInitializationException, NoSuchMethodException {
-        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2);
+        ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2);
     }
 
     /**
@@ -107,7 +101,7 @@ public class GenericStepDefs {
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionThreeParams(String action, String param1, String param2, String param3) throws PageInitializationException, NoSuchMethodException {
-        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2, param3);
+        ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2, param3);
     }
 
     /**
@@ -120,7 +114,7 @@ public class GenericStepDefs {
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionTableParam(String action, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
-        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, dataTable);
+        ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, dataTable);
     }
 
     /**
@@ -134,7 +128,7 @@ public class GenericStepDefs {
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userDoActionWithObject(String action, String param, DataTable dataTable) throws PageInitializationException, NoSuchMethodException {
-        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param, dataTable);
+        ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, param, dataTable);
     }
 
     /**
@@ -147,7 +141,7 @@ public class GenericStepDefs {
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionListParam(String action, List<String> list) throws PageInitializationException, NoSuchMethodException {
-        PageFactoryUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, list);
+        ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, list);
     }
 
     /**

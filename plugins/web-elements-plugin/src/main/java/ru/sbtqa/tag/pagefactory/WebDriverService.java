@@ -33,13 +33,13 @@ import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
 import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
 import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
-import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 
 public class WebDriverService implements DriverService {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebDriverService.class);
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
 
     private WebDriver webDriver;
 
@@ -185,13 +185,5 @@ public class WebDriverService implements DriverService {
 
     public void setWebDriver(org.openqa.selenium.WebDriver aWebDriver) {
         webDriver = aWebDriver;
-    }
-
-    public boolean isDriverInitialized() {
-        return webDriver != null;
-    }
-    
-    public boolean isWebDriverShared() {
-        return PROPERTIES.isWebDriverShared();
     }
 }

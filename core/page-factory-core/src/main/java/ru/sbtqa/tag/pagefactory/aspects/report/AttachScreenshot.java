@@ -8,7 +8,7 @@ import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.allurehelper.Type;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.support.Screenshot;
+import ru.sbtqa.tag.pagefactory.utils.ScreenshotUtils;
 
 @Aspect
 public class AttachScreenshot {
@@ -22,7 +22,7 @@ public class AttachScreenshot {
 
     @Before("attachScreenshotOnTearDown()")
     public void attach() {
-        Screenshot screenshot = Screenshot.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
-        ParamsHelper.addAttachmentToRender(screenshot.take(), "Screenshot", Type.PNG);
+        ScreenshotUtils screenshot = ScreenshotUtils.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
+        ParamsHelper.addAttachmentToRender(screenshot.take(), "ScreenshotUtils", Type.PNG);
     }
 }

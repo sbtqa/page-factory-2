@@ -17,7 +17,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
@@ -27,7 +27,7 @@ import ru.yandex.qatools.htmlelements.element.TypifiedElement;
  * Static methods for finding block and execution methods by ActionTitles
  * And some methods for recursive search
  */
-public class PageReflectUtil extends PageFactoryUtils {
+public class PageReflectUtil extends ReflectionUtils {
     
     private static boolean isUsedBlock = false; 
     private static WebElement usedBlock = null;
@@ -431,7 +431,7 @@ public class PageReflectUtil extends PageFactoryUtils {
     }
 
     public static <T> T getElementByField(Object parentObject, Field field) throws ElementDescriptionException {
-        Object element = PageFactoryUtils.getElementByField(parentObject, field);
+        Object element = ReflectionUtils.getElementByField(parentObject, field);
         isUsedBlock = false; 
         usedBlock = null;
         

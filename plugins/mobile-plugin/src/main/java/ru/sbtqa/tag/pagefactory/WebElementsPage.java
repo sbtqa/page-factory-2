@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 
 /**
  * Contains basic actions in particular with web elements
@@ -28,7 +28,7 @@ public abstract class MobilePage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.fill.field")
     public void fillField(String elementTitle, String text) throws PageException {
-        WebElement element = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         element.click();
 
 

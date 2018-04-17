@@ -8,18 +8,18 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
-import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.util.ActionsExt;
-import ru.sbtqa.tag.pagefactory.util.ExpectedConditionsExt;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
+import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
@@ -27,8 +27,22 @@ import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
  * Contains basic actions in particular with web elements
  * If we want to extend this functional - inherit from this class
  */
-public abstract class WebElementsPage extends Page {
+public abstract class WebPage extends Page {
 
+//    PageActions pageActions = Environment.getPageActions();
+    WebPageActions pageActions = new WebPageActions();
+
+
+    public WebPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    public WebPage(WebDriver driver, FieldDecorator decorator) {
+        super(driver);
+        PageFactory.initElements(decorator, this);
+    }
+    
     /**
      * Find element with specified title annotation, and fill it with given text
      * Add elementTitle-&gt;text as parameter-&gt;value to corresponding step in
@@ -41,8 +55,8 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.fill.field")
     public void fill(String elementTitle, String text) throws PageException {
-        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        ActionsExt.fill(webElement, text);
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.fill(webElement, text);
     }
 
     /**
@@ -57,8 +71,8 @@ public abstract class WebElementsPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.click.link"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.click.button")})
     public void click(String elementTitle) throws PageException {
-        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        ActionsExt.click(webElement);
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.click(webElement);
     }
 
     /**
@@ -69,9 +83,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName) {
-        Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = new Actions((WebDriver) PageContext.getCurrentPage());
-        actions.sendKeys(key).perform();
+        pageActions.press(null, keyName);
     }
 
     /**
@@ -85,12 +97,8 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName, String elementTitle) throws PageException {
-        Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = new Actions((WebDriver) PageContext.getCurrentPage());
-        actions.moveToElement(PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle));
-        actions.click();
-        actions.sendKeys(key);
-        actions.build().perform();
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.press(webElement, keyName);
     }
 
     /**
@@ -105,74 +113,63 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.select")
     public void select(String elementTitle, String option) throws PageException {
-        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        if (null != option) {
-            select(webElement, option, MatchStrategy.EXACT);
-        }
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.select(webElement, option);
     }
 
     /**
-     * Find element with required title, perform
-     * {@link #select(WebElement, String, MatchStrategy)} on found element Use
-     * given match strategy
+     * Find web element with corresponding title, if it is a check box, select
+     * it If it's a WebElement instance, check whether it is already selected,
+     * and click if it's not Add corresponding parameter to allure report
      *
-     * @param elementTitle the title of SELECT element to interact
-     * @param option the value to match against
-     * @param strategy the strategy to match value
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if required
-     * element couldn't be found, or current page isn't initialized
+     * @param elementTitle WebElement that is supposed to represent checkbox
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if page was not
+     * initialized, or required element couldn't be found
      */
-    protected void select(String elementTitle, String option, MatchStrategy strategy) throws PageException {
-        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        select(webElement, option, strategy);
+    @ActionTitle("ru.sbtqa.tag.pagefactory.select.checkBox")
+    public void setCheckBox(String elementTitle) throws PageException {
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        pageActions.setCheckbox(webElement, true);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
-     * Try to extract selectable options form given WebElement, and select
-     * required one Add corresponding parameter to allure report
+     * Perform {@link #checkValue(String, WebElement, MatchStrategy)} for the
+     * WebElement with corresponding title on a current page. Use exact match
+     * strategy
      *
-     * @param webElement WebElement for interaction. Element is supposed to be
-     * selectable, i.e. have select options
-     * @param option the value to match against
-     * @param strategy the strategy to match value. See {@link MatchStrategy}
-     * for available values
+     * @param text string value that will be searched inside of the element
+     * @param elementTitle title of the element to search
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException if
+     * couldn't find element by given title, or current page isn't initialized
      */
-    @SuppressWarnings("unchecked")
-    protected void select(WebElement webElement, String option, MatchStrategy strategy) {
-        String jsString = ""
-                + "var content=[]; "
-                + "var options = arguments[0].getElementsByTagName('option'); "
-                + " for (var i=0; i<options.length;i++){"
-                + " content.push(options[i].text)"
-                + "}"
-                + "return content";
-        List<String> options = (ArrayList<String>) ((JavascriptExecutor) PageContext.getCurrentPage()).
-                executeScript(jsString, webElement);
-
-        boolean isSelectionMade = false;
-        for (int index = 0; index < options.size(); index++) {
-            boolean isCurrentOption = false;
-            String optionText = options.get(index).replaceAll("\\s+", "");
-            String needOptionText = option.replaceAll("\\s+", "");
-
-            if (strategy.equals(MatchStrategy.CONTAINS)) {
-                isCurrentOption = optionText.contains(needOptionText);
-            } else if (strategy.equals(MatchStrategy.EXACT)) {
-                isCurrentOption = optionText.equals(needOptionText);
-            }
-
-            if (isCurrentOption) {
-                Select select = new Select(webElement);
-                select.selectByIndex(index);
-                isSelectionMade = true;
-                break;
-            }
-        }
-
-        if (!isSelectionMade) {
-            throw new AutotestError("There is no element '" + option + "' in " + ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement));
-        }
+    @ActionTitle("ru.sbtqa.tag.pagefactory.check.value")
+    public void check(String elementTitle, String text) throws PageException {
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        checkValue(text, webElement, MatchStrategy.EXACT);
     }
+
 
     /**
      * Wait for an alert with specified text, and accept it
@@ -183,7 +180,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.accept.alert")
     public void acceptAlert(String text) throws WaitException {
-        ExpectedConditionsExt.acceptAlert(Environment.getDriverService().getDriver());
+        ExpectedConditionsUtils.acceptAlert();
     }
 
     /**
@@ -195,7 +192,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.dismiss.alert")
     public void dismissAlert(String text) throws WaitException {
-        ExpectedConditionsExt.dismissAlert(Environment.getDriverService().getDriver());
+        ExpectedConditionsUtils.dismissAlert();
     }
 
     /**
@@ -237,7 +234,7 @@ public abstract class WebElementsPage extends Page {
         try {
             String popupHandle = WebExtension.findNewWindowHandle((Set<String>) Stash.getValue("beforeClickHandles"));
             if (null != popupHandle && !popupHandle.isEmpty()) {
-                Environment.getDriverService().getDriver().switchTo().window(popupHandle);
+                getDriver().switchTo().window(popupHandle);
             }
             assertTextAppears(text);
         } catch (Exception ex) {
@@ -245,20 +242,7 @@ public abstract class WebElementsPage extends Page {
         }
     }
 
-    /**
-     * Perform {@link #checkValue(String, WebElement, MatchStrategy)} for the
-     * WebElement with corresponding title on a current page. Use exact match
-     * strategy
-     *
-     * @param text string value that will be searched inside of the element
-     * @param elementTitle title of the element to search
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException if
-     * couldn't find element by given title, or current page isn't initialized
-     */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.check.value")
-    public void checkValue(String elementTitle, String text) throws PageException {
-        checkValue(text, PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle), MatchStrategy.EXACT);
-    }
+
 
     /**
      * Perform {@link #checkValue(String, WebElement, MatchStrategy)} for the
@@ -279,12 +263,12 @@ public abstract class WebElementsPage extends Page {
      *
      * @param text string value that will be searched inside of the element
      * @param webElement WebElement to check
-     * @param searchStrategy match strategy. See available strategies in
+     * @param matchStrategy match strategy. See available strategies in
      * {@link MatchStrategy}
      */
-    protected void checkValue(String text, WebElement webElement, MatchStrategy searchStrategy) {
+    protected void checkValue(String text, WebElement webElement, MatchStrategy matchStrategy) {
         String value = "";
-        switch (searchStrategy) {
+        switch (matchStrategy) {
             case EXACT:
                 try {
                     switch (webElement.getTagName()) {
@@ -345,7 +329,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.not.empty")
     public void checkFieldIsNotEmpty(String elementTitle) throws PageException {
-        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         checkFieldIsNotEmpty(webElement);
     }
 
@@ -362,7 +346,7 @@ public abstract class WebElementsPage extends Page {
         try {
             Assert.assertFalse(value.replaceAll("\\s+", "").isEmpty());
         } catch (Exception | AssertionError e) {
-            throw new AutotestError("The field" + ReflectionUtil.getElementTitle(PageContext.getCurrentPage(), webElement) + " is empty", e);
+            throw new AutotestError("The field" + ReflectionUtils.getElementTitle(PageContext.getCurrentPage(), webElement) + " is empty", e);
         }
     }
 
@@ -378,7 +362,7 @@ public abstract class WebElementsPage extends Page {
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.values.not.equal")
     public void checkValuesAreNotEqual(String text, String elementTitle) throws PageException {
-        WebElement webElement = PageFactoryUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (checkValuesAreNotEqual(text, webElement)) {
             throw new AutotestError("'" + text + "' is equal with '" + elementTitle + "' value");
         }
@@ -411,7 +395,7 @@ public abstract class WebElementsPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.text.visible")})
     public void checkElementWithTextIsPresent(String text) {
-        if (!ExpectedConditionsExt.checkElementWithTextIsPresent(Environment.getDriverService().getDriver(), text, 10)) {
+        if (!ExpectedConditionsUtils.checkElementWithTextIsPresent(text)) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }

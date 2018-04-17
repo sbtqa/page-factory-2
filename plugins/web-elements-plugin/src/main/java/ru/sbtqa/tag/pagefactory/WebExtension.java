@@ -7,10 +7,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.util.ExpectedConditionsExt;
+import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
 import ru.sbtqa.tag.qautils.managers.DateManager;
 
 public class WebExtension {
@@ -33,9 +33,9 @@ public class WebExtension {
             throw new IllegalArgumentException("Getting value is not support in element without id");
         }
 
-        WebElement possibleTextMatcher = Environment.getDriverService().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/.."));
+        WebElement possibleTextMatcher = PageContext.getCurrentPage().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/.."));
         if (possibleTextMatcher.getText().isEmpty()) {
-            possibleTextMatcher = Environment.getDriverService().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/../.."));
+            possibleTextMatcher = PageContext.getCurrentPage().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/../.."));
             if ("tr".equals(possibleTextMatcher.getTagName())) {
                 elementValue = possibleTextMatcher.getText();
             }
@@ -56,14 +56,14 @@ public class WebExtension {
         long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
         while (timeoutTime > System.currentTimeMillis()) {
             try {
-                if ("complete".equals((String) ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("return document.readyState"))) {
+                if ("complete".equals((String) ((JavascriptExecutor) PageContext.getCurrentPage().getDriver()).executeScript("return document.readyState"))) {
                     return;
                 }
                 sleep(1);
             } catch (Exception | AssertionError e) {
-                LOG.debug("WebElementsPage does not become to ready state", e);
-                Environment.getDriverService().getDriver().navigate().refresh();
-                LOG.debug("WebElementsPage refreshed");
+                LOG.debug("WebPage does not become to ready state", e);
+                PageContext.getCurrentPage().getDriver().navigate().refresh();
+                LOG.debug("WebPage refreshed");
                 if ((stopRecursion.length == 0) || (stopRecursion.length > 0 && !stopRecursion[0])) {
                     waitForPageToLoad(true);
                 }
@@ -98,7 +98,7 @@ public class WebExtension {
      */
     public static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent) throws WaitException {
         long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
-        WebElement body = ExpectedConditionsExt.waitUntilElementAppearsInDom(Environment.getDriverService().getDriver(), By.tagName("body"));
+        WebElement body = ExpectedConditionsUtils.waitUntilElementAppearsInDom(By.tagName("body"));
         while (timeoutTime > System.currentTimeMillis()) {
             sleep(1);
             if (body.getText().replaceAll("\\s+", "").contains(text.replaceAll("\\s+", "")) == shouldTextBePresent) {
@@ -118,7 +118,7 @@ public class WebExtension {
         long timeoutTime = System.currentTimeMillis() + timeout;
 
         while (timeoutTime > System.currentTimeMillis()) {
-            Set<String> currentHandles = Environment.getDriverService().getDriver().getWindowHandles();
+            Set<String> currentHandles = PageContext.getCurrentPage().getDriver().getWindowHandles();
 
             if (currentHandles.size() != existingHandles.size()
                     || (currentHandles.size() == existingHandles.size() && !currentHandles.equals(existingHandles))) {
@@ -145,7 +145,7 @@ public class WebExtension {
 
 
     public static String getElementBorderStyle(WebElement webElement) {
-        JavascriptExecutor js = (JavascriptExecutor) Environment.getDriverService().getDriver();
+        JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
         return (String) js.executeScript("return arguments[0].style.border", webElement);
     }
 
@@ -157,7 +157,7 @@ public class WebExtension {
      */
     public static void highlightElementOn(WebElement webElement) {
         try {
-            JavascriptExecutor js = (JavascriptExecutor) Environment.getDriverService().getDriver();
+            JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
             js.executeScript("arguments[0].style.border='3px solid red'", webElement);
         } catch (Exception e) {
             LOG.warn("Something went wrong with element highlight", e);
@@ -173,7 +173,7 @@ public class WebExtension {
     public static void highlightElementOff(WebElement webElement, String originalStyle) {
         originalStyle = (originalStyle == null) ? "" : originalStyle;
         try {
-            JavascriptExecutor js = (JavascriptExecutor) Environment.getDriverService().getDriver();
+            JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
             js.executeScript("arguments[0].style.border='" + originalStyle + "'", webElement);
         } catch (Exception e) {
             LOG.debug("Something went wrong with element highlight", e);

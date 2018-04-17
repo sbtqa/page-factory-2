@@ -4,13 +4,13 @@ import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import static ru.sbtqa.tag.pagefactory.util.PageFactoryUtils.getElementByTitle;
+import static ru.sbtqa.tag.pagefactory.utils.ReflectionUtils.getElementByTitle;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 
 /**
  * Page with common action with html-elements
  */
-public class HTMLPage extends WebElementsPage {
+public class HTMLPage extends WebPage {
 
     /**
      * Find web element with corresponding title, if it is a check box, select

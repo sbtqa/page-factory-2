@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.util.PageFactoryUtils;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 import java.io.IOException;
@@ -37,8 +37,8 @@ public class JDIUtils {
 
     public static Object getElementByTitle(Page page, String title) throws PageException {
         for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
-            if (PageFactoryUtils.isRequiredElement(field, title)) {
-                return PageFactoryUtils.getElementByField(page, field);
+            if (ReflectionUtils.isRequiredElement(field, title)) {
+                return ReflectionUtils.getElementByField(page, field);
             }
         }
 

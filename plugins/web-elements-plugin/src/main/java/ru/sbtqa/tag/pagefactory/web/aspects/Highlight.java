@@ -7,12 +7,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.WebExtension;
-import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 
 @Aspect
 public class Highlight {
 
-    private static final Configuration properties = ConfigFactory.create(Configuration.class);
+    private static final WebConfiguration properties = ConfigFactory.create(WebConfiguration.class);
 
     @Pointcut("call(* org.openqa.selenium.WebElement.click()) && if()")
     public static boolean isHighlighEnabled() {

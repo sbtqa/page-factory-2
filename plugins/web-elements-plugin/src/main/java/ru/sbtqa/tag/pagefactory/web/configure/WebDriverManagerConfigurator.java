@@ -22,13 +22,13 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.web.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 
 public class WebDriverManagerConfigurator {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebDriverManagerConfigurator.class);
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
 
     private static final String MAPPING_FILES_PATH = "drivers/mapping/";
     private static final String MAPPING_FILES_EXTENSION = ".json";

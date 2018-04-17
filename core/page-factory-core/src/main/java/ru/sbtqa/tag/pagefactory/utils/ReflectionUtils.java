@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.util;
+package ru.sbtqa.tag.pagefactory.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -7,12 +7,15 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.Page;
+import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -26,9 +29,36 @@ import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
-public class PageFactoryUtils {
+public class ReflectionUtils {
     
-    public static final Logger LOG = LoggerFactory.getLogger(PageFactoryUtils.class);
+    public static final Logger LOG = LoggerFactory.getLogger(ReflectionUtils.class);
+
+    /**
+     * Search for the given WebElement in page repository storage, that is being
+     * generated during preconditions to all tests. If element is found, return
+     * its title annotation. If nothing found, log debug message and return
+     * toString() of corresponding element
+     *
+     * @param element WebElement to search
+     * @param page page for searching
+     * @return title of the given element
+     */
+    public static String getElementTitle(Page page, WebElement element) {
+        for (Map.Entry<Field, String> entry : PageManager.getPageRepository().get(page.getClass()).entrySet()) {
+            try {
+                if (getElementByField(page, entry.getKey()) == element) {
+                    ElementTitle elementTitle = entry.getKey().getAnnotation(ElementTitle.class);
+                    if (elementTitle != null && !elementTitle.value().isEmpty()) {
+                        return elementTitle.value();
+                    }
+                    return entry.getValue();
+                }
+            } catch (java.util.NoSuchElementException | StaleElementReferenceException | ElementDescriptionException ex) {
+                LOG.debug("Failed to get element '" + element + "' title", ex);
+            }
+        }
+        return element.toString();
+    }
 
     /**
      * Find method with corresponding title on current page, and execute it

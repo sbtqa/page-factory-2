@@ -1,24 +1,26 @@
-package ru.sbtqa.tag.pagefactory.util;
+package ru.sbtqa.tag.pagefactory.utils;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.qautils.managers.DateManager;
 
-public class ExpectedConditionsExt {
+public class ExpectedConditionsUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ExpectedConditionsExt.class);
-//    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExpectedConditionsUtils.class);
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     /**
      * Wait until element present
@@ -26,8 +28,8 @@ public class ExpectedConditionsExt {
      * @param webElement Desired web element
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementPresent(WebDriver driver, WebElement webElement) {
-        return new WebDriverWait(driver, 1).
+    public static WebElement waitUntilElementPresent(WebElement webElement) {
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), PROPERTIES.getTimeout()).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -35,11 +37,11 @@ public class ExpectedConditionsExt {
      * Wait until element present
      *
      * @param webElement Desired web element
-     * @param timeout    Timeout in seconds
+     * @param timeout Timeout in seconds
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementPresent(WebDriver driver, WebElement webElement, int timeout) {
-        return new WebDriverWait(driver, timeout).
+    public static WebElement waitUntilElementPresent(WebElement webElement, int timeout) {
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), timeout).
                 until(ExpectedConditions.visibilityOf(webElement));
     }
 
@@ -49,8 +51,8 @@ public class ExpectedConditionsExt {
      * @param webElement Desired web element
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementToBeClickable(WebDriver driver, WebElement webElement) {
-        return new WebDriverWait(driver, 1).
+    public static WebElement waitUntilElementToBeClickable(WebElement webElement) {
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), PROPERTIES.getTimeout()).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -58,11 +60,11 @@ public class ExpectedConditionsExt {
      * Wait until element present
      *
      * @param webElement Desired web element
-     * @param timeout    Timeout in seconds
+     * @param timeout Timeout in seconds
      * @return Expected WebElement
      */
-    public static WebElement waitUntilElementToBeClickable(WebDriver driver, WebElement webElement, int timeout) {
-        return new WebDriverWait(driver, timeout).
+    public static WebElement waitUntilElementToBeClickable(WebElement webElement, int timeout) {
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), timeout).
                 until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
@@ -71,15 +73,15 @@ public class ExpectedConditionsExt {
      *
      * @param webElement Desired web element
      */
-    public static void waitUntilPagePrepared(WebDriver driver, WebElement webElement) {
+    public static void waitUntilPagePrepared(WebElement webElement) {
         try {
-            new WebDriverWait(driver, 1 / 2).
+            new WebDriverWait(PageContext.getCurrentPage().getDriver(), PROPERTIES.getTimeout() / 2).
                     until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception | AssertionError e) {
             LOG.debug("Element {} does not become visible after timeout", webElement, e);
-            driver.navigate().refresh();
+            PageContext.getCurrentPage().getDriver().navigate().refresh();
             LOG.debug("WebElementsPage refreshed");
-            new WebDriverWait(driver, 1).
+            new WebDriverWait(PageContext.getCurrentPage().getDriver(), PROPERTIES.getTimeout()).
                     until(ExpectedConditions.visibilityOf(webElement));
         }
     }
@@ -90,27 +92,27 @@ public class ExpectedConditionsExt {
      * @param by a {@link By} object.
      * @return return appeared WebElement
      */
-    public static WebElement waitUntilElementAppearsInDom(WebDriver driver, By by) {
-        return new WebDriverWait(driver, 1)
+    public static WebElement waitUntilElementAppearsInDom(By by) {
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), PROPERTIES.getTimeout())
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     /**
      * Wait until element present
      *
-     * @param by      a {@link By} object.
+     * @param by a {@link By} object.
      * @param timeout timeout in seconds
      * @return return appeared WebElement
      */
-    public static WebElement waitUntilElementAppearsInDom(WebDriver driver, By by, long timeout) {
-        return new WebDriverWait(driver, timeout)
+    public static WebElement waitUntilElementAppearsInDom(By by, long timeout) {
+        return new WebDriverWait(PageContext.getCurrentPage().getDriver(), timeout)
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     /**
      * Wait until element gone from dom
      *
-     * @param timeout    in milliseconds
+     * @param timeout in milliseconds
      * @param webElement a {@link WebElement} object.
      */
     public static void waitUntilElementGoneFromDom(WebElement webElement, long timeout) {
@@ -124,7 +126,7 @@ public class ExpectedConditionsExt {
                 LOG.debug("There is no element {} in dom", webElement, e);
                 return;
             }
-            sleep(1);
+            sleep(PROPERTIES.getTimeout());
         }
         throw new NoSuchElementException("Timed out after " + timeout + " milliseconds waiting for web element '" + webElement.toString() + "' gone from DOM");
     }
@@ -132,8 +134,8 @@ public class ExpectedConditionsExt {
     /**
      * @param element a {@link WebElement} object.
      */
-    public static void waitUntilElementGetInvisible(WebDriver driver, WebElement element) {
-        new WebDriverWait(driver, 1)
+    public static void waitUntilElementGetInvisible(WebElement element) {
+        new WebDriverWait(PageContext.getCurrentPage().getDriver(), PROPERTIES.getTimeout())
                 .until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
     }
 
@@ -142,13 +144,12 @@ public class ExpectedConditionsExt {
      * waitForElementGetEnabled.</p>
      *
      * @param webElement a {@link WebElement} object.
-     * @param timeout    a long.
+     * @param timeout in milliseconds
      * @throws WaitException TODO
      */
     public static void waitForElementGetEnabled(WebElement webElement, long timeout) throws WaitException {
         long timeoutTime = DateManager.getCurrentTimestamp() + timeout;
         while (timeoutTime > DateManager.getCurrentTimestamp()) {
-            sleep(1);
             try {
                 if (webElement.isEnabled()) {
                     return;
@@ -156,9 +157,20 @@ public class ExpectedConditionsExt {
             } catch (Exception e) {
                 LOG.debug("Target element still not enable", e);
             }
-
+            sleep(1);
         }
         throw new WaitException("Timed out after '" + timeout + "' milliseconds waiting for availability of '" + webElement + "'");
+    }
+
+    /**
+     * <p>
+     * waitForElementGetEnabled.</p>
+     *
+     * @param webElement a {@link WebElement} object.
+     * @throws WaitException TODO
+     */
+    public static void waitForElementGetEnabled(WebElement webElement) throws WaitException {
+        waitForElementGetEnabled(webElement, PROPERTIES.getTimeout() * 1000L);
     }
 
     /**
@@ -166,8 +178,8 @@ public class ExpectedConditionsExt {
      *
      * @throws WaitException if alert didn't appear during timeout
      */
-    public static void acceptAlert(WebDriver webDriver) throws WaitException {
-        interactWithAlert(webDriver,"", true);
+    public static void acceptAlert() throws WaitException {
+        interactWithAlert("", true);
     }
 
     /**
@@ -175,8 +187,8 @@ public class ExpectedConditionsExt {
      *
      * @throws WaitException if alert didn't appear during timeout
      */
-    public static void dismissAlert(WebDriver webDriver) throws WaitException {
-        interactWithAlert(webDriver, "", false);
+    public static void dismissAlert() throws WaitException {
+        interactWithAlert("", false);
     }
 
     /**
@@ -184,15 +196,15 @@ public class ExpectedConditionsExt {
      * If messageText is empty, text doesn't matter
      *
      * @param messageText text of an alert. If empty string is provided, it is being ignored
-     * @param decision    true - accept, false - dismiss
+     * @param decision true - accept, false - dismiss
      * @throws WaitException in case if alert didn't appear during default wait timeout
      */
-    public static void interactWithAlert(WebDriver driver, String messageText, boolean decision) throws WaitException {
-        long timeoutTime = System.currentTimeMillis() + 1000;
+    public static void interactWithAlert(String messageText, boolean decision) throws WaitException {
+        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
 
         while (timeoutTime > System.currentTimeMillis()) {
             try {
-                Alert alert = driver.switchTo().alert();
+                Alert alert = PageContext.getCurrentPage().getDriver().switchTo().alert();
                 if (!messageText.isEmpty()) {
                     Assert.assertEquals(alert.getText(), messageText);
                 }
@@ -205,20 +217,19 @@ public class ExpectedConditionsExt {
             } catch (Exception e) {
                 LOG.debug("Alert has not appeared yet", e);
             }
-            sleep(1);
+            sleep(PROPERTIES.getTimeout());
         }
-        throw new WaitException("Timed out after '" + 1 + "' seconds waiting for alert to accept");
+        throw new WaitException("Timed out after '" + PROPERTIES.getTimeout() + "' seconds waiting for alert to accept");
     }
 
 
     /**
-     * @param text    a {@link String} object.
-     * @param timeout a {int} object. wait text during sec period
+     * @param text a {@link String} object.
      * @return true if exists
      */
-    public static boolean checkElementWithTextIsPresent(WebDriver driver, String text, long timeout) {
+    public static boolean checkElementWithTextIsPresent(String text) {
         try {
-            new WebDriverWait(driver, 1)
+            new WebDriverWait(PageContext.getCurrentPage().getDriver(), PROPERTIES.getTimeout())
                     .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + text + "')]")));
             return true;
         } catch (TimeoutException e) {
