@@ -6,7 +6,6 @@ import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.WebPage;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
-import ru.sbtqa.tag.pagefactory.annotations.RedirectsTo;
 
 public class AbstractPage extends WebPage {
 
@@ -16,7 +15,6 @@ public class AbstractPage extends WebPage {
 
     @ElementTitle("ContactRedirect")
     @FindBy(xpath = "//a[text()='Contact']")
-    @RedirectsTo(page = ContactPage.class)
     private WebElement contactButtonWithRedirect;
 
     @ElementTitle("Home")
@@ -25,7 +23,6 @@ public class AbstractPage extends WebPage {
 
     @ElementTitle("HomeRedirect")
     @FindBy(xpath = "//a[text()='Home']")
-    @RedirectsTo(page = IndexPage.class)
     private WebElement homeButtonWithRedirect;
     
     public AbstractPage(WebDriver driver) {

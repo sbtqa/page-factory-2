@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory;
+package ru.sbtqa.tag.pagefactory.web.utils;
 
 import java.util.Set;
 import org.aeonbits.owner.ConfigFactory;
@@ -7,15 +7,16 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
 import ru.sbtqa.tag.qautils.managers.DateManager;
 
-public class WebExtension {
+public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebExtension.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebExpectedConditionsUtils.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     /**
@@ -53,7 +54,7 @@ public class WebExtension {
      */
     public static void waitForPageToLoad(boolean... stopRecursion) throws WaitException {
 
-        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
+        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
         while (timeoutTime > System.currentTimeMillis()) {
             try {
                 if ("complete".equals((String) ((JavascriptExecutor) PageContext.getCurrentPage().getDriver()).executeScript("return document.readyState"))) {
@@ -92,25 +93,37 @@ public class WebExtension {
     /**
      * Wait until specified text either appears, or disappears from page source
      *
-     * @param text                text to search in page source
+     * @param text text to search in page source
      * @param shouldTextBePresent boolean, self explanatory
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
     public static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent) throws WaitException {
         long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
-        WebElement body = ExpectedConditionsUtils.waitUntilElementAppearsInDom(By.tagName("body"));
+        WebElement body = waitUntilElementAppearsInDom(By.tagName("body"));
         while (timeoutTime > System.currentTimeMillis()) {
-            sleep(1);
             if (body.getText().replaceAll("\\s+", "").contains(text.replaceAll("\\s+", "")) == shouldTextBePresent) {
                 return;
             }
+            sleep(1);
         }
         throw new WaitException("Timed out after '" + PROPERTIES.getTimeout() + "' seconds waiting for presence of '" + text + "' in page source");
     }
 
+    public static void waitForModalWindowWithText(String text) throws WaitException {
+        try {
+            String popupHandle = WebExpectedConditionsUtils.findNewWindowHandle((Set<String>) Stash.getValue("beforeClickHandles"));
+            if (null != popupHandle && !popupHandle.isEmpty()) {
+                PageContext.getCurrentPage().getDriver().switchTo().window(popupHandle);
+            }
+            waitForTextPresenceInPageSource(text, true);
+        } catch (Exception ex) {
+            throw new WaitException("Modal window with text '" + text + "' didn't appear during timeout", ex);
+        }
+    }
+
     /**
      * @param existingHandles TODO
-     * @param timeout         TODO
+     * @param timeout TODO
      * @return TODO
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
@@ -140,44 +153,7 @@ public class WebExtension {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
      */
     public static String findNewWindowHandle(Set<String> existingHandles) throws WaitException {
-        return findNewWindowHandle(existingHandles, PROPERTIES.getTimeout() / 1000);
-    }
-
-
-    public static String getElementBorderStyle(WebElement webElement) {
-        JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
-        return (String) js.executeScript("return arguments[0].style.border", webElement);
-    }
-
-    /**
-     * Turn on element highlight
-     *
-     * @param webElement TODO
-     * @return initial element style
-     */
-    public static void highlightElementOn(WebElement webElement) {
-        try {
-            JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
-            js.executeScript("arguments[0].style.border='3px solid red'", webElement);
-        } catch (Exception e) {
-            LOG.warn("Something went wrong with element highlight", e);
-        }
-    }
-
-    /**
-     * Turn off element highlight
-     *
-     * @param webElement TODO
-     * @param originalStyle      element style to set
-     */
-    public static void highlightElementOff(WebElement webElement, String originalStyle) {
-        originalStyle = (originalStyle == null) ? "" : originalStyle;
-        try {
-            JavascriptExecutor js = (JavascriptExecutor) PageContext.getCurrentPage().getDriver();
-            js.executeScript("arguments[0].style.border='" + originalStyle + "'", webElement);
-        } catch (Exception e) {
-            LOG.debug("Something went wrong with element highlight", e);
-        }
+        return findNewWindowHandle(existingHandles, PROPERTIES.getTimeout());
     }
 
     /**

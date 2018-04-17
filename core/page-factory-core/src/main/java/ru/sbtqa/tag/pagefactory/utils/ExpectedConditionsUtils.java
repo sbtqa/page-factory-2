@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.Assert;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -172,56 +170,6 @@ public class ExpectedConditionsUtils {
     public static void waitForElementGetEnabled(WebElement webElement) throws WaitException {
         waitForElementGetEnabled(webElement, PROPERTIES.getTimeout() * 1000L);
     }
-
-    /**
-     * Accept any alert regardless of its message
-     *
-     * @throws WaitException if alert didn't appear during timeout
-     */
-    public static void acceptAlert() throws WaitException {
-        interactWithAlert("", true);
-    }
-
-    /**
-     * Dismiss any alert regardless of its message
-     *
-     * @throws WaitException if alert didn't appear during timeout
-     */
-    public static void dismissAlert() throws WaitException {
-        interactWithAlert("", false);
-    }
-
-    /**
-     * Wait for an alert with corresponding text (if specified). Depending on the decision, either accept it or decline
-     * If messageText is empty, text doesn't matter
-     *
-     * @param messageText text of an alert. If empty string is provided, it is being ignored
-     * @param decision true - accept, false - dismiss
-     * @throws WaitException in case if alert didn't appear during default wait timeout
-     */
-    public static void interactWithAlert(String messageText, boolean decision) throws WaitException {
-        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
-
-        while (timeoutTime > System.currentTimeMillis()) {
-            try {
-                Alert alert = PageContext.getCurrentPage().getDriver().switchTo().alert();
-                if (!messageText.isEmpty()) {
-                    Assert.assertEquals(alert.getText(), messageText);
-                }
-                if (decision) {
-                    alert.accept();
-                } else {
-                    alert.dismiss();
-                }
-                return;
-            } catch (Exception e) {
-                LOG.debug("Alert has not appeared yet", e);
-            }
-            sleep(PROPERTIES.getTimeout());
-        }
-        throw new WaitException("Timed out after '" + PROPERTIES.getTimeout() + "' seconds waiting for alert to accept");
-    }
-
 
     /**
      * @param text a {@link String} object.

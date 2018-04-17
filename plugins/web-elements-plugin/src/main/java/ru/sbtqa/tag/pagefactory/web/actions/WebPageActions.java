@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.actions;
+package ru.sbtqa.tag.pagefactory.web.actions;
 
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.Keys;
@@ -7,8 +7,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
-import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.web.support.Alert;
+import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
 
 public class WebPageActions implements PageActions {
 
@@ -23,7 +25,7 @@ public class WebPageActions implements PageActions {
         webElement.sendKeys(text);
     }
 
-    private void clear(WebElement webElement) {
+    public void clear(WebElement webElement) {
         try {
             webElement.clear();
         } catch (InvalidElementStateException | NullPointerException e) {
@@ -33,7 +35,7 @@ public class WebPageActions implements PageActions {
 
     @Override
     public void click(WebElement webElement) {
-        ExpectedConditionsUtils.waitForElementGetEnabled(webElement);
+        WebExpectedConditionsUtils.waitForElementGetEnabled(webElement);
         webElement.click();
     }
 
@@ -61,5 +63,15 @@ public class WebPageActions implements PageActions {
         if (webElement.isSelected() != state) {
             webElement.click();
         }
+    }
+
+    public void acceptAlert() {
+        Alert alert = new Alert();
+        alert.accept();
+    }
+
+    public void dismissAlert() {
+        Alert alert = new Alert();
+        alert.dismiss();
     }
 }

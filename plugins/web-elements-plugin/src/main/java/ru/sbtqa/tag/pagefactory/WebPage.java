@@ -1,27 +1,22 @@
 package ru.sbtqa.tag.pagefactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import org.junit.Assert;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import org.openqa.selenium.support.ui.Select;
-import ru.sbtqa.tag.datajack.Stash;
-import ru.sbtqa.tag.pagefactory.actions.WebPageActions;
+import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
+import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
+import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
+import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 /**
  * Contains basic actions in particular with web elements
@@ -29,9 +24,8 @@ import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
  */
 public abstract class WebPage extends Page {
 
-//    PageActions pageActions = Environment.getPageActions();
-    WebPageActions pageActions = new WebPageActions();
-
+    PageActions pageActions = Environment.getPageActions();
+    PageChecks pageChecks = Environment.getPageChecks();
 
     public WebPage(WebDriver driver) {
         super(driver);
@@ -102,9 +96,7 @@ public abstract class WebPage extends Page {
     }
 
     /**
-     * Find element with required title, perform
-     * {@link #select(WebElement, String, MatchStrategy)} on found element Use
-     * exact match strategy
+     * TODO
      *
      * @param elementTitle WebElement that is supposed to be selectable
      * @param option option to select
@@ -133,31 +125,8 @@ public abstract class WebPage extends Page {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
-     * Perform {@link #checkValue(String, WebElement, MatchStrategy)} for the
-     * WebElement with corresponding title on a current page. Use exact match
-     * strategy
+     * TODO
      *
      * @param text string value that will be searched inside of the element
      * @param elementTitle title of the element to search
@@ -165,188 +134,10 @@ public abstract class WebPage extends Page {
      * couldn't find element by given title, or current page isn't initialized
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.value")
-    public void check(String elementTitle, String text) throws PageException {
+    public void checkValueIsEqual(String elementTitle, String text) throws PageException {
         WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        checkValue(text, webElement, MatchStrategy.EXACT);
-    }
-
-
-    /**
-     * Wait for an alert with specified text, and accept it
-     *
-     * @param text alert message
-     * @throws WaitException in case if alert didn't appear during default wait
-     * timeout
-     */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.accept.alert")
-    public void acceptAlert(String text) throws WaitException {
-        ExpectedConditionsUtils.acceptAlert();
-    }
-
-    /**
-     * Wait for an alert with specified text, and dismiss it
-     *
-     * @param text alert message
-     * @throws WaitException in case if alert didn't appear during default wait
-     * timeout
-     */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.dismiss.alert")
-    public void dismissAlert(String text) throws WaitException {
-        ExpectedConditionsUtils.dismissAlert();
-    }
-
-    /**
-     * Wait for appearance of the required text in current DOM model. Text will
-     * be space-trimmed, so only non-space characters will matter.
-     *
-     * @param text text to search
-     * @throws WaitException if text didn't appear on the page during the
-     * timeout
-     */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.text.appears.on.page")
-    public void assertTextAppears(String text) throws WaitException {
-        WebExtension.waitForTextPresenceInPageSource(text, true);
-    }
-
-    /**
-     * Check whether specified text is absent on the page. Text is being
-     * space-trimmed before assertion, so only non-space characters will matter
-     *
-     * @param text text to search for
-     */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.text.absent.on.page")
-    public void assertTextIsNotPresent(String text) {
-        WebExtension.waitForTextPresenceInPageSource(text, false);
-    }
-
-    /**
-     * Wait for a new browser window, then wait for a specific text inside the
-     * appeared window List of previously opened windows is being saved before
-     * each click, so if modal window appears without click, this method won't
-     * catch it. Text is being waited by {@link #assertTextAppears}, so it will
-     * be space-trimmed as well
-     *
-     * @param text text that will be searched inside of the window
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
-     */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.modal.window.with.text.appears")
-    public void assertModalWindowAppears(String text) throws WaitException {
-        try {
-            String popupHandle = WebExtension.findNewWindowHandle((Set<String>) Stash.getValue("beforeClickHandles"));
-            if (null != popupHandle && !popupHandle.isEmpty()) {
-                getDriver().switchTo().window(popupHandle);
-            }
-            assertTextAppears(text);
-        } catch (Exception ex) {
-            throw new WaitException("Modal window with text '" + text + "' didn't appear during timeout", ex);
-        }
-    }
-
-
-
-    /**
-     * Perform {@link #checkValue(String, WebElement, MatchStrategy)} for the
-     * specified WebElement. Use exact match strategy
-     *
-     * @param text string value that will be searched inside of the element
-     * @param webElement WebElement to check
-     */
-    public void checkValue(String text, WebElement webElement) {
-        checkValue(text, webElement, MatchStrategy.EXACT);
-    }
-
-    /**
-     * Define a type of given WebElement, and check whether it either contains,
-     * or exactly matches given text in its value. Currently supported elements
-     * are text input and select box TODO: use HtmlElements here, to define
-     * which element we are dealing with
-     *
-     * @param text string value that will be searched inside of the element
-     * @param webElement WebElement to check
-     * @param matchStrategy match strategy. See available strategies in
-     * {@link MatchStrategy}
-     */
-    protected void checkValue(String text, WebElement webElement, MatchStrategy matchStrategy) {
-        String value = "";
-        switch (matchStrategy) {
-            case EXACT:
-                try {
-                    switch (webElement.getTagName()) {
-                        case "input":
-                            value = webElement.getAttribute("value");
-                            Assert.assertEquals(text.replaceAll("\\s+", ""), value.replaceAll("\\s+", ""));
-                            break;
-                        case "select":
-                            value = webElement.getAttribute("title");
-                            if (value.isEmpty() || !value.replaceAll("\\s+", "").equals(text.replaceAll("\\s+", ""))) {
-                                value = webElement.getText();
-                            }
-                            Assert.assertEquals(text.replaceAll("\\s+", ""), value.replaceAll("\\s+", ""));
-                            break;
-                        default:
-                            value = webElement.getText();
-                            Assert.assertEquals(text.replaceAll("\\s+", ""), value.replaceAll("\\s+", ""));
-                            break;
-                    }
-                } catch (Exception | AssertionError exception) {
-                    throw new AutotestError("The actual value '" + value + "' of WebElement '" + webElement + "' are not equal to expected text '" + text + "'", exception);
-                }
-                break;
-            case CONTAINS:
-                try {
-                    switch (webElement.getTagName()) {
-                        case "input":
-                            value = webElement.getAttribute("value");
-                            Assert.assertTrue(value.replaceAll("\\s+", "").contains(text.replaceAll("\\s+", "")));
-                            break;
-                        case "select":
-                            value = webElement.getAttribute("title");
-                            if (value.isEmpty() || !value.replaceAll("\\s+", "").contains(text.replaceAll("\\s+", ""))) {
-                                value = webElement.getText();
-                            }
-                            Assert.assertTrue(value.replaceAll("\\s+", "").contains(text.replaceAll("\\s+", "")));
-                            break;
-                        default:
-                            value = webElement.getText();
-                            Assert.assertTrue(value.replaceAll("\\s+", "").contains(text.replaceAll("\\s+", "")));
-                            break;
-                    }
-                } catch (Exception | AssertionError exception) {
-                    throw new AutotestError("The actual value '" + value + "' of WebElement '" + webElement + "' are not equal to expected text '" + text + "'", exception);
-                }
-                break;
-        }
-
-    }
-
-    /**
-     * Find element by given title, and check whether it is not empty See
-     * {@link #checkFieldIsNotEmpty(WebElement)} for details
-     *
-     * @param elementTitle title of the element to check
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if current page
-     * was not initialized, or element wasn't found on the page
-     */
-    @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.not.empty")
-    public void checkFieldIsNotEmpty(String elementTitle) throws PageException {
-        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        checkFieldIsNotEmpty(webElement);
-    }
-
-    /**
-     * Check that given WebElement has a value attribute, and it is not empty
-     *
-     * @param webElement WebElement to check
-     */
-    protected void checkFieldIsNotEmpty(WebElement webElement) {
-        String value = webElement.getText();
-        if (value.isEmpty()) {
-            value = webElement.getAttribute("value");
-        }
-        try {
-            Assert.assertFalse(value.replaceAll("\\s+", "").isEmpty());
-        } catch (Exception | AssertionError e) {
-            throw new AutotestError("The field" + ReflectionUtils.getElementTitle(PageContext.getCurrentPage(), webElement) + " is empty", e);
+        if (!pageChecks.checkEquality(webElement, text)) {
+            throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'");
         }
     }
 
@@ -361,28 +152,99 @@ public abstract class WebPage extends Page {
      * wasn't initialized, or element with required title was not found
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.values.not.equal")
-    public void checkValuesAreNotEqual(String text, String elementTitle) throws PageException {
+    public void checkValueIsNotEqual(String text, String elementTitle) throws PageException {
         WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
-        if (checkValuesAreNotEqual(text, webElement)) {
-            throw new AutotestError("'" + text + "' is equal with '" + elementTitle + "' value");
+        if (pageChecks.checkEquality(webElement, text)) {
+            throw new AutotestError("'" + elementTitle + "' value is equal with '" + text + "'");
         }
     }
 
     /**
-     * Extract value from the given WebElement, and compare the it with the
-     * given text Text, as well as element value are being space-trimmed before
-     * comparison, so only non-space characters matter
+     * TODO
      *
-     * @param text a {@link java.lang.String} object.
-     * @param webElement a {@link org.openqa.selenium.WebElement} object.
-     * @return a boolean.
+     * @param elementTitle title of the element to check
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if current page
+     * was not initialized, or element wasn't found on the page
      */
-    protected boolean checkValuesAreNotEqual(String text, WebElement webElement) {
-        if ("input".equals(webElement.getTagName())) {
-            return webElement.getAttribute("value").replaceAll("\\s+", "").equals(text.replaceAll("\\s+", ""));
-        } else {
-            return webElement.getText().replaceAll("\\s+", "").equals(text.replaceAll("\\s+", ""));
+    @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.not.empty")
+    public void checkNotEmpty(String elementTitle) throws PageException {
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (pageChecks.checkEmptiness(webElement)) {
+            throw new AutotestError("'" + elementTitle + "' value is empty");
         }
+    }
+
+    @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.empty")
+    public void checkEmpty(String elementTitle) throws PageException {
+        WebElement webElement = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (!pageChecks.checkEmptiness(webElement)) {
+            throw new AutotestError("'" + elementTitle + "' value is not empty");
+        }
+    }
+
+
+    /**
+     * Wait for an alert with specified text, and accept it
+     *
+     * @param text alert message
+     * @throws WaitException in case if alert didn't appear during default wait
+     * timeout
+     */
+    @ActionTitle("ru.sbtqa.tag.pagefactory.accept.alert")
+    public void acceptAlert(String text) throws WaitException {
+        ((WebPageActions) pageActions).acceptAlert();
+    }
+
+    /**
+     * Wait for an alert with specified text, and dismiss it
+     *
+     * @param text alert message
+     * @throws WaitException in case if alert didn't appear during default wait
+     * timeout
+     */
+    @ActionTitle("ru.sbtqa.tag.pagefactory.dismiss.alert")
+    public void dismissAlert(String text) throws WaitException {
+        ((WebPageActions) pageActions).dismissAlert();
+    }
+
+
+    /**
+     * Wait for appearance of the required text in current DOM model. Text will
+     * be space-trimmed, so only non-space characters will matter.
+     *
+     * @param text text to search
+     * @throws WaitException if text didn't appear on the page during the
+     * timeout
+     */
+    @ActionTitle("ru.sbtqa.tag.pagefactory.text.appears.on.page")
+    public void checkTextAppears(String text) throws WaitException {
+        WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, true);
+    }
+
+    /**
+     * Check whether specified text is absent on the page. Text is being
+     * space-trimmed before assertion, so only non-space characters will matter
+     *
+     * @param text text to search for
+     */
+    @ActionTitle("ru.sbtqa.tag.pagefactory.text.absent.on.page")
+    public void checkTextIsNotPresent(String text) {
+        WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, false);
+    }
+
+    /**
+     * Wait for a new browser window, then wait for a specific text inside the
+     * appeared window List of previously opened windows is being saved before
+     * each click, so if modal window appears without click, this method won't
+     * catch it. Text is being waited by {@link #assertTextAppears}, so it will
+     * be space-trimmed as well
+     *
+     * @param text text that will be searched inside of the window
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
+     */
+    @ActionTitle("ru.sbtqa.tag.pagefactory.modal.window.with.text.appears")
+    public void checkModalWindowAppears(String text) throws WaitException {
+        WebExpectedConditionsUtils.waitForModalWindowWithText(text);
     }
 
     /**
@@ -395,9 +257,8 @@ public abstract class WebPage extends Page {
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.element.with.text.present"),
             @ActionTitle("ru.sbtqa.tag.pagefactory.check.text.visible")})
     public void checkElementWithTextIsPresent(String text) {
-        if (!ExpectedConditionsUtils.checkElementWithTextIsPresent(text)) {
+        if (!WebExpectedConditionsUtils.checkElementWithTextIsPresent(text)) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
     }
-
 }

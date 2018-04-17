@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory;
+package ru.sbtqa.tag.pagefactory.web.drivers;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
@@ -26,8 +26,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.capabilities.SelenoidCapabilitiesParser;
-import ru.sbtqa.tag.pagefactory.capabilities.WebDriverCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.web.capabilities.SelenoidCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
 import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
