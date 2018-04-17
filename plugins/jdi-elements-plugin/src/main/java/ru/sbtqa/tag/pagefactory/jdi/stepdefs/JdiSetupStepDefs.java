@@ -9,7 +9,8 @@ public class JdiSetupStepDefs {
     
     @Before
     public void initJDI() {
-        JDIUtils.setJDIConfig(() -> Environment.getDriverService().getDriver());
+
         Environment.setPageActions(new JdiPageActions());
+        JDIUtils.setJDIConfig(() -> Environment.getDriverService().getDriver());
     }
 }
