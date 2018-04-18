@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory.stepdefs;
 
 import cucumber.api.DataTable;
 import java.util.List;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
@@ -15,7 +14,7 @@ import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
  * used in this class: Page - a class that extends {@link ru.sbtqa.tag.pagefactory.Page} and has
  * {@link ru.sbtqa.tag.pagefactory.annotations.ElementTitle} annotation Action -
  * a method with {@link ru.sbtqa.tag.pagefactory.annotations.ActionTitle}
- * annotation in page object List - list of {@link WebElement}'s with
+ * annotation in page object List - list of objects's with
  * {@link ru.sbtqa.tag.pagefactory.annotations.ElementTitle} annotation on page
  * object
  * <p>

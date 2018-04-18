@@ -17,7 +17,6 @@ import java.util.Set;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,8 +58,7 @@ public class PageManager {
      *
      * @param page TODO
      * @return TODO
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException
-     * TODO
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException TODO
      */
     public Page getPage(Class<? extends Page> page, WebDriver driver) throws PageInitializationException {
         return bootstrapPage(page, driver);
@@ -68,11 +66,11 @@ public class PageManager {
 
     /**
      * <p>
-     * Get WebElementsPage by PageEntry title </p>
+     * Get Page by PageEntry title </p>
      *
      * @param packageName a {@link java.lang.String} object.
      * @param title a {@link java.lang.String} object.
-     * @return a WebElementsPage object.
+     * @return a Page object.
      * @throws PageInitializationException {@inheritDoc}
      */
     public Page getPage(String packageName, String title, WebDriver driver) throws PageInitializationException {
@@ -97,7 +95,7 @@ public class PageManager {
                 getPage(pagesPackage, title, Environment.getDriverService().getDriver());
             }
             if (null == PageContext.getCurrentPage()) {
-                throw new AutotestError("WebElementsPage object with title '" + title + "' is not registered");
+                throw new AutotestError("Page object with title '" + title + "' is not registered");
             }
         }
         return PageContext.getCurrentPage();
@@ -129,7 +127,6 @@ public class PageManager {
     }
 
     /**
-     *
      * @param packageName TODO
      * @param title TODO
      * @return
@@ -168,10 +165,10 @@ public class PageManager {
     }
 
     /**
-     * Redirect to WebElementsPage by WebElementsPage Entry url value
+     * Redirect to Page by Page Entry url value
      *
      * @param title a {@link java.lang.String} object.
-     * @return a WebElementsPage object.
+     * @return a Page object.
      * @throws PageInitializationException TODO
      */
     public static Page changeUrlByTitle(String title) throws PageInitializationException {
@@ -188,13 +185,12 @@ public class PageManager {
     }
 
     /**
-     * Redirect to WebElementsPage by WebElementsPage Entry url value
+     * Redirect to Page by Page Entry url value
      *
      * @param packageName a {@link java.lang.String} object.
      * @param title a {@link java.lang.String} object.
-     * @return a WebElementsPage object.
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException
-     * TODO
+     * @return a Page object.
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException TODO
      */
     public static Page changeUrlByTitle(String packageName, String title) throws PageInitializationException {
 
@@ -222,7 +218,7 @@ public class PageManager {
             return bootstrapPage(pageClass, PageContext.getCurrentPage().getDriver());
         }
 
-        throw new AutotestError("WebElementsPage " + title + " doesn't have fast URL in PageEntry");
+        throw new AutotestError("Page " + title + " doesn't have fast URL in PageEntry");
     }
 
     public void cachePages() {
@@ -233,15 +229,11 @@ public class PageManager {
             List<Field> fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(page);
             Map<Field, String> fieldsMap = new HashMap<>();
             for (Field field : fields) {
-                Class<?> fieldType = field.getType();
-                if (fieldType.equals(WebElement.class)) {
-
-                    ElementTitle titleAnnotation = field.getAnnotation(ElementTitle.class);
-                    if (titleAnnotation != null) {
-                        fieldsMap.put(field, titleAnnotation.value());
-                    } else {
-                        fieldsMap.put(field, field.getName());
-                    }
+                ElementTitle titleAnnotation = field.getAnnotation(ElementTitle.class);
+                if (titleAnnotation != null) {
+                    fieldsMap.put(field, titleAnnotation.value());
+                } else {
+                    fieldsMap.put(field, field.getName());
                 }
             }
 

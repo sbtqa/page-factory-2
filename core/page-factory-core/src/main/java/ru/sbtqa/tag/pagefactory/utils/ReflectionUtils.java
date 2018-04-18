@@ -11,7 +11,6 @@ import java.util.Map;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.Page;
@@ -34,16 +33,16 @@ public class ReflectionUtils {
     public static final Logger LOG = LoggerFactory.getLogger(ReflectionUtils.class);
 
     /**
-     * Search for the given WebElement in page repository storage, that is being
+     * Search for the given Object in page repository storage, that is being
      * generated during preconditions to all features. If element is found, return
      * its title annotation. If nothing found, log debug message and return
      * toString() of corresponding element
      *
-     * @param element WebElement to search
+     * @param element Object to search
      * @param page page for searching
      * @return title of the given element
      */
-    public static String getElementTitle(Page page, WebElement element) {
+    public static String getElementTitle(Page page, Object element) {
         for (Map.Entry<Field, String> entry : PageManager.getPageRepository().get(page.getClass()).entrySet()) {
             try {
                 if (getElementByField(page, entry.getKey()) == element) {
@@ -146,11 +145,11 @@ public class ReflectionUtils {
     }
 
     /**
-     * Find specified WebElement by title annotation among current page fields
+     * Find specified Object by title annotation among current page fields
      *
      * @param page the page on which the method is executing
      * @param title title of the element to search
-     * @return WebElement found by corresponding title
+     * @return Object found by corresponding title
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if failed to
      * find corresponding element or element type is set incorrectly
      */
