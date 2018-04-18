@@ -12,10 +12,10 @@
   </parent>
 
   <groupId>ru.sbtqa.tag.pagefactory</groupId>
-  <artifactId>web-elements-plugin</artifactId>
+  <artifactId>web-plugin</artifactId>
   <packaging>jar</packaging>
 
-  <name>web-elements-plugin</name>
+  <name>web-plugin</name>
 
   <properties>
     <renamed.war>test-web-app.war</renamed.war>
@@ -29,12 +29,46 @@
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
       <artifactId>page-factory-core</artifactId>
       <version>${project.version}</version>
-      <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>io.qameta.allure</groupId>
-      <artifactId>allure-cucumber2-jvm</artifactId>
-      <version>2.6.0</version>
+    <groupId>ru.sbtqa.tag</groupId>
+    <artifactId>datajack</artifactId>
+    <version>${tag.version.datajack}</version>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>${tag.version.webdrivermanager}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-chrome-driver</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-firefox-driver</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-safari-driver</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-ie-driver</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>net.lightbody.bmp</groupId>
+    <artifactId>browsermob-core</artifactId>
+    <version>2.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>${cucumber.version}</version>
     </dependency>
 
     <!--test-->
