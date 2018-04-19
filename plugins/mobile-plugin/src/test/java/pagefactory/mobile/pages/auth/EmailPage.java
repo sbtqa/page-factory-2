@@ -5,8 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.MobileExpectedConditionsUtils;
-import ru.sbtqa.tag.pagefactory.MobilePage;
+import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
@@ -26,6 +25,5 @@ public class EmailPage extends MobilePage {
 
     public EmailPage(WebDriver driver) {
         super(driver);
-        MobileExpectedConditionsUtils.waitUntilElementPresent(nptEmail);
     }
 }

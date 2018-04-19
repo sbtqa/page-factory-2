@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(monochrome = true, format = {"pretty"},
-      glue = {"ru.sbtqa.tag.pagefactory.mobile.stepdefs"},
-      features = {"src/test/resources/features/"},
-      tags = {"@install-software"}
+        glue = {"ru.sbtqa.tag.pagefactory"},
+        features = {"src/test/resources/features/"},
+        tags = {"@test"}
 )
 public class CucumberTest {
 

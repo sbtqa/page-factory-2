@@ -15,16 +15,19 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
 public class SetupStepDefs {
 
-    @Before(order = 99999)
-    public void setUp(Scenario scenario) {
+    @Before(order = 0)
+    public void preSetUp(Scenario scenario) {
         TaskHandler.addTask(new ConnectToLogTask());
-        Environment.getDriverService().mountDriver();
-        ScenarioContext.setScenario(scenario);
-
         TaskHandler.addTask(new KillProcessesTask());
         TaskHandler.addTask(new StartVideoTask());
         TaskHandler.handleTasks();
+    }
 
+
+    @Before(order = 99999)
+    public void setUp(Scenario scenario) {
+        Environment.getDriverService().mountDriver();
+        ScenarioContext.setScenario(scenario);
         PageManager.getInstance().cachePages();
         PageContext.resetContext();
     }

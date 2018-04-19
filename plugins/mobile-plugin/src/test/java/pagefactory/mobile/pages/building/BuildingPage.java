@@ -3,11 +3,12 @@ package pagefactory.mobile.pages.building;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.sbtqa.tag.pagefactory.MobileExpectedConditionsUtils;
-import ru.sbtqa.tag.pagefactory.MobilePage;
+import ru.sbtqa.tag.pagefactory.mobile.utils.SwipeUtils;
+import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
 
 @PageEntry(title = "Здание")
 public class BuildingPage extends MobilePage {
@@ -21,8 +22,8 @@ public class BuildingPage extends MobilePage {
 
     public BuildingPage(WebDriver driver) {
         super(driver);
-        MobileExpectedConditionsUtils.waitUntilElementPresent(lbl);
-        MobileExpectedConditionsUtils.waitUntilElementPresent(list);
+        ExpectedConditionsUtils.waitUntilElementPresent(lbl);
+        ExpectedConditionsUtils.waitUntilElementPresent(list);
     }
 
     @ActionTitle("выбирает случайное значение из списка")

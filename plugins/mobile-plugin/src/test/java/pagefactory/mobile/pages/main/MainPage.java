@@ -3,10 +3,11 @@ package pagefactory.mobile.pages.main;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.sbtqa.tag.pagefactory.MobileExpectedConditionsUtils;
-import ru.sbtqa.tag.pagefactory.MobilePage;
+import ru.sbtqa.tag.pagefactory.mobile.utils.SwipeUtils;
+import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
 
 @PageEntry(title = "Главная страница")
 public class MainPage extends MobilePage {
@@ -17,6 +18,6 @@ public class MainPage extends MobilePage {
 
     public MainPage(WebDriver driver) {
         super(driver);
-        MobileExpectedConditionsUtils.waitUntilElementPresent(nptHelper);
+        ExpectedConditionsUtils.waitUntilElementPresent(nptHelper);
     }
 }

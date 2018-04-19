@@ -3,11 +3,12 @@ package pagefactory.mobile.pages.search;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.sbtqa.tag.pagefactory.MobileExpectedConditionsUtils;
-import ru.sbtqa.tag.pagefactory.MobilePage;
+import ru.sbtqa.tag.pagefactory.mobile.utils.SwipeUtils;
+import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
 
 @PageEntry(title = "Страница поиска")
 public class SearchPage extends MobilePage {
@@ -33,12 +34,12 @@ public class SearchPage extends MobilePage {
 
     public SearchPage(WebDriver driver) {
         super(driver);
-        MobileExpectedConditionsUtils.waitUntilElementPresent(nptSearch);
+        ExpectedConditionsUtils.waitUntilElementPresent(nptSearch);
     }
-    
+
     @ActionTitle("ждёт появления списка")
     public void waitListAppears() throws InterruptedException {
         Thread.sleep(1000);
-        MobileExpectedConditionsUtils.waitUntilElementPresent(list);
+        ExpectedConditionsUtils.waitUntilElementPresent(list);
     }
 }

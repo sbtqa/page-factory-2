@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
