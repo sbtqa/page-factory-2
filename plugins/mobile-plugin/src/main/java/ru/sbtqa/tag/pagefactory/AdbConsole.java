@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 public class AdbConsole {
 
@@ -15,7 +16,7 @@ public class AdbConsole {
     }
 
     public static boolean execute(String command) {
-        return execute(TagMobileDriver.getDeviceUDID(), command);
+        return execute(((MobileDriverService) Environment.getDriverService()).getDeviceUDID(), command);
     }
 
     public static boolean execute(String deviceUDID, String command) {

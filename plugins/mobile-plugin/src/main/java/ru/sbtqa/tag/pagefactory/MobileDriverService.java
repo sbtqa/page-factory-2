@@ -5,19 +5,18 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.properties.Properties;
 
 public class MobileDriverService implements DriverService {
 
-    private final Logger LOG = LoggerFactory.getLogger(MobileDriverService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MobileDriverService.class);
+    private static final MobileConfiguration PROPERTIES = ConfigFactory.create(MobileConfiguration.class);
 
-    private static final Configuration PROPERTIES = Properties.getProperties();
     private AppiumDriver<AndroidElement> mobileDriver;
     private String deviceUdId;
 
@@ -31,7 +30,7 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("autoGrantPermissions", "true");
         capabilities.setCapability("unicodeKeyboard", "true");
         capabilities.setCapability("resetKeyboard", "true");
-        LOG.info("Capabilities are {}", capabilities);
+        System.out.println("Capabilities are {}" + capabilities);
 
         URL url;
         try {
@@ -40,10 +39,8 @@ public class MobileDriverService implements DriverService {
             throw new FactoryRuntimeException("Could not parse appium url. Check 'appium.url' property", e);
         }
 
-        PageFactory.setAspectsEnabled(false);
-        LOG.debug("Aspect disabled");
         mobileDriver = new AndroidDriver<>(url, capabilities);
-        LOG.info("Mobile driver created {}", mobileDriver);
+        System.out.println("Mobile driver created {}" + mobileDriver);
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
     }
 
@@ -65,23 +62,11 @@ public class MobileDriverService implements DriverService {
         return mobileDriver;
     }
 
-    public boolean isAppiumFillAdb() {
-        return PROPERTIES.isAppiumFillAdb();
-    }
-
-    public boolean getAppiumClickAdb() {
-        return PROPERTIES.isAppiumClickAdb();
-    }
-
     public String getDeviceUDID() {
         return deviceUdId;
     }
     
     public void setMobileDriver(AppiumDriver<AndroidElement> aMobileDriver) {
         mobileDriver = aMobileDriver;
-    }
-    
-    public boolean isDriverInitialized(){
-        return mobileDriver != null;
     }
 }

@@ -4,7 +4,7 @@ package ru.sbtqa.tag.pagefactory;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Contains basic actions in particular with jdi elements
+ * Contains basic ru.sbtqa.tag.pagefactory.mobile.actions in particular with jdi elements
  * If we want to extend this functional - inherit from this class
  */
 public class JDIPage extends WebPage {

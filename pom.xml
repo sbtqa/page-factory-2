@@ -68,9 +68,9 @@
     <module>core/page-factory-api</module>
     <module>tests/test-web-app</module>
     <module>core/page-factory-core</module>
+    <module>plugins/web-plugin</module>
     <module>plugins/jdi-elements-plugin</module>
     <module>plugins/html-elements-plugin</module>
-    <module>plugins/web-plugin</module>
   </modules>
 
   <distributionManagement>

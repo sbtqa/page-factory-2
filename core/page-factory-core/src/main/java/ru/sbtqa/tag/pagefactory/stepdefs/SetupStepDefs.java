@@ -17,10 +17,10 @@ public class SetupStepDefs {
 
     @Before(order = 99999)
     public void setUp(Scenario scenario) {
+        TaskHandler.addTask(new ConnectToLogTask());
         Environment.getDriverService().mountDriver();
         ScenarioContext.setScenario(scenario);
 
-        TaskHandler.addTask(new ConnectToLogTask());
         TaskHandler.addTask(new KillProcessesTask());
         TaskHandler.addTask(new StartVideoTask());
         TaskHandler.handleTasks();

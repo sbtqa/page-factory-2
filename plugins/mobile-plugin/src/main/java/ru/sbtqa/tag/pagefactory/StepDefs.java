@@ -14,7 +14,7 @@ public class StepDefs {
      * @throws SwipeException if the text is not found or swipe depth is reached
      */
     public void swipeToText(String direction, String text) throws SwipeException {
-        MobileExtension.swipeToText(DirectionStrategy.valueOf(direction.toUpperCase()), text);
+        MobileExpectedConditionsUtils.swipeToText(DirectionStrategy.valueOf(direction.toUpperCase()), text);
     }
 
     /**
@@ -25,6 +25,6 @@ public class StepDefs {
      * @throws SwipeException if the text is not found
      */
     public void swipeToTextAndroid(String text, String strategy) throws SwipeException {
-        MobileExtension.swipeToText(MatchStrategy.valueOf(strategy), text);
+        MobileExpectedConditionsUtils.swipeToText(MatchStrategy.valueOf(strategy), text);
     }
 }

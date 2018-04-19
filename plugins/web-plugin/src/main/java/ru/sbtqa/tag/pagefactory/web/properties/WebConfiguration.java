@@ -111,7 +111,7 @@ public interface WebConfiguration extends Configuration {
     @DefaultValue("false")
     boolean isHighlightEnabled();
 
-    @Key("aspects.click.actions.enabled")
+    @Key("aspects.click.ru.sbtqa.tag.pagefactory.mobile.actions.enabled")
     @DefaultValue("false")
     boolean isClickViaSeleniumActionsEnabled();
 
