@@ -20,7 +20,7 @@ public class KillProcessesTask implements Task {
 
     private void stopTasksToKill() {
         String tasks = PROPERTIES.getTasksToKill();
-        if (!PROPERTIES.isWebDriverShared() && !tasks.isEmpty()) {
+        if (!tasks.isEmpty()) {
             for (String task : tasks.split(",")) {
                 stopTask(task);
             }

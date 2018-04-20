@@ -14,11 +14,6 @@ public interface Configuration extends Config {
     int getTimeout();
 
 
-    @Key("webdriver.shared")
-    @DefaultValue("false")
-    boolean isWebDriverShared();
-
-
     @Key("video.enabled")
     @DefaultValue("false")
     boolean isVideoEnabled();
