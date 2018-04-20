@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory;
+package ru.sbtqa.tag.pagefactory.jdi.utils;
 
 import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
