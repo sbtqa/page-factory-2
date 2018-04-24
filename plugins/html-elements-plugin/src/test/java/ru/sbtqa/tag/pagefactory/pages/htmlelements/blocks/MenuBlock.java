@@ -10,23 +10,25 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @Name("menu")
 @FindBy(xpath = "//div[@class='navbar-collapse collapse']")
 public class MenuBlock extends HtmlElement {
-    
+
     @ElementTitle("Contact")
     @FindBy(xpath = "//a[text()='Contact']")
     private Button contactButton;
-    
+
     @ElementTitle("Home")
     @FindBy(xpath = "//a[text()='Home']")
     private Button homeButton;
-    
+
     @ActionTitle("go to page")
     public void goToPage(String pageName) {
         switch (pageName.toLowerCase()) {
-            case "home" : homeButton.click();
-            break;
-            
-            case "contact" : contactButton.click();
-            break;
+            case "home":
+                homeButton.click();
+                break;
+
+            case "contact":
+                contactButton.click();
+                break;
         }
     }
 }

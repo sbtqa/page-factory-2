@@ -28,8 +28,8 @@ import ru.yandex.qatools.htmlelements.element.TypifiedElement;
  * And some methods for recursive search
  */
 public class HtmlReflectionUtils extends ReflectionUtils {
-    
-    private static boolean isUsedBlock = false; 
+
+    private static boolean isUsedBlock = false;
     private static WebElement usedBlock = null;
 
     /**
@@ -67,7 +67,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
         }
         return null;
     }
-    
+
     /**
      * Check if corresponding field is a block. I.e. it has
      * {@link ElementTitle} annotation and extends {@link HtmlElement} class
@@ -148,7 +148,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
         }
         return found;
     }
-    
+
     /**
      * Find element of required type in the specified block, or block chain on
      * the page. If blockPath is separated by &gt; delimiters, it will be
@@ -165,10 +165,9 @@ public class HtmlReflectionUtils extends ReflectionUtils {
      * @return web element of the required type
      * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException if
      * element was not found
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException
-     * if element was not found, but with the wrong type
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException if element was not found, but with the wrong type
      */
-    public static  <T extends WebElement> T findElementInBlockByTitle(Page page, String blockPath, String title, Class<T> type)
+    public static <T extends WebElement> T findElementInBlockByTitle(Page page, String blockPath, String title, Class<T> type)
             throws PageException {
         for (HtmlElement block : findBlocks(page, blockPath)) {
             T found = findElementInBlock(block, title, type);
@@ -178,7 +177,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
         }
         throw new ElementNotFoundException(String.format("Couldn't find element '%s' in '%s'", title, blockPath));
     }
-    
+
     /**
      * Acts exactly like
      * {@link HtmlReflectionUtils#findElementInBlockByTitle(Page, String, String, Class)}, but return a
@@ -191,13 +190,12 @@ public class HtmlReflectionUtils extends ReflectionUtils {
      * @return WebElement
      * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException if
      * element was not found
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException
-     * if element was not found, but with the wrong type
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException if element was not found, but with the wrong type
      */
     public static WebElement findElementInBlockByTitle(Page page, String blockPath, String title) throws PageException {
         return findElementInBlockByTitle(page, blockPath, title, WebElement.class);
     }
-    
+
     /**
      * Finds elements list in context of current page See
      * ${@link HtmlReflectionUtils#findListOfElements(String, Class, Object)}  for detailed
@@ -210,7 +208,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
      * @return list of elements of particular type
      * @throws PageException if nothing found or current page is not initialized
      */
-    public static  <T extends WebElement> List<T> findListOfElements(Page page, String listTitle, Class<T> type)
+    public static <T extends WebElement> List<T> findListOfElements(Page page, String listTitle, Class<T> type)
             throws PageException {
         return findListOfElements(listTitle, type, page);
     }
@@ -262,7 +260,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
         return findListOfElements(page, listTitle, WebElement.class);
     }
 
-    
+
     /**
      * Find elements list in context of required block See
      * ${@link HtmlReflectionUtils#findListOfElements(String, Class, Object)} for detailed
@@ -276,12 +274,12 @@ public class HtmlReflectionUtils extends ReflectionUtils {
      * @return list of elements of particular type
      * @throws PageException if nothing found or current page is not initialized
      */
-    public static  <T extends WebElement> List<T> findListOfElementsInBlock(Page page, String blockPath, String listTitle, Class<T> type)
+    public static <T extends WebElement> List<T> findListOfElementsInBlock(Page page, String blockPath, String listTitle, Class<T> type)
             throws PageException {
         Object block = findBlock(page, blockPath);
         return findListOfElements(listTitle, type, block);
     }
-    
+
     /**
      * Finds elements list in context of required block See
      * ${@link HtmlReflectionUtils#findListOfElements(String, Class, Object)} for detailed
@@ -296,7 +294,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
     public static List<WebElement> findListOfElementsInBlock(Page page, String blockPath, String listTitle) throws PageException {
         return findListOfElementsInBlock(page, blockPath, listTitle, WebElement.class);
     }
-    
+
     /**
      * See {@link HtmlReflectionUtils#findBlocks(String, Object, boolean)} for description.
      * This wrapper finds only one block. Search is being performed on a current
@@ -319,7 +317,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
             throw new FactoryRuntimeException(String.format("Internal error during attempt to find block '%s'", blockPath), ex);
         }
     }
-    
+
     /**
      * See {@link HtmlReflectionUtils#findBlocks(String, Object, boolean)} for description.
      * Search is being performed on a current page
@@ -335,7 +333,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
             throw new FactoryRuntimeException(String.format("Internal error during attempt to find a block '%s'", blockPath), ex);
         }
     }
-    
+
     /**
      * Execute parameter-less method inside of the given block element.
      *
@@ -349,7 +347,7 @@ public class HtmlReflectionUtils extends ReflectionUtils {
     public static void executeMethodByTitleInBlock(Page page, String block, String actionTitle) throws NoSuchMethodException {
         executeMethodByTitleInBlock(page, block, actionTitle, new Object[0]);
     }
-    
+
     /**
      * Execute method with one or more parameters inside of the given block
      * element !BEWARE! If there are several elements found by specified block
@@ -384,22 +382,22 @@ public class HtmlReflectionUtils extends ReflectionUtils {
         }
 
         // TODO WTF??
-        isUsedBlock = true; 
-        usedBlock = block; 
-        List<Method> methodList = getDeclaredMethods(page.getClass()); 
-        for (Method method : methodList) { 
-            if (isRequiredAction(method, actionTitle)) { 
-                try { 
-                    method.setAccessible(true); 
-                    MethodUtils.invokeMethod(page, method.getName(), parameters); 
-                    return; 
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) { 
-                    throw new FactoryRuntimeException(String.format("Failed to execute method '%s' in the following block: '%s'", 
-                            actionTitle, blockPath), e); 
-                } 
-            } 
+        isUsedBlock = true;
+        usedBlock = block;
+        List<Method> methodList = getDeclaredMethods(page.getClass());
+        for (Method method : methodList) {
+            if (isRequiredAction(method, actionTitle)) {
+                try {
+                    method.setAccessible(true);
+                    MethodUtils.invokeMethod(page, method.getName(), parameters);
+                    return;
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    throw new FactoryRuntimeException(String.format("Failed to execute method '%s' in the following block: '%s'",
+                            actionTitle, blockPath), e);
+                }
+            }
         }
-        
+
         throw new NoSuchMethodException(String.format("There is no '%s' method in block '%s'", actionTitle, blockPath));
     }
 
@@ -414,56 +412,56 @@ public class HtmlReflectionUtils extends ReflectionUtils {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException TODO
      */
     @SuppressWarnings(value = "unchecked")
-    public static  <T extends TypifiedElement> T getTypifiedElementByTitle(Page page, String title) throws PageException {
-        if (!isUsedBlock) { 
+    public static <T extends TypifiedElement> T getTypifiedElementByTitle(Page page, String title) throws PageException {
+        if (!isUsedBlock) {
             for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
                 if (isRequiredElement(field, title) && isChildOf(TypifiedElement.class, field)) {
                     return getElementByField(page, field);
                 }
             }
-        } else { 
-            for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(usedBlock)){ 
-                if (isRequiredElementInBlock(field, title)) { 
-                    return getElementByField(usedBlock, field); 
-                } 
-            } 
+        } else {
+            for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(usedBlock)) {
+                if (isRequiredElementInBlock(field, title)) {
+                    return getElementByField(usedBlock, field);
+                }
+            }
         }
         throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, PageContext.getCurrentPageTitle()));
     }
 
     public static <T> T getElementByField(Object parentObject, Field field) throws ElementDescriptionException {
         Object element = ReflectionUtils.getElementByField(parentObject, field);
-        isUsedBlock = false; 
+        isUsedBlock = false;
         usedBlock = null;
-        
+
         return (T) element;
     }
-    
-    /** 
-    * Check whether {@link Name} annotation of the field has a 
-    * required value 
-    * 
-    * @param field field to check 
-    * @param title value of ElementTitle annotation of required element 
-    * @return true|false 
-    */ 
-    private static boolean isRequiredElementInBlock(Field field, String title) { 
-       return getFieldTitleInBlock(field).equals(title); 
+
+    /**
+     * Check whether {@link Name} annotation of the field has a
+     * required value
+     *
+     * @param field field to check
+     * @param title value of ElementTitle annotation of required element
+     * @return true|false
+     */
+    private static boolean isRequiredElementInBlock(Field field, String title) {
+        return getFieldTitleInBlock(field).equals(title);
     }
-    
-    /** 
-    * Return value of {@link Name} annotation for the field. If 
-    * none present, return empty string 
-    * 
-    * @param field field to check 
-    * @return either an element title, or an empty string 
-    */ 
-    private static String getFieldTitleInBlock(Field field) { 
-       for (Annotation a : field.getAnnotations()) {
-           if (a instanceof Name) { 
-               return ((Name) a).value(); 
-           } 
-       } 
-       return ""; 
+
+    /**
+     * Return value of {@link Name} annotation for the field. If
+     * none present, return empty string
+     *
+     * @param field field to check
+     * @return either an element title, or an empty string
+     */
+    private static String getFieldTitleInBlock(Field field) {
+        for (Annotation a : field.getAnnotations()) {
+            if (a instanceof Name) {
+                return ((Name) a).value();
+            }
+        }
+        return "";
     }
 }

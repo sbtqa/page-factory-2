@@ -45,7 +45,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 /**
  * Step Definitions for html-elements-plugin.
  * Common action with pages describes by html-elements.
-  */
+ */
 public class HtmlGenericStepDefs {
 
     /**
@@ -116,8 +116,8 @@ public class HtmlGenericStepDefs {
      * wasn't found
      */
     public void findElementInBlock(String block, String elementType, String elementTitle) throws PageException {
-        String[] packages = this.getClass().getCanonicalName().split("\\."); 
-        String currentLanguage = packages[packages.length - 2]; 
+        String[] packages = this.getClass().getCanonicalName().split("\\.");
+        String currentLanguage = packages[packages.length - 2];
         I18N i18n = I18N.getI18n(this.getClass(), new Locale(currentLanguage));
         String key = i18n.getKey(elementType);
         Class<? extends WebElement> clazz;
@@ -177,5 +177,5 @@ public class HtmlGenericStepDefs {
             throw new AutotestError(String.format("Element with text '%s' is absent in list '%s'", value, listTitle));
         }
     }
-    
+
 }

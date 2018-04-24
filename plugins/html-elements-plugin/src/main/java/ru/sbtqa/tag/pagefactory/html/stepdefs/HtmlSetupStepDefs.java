@@ -6,7 +6,7 @@ import ru.sbtqa.tag.pagefactory.html.actions.HtmlPageActions;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 public class HtmlSetupStepDefs {
-    
+
     @Before
     public void initHTML() {
         Environment.setDriverService(new WebDriverService());
