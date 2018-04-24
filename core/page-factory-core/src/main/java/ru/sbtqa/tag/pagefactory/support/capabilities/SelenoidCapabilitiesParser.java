@@ -1,8 +1,10 @@
 package ru.sbtqa.tag.pagefactory.support.capabilities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
     private static final Configuration PROPERTIES = Properties.getProperties();
-    private static final String VIDEONAME_FORMAT = new Date().toString().replaceAll("\\s","") + "-%s";
+    private static final String VIDEONAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy'_'hh:mm:ss").format(new Date()) + '_' + UUID.randomUUID().toString() + "_%s";
 
     private final DesiredCapabilities capabilities = new DesiredCapabilities();
 
