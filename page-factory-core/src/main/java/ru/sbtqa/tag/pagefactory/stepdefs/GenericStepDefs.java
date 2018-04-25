@@ -45,14 +45,13 @@ public class GenericStepDefs {
      * @throws PageInitializationException if page initialization failed
      */
     public void openPage(String title) throws PageInitializationException {
-        PageManager.getInstance().getPage(title);
+        PageManager.getPage(title);
     }
 
     /**
      * Execute action with no parameters User|he keywords are optional
      *
      * @param action title of the action to execute
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionNoParams(String action) throws NoSuchMethodException {
@@ -64,7 +63,6 @@ public class GenericStepDefs {
      *
      * @param action title of the action to execute
      * @param param parameter
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionOneParam(String action, String param) throws NoSuchMethodException {
@@ -77,7 +75,6 @@ public class GenericStepDefs {
      * @param action title of the action to execute
      * @param param1 first parameter
      * @param param2 second parameter
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionTwoParams(String action, String param1, String param2) throws NoSuchMethodException {
@@ -91,7 +88,6 @@ public class GenericStepDefs {
      * @param param1 first parameter
      * @param param2 second parameter
      * @param param3 third parameter
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionThreeParams(String action, String param1, String param2, String param3) throws NoSuchMethodException {
@@ -104,7 +100,6 @@ public class GenericStepDefs {
      *
      * @param action title of the action to execute
      * @param dataTable table of parameters
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionTableParam(String action, DataTable dataTable) throws NoSuchMethodException {
@@ -118,7 +113,6 @@ public class GenericStepDefs {
      * @param action title of the action to execute
      * @param param parameter
      * @param dataTable table of parameters
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userDoActionWithObject(String action, String param, DataTable dataTable) throws NoSuchMethodException {
@@ -131,7 +125,6 @@ public class GenericStepDefs {
      *
      * @param action title of the action to execute
      * @param list parameters list
-     * @throws PageInitializationException if current page is not initialized
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {

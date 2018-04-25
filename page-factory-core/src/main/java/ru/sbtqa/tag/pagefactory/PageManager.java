@@ -35,19 +35,7 @@ public class PageManager {
     private static final Map<Class<? extends Page>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-    private static String pagesPackage;
-    private static PageManager pageManager;
-
-    public PageManager(String pagesPackage) {
-        this.pagesPackage = pagesPackage;
-    }
-
-    public static PageManager getInstance() {
-        if (null == pageManager) {
-            pageManager = new PageManager(PROPERTIES.getPagesPackage());
-        }
-        return pageManager;
-    }
+    private PageManager() {}
 
     public static Map<Class<? extends Page>, Map<Field, String>> getPageRepository() {
         return PAGES_REPOSITORY;
@@ -56,24 +44,25 @@ public class PageManager {
     /**
      * Initialize page by class
      *
-     * @param page TODO
-     * @return TODO
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException TODO
+     * @param page a page class
+     * @param driver a web driver
+     * @return the page object
+     * @throws PageInitializationException if failed to execute corresponding page constructor
      */
-    public Page getPage(Class<? extends Page> page, WebDriver driver) throws PageInitializationException {
+    public static Page getPage(Class<? extends Page> page, WebDriver driver) throws PageInitializationException {
         return bootstrapPage(page, driver);
     }
 
     /**
-     * <p>
-     * Get Page by PageEntry title </p>
+     * Get Page by PageEntry title
      *
-     * @param packageName a {@link java.lang.String} object.
-     * @param title a {@link java.lang.String} object.
-     * @return a Page object.
-     * @throws PageInitializationException {@inheritDoc}
+     * @param packageName a path to page objects
+     * @param title a page title
+     * @param driver a web driver
+     * @return the page object
+     * @throws PageInitializationException if failed to execute corresponding page constructor
      */
-    public Page getPage(String packageName, String title, WebDriver driver) throws PageInitializationException {
+    public static Page getPage(String packageName, String title, WebDriver driver) throws PageInitializationException {
         return bootstrapPage(getPageClass(packageName, title), driver);
     }
 
@@ -81,18 +70,17 @@ public class PageManager {
      * Initialize page with specified title and save its instance to
      * {@link PageContext#currentPage} for further use
      *
-     * @param title page title
-     * @return page instance
-     * @throws PageInitializationException if failed to execute corresponding
-     * page constructor
+     * @param title a page title
+     * @return the page instance
+     * @throws PageInitializationException if failed to execute corresponding page constructor
      */
-    public Page getPage(String title) throws PageInitializationException {
+    public static Page getPage(String title) throws PageInitializationException {
         if (null == PageContext.getCurrentPage() || !PageContext.getCurrentPageTitle().equals(title)) {
             if (null != PageContext.getCurrentPage()) {
-                getPage(pagesPackage, title, PageContext.getCurrentPage().getDriver());
+                getPage(PROPERTIES.getPagesPackage(), title, PageContext.getCurrentPage().getDriver());
             }
             if (null == PageContext.getCurrentPage()) {
-                getPage(pagesPackage, title, Environment.getDriverService().getDriver());
+                getPage(PROPERTIES.getPagesPackage(), title, Environment.getDriverService().getDriver());
             }
             if (null == PageContext.getCurrentPage()) {
                 throw new AutotestError("Page object with title '" + title + "' is not registered");
@@ -105,10 +93,9 @@ public class PageManager {
      * Run constructor of specified page class and put its instance into static
      * {@link PageContext#currentPage} variable
      *
-     * @param page page class
-     * @return initialized page
-     * @throws PageInitializationException if failed to execute corresponding
-     * page constructor
+     * @param page a page class
+     * @return the initialized page object
+     * @throws PageInitializationException if failed to execute corresponding page constructor
      */
     private static Page bootstrapPage(Class<?> page, WebDriver driver) throws PageInitializationException {
         if (page != null) {
@@ -127,9 +114,9 @@ public class PageManager {
     }
 
     /**
-     * @param packageName TODO
-     * @param title TODO
-     * @return
+     * @param packageName a path to page objects
+     * @param title a page title
+     * @return the page class
      */
     private static Class<?> getPageClass(final String packageName, String title) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -167,16 +154,16 @@ public class PageManager {
     /**
      * Redirect to Page by Page Entry url value
      *
-     * @param title a {@link java.lang.String} object.
-     * @return a Page object.
-     * @throws PageInitializationException TODO
+     * @param title  a page title
+     * @return the page object
+     * @throws PageInitializationException if failed to execute corresponding page constructor
      */
     public static Page changeUrlByTitle(String title) throws PageInitializationException {
         if (null != PageContext.getCurrentPage()) {
-            PageContext.setCurrentPage(changeUrlByTitle(pagesPackage, title));
+            PageContext.setCurrentPage(changeUrlByTitle(PROPERTIES.getPagesPackage(), title));
         }
         if (null == PageContext.getCurrentPage()) {
-            PageContext.setCurrentPage(changeUrlByTitle(pagesPackage, title));
+            PageContext.setCurrentPage(changeUrlByTitle(PROPERTIES.getPagesPackage(), title));
         }
         if (null == PageContext.getCurrentPage()) {
             throw new AutotestError("Page Object with title " + title + " is not registered");
@@ -187,10 +174,10 @@ public class PageManager {
     /**
      * Redirect to Page by Page Entry url value
      *
-     * @param packageName a {@link java.lang.String} object.
-     * @param title a {@link java.lang.String} object.
-     * @return a Page object.
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException TODO
+     * @param packageName a path to page objects
+     * @param title  a page title
+     * @return the page object
+     * @throws PageInitializationException if failed to execute corresponding page constructor
      */
     public static Page changeUrlByTitle(String packageName, String title) throws PageInitializationException {
 
@@ -221,7 +208,7 @@ public class PageManager {
         throw new AutotestError("Page " + title + " doesn't have fast URL in PageEntry");
     }
 
-    public void cachePages() {
+    public static void cachePages() {
         Set<Class<?>> allClasses = new HashSet();
         allClasses.addAll(getAllClasses());
 
@@ -241,7 +228,7 @@ public class PageManager {
         }
     }
 
-    private Set<Class<?>> getAllClasses() {
+    private static Set<Class<?>> getAllClasses() {
         Set<Class<?>> allClasses = new HashSet();
 
         Reflections reflections = new Reflections(PROPERTIES.getPagesPackage());

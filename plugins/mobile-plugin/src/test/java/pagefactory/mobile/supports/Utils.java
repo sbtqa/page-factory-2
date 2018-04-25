@@ -8,6 +8,8 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 public class Utils {
 
+    private Utils() {}
+
     public static WebElement getRandomItem(String id) {
         Random random = new Random();
         List<WebElement> list = Environment.getDriverService().getDriver().findElements(By.id(id));

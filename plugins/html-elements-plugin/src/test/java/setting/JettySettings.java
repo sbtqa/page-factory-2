@@ -48,7 +48,6 @@ public class JettySettings {
             webapp.setContextPath("/");
             File warFile = new File(JettySettings.WAR_PATH);
             webapp.setWar(warFile.getAbsolutePath());
-
             server.setHandler(webapp);
             server.start();
             dunit = false;

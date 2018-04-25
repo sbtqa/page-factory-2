@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory;
 
-
 import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.pagefactory.jdi.utils.JDIUtils;
 

@@ -18,17 +18,17 @@ import static java.lang.Runtime.getRuntime;
 public class JettySettings {
 
     private static final Logger LOG = LoggerFactory.getLogger(JettySettings.class);
-    
+
     public static final String WAR_PATH = "src/test/resources/test-web-app.war";
     public static final int PORT = 8181;
-    
+
     private static boolean dunit = true;
-    
+
     private Server server;
-    
+
     @Before(order = 999)
     public void startJetty() throws Exception {
-    
+
         if (dunit) {
             // stop jetty after all features
             getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -37,22 +37,22 @@ public class JettySettings {
                     try {
                         server.stop();
                     } catch (Exception e) {
-                        LOG.error(e.getMessage());
+                        LOG.error("Error with stopping jetty server", e);
                     }
                 }
             }));
-        
+
             // start jetty
             server = new Server(PORT);
-        
+
             MBeanContainer mbContainer = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
             server.addBean(mbContainer);
-        
+
             WebAppContext webapp = new WebAppContext();
             webapp.setContextPath("/");
             File warFile = new File(JettySettings.WAR_PATH);
             webapp.setWar(warFile.getAbsolutePath());
-        
+
             server.setHandler(webapp);
             server.start();
             dunit = false;

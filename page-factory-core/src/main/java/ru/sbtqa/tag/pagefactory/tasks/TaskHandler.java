@@ -7,6 +7,8 @@ public class TaskHandler {
 
     private static List<Task> tasks = new ArrayList<>();
 
+    private TaskHandler() {}
+
     public static void addTask(Task task) {
         tasks.add(task);
     }
