@@ -19,7 +19,6 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
     private static final String VIDEONAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy'_'hh:mm:ss").format(new Date()) + '_' + UUID.randomUUID().toString() + "_%s";
 
-
     private final DesiredCapabilities capabilities = new DesiredCapabilities();
 
     @Override
