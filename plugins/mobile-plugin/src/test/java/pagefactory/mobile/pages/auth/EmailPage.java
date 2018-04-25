@@ -13,8 +13,6 @@ import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 @PageEntry(title = "Страница авторизации. Ввод email")
 public class EmailPage extends MobilePage {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Page.class);
-
     @ElementTitle(value = "Электронная почта")
     @FindBy(id = "ru.sberbank.sbt.eso:id/email")
     protected WebElement nptEmail;

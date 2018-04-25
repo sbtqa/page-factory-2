@@ -23,10 +23,10 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
      * Get outer element text. Used for get text from checkboxes and radio
      * buttons
      *
-     * @param webElement TODO
-     * @return text of element
+     * @param webElement an investigated element
+     * @return the text of the element
      */
-    public static String getElementValue(WebElement webElement) throws IllegalArgumentException {
+    public static String getElementValue(WebElement webElement) {
         String elementValue = "Cannot parse element";
         String elementId = webElement.getAttribute("id");
 
@@ -49,8 +49,8 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
     /**
      * Wait for page prepared with javascript
      *
-     * @param stopRecursion TODO
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
+     * @param stopRecursion the end-waiting flag
+     * @throws WaitException in case if page didn't load
      */
     public static void waitForPageToLoad(boolean... stopRecursion) throws WaitException {
 
@@ -77,7 +77,7 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
     /**
      * @param webElement a {@link org.openqa.selenium.WebElement} object.
      * @param timeout in milliseconds
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
+     * @throws WaitException in case if text didn't load in input
      */
     public static void waitForTextInInputExists(WebElement webElement, long timeout) throws WaitException {
         long timeoutTime = DateManager.getCurrentTimestamp() + timeout;
@@ -95,7 +95,7 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
      *
      * @param text text to search in page source
      * @param shouldTextBePresent boolean, self explanatory
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
+     * @throws WaitException in case if text didn't load in the page source
      */
     public static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent) throws WaitException {
         long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
@@ -122,10 +122,10 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
     }
 
     /**
-     * @param existingHandles TODO
-     * @param timeout TODO
-     * @return TODO
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
+     * @param existingHandles an existing handles
+     * @param timeout timeout
+     * @return the new window handle
+     * @throws WaitException in case if new window handle didn't find
      */
     public static String findNewWindowHandle(Set<String> existingHandles, int timeout) throws WaitException {
         long timeoutTime = System.currentTimeMillis() + timeout;
@@ -148,9 +148,9 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
     }
 
     /**
-     * @param existingHandles TODO
-     * @return TODO
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException TODO
+     * @param existingHandles an existing handles
+     * @return the new window handle
+     * @throws WaitException in case if new window handle didn't find
      */
     public static String findNewWindowHandle(Set<String> existingHandles) throws WaitException {
         return findNewWindowHandle(existingHandles, PROPERTIES.getTimeout());

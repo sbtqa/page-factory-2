@@ -3,9 +3,7 @@ package pagefactory.mobile.pages.building;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.sbtqa.tag.pagefactory.mobile.utils.SwipeUtils;
 import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
-import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
@@ -24,10 +22,5 @@ public class BuildingPage extends MobilePage {
         super(driver);
         ExpectedConditionsUtils.waitUntilElementPresent(lbl);
         ExpectedConditionsUtils.waitUntilElementPresent(list);
-    }
-
-    @ActionTitle("выбирает случайное значение из списка")
-    public void getRandomItem() {
-//	    clickWebElement(Utils.getRandomItem("ru.sberbank.sbt.eso:id/suggest_item_value"));
     }
 }

@@ -20,6 +20,8 @@ public class ExpectedConditionsUtils {
     private static final Logger LOG = LoggerFactory.getLogger(ExpectedConditionsUtils.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
+    private ExpectedConditionsUtils() {}
+
     /**
      * Wait until element present
      *
@@ -143,7 +145,7 @@ public class ExpectedConditionsUtils {
      *
      * @param webElement a {@link WebElement} object.
      * @param timeout in milliseconds
-     * @throws WaitException TODO
+     * @throws WaitException if the item is not available after the timeout expires
      */
     public static void waitForElementGetEnabled(WebElement webElement, long timeout) throws WaitException {
         long timeoutTime = DateManager.getCurrentTimestamp() + timeout;
@@ -165,7 +167,7 @@ public class ExpectedConditionsUtils {
      * waitForElementGetEnabled.</p>
      *
      * @param webElement a {@link WebElement} object.
-     * @throws WaitException TODO
+     * @throws WaitException if the item is not available after the timeout expires
      */
     public static void waitForElementGetEnabled(WebElement webElement) throws WaitException {
         waitForElementGetEnabled(webElement, PROPERTIES.getTimeout() * 1000L);

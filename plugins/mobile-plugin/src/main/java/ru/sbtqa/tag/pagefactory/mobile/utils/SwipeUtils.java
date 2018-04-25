@@ -27,6 +27,9 @@ public class SwipeUtils {
 
     private static AppiumDriver appiumDriver = Environment.getDriverService().getDriver();
 
+    private SwipeUtils() {
+    }
+
     /**
      * Swipe element to direction
      *
@@ -154,20 +157,19 @@ public class SwipeUtils {
     public static void swipeToText(DirectionStrategy direction, String text, MatchStrategy strategy, int depth) throws SwipeException {
         for (int depthCounter = 0; depthCounter < depth; depthCounter++) {
             String oldPageSource = appiumDriver.getPageSource();
-            switch (strategy) {
-                case EXACT:
-                    if (appiumDriver.findElementsByXPath("//*[@text='" + text + "']").size() > 0) {
-                        return;
-                    }
-                case CONTAINS:
-                    List<WebElement> textViews = appiumDriver.findElementsByClassName("android.widget.TextView");
-                    if (textViews.size() > 0) {
-                        for (WebElement textView : textViews) {
-                            if (textView.getText().contains(text)) {
-                                return;
-                            }
+            if (strategy == MatchStrategy.EXACT) {
+                if (!appiumDriver.findElementsByXPath("//*[@text='" + text + "']").isEmpty()) {
+                    return;
+                }
+            } else {
+                List<WebElement> textViews = appiumDriver.findElementsByClassName("android.widget.TextView");
+                if (!textViews.isEmpty()) {
+                    for (WebElement textView : textViews) {
+                        if (textView.getText().contains(text)) {
+                            return;
                         }
                     }
+                }
             }
             swipe(direction);
 

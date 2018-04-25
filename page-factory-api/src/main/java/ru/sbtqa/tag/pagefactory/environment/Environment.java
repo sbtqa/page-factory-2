@@ -4,12 +4,16 @@ import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 
-// Статичное хранилище для инфраструктуры
+/**
+ * Static storage for infrastructure
+ */
 public class Environment {
 
     private static DriverService driverService;
     private static PageActions pageActions;
     private static PageChecks pageChecks;
+
+    private Environment() {}
 
     public static void setDriverService(DriverService driverService) {
         Environment.driverService = driverService;

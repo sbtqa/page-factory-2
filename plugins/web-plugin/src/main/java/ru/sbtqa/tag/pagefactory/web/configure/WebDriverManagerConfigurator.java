@@ -33,6 +33,8 @@ public class WebDriverManagerConfigurator {
     private static final String MAPPING_FILES_PATH = "drivers/mapping/";
     private static final String MAPPING_FILES_EXTENSION = ".json";
 
+    private WebDriverManagerConfigurator() {}
+
     public static void configureDriver(BrowserManager webDriverManager, String browserType) {
         if (!PROPERTIES.getDriversPath().isEmpty()) {
             System.setProperty("webdriver." + browserType + ".driver", new File(PROPERTIES.getDriversPath()).getAbsolutePath());
