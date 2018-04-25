@@ -1,0 +1,13 @@
+#parameters for mobile driver create
+appium.url = http://127.0.0.1:4723/wd/hub
+appium.device.name = Android Emulator
+appium.device.platform = 6.0
+appium.app.package = com.android.settings
+appium.app.activity = .Settings
+
+#optional. Avoid appium and fill fields throw adb
+#(make sure that ADBKeyBoard is installed on android emulator for unicode support).
+#False by default
+appium.fill.adb = false
+#optional. Avoid appium and click on elements throw adb by location. False by default
+appium.click.adb = false

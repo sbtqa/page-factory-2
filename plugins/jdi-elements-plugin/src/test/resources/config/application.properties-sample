@@ -5,8 +5,8 @@ driver.environment = mobile
 #path to page objects
 page.package = ru.sbtqa.tag.mobilefactory.entries
 
-#default wait timeout in milliseconds. 20000 by default
-page.load.timeout = 60000
+#default wait timeout in seconds. 20 by default
+timeout = 20
 
 #optional. False by default
 video.enabled = false
@@ -69,9 +69,6 @@ webdriver.drivers.path = src/test/resources/webdrivers/chromedriver.exe
 
 #optional. Kill ie browser process after test (ONLY FOR WINDOWS). False by default
 webdriver.browser.ie.killOnDispose = false
-
-#optional. Share webdriver between tests. False by default
-webdriver.shared = false
 
 #optional. The path where are the files to download
 webdriver.upload.dir=C:\Temp\upload\

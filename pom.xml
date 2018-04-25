@@ -65,13 +65,13 @@
   </properties>
 
   <modules>
-    <module>core/page-factory-utils</module>
-    <module>core/page-factory-api</module>
+    <module>page-factory-api</module>
+    <module>page-factory-core</module>
     <module>tests/test-web-app</module>
-    <module>core/page-factory-core</module>
+    <module>plugins/web-plugin</module>
     <module>plugins/jdi-elements-plugin</module>
     <module>plugins/html-elements-plugin</module>
-    <module>plugins/web-elements-plugin</module>
+    <module>plugins/mobile-plugin</module>
   </modules>
 
   <distributionManagement>

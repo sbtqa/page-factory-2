@@ -30,7 +30,7 @@ public class JettySettings {
     public void startJetty() throws Exception {
     
         if (dunit) {
-            // stop jetty after all tests
+            // stop jetty after all features
             getRuntime().addShutdownHook(new Thread(new Runnable() {
                 @Override
                 public void run() {

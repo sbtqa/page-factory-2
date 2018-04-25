@@ -1,0 +1,17 @@
+#path to page objects
+page.package = ru.sbtqa.tag.mobilefactory.entries
+
+#default wait timeout in seconds. 20 by default
+timeout = 20000
+
+#optional. False by default
+video.enabled = false
+video.path.dest = /tmp/video
+video.path.temp = /tmp/video
+video.highlight.enabled = false
+
+#optional. driver or raw. Raw by default
+screenshot.strategy = driver
+
+#optional. tasks to kill before test (ONLY FOR WINDOWS)
+tasks.to.kill = iexplorer,chrome
