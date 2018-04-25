@@ -44,7 +44,7 @@ public class MobilePageChecks implements PageChecks {
     /**
      * Check that given WebElement has a value attribute, and it is not empty
      *
-     * @param webElement WebElement to check
+     * @param element an element to check
      */
     @Override
     public boolean checkEmptiness(Object element) {
