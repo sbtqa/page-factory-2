@@ -8,6 +8,7 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
@@ -22,14 +23,11 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * Find element with specified title annotation, and fill it with given text
-     * Add elementTitle-&gt;text as parameter-&gt;value to corresponding step in
-     * allure report
+     * Fill specified element with text
      *
      * @param elementTitle element to fill
      * @param text text to enter
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if page was not
-     * initialized, or required element couldn't be found
+     * @throws PageException if page was not initialized, or required element couldn't be found
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.fill.field")
     public void fill(String elementTitle, String text) throws PageException {
@@ -38,12 +36,10 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * Find specified WebElement on a page, and click it Add corresponding
-     * parameter to allure report
+     * Click specified element
      *
      * @param elementTitle title of the element to click
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if page was not
-     * initialized, or required element couldn't be found
+     * @throws PageException if page was not initialized, or required element couldn't be found
      */
     @ActionTitles({
             @ActionTitle("ru.sbtqa.tag.pagefactory.click.link"),
@@ -54,8 +50,7 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * Press specified key on a keyboard Add corresponding parameter to allure
-     * report
+     * Press key on keyboard
      *
      * @param keyName name of the key. See available key names in {@link Keys}
      */
@@ -65,13 +60,11 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * Focus a WebElement, and send specified key into it Add corresponding
-     * parameter to allure report
+     * Press key on keyboard with focus on specified element
      *
      * @param keyName name of the key. See available key names in {@link Keys}
-     * @param elementTitle title of WebElement that accepts key commands
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException if
-     * couldn't find element with required title
+     * @param elementTitle title of element that accepts key commands
+     * @throws PageException if couldn't find element with required title
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.press.key")
     public void pressKey(String keyName, String elementTitle) throws PageException {
@@ -80,11 +73,11 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * TODO
+     * Select specified option in select-element
      *
-     * @param elementTitle WebElement that is supposed to be selectable
+     * @param elementTitle element that is supposed to be selectable
      * @param option option to select
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if required
+     * @throws PageException if required
      * element couldn't be found, or current page isn't initialized
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.select")
@@ -94,13 +87,10 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * Find web element with corresponding title, if it is a check box, select
-     * it If it's a WebElement instance, check whether it is already selected,
-     * and click if it's not Add corresponding parameter to allure report
+     * Set checkbox element to selected state
      *
-     * @param elementTitle WebElement that is supposed to represent checkbox
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if page was not
-     * initialized, or required element couldn't be found
+     * @param elementTitle element that is supposed to represent checkbox
+     * @throws PageException if page was not initialized, or required element couldn't be found
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.select.checkbox")
     public void setCheckBox(String elementTitle) throws PageException {
@@ -110,12 +100,11 @@ public abstract class DefaultPage extends Page {
 
 
     /**
-     * TODO
+     * Check that the element's value is equal with specified value
      *
-     * @param text string value that will be searched inside of the element
+     * @param text value for comparison
      * @param elementTitle title of the element to search
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException if
-     * couldn't find element by given title, or current page isn't initialized
+     * @throws ElementNotFoundException if couldn't find element by given title, or current page isn't initialized
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.value")
     public void checkValueIsEqual(String elementTitle, String text) throws PageException {
@@ -126,14 +115,11 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * Find element with corresponding title, and make sure that its value is
-     * not equal to given text Text, as well as element value are being
-     * space-trimmed before comparison, so only non-space characters matter
+     * Check that the element's value is not equal with specified value
      *
-     * @param text element value for comparison
+     * @param text value for comparison
      * @param elementTitle title of the element to search
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if current page
-     * wasn't initialized, or element with required title was not found
+     * @throws PageException if current page wasn't initialized, or element with required title was not found
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.values.not.equal")
     public void checkValueIsNotEqual(String text, String elementTitle) throws PageException {
@@ -144,11 +130,10 @@ public abstract class DefaultPage extends Page {
     }
 
     /**
-     * TODO
+     * Check that the element's value is not empty
      *
      * @param elementTitle title of the element to check
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if current page
-     * was not initialized, or element wasn't found on the page
+     * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.not.empty")
     public void checkNotEmpty(String elementTitle) throws PageException {
@@ -158,6 +143,12 @@ public abstract class DefaultPage extends Page {
         }
     }
 
+    /**
+     * Check that the element's value is empty
+     *
+     * @param elementTitle title of the element to check
+     * @throws PageException if current page was not initialized, or element wasn't found on the page
+     */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.field.empty")
     public void checkEmpty(String elementTitle) throws PageException {
         Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);

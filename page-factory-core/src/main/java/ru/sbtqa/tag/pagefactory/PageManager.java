@@ -34,7 +34,6 @@ public class PageManager {
     private static final Logger LOG = LoggerFactory.getLogger(PageManager.class);
     private static final Map<Class<? extends Page>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
-    private static PageManager pageManager;
 
     private PageManager() {}
 

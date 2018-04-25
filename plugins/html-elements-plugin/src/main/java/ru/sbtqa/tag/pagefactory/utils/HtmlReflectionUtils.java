@@ -405,11 +405,11 @@ public class HtmlReflectionUtils extends ReflectionUtils {
      * Find specified TypifiedElement by title annotation among current page
      * fields
      *
-     * @param <T> TODO
+     * @param <T> supposed type of the field. if field cannot be cast into this type, it will fail
      * @param page the page on which the method will be executed
      * @param title a {@link String} object.
      * @return a {@link org.openqa.selenium.WebElement} object.
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException TODO
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if nothing found or current page is not initialized
      */
     @SuppressWarnings(value = "unchecked")
     public static <T extends TypifiedElement> T getTypifiedElementByTitle(Page page, String title) throws PageException {
