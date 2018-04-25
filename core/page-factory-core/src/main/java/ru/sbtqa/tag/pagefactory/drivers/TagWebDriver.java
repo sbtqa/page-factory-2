@@ -1,0 +1,219 @@
+package ru.sbtqa.tag.pagefactory.drivers;
+
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Proxy;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.UnreachableBrowserException;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.PageFactory;
+import ru.sbtqa.tag.pagefactory.drivers.configure.ProxyConfigurator;
+import ru.sbtqa.tag.pagefactory.drivers.configure.WebDriverManagerConfigurator;
+import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
+import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.CHROME;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.FIREFOX;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.IE;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.IEXPLORE;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.INTERNET_EXPLORER;
+import static ru.sbtqa.tag.pagefactory.support.BrowserType.SAFARI;
+import ru.sbtqa.tag.pagefactory.support.Environment;
+import ru.sbtqa.tag.pagefactory.support.capabilities.SelenoidCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.support.capabilities.WebDriverCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.support.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.support.properties.Properties;
+
+public class TagWebDriver {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TagWebDriver.class);
+
+    private static WebDriver webDriver;
+    private static final Configuration PROPERTIES = Properties.getProperties();
+
+    private TagWebDriver() {
+    }
+
+    public static WebDriver getDriver() {
+        if (Environment.WEB != PageFactory.getEnvironment()) {
+            throw new FactoryRuntimeException("Failed to get web driver while environment is not web");
+        }
+
+        if (null == webDriver) {
+            startDriver();
+        }
+
+        return webDriver;
+    }
+
+    private static void startDriver() {
+        for (int i = 1; i <= PROPERTIES.getWebDriverCreateAttempts(); i++) {
+            LOG.info("Attempt {} to start web driver", i);
+            try {
+                createDriver();
+            } catch (UnreachableBrowserException e) {
+                LOG.warn("Failed to create web driver. Attempt number {}", i, e);
+                dispose();
+                continue;
+            } catch (UnsupportedBrowserException | MalformedURLException e) {
+                LOG.error("Failed to create web driver", e);
+            }
+            return;
+        }
+    }
+
+    private static void createDriver() throws UnsupportedBrowserException, MalformedURLException {
+        DesiredCapabilities capabilities = new WebDriverCapabilitiesParser().parse();
+
+        if (!PROPERTIES.getProxy().isEmpty()) {
+            Proxy seleniumProxy = ProxyConfigurator.configureProxy();
+            capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+        }
+
+        String browserName = getBrowserName();
+        capabilities.setBrowserName(browserName);
+
+        String webDriverUrl = PROPERTIES.getWebDriverUrl();
+        if (!webDriverUrl.isEmpty()) {
+            setWebDriver(createRemoteWebDriver(webDriverUrl, capabilities));
+        } else {
+            if (browserName.equalsIgnoreCase(FIREFOX)) {
+                setWebDriver(new FirefoxDriver(capabilities));
+            } else if (browserName.equalsIgnoreCase(SAFARI)) {
+                setWebDriver(new SafariDriver(capabilities));
+            } else if (browserName.equalsIgnoreCase(CHROME)) {
+                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), CHROME);
+                setWebDriver(new ChromeDriver(capabilities));
+            } else if (browserName.equalsIgnoreCase(IE)) {
+                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), IE);
+                setWebDriver(new InternetExplorerDriver(capabilities));
+            } else {
+                throw new UnsupportedBrowserException("'" + browserName + "' is not supported yet");
+            }
+        }
+
+        webDriver.manage().timeouts().pageLoadTimeout(PageFactory.getTimeOutInSeconds(), TimeUnit.SECONDS);
+        setBrowserSize();
+        webDriver.get(PROPERTIES.getStartingUrl());
+    }
+
+    private static WebDriver createRemoteWebDriver(String webDriverUrl, DesiredCapabilities capabilities) throws MalformedURLException {
+        URL remoteUrl = new URL(webDriverUrl);
+        capabilities.merge(new SelenoidCapabilitiesParser().parse());
+        return new RemoteWebDriver(remoteUrl, capabilities);
+    }
+
+    private static void setBrowserSize() {
+        if (PROPERTIES.getBrowserSize().isEmpty()) {
+            webDriver.manage().window().maximize();
+        } else {
+            String[] size = PROPERTIES.getBrowserSize().split("x");
+            int width = Integer.parseInt(size[0]);
+            int height = Integer.parseInt(size[1]);
+            webDriver.manage().window().setSize(new Dimension(width, height));
+        }
+    }
+
+    public static void dispose() {
+        if (webDriver == null) {
+            return;
+        }
+
+        closeAllAlerts();
+        closeAllWindowHandles();
+
+        if (IE.equals(getBrowserName()) && PROPERTIES.isIEKillOnDispose()) {
+            terminateProcessIE();
+        }
+
+        try {
+            webDriver.quit();
+        } finally {
+            setWebDriver(null);
+        }
+    }
+
+    private static void closeAllAlerts() {
+        try {
+            LOG.info("Checking any alert opened");
+            WebDriverWait alertAwaiter = new WebDriverWait(webDriver, 2);
+            alertAwaiter.until(ExpectedConditions.alertIsPresent());
+            Alert alert = webDriver.switchTo().alert();
+            LOG.info("Got an alert: '{}'. Closing it...", alert.getText());
+            alert.dismiss();
+        } catch (WebDriverException e) {
+            LOG.debug("No alert opened. Closing webdriver...", e);
+        }
+    }
+
+    private static void closeAllWindowHandles() {
+        Set<String> windowHandlesSet = webDriver.getWindowHandles();
+        try {
+            if (windowHandlesSet.size() > 1) {
+                for (String winHandle : windowHandlesSet) {
+                    webDriver.switchTo().window(winHandle);
+                    ((JavascriptExecutor) webDriver).executeScript(
+                            "var objWin = window.self;"
+                            + "objWin.open('','_self','');"
+                            + "objWin.close();");
+                }
+            }
+        } catch (Exception e) {
+            LOG.warn("Failed to kill all of the windows", e);
+        }
+    }
+
+    private static void terminateProcessIE() {
+        try {
+            LOG.info("Trying to terminate iexplorer processes");
+            Runtime.getRuntime().exec("taskkill /f /im iexplore.exe").waitFor();
+            LOG.info("All iexplorer processes were terminated");
+        } catch (IOException | InterruptedException e) {
+            LOG.warn("Failed to wait for browser processes finish", e);
+        }
+    }
+
+    public static void setWebDriver(WebDriver aWebDriver) {
+        webDriver = aWebDriver;
+    }
+
+    public static String getBrowserName() {
+        return adaptBrowserName(PROPERTIES.getBrowserName());
+    }
+
+    private static String adaptBrowserName(String browserName) {
+        return isIE(browserName) ? IE : browserName.toLowerCase();
+    }
+
+    private static boolean isIE(String browserName) {
+        return browserName.equalsIgnoreCase(IE)
+                || browserName.equalsIgnoreCase(INTERNET_EXPLORER)
+                || browserName.equalsIgnoreCase(IEXPLORE);
+    }
+    
+    public static boolean isDriverInitialized() {
+        return webDriver != null;
+    }
+    
+    public static boolean isWebDriverShared() {
+        return PROPERTIES.isWebDriverShared();
+    }
+}
