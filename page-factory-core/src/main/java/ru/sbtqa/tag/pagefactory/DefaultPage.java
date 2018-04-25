@@ -136,7 +136,7 @@ public abstract class DefaultPage extends Page {
      * wasn't initialized, or element with required title was not found
      */
     @ActionTitle("ru.sbtqa.tag.pagefactory.check.values.not.equal")
-    public void checkValueIsNotEqual(String text, String elementTitle) throws PageException {
+    public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (pageChecks.checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is equal with '" + text + "'");

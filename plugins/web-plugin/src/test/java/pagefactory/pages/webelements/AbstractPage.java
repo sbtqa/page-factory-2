@@ -24,19 +24,21 @@ public class AbstractPage extends WebPage {
     @ElementTitle("HomeRedirect")
     @FindBy(xpath = "//a[text()='Home']")
     private WebElement homeButtonWithRedirect;
-    
+
     public AbstractPage(WebDriver driver) {
         super(driver);
     }
-    
+
     @ActionTitle("go to page")
     public void goToPage(String pageName) {
         switch (pageName.toLowerCase()) {
-            case "home" : homeButton.click();
-            break;
-            
-            case "contact" : contactButton.click();
-            break;
+            case "home":
+                homeButton.click();
+                break;
+
+            case "contact":
+                contactButton.click();
+                break;
         }
     }
 }
