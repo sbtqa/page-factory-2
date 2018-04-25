@@ -149,6 +149,7 @@ public class ReflectionUtils {
      *
      * @param page the page on which the method is executing
      * @param title title of the element to search
+     * @param <T> supposed type of the field. if field cannot be cast into this type, it will fail
      * @return Object found by corresponding title
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if failed to
      * find corresponding element or element type is set incorrectly

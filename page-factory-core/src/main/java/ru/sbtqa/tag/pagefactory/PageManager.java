@@ -45,6 +45,7 @@ public class PageManager {
      * Initialize page by class
      *
      * @param page a page class
+     * @param driver a web driver
      * @return the page object
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
@@ -57,6 +58,7 @@ public class PageManager {
      *
      * @param packageName a path to page objects
      * @param title a page title
+     * @param driver a web driver
      * @return the page object
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
