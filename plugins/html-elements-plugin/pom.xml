@@ -24,14 +24,14 @@
   <dependencies>
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>web-elements-plugin</artifactId>
+      <artifactId>web-plugin</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.htmlelements</groupId>
+      <groupId>ru.yandex.qatools.htmlelements</groupId>
       <artifactId>htmlelements-java</artifactId>
-      <version>1.17-JAVA7</version>
+      <version>1.19</version>
       <type>jar</type>
       <exclusions>
         <exclusion>

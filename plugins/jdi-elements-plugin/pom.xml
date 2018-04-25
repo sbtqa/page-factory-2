@@ -26,7 +26,7 @@
   <dependencies>
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>web-elements-plugin</artifactId>
+      <artifactId>web-plugin</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
@@ -47,6 +47,10 @@
         <exclusion>
           <groupId>org.seleniumhq.selenium</groupId>
           <artifactId>selenium-java</artifactId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
         </exclusion>
       </exclusions>
     </dependency>
