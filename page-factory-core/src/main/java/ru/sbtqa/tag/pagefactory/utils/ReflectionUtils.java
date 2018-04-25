@@ -32,8 +32,6 @@ public class ReflectionUtils {
     
     public static final Logger LOG = LoggerFactory.getLogger(ReflectionUtils.class);
 
-    private ReflectionUtils() {}
-
     /**
      * Search for the given Object in page repository storage, that is being
      * generated during preconditions to all features. If element is found, return

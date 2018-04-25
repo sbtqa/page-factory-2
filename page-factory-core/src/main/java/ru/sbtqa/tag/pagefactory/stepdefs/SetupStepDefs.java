@@ -28,7 +28,7 @@ public class SetupStepDefs {
     public void setUp(Scenario scenario) {
         Environment.getDriverService().mountDriver();
         ScenarioContext.setScenario(scenario);
-        PageManager.getInstance().cachePages();
+        PageManager.cachePages();
         PageContext.resetContext();
     }
 

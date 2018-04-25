@@ -45,7 +45,7 @@ public class GenericStepDefs {
      * @throws PageInitializationException if page initialization failed
      */
     public void openPage(String title) throws PageInitializationException {
-        PageManager.getInstance().getPage(title);
+        PageManager.getPage(title);
     }
 
     /**

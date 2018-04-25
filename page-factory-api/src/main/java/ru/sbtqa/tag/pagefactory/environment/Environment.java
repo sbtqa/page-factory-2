@@ -13,8 +13,6 @@ public class Environment {
     private static PageActions pageActions;
     private static PageChecks pageChecks;
 
-    private Environment() {}
-
     public static void setDriverService(DriverService driverService) {
         Environment.driverService = driverService;
     }

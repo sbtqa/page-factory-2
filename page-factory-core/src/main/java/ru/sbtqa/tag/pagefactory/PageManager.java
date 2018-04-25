@@ -207,7 +207,7 @@ public class PageManager {
         throw new AutotestError("Page " + title + " doesn't have fast URL in PageEntry");
     }
 
-    public void cachePages() {
+    public static void cachePages() {
         Set<Class<?>> allClasses = new HashSet();
         allClasses.addAll(getAllClasses());
 
@@ -227,7 +227,7 @@ public class PageManager {
         }
     }
 
-    private Set<Class<?>> getAllClasses() {
+    private static Set<Class<?>> getAllClasses() {
         Set<Class<?>> allClasses = new HashSet();
 
         Reflections reflections = new Reflections(PROPERTIES.getPagesPackage());

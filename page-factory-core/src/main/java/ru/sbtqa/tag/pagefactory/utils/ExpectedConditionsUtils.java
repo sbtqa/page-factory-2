@@ -20,8 +20,6 @@ public class ExpectedConditionsUtils {
     private static final Logger LOG = LoggerFactory.getLogger(ExpectedConditionsUtils.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-    private ExpectedConditionsUtils() {}
-
     /**
      * Wait until element present
      *
