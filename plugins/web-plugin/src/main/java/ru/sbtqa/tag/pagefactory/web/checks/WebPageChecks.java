@@ -12,7 +12,6 @@ public class WebPageChecks implements PageChecks {
     private static final String INPUT = "input";
     private static final String VALUE = "value";
     private static final String SELECT = "select";
-    private static final String TITLE = "title";
 
     @Override
     public boolean checkEquality(Object element, String text) {
