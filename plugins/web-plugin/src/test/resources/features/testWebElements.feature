@@ -1,49 +1,49 @@
-#language = en
-  Feature: Check web elements functional + ActionTitles mechanism
+#language: en
+Feature: Check web elements functional + ActionTitles mechanism
 
-    @webElementsCheck
-    Scenario: web elements check
+  @test
+  Scenario: Check RedirectTo annotation in web elements
+    * user is on the page "Main"
+    * user (click the button) "Contact"
+    * user is on the page "Contact"
 
-      * user is on the page "Main"
-      * user (click the button) "Contact"
-      * user is on the page "Contact"
+    #CHECKS
+    * user (checks that the field is empty) "first name"
+    * user (fill the field) "first name" "Alex"
+    * user (checks that the field is not empty) "first name"
+    * user (checks value) "first name" "Alex"
+    * user (check that values are not equal) "first name" "Billy"
 
-      * user (check that error message not contains) "Please specify your first name"
-      * user (click the button) "send"
-      * user (check that error message contains) "Please specify your first name"
+    #ACTIONS
+    * user (clears all of the fields)
 
-      * user (fill the field) "first name" "Alex"
-      * user (click the button) "send"
-      * user (check that error message not contains) "Please specify your first name"
+    #click
+    * user (click the button) "send"
+    * user (check that error message contains) "Please specify your first name"
 
-      * user (check that error message contains) "Please specify your last name"
-      * user (click the button) "send"
-      * user (check that error message contains) "Please specify your last name"
+    #fill
+    * user (fill the field) "first name" "Alex"
+    * user (click the button) "send"
+    * user (check that error message not contains) "Please specify your first name"
 
-      * user (fill the field) "last name" "Alexeev"
-      * user (click the button) "send"
-      * user (check that error message not contains) "Please specify your last name"
+    #press
+    * user (clears all of the fields)
+    * user (press the key) "Enter"
+    * user (check that error message contains) "Please specify your first name"
+    * user (fill the field) "first name" "Alex"
+    * user (press the key) "Enter"
+    * user (check that error message not contains) "Please specify your first name"
 
-      * user (go to page) "Home"
-      * user is on the page "Main"
+    #select
+    * user (select) "state" "Novosibirsk"
+    * user (checks value) "state" "Novosibirsk"
 
-    @WebElementsRedirectCheck
-    Scenario: Check RedirectTo annotation in web elements
+    #checkbox
+    * user (select checkbox) "checkbox"
+    * user (checks checkbox) "true"
 
-      * user is on the page "Main"
-      * user (click the button) "ContactRedirect"
-      * user is on the page "Contact"
-      * user (check that error message not contains) "Please specify your first name"
-      * user (click the button) "send"
-      * user (check that error message contains) "Please specify your first name"
-
-      * user (click the button) "HomeRedirect"
-      * user (click the button) "ContactRedirect"
-
-      * user (fill the field) "first name" "Alex"
-      * user (click the button) "send"
-      * user (check that error message not contains) "Please specify your first name"
-
-      * user (click the button) "HomeRedirect"
-      * user is on the page "Main"
-      * user (go to page from Main) "Contact"
+    #alert
+    * user (click the button) "alert"
+    * user (accepts alert) "Alert text"
+    * user (click the button) "alert"
+    * user (dismisses alert) "Alert text"

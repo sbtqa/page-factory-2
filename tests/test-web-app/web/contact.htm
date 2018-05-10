@@ -169,10 +169,10 @@
                         <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                         <select name="state" class="form-control selectpicker">
                             <option disabled>Please select your city</option>
-                            <option>Saint-Petersburg</option>
-                            <option>Moscow</option>
-                            <option>Omsk</option>
-                            <option>Novosibirsk</option>
+                            <option value="Saint-Petersburg">Saint-Petersburg</option>
+                            <option value="Moscow">Moscow</option>
+                            <option value="Omsk">Omsk</option>
+                            <option value="Novosibirsk">Novosibirsk</option>
                         </select>
                     </div>
                 </div>
@@ -227,6 +227,12 @@
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-warning">Send <span class="glyphicon glyphicon-send"></span>
                     </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <button id="alert" onclick="return confirm('Alert text')">Alert</button>
                 </div>
             </div>
 

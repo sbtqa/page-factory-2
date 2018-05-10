@@ -26,14 +26,12 @@
     <dependency>
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
-      <version>4.1.2</version>
-      <type>jar</type>
+      <version>6.0.0-BETA5</version>
     </dependency>
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-junit</artifactId>
       <version>2.4.0</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 

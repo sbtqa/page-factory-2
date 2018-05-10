@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.web.checks.WebPageChecks;
+import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 @PageEntry(title = "Contact")
 public class ContactPage extends AbstractPage {
@@ -30,12 +32,19 @@ public class ContactPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='hosting'][@value='no']")
     @ElementTitle(value = "hosting no")
     private WebElement hostingNo;
-    
+
+    @FindBy(xpath = "//input[@name='check']")
+    @ElementTitle(value = "checkbox")
+    private WebElement checkBox;
     
     @FindBy(xpath = "//button[@type='submit']")
     @ElementTitle(value = "send")
     private WebElement sendButton;
-    
+
+    @FindBy(xpath = "//button[@id='alert']")
+    @ElementTitle(value = "alert")
+    private WebElement alertButton;
+
     @FindBy(xpath = "//*[@id='error_message']")
     @ElementTitle(value = "error msg")
     private WebElement errorMsg;
@@ -45,12 +54,25 @@ public class ContactPage extends AbstractPage {
     }
     
     @ActionTitle("check that error message contains")
-    public void errContains(String msg) {
-        Assert.assertTrue(errorMsg.getText().contains(msg));
+    public void errContains(String message) {
+        WebPageChecks checks = new WebPageChecks();
+        Assert.assertTrue(checks.checkEquality(errorMsg, message, MatchStrategy.CONTAINS));
     }
-    
+
     @ActionTitle("check that error message not contains")
-    public void errNotContains(String msg) {
-        Assert.assertFalse(errorMsg.getText().contains(msg));
+    public void errNotContains(String message) {
+        WebPageChecks checks = new WebPageChecks();
+        Assert.assertFalse(checks.checkEquality(errorMsg, message, MatchStrategy.CONTAINS));
+    }
+
+    @ActionTitle("clears all of the fields")
+    public void clearsAllTheFields() {
+        nameInput.clear();
+        lastInput.clear();
+    }
+
+    @ActionTitle("checks checkbox")
+    public void checksCheckbox(String isChecked) {
+        Assert.assertEquals(Boolean.valueOf(isChecked), checkBox.isSelected());
     }
 }

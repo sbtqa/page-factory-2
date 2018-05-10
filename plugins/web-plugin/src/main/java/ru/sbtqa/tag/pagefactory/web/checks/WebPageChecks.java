@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.web.checks;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
@@ -11,7 +12,6 @@ public class WebPageChecks implements PageChecks {
     private static final String INPUT = "input";
     private static final String VALUE = "value";
     private static final String SELECT = "select";
-    private static final String TITLE = "title";
 
     @Override
     public boolean checkEquality(Object element, String text) {
@@ -35,17 +35,13 @@ public class WebPageChecks implements PageChecks {
             case INPUT:
                 return webElement.getAttribute(VALUE);
             case SELECT:
-                return webElement.getAttribute(TITLE);
+                Select select = new Select(webElement);
+                return select.getFirstSelectedOption().getText();
             default:
                 return webElement.getText();
         }
     }
 
-    /**
-     * Check that given WebElement has a value attribute, and it is not empty
-     *
-     * @param element an element to check
-     */
     @Override
     public boolean checkEmptiness(Object element) {
         WebElement webElement = (WebElement) element;
