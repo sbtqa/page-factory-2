@@ -21,7 +21,7 @@ public class MobilePageActions implements PageActions {
         WebElement webElement = (WebElement) element;
         webElement.click();
 
-        if (PROPERTIES.isAppiumClickAdb()) {
+        if (PROPERTIES.isAppiumFillAdb()) {
             fillViaAdb(text);
         } else {
             AppiumDriver driver = Environment.getDriverService().getDriver();
@@ -50,6 +50,13 @@ public class MobilePageActions implements PageActions {
         // get center point of element to tap on it
         int x = webElement.getLocation().getX() + webElement.getSize().getWidth() / 2;
         int y = webElement.getLocation().getY() + webElement.getSize().getHeight() / 2;
+        try {
+            System.out.println("sleep");
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        AdbConsole.execute("ime set com.android.adbkeyboard/.AdbIME");
         AdbConsole.execute(String.format("input tap %s %s", x, y));
     }
 

@@ -2,6 +2,7 @@ package ru.sbtqa.tag.pagefactory.mobile.utils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.TouchAction;
 import java.util.List;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -119,7 +120,9 @@ public class SwipeUtils {
         int x = location.getX();
         int y = location.getY();
         LOG.debug("Swipe parameters: location {}, dimension {}, direction {}, time {}", location, size, direction, time);
-        appiumDriver.swipe(x + startx, y + starty, x + endx, y + endy, time);
+//        appiumDriver.swipe(x + startx, y + starty, x + endx, y + endy, time);
+
+        new TouchAction(appiumDriver).press(x + startx, y + starty).waitAction().moveTo(x + endx, y + endy).release().perform();
     }
 
     /**
