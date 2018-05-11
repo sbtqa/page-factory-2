@@ -7,7 +7,7 @@ import ru.sbtqa.tag.pagefactory.jdi.utils.JDIUtils;
  * Contains basic ru.sbtqa.tag.pagefactory.mobile.actions in particular with jdi elements
  * If we want to extend this functional - inherit from this class
  */
-public class JDIPage extends WebPage {
+public abstract class JDIPage extends DefaultPage {
 
     public JDIPage(WebDriver driver) {
         super(driver);

@@ -11,7 +11,5 @@ public class MobileSetupStepDefs {
     @Before(order = 1)
     public void setUp() {
         Environment.setDriverService(new MobileDriverService());
-        Environment.setPageActions(new MobilePageActions());
-        Environment.setPageChecks(new MobilePageChecks());
     }
 }
