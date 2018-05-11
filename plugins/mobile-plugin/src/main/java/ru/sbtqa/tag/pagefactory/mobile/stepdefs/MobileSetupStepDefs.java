@@ -1,10 +1,8 @@
 package ru.sbtqa.tag.pagefactory.mobile.stepdefs;
 
 import cucumber.api.java.Before;
-import ru.sbtqa.tag.pagefactory.mobile.drivers.MobileDriverService;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.mobile.actions.MobilePageActions;
-import ru.sbtqa.tag.pagefactory.mobile.checks.MobilePageChecks;
+import ru.sbtqa.tag.pagefactory.mobile.drivers.MobileDriverService;
 
 public class MobileSetupStepDefs {
 
