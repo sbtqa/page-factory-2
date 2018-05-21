@@ -15,8 +15,17 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
 public class SetupStepDefs {
 
+    private static final ThreadLocal<Boolean> ispreSetUp = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> isSetUp = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> isTearDown = ThreadLocal.withInitial(() -> false);
+
+
     @Before(order = 0)
-    public void preSetUp(Scenario scenario) {
+    public static void preSetUp(Scenario scenario) {
+        if (isAlreadyPerformed(ispreSetUp)) {
+            return;
+        }
+
         TaskHandler.addTask(new ConnectToLogTask());
         TaskHandler.addTask(new KillProcessesTask());
         TaskHandler.addTask(new StartVideoTask());
@@ -25,7 +34,11 @@ public class SetupStepDefs {
 
 
     @Before(order = 99999)
-    public void setUp(Scenario scenario) {
+    public static void setUp(Scenario scenario) {
+        if (isAlreadyPerformed(ispreSetUp)) {
+            return;
+        }
+
         Environment.getDriverService().mountDriver();
         ScenarioContext.setScenario(scenario);
         PageManager.cachePages();
@@ -33,11 +46,34 @@ public class SetupStepDefs {
     }
 
     @After(order = 99999)
-    public void tearDown() {
+    public static void tearDown() {
+        if (isAlreadyPerformed(ispreSetUp)) {
+            return;
+        }
+
         TaskHandler.addTask(new StopVideoTask());
         TaskHandler.handleTasks();
 
         Environment.getDriverService().demountDriver();
+    }
+
+
+    private static synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
+        if (t.get()) {
+            return true;
+        } else {
+            t.set(true);
+            if (t.equals(ispreSetUp)) {
+                isSetUp.remove();
+                isTearDown.remove();
+            } else if (t.equals(isSetUp)) {
+                isTearDown.remove();
+            } else if (t.equals(isTearDown)) {
+                ispreSetUp.remove();
+                isSetUp.remove();
+            }
+            return false;
+        }
     }
 
 }

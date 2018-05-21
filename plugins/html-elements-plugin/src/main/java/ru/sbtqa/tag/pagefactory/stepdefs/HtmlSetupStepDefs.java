@@ -1,14 +1,19 @@
 package ru.sbtqa.tag.pagefactory.stepdefs;
 
-import cucumber.api.java.Before;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.html.actions.HtmlPageActions;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 public class HtmlSetupStepDefs {
 
-    @Before
-    public void initHTML() {
+    private static final ThreadLocal<Boolean> isHTMLInited = ThreadLocal.withInitial(() -> false);
+
+    public static synchronized void initHTML() {
+        if (isHTMLInited.get()) {
+            return;
+        } else {
+            isHTMLInited.set(true);
+        }
         Environment.setDriverService(new WebDriverService());
         Environment.setPageActions(new HtmlPageActions());
     }
