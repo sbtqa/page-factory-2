@@ -1,8 +1,8 @@
-package ru.sbtqa.tag.pagefactory.web.stepdefs.ru;
+package ru.sbtqa.tag.pagefactory.stepdefs.ru;
 
 import cucumber.api.java.ru.И;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.pagefactory.web.stepdefs.WebGenericStepDefs;
+import ru.sbtqa.tag.pagefactory.stepdefs.WebGenericStepDefs;
 
 public class WebStepDefs extends WebGenericStepDefs {
 

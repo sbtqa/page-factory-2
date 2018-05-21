@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.mobile.stepdefs;
+package ru.sbtqa.tag.pagefactory.stepdefs;
 
 import cucumber.api.java.Before;
 import ru.sbtqa.tag.pagefactory.mobile.drivers.MobileDriverService;

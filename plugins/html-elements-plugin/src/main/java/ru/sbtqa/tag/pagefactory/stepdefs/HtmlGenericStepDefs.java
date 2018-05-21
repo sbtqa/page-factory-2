@@ -1,11 +1,11 @@
-package ru.sbtqa.tag.pagefactory.html.stepdefs;
+package ru.sbtqa.tag.pagefactory.stepdefs;
 
 import cucumber.api.DataTable;
 import java.util.Locale;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.utils.HtmlReflectionUtils;
+import ru.sbtqa.tag.pagefactory.html.utils.HtmlReflectionUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.yandex.qatools.htmlelements.element.Button;
