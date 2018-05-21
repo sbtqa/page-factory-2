@@ -33,7 +33,7 @@ public class SetupStepDefs {
     }
 
     public static void setUp(Scenario scenario) {
-        if (isAlreadyPerformed(ispreSetUp)) {
+        if (isAlreadyPerformed(isSetUp)) {
             return;
         }
 
@@ -44,7 +44,7 @@ public class SetupStepDefs {
     }
 
     public static void tearDown() {
-        if (isAlreadyPerformed(ispreSetUp)) {
+        if (isAlreadyPerformed(isTearDown)) {
             return;
         }
 
