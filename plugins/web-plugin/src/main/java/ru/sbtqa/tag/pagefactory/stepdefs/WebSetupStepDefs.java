@@ -9,6 +9,10 @@ public class WebSetupStepDefs {
 
     private static final ThreadLocal<Boolean> isWebInited = ThreadLocal.withInitial(() -> false);
 
+    private WebSetupStepDefs() {
+        throw new AssertionError("Instantiating utility class.");
+    }
+
     public static synchronized void initWeb() {
         if (isWebInited.get()) {
             return;

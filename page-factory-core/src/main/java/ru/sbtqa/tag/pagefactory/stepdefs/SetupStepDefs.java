@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.pagefactory.stepdefs;
 
 import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
@@ -19,8 +17,10 @@ public class SetupStepDefs {
     private static final ThreadLocal<Boolean> isSetUp = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> isTearDown = ThreadLocal.withInitial(() -> false);
 
+    private SetupStepDefs() {
+        throw new AssertionError("Instantiating utility class.");
+    }
 
-    @Before(order = 0)
     public static void preSetUp(Scenario scenario) {
         if (isAlreadyPerformed(ispreSetUp)) {
             return;
@@ -32,8 +32,6 @@ public class SetupStepDefs {
         TaskHandler.handleTasks();
     }
 
-
-    @Before(order = 99999)
     public static void setUp(Scenario scenario) {
         if (isAlreadyPerformed(ispreSetUp)) {
             return;
@@ -45,7 +43,6 @@ public class SetupStepDefs {
         PageContext.resetContext();
     }
 
-    @After(order = 99999)
     public static void tearDown() {
         if (isAlreadyPerformed(ispreSetUp)) {
             return;

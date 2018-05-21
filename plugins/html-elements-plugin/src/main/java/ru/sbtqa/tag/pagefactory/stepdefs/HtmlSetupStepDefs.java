@@ -8,6 +8,10 @@ public class HtmlSetupStepDefs {
 
     private static final ThreadLocal<Boolean> isHTMLInited = ThreadLocal.withInitial(() -> false);
 
+    private HtmlSetupStepDefs() {
+        throw new AssertionError("Instantiating utility class.");
+    }
+
     public static synchronized void initHTML() {
         if (isHTMLInited.get()) {
             return;
