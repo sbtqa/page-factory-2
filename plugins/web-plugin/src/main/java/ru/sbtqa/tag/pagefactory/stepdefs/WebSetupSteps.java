@@ -5,15 +5,11 @@ import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.checks.WebPageChecks;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
-public class WebSetupStepDefs {
+public class WebSetupSteps {
 
     private static final ThreadLocal<Boolean> isWebInited = ThreadLocal.withInitial(() -> false);
 
-    private WebSetupStepDefs() {
-        throw new AssertionError("Instantiating utility class.");
-    }
-
-    public static synchronized void initWeb() {
+    public synchronized void initWeb() {
         if (isWebInited.get()) {
             return;
         } else {

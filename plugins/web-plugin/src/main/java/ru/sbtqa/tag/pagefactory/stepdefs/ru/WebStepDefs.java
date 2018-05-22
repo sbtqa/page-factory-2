@@ -4,13 +4,12 @@ import cucumber.api.java.Before;
 import cucumber.api.java.ru.И;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.stepdefs.WebGenericStepDefs;
-import ru.sbtqa.tag.pagefactory.stepdefs.WebSetupStepDefs;
 
 public class WebStepDefs extends WebGenericStepDefs {
 
     @Before(order = 1)
     public void initWeb() {
-        WebSetupStepDefs.initWeb();
+        super.initWeb();
     }
 
     /**

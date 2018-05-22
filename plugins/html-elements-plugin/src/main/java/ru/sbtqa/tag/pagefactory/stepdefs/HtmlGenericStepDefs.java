@@ -46,7 +46,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
  * Step Definitions for html-elements-plugin.
  * Common action with pages describes by html-elements.
  */
-public class HtmlGenericStepDefs {
+public class HtmlGenericStepDefs extends HtmlSetupSteps{
 
     /**
      * Execute action with no parameters inside block element User|he keywords

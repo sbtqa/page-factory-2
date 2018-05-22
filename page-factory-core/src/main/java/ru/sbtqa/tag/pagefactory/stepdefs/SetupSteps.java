@@ -11,18 +11,14 @@ import ru.sbtqa.tag.pagefactory.tasks.StartVideoTask;
 import ru.sbtqa.tag.pagefactory.tasks.StopVideoTask;
 import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
-public class SetupStepDefs {
+public class SetupSteps {
 
-    private static final ThreadLocal<Boolean> ispreSetUp = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> isPreSetUp = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> isSetUp = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> isTearDown = ThreadLocal.withInitial(() -> false);
 
-    private SetupStepDefs() {
-        throw new AssertionError("Instantiating utility class.");
-    }
-
-    public static void preSetUp(Scenario scenario) {
-        if (isAlreadyPerformed(ispreSetUp)) {
+    public void preSetUp(Scenario scenario) {
+        if (isAlreadyPerformed(isPreSetUp)) {
             return;
         }
 
@@ -32,7 +28,7 @@ public class SetupStepDefs {
         TaskHandler.handleTasks();
     }
 
-    public static void setUp(Scenario scenario) {
+    public void setUp(Scenario scenario) {
         if (isAlreadyPerformed(isSetUp)) {
             return;
         }
@@ -43,7 +39,7 @@ public class SetupStepDefs {
         PageContext.resetContext();
     }
 
-    public static void tearDown() {
+    public void tearDown() {
         if (isAlreadyPerformed(isTearDown)) {
             return;
         }
@@ -55,18 +51,18 @@ public class SetupStepDefs {
     }
 
 
-    private static synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
+    private synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
         if (t.get()) {
             return true;
         } else {
             t.set(true);
-            if (t.equals(ispreSetUp)) {
+            if (t.equals(isPreSetUp)) {
                 isSetUp.remove();
                 isTearDown.remove();
             } else if (t.equals(isSetUp)) {
                 isTearDown.remove();
             } else if (t.equals(isTearDown)) {
-                ispreSetUp.remove();
+                isPreSetUp.remove();
                 isSetUp.remove();
             }
             return false;

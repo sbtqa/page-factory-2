@@ -4,15 +4,11 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.html.actions.HtmlPageActions;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
-public class HtmlSetupStepDefs {
+public class HtmlSetupSteps {
 
     private static final ThreadLocal<Boolean> isHTMLInited = ThreadLocal.withInitial(() -> false);
 
-    private HtmlSetupStepDefs() {
-        throw new AssertionError("Instantiating utility class.");
-    }
-
-    public static synchronized void initHTML() {
+    public synchronized void initHTML() {
         if (isHTMLInited.get()) {
             return;
         } else {

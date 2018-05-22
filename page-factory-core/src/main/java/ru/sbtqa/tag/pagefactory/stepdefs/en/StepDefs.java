@@ -8,23 +8,22 @@ import cucumber.api.java.en.And;
 import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.stepdefs.GenericStepDefs;
-import ru.sbtqa.tag.pagefactory.stepdefs.SetupStepDefs;
 
 public class StepDefs extends GenericStepDefs {
 
     @Before(order = 0)
-    public static void preSetUp(Scenario scenario) {
-        SetupStepDefs.preSetUp(scenario);
+    public void preSetUp(Scenario scenario) {
+        super.preSetUp(scenario);
     }
 
     @Before(order = 99999)
-    public static void setUp(Scenario scenario) {
-        SetupStepDefs.setUp(scenario);
+    public void setUp(Scenario scenario) {
+        super.setUp(scenario);
     }
 
     @After(order = 99999)
-    public static void tearDown() {
-        SetupStepDefs.tearDown();
+    public void tearDown() {
+        super.tearDown();
     }
 
     /**
