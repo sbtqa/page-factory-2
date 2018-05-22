@@ -1,17 +1,23 @@
-package ru.sbtqa.tag.pagefactory.html.stepdefs.en;
+package ru.sbtqa.tag.pagefactory.stepdefs.ru;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.en.And;
+import cucumber.api.java.Before;
+import cucumber.api.java.ru.И;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.html.stepdefs.HtmlGenericStepDefs;
+import ru.sbtqa.tag.pagefactory.stepdefs.HtmlGenericStepDefs;
 
 public class HtmlStepDefs extends HtmlGenericStepDefs {
+
+    @Before
+    public void initHTML() {
+        super.initHTML();
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @And("^user in block \"([^\"]*)\" \\((.*?)\\)$")
+    @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\)$")
     public void userActionInBlockNoParams(String block, String action) throws NoSuchMethodException {
         super.userActionInBlockNoParams(block, action);
     }
@@ -20,7 +26,7 @@ public class HtmlStepDefs extends HtmlGenericStepDefs {
      * {@inheritDoc}
      */
     @Override
-    @And("^user in block \"([^\"]*)\" \\((.*?)\\) with the parameters of table$")
+    @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\) с параметрами из таблицы$")
     public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws NoSuchMethodException {
         super.userActionInBlockTableParam(block, action, dataTable);
     }
@@ -29,7 +35,7 @@ public class HtmlStepDefs extends HtmlGenericStepDefs {
      * {@inheritDoc}
      */
     @Override
-    @And("^user in block \"([^\"]*)\" \\((.*?)\\) with a parameter \"([^\"]*)\"$")
+    @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\) с параметром \"([^\"]*)\"$")
     public void userActionInBlockOneParam(String block, String action, String param) throws NoSuchMethodException {
         super.userActionInBlockOneParam(block, action, param);
     }
@@ -38,7 +44,7 @@ public class HtmlStepDefs extends HtmlGenericStepDefs {
      * {@inheritDoc}
      */
     @Override
-    @And("^user in block \"([^\"]*)\" \\((.*?)\\) with the parameters \"([^\"]*)\"  \"([^\"]*)\"$")
+    @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" \\((.*?)\\) с параметрами \"([^\"]*)\" \"([^\"]*)\"$")
     public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws NoSuchMethodException {
         super.userActionInBlockTwoParams(block, action, param1, param2);
     }
@@ -47,7 +53,7 @@ public class HtmlStepDefs extends HtmlGenericStepDefs {
      * {@inheritDoc}
      */
     @Override
-    @And("^user in block \"([^\"]*)\" finds (element|textinput|checkbox|radiobutton|table|header|button|link|image) \"([^\"]*)\"$")
+    @И("^(?:пользователь |он |)в блоке \"([^\"]*)\" находит (элемент|текстовое поле|чекбокс|радиокнопка|таблицу|заголовок|кнопку|ссылку|изображение) \"([^\"]*)\"$")
     public void findElementInBlock(String block, String elementType, String elementTitle) throws PageException {
         super.findElementInBlock(block, elementType, elementTitle);
     }
@@ -56,7 +62,7 @@ public class HtmlStepDefs extends HtmlGenericStepDefs {
      * {@inheritDoc}
      */
     @Override
-    @And("^user in list \"([^\"]*)\" finds the value element \"([^\"]*)\"$")
+    @И("^(?:пользователь |он |)в списке \"([^\"]*)\" находит элемент со значением \"([^\"]*)\"$")
     public void findElementInList(String listTitle, String value) throws PageException {
         super.findElementInList(listTitle, value);
     }

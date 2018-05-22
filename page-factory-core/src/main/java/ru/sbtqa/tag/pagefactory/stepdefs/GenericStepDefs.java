@@ -32,7 +32,7 @@ import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class GenericStepDefs {
+public class GenericStepDefs extends SetupSteps{
 
     private static final Logger LOG = LoggerFactory.getLogger(GenericStepDefs.class);
     
