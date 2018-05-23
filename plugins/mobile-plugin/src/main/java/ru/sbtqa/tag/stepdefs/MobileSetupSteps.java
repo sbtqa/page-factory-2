@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.mobile.actions.MobilePageActions;
-import ru.sbtqa.tag.pagefactory.mobile.checks.MobilePageChecks;
 import ru.sbtqa.tag.pagefactory.mobile.drivers.MobileDriverService;
 
 public class MobileSetupSteps {
@@ -17,7 +15,5 @@ public class MobileSetupSteps {
             isMobileInited.set(true);
         }
         Environment.setDriverService(new MobileDriverService());
-        Environment.setPageActions(new MobilePageActions());
-        Environment.setPageChecks(new MobilePageChecks());
     }
 }

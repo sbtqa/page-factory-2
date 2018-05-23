@@ -15,11 +15,13 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 public abstract class DefaultPage extends Page {
 
-    PageActions pageActions = Environment.getPageActions();
-    PageChecks pageChecks = Environment.getPageChecks();
+    PageActions pageActions;
+    PageChecks pageChecks;
 
     public DefaultPage(WebDriver driver) {
         super(driver);
+        pageActions = Environment.getPageActions();
+        pageChecks = Environment.getPageChecks();
     }
 
     /**

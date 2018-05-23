@@ -7,7 +7,7 @@ import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory
 /**
  * Page with common action with html-elements
  */
-public class HTMLPage extends WebPage {
+public abstract class HTMLPage extends WebPage {
 
     public HTMLPage(WebDriver driver) {
         super(driver, new HtmlElementDecorator(

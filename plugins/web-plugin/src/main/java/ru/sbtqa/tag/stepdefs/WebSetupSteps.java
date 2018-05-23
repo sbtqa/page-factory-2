@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
-import ru.sbtqa.tag.pagefactory.web.checks.WebPageChecks;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 public class WebSetupSteps {
@@ -16,7 +14,5 @@ public class WebSetupSteps {
             isWebInited.set(true);
         }
         Environment.setDriverService(new WebDriverService());
-        Environment.setPageActions(new WebPageActions());
-        Environment.setPageChecks(new WebPageChecks());
     }
 }
