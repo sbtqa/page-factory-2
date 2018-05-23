@@ -4,11 +4,11 @@ import java.io.File;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.stepdefs.SetupSteps;
+import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
 
 public class ConnectToLogTask implements Task {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SetupSteps.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoreSetupSteps.class);
     private static final String DEFAULT_LOG_PROPERTIES_PATH = "src/test/resources/config/log4j.properties";
 
     @Override
