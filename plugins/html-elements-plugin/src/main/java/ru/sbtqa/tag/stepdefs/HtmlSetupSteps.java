@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.html.actions.HtmlPageActions;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 public class HtmlSetupSteps {
@@ -15,6 +14,5 @@ public class HtmlSetupSteps {
             isHTMLInited.set(true);
         }
         Environment.setDriverService(new WebDriverService());
-        Environment.setPageActions(new HtmlPageActions());
     }
 }
