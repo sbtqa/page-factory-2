@@ -1,10 +1,16 @@
-package ru.sbtqa.tag.pagefactory.web.stepdefs.ru;
+package ru.sbtqa.tag.stepdefs.ru;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.ru.И;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.pagefactory.web.stepdefs.WebGenericStepDefs;
+import ru.sbtqa.tag.stepdefs.WebGenericStepDefs;
 
 public class WebStepDefs extends WebGenericStepDefs {
+
+    @Before(order = 1)
+    public void initWeb() {
+        super.initWeb();
+    }
 
     /**
      * {@inheritDoc}

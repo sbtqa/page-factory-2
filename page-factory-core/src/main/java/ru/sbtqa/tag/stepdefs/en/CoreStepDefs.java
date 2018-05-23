@@ -1,12 +1,30 @@
-package ru.sbtqa.tag.pagefactory.stepdefs.en;
+package ru.sbtqa.tag.stepdefs.en;
 
 import cucumber.api.DataTable;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.pagefactory.stepdefs.GenericStepDefs;
+import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
-public class StepDefs extends GenericStepDefs {
+public class CoreStepDefs extends CoreGenericSteps {
+
+    @Before(order = 0)
+    public void preSetUp(Scenario scenario) {
+        super.preSetUp(scenario);
+    }
+
+    @Before(order = 99999)
+    public void setUp(Scenario scenario) {
+        super.setUp(scenario);
+    }
+
+    @After(order = 99999)
+    public void tearDown() {
+        super.tearDown();
+    }
 
     /**
      * {@inheritDoc}

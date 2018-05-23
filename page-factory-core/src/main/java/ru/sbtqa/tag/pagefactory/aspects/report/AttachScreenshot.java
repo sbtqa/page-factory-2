@@ -15,7 +15,7 @@ public class AttachScreenshot {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-    @Pointcut("execution(* ru.sbtqa.tag.pagefactory.stepdefs.SetupStepDefs.tearDown()) && if()")
+    @Pointcut("execution(* ru.sbtqa.tag.stepdefs.CoreSetupSteps.tearDown()) && if()")
     public static boolean attachScreenshotOnTearDown() {
         return ScenarioContext.getScenario().isFailed();
     }

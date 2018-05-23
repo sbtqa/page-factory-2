@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.utils;
+package ru.sbtqa.tag.pagefactory.html.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -18,6 +18,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;

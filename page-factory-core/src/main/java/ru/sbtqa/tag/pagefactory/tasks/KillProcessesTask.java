@@ -6,11 +6,11 @@ import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.stepdefs.SetupStepDefs;
+import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
 
 public class KillProcessesTask implements Task {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SetupStepDefs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoreSetupSteps.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     @Override

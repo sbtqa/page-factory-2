@@ -1,8 +1,6 @@
-package ru.sbtqa.tag.pagefactory.stepdefs;
+package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
@@ -13,31 +11,62 @@ import ru.sbtqa.tag.pagefactory.tasks.StartVideoTask;
 import ru.sbtqa.tag.pagefactory.tasks.StopVideoTask;
 import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
-public class SetupStepDefs {
+public class CoreSetupSteps {
 
-    @Before(order = 0)
+    private static final ThreadLocal<Boolean> isPreSetUp = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> isSetUp = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> isTearDown = ThreadLocal.withInitial(() -> false);
+
     public void preSetUp(Scenario scenario) {
+        if (isAlreadyPerformed(isPreSetUp)) {
+            return;
+        }
+
         TaskHandler.addTask(new ConnectToLogTask());
         TaskHandler.addTask(new KillProcessesTask());
         TaskHandler.addTask(new StartVideoTask());
         TaskHandler.handleTasks();
     }
 
-
-    @Before(order = 99999)
     public void setUp(Scenario scenario) {
+        if (isAlreadyPerformed(isSetUp)) {
+            return;
+        }
+
         Environment.getDriverService().mountDriver();
         ScenarioContext.setScenario(scenario);
         PageManager.cachePages();
         PageContext.resetContext();
     }
 
-    @After(order = 99999)
     public void tearDown() {
+        if (isAlreadyPerformed(isTearDown)) {
+            return;
+        }
+
         TaskHandler.addTask(new StopVideoTask());
         TaskHandler.handleTasks();
 
         Environment.getDriverService().demountDriver();
+    }
+
+
+    private synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
+        if (t.get()) {
+            return true;
+        } else {
+            t.set(true);
+            if (t.equals(isPreSetUp)) {
+                isSetUp.remove();
+                isTearDown.remove();
+            } else if (t.equals(isSetUp)) {
+                isTearDown.remove();
+            } else if (t.equals(isTearDown)) {
+                isPreSetUp.remove();
+                isSetUp.remove();
+            }
+            return false;
+        }
     }
 
 }

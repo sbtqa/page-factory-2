@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.stepdefs;
+package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
 import java.util.List;
@@ -32,9 +32,9 @@ import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class GenericStepDefs {
+public class CoreGenericSteps extends CoreSetupSteps {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GenericStepDefs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoreGenericSteps.class);
     
     /**
      * Initialize a page with corresponding title (defined via
