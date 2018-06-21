@@ -17,13 +17,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.aeonbits.owner.ConfigFactory;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
+
+import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 
 public class WebDriverManagerConfigurator {
 
@@ -37,7 +38,7 @@ public class WebDriverManagerConfigurator {
 
     public static void configureDriver(BrowserManager webDriverManager, String browserType) {
         if (!PROPERTIES.getDriversPath().isEmpty()) {
-            System.setProperty("webdriver." + browserType + ".driver", new File(PROPERTIES.getDriversPath()).getAbsolutePath());
+            System.setProperty("webdriver." + browserType.toLowerCase() + ".driver", new File(PROPERTIES.getDriversPath()).getAbsolutePath());
         } else {
             LOG.warn("The value of property 'webdriver.drivers.path' is not specified."
                     + " Trying to automatically download and setup driver.");
