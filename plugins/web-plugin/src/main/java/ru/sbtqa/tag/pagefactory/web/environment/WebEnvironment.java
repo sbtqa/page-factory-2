@@ -10,7 +10,7 @@ public class WebEnvironment extends Environment {
     private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
 
     public static BrowserName getBrowserName() {
-        return adaptBrowserName(PROPERTIES.getBrowserName());
+        return adaptBrowserName(PROPERTIES.getBrowserName().replace(' ', '_'));
     }
 
     private static BrowserName adaptBrowserName(String name) {
