@@ -37,7 +37,7 @@ public class WebDriverManagerConfigurator {
 
     public static void configureDriver(BrowserManager webDriverManager, String browserType) {
         if (!PROPERTIES.getDriversPath().isEmpty()) {
-            System.setProperty("webdriver." + browserType + ".driver", new File(PROPERTIES.getDriversPath()).getAbsolutePath());
+            System.setProperty("webdriver." + browserType.toLowerCase() + ".driver", new File(PROPERTIES.getDriversPath()).getAbsolutePath());
         } else {
             LOG.warn("The value of property 'webdriver.drivers.path' is not specified."
                     + " Trying to automatically download and setup driver.");
