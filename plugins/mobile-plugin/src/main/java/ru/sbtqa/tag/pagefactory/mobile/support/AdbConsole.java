@@ -39,6 +39,7 @@ public class AdbConsole {
             return process.waitFor() == 0;
         } catch (IOException | InterruptedException ex) {
             LOG.error("Failed to process command '{}'", command, ex);
+            Thread.currentThread().interrupt();
         }
 
         return false;

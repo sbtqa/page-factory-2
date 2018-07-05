@@ -180,6 +180,7 @@ public class WebDriverService implements DriverService {
             LOG.info("All iexplorer processes were terminated");
         } catch (IOException | InterruptedException e) {
             LOG.warn("Failed to wait for browser processes finish", e);
+            Thread.currentThread().interrupt();
         }
     }
 
