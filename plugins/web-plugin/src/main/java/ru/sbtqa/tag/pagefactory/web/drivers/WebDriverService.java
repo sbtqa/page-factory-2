@@ -181,6 +181,13 @@ public class WebDriverService implements DriverService {
         } catch (IOException | InterruptedException e) {
             LOG.info("Failed to wait for browser processes finish", e);
         }
+        try {
+            LOG.info("Trying to terminate iexplorer processes");
+            Runtime.getRuntime().exec("taskkill /f /im iexplore.exe").waitFor();
+            LOG.info("All iexplorer processes were terminated");
+        } catch (IOException | InterruptedException e) {
+            LOG.info("Failed to wait for browser processes finish", e);
+        }
     }
 
     public void setWebDriver(org.openqa.selenium.WebDriver aWebDriver) {
