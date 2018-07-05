@@ -179,7 +179,7 @@ public class WebDriverService implements DriverService {
             Runtime.getRuntime().exec("taskkill /f /im iexplore.exe").waitFor();
             LOG.info("All iexplorer processes were terminated");
         } catch (IOException | InterruptedException e) {
-            LOG.info("Failed to wait for browser processes finish", e);
+            LOG.warn("Failed to wait for browser processes finish", e);
             Thread.currentThread().interrupt();
         }
     }
