@@ -5,11 +5,11 @@ branches:
   - "/^[0-9]+\\.[0-9]+(\\.[0-9])?+(-.*)?$/"
 addons:
   sonarcloud:
-    organization: varivoda-github
+    organization: "sbtqasonarkey"
     token:
-      secure: dzUOc0jh0E+/NK4yvcdjCG9+mMFlFCytw0auTG2vfZRuGv3qR/rjE2sNwh6excBnyXtRgyrYuMV3/p9CsuRxkjZgHTezM9mNptpWk+wJDTBzuXDCsKaHKeVeD091+FDH13tfBjY550GFDVJRlBys6ol7yVEelKdqLau9QQn0YVa+Oo+FRhT8Eq5/L+7ynIQFZjOAhgiLSYQsMDwa9LnEhNWmOoYCAOStfxuPPBFw0VwowpZDgDAUAmued+0DP+ROjZAm1cUcx8yw545IfG8Fcprcj73A+JMahfy6oMvFmZE4/vih06kYAjsQUGz1Nor0gG0lh+cw7dtBgB0CUB4U2v94IQWPGO7Hs5bV5aDqOodrNUK4lMTooqps5QL99pOOSbluEjAqBCBwYDAZX3bXvtEp14GcYjoJ71yh5HiyYLe2czr6YMhdd2QWsSzN77drhZ9pPJ96GXlMxGx9z5CodKO3ghunM5WTvsnjigNtoH9s9pnZTPtEboGGMdRLs63JxfYoOeZtnX6Vumz1vRPLRPsiwou7uQIq336WEcGIxSiVUBgoQYCapZ9BiUOy9zAduha8ASxENBSTp2EW+CqrRfgyEtAV0ttOmFRUmqXBKSNth3GEg4Rb8ZeoabeNLmPOAHL1byH3EgyGwGFfaZRG9Uozo3AuvKBnaUu5TflJ3WA=
-    github_token:
-      secure: PSkgsAnkSG50UAnKQjxrZGev9vGqVjzz2XSwWBDMFwwskBOxG3UHtDNsG6T1DjTA6lBvoTI2Y4oEk61lO9gtfoevtyam1Pvc4QYZyhV0HPAnk3E0aDSifnlqIp3k3cocA8HSVAKCxibk6eC450SL/OO7xBZyq9N0aAZwWXq0Mm1PxsvEDcz68YcOZdPoA0a4Gx5HQE8Rn5JmhNiQKXVFm84+hGKT8tzNQjUQIbLnBq0OdK2lg1d+nN+QZ3P1ufaosjnPZ07/BVnmFqvUl7a/BaZCxjM80sZ7qRJpKGowDP9XO9xJcgHIi+ChBV9czuE+8xuJMCffQvlkEdcXKAW3jEohompv3HYfQBgvD0Wj5x4t4s7HP1SpwTFc1LNgEEOJvuwjQS6LiHKdwIR/kAXagT37ZhUrM0Z4NGhjNBpmYDBZQVVIUz3Qpg7Kl+qPZQtXjpr12KDYvUhEEpV1n7plZ/4OcsrMKjRoLMxP0USN3E0GJitNdy1Sdx+wTvO/nlnOIdEzmTUSxRKXWjDXaNBfs9WBvnJMSaxM+7IA2VU5ZIL2qlpO164gp0FNHSS7vxInmA2p65CnMN5yxvDApjmahJu/rQhMMD+hfxEF+F9rULAP7o1SCn1zaX4m0/HJ177BGiGT/6UmEEBHSf/gPXfRQMlLLmQvKTJB3lMlTyiosdg=
+      secure: $SONAR_TOKEN
+#    github_token:
+#      secure: PSkgsAnkSG50UAnKQjxrZGev9vGqVjzz2XSwWBDMFwwskBOxG3UHtDNsG6T1DjTA6lBvoTI2Y4oEk61lO9gtfoevtyam1Pvc4QYZyhV0HPAnk3E0aDSifnlqIp3k3cocA8HSVAKCxibk6eC450SL/OO7xBZyq9N0aAZwWXq0Mm1PxsvEDcz68YcOZdPoA0a4Gx5HQE8Rn5JmhNiQKXVFm84+hGKT8tzNQjUQIbLnBq0OdK2lg1d+nN+QZ3P1ufaosjnPZ07/BVnmFqvUl7a/BaZCxjM80sZ7qRJpKGowDP9XO9xJcgHIi+ChBV9czuE+8xuJMCffQvlkEdcXKAW3jEohompv3HYfQBgvD0Wj5x4t4s7HP1SpwTFc1LNgEEOJvuwjQS6LiHKdwIR/kAXagT37ZhUrM0Z4NGhjNBpmYDBZQVVIUz3Qpg7Kl+qPZQtXjpr12KDYvUhEEpV1n7plZ/4OcsrMKjRoLMxP0USN3E0GJitNdy1Sdx+wTvO/nlnOIdEzmTUSxRKXWjDXaNBfs9WBvnJMSaxM+7IA2VU5ZIL2qlpO164gp0FNHSS7vxInmA2p65CnMN5yxvDApjmahJu/rQhMMD+hfxEF+F9rULAP7o1SCn1zaX4m0/HJ177BGiGT/6UmEEBHSf/gPXfRQMlLLmQvKTJB3lMlTyiosdg=
 jdk:
 - oraclejdk8
 before_install:
@@ -21,7 +21,7 @@ install:
 - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true
   -Dgpg.skip -B -V
 script:
-- sonar-scanner
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip
 deploy:
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
