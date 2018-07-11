@@ -10,6 +10,8 @@ Feature: Check web elements functional + ActionTitles mechanism
 
     #CHECKS
     * user (insert fragment) "identification"
+    * user is on the page "Contact"
+    * user (insert fragment) "identification"
 
 #    #ACTIONS
 #    * user (clears all of the fields)
