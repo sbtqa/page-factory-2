@@ -1,13 +1,11 @@
 package ru.sbtqa.tag.pagefactory;
 
 import cucumber.api.event.TestRunFinished;
-import cucumber.api.formatter.Formatter;
 import cucumber.runtime.ClassFinder;
 import cucumber.runtime.Runtime;
 import cucumber.runtime.RuntimeOptions;
 import cucumber.runtime.RuntimeOptionsFactory;
 import cucumber.runtime.io.MultiLoader;
-import cucumber.runtime.io.Resource;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.io.ResourceLoaderClassFinder;
 import cucumber.runtime.junit.Assertions;
@@ -15,17 +13,16 @@ import cucumber.runtime.junit.FeatureRunner;
 import cucumber.runtime.junit.JUnitOptions;
 import cucumber.runtime.junit.JUnitReporter;
 import cucumber.runtime.model.CucumberFeature;
-import cucumber.runtime.model.FeatureBuilder;
-import gherkin.events.PickleEvent;
-import gherkin.pickles.Pickle;
+import gherkin.ast.Feature;
+import gherkin.ast.GherkinDocument;
+import gherkin.ast.ScenarioDefinition;
+import gherkin.ast.Step;
 import gherkin.pickles.PickleStep;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
@@ -35,6 +32,8 @@ import org.junit.runners.model.Statement;
 
 public class Runner extends ParentRunner<FeatureRunner> {
 
+    // TODO взять из i18n
+    public static final String INSERT_FRAGMENT = "^(?:user |he |)\\(insert fragment\\) \"([^\"]*)\"$";
     private final JUnitReporter jUnitReporter;
     private final List<FeatureRunner> children = new ArrayList<>();
     private final Runtime runtime;
@@ -43,7 +42,7 @@ public class Runner extends ParentRunner<FeatureRunner> {
      * Constructor called by JUnit.
      *
      * @param clazz the class with the @RunWith annotation.
-     * @throws java.io.IOException                         if there is a problem
+     * @throws java.io.IOException if there is a problem
      * @throws org.junit.runners.model.InitializationError if there is another problem
      */
     public Runner(Class clazz) throws InitializationError, IOException {
@@ -58,21 +57,7 @@ public class Runner extends ParentRunner<FeatureRunner> {
         runtime = createRuntime(resourceLoader, classLoader, runtimeOptions);
         final JUnitOptions junitOptions = new JUnitOptions(runtimeOptions.getJunitOptions());
 
-
-
-//        final List<CucumberFeature> cucumberFeatures = new ArrayList<CucumberFeature>();
-//        final FeatureBuilder builder = new FeatureBuilder(cucumberFeatures);
-//        Iterable<Resource> resources = resourceLoader.resources("src/test/resources/features", ".feature");
-
-
-
         final List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(resourceLoader, runtime.getEventBus());
-
-        List<String> featurePaths = new ArrayList<>();
-        featurePaths.add("src/test/resources/fragmentscenario");
-        List<CucumberFeature> features = CucumberFeature.load(resourceLoader, featurePaths);
-        System.out.println(features);
-
 
         jUnitReporter = new JUnitReporter(runtime.getEventBus(), runtimeOptions.isStrict(), junitOptions);
         addChildren(cucumberFeatures);
@@ -82,11 +67,11 @@ public class Runner extends ParentRunner<FeatureRunner> {
      * Create the Runtime. Can be overridden to customize the runtime or backend.
      *
      * @param resourceLoader used to load resources
-     * @param classLoader    used to load classes
+     * @param classLoader used to load classes
      * @param runtimeOptions configuration
      * @return a new runtime
      * @throws InitializationError if a JUnit error occurred
-     * @throws IOException         if a class or resource could not be loaded
+     * @throws IOException if a class or resource could not be loaded
      * @deprecated Neither the runtime nor the backend or any of the classes involved in their construction are part of
      * the public API. As such they should not be  exposed. The recommended way to observe the cucumber process is to
      * listen to events by using a plugin. For example the JSONFormatter.
@@ -126,65 +111,21 @@ public class Runner extends ParentRunner<FeatureRunner> {
     }
 
     private void addChildren(List<CucumberFeature> cucumberFeatures) throws InitializationError {
-
-        try {
-//            URI firstURI = new URI("src/test/resources/fragments");
-            Files.walk(Paths.get("src/test/resources/fragments"))
-                    .filter(Files::isRegularFile)
-                    .forEach(System.out::println);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         for (CucumberFeature cucumberFeature : cucumberFeatures) {
             FeatureRunner featureRunner = new FeatureRunner(cucumberFeature, runtime, jUnitReporter);
 
-            List<Object> children1 = null;
             try {
-                children1 = (List<Object>) FieldUtils.readField(featureRunner, "children", true);
+                List<Object> children = (List<Object>) FieldUtils.readField(featureRunner, "children", true);
 
-                for (Object pickleRunner : children1) {
+                for (Object pickleRunner : children) {
                     Object pe = FieldUtils.readField(pickleRunner, "pickleEvent", true);
                     Object p = FieldUtils.readField(pe, "pickle", true);
                     List<PickleStep> ps = (List<PickleStep>) FieldUtils.readField(p, "steps", true);
 
-
-                    List<PickleStep> steps = new ArrayList<>();
-                    steps.addAll(ps);
-                    List<PickleStep> fragment = new ArrayList<>();
-                    fragment.add(new PickleStep("user (checks that the field is empty) \"first name\"", steps.get(0).getArgument(), steps.get(0).getLocations()));
-                    fragment.add(new PickleStep("user (fill the field) \"first name\" \"Alex\"", steps.get(0).getArgument(), steps.get(0).getLocations()));
-//                    fragment.add(new PickleStep("user (checks that the field is not empty) \"first name\"", new ArrayList<>(), new ArrayList<>()));
-//                    fragment.add(new PickleStep("user (checks value) \"first name\" \"Alex\"", new ArrayList<>(), new ArrayList<>()));
-//                    fragment.add(new PickleStep("user (check that values are not equal) \"first name\" \"Billy\"", new ArrayList<>(), new ArrayList<>()));
-
-                    int fragmentIndex = getFragmentIndex(steps, "user (insert fragment) \"identification\"");
-                    if (fragmentIndex > -1) {
-                       steps.remove(fragmentIndex);
-                       steps.addAll(fragmentIndex, fragment);
-                    }
-
-                    FieldUtils.writeField(p, "steps", steps, true);
-
-//                    for (Object s : ps) {
-//                        Object t = FieldUtils.readField(s, "text", true);
-//                        if (t.equals("user (insert fragment) \"identification\"")) {
-////                            FieldUtils.writeField(s, "text", "user (click the button) \"Contact\"", true);
-//                        }
-////                    System.out.println(t);
-//
-//                    }
-                    System.out.println(1);
+                    FieldUtils.writeField(p, "steps", replaceFragments(ps), true);
                 }
-//
 
 
-
-
-
-
-                System.out.println("stop");
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -195,13 +136,46 @@ public class Runner extends ParentRunner<FeatureRunner> {
         }
     }
 
-    private static int getFragmentIndex(List<PickleStep> steps, String fragmentName) {
+    private List<PickleStep> replaceFragments(List<PickleStep> steps) {
+        List<PickleStep> fragmentedSteps = new ArrayList<>();
+        Pattern pattern = Pattern.compile(INSERT_FRAGMENT);
+
         for (PickleStep step : steps) {
-            if (fragmentName.equals(step.getText())) {
-                return steps.indexOf(step);
+            Matcher matcher = pattern.matcher(step.getText());
+            if (matcher.find()) {
+                String fragmentName = matcher.group(1);
+
+                ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+                ResourceLoader resourceLoader = new MultiLoader(classLoader);
+                List<String> featurePaths = new ArrayList<>();
+                featurePaths.add("src/test/resources/fragmentscenario");
+                List<CucumberFeature> features = CucumberFeature.load(resourceLoader, featurePaths);
+
+                for (Step stp : getSteps(features, fragmentName)) {
+                    fragmentedSteps.add(new PickleStep(stp.getText(), step.getArgument(), step.getLocations()));
+                }
+
+            } else {
+                fragmentedSteps.add(step);
             }
         }
 
-        return -1;
+        return fragmentedSteps;
+    }
+
+    public List<Step> getSteps(List<CucumberFeature> cucumberFeatures, String scenarioName) {
+        for (CucumberFeature cucumberFeature : cucumberFeatures) {
+            GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
+            Feature feature = gherkinDocument.getFeature();
+            List<ScenarioDefinition> scenarioDefinitions = feature.getChildren();
+            for (ScenarioDefinition scenarioDefinition : scenarioDefinitions) {
+                if (scenarioDefinition.getName().equals(scenarioName)) {
+                    return scenarioDefinition.getSteps();
+                }
+            }
+        }
+
+        // TODO правильный эррор
+        throw new RuntimeException("Cant find scenario fragment with name" + scenarioName);
     }
 }
