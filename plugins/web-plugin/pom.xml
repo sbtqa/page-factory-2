@@ -68,7 +68,12 @@
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-junit</artifactId>
-      <version>${cucumber.version}</version>
+      <version>3.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>3.0.2</version>
     </dependency>
 
     <!--test-->
@@ -132,29 +137,29 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20</version>
-        <configuration>
-          <!--browsermob-core version 2.1.0-beta-4 contains servlet-api 2.5.0 and jetty can't normally work.
-           It required 3.1.0 version of servlet-api during test-->
-          <classpathDependencyExcludes>
-            <classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>
-          </classpathDependencyExcludes>
-          <argLine>
-            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-            -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
-          </argLine>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${aspectj.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-surefire-plugin</artifactId>-->
+        <!--<version>2.20</version>-->
+        <!--<configuration>-->
+          <!--&lt;!&ndash;browsermob-core version 2.1.0-beta-4 contains servlet-api 2.5.0 and jetty can't normally work.-->
+           <!--It required 3.1.0 version of servlet-api during test&ndash;&gt;-->
+          <!--<classpathDependencyExcludes>-->
+            <!--<classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>-->
+          <!--</classpathDependencyExcludes>-->
+          <!--<argLine>-->
+             <!-- -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"-->
+             <!-- -Dcucumber.options="&#45;&#45;plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm &#45;&#45;plugin pretty"-->
+          <!--</argLine>-->
+        <!--</configuration>-->
+        <!--<dependencies>-->
+          <!--<dependency>-->
+            <!--<groupId>org.aspectj</groupId>-->
+            <!--<artifactId>aspectjweaver</artifactId>-->
+            <!--<version>${aspectj.version}</version>-->
+          <!--</dependency>-->
+        <!--</dependencies>-->
+      <!--</plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
