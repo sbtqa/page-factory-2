@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.utils.FragmentsUtils;
+import ru.sbtqa.tag.pagefactory.fragments.FragmentReplacer;
 
 @Aspect
 public class InsertFragments {
@@ -22,7 +22,9 @@ public class InsertFragments {
 
     @Around("addChildren()")
     public void replaceFragments(ProceedingJoinPoint joinPoint) throws Throwable {
-        FragmentsUtils.replace((List<CucumberFeature>) joinPoint.getArgs()[0]);
+        FragmentReplacer fragmentReplacer = new FragmentReplacer((List<CucumberFeature>) joinPoint.getArgs()[0]);
+        fragmentReplacer.replaceAll();
+
         joinPoint.proceed();
     }
 }
