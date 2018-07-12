@@ -1,8 +1,8 @@
 package ru.sbtqa.tag.stepdefs.en;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
-import io.cucumber.datatable.DataTable;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.stepdefs.HtmlGenericStepDefs;
 
