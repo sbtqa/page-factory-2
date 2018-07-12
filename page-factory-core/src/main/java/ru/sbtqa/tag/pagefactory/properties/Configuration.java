@@ -46,4 +46,9 @@ public interface Configuration extends Config {
     @Key("aspects.report.select.enabled")
     @DefaultValue("true")
     boolean isSelectReportEnabled();
+
+
+    @Key("fragments.enabled")
+    @DefaultValue("true")
+    boolean isFragmentsEnabled();
 }

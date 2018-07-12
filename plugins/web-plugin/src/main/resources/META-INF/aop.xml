@@ -7,6 +7,7 @@
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ScrollToElement"/>
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ApplyActions"/>
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ApplyChecks"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ru.sbtqa.tag.pagefactory.aspects.fragments.InsertFragments"/>
     </aspects>
     <weaver options="-Xset:weaveJavaxPackages=true">
         <include within="ru.sbtqa.tag..*"/>
