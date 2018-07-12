@@ -69,8 +69,8 @@
     <module>page-factory-core</module>
     <module>tests/test-web-app</module>
     <module>plugins/web-plugin</module>
-    <module>plugins/jdi-elements-plugin</module>
-    <module>plugins/html-elements-plugin</module>
+    <!--<module>plugins/jdi-elements-plugin</module>-->
+    <!--<module>plugins/html-elements-plugin</module>-->
     <!--<module>plugins/mobile-plugin</module>-->
   </modules>
 

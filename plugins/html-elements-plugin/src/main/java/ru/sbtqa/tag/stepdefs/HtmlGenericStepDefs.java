@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.stepdefs;
 
-import io.cucumber.datatable.DataTable;
 import java.util.Locale;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.context.PageContext;

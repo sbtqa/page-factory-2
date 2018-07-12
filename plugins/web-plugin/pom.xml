@@ -65,15 +65,11 @@
     <artifactId>browsermob-core</artifactId>
     <version>2.1.5</version>
     </dependency>
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit</artifactId>
-      <version>3.0.2</version>
-    </dependency>
+
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
-      <version>3.0.2</version>
+      <version>2.4.0</version>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
@@ -142,12 +138,6 @@
           <target>${maven.compiler.target}</target>
           <complianceLevel>1.8</complianceLevel>
           <encoding>${project.build.sourceEncoding}</encoding>
-          <weaveDependencies>
-            <weaveDependency>
-              <groupId>io.cucumber</groupId>
-              <artifactId>cucumber-junit</artifactId>
-            </weaveDependency>
-          </weaveDependencies>
         </configuration>
         <executions>
           <execution>
@@ -157,6 +147,24 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20</version>
+        <configuration>
+          <argLine>
+             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+             -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
+          </argLine>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

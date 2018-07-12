@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
-import io.cucumber.datatable.DataTable;
+import cucumber.api.DataTable;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

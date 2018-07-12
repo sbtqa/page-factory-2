@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.stepdefs;
 
-import io.cucumber.datatable.DataTable;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
