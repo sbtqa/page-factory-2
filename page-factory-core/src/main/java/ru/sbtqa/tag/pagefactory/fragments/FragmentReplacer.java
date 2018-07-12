@@ -113,5 +113,4 @@ public class FragmentReplacer {
     private void copyLocation(Step originalStep, Step targetStep) throws IllegalAccessException {
         FieldUtils.writeField(targetStep, "location", originalStep.getLocation(), true);
     }
-
 }
