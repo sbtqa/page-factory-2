@@ -8,5 +8,3 @@ Feature: checks fragments
     * user (checks that the field is not empty) "first name"
     * user (checks value) "first name" "Alex"
     * user (check that values are not equal) "first name" "Billy"
-
-

@@ -31,9 +31,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-    <groupId>ru.sbtqa.tag</groupId>
-    <artifactId>datajack</artifactId>
-    <version>${tag.version.datajack}</version>
+      <groupId>ru.sbtqa.tag</groupId>
+      <artifactId>datajack</artifactId>
+      <version>${tag.version.datajack}</version>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa</groupId>
@@ -61,9 +61,9 @@
       <version>${selenium.version}</version>
     </dependency>
     <dependency>
-    <groupId>net.lightbody.bmp</groupId>
-    <artifactId>browsermob-core</artifactId>
-    <version>2.1.5</version>
+      <groupId>net.lightbody.bmp</groupId>
+      <artifactId>browsermob-core</artifactId>
+      <version>2.1.5</version>
     </dependency>
 
     <!--test-->
@@ -133,8 +133,8 @@
         <version>2.20</version>
         <configuration>
           <argLine>
-             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-             -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+            -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
           </argLine>
         </configuration>
         <dependencies>

@@ -74,9 +74,6 @@ public class WebDriverService implements DriverService {
         }
 
         BrowserName browserName = WebEnvironment.getBrowserName();
-
-        capabilities.setBrowserName(browserName.equals(BrowserName.IE) ? BrowserName.INTERNET_EXPLORER.toString() : browserName.toString());
-
         capabilities.setBrowserName(browserName.toString());
 
         String webDriverUrl = PROPERTIES.getWebDriverUrl();
