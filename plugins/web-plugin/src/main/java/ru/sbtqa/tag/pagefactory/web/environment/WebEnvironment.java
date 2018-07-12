@@ -15,7 +15,7 @@ public class WebEnvironment extends Environment {
 
     private static BrowserName adaptBrowserName(String name) {
         BrowserName browserName = BrowserName.valueOf(name.toUpperCase());
-        return isIE(browserName) ? BrowserName.IE : browserName;
+        return isIE(browserName) ? BrowserName.INTERNET_EXPLORER : browserName;
     }
 
     private static boolean isIE(BrowserName browserName) {

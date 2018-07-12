@@ -75,11 +75,7 @@ public class WebDriverService implements DriverService {
         }
 
         BrowserName browserName = WebEnvironment.getBrowserName();
-        if (browserName.equals(BrowserName.IE)) {
-            capabilities.setBrowserName("internet explorer");
-        } else {
-            capabilities.setBrowserName(browserName.toString());
-        }
+        capabilities.setBrowserName(browserName.getName());
 
         String webDriverUrl = PROPERTIES.getWebDriverUrl();
         if (!webDriverUrl.isEmpty()) {
@@ -90,10 +86,10 @@ public class WebDriverService implements DriverService {
             } else if (browserName.equals(BrowserName.SAFARI)) {
                 setWebDriver(new SafariDriver(capabilities));
             } else if (browserName.equals(BrowserName.CHROME)) {
-                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.toString());
+                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.getName());
                 setWebDriver(new ChromeDriver(capabilities));
-            } else if (browserName.equals(BrowserName.IE)) {
-                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), BrowserName.IE.toString());
+            } else if (browserName.equals(BrowserName.INTERNET_EXPLORER)) {
+                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), BrowserName.IE.getName());
                 setWebDriver(new InternetExplorerDriver(capabilities));
             } else {
                 throw new UnsupportedBrowserException("'" + browserName + "' is not supported yet");
