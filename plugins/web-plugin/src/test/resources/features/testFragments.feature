@@ -9,7 +9,7 @@ Feature: Check web elements functional + ActionTitles mechanism
 
     #CHECKS
     * user (insert fragment) "checks fragment"
-  
+
     #ACTIONS
     * user (clears all of the fields)
   
@@ -18,3 +18,5 @@ Feature: Check web elements functional + ActionTitles mechanism
   
     #fill
     * user (insert fragment) "fill fragment"
+      | first name  | Allex   |
+      | button name | send    |

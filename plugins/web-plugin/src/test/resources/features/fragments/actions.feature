@@ -7,6 +7,6 @@ Feature: actions fragments
     * user (check that error message contains) "Please specify your first name"
 
   Scenario: fill fragment
-    * user (fill the field) "first name" "Alex"
-    * user (click the button) "send"
+    * user (fill the field) "first name" "<first name>"
+    * user (click the button) "<button name>"
     * user (check that error message not contains) "Please specify your first name"

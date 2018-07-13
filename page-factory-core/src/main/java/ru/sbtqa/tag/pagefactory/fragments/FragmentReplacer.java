@@ -17,7 +17,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 public class FragmentReplacer {
 
     //TODO need to get i18n
-    static final Map<String, String> FRAGMENT_STEPS = ImmutableMap.of(
+    private static final Map<String, String> FRAGMENT_STEPS = ImmutableMap.of(
             "en", "^(?:user |he |)\\(insert fragment\\) \"([^\"]*)\"$",
             "ru", "^(?:пользователь |он |)\\(вставляет фрагмент\\) \"([^\"]*)\"$"
     );
@@ -68,6 +68,8 @@ public class FragmentReplacer {
 
                 for (Step fragmentStep : getFragmentSteps(requiredFragmentName)) {
                     copyLocation(step, fragmentStep);
+                    FragmentDataTableUtils.applyDataTable(step, fragmentStep);
+
                     fragmentedSteps.add(fragmentStep);
                 }
             } else {
