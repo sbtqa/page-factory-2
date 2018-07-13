@@ -66,5 +66,4 @@ public class FragmentDataTableUtils {
 
         return new DataTable(resultTableRows);
     }
-
 }

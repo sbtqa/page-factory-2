@@ -29,7 +29,6 @@ public class FragmentReplacer {
         this.cucumberFeatures = cucumberFeatures;
     }
 
-
     /**
      * Replace in all the features of special steps to the fragments (scenarios)
      *
