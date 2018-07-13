@@ -2,11 +2,6 @@ package ru.sbtqa.tag.pagefactory.web.drivers;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Dimension;
@@ -26,15 +21,21 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.web.capabilities.SelenoidCapabilitiesParser;
-import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
+import ru.sbtqa.tag.pagefactory.web.capabilities.SelenoidCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
 import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class WebDriverService implements DriverService {
 
@@ -74,7 +75,7 @@ public class WebDriverService implements DriverService {
         }
 
         BrowserName browserName = WebEnvironment.getBrowserName();
-        capabilities.setBrowserName(browserName.toString());
+        capabilities.setBrowserName(browserName.getName());
 
         String webDriverUrl = PROPERTIES.getWebDriverUrl();
         if (!webDriverUrl.isEmpty()) {
@@ -85,10 +86,10 @@ public class WebDriverService implements DriverService {
             } else if (browserName.equals(BrowserName.SAFARI)) {
                 setWebDriver(new SafariDriver(capabilities));
             } else if (browserName.equals(BrowserName.CHROME)) {
-                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.toString());
+                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.getName());
                 setWebDriver(new ChromeDriver(capabilities));
-            } else if (browserName.equals(BrowserName.IE)) {
-                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), BrowserName.IE.toString());
+            } else if (browserName.equals(BrowserName.INTERNET_EXPLORER)) {
+                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), BrowserName.IE.getName());
                 setWebDriver(new InternetExplorerDriver(capabilities));
             } else {
                 throw new UnsupportedBrowserException("'" + browserName + "' is not supported yet");

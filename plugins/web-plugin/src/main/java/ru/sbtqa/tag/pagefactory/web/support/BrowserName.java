@@ -15,4 +15,8 @@ public enum BrowserName {
     BrowserName(String name) {
         this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
 }
