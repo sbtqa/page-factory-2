@@ -12,6 +12,10 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 public class FragmentDataTableUtils {
 
+    private FragmentDataTableUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void applyDataTable(Step step, Step fragmentStep) throws IllegalAccessException {
         Map<String, String> dataTableAsMap = getDataTableAsMap(step);
 

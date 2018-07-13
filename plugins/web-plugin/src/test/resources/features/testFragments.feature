@@ -18,5 +18,5 @@ Feature: Check web elements functional + ActionTitles mechanism
   
     #fill
     * user (insert fragment) "fill fragment"
-      | first name  | Alex   |
-      | button name | send    |
+      | first name  | Alex |
+      | button name | send |
