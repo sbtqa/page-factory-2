@@ -36,7 +36,7 @@ public class FragmentDataTableUtils {
         Map<String, String> dataTableAsMap = new HashMap<>();
 
         Node argument = step.getArgument();
-        if (argument == null || !(argument instanceof DataTable)) {
+        if (!(argument instanceof DataTable)) {
             return dataTableAsMap;
         }
 
