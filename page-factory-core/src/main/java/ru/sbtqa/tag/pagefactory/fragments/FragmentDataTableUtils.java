@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import gherkin.ast.DataTable;
+import gherkin.ast.Node;
 import gherkin.ast.Step;
 import gherkin.ast.TableCell;
 import gherkin.ast.TableRow;
@@ -34,7 +35,8 @@ public class FragmentDataTableUtils {
     private static Map<String, String> getDataTableAsMap(Step step) {
         Map<String, String> dataTableAsMap = new HashMap<>();
 
-        if (step.getArgument() == null) {
+        Node argument = step.getArgument();
+        if (argument == null || !(argument instanceof DataTable)) {
             return dataTableAsMap;
         }
 
