@@ -2,6 +2,7 @@
 @fragments
 Feature: checks fragments
 
+  @fragment=checks_fragment
   Scenario: checks fragment
     * user (checks that the field is empty) "first name"
     * user (fill the field) "first name" "Alex"

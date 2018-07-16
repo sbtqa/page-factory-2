@@ -2,7 +2,7 @@
 Feature: Check web elements functional + ActionTitles mechanism
 
   @test
-  Scenario: Check RedirectTo annotation in web elements
+  Scenario: Check web elements functional + ActionTitles mechanism
     * user is on the page "Main"
     * user (click the button) "Contact"
     * user is on the page "Contact"

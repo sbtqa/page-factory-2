@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
+import gherkin.ast.ScenarioDefinition;
+import gherkin.ast.Tag;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.slf4j.Logger;
@@ -245,5 +248,13 @@ public class ReflectionUtils {
             }
         }
         throw new PageException("There is no '" + title + "' validation rule in '" + page.getTitle() + "' page.");
+    }
+
+    public static List<Tag> getScenarioTags(ScenarioDefinition scenarioDefinition) {
+        try {
+            return (List<Tag>) FieldUtils.readField(scenarioDefinition, "tags", true);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            return new ArrayList<>();
+        }
     }
 }

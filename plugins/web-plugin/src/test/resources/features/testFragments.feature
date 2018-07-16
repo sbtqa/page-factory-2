@@ -1,22 +1,27 @@
 #language: en
-Feature: Check web elements functional + ActionTitles mechanism
+Feature: Check fragments functional
 
   @test-fragments
-  Scenario: Check RedirectTo annotation in web elements
+  Scenario Outline: Check fragments functional
     * user is on the page "Main"
     * user (click the button) "Contact"
     * user is on the page "Contact"
 
     #CHECKS
-    * user (insert fragment) "checks fragment"
+    * user (insert fragment) "checks_fragment"
 
     #ACTIONS
     * user (clears all of the fields)
   
     #click
-    * user (insert fragment) "click fragment"
+    * user (insert fragment) "click_fragment"
   
     #fill
-    * user (insert fragment) "fill fragment"
-      | first name  | Alex |
-      | button name | send |
+    * user (insert fragment) "fill_fragment"
+      | first name | button name |
+      | <name>     | send        |
+
+    Examples:
+      | name |
+      | Tony |
+      | Alex |

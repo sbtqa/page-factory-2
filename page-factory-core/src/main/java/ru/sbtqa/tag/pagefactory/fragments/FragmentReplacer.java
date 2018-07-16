@@ -6,16 +6,20 @@ import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
+import gherkin.ast.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 
 public class FragmentReplacer {
 
+    private static final String FRAGMENT_TAG = "@fragment";
     //TODO need to get i18n
     private static final Map<String, String> FRAGMENT_STEPS = ImmutableMap.of(
             "en", "^(?:user |he |)\\(insert fragment\\) \"([^\"]*)\"$",
@@ -93,25 +97,31 @@ public class FragmentReplacer {
     /**
      * Find a list of scenario steps that will be substituted as a fragment
      *
-     * @param scenarioName sceanrio name
+     * @param fragmentName sceanrio name
      * @return the list of steps of the found scenario
      */
-    private List<Step> getFragmentSteps(String scenarioName) throws FragmentException {
+    private List<Step> getFragmentSteps(String fragmentName) throws FragmentException {
         for (CucumberFeature cucumberFeature : cucumberFeatures) {
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
             Feature feature = gherkinDocument.getFeature();
             List<ScenarioDefinition> scenarioDefinitions = feature.getChildren();
             for (ScenarioDefinition scenarioDefinition : scenarioDefinitions) {
-                if (scenarioDefinition.getName().equals(scenarioName)) {
+                String tag = parseTags(ReflectionUtils.getScenarioTags(scenarioDefinition));
+                if (fragmentName.equals(tag)) {
                     return scenarioDefinition.getSteps();
                 }
             }
         }
 
-        throw new FragmentException("Cant find scenario fragment with name " + scenarioName);
+        throw new FragmentException("Cant find scenario fragment with name " + fragmentName);
     }
 
     private void copyLocation(Step originalStep, Step targetStep) throws IllegalAccessException {
         FieldUtils.writeField(targetStep, "location", originalStep.getLocation(), true);
+    }
+
+    public String parseTags(List<Tag> tags) {
+        Optional<Tag> dataTag = tags.stream().filter(predicate -> predicate.getName().startsWith(FRAGMENT_TAG)).findFirst();
+        return dataTag.isPresent() ? dataTag.get().getName().split("=")[1].trim() : null;
     }
 }

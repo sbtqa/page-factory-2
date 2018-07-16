@@ -15,7 +15,7 @@ public class InsertFragments {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-    @Pointcut("call(* *.addChildren(..)) && if()")
+    @Pointcut("call(* cucumber.api.junit.Cucumber.addChildren(..)) && if()")
     public static boolean addChildren() {
         return PROPERTIES.isFragmentsEnabled();
     }

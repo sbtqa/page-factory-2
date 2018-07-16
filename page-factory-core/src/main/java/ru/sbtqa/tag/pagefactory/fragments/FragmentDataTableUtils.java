@@ -12,6 +12,9 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 public class FragmentDataTableUtils {
 
+    private static final int HEADER_INDEX = 0;
+    private static final int VALUE_INDEX = 1;
+
     private FragmentDataTableUtils() {
         throw new IllegalStateException("Utility class");
     }
@@ -36,9 +39,9 @@ public class FragmentDataTableUtils {
         }
 
         DataTable dataTable = (DataTable) step.getArgument();
-        for (TableRow row : dataTable.getRows()) {
-            String key = row.getCells().get(0).getValue();
-            String value = row.getCells().get(1).getValue();
+        for (int i = 0; i < dataTable.getRows().get(HEADER_INDEX).getCells().size(); i++) {
+            String key = dataTable.getRows().get(HEADER_INDEX).getCells().get(i).getValue();
+            String value = dataTable.getRows().get(VALUE_INDEX).getCells().get(i).getValue();
 
             dataTableAsMap.put(key, value);
         }
