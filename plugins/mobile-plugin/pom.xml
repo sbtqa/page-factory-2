@@ -28,11 +28,6 @@
       <artifactId>java-client</artifactId>
       <version>6.0.0-BETA5</version>
     </dependency>
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit</artifactId>
-      <version>2.4.0</version>
-    </dependency>
   </dependencies>
 
 

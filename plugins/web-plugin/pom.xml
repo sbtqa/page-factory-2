@@ -31,9 +31,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-    <groupId>ru.sbtqa.tag</groupId>
-    <artifactId>datajack</artifactId>
-    <version>${tag.version.datajack}</version>
+      <groupId>ru.sbtqa.tag</groupId>
+      <artifactId>datajack</artifactId>
+      <version>${tag.version.datajack}</version>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa</groupId>
@@ -61,14 +61,9 @@
       <version>${selenium.version}</version>
     </dependency>
     <dependency>
-    <groupId>net.lightbody.bmp</groupId>
-    <artifactId>browsermob-core</artifactId>
-    <version>2.1.5</version>
-    </dependency>
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit</artifactId>
-      <version>${cucumber.version}</version>
+      <groupId>net.lightbody.bmp</groupId>
+      <artifactId>browsermob-core</artifactId>
+      <version>2.1.5</version>
     </dependency>
 
     <!--test-->
@@ -125,9 +120,9 @@
         </configuration>
         <executions>
           <execution>
-            <id>default-compile</id>
             <goals>
               <goal>compile</goal>
+              <goal>test-compile</goal>
             </goals>
           </execution>
         </executions>
@@ -137,11 +132,6 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.20</version>
         <configuration>
-          <!--browsermob-core version 2.1.0-beta-4 contains servlet-api 2.5.0 and jetty can't normally work.
-           It required 3.1.0 version of servlet-api during test-->
-          <classpathDependencyExcludes>
-            <classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>
-          </classpathDependencyExcludes>
           <argLine>
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
             -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
