@@ -7,9 +7,9 @@
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.PressKey"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.Select"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.SetCheckbox"/>
-        <aspect name="ru.sbtqa.tag.pagefactory.aspects.fragments.InsertFragments"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.CucumberAspect"/>
     </aspects>
-    <weaver options="-Xset:weaveJavaxPackages=true">
+    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
         <include within="ru.sbtqa.tag..*"/>
     </weaver>
 </aspectj>

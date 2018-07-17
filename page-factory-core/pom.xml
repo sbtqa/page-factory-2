@@ -19,6 +19,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.8.13</version>
+    </dependency>
+    <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
       <artifactId>page-factory-api</artifactId>
       <version>${project.version}</version>
@@ -43,6 +48,30 @@
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>video-recorder</artifactId>
       <version>${tag.version.videorecorder}</version>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag</groupId>
+      <artifactId>datajack</artifactId>
+      <version>${tag.version.datajack}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag.datajack.adaptors</groupId>
+      <artifactId>datajack-json-adaptor</artifactId>
+      <version>${tag.version.datajack.json}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag.datajack.adaptors</groupId>
+      <artifactId>datajack-properties-adaptor</artifactId>
+      <version>${tag.version.datajack.properties}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag.datajack.adaptors</groupId>
+      <artifactId>datajack-excel-adaptor</artifactId>
+      <version>${tag.version.datajack.excel}</version>
+      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -89,7 +118,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>aspectj-maven-plugin</artifactId>
-        <version>1.8</version>
+        <version>1.11</version>
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
@@ -99,6 +128,10 @@
             <weaveDependency>
               <groupId>io.cucumber</groupId>
               <artifactId>cucumber-junit</artifactId>
+            </weaveDependency>
+            <weaveDependency>
+              <groupId>org.seleniumhq.selenium</groupId>
+              <artifactId>selenium-api</artifactId>
             </weaveDependency>
           </weaveDependencies>
         </configuration>

@@ -55,7 +55,7 @@ public class FragmentDataTableUtils {
         String textToReplace = fragmentStepText;
         for (Map.Entry<String, String> row : dataTableAsMap.entrySet()) {
             String keyToSearch = String.format("<%s>", row.getKey());
-            textToReplace = textToReplace.replaceAll(keyToSearch, row.getValue());
+            textToReplace = textToReplace.replace(keyToSearch, row.getValue());
         }
         return textToReplace;
     }
