@@ -122,6 +122,6 @@ public class FragmentReplacer {
 
     public String parseTags(List<Tag> tags) {
         Optional<Tag> dataTag = tags.stream().filter(predicate -> predicate.getName().startsWith(FRAGMENT_TAG)).findFirst();
-        return dataTag.isPresent() ? dataTag.get().getName().split("=")[1].trim() : null;
+        return (dataTag.isPresent() && dataTag.get().getName().contains("=")) ? dataTag.get().getName().split("=")[1].trim() : null;
     }
 }
