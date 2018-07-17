@@ -21,12 +21,12 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * {@link ru.sbtqa.tag.pagefactory.annotations.ElementTitle} annotation on page
  * object
  * <p>
- * To pass a Cucumber {@link DataTable} as a parameter to method,
+ * To pass a Cucumber DataTable as a parameter to method,
  * supply a table in the following format after a step ini feature:
  * <p>
  * | header 1| header 2 | | value 1 | value 2 |
  * <p>
- * This table will be converted to a {@link DataTable} object.
+ * This table will be converted to a DataTable object.
  * First line is not enforced to be a header.
  * <p>
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
