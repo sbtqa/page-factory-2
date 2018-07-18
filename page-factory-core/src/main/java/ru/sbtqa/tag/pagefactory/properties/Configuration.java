@@ -51,4 +51,8 @@ public interface Configuration extends Config {
     @Key("fragments.enabled")
     @DefaultValue("true")
     boolean isFragmentsEnabled();
+
+    @Key("fragments.path")
+    @DefaultValue("")
+    String getFragmentsPath();
 }

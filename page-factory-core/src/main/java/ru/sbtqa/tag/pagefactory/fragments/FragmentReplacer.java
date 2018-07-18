@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
+import cucumber.runtime.io.MultiLoader;
+import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
@@ -7,19 +9,23 @@ import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
 import gherkin.ast.Tag;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
 public class FragmentReplacer {
 
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
     private static final String FRAGMENT_TAG = "@fragment";
     private static final String FRAGMENT_STEP_REGEX_KEY = "ru.sbtqa.tag.pagefactory.insertFragment";
 
@@ -65,8 +71,8 @@ public class FragmentReplacer {
         for (Step step : steps) {
             if (isFragmentRequire(step)) {
                 String requiredFragmentName = getRequiredFragmentName(step);
-
-                for (Step fragmentStep : getFragmentSteps(requiredFragmentName)) {
+                List<CucumberFeature> cucumberFeaturesWithFragments = getCucumberFeaturesWithFragments();
+                for (Step fragmentStep : getFragmentSteps(requiredFragmentName, cucumberFeaturesWithFragments)) {
                     copyLocation(step, fragmentStep);
                     FragmentDataTableUtils.applyDataTable(step, fragmentStep);
 
@@ -97,13 +103,23 @@ public class FragmentReplacer {
         return matcher.group(1);
     }
 
+    private List<CucumberFeature> getCucumberFeaturesWithFragments() {
+        if (PROPERTIES.getFragmentsPath().isEmpty()) {
+            return cucumberFeatures;
+        } else {
+            ClassLoader classLoader = this.getClass().getClassLoader();
+            ResourceLoader resourceLoader = new MultiLoader(classLoader);
+            return CucumberFeature.load(resourceLoader, Collections.singletonList(PROPERTIES.getFragmentsPath()));
+        }
+    }
+
     /**
      * Find a list of scenario steps that will be substituted as a fragment
      *
      * @param fragmentName sceanrio name
      * @return the list of steps of the found scenario
      */
-    private List<Step> getFragmentSteps(String fragmentName) throws FragmentException {
+    private List<Step> getFragmentSteps(String fragmentName, List<CucumberFeature> cucumberFeatures) throws FragmentException {
         for (CucumberFeature cucumberFeature : cucumberFeatures) {
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
             Feature feature = gherkinDocument.getFeature();
