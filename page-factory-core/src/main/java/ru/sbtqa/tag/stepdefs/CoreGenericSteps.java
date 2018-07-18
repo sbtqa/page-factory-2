@@ -139,4 +139,13 @@ public class CoreGenericSteps extends CoreSetupSteps {
     public void isElementFocused(String element) {
         LOG.warn("Note that isElementFocused method is still an empty!");
     }
+
+    /**
+     * Current step will be replaced with steps of specified scenario
+     *
+     * @param fragmentName scenario name to insert instead of this step
+     */
+    public void userInsertsFragment(String fragmentName) {
+        LOG.info(String.format("This step will be replaced with scenario with name \"%s\"", fragmentName));
+    }
 }

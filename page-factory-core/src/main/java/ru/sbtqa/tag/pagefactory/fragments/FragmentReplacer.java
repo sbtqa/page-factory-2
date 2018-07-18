@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
-import com.google.common.collect.ImmutableMap;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
@@ -9,22 +8,20 @@ import gherkin.ast.Step;
 import gherkin.ast.Tag;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
+import ru.sbtqa.tag.qautils.i18n.I18N;
+import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
 public class FragmentReplacer {
 
     private static final String FRAGMENT_TAG = "@fragment";
-    //TODO need to get i18n
-    private static final Map<String, String> FRAGMENT_STEPS = ImmutableMap.of(
-            "en", "^(?:user |he |)\\(insert fragment\\) \"([^\"]*)\"$",
-            "ru", "^(?:пользователь |он |)\\(вставляет фрагмент\\) \"([^\"]*)\"$"
-    );
+    private static final String FRAGMENT_STEP_REGEX_KEY = "ru.sbtqa.tag.pagefactory.insertFragment";
 
     private String language;
     private List<CucumberFeature> cucumberFeatures;
@@ -84,11 +81,17 @@ public class FragmentReplacer {
     }
 
     private boolean isFragmentRequire(Step step) {
-        return Pattern.matches(FRAGMENT_STEPS.get(language), step.getText());
+        String regex = getFragmentStepRegex();
+        return Pattern.matches(regex, step.getText());
+    }
+
+    private String getFragmentStepRegex() {
+        return I18N.getI18n(CoreGenericSteps.class, new Locale(language)).get(FRAGMENT_STEP_REGEX_KEY);
     }
 
     private String getRequiredFragmentName(Step step) {
-        Pattern pattern = Pattern.compile(FRAGMENT_STEPS.get(language));
+        String regex = getFragmentStepRegex();
+        Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(step.getText());
         matcher.find();
         return matcher.group(1);
