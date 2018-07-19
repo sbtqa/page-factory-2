@@ -1,8 +1,8 @@
 #path to page objects
-page.package = ru.sbtqa.tag.mobilefactory.entries
+page.package = ru.sbtqa.tag.myproject.pages
 
 #default wait timeout in seconds. 20 by default
-timeout = 20000
+timeout = 20
 
 #optional. False by default
 video.enabled = false
