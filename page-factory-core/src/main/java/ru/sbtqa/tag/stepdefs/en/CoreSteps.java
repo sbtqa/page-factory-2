@@ -111,7 +111,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^(?:user |he |)insert fragment \"([^\"]*)\"$")
+    @And("^(?:user |he |)inserts fragment \"([^\"]*)\"$")
     public void userInsertsFragment(String fragmentName) {
         super.userInsertsFragment(fragmentName);
     }
