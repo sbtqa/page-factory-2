@@ -7,6 +7,7 @@ import ru.sbtqa.tag.stepdefs.WebGenericSteps;
 
 public class WebSteps extends WebGenericSteps {
 
+    @Override
     @Before(order = 1)
     public void initWeb() {
         super.initWeb();

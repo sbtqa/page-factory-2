@@ -11,16 +11,19 @@ import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
 public class CoreSteps extends CoreGenericSteps {
 
+    @Override
     @Before(order = 0)
     public void preSetUp(Scenario scenario) {
         super.preSetUp(scenario);
     }
 
+    @Override
     @Before(order = 99999)
     public void setUp(Scenario scenario) {
         super.setUp(scenario);
     }
 
+    @Override
     @After(order = 99999)
     public void tearDown() {
         super.tearDown();
