@@ -23,7 +23,7 @@ public class InsertFragments {
     @Around("addChildren()")
     public void replaceFragments(ProceedingJoinPoint joinPoint) throws Throwable {
         FragmentReplacer fragmentReplacer = new FragmentReplacer((List<CucumberFeature>) joinPoint.getArgs()[0]);
-        fragmentReplacer.replaceAll();
+        fragmentReplacer.replace();
 
         joinPoint.proceed();
     }

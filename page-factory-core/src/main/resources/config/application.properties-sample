@@ -1,8 +1,8 @@
 #path to page objects
-page.package = ru.sbtqa.tag.mobilefactory.entries
+page.package = ru.sbtqa.tag.myproject.pages
 
 #default wait timeout in seconds. 20 by default
-timeout = 20000
+timeout = 20
 
 #optional. False by default
 video.enabled = false
@@ -15,3 +15,9 @@ screenshot.strategy = driver
 
 #optional. tasks to kill before test (ONLY FOR WINDOWS)
 tasks.to.kill = iexplorer,chrome
+
+#FRAGMENTS
+#optional. True by default
+fragments.enabled = true
+#optional. Where to search scenario to use it as fragments. @CucumberOptions.features value by default
+fragments.path = src/test/resources/fragments

@@ -1,9 +1,6 @@
-#COMMON BLOCK
-#mobile or web
-driver.environment = mobile
-
+###################### COMMON BLOCK
 #path to page objects
-page.package = ru.sbtqa.tag.mobilefactory.entries
+page.package = ru.sbtqa.tag.myproject.pages
 
 #default wait timeout in seconds. 20 by default
 timeout = 20
@@ -20,22 +17,12 @@ screenshot.strategy = driver
 #optional. tasks to kill before test (ONLY FOR WINDOWS)
 tasks.to.kill = iexplorer,chrome
 
-#IN CASE OF MOBILE
-#parameters for mobile driver create
-appium.url = http://127.0.0.1:4723/wd/hub
-appium.device.name = Android Emulator
-appium.device.platform = 6.0
-appium.app.package = com.android.settings
-appium.app.activity = .Settings
+#optional. True by default
+fragments.enabled = true
+#optional. Where to search scenario to use it as fragments. @CucumberOptions.features value by default
+fragments.path = src/test/resources/fragments
 
-#optional. Avoid appium and fill fields throw adb
-#(make sure that ADBKeyBoard is installed on android emulator for unicode support).
-#False by default
-appium.fill.adb = false
-#optional. Avoid appium and click on elements throw adb by location. False by default
-appium.click.adb = false
-
-#IN CASE OF WEB
+###################### WEB-PLUGIN-ONLY BLOCK
 #parameters for web driver create
 webdriver.browser.name = Chrome
 
