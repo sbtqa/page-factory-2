@@ -30,10 +30,22 @@ public class FragmentReplacer {
     private static final String FRAGMENT_STEP_REGEX_KEY = "ru.sbtqa.tag.pagefactory.insertFragment";
 
     private String language;
-    private List<CucumberFeature> cucumberFeatures;
+    private List<CucumberFeature> features;
+    private List<CucumberFeature> fragments;
 
-    public FragmentReplacer(List<CucumberFeature> cucumberFeatures) {
-        this.cucumberFeatures = cucumberFeatures;
+    public FragmentReplacer(List<CucumberFeature> features) {
+        this.features = features;
+        this.fragments = getFragments();
+    }
+
+    private List<CucumberFeature> getFragments() {
+        if (PROPERTIES.getFragmentsPath().isEmpty()) {
+            return features;
+        } else {
+            ClassLoader classLoader = this.getClass().getClassLoader();
+            ResourceLoader resourceLoader = new MultiLoader(classLoader);
+            return CucumberFeature.load(resourceLoader, Collections.singletonList(PROPERTIES.getFragmentsPath()));
+        }
     }
 
     /**
@@ -42,8 +54,8 @@ public class FragmentReplacer {
      * @throws IllegalAccessException if it was not possible to replace a step with a fragment
      * @throws FragmentException if you can not find the fragment by the specified name
      */
-    public void replaceAll() throws IllegalAccessException, FragmentException {
-        for (CucumberFeature cucumberFeature : cucumberFeatures) {
+    public void replace() throws IllegalAccessException, FragmentException {
+        for (CucumberFeature cucumberFeature : features) {
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
             Feature feature = gherkinDocument.getFeature();
             this.language = feature.getLanguage();
@@ -51,7 +63,7 @@ public class FragmentReplacer {
             for (ScenarioDefinition scenarioDefinition : featureChildren) {
                 List<Step> steps = scenarioDefinition.getSteps();
 
-                FieldUtils.writeField(scenarioDefinition, "steps", replaceOnFragments(steps), true);
+                FieldUtils.writeField(scenarioDefinition, "steps", replaceSteps(steps), true);
             }
         }
     }
@@ -65,19 +77,12 @@ public class FragmentReplacer {
      * @throws IllegalAccessException If can not copy the location from the replaced step to the steps of the fragment
      * @throws FragmentException if the fragment with the required name is not found
      */
-    private List<Step> replaceOnFragments(List<Step> steps) throws IllegalAccessException, FragmentException {
+    private List<Step> replaceSteps(List<Step> steps) throws IllegalAccessException, FragmentException {
         List<Step> fragmentedSteps = new ArrayList<>();
 
         for (Step step : steps) {
-            if (isFragmentRequire(step)) {
-                String requiredFragmentName = getRequiredFragmentName(step);
-                List<CucumberFeature> cucumberFeaturesWithFragments = getCucumberFeaturesWithFragments();
-                for (Step fragmentStep : getFragmentSteps(requiredFragmentName, cucumberFeaturesWithFragments)) {
-                    copyLocation(step, fragmentStep);
-                    FragmentDataTableUtils.applyDataTable(step, fragmentStep);
-
-                    fragmentedSteps.add(fragmentStep);
-                }
+            if (isStepFragmentRequire(step)) {
+                fragmentedSteps.addAll(replaceStep(step));
             } else {
                 fragmentedSteps.add(step);
             }
@@ -86,31 +91,33 @@ public class FragmentReplacer {
         return fragmentedSteps;
     }
 
-    private boolean isFragmentRequire(Step step) {
+    private boolean isStepFragmentRequire(Step step) {
         String regex = getFragmentStepRegex();
         return Pattern.matches(regex, step.getText());
+    }
+
+    private List<Step> replaceStep(Step step) throws IllegalAccessException, FragmentException {
+        List<Step> fragmentedSteps = new ArrayList<>();
+        String fragmentName = getFragmentName(step);
+        for (Step fragmentStep : getFragmentSteps(fragmentName, fragments)) {
+            copyLocation(step, fragmentStep);
+            FragmentDataTableUtils.applyDataTable(step, fragmentStep);
+
+            fragmentedSteps.add(fragmentStep);
+        }
+        return fragmentedSteps;
     }
 
     private String getFragmentStepRegex() {
         return I18N.getI18n(CoreGenericSteps.class, new Locale(language)).get(FRAGMENT_STEP_REGEX_KEY);
     }
 
-    private String getRequiredFragmentName(Step step) {
+    private String getFragmentName(Step step) {
         String regex = getFragmentStepRegex();
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(step.getText());
         matcher.find();
         return matcher.group(1);
-    }
-
-    private List<CucumberFeature> getCucumberFeaturesWithFragments() {
-        if (PROPERTIES.getFragmentsPath().isEmpty()) {
-            return cucumberFeatures;
-        } else {
-            ClassLoader classLoader = this.getClass().getClassLoader();
-            ResourceLoader resourceLoader = new MultiLoader(classLoader);
-            return CucumberFeature.load(resourceLoader, Collections.singletonList(PROPERTIES.getFragmentsPath()));
-        }
     }
 
     /**
