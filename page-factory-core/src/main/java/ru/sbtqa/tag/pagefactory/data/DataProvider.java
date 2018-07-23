@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.pagefactory.data;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 import ru.sbtqa.tag.datajack.TestDataObject;
 import ru.sbtqa.tag.datajack.adaptors.ExcelDataObjectAdaptor;
 import ru.sbtqa.tag.datajack.adaptors.JsonDataObjectAdaptor;
@@ -11,32 +11,36 @@ import ru.sbtqa.tag.qautils.properties.Props;
 public class DataProvider {
 
     private static TestDataObject dataContainer;
-    private static String configCollection;
+
+    private DataProvider() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static TestDataObject getInstance() throws DataException {
         if (dataContainer == null) {
-            configCollection = Props.get("data.initial.collection", null);
+            String initialCollection = Props.get("data.initial.collection", null);
+            String dataFolder = Props.get("data.folder");
             String dataType = Props.get("data.type", "stash");
 
             switch (dataType) {
                 case "json":
                     dataContainer = new JsonDataObjectAdaptor(
-                            Props.get("data.folder"),
-                            Props.get("data.initial.collection"),
+                            dataFolder,
+                            initialCollection,
                             Props.get("data.extension", "json")
                     );
                     break;
                 case "properties":
                     dataContainer = new PropertiesDataObjectAdaptor(
-                            Props.get("data.folder"),
-                            Props.get("data.initial.collection"),
+                            dataFolder,
+                            initialCollection,
                             Props.get("data.extension", "properties")
                     );
                     break;
                 case "excel":
                     dataContainer = new ExcelDataObjectAdaptor(
-                            Props.get("data.folder"),
-                            Props.get("data.initial.collection")
+                            dataFolder,
+                            initialCollection
                     );
                     break;
                 default:
@@ -51,7 +55,7 @@ public class DataProvider {
     }
 
     public static String getConfigCollection() {
-        return configCollection;
+        return Props.get("data.initial.collection", null);
     }
 
 }

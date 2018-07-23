@@ -67,7 +67,7 @@ public class DataParser {
 
     private String parseTags(List<Tag> tags) {
         Optional<Tag> dataTag = tags.stream().filter(predicate -> predicate.getName().startsWith("@data")).findFirst();
-        return dataTag.isPresent() ? dataTag.get().getName().split("=")[1].trim() : null;
+        return dataTag.map(tag -> tag.getName().split("=")[1].trim()).orElse(null);
     }
 
     private Node replaceArgumentPlaceholders(Node argument) throws DataException {
@@ -85,7 +85,7 @@ public class DataParser {
     private String replaceDataPlaceholders(String raw) throws DataException {
         Pattern stepDataPattern = Pattern.compile(STEP_PARSE_REGEX);
         Matcher stepDataMatcher = stepDataPattern.matcher(raw);
-        StringBuffer replacedStep = new StringBuffer(raw);
+        StringBuilder replacedStep = new StringBuilder(raw);
         // Offset to handle diff between placeholder length and value length
         int offset = 0;
 
