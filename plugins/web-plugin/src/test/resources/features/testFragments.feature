@@ -24,4 +24,4 @@ Feature: Check fragments functional
     Examples:
       | name |
       | Tony |
-#      | Alex |
+      | Alex |
