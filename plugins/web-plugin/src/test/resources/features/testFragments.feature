@@ -8,7 +8,7 @@ Feature: Check fragments functional
     * user is on the page "Contact"
 
     #CHECKS
-    * user inserts fragment "checks fragmentq"
+    * user inserts fragment "checks fragment"
 
     #ACTIONS
     * user (clears all of the fields)
