@@ -1,3 +1,28 @@
+###################### COMMON BLOCK
+#path to page objects
+page.package = ru.sbtqa.tag.myproject.pages
+
+#default wait timeout in seconds. 20 by default
+timeout = 20
+
+#optional. False by default
+video.enabled = false
+video.path.dest = /tmp/video
+video.path.temp = /tmp/video
+video.highlight.enabled = false
+
+#optional. driver or raw. Raw by default
+screenshot.strategy = driver
+
+#optional. tasks to kill before test (ONLY FOR WINDOWS)
+tasks.to.kill = iexplorer,chrome
+
+#optional. True by default
+fragments.enabled = true
+#optional. Where to search scenario to use it as fragments. @CucumberOptions.features value by default
+fragments.path = src/test/resources/fragments
+
+###################### MOBILE-PLUGIN-ONLY BLOCK
 #parameters for mobile driver create
 appium.url = http://127.0.0.1:4723/wd/hub
 appium.device.name = Android Emulator

@@ -3,10 +3,11 @@ package ru.sbtqa.tag.stepdefs.en;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.stepdefs.WebGenericStepDefs;
+import ru.sbtqa.tag.stepdefs.WebGenericSteps;
 
-public class WebStepDefs extends WebGenericStepDefs {
+public class WebSteps extends WebGenericSteps {
 
+    @Override
     @Before(order = 1)
     public void initWeb() {
         super.initWeb();

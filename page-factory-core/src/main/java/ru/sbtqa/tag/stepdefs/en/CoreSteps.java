@@ -9,18 +9,21 @@ import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
-public class CoreStepDefs extends CoreGenericSteps {
+public class CoreSteps extends CoreGenericSteps {
 
+    @Override
     @Before(order = 0)
     public void preSetUp(Scenario scenario) {
         super.preSetUp(scenario);
     }
 
+    @Override
     @Before(order = 99999)
     public void setUp(Scenario scenario) {
         super.setUp(scenario);
     }
 
+    @Override
     @After(order = 99999)
     public void tearDown() {
         super.tearDown();
@@ -105,5 +108,14 @@ public class CoreStepDefs extends CoreGenericSteps {
     @And("^element \"([^\"]*)\" is focused$")
     public void isElementFocused(String element) {
         super.isElementFocused(element);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^(?:user |he |)inserts fragment \"([^\"]*)\"$")
+    public void userInsertsFragment(String fragmentName) {
+        super.userInsertsFragment(fragmentName);
     }
 }
