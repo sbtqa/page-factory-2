@@ -1,0 +1,14 @@
+{
+  "Admin": {
+    "first name": "Alex",
+    "last name": "Kauffman"
+  },
+  "Operator": {
+    "first name": "Jessey",
+    "last name": "James"
+  },
+  "User": {
+    "first name": "Frank",
+    "last name": "Thompson"
+  }
+}

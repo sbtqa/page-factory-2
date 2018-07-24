@@ -87,3 +87,14 @@ selenoid.timeZone = Europe/Moscow
 selenoid.hostEntries = example.com:192.168.0.1,test.com:192.168.0.2
 selenoid.applicationContainers = spring-application-main:my-cool-app,spring-application-gateway
 selenoid.containerLables = environment:testing,build-number:14353
+
+
+#Optional. Test data management
+## Data type
+data.type = json
+## File extension for json and properties data types
+# data.extension = jsonp
+## Path to test data. For excel data type - path to xslx file without extension
+data.folder = src/test/resources/data/
+## Initial collection
+data.initial.collection = Data
