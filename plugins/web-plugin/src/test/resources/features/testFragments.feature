@@ -8,16 +8,16 @@ Feature: Check fragments functional
     * user is on the page "Contact"
 
     #CHECKS
-    * user inserts fragment "checks_fragment"
+    * user inserts fragment "checks fragment"
 
     #ACTIONS
     * user (clears all of the fields)
   
     #click
-    * user inserts fragment "click_fragment"
+    * user inserts fragment "click fragment"
   
     #fill
-    * user inserts fragment "fill_fragment"
+    * user inserts fragment "fill fragment"
       | first name | button name |
       | <name>     | send        |
 
