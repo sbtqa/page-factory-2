@@ -8,13 +8,13 @@ Feature: Data sources
     * user is on the page "Contact"
 
   Scenario: Data From Feature Tag
-    * user (insert fragment) "fill_fragment"
+    * user inserts fragment "fill fragment"
       | first name          | button name |
       | ${Admin.first name} | send        |
 
   @data=$Data{Admin}
   Scenario: Data From Scenario Tag
-    * user (insert fragment) "fill_fragment"
+    * user inserts fragment "fill fragment"
       | first name    | button name |
       | ${first name} | send        |
 
