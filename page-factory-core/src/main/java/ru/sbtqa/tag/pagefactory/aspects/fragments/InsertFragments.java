@@ -1,4 +1,3 @@
-
 package ru.sbtqa.tag.pagefactory.aspects.fragments;
 
 import cucumber.runtime.model.CucumberFeature;

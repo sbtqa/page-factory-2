@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.TestDataObject;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 
 public class DataParser {
 
@@ -30,7 +31,14 @@ public class DataParser {
     private String featureDataTag;
     private String currentScenarioTag;
 
-    public void replaceDataPlaceholders(List<CucumberFeature> cucumberFeatures) throws DataException, IllegalAccessException {
+    /**
+     * Parse features and replace all data placeholders inside
+     *
+     * @param cucumberFeatures list of cucumber features
+     * @throws DataException
+     * @throws IllegalAccessException
+     */
+    public void replaceStepPlaceholders(List<CucumberFeature> cucumberFeatures) throws DataException, IllegalAccessException {
 
         for (CucumberFeature cucumberFeature : cucumberFeatures) {
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
@@ -40,7 +48,7 @@ public class DataParser {
             List<ScenarioDefinition> featureChildren = feature.getChildren();
 
             for (ScenarioDefinition scenarioDefinition : featureChildren) {
-                List<Tag> currentScenarioTags = getScenarioTags(scenarioDefinition);
+                List<Tag> currentScenarioTags = ReflectionUtils.getScenarioTags(scenarioDefinition);
                 setCurrentScenarioTag(parseTags(currentScenarioTags));
                 List<Step> steps = scenarioDefinition.getSteps();
 
@@ -51,17 +59,9 @@ public class DataParser {
 
                 for (Step step : steps) {
                     FieldUtils.writeField(step, "argument", replaceArgumentPlaceholders(step.getArgument()), true);
-                    FieldUtils.writeField(step, "text", replaceDataPlaceholders(step.getText()), true);
+                    FieldUtils.writeField(step, "text", replaceStepPlaceholders(step.getText()), true);
                 }
             }
-        }
-    }
-
-    private List<Tag> getScenarioTags(ScenarioDefinition scenarioDefinition) {
-        try {
-            return (List<Tag>) FieldUtils.readField(scenarioDefinition, "tags", true);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            return new ArrayList<>();
         }
     }
 
@@ -76,13 +76,13 @@ public class DataParser {
             argument = replaceDataTablePlaceholders(dataTable);
         } else if (argument instanceof DocString) {
             DocString docString = (DocString) argument;
-            argument = new DocString(docString.getLocation(), docString.getContentType(), replaceDataPlaceholders(docString.getContent()));
+            argument = new DocString(docString.getLocation(), docString.getContentType(), replaceStepPlaceholders(docString.getContent()));
 
         }
         return argument;
     }
 
-    private String replaceDataPlaceholders(String raw) throws DataException {
+    private String replaceStepPlaceholders(String raw) throws DataException {
         Pattern stepDataPattern = Pattern.compile(STEP_PARSE_REGEX);
         Matcher stepDataMatcher = stepDataPattern.matcher(raw);
         StringBuilder replacedStep = new StringBuilder(raw);
@@ -169,7 +169,7 @@ public class DataParser {
             List<TableCell> resultCells = new ArrayList<>();
 
             for (TableCell cell : row.getCells()) {
-                TableCell resultCell = new TableCell(cell.getLocation(), replaceDataPlaceholders(cell.getValue()));
+                TableCell resultCell = new TableCell(cell.getLocation(), replaceStepPlaceholders(cell.getValue()));
                 resultCells.add(resultCell);
             }
             resultTableRows.add(new TableRow(row.getLocation(), resultCells));

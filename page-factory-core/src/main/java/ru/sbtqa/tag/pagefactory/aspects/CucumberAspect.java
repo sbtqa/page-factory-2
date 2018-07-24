@@ -15,7 +15,6 @@ public class CucumberAspect {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-
     @Around("call(* cucumber.api.junit.Cucumber.addChildren(..))")
     public void replaceSteps(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -23,14 +22,12 @@ public class CucumberAspect {
 
         if (PROPERTIES.isFragmentsEnabled()) {
             FragmentReplacer fragmentReplacer = new FragmentReplacer(cucumberFeatures);
-            fragmentReplacer.replaceAll();
+            fragmentReplacer.replace();
         }
 
         DataParser dataParser = new DataParser();
-        dataParser.replaceDataPlaceholders(cucumberFeatures);
+        dataParser.replaceStepPlaceholders(cucumberFeatures);
 
         joinPoint.proceed();
     }
-
-
 }
