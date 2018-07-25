@@ -146,6 +146,6 @@ public class CoreGenericSteps extends CoreSetupSteps {
      * @param fragmentName scenario name to insert instead of this step
      */
     public void userInsertsFragment(String fragmentName) {
-        LOG.info("This step will be replaced with scenario with name {}", fragmentName);
+        LOG.debug("This step will be replaced with scenario with name {}", fragmentName);
     }
 }

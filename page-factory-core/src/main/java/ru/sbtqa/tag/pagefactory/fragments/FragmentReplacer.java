@@ -1,5 +1,9 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
+import com.google.common.graph.EndpointPair;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.Graphs;
+import com.google.common.graph.MutableGraph;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
@@ -12,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.aeonbits.owner.ConfigFactory;
@@ -30,9 +35,19 @@ public class FragmentReplacer {
     private List<CucumberFeature> features;
     private Map<String, List<Step>> fragments;
 
+
+    private List<CucumberFeature> featuresAndFragments = new ArrayList<>();
+    private Map<String, ScenarioDefinition> fragments1;
+    private MutableGraph<Object> graph = GraphBuilder.directed().allowsSelfLoops(false).build();
+
     public FragmentReplacer(List<CucumberFeature> features) {
         this.features = features;
         this.fragments = FragmentCacheUtils.cacheFragments(getFragments());
+
+        this.featuresAndFragments.addAll(features);
+        this.featuresAndFragments.addAll(getFragments());
+        this.fragments1 = FragmentCacheUtils.cacheFragments1(this.featuresAndFragments);
+
     }
 
     private List<CucumberFeature> getFragments() {
@@ -52,17 +67,55 @@ public class FragmentReplacer {
      * @throws FragmentException if you can not find the fragment by the specified name
      */
     public void replace() throws IllegalAccessException, FragmentException {
-        for (CucumberFeature cucumberFeature : features) {
+
+        for (CucumberFeature cucumberFeature : featuresAndFragments) {
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
             Feature feature = gherkinDocument.getFeature();
             this.language = feature.getLanguage();
             List<ScenarioDefinition> featureChildren = feature.getChildren();
             for (ScenarioDefinition scenarioDefinition : featureChildren) {
-                List<Step> steps = scenarioDefinition.getSteps();
+                if (!scenarioDefinition.getName().isEmpty()) {
+                    graph.addNode(scenarioDefinition);
 
-                FieldUtils.writeField(scenarioDefinition, "steps", replaceSteps(steps), true);
+                    List<Step> steps = scenarioDefinition.getSteps();
+                    for (Step step : steps) {
+                        if (isStepFragmentRequire(step)) {
+
+                            String scenarioName = getFragmentName(step);
+                            graph.putEdge(scenarioDefinition, fragments1.get(scenarioName));
+
+
+                        }
+                    }
+                }
             }
         }
+        Set<EndpointPair<Object>> edges = Graphs.transpose(graph).edges();
+
+
+        ArrayList<EndpointPair<Object>> list = new ArrayList<>(Graphs.transpose(graph).edges());
+        Collections.reverse(list);
+        System.out.println(list);
+
+        for (EndpointPair pair : list) {
+//            System.out.println(((ScenarioDefinition) pair.nodeU()).getName() + " - " + ((ScenarioDefinition) pair.nodeV()).getName());
+            replaceInScenario((ScenarioDefinition) pair.nodeV());
+
+        }
+
+
+
+
+
+
+
+
+
+    }
+
+    public void replaceInScenario(ScenarioDefinition scenarioDefinition) throws FragmentException, IllegalAccessException {
+            List<Step> replacementSteps = replaceSteps(scenarioDefinition.getSteps());
+            FieldUtils.writeField(scenarioDefinition, "steps", replacementSteps, true);
     }
 
     /**
@@ -99,7 +152,7 @@ public class FragmentReplacer {
         List<Step> replacementStepsDraft = fragments.get(fragmentName);
 
         if (replacementStepsDraft == null) {
-            throw new FragmentException(String.format("Can't find scenario fragment with name \"%s\"" , fragmentName));
+            throw new FragmentException(String.format("Can't find scenario fragment with name \"%s\"", fragmentName));
         }
 
         for (Step replacementStep : replacementStepsDraft) {

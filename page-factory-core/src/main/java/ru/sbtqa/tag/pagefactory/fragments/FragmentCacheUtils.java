@@ -35,6 +35,24 @@ public class FragmentCacheUtils {
         return fragments;
     }
 
+    public static Map<String, ScenarioDefinition> cacheFragments1(List<CucumberFeature> features) {
+        Map<String, ScenarioDefinition> fragments = new HashMap<>();
+
+        for (CucumberFeature cucumberFeature : features) {
+            GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
+            Feature feature = gherkinDocument.getFeature();
+            List<ScenarioDefinition> scenarioDefinitions = feature.getChildren();
+            for (ScenarioDefinition scenarioDefinition : scenarioDefinitions) {
+                List<Tag> tags = ReflectionUtils.getScenarioTags(scenarioDefinition);
+                if (isFragmentTagContains(tags)) {
+                    fragments.put(scenarioDefinition.getName(), scenarioDefinition);
+                }
+            }
+        }
+
+        return fragments;
+    }
+
     private static boolean isFragmentTagContains(List<Tag> tags) {
         return tags.stream().anyMatch(tag -> tag.getName().equals(FRAGMENT_TAG));
     }
