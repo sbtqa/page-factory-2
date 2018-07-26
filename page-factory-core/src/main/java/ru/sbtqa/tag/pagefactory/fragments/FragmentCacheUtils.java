@@ -27,6 +27,17 @@ public class FragmentCacheUtils {
 
     private FragmentCacheUtils() {}
 
+    public static List<CucumberFeature> cacheFragmentsAsList(Class clazz, List<CucumberFeature> features) {
+        if (PROPERTIES.getFragmentsPath().isEmpty()) {
+            return features;
+        } else {
+            ClassLoader classLoader = clazz.getClassLoader();
+            ResourceLoader resourceLoader = new MultiLoader(classLoader);
+            List<CucumberFeature> fragmentsRaw = CucumberFeature.load(resourceLoader, Collections.singletonList(PROPERTIES.getFragmentsPath()));
+            return Stream.concat(features.stream(), fragmentsRaw.stream()).collect(Collectors.toList());
+        }
+    }
+
     public static Map<String, ScenarioDefinition> cacheFragmentsAsMap(List<CucumberFeature> features) {
         Map<String, ScenarioDefinition> fragments = new HashMap<>();
 
@@ -47,18 +58,6 @@ public class FragmentCacheUtils {
 
     private static boolean isFragmentTagContains(List<Tag> tags) {
         return tags.stream().anyMatch(tag -> tag.getName().equals(FRAGMENT_TAG));
-    }
-
-
-    public static List<CucumberFeature> cacheFragmentsAsList(Class clazz, List<CucumberFeature> features) {
-        if (PROPERTIES.getFragmentsPath().isEmpty()) {
-            return features;
-        } else {
-            ClassLoader classLoader = clazz.getClassLoader();
-            ResourceLoader resourceLoader = new MultiLoader(classLoader);
-            List<CucumberFeature> fragmentsRaw = CucumberFeature.load(resourceLoader, Collections.singletonList(PROPERTIES.getFragmentsPath()));
-            return Stream.concat(features.stream(), fragmentsRaw.stream()).collect(Collectors.toList());
-        }
     }
 
     public static MutableGraph<Object> cacheFragmentsAsGraph(Map<ScenarioDefinition, String> fragmentsLanguageMap, Map<String, ScenarioDefinition> fragmentsMap) {
