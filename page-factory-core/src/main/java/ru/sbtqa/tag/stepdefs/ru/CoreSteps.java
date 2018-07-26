@@ -6,6 +6,7 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.ru.И;
 import java.util.List;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
@@ -106,7 +107,7 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он |)вставляет фрагмент \"([^\"]*)\"$")
-    public void userInsertsFragment(String fragmentName) {
+    public void userInsertsFragment(String fragmentName) throws FragmentException {
         super.userInsertsFragment(fragmentName);
     }
 }

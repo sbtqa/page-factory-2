@@ -60,20 +60,26 @@ public class FragmentCacheUtils {
         return tags.stream().anyMatch(tag -> tag.getName().equals(FRAGMENT_TAG));
     }
 
-    public static MutableGraph<Object> cacheFragmentsAsGraph(Map<ScenarioDefinition, String> fragmentsLanguageMap, Map<String, ScenarioDefinition> fragmentsMap) {
+    public static MutableGraph<Object> cacheFragmentsAsGraph(List<CucumberFeature> features,
+                                                             Map<String, ScenarioDefinition> fragmentsMap,
+                                                             Map<ScenarioDefinition, String> featureLanguageMap) {
         MutableGraph<Object> graph = GraphBuilder.directed().allowsSelfLoops(false).build();
 
-        for (Map.Entry<String, ScenarioDefinition> fragment : fragmentsMap.entrySet()) {
-            ScenarioDefinition scenario = fragment.getValue();
-            if (!scenario.getName().isEmpty()) {
-                graph.addNode(scenario);
+        for (CucumberFeature cucumberFeature : features) {
+            GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
+            Feature feature = gherkinDocument.getFeature();
+            List<ScenarioDefinition> scenarioDefinitions = feature.getChildren();
+            for (ScenarioDefinition scenario : scenarioDefinitions) {
+                if (!scenario.getName().isEmpty()) {
+                    graph.addNode(scenario);
 
-                List<Step> steps = scenario.getSteps();
-                for (Step step : steps) {
-                    String language = fragmentsLanguageMap.get(scenario);
-                    if (FragmentUtils.isStepFragmentRequire(step, language)) {
-                        String scenarioName = FragmentUtils.getFragmentName(step, language);
-                        graph.putEdge(scenario, fragmentsMap.get(scenarioName));
+                    List<Step> steps = scenario.getSteps();
+                    for (Step step : steps) {
+                        String language = featureLanguageMap.get(scenario);
+                        if (FragmentUtils.isStepFragmentRequire(step, language)) {
+                            String scenarioName = FragmentUtils.getFragmentName(step, language);
+                            graph.putEdge(scenario, fragmentsMap.get(scenarioName));
+                        }
                     }
                 }
             }
@@ -83,17 +89,17 @@ public class FragmentCacheUtils {
     }
 
     public static Map<ScenarioDefinition, String> cacheScenarioLanguage(List<CucumberFeature> features) {
-        Map<ScenarioDefinition, String> featuresLanguageMap = new HashMap<>();
+        Map<ScenarioDefinition, String> scenarioLanguageMap = new HashMap<>();
 
         for (CucumberFeature cucumberFeature : features) {
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
             Feature feature = gherkinDocument.getFeature();
             List<ScenarioDefinition> scenarios = feature.getChildren();
             for (ScenarioDefinition scenario : scenarios) {
-                featuresLanguageMap.put(scenario, feature.getLanguage());
+                scenarioLanguageMap.put(scenario, feature.getLanguage());
             }
         }
 
-        return featuresLanguageMap;
+        return scenarioLanguageMap;
     }
 }

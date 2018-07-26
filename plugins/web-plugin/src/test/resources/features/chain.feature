@@ -7,16 +7,6 @@ Feature: Check fragments functional
     * user (click the button) "Contact"
     * user is on the page "Contact"
 
-    * user (fill the field) "first name" "LEX"
-    * user (click the button) "send"
-    * user (check that error message not contains) "Please specify your first name"
-    * user (fill the field) "first name" "QWE"
-    * user (click the button) "send"
-    * user (check that error message not contains) "Please specify your first name"
-    * user (fill the field) "first name" "STOK"
-    * user (click the button) "send"
-    * user (check that error message not contains) "Please specify your first name"
-    * user (fill the field) "first name" "QWE"
-    * user (click the button) "send"
-    * user (check that error message not contains) "Please specify your first name"
+    * user inserts fragment "level1-first"
+    * user inserts fragment "level1-second"
 

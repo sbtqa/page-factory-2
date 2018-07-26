@@ -14,19 +14,18 @@ import java.util.Set;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 
-// TODO обновить все джавадоки
 public class FragmentReplacer {
 
-    private List<CucumberFeature> fragmentsList;
+    private List<CucumberFeature> features;
     private Map<String, ScenarioDefinition> fragmentsMap;
     private MutableGraph<Object> fragmentsGraph;
-    private Map<ScenarioDefinition, String> fragmentsLanguageMap;
+    private Map<ScenarioDefinition, String> scenarioLanguageMap;
 
     public FragmentReplacer(List<CucumberFeature> features) {
-        fragmentsList = FragmentCacheUtils.cacheFragmentsAsList(this.getClass(), features);
-        fragmentsLanguageMap = FragmentCacheUtils.cacheScenarioLanguage(fragmentsList);
-        fragmentsMap = FragmentCacheUtils.cacheFragmentsAsMap(fragmentsList);
-        fragmentsGraph = FragmentCacheUtils.cacheFragmentsAsGraph(fragmentsLanguageMap, fragmentsMap);
+        this.features = FragmentCacheUtils.cacheFragmentsAsList(this.getClass(), features);
+        this.scenarioLanguageMap = FragmentCacheUtils.cacheScenarioLanguage(this.features);
+        this.fragmentsMap = FragmentCacheUtils.cacheFragmentsAsMap(this.features);
+        this.fragmentsGraph = FragmentCacheUtils.cacheFragmentsAsGraph(this.features, fragmentsMap, scenarioLanguageMap);
     }
 
     /**
@@ -48,7 +47,7 @@ public class FragmentReplacer {
     }
 
     private void replaceInScenario(ScenarioDefinition scenario) throws FragmentException, IllegalAccessException {
-        String language = fragmentsLanguageMap.get(scenario);
+        String language = scenarioLanguageMap.get(scenario);
         List<Step> replacementSteps = replaceSteps(scenario.getSteps(), language);
 
         FieldUtils.writeField(scenario, "steps", replacementSteps, true);

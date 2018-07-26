@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 
@@ -145,7 +146,7 @@ public class CoreGenericSteps extends CoreSetupSteps {
      *
      * @param fragmentName scenario name to insert instead of this step
      */
-    public void userInsertsFragment(String fragmentName) {
-        LOG.debug("This step will be replaced with scenario with name {}", fragmentName);
+    public void userInsertsFragment(String fragmentName) throws FragmentException {
+        throw new FragmentException("The fragment-needed step must be replaced, but this did not happened");
     }
 }
