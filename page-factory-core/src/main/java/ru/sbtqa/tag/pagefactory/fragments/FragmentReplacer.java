@@ -22,7 +22,7 @@ public class FragmentReplacer {
     private Map<ScenarioDefinition, String> scenarioLanguageMap;
 
     public FragmentReplacer(List<CucumberFeature> features) {
-        this.features = FragmentCacheUtils.cacheFragmentsAsList(this.getClass(), features);
+        this.features = FragmentCacheUtils.cacheFragmentsToFeatures(this.getClass(), features);
         this.scenarioLanguageMap = FragmentCacheUtils.cacheScenarioLanguage(this.features);
         this.fragmentsMap = FragmentCacheUtils.cacheFragmentsAsMap(this.features);
         this.fragmentsGraph = FragmentCacheUtils.cacheFragmentsAsGraph(this.features, fragmentsMap, scenarioLanguageMap);

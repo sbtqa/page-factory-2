@@ -27,7 +27,7 @@ public class FragmentCacheUtils {
 
     private FragmentCacheUtils() {}
 
-    public static List<CucumberFeature> cacheFragmentsAsList(Class clazz, List<CucumberFeature> features) {
+    public static List<CucumberFeature> cacheFragmentsToFeatures(Class clazz, List<CucumberFeature> features) {
         if (PROPERTIES.getFragmentsPath().isEmpty()) {
             return features;
         } else {
@@ -62,7 +62,7 @@ public class FragmentCacheUtils {
 
     public static MutableGraph<Object> cacheFragmentsAsGraph(List<CucumberFeature> features,
                                                              Map<String, ScenarioDefinition> fragmentsMap,
-                                                             Map<ScenarioDefinition, String> featureLanguageMap) {
+                                                             Map<ScenarioDefinition, String> scenarioLanguageMap) {
         MutableGraph<Object> graph = GraphBuilder.directed().allowsSelfLoops(false).build();
 
         for (CucumberFeature cucumberFeature : features) {
@@ -75,11 +75,13 @@ public class FragmentCacheUtils {
 
                     List<Step> steps = scenario.getSteps();
                     for (Step step : steps) {
-                        String language = featureLanguageMap.get(scenario);
+                        String language = scenarioLanguageMap.get(scenario);
+
                         if (FragmentUtils.isStepFragmentRequire(step, language)) {
                             String scenarioName = FragmentUtils.getFragmentName(step, language);
                             graph.putEdge(scenario, fragmentsMap.get(scenarioName));
                         }
+
                     }
                 }
             }
