@@ -16,9 +16,7 @@ public class FragmentDataTableUtils {
     private static final int HEADER_INDEX = 0;
     private static final int VALUE_INDEX = 1;
 
-    private FragmentDataTableUtils() {
-        throw new IllegalStateException("Utility class");
-    }
+    private FragmentDataTableUtils() {}
 
     public static void applyDataTable(Step step, Step fragmentStep) throws IllegalAccessException {
         Map<String, String> dataTableAsMap = getDataTableAsMap(step);
