@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.aeonbits.owner.ConfigFactory;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 
@@ -62,7 +63,7 @@ public class FragmentCacheUtils {
 
     public static MutableGraph<Object> cacheFragmentsAsGraph(List<CucumberFeature> features,
                                                              Map<String, ScenarioDefinition> fragmentsMap,
-                                                             Map<ScenarioDefinition, String> scenarioLanguageMap) {
+                                                             Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException {
         MutableGraph<Object> graph = GraphBuilder.directed().allowsSelfLoops(false).build();
 
         for (CucumberFeature cucumberFeature : features) {
@@ -79,7 +80,13 @@ public class FragmentCacheUtils {
 
                         if (FragmentUtils.isStepFragmentRequire(step, language)) {
                             String scenarioName = FragmentUtils.getFragmentName(step, language);
-                            graph.putEdge(scenario, fragmentsMap.get(scenarioName));
+                            ScenarioDefinition scenarioAsFragment = fragmentsMap.get(scenarioName);
+
+                            if (scenarioAsFragment == null) {
+                                throw new FragmentException(String.format("There is no scenario (fragment) with name \"%s\"", scenarioName));
+                            }
+
+                            graph.putEdge(scenario, scenarioAsFragment);
                         }
 
                     }

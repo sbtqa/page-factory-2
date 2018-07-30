@@ -21,7 +21,7 @@ public class FragmentReplacer {
     private MutableGraph<Object> fragmentsGraph;
     private Map<ScenarioDefinition, String> scenarioLanguageMap;
 
-    public FragmentReplacer(List<CucumberFeature> features) {
+    public FragmentReplacer(List<CucumberFeature> features) throws FragmentException {
         this.features = FragmentCacheUtils.cacheFragmentsToFeatures(this.getClass(), features);
         this.scenarioLanguageMap = FragmentCacheUtils.cacheScenarioLanguage(this.features);
         this.fragmentsMap = FragmentCacheUtils.cacheFragmentsAsMap(this.features);
