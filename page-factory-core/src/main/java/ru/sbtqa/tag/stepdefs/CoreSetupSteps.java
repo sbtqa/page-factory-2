@@ -33,7 +33,6 @@ public class CoreSetupSteps {
             return;
         }
 
-        Environment.getDriverService().mountDriver();
         ScenarioContext.setScenario(scenario);
         PageManager.cachePages();
         PageContext.resetContext();
