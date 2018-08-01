@@ -2,8 +2,8 @@ package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
 import java.util.Map;
-import ru.sbtqa.tag.apifactory.ApiFactory;
-import ru.sbtqa.tag.apifactory.exception.ApiException;
+import ru.sbtqa.tag.api.ApiFactory;
+import ru.sbtqa.tag.api.exception.ApiException;
 
 /**
  * Basic step definitions, that should be available on every project

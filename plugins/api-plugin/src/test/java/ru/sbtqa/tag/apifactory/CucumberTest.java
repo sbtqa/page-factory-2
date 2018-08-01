@@ -6,15 +6,15 @@ import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
-import ru.sbtqa.tag.apifactory.utils.JettyServiceUtils;
+import ru.sbtqa.tag.api.ApiFactory;
+import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 import ru.sbtqa.tag.parsers.JsonParser;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        glue = {"ru.sbtqa.tag.stepdefs.en", "ru.sbtqa.tag.apifactory.stepdefs"},
+        glue = {"ru.sbtqa.tag.stepdefs", "ru.sbtqa.tag.apifactory.stepdefs"},
         features = {"src/test/resources/features"},
-        plugin = {"pretty"},
-        tags = "not @disabled"
+        plugin = {"pretty"}
 
 )
 public class CucumberTest {

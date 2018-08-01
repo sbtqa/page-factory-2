@@ -1,10 +1,10 @@
-package ru.sbtqa.tag.apifactory.stepdefs;
+package ru.sbtqa.tag.api.stepdefs;
 
 import cucumber.api.java.en.Given;
-import ru.sbtqa.tag.apifactory.ApiFactory;
-import ru.sbtqa.tag.apifactory.rest.RestEntityImpl;
-import ru.sbtqa.tag.apifactory.rest.RestFormImpl;
-import ru.sbtqa.tag.apifactory.rest.RestRawImpl;
+import ru.sbtqa.tag.api.ApiFactory;
+import ru.sbtqa.tag.api.rest.RestEntityImpl;
+import ru.sbtqa.tag.api.rest.RestFormImpl;
+import ru.sbtqa.tag.api.rest.RestRawImpl;
 
 public class StepDefs {
 

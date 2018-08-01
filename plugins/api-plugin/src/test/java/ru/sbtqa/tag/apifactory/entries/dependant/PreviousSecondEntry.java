@@ -1,13 +1,13 @@
-package ru.sbtqa.tag.apifactory.entries.dependant;
+package ru.sbtqa.tag.api.entries.dependant;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.Assert;
-import ru.sbtqa.tag.apifactory.ApiEntry;
-import ru.sbtqa.tag.apifactory.annotation.ApiAction;
-import ru.sbtqa.tag.apifactory.annotation.DependentResponseParam;
-import ru.sbtqa.tag.apifactory.rest.HTTP;
-import ru.sbtqa.tag.apifactory.utils.Default;
+import ru.sbtqa.tag.api.ApiEntry;
+import ru.sbtqa.tag.api.annotation.ApiAction;
+import ru.sbtqa.tag.api.annotation.DependentResponseParam;
+import ru.sbtqa.tag.api.rest.HTTP;
+import ru.sbtqa.tag.api.utils.Default;
 
 @ApiAction(method = HTTP.GET, path = "client/get", title = "dependent second")
 public class PreviousSecondEntry extends ApiEntry {

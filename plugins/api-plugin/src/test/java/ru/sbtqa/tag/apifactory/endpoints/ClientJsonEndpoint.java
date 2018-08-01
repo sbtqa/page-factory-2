@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.apifactory.endpoints;
+package ru.sbtqa.tag.api.endpoints;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -12,10 +12,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import ru.sbtqa.tag.apifactory.dto.Client;
-import ru.sbtqa.tag.apifactory.dto.SimpleResult;
-import ru.sbtqa.tag.apifactory.utils.Default;
-import ru.sbtqa.tag.apifactory.utils.TestDataUtils;
+import ru.sbtqa.tag.api.dto.Client;
+import ru.sbtqa.tag.api.dto.SimpleResult;
+import ru.sbtqa.tag.api.utils.Default;
+import ru.sbtqa.tag.api.utils.TestDataUtils;
 
 @Path("/client")
 public class ClientJsonEndpoint {

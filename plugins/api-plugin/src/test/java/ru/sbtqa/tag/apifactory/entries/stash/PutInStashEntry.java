@@ -1,14 +1,14 @@
-package ru.sbtqa.tag.apifactory.entries.stash;
+package ru.sbtqa.tag.api.entries.stash;
 
 import org.junit.Assert;
-import ru.sbtqa.tag.apifactory.ApiEntry;
-import ru.sbtqa.tag.apifactory.annotation.ApiAction;
-import ru.sbtqa.tag.apifactory.annotation.ApiRequestParam;
-import ru.sbtqa.tag.apifactory.annotation.ApiValidationRule;
-import ru.sbtqa.tag.apifactory.annotation.PutInStash;
-import ru.sbtqa.tag.apifactory.annotation.strategies.By;
-import ru.sbtqa.tag.apifactory.rest.HTTP;
-import ru.sbtqa.tag.apifactory.utils.Default;
+import ru.sbtqa.tag.api.ApiEntry;
+import ru.sbtqa.tag.api.annotation.ApiAction;
+import ru.sbtqa.tag.api.annotation.ApiRequestParam;
+import ru.sbtqa.tag.api.annotation.ApiValidationRule;
+import ru.sbtqa.tag.api.annotation.PutInStash;
+import ru.sbtqa.tag.api.annotation.strategies.By;
+import ru.sbtqa.tag.api.rest.HTTP;
+import ru.sbtqa.tag.api.utils.Default;
 import ru.sbtqa.tag.datajack.Stash;
 
 @ApiAction(method = HTTP.GET, path = "client/get", title = "put in stash")

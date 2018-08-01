@@ -4,7 +4,7 @@ import java.io.File;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.apifactory.ApiDriverService;
+import ru.sbtqa.tag.api.ApiDriverService;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 public class ApiSetupSteps {
