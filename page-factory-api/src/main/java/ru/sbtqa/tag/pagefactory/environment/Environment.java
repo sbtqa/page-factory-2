@@ -21,6 +21,10 @@ public class Environment {
         return driverService;
     }
 
+    public static boolean isDriverEmpty() {
+        return driverService == null || driverService.isDriverEmpty();
+    }
+
     public static PageActions getPageActions() {
         return pageActions;
     }

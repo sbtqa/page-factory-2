@@ -4,8 +4,6 @@ import java.io.File;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.ApiDriverService;
-import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 public class ApiSetupSteps {
 
@@ -28,6 +26,6 @@ public class ApiSetupSteps {
             LOG.warn("There is no log4j.properties on the path " + path);
         }
 
-        Environment.setDriverService(new ApiDriverService());
+//        Environment.setDriverService(new ApiDriverService());
     }
 }

@@ -46,7 +46,9 @@ public class CoreSetupSteps {
         TaskHandler.addTask(new StopVideoTask());
         TaskHandler.handleTasks();
 
-        Environment.getDriverService().demountDriver();
+        if (!Environment.isDriverEmpty()) {
+            Environment.getDriverService().demountDriver();
+        }
     }
 
 

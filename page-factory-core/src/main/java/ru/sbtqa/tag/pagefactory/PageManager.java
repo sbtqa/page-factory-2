@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -229,19 +228,6 @@ public class PageManager {
     }
 
     private static Set<Class<?>> getAllClasses() {
-        Set<Class<?>> allClasses = new HashSet();
-
-        Reflections reflections = new Reflections(PROPERTIES.getPagesPackage());
-        Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
-
-        for (String clazz : allClassesString) {
-            try {
-                allClasses.add(Class.forName(clazz));
-            } catch (ClassNotFoundException e) {
-                LOG.warn("Cannot add to cache class with name {}", clazz, e);
-            }
-        }
-
-        return allClasses;
+        return new Reflections(PROPERTIES.getPagesPackage()).getSubTypesOf(Object.class);
     }
 }

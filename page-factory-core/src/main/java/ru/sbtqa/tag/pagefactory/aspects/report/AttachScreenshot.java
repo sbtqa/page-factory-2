@@ -19,7 +19,7 @@ public class AttachScreenshot {
     @Pointcut("execution(* ru.sbtqa.tag.stepdefs.CoreSetupSteps.tearDown()) && if()")
     public static boolean attachScreenshotOnTearDown() {
         return ScenarioContext.getScenario().isFailed()
-                && Environment.getDriverService().getDriver() != null;
+                && !Environment.isDriverEmpty();
     }
 
     @Before("attachScreenshotOnTearDown()")

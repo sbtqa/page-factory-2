@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.utils;
+package ru.sbtqa.tag.apifactory.utils;
 
 
 public interface Default {

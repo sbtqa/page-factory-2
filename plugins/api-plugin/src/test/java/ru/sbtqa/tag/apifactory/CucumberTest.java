@@ -7,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import ru.sbtqa.tag.api.ApiFactory;
-import ru.sbtqa.tag.api.utils.JettyServiceUtils;
+import ru.sbtqa.tag.apifactory.utils.JettyServiceUtils;
 import ru.sbtqa.tag.parsers.JsonParser;
 
 @RunWith(Cucumber.class)
@@ -15,6 +15,7 @@ import ru.sbtqa.tag.parsers.JsonParser;
         glue = {"ru.sbtqa.tag.stepdefs", "ru.sbtqa.tag.apifactory.stepdefs"},
         features = {"src/test/resources/features"},
         plugin = {"pretty"}
+        ,tags = {"@get"}
 
 )
 public class CucumberTest {

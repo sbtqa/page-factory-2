@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.entries.dependant;
+package ru.sbtqa.tag.apifactory.entries.dependant;
 
 import ru.sbtqa.tag.api.ApiEntry;
 import ru.sbtqa.tag.api.annotation.ApiAction;

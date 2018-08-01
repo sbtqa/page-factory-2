@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.stepdefs;
+package ru.sbtqa.tag.apifactory.stepdefs;
 
 import cucumber.api.java.en.Given;
 import ru.sbtqa.tag.api.ApiFactory;

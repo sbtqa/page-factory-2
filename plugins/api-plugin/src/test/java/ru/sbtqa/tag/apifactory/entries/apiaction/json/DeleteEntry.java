@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.entries.apiaction.json;
+package ru.sbtqa.tag.apifactory.entries.apiaction.json;
 
 import org.junit.Assert;
 import ru.sbtqa.tag.api.ApiEntry;
@@ -7,7 +7,7 @@ import ru.sbtqa.tag.api.annotation.ApiAction;
 import ru.sbtqa.tag.api.annotation.ApiRequestParam;
 import ru.sbtqa.tag.api.annotation.ApiValidationRule;
 import ru.sbtqa.tag.api.rest.HTTP;
-import ru.sbtqa.tag.api.utils.Default;
+import ru.sbtqa.tag.apifactory.utils.Default;
 import ru.sbtqa.tag.parsers.JsonParser;
 import ru.sbtqa.tag.parsers.core.exceptions.ParserException;
 
