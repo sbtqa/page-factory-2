@@ -60,6 +60,10 @@ public class MobileDriverService implements DriverService {
 
     @Override
     public AppiumDriver<AndroidElement> getDriver() {
+        if(mobileDriver == null) {
+            mountDriver();
+        }
+
         return mobileDriver;
     }
 

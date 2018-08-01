@@ -46,6 +46,10 @@ public class WebDriverService implements DriverService {
 
     @Override
     public WebDriver getDriver() {
+        if(webDriver == null) {
+            mountDriver();
+        }
+
         return webDriver;
     }
 
