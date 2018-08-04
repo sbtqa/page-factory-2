@@ -15,7 +15,7 @@ import ru.sbtqa.tag.parsers.JsonParser;
         glue = {"ru.sbtqa.tag.stepdefs", "ru.sbtqa.tag.apifactory.stepdefs"},
         features = {"src/test/resources/features"},
         plugin = {"pretty"}
-        ,tags = {"@get"}
+        ,tags = {"@post"}
 
 )
 public class CucumberTest {

@@ -4,8 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.EmptyApiEntry;
 import ru.sbtqa.tag.api.rest.HTTP;
 
 /**
@@ -45,10 +43,4 @@ public @interface ApiAction {
      */
     public String template() default "";
 
-    /**
-     * If entry redirects after execution - point target Api Entry
-     *
-     * @return a {@link java.lang.Class} object.
-     */
-    public Class<? extends ApiEntry> redirectsTo() default EmptyApiEntry.class;
 }

@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.stepdefs.en;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.stepdefs.ApiGenericStepDefs;
@@ -9,10 +8,10 @@ import ru.sbtqa.tag.stepdefs.ApiGenericStepDefs;
 
 public class ApiStepDefs extends ApiGenericStepDefs {
 
-    @Before
-    public void iniApi() {
-        super.initApi();
-    }
+//    @Before
+//    public void iniApi() {
+//        super.initApi();
+//    }
 
     /**
      * {@inheritDoc}

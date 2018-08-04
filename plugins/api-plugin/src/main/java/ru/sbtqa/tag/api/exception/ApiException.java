@@ -4,7 +4,8 @@ package ru.sbtqa.tag.api.exception;
  *
  *
  */
-public class ApiException extends Exception {
+// TODO Runtime??
+public class ApiException extends RuntimeException {
 
     /**
      * Constructor for ApiException.

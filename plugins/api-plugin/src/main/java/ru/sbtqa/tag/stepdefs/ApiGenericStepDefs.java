@@ -3,6 +3,7 @@ package ru.sbtqa.tag.stepdefs;
 import cucumber.api.DataTable;
 import java.util.Map;
 import ru.sbtqa.tag.api.ApiFactory;
+import ru.sbtqa.tag.api.ReflectionHelper;
 import ru.sbtqa.tag.api.exception.ApiException;
 
 /**
@@ -33,7 +34,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      */
     public void userSendRequestNoParams(String action) throws ApiException {
         ApiFactory.getApiFactory().getApiEntry(action);
-        ApiFactory.getApiFactory().getCurrentApiEntry().fireRequest();
+        ApiFactory.getApiFactory().getCurrentApiEntry().fire();
     }
 
     /**
@@ -47,9 +48,10 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
     public void userSendRequestTableParam(String action, DataTable dataTable) throws ApiException {
         ApiFactory.getApiFactory().getApiEntry(action);
         for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
-            ApiFactory.getApiFactory().getCurrentApiEntry().setParamValueByTitle(dataTableRow.getKey(), dataTableRow.getValue());
+//            TODO ???
+//            ReflectionHelper.setParamValueByTitle(ApiFactory.getApiFactory().getCurrentApiEntry(), dataTableRow.getKey(), dataTableRow.getValue());
         }
-        ApiFactory.getApiFactory().getCurrentApiEntry().fireRequest();
+        ApiFactory.getApiFactory().getCurrentApiEntry().fire();
     }
 
     /**
@@ -62,7 +64,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @throws ApiException if there is an error while validation rule executing
      */
     public void userValidate(String rule) throws ApiException {
-        ApiFactory.getApiFactory().getCurrentApiEntry().fireValidationRule(rule);
+        ApiFactory.getApiFactory().getCurrentApiEntry().validate(rule);
     }
 
     /**
@@ -76,6 +78,6 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @throws ApiException if there is an error while validation rule executing
      */
     public void userValidateTable(String rule, DataTable dataTable) throws ApiException {
-        ApiFactory.getApiFactory().getCurrentApiEntry().fireValidationRule(rule, dataTable);
+        ApiFactory.getApiFactory().getCurrentApiEntry().validate(rule, dataTable);
     }
 }

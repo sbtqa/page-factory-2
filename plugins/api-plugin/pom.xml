@@ -15,7 +15,7 @@
   <artifactId>api-plugin</artifactId>
   <packaging>jar</packaging>
 
-  <name>api-plugin</name>
+  <name>rest-plugin</name>
 
   <properties>
     <skipTests>false</skipTests>
@@ -33,6 +33,11 @@
       <artifactId>json</artifactId>
       <!--TODO добавить переменную-->
       <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>3.1.0</version>
     </dependency>
 
     <!--TESTS-->

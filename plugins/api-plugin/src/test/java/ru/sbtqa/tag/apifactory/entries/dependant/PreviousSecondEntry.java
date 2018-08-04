@@ -27,8 +27,8 @@ public class PreviousSecondEntry extends ApiEntry {
     @DependentResponseParam(responseEntry = PreviousFirstEntry.class, path = "$.email", mask = Default.MASK)
     private String maskedValue;
 
-    @Override
-    public void prepare() {
+//    @Override
+    public PreviousSecondEntry() {
         Assert.assertEquals(Default.EMAIL, emailFromPreviousRequest);
         Assert.assertEquals(Default.EMAIL, emailFromSpecifiedRequest);
         Assert.assertEquals(Default.HEADER_VALUE, firstHeaderValue);

@@ -36,9 +36,6 @@ public class ClientJsonEndpoint {
     public Response getWithParams(
             @HeaderParam(Default.HEADER_NAME) String header,
             @QueryParam(Default.PARAMETER_NAME1) String param) {
-
-        System.out.println(header);
-        System.out.println(param);
         SimpleResult result = new SimpleResult();
         result.setResult(header + param);
 
