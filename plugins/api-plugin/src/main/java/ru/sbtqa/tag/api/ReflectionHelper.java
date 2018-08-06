@@ -1,26 +1,32 @@
 package ru.sbtqa.tag.api;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.annotation.AddBracket;
-import ru.sbtqa.tag.api.annotation.ApiRequestHeader;
-import ru.sbtqa.tag.api.annotation.ApiRequestParam;
-import ru.sbtqa.tag.api.annotation.ApiUrlParam;
-import ru.sbtqa.tag.api.annotation.DependentResponseParam;
-import ru.sbtqa.tag.api.annotation.PutInStash;
+import ru.sbtqa.tag.api.annotation.Bracketed;
+import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.annotation.FromResponse;
+import ru.sbtqa.tag.api.annotation.Header;
+import ru.sbtqa.tag.api.annotation.Parameter;
+import ru.sbtqa.tag.api.annotation.Query;
+import ru.sbtqa.tag.api.annotation.Stashed;
+import ru.sbtqa.tag.api.annotation.Vallidation;
 import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
 import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.parsers.core.ParserItem;
+import ru.sbtqa.tag.qautils.properties.Props;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 public class ReflectionHelper {
@@ -33,26 +39,25 @@ public class ReflectionHelper {
         this.apiEntry = apiEntry;
     }
 
-    /**
-     * Set request parameter by title
-     *
-     * @param title a {@link java.lang.String} object.
-     * @param value a {@link java.lang.String} object.
-     */
-    public void setParamValueByTitle(String title, String value) {
-        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
-        for (Field field : fieldList) {
-            for (Annotation annotation : field.getAnnotations()) {
-                if (((annotation instanceof ApiRequestParam && ((ApiRequestParam) annotation).title().equals(title))
-                        || (annotation instanceof ApiUrlParam && ((ApiUrlParam) annotation).title().equals(title)))
-                        && value != null && !value.isEmpty()) {
-                    set(field, title, value);
-                    return;
-                }
-            }
-        }
-        throw new ApiEntryInitializationException("There is no '" + title + "' parameter in '" + apiEntry.getActionTitle() + "' api entry.");
-    }
+//    /**
+//     * Set request parameter by name
+//     *
+//     * @param title a {@link java.lang.String} object.
+//     * @param value a {@link java.lang.String} object.
+//     */
+//    public void setParamValueByTitle(String title, String value) {
+//        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
+//        for (Field field : fieldList) {
+//            for (Annotation annotation : field.getAnnotations()) {
+//                if (((annotation instanceof Parameter && ((Parameter) annotation).name().equals(title)))
+//                        && value != null && !value.isEmpty()) {
+//                    set(field, value);
+//                    return;
+//                }
+//            }
+//        }
+//        throw new ApiEntryInitializationException("There is no '" + title + "' parameter in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
+//    }
 
     /**
      * Set request parameter by name
@@ -65,37 +70,37 @@ public class ReflectionHelper {
         List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
         for (Field field : fieldList) {
             if (name.equals(field.getName())) {
-                set(field, name, value);
+                set(field, value);
                 return;
             }
         }
-        throw new ApiEntryInitializationException("There is no parameter with name '" + name + "' in '" + apiEntry.getActionTitle() + "' api entry.");
+        throw new ApiEntryInitializationException("There is no parameter with name '" + name + "' in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
     }
 
     @SuppressWarnings("ThrowableResultIgnored")
     protected void setDependentResponseParameters() {
-        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(this.getClass());
+        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
         for (Field field : fieldList) {
             field.setAccessible(true);
 
-            //@DependentResponseParam. Go to response in responseEntry and get some value by path
-            if (null != field.getAnnotation(DependentResponseParam.class)) {
-                DependentResponseParam dependantParamAnnotation = field.getAnnotation(DependentResponseParam.class);
+            //@FromResponse. Go to response in responseApiEntry and get some value by path
+            if (null != field.getAnnotation(FromResponse.class)) {
+                FromResponse dependantParamAnnotation = field.getAnnotation(FromResponse.class);
                 Object fieldValue = null;
-                Class responseEntry = dependantParamAnnotation.responseEntry();
+                Class responseEntry = dependantParamAnnotation.responseApiEntry();
 
                 if ((responseEntry == void.class || responseEntry == null)
                         && dependantParamAnnotation.usePreviousResponse()) {
 
                     // TODO REPOSITORY
                     responseEntry = null;
-//                    responseEntry = ApiFactory.getApiFactory().getResponseRepository().getLastEntryInRepository();
+//                    responseApiEntry = ApiFactory.getApiFactory().getResponseRepository().getLastEntryInRepository();
                 }
 
                 if (!"".equals(dependantParamAnnotation.header())) {
                     // TODO REPOSITORY
                     Map<String, String> dependantResponseHeaders = null;
-//                    Map<String, String> dependantResponseHeaders = ApiFactory.getApiFactory().getResponseRepository().getHeaders(responseEntry);
+//                    Map<String, String> dependantResponseHeaders = ApiFactory.getApiFactory().getResponseRepository().getHeaders(responseApiEntry);
                     for (Map.Entry<String, String> header : dependantResponseHeaders.entrySet()) {
                         if (null != header.getKey() && header.getKey().equals(dependantParamAnnotation.header())) {
                             fieldValue = header.getValue();
@@ -104,7 +109,7 @@ public class ReflectionHelper {
                 } else {
                     // TODO REPOSITORY
                     Object dependantResponseBody = null;
-//                    Object dependantResponseBody = ApiFactory.getApiFactory().getResponseRepository().getBody(responseEntry);
+//                    Object dependantResponseBody = ApiFactory.getApiFactory().getResponseRepository().getBody(responseApiEntry);
 
                     //Use applied parser to get value by path throw the callback
                     if (ApiFactory.getApiFactory().getParser() != null) {
@@ -116,7 +121,7 @@ public class ReflectionHelper {
                             throw new ApiEntryInitializationException("Could not initialize parser callback", ex);
                         } catch (Exception e) {
                             LOG.debug("No such element in callback", e);
-                            if (field.getAnnotation(DependentResponseParam.class).necessity()) {
+                            if (field.getAnnotation(FromResponse.class).necessity()) {
                                 throw new NoSuchElementException(e.getMessage());
                             }
                         }
@@ -149,38 +154,38 @@ public class ReflectionHelper {
     }
 
     /**
-     * Get parameters annotated by ApiRequestParam. Fill it by another response
-     * if annotated by DependentResponseParam, put value in stash and add
+     * Get parameters annotated by Parameter. Fill it by another response
+     * if annotated by FromResponse, put value in stash and add
      * brackets by the way.
      *
      * @throws ApiException if one of parameters is not available
      */
     public void applyParametersAnnotation() {
         //for each field in api request object search for annotations
-        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(this.getClass());
+        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
         for (Field field : fieldList) {
 
             String name = null;
             Object value = null;
 
-            //@ApiRequestParam. Get field name and value
-            if (null != field.getAnnotation(ApiRequestParam.class)) {
+            //@Parameter. Get field name and value
+            if (null != field.getAnnotation(Parameter.class)) {
                 name = field.getName();
-                value = get(field, name);
+                value = get(field);
             }
 
-            //@PutInStash. Put name (or title) and value to stash
-            if (null != field.getAnnotation(PutInStash.class)) {
-                PutInStash putInStashAnnotation = field.getAnnotation(PutInStash.class);
-                switch (putInStashAnnotation.by()) {
+            //@Stashed. Put name (or name) and value to stash
+            if (null != field.getAnnotation(Stashed.class)) {
+                Stashed stashedAnnotation = field.getAnnotation(Stashed.class);
+                switch (stashedAnnotation.by()) {
                     case NAME:
-                        Stash.asMap().put(field.getName(), get(field, name));
+                        Stash.asMap().put(field.getName(), get(field));
                         break;
                     case TITLE:
-                        if (null != field.getAnnotation(ApiRequestParam.class)) {
-                            Stash.asMap().put(field.getAnnotation(ApiRequestParam.class).title(), value);
+                        if (null != field.getAnnotation(Parameter.class)) {
+                            Stash.asMap().put(field.getAnnotation(Parameter.class).name(), value);
                         } else {
-                            LOG.error("The field annotated by @PutInStash does not annotated by @ApiRequestParam");
+                            LOG.error("The field annotated by @Stashed does not annotated by @Parameter");
                         }
                         break;
                 }
@@ -190,9 +195,9 @@ public class ReflectionHelper {
             if (null != name) {
                 setParamValueByName(name, value);
 
-                //@AddBracket. Get name from value. Use it if value need to contains brackets.
-                if (null != field.getAnnotation(AddBracket.class)) {
-                    name = field.getAnnotation(AddBracket.class).value();
+                //@Bracketed. Get name from value. Use it if value need to contains brackets.
+                if (null != field.getAnnotation(Bracketed.class)) {
+                    name = field.getAnnotation(Bracketed.class).value();
                 }
 //                parameters.put(name, value);
             }
@@ -202,11 +207,11 @@ public class ReflectionHelper {
     protected Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();
 
-        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(this.getClass());
+        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
         for (Field field : fieldList) {
             for (Annotation annotation : field.getAnnotations()) {
-                if (annotation instanceof ApiRequestHeader) {
-                    headers.put(((ApiRequestHeader) annotation).header(), (String) get(field, ((ApiRequestHeader) annotation).header()));
+                if (annotation instanceof Header) {
+                    headers.put(((Header) annotation).name(), (String) get(field));
                 }
             }
         }
@@ -215,60 +220,126 @@ public class ReflectionHelper {
     }
 
 
-//    public void getBody() {
-//        if (!"".equals(template)) {
-//            //get body template from resources
-//            String templatePath = Props.get("api.template.path", "");
-//            String encoding = Props.get("api.encoding");
-//            String templateFullPath = templatePath + template;
-//            try {
-//                body = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(templateFullPath), encoding).replace("\uFEFF", "");
-//            } catch (NullPointerException ex) {
-//                throw new ApiEntryInitializationException("Can't find template file by path " + templateFullPath, ex);
-//            } catch (IOException ex) {
-//                throw new ApiEntryInitializationException("Template file '" + templateFullPath + "' is not available", ex);
-//            }
-//
-//            //replace %parameter on parameter value
-//            for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
-//                if (parameter.getValue() instanceof String) {
-//                    String value = (null != parameter.getValue()) ? (String) parameter.getValue() : "";
-//                    body = body.replaceAll("%" + parameter.getKey(), value);
-//                } else if (parameter.getValue() instanceof List) {
-//                    String value = "";
-//                    String separator = Props.get("api.dependent.array.separator");
-//                    List<String> params = ((List) parameter.getValue());
-//                    for (int i = 0; i < params.size(); i++) {
-//                        value += params.get(i);
-//                        if (separator != null && i != params.size() - 1) {
-//                            value += separator;
-//                        }
-//                    }
-//
-//                    body = body.replaceAll("%" + parameter.getKey(), value);
-//                } else {
-//                    LOG.debug("Failed to substitute not String field to body template");
-//                }
-//            }
-//        }
-//    }
+    /**
+     * Get request body. Get request body template from resources
+     *
+     * @throws ApiException if template file
+     * doesn't exist or not available
+     */
+    public String getBody(String template) {
+        String body;
 
-    private Object get(Field field, String name) {
+        //get body template from resources
+        String templatePath = Props.get("api.template.path", "");
+        String encoding = Props.get("api.encoding");
+        String templateFullPath = templatePath + template;
+        try {
+            body = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(templateFullPath), encoding).replace("\uFEFF", "");
+        } catch (NullPointerException ex) {
+            throw new ApiEntryInitializationException("Can't find template file by path " + templateFullPath, ex);
+        } catch (IOException ex) {
+            throw new ApiEntryInitializationException("Template file '" + templateFullPath + "' is not available", ex);
+        }
+
+        //replace %parameter on parameter value
+        for (Map.Entry<String, Object> parameter : getParameters().entrySet()) {
+            if (parameter.getValue() instanceof String) {
+                String value = (null != parameter.getValue()) ? (String) parameter.getValue() : "";
+                body = body.replaceAll("%" + parameter.getKey(), value);
+            } else if (parameter.getValue() instanceof List) {
+
+                // TODO wtf is this?
+                String value = "";
+                String separator = Props.get("api.dependent.array.separator");
+                List<String> params = ((List) parameter.getValue());
+                for (int i = 0; i < params.size(); i++) {
+                    value += params.get(i);
+                    if (separator != null && i != params.size() - 1) {
+                        value += separator;
+                    }
+                }
+
+                body = body.replaceAll("%" + parameter.getKey(), value);
+            } else {
+                LOG.debug("Failed to substitute not String field to body template");
+            }
+        }
+
+        return body;
+    }
+
+    private Map<String, Object> getParameters() {
+        Map<String, Object> parameters = new HashMap<>();
+
+        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
+        for (Field field : fieldList) {
+            for (Annotation annotation : field.getAnnotations()) {
+                if (annotation instanceof Parameter) {
+                    parameters.put(((Parameter) annotation).name(), get(field));
+                }
+            }
+        }
+
+
+        return parameters;
+    }
+
+    private Object get(Field field) {
         try {
             field.setAccessible(true);
             return field.get(apiEntry);
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            throw new ApiEntryInitializationException("Parameter with name '" + name + "' is not available", ex);
+            throw new ApiEntryInitializationException("Parameter with name '" + field.getName() + "' is not available", ex);
         }
 
     }
 
-    private void set(Field field, String name, Object value) {
+    private void set(Field field, Object value) {
         try {
             field.setAccessible(true);
             field.set(apiEntry, value);
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            throw new ApiEntryInitializationException("Parameter with title '" + name + "' is not available", ex);
+            throw new ApiEntryInitializationException("Parameter with name '" + field.getName() + "' is not available", ex);
         }
+    }
+
+
+    /**
+     * Perform action validation rule
+     *
+     * @param title a {@link java.lang.String} object.
+     * @param params a {@link java.lang.Object} object.
+     * @throws ApiException if can't invoke
+     * method
+     */
+    public void validate(String title, Object... params) {
+        Method[] methods = apiEntry.getClass().getMethods();
+        for (Method method : methods) {
+            if (null != method.getAnnotation(Vallidation.class)
+                    && method.getAnnotation(Vallidation.class).title().equals(title)) {
+                try {
+                    method.invoke(apiEntry, params);
+                } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
+                    throw new ApiException("Failed to invoke method", e);
+                }
+                return;
+            }
+        }
+        throw new ApiEntryInitializationException("There is no '" + title + "' validation rule in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
+    }
+
+    public Map<String, ?> getQueryParams() {
+        Map<String, Object> queryParams = new HashMap<>();
+
+        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
+        for (Field field : fieldList) {
+            for (Annotation annotation : field.getAnnotations()) {
+                if (annotation instanceof Query) {
+                    queryParams.put(((Query) annotation).name(), get(field));
+                }
+            }
+        }
+
+        return queryParams;
     }
 }

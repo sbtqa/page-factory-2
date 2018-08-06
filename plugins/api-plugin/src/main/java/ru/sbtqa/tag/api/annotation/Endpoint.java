@@ -13,14 +13,7 @@ import ru.sbtqa.tag.api.rest.HTTP;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ApiAction {
-
-    /**
-     * Api entry path. Relative to baseurl.
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String path() default "";
+public @interface Endpoint {
 
     /**
      * Title. Used to find out Api entry by framework.
@@ -28,6 +21,13 @@ public @interface ApiAction {
      * @return a {@link java.lang.String} object.
      */
     public String title();
+
+    /**
+     * Api entry path. Relative to baseurl.
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String path() default "";
 
     /**
      * HTTP method used to execute api method
@@ -42,5 +42,4 @@ public @interface ApiAction {
      * @return a {@link java.lang.String} object.
      */
     public String template() default "";
-
 }

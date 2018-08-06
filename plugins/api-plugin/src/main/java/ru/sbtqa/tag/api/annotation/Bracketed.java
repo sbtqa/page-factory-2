@@ -4,21 +4,23 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import ru.sbtqa.tag.api.annotation.strategies.By;
 
 /**
- * Put parameter value in stash
+ * Change parameter name
  *
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface PutInStash {
+// TODO изменить имя на более понятное
+public @interface Bracketed {
 
     /**
-     * Api entry class which response use to
+     * Change parameter name to this value in time of transmitting parameter on
+     * execute
      *
-     * @return a {@link java.lang.Class} object.
+     * @return a {@link java.lang.String} object.
      */
-    public By by() default By.NAME;
+    public String value();
+
 }

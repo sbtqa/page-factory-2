@@ -13,17 +13,17 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface DependentResponseParam {
+public @interface FromResponse {
 
     /**
      * Api entry class which response use to
      *
      * @return a {@link java.lang.Class} object.
      */
-    public Class responseEntry() default void.class;
+    public Class responseApiEntry() default void.class;
 
     /**
-     * Use data from previous response. Use without 'responseEntry'
+     * Use data from previous response. Use without 'responseApiEntry'
      *
      * @return a {@link java.lang.Boolean} object.
      */
@@ -37,7 +37,7 @@ public @interface DependentResponseParam {
     public String path() default "";
 
     /**
-     * Header name. Take value of this header
+     * Header name. Take value of this name
      *
      * @return {@link java.lang.String} object.
      */
@@ -53,7 +53,7 @@ public @interface DependentResponseParam {
     /**
      * Parameter of necessity the annotated field. If set false, then annotated
      * parameter will set to null when it was found in document. If set true,
-     * then annotated parameter will be set to equal value from responseEntry
+     * then annotated parameter will be set to equal value from responseApiEntry
      * answer, but if parameter wasn't found in document error exception will be
      * thrown and tests finished
      *

@@ -1,33 +1,33 @@
 package ru.sbtqa.tag.apifactory.entries.apirequest;
 
 import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.annotation.ApiAction;
-import ru.sbtqa.tag.api.annotation.ApiRequestHeader;
-import ru.sbtqa.tag.api.annotation.ApiRequestParam;
-import ru.sbtqa.tag.api.annotation.ApiValidationRule;
+import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.annotation.Header;
+import ru.sbtqa.tag.api.annotation.Parameter;
+import ru.sbtqa.tag.api.annotation.Vallidation;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 import ru.sbtqa.tag.parsers.core.exceptions.ParserException;
 
-@ApiAction(method = HTTP.GET, path = "client/get-with-params?" + Default.PARAMETER_NAME1 + "=%param", title = "api request test")
+@Endpoint(method = HTTP.GET, path = "client/get-with-params?" + Default.PARAMETER_NAME1 + "=%param", title = "api request test")
 public class ApiRequestEntry extends ApiEntry {
 
-    @ApiRequestParam(title = "some title")
+    @Parameter(name = "some name")
     private String param = Default.PARAMETER_VALUE1;
 
-    @ApiRequestHeader(header = Default.HEADER_NAME)
+    @Header(name = Default.HEADER_NAME)
     private String header = Default.HEADER_VALUE;
 
-    @ApiValidationRule(title = "result")
-    public void validate() throws ParserException {
+    @Vallidation(title = "result")
+    public void validate() {
 //        JsonParser parser = new JsonParser();
 //        String response = ApiFactory.getApiFactory().getResponseRepository().getBody(this.getClass());
 //
-//        String expectedResult = header + param;
+//        String expectedResult = name + param;
 //        String actualResult = parser.read(response, "$.result");
 //
 //        Assert.assertEquals(expectedResult, actualResult);
 
-        System.out.println("@ApiAction(method = HTTP.GET, path = \"client/get-with-params?\" + Default.PARAMETER_NAME1 + \"=%param\", title = \"api request test\")");
+        System.out.println("@Endpoint(method = HTTP.GET, path = \"client/get-with-params?\" + Default.PARAMETER_NAME1 + \"=%param\", name = \"api request test\")");
     }
 }

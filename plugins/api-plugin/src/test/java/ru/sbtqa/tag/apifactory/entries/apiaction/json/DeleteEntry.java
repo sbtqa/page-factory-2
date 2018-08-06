@@ -1,31 +1,21 @@
 package ru.sbtqa.tag.apifactory.entries.apiaction.json;
 
+import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.annotation.ApiAction;
-import ru.sbtqa.tag.api.annotation.ApiRequestParam;
-import ru.sbtqa.tag.api.annotation.ApiValidationRule;
+import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.annotation.Query;
+import ru.sbtqa.tag.api.annotation.Vallidation;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
-import ru.sbtqa.tag.parsers.core.exceptions.ParserException;
 
-@ApiAction(method = HTTP.DELETE, path = "client/delete?" + Default.PARAMETER_NAME1 + "=%param", title = "delete test")
+@Endpoint(method = HTTP.DELETE, path = "client/delete", title = "delete test")
 public class DeleteEntry extends ApiEntry {
 
-    @ApiRequestParam(title = "some title")
-    private String param = Default.PARAMETER_VALUE1;
+    @Query(name = Default.PARAMETER_NAME1)
+    private String queryParameter = Default.PARAMETER_VALUE1;
 
-    @ApiValidationRule(title = "result")
-    public void validate() throws ParserException {
-//        JsonParser parser = new JsonParser();
-//        String response = ApiFactory.getApiFactory().getResponseRepository().getBody(this.getClass());
-//
-//        String expectedResult = param;
-//        String actualResult = parser.read(response, "$.result");
-//
-//        Assert.assertEquals(expectedResult, actualResult);
-
-        System.out.println("@ApiAction(method = HTTP.DELETE, path = \"client/delete?\" + Default.PARAMETER_NAME1 + \"=%param\", title = \"delete test\")");
+    @Vallidation(title = "result")
+    public void validate() {
+        getResponse().body("result", equalTo(queryParameter));
     }
-
-
 }

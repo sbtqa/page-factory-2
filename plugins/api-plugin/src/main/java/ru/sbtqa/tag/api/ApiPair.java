@@ -1,14 +1,14 @@
 package ru.sbtqa.tag.api;
 
-import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
 public class ApiPair {
 
     private RequestSpecification request;
-    private Response response;
+    private ValidatableResponse response;
 
-    public ApiPair(RequestSpecification request, Response response) {
+    public ApiPair(RequestSpecification request, ValidatableResponse response) {
         this.request = request;
         this.response = response;
     }
@@ -17,7 +17,7 @@ public class ApiPair {
         return request;
     }
 
-    public Response getResponse() {
+    public ValidatableResponse getResponse() {
         return response;
     }
 }

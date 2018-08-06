@@ -1,5 +1,5 @@
 #language:en
-@apiaction
+@endpoints
 Feature: Api action test
 
   @get
@@ -17,7 +17,7 @@ Feature: Api action test
     * user sends request for "put test"
     * system returns "result"
 
-  @patch @disabled
+  @patch
   Scenario: patch
     * user sends request for "patch test"
     * system returns "result"
@@ -26,3 +26,5 @@ Feature: Api action test
   Scenario: delete
     * user sends request for "delete test"
     * system returns "result"
+
+# TODO add OPTIONS, HEAD tests

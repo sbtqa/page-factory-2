@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.annotation.ApiAction;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
 import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.parsers.core.ParserCallback;
@@ -29,8 +29,6 @@ public class ApiFactoryWrapper {
 
     private final String entriesPackage;
     private Class<? extends ParserCallback> parser;
-//    private final Repository responseRepository;
-//    private final Repository requestRepository;
 
     /**
      * Constructor for ApiFactory.
@@ -39,18 +37,16 @@ public class ApiFactoryWrapper {
      */
     public ApiFactoryWrapper(String pagesPackage) {
         this.entriesPackage = pagesPackage;
-//        this.responseRepository = new Repository(RepositoryType.RESPONSE);
-//        this.requestRepository = new Repository(RepositoryType.REQUEST);
     }
 
     /**
-     * Get api entry object by title
+     * Get api entry object by name
      *
-     * @param title api entry title
+     * @param title api entry name
      * @return api entry instance
      * @throws ApiException if api entry doesn't exist
      */
-    public ApiEntry getApiEntry(String title) throws ApiException {
+    public ApiEntry getApiEntry(String title) {
         if (null != currentEntry) {
             currentEntry = getApiEntry(currentEntry.getClass().getPackage().getName(), title);
         }
@@ -59,20 +55,20 @@ public class ApiFactoryWrapper {
 
         }
         if (null == currentEntry) {
-            throw new ApiException("Api entry with title '" + title + "' is not registered");
+            throw new ApiException("Api entry with name '" + title + "' is not registered");
         }
         return currentEntry;
     }
 
     /**
-     * Get api entry by title and packageName
+     * Get api entry by name and packageName
      *
      * @param packageName api entry package name
-     * @param title api entry title
+     * @param title api entry name
      * @return api entry instance
      * @throws ApiException if there is an error with parameters initialize
      */
-    private ApiEntry getApiEntry(String packageName, String title) throws ApiException {
+    private ApiEntry getApiEntry(String packageName, String title) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         final Set<Class<?>> allClasses = new HashSet<>();
         try {
@@ -86,9 +82,9 @@ public class ApiFactoryWrapper {
         }
 
         for (Class<?> entry : allClasses) {
-            if (null != entry.getAnnotation(ApiAction.class)) {
-                String entryTitle = entry.getAnnotation(ApiAction.class).title();
-                String entryPath = entry.getAnnotation(ApiAction.class).path();
+            if (null != entry.getAnnotation(Endpoint.class)) {
+                String entryTitle = entry.getAnnotation(Endpoint.class).title();
+                String entryPath = entry.getAnnotation(Endpoint.class).path();
                 if (entryTitle != null && entryTitle.equals(title)) {
                     try {
                         Constructor<ApiEntry> c = (Constructor<ApiEntry>) entry.getConstructor();
@@ -112,7 +108,7 @@ public class ApiFactoryWrapper {
      * @return api entry
      * @throws ApiException if there are an error with api entry initialize
      */
-    public ApiEntry getCurrentApiEntry() throws ApiException {
+    public ApiEntry getCurrentApiEntry() {
         if (null == currentEntry) {
             throw new ApiEntryInitializationException("Current api entry not initialized");
         } else {
@@ -133,54 +129,4 @@ public class ApiFactoryWrapper {
     public void setParser(Class<? extends ParserCallback> parser) {
         this.parser = parser;
     }
-
-    /**
-     * @return the responseRepository
-     */
-//    public Repository getResponseRepository() {
-//        return responseRepository;
-//    }
-//
-//    /**
-//     * Add response to repository
-//     *
-//     * @param clazz the api entry
-//     * @param bullet the {@link ru.sbtqa.tag.apifactory.repositories.Bullet} response
-//     */
-//    public void addResponseToRepository(Class<? extends ApiEntry> clazz, Bullet bullet) {
-//        this.responseRepository.addHeaders(clazz, bullet.getHeaders());
-//        this.responseRepository.addBody(clazz, bullet.getBody());
-//    }
-//
-//    /**
-//     * Add request to repository
-//     *
-//     * @param clazz the api entry
-//     * @param bullet the {@link ru.sbtqa.tag.apifactory.repositories.Bullet}
-//     * request
-//     */
-//    public void addRequestToRepository(Class<? extends ApiEntry> clazz, Bullet bullet) {
-//        this.requestRepository.addHeaders(clazz, bullet.getHeaders());
-//        this.requestRepository.addBody(clazz, bullet.getBody());
-//    }
-//
-//    /**
-//     * Add request body to repository
-//     *
-//     * @param clazz the api entry
-//     * @param body the body of request
-//     */
-//    public void addRequestBodyToRepository(Class<? extends ApiEntry> clazz, String body) {
-//        this.requestRepository.addBody(clazz, body);
-//    }
-//
-//    /**
-//     * Add request headers to repository
-//     *
-//     * @param clazz the api entry
-//     * @param headers the list of headers of request
-//     */
-//    public void addRequestHeadersToRepository(Class<? extends ApiEntry> clazz, Map<String, String> headers) {
-//        this.requestRepository.addHeaders(clazz, headers);
-//    }
 }

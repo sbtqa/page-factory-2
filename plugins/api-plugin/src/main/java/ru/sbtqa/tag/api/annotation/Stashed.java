@@ -4,20 +4,21 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import ru.sbtqa.tag.api.annotation.strategies.By;
 
 /**
- * Api request header title.
+ * Put parameter value in stash
  *
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ApiRequestHeader {
+public @interface Stashed {
 
     /**
-     * By this title header will be searched by framework
+     * Api entry class which response use to
      *
-     * @return a {@link java.lang.String} object.
+     * @return a {@link java.lang.Class} object.
      */
-    public String header();
+    public By by() default By.NAME;
 }

@@ -1,39 +1,32 @@
 package ru.sbtqa.tag.apifactory.entries.apiaction.json;
 
+import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.annotation.ApiAction;
-import ru.sbtqa.tag.api.annotation.ApiRequestHeader;
-import ru.sbtqa.tag.api.annotation.ApiRequestParam;
-import ru.sbtqa.tag.api.annotation.ApiValidationRule;
+import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.annotation.Header;
+import ru.sbtqa.tag.api.annotation.Parameter;
+import ru.sbtqa.tag.api.annotation.Vallidation;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 import ru.sbtqa.tag.parsers.core.exceptions.ParserException;
 
-@ApiAction(method = HTTP.PUT, path = "client/put", title = "put test", template = "templates/Client.json")
+@Endpoint(method = HTTP.PUT, path = "client/put", title = "put test", template = "templates/Client.json")
 public class PutEntry extends ApiEntry {
 
-    @ApiRequestHeader(header = "Content-Type")
+    @Header(name = "Content-Type")
     private String header = "application/json";
 
-    @ApiRequestParam(title = "id")
+    @Parameter(name = "id")
     private String id = String.valueOf(Default.ID);
 
-    @ApiRequestParam(title = "name")
+    @Parameter(name = "name")
     private String name = Default.NAME;
 
-    @ApiRequestParam(title = "email")
+    @Parameter(name = "email")
     private String email = Default.EMAIL;
 
-    @ApiValidationRule(title = "result")
-    public void validate() throws ParserException {
-//        JsonParser parser = new JsonParser();
-//        String response = ApiFactory.getApiFactory().getResponseRepository().getBody(this.getClass());
-//
-//        String expectedResult = id + name + email;
-//        String actualResult = parser.read(response, "$.result");
-//
-//        Assert.assertEquals(expectedResult, actualResult);
-
-        System.out.println("@ApiAction(method = HTTP.PUT, path = \"client/put\", title = \"put test\", template = \"templates/Client.json\")");
+    @Vallidation(title = "result")
+    public void validate() {
+        getResponse().body("result", equalTo(id + name + email));
     }
 }

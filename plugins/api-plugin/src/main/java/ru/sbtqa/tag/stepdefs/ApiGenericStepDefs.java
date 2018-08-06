@@ -3,7 +3,6 @@ package ru.sbtqa.tag.stepdefs;
 import cucumber.api.DataTable;
 import java.util.Map;
 import ru.sbtqa.tag.api.ApiFactory;
-import ru.sbtqa.tag.api.ReflectionHelper;
 import ru.sbtqa.tag.api.exception.ApiException;
 
 /**
@@ -13,10 +12,10 @@ import ru.sbtqa.tag.api.exception.ApiException;
  * To pass a Cucumber {@link cucumber.api.DataTable} as a parameter to method,
  * supply a table in the following format after a step ini feature:
  * <p>
- * | header 1| header 2 | | value 1 | value 2 |
+ * | name 1| name 2 | | value 1 | value 2 |
  * <p>
  * This table will be converted to a {@link cucumber.api.DataTable} object.
- * First line is not enforced to be a header.
+ * First line is not enforced to be a name.
  * <p>
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
@@ -29,29 +28,29 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
     /**
      * Execute api entry action (request) with no parameters
      *
-     * @param action title value of the api entry annotation to execute
+     * @param action name value of the api entry annotation to execute
      * @throws ApiException if there is an error while api entry executing
      */
-    public void userSendRequestNoParams(String action) throws ApiException {
+    public void userSendRequestNoParams(String action) {
         ApiFactory.getApiFactory().getApiEntry(action);
-        ApiFactory.getApiFactory().getCurrentApiEntry().fire();
+        ApiFactory.getApiFactory().getCurrentApiEntry().send();
     }
 
     /**
      * Execute api entry action (request) with parameters from given
      * {@link cucumber.api.DataTable}
      *
-     * @param action title value of the api entry annotation to execute
+     * @param action name value of the api entry annotation to execute
      * @param dataTable table of parameters
      * @throws ApiException if there is an error while api entry executing
      */
-    public void userSendRequestTableParam(String action, DataTable dataTable) throws ApiException {
+    public void userSendRequestTableParam(String action, DataTable dataTable) {
         ApiFactory.getApiFactory().getApiEntry(action);
         for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
 //            TODO ???
 //            ReflectionHelper.setParamValueByTitle(ApiFactory.getApiFactory().getCurrentApiEntry(), dataTableRow.getKey(), dataTableRow.getValue());
         }
-        ApiFactory.getApiFactory().getCurrentApiEntry().fire();
+        ApiFactory.getApiFactory().getCurrentApiEntry().send();
     }
 
     /**
@@ -59,11 +58,11 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} on current
      * api entry
      *
-     * @param rule name of the validation rule (title value of the
+     * @param rule name of the validation rule (name value of the
      * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} annotation)
      * @throws ApiException if there is an error while validation rule executing
      */
-    public void userValidate(String rule) throws ApiException {
+    public void userValidate(String rule) {
         ApiFactory.getApiFactory().getCurrentApiEntry().validate(rule);
     }
 
@@ -72,12 +71,12 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} on current
      * api entry with parameters from given {@link cucumber.api.DataTable}
      *
-     * @param rule name of the validation rule (title value of the
+     * @param rule name of the validation rule (name value of the
      * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} annotation)
      * @param dataTable table of parameters
      * @throws ApiException if there is an error while validation rule executing
      */
-    public void userValidateTable(String rule, DataTable dataTable) throws ApiException {
+    public void userValidateTable(String rule, DataTable dataTable) {
         ApiFactory.getApiFactory().getCurrentApiEntry().validate(rule, dataTable);
     }
 }

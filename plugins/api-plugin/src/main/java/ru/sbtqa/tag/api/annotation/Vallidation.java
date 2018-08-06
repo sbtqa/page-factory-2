@@ -13,10 +13,10 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface ApiValidationRule {
+public @interface Vallidation {
 
     /**
-     * By this title rule will be searched by framework
+     * By this name rule will be searched by framework
      *
      * @return {@link java.lang.String} object.
      */

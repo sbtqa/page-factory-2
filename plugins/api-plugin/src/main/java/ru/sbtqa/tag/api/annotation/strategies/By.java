@@ -12,7 +12,7 @@ public enum By {
      */
     NAME,
     /**
-     * Get some action and take parameter title (ApiRequestParam title)
+     * Get some action and take parameter name (Parameter name)
      */
     TITLE
 }

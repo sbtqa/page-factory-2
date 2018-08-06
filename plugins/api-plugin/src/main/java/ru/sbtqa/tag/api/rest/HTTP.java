@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.api.rest;
 
 /**
- * This enum using in ApiAction annotation, for method type.
+ * This enum using in Endpoint annotation, for method type.
  */
 public enum HTTP {
     POST,

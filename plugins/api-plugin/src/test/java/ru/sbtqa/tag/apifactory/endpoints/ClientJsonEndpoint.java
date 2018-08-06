@@ -26,7 +26,7 @@ public class ClientJsonEndpoint {
     public Response get() {
         Client client = TestDataUtils.createDefaultClient();
         return Response.ok(client)
-                .header("first-header", "header-value-1")
+                .header("first-name", "name-value-1")
                 .build();
     }
 

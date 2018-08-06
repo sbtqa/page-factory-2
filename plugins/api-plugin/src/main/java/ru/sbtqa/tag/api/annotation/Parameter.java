@@ -5,14 +5,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Api request parameter name.
+ *
+ *
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ApiUrlParam {
+public @interface Parameter {
 
     /**
-     * By this title parameter will be searched by framework
+     * By this name parameter will be searched by framework
      *
      * @return a {@link java.lang.String} object.
      */
-    public String title();
+    public String name();
 }

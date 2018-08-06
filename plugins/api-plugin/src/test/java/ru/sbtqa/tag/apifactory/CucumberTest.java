@@ -12,10 +12,10 @@ import ru.sbtqa.tag.parsers.JsonParser;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        glue = {"ru.sbtqa.tag.stepdefs", "ru.sbtqa.tag.apifactory.stepdefs"},
+        glue = {"ru.sbtqa.tag.stepdefs"},
         features = {"src/test/resources/features"},
         plugin = {"pretty"}
-        ,tags = {"@post"}
+        ,tags = {"@endpoints"}
 
 )
 public class CucumberTest {
