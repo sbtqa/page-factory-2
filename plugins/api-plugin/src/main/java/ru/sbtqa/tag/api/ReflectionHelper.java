@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.api;
 
 import cucumber.api.DataTable;
+import io.restassured.response.ValidatableResponse;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -9,7 +10,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
@@ -26,7 +26,6 @@ import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
 import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.datajack.Stash;
-import ru.sbtqa.tag.parsers.core.ParserItem;
 import ru.sbtqa.tag.qautils.properties.Props;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
@@ -81,61 +80,32 @@ public class ReflectionHelper {
         throw new ApiEntryInitializationException("There is no parameter with name '" + name + "' in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
     }
 
-    @SuppressWarnings("ThrowableResultIgnored")
     protected void setDependentResponseParameters() {
         List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
         for (Field field : fieldList) {
             field.setAccessible(true);
 
-            //@FromResponse. Go to response in responseApiEntry and get some value by path
             if (null != field.getAnnotation(FromResponse.class)) {
                 FromResponse dependantParamAnnotation = field.getAnnotation(FromResponse.class);
                 Object fieldValue = null;
-                Class responseEntry = dependantParamAnnotation.responseApiEntry();
+                ValidatableResponse response;
+                Class fromApiEntry = dependantParamAnnotation.responseApiEntry();
 
-                if ((responseEntry == void.class || responseEntry == null)
-                        && dependantParamAnnotation.usePreviousResponse()) {
-
-                    // TODO REPOSITORY
-                    responseEntry = null;
-//                    responseApiEntry = ApiFactory.getApiFactory().getResponseRepository().getLastEntryInRepository();
+                if ((fromApiEntry == void.class || fromApiEntry == null) && dependantParamAnnotation.usePreviousResponse()) {
+                    response = ApiEnvironment.getRepository().getLast().getResponse();
+                } else {
+                    response = ApiEnvironment.getRepository().get(fromApiEntry).getResponse();
                 }
 
                 if (!"".equals(dependantParamAnnotation.header())) {
-                    // TODO REPOSITORY
-                    Map<String, String> dependantResponseHeaders = null;
-//                    Map<String, String> dependantResponseHeaders = ApiFactory.getApiFactory().getResponseRepository().getHeaders(responseApiEntry);
-                    for (Map.Entry<String, String> header : dependantResponseHeaders.entrySet()) {
-                        if (null != header.getKey() && header.getKey().equals(dependantParamAnnotation.header())) {
-                            fieldValue = header.getValue();
-                        }
-                    }
+                     fieldValue = response.extract().header(dependantParamAnnotation.header());
                 } else {
-                    // TODO REPOSITORY
-                    Object dependantResponseBody = null;
-//                    Object dependantResponseBody = ApiFactory.getApiFactory().getResponseRepository().getBody(responseApiEntry);
 
-                    //Use applied parser to get value by path throw the callback
-                    if (ApiFactory.getApiFactory().getParser() != null) {
-                        Object callbackResult = null;
-                        try {
-                            ParserItem item = new ParserItem((String) dependantResponseBody, dependantParamAnnotation.path());
-                            callbackResult = ApiFactory.getApiFactory().getParser().getConstructor().newInstance().call(item);
-                        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
-                            throw new ApiEntryInitializationException("Could not initialize parser callback", ex);
-                        } catch (Exception e) {
-                            LOG.debug("No such element in callback", e);
-                            if (field.getAnnotation(FromResponse.class).necessity()) {
-                                throw new NoSuchElementException(e.getMessage());
-                            }
-                        }
-                        if (callbackResult instanceof Exception) {
-                            throw (ApiException) callbackResult;
-                        } else {
-                            fieldValue = callbackResult;
-                        }
+                    if (response.extract().body().path(dependantParamAnnotation.path()) == null
+                            && !field.getAnnotation(FromResponse.class).necessity()) {
+
                     } else {
-                        throw new ApiEntryInitializationException("Could not initialize parser callback");
+                        fieldValue = response.extract().body().path(dependantParamAnnotation.path()).toString();
                     }
                 }
 
@@ -151,7 +121,6 @@ public class ReflectionHelper {
                     }
                 }
 
-//                parameters.put(field.getName(), fieldValue);
                 setParamValueByName(field.getName(), fieldValue);
             }
         }

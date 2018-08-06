@@ -5,14 +5,7 @@ import ru.sbtqa.tag.api.ApiRepository;
 
 public class ApiSetupSteps {
 
-    private static final ThreadLocal<Boolean> isApiInited = ThreadLocal.withInitial(() -> false);
-
-    public synchronized void initApi() {
-        if (isApiInited.get()) {
-            return;
-        } else {
-            isApiInited.set(true);
-        }
+    public void initApi() {
         ApiEnvironment.setRepository(new ApiRepository());
     }
 }
