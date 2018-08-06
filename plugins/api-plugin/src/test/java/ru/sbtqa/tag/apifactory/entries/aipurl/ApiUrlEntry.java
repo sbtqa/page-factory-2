@@ -3,10 +3,9 @@ package ru.sbtqa.tag.apifactory.entries.aipurl;
 import ru.sbtqa.tag.api.ApiEntry;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
-import ru.sbtqa.tag.api.annotation.Vallidation;
+import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
-import ru.sbtqa.tag.parsers.core.exceptions.ParserException;
 
 @Endpoint(method = HTTP.GET, path = "client/get-with-params", title = "api url test")
 public class ApiUrlEntry extends ApiEntry {
@@ -18,7 +17,7 @@ public class ApiUrlEntry extends ApiEntry {
     @Header(name = Default.HEADER_NAME)
     private String header = Default.HEADER_VALUE;
 
-    @Vallidation(title = "result")
+    @Validation(title = "result")
     public void validate() {
 //        JsonParser parser = new JsonParser();
 //        String response = ApiFactory.getApiFactory().getResponseRepository().getBody(this.getClass());

@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Vallidation {
+public @interface Validation {
 
     /**
      * By this name rule will be searched by framework

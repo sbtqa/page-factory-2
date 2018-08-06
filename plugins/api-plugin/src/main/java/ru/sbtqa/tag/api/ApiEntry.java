@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api;
 
+import cucumber.api.DataTable;
 import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -44,6 +45,11 @@ public abstract class ApiEntry {
         String url = properties.getBaseURI() + "/" + requestPath;
 
         send(url);
+    }
+
+    public void send(DataTable dataTable) {
+        reflectionHelper.applyDatatable(dataTable);
+        send();
     }
 
     /**

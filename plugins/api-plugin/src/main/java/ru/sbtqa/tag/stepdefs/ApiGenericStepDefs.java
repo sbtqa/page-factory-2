@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
-import java.util.Map;
 import ru.sbtqa.tag.api.ApiFactory;
 import ru.sbtqa.tag.api.exception.ApiException;
 
@@ -46,20 +45,16 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      */
     public void userSendRequestTableParam(String action, DataTable dataTable) {
         ApiFactory.getApiFactory().getApiEntry(action);
-        for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
-//            TODO ???
-//            ReflectionHelper.setParamValueByTitle(ApiFactory.getApiFactory().getCurrentApiEntry(), dataTableRow.getKey(), dataTableRow.getValue());
-        }
-        ApiFactory.getApiFactory().getCurrentApiEntry().send();
+        ApiFactory.getApiFactory().getCurrentApiEntry().send(dataTable);
     }
 
     /**
      * Execute a validation rule annotated by
-     * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} on current
+     * {@link ru.sbtqa.tag.api.annotation.Validation} on current
      * api entry
      *
      * @param rule name of the validation rule (name value of the
-     * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} annotation)
+     * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
      * @throws ApiException if there is an error while validation rule executing
      */
     public void userValidate(String rule) {
@@ -68,11 +63,11 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
 
     /**
      * Execute a validation rule annotated by
-     * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} on current
+     * {@link ru.sbtqa.tag.api.annotation.Validation} on current
      * api entry with parameters from given {@link cucumber.api.DataTable}
      *
      * @param rule name of the validation rule (name value of the
-     * {@link ru.sbtqa.tag.apifactory.annotation.ApiValidationRule} annotation)
+     * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
      * @param dataTable table of parameters
      * @throws ApiException if there is an error while validation rule executing
      */

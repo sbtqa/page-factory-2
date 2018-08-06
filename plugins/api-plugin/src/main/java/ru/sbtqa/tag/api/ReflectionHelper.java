@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api;
 
+import cucumber.api.DataTable;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -21,7 +22,7 @@ import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Parameter;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Stashed;
-import ru.sbtqa.tag.api.annotation.Vallidation;
+import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
 import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.datajack.Stash;
@@ -39,25 +40,28 @@ public class ReflectionHelper {
         this.apiEntry = apiEntry;
     }
 
-//    /**
-//     * Set request parameter by name
-//     *
-//     * @param title a {@link java.lang.String} object.
-//     * @param value a {@link java.lang.String} object.
-//     */
-//    public void setParamValueByTitle(String title, String value) {
-//        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
-//        for (Field field : fieldList) {
-//            for (Annotation annotation : field.getAnnotations()) {
-//                if (((annotation instanceof Parameter && ((Parameter) annotation).name().equals(title)))
-//                        && value != null && !value.isEmpty()) {
-//                    set(field, value);
-//                    return;
-//                }
-//            }
-//        }
-//        throw new ApiEntryInitializationException("There is no '" + title + "' parameter in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
-//    }
+    /**
+     * Set request parameter by name
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param value a {@link java.lang.String} object.
+     */
+    public void setParamValueByTitle(String name, String value) {
+        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
+        for (Field field : fieldList) {
+            for (Annotation annotation : field.getAnnotations()) {
+                if (annotation instanceof Parameter && ((Parameter) annotation).name().equals(name)
+                        || annotation instanceof Query && ((Query) annotation).name().equals(name)
+                        || annotation instanceof Header && ((Header) annotation).name().equals(name)
+                        && value != null && !value.isEmpty()) {
+                    set(field, value);
+                    return;
+                }
+            }
+        }
+
+        throw new ApiEntryInitializationException("There is no '" + name + "' parameter in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
+    }
 
     /**
      * Set request parameter by name
@@ -315,8 +319,8 @@ public class ReflectionHelper {
     public void validate(String title, Object... params) {
         Method[] methods = apiEntry.getClass().getMethods();
         for (Method method : methods) {
-            if (null != method.getAnnotation(Vallidation.class)
-                    && method.getAnnotation(Vallidation.class).title().equals(title)) {
+            if (null != method.getAnnotation(Validation.class)
+                    && method.getAnnotation(Validation.class).title().equals(title)) {
                 try {
                     method.invoke(apiEntry, params);
                 } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
@@ -341,5 +345,11 @@ public class ReflectionHelper {
         }
 
         return queryParams;
+    }
+
+    public void applyDatatable(DataTable dataTable) {
+        for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
+            setParamValueByTitle(dataTableRow.getKey(), dataTableRow.getValue());
+        }
     }
 }
