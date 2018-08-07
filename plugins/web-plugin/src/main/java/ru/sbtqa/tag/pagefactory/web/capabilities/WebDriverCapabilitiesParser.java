@@ -9,15 +9,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 import ru.sbtqa.tag.qautils.properties.Props;
 
 public class WebDriverCapabilitiesParser implements CapabilitiesParser {
 
+    private static final String BROWSER_NAME = Props.get("webdriver.browser.name").toLowerCase();
+
     // prefix is a 'webdriver.ie.capability.' or 'webdriver.*.capability.' part
-    private static final String CAPABILITY_WITH_PREFIX_REGEX = "webdriver.(" + Environment.getDriverService().getDriver() + "|\\*).capability.(.*)";
+    private static final String CAPABILITY_WITH_PREFIX_REGEX = "webdriver.(" + BROWSER_NAME + "|\\*).capability.(.*)";
 
     private final DesiredCapabilities capabilities = new DesiredCapabilities();
     private final Map<String, Object> chromeOptions = new HashMap<>();
