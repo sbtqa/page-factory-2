@@ -1,5 +1,5 @@
 #language:en
-@putinstash
+@stashed
 Feature: Put in stash test
 
   Scenario: Put in stash test

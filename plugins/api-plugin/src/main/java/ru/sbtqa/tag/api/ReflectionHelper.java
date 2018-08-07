@@ -1,17 +1,15 @@
 package ru.sbtqa.tag.api;
 
 import cucumber.api.DataTable;
-import io.restassured.response.ValidatableResponse;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +21,11 @@ import ru.sbtqa.tag.api.annotation.Parameter;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.annotation.Validation;
+import ru.sbtqa.tag.api.annotation.applicators.Applicator;
+import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
+import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
+import ru.sbtqa.tag.api.annotation.applicators.ParameterApplicator;
+import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
 import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.datajack.Stash;
@@ -38,6 +41,30 @@ public class ReflectionHelper {
     public ReflectionHelper(ApiEntry apiEntry) {
         this.apiEntry = apiEntry;
     }
+
+    public void applyAnnotations() {
+        List<Field> fieldList = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
+        for (Field field : fieldList) {
+            field.setAccessible(true);
+
+            ApplicatorHandler<Applicator> applicators = new ApplicatorHandler<>();
+            for (Annotation annotation : field.getAnnotations()) {
+                // TODO FACTORY!!!
+                if (annotation instanceof Parameter) {
+                    applicators.add(new ParameterApplicator(apiEntry, field));
+                } else if (annotation instanceof FromResponse) {
+                    applicators.add(new FromResponseApplicator(apiEntry, field));
+                } else if (annotation instanceof Stashed) {
+                    applicators.add(new StashedApplicator(apiEntry, field));
+                } else {
+                    continue;
+                }
+            }
+
+            applicators.apply();
+        }
+    }
+
 
     /**
      * Set request parameter by name
@@ -85,43 +112,16 @@ public class ReflectionHelper {
         for (Field field : fieldList) {
             field.setAccessible(true);
 
-            if (null != field.getAnnotation(FromResponse.class)) {
-                FromResponse dependantParamAnnotation = field.getAnnotation(FromResponse.class);
-                Object fieldValue = null;
-                ValidatableResponse response;
-                Class fromApiEntry = dependantParamAnnotation.responseApiEntry();
-
-                if ((fromApiEntry == void.class || fromApiEntry == null) && dependantParamAnnotation.usePreviousResponse()) {
-                    response = ApiEnvironment.getRepository().getLast().getResponse();
+            List<Applicator> applicators = new ArrayList<>();
+            for (Annotation annotation : field.getAnnotations()) {
+                // TODO FACTORY!!!
+                if (annotation instanceof Parameter) {
+                    applicators.add(new ParameterApplicator(apiEntry, field));
+                } else if (annotation instanceof FromResponse) {
+                    applicators.add(new FromResponseApplicator(apiEntry, field));
                 } else {
-                    response = ApiEnvironment.getRepository().get(fromApiEntry).getResponse();
+                    continue;
                 }
-
-                if (!"".equals(dependantParamAnnotation.header())) {
-                     fieldValue = response.extract().header(dependantParamAnnotation.header());
-                } else {
-
-                    if (response.extract().body().path(dependantParamAnnotation.path()) == null
-                            && !field.getAnnotation(FromResponse.class).necessity()) {
-
-                    } else {
-                        fieldValue = response.extract().body().path(dependantParamAnnotation.path()).toString();
-                    }
-                }
-
-                if (!"".equals(dependantParamAnnotation.mask())) {
-                    if (fieldValue instanceof String) {
-                        Matcher matcher = Pattern.compile(dependantParamAnnotation.mask()).matcher((String) fieldValue);
-                        fieldValue = "";
-                        if (matcher.find()) {
-                            fieldValue = matcher.group(1);
-                        }
-                    } else {
-                        throw new ApiException("Masking was failed because " + field.getName() + " is not instance of String");
-                    }
-                }
-
-                setParamValueByName(field.getName(), fieldValue);
             }
         }
     }

@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 // TODO изменить имя на более понятное
+// TODO сейчас не работает
 public @interface Bracketed {
 
     /**
@@ -21,6 +22,6 @@ public @interface Bracketed {
      *
      * @return a {@link java.lang.String} object.
      */
-    public String value();
+    String value();
 
 }

@@ -6,6 +6,7 @@ import org.junit.Assert;
 import ru.sbtqa.tag.api.ApiEntry;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.FromResponse;
+import ru.sbtqa.tag.api.annotation.Parameter;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
@@ -13,6 +14,7 @@ import ru.sbtqa.tag.apifactory.utils.Default;
 @Endpoint(method = HTTP.GET, path = "client/get", title = "dependent second")
 public class PreviousSecondEntry extends ApiEntry {
 
+    @Parameter(name = "asd")
     @FromResponse(path = "email")
     private String emailFromPreviousRequest;
 

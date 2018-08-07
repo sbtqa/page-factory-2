@@ -20,5 +20,7 @@ public @interface Stashed {
      *
      * @return a {@link java.lang.Class} object.
      */
-    public By by() default By.NAME;
+    By by() default By.NAME;
+
+    String title() default "";
 }

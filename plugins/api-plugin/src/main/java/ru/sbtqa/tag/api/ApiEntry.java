@@ -30,6 +30,11 @@ public abstract class ApiEntry {
         requestBodyTemplate = this.getClass().getAnnotation(Endpoint.class).template();
     }
 
+    public void send(DataTable dataTable) {
+        reflectionHelper.applyDatatable(dataTable);
+        send();
+    }
+
     /**
      * Perform api request. Consist of prepare step, fill parameters step, buildRequest
      * url and send request step
@@ -39,17 +44,8 @@ public abstract class ApiEntry {
      * methods
      */
     public void send() {
-        reflectionHelper.setDependentResponseParameters();
-        reflectionHelper.applyParametersAnnotation();
-
         String url = properties.getBaseURI() + "/" + requestPath;
-
         send(url);
-    }
-
-    public void send(DataTable dataTable) {
-        reflectionHelper.applyDatatable(dataTable);
-        send();
     }
 
     /**
@@ -62,8 +58,9 @@ public abstract class ApiEntry {
      * an instance of bullet type
      */
     private void send(String url) {
-        RequestSpecification request = buildRequest();
+        reflectionHelper.applyAnnotations();
 
+        RequestSpecification request = buildRequest();
         Response response;
         switch (requestMethod) {
             case GET:
