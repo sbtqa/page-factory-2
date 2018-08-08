@@ -10,7 +10,7 @@ Feature: Check fragments functional
     * user inserts fragment "level1-first"
       | first name | last name |
       | Bob        | Burnquist |
+    * user (checks value) "first name" "Bob"
+    * user (checks value) "last name" "Burnquist"
     * user inserts fragment "level1-second"
-      | first name | last name |
-      | Steve      | Caballero |
 
