@@ -6,13 +6,10 @@ import com.google.common.graph.MutableGraph;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+
+import java.util.*;
 
 public class FragmentReplacer {
 
@@ -63,7 +60,7 @@ public class FragmentReplacer {
      * @throws IllegalAccessException If can not copy the location from the replaced step to the steps of the fragment
      * @throws FragmentException if the fragment with the required name is not found
      */
-    private List<Step> replaceSteps(List<Step> steps, String language) throws IllegalAccessException, FragmentException {
+    private List<Step> replaceSteps(List<Step> steps, String language) throws FragmentException {
         List<Step> replacementSteps = new ArrayList<>();
 
         for (Step step : steps) {
@@ -77,26 +74,16 @@ public class FragmentReplacer {
         return replacementSteps;
     }
 
-    private List<Step> replaceStep(Step stepToReplace, String language) throws IllegalAccessException, FragmentException {
-        List<Step> replacementSteps = new ArrayList<>();
+    private List<Step> replaceStep(Step stepToReplace, String language) throws FragmentException {
         String fragmentName = FragmentUtils.getFragmentName(stepToReplace, language);
-        List<Step> replacementStepsDraft = fragmentsMap.get(fragmentName).getSteps();
+        List<Step> replacementSteps = fragmentsMap.get(fragmentName).getSteps();
 
-        if (replacementStepsDraft == null) {
+        if (replacementSteps == null) {
             throw new FragmentException(String.format("Can't find scenario fragment with name \"%s\"", fragmentName));
         }
 
-        for (Step replacementStep : replacementStepsDraft) {
-            copyLocation(stepToReplace, replacementStep);
-            FragmentDataTableUtils.applyDataTable(stepToReplace, replacementStep);
+        StepReplacer stepReplacer = new StepReplacer(stepToReplace);
 
-            replacementSteps.add(replacementStep);
-        }
-
-        return replacementSteps;
-    }
-
-    private void copyLocation(Step originalStep, Step targetStep) throws IllegalAccessException {
-        FieldUtils.writeField(targetStep, "location", originalStep.getLocation(), true);
+        return stepReplacer.replaceWith(replacementSteps);
     }
 }

@@ -12,10 +12,10 @@ Feature: Check fragments functional
 
     #ACTIONS
     * user (clears all of the fields)
-  
+
     #click
     * user inserts fragment "click fragment"
-  
+
     #fill
     * user inserts fragment "fill fragment"
       | first name | button name |
