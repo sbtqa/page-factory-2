@@ -8,5 +8,9 @@ Feature: Check fragments functional
     * user is on the page "Contact"
 
     * user inserts fragment "level1-first"
+      | first name | last name |
+      | Bob        | Burnquist |
+    * user (checks value) "first name" "Bob"
+    * user (checks value) "last name" "Burnquist"
     * user inserts fragment "level1-second"
 
