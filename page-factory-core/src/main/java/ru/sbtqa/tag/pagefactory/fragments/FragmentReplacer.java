@@ -4,6 +4,7 @@ import com.google.common.graph.EndpointPair;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import cucumber.runtime.model.CucumberFeature;
+import gherkin.ast.DataTable;
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class FragmentReplacer {
             ScenarioDefinition scenario = (ScenarioDefinition) edge.nodeV();
             replaceInScenario(scenario);
         }
+        System.out.println("1");
     }
 
     private void replaceInScenario(ScenarioDefinition scenario) throws FragmentException, IllegalAccessException {
@@ -87,10 +89,15 @@ public class FragmentReplacer {
         }
 
         for (Step replacementStep : replacementStepsDraft) {
-            copyLocation(stepToReplace, replacementStep);
-            FragmentDataTableUtils.applyDataTable(stepToReplace, replacementStep);
+//            copyLocation(stepToReplace, replacementStep);
+//            FragmentDataTableUtils.applyDataTable(stepToReplace, replacementStep);
 
-            replacementSteps.add(replacementStep);
+            Map<String, String> dataTableAsMap = FragmentDataTableUtils.getDataTableAsMap(stepToReplace);
+            String text = FragmentDataTableUtils.applyToText(dataTableAsMap, replacementStep.getText());
+            DataTable argument = FragmentDataTableUtils.applyToArgument(dataTableAsMap, replacementStep);
+
+            Step ztep = new Step(stepToReplace.getLocation(), replacementStep.getKeyword(), text, argument);
+            replacementSteps.add(ztep);
         }
 
         return replacementSteps;
