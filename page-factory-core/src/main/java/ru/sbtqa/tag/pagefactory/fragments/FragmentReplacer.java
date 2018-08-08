@@ -6,10 +6,13 @@ import com.google.common.graph.MutableGraph;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
-
-import java.util.*;
 
 public class FragmentReplacer {
 

@@ -30,7 +30,7 @@ public class FragmentDataTableUtils {
         }
     }
 
-    private static Map<String, String> getDataTableAsMap(Step step) {
+    public static Map<String, String> getDataTableAsMap(Step step) {
         Map<String, String> dataTableAsMap = new HashMap<>();
 
         Node argument = step.getArgument();
@@ -49,7 +49,7 @@ public class FragmentDataTableUtils {
         return dataTableAsMap;
     }
 
-    private static String applyToText(Map<String, String> dataTableAsMap, String fragmentStepText) {
+    public static String applyToText(Map<String, String> dataTableAsMap, String fragmentStepText) {
         String textToReplace = fragmentStepText;
         for (Map.Entry<String, String> row : dataTableAsMap.entrySet()) {
             String keyToSearch = String.format("<%s>", row.getKey());
@@ -58,7 +58,7 @@ public class FragmentDataTableUtils {
         return textToReplace;
     }
 
-    private static DataTable applyToArgument(Map<String, String> dataTableAsMap, Step fragmentStep) {
+    public static DataTable applyToArgument(Map<String, String> dataTableAsMap, Step fragmentStep) {
         DataTable dataTable = (DataTable) fragmentStep.getArgument();
 
         List<TableRow> resultTableRows = new ArrayList<>();
