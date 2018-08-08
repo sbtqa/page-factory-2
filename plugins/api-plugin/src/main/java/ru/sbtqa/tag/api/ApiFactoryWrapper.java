@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
 import ru.sbtqa.tag.api.exception.ApiException;
-import ru.sbtqa.tag.parsers.core.ParserCallback;
 
 /**
  * <p>
@@ -28,7 +27,6 @@ public class ApiFactoryWrapper {
     private ApiEntry currentEntry;
 
     private final String entriesPackage;
-    private Class<? extends ParserCallback> parser;
 
     /**
      * Constructor for ApiFactory.
@@ -114,19 +112,5 @@ public class ApiFactoryWrapper {
         } else {
             return currentEntry;
         }
-    }
-
-    /**
-     * @return the parser
-     */
-    public Class<? extends ParserCallback> getParser() {
-        return parser;
-    }
-
-    /**
-     * @param parser the parser to set
-     */
-    public void setParser(Class<? extends ParserCallback> parser) {
-        this.parser = parser;
     }
 }

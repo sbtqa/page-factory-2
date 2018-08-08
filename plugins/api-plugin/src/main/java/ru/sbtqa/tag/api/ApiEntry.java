@@ -7,7 +7,9 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.exception.ApiException;
+import ru.sbtqa.tag.api.repository.ApiPair;
 import ru.sbtqa.tag.api.rest.HTTP;
 
 /**
@@ -96,9 +98,9 @@ public abstract class ApiEntry {
         System.out.println("=============================REQUEST");
         RequestSpecification request = given().log().all();
 
-        request.queryParams(reflectionHelper.getQueryParams());
+        request.queryParams(reflectionHelper.getParameters(ParameterType.QUERY));
 
-        request.headers(reflectionHelper.getHeaders());
+        request.headers(reflectionHelper.getParameters(ParameterType.HEADER));
 
         if (!requestBodyTemplate.isEmpty()) {
             request.body(reflectionHelper.getBody(requestBodyTemplate));

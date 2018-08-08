@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.repository;
 
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;

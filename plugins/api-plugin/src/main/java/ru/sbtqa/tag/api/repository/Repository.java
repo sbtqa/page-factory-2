@@ -1,4 +1,6 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.repository;
+
+import ru.sbtqa.tag.api.ApiEntry;
 
 public interface Repository {
 

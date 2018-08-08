@@ -29,12 +29,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag.parsers</groupId>
-      <artifactId>json</artifactId>
-      <!--TODO добавить переменную-->
-      <version>1.0.1</version>
-    </dependency>
-    <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>3.1.0</version>

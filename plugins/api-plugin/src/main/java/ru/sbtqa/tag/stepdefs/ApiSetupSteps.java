@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.api.ApiEnvironment;
-import ru.sbtqa.tag.api.ApiRepository;
+import ru.sbtqa.tag.api.repository.ApiRepository;
 
 public class ApiSetupSteps {
 

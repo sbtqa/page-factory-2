@@ -1,7 +1,8 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.repository;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import ru.sbtqa.tag.api.ApiEntry;
 import ru.sbtqa.tag.api.exception.ApiException;
 
 public class ApiRepository implements Repository {

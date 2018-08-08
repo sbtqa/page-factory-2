@@ -2,9 +2,9 @@ package ru.sbtqa.tag.apifactory.entries.apiaction.json;
 
 import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.ApiEntry;
+import ru.sbtqa.tag.api.annotation.Body;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
-import ru.sbtqa.tag.api.annotation.Parameter;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
@@ -15,13 +15,13 @@ public class PutEntry extends ApiEntry {
     @Header(name = "Content-Type")
     private String header = "application/json";
 
-    @Parameter(name = "id")
+    @Body(name = "id")
     private String id = String.valueOf(Default.ID);
 
-    @Parameter(name = "name")
+    @Body(name = "name")
     private String name = Default.NAME;
 
-    @Parameter(name = "email")
+    @Body(name = "email")
     private String email = Default.EMAIL;
 
     @Validation(title = "result")

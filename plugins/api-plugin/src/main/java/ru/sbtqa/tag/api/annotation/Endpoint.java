@@ -20,26 +20,26 @@ public @interface Endpoint {
      *
      * @return a {@link java.lang.String} object.
      */
-    public String title();
+    String title();
 
     /**
      * Api entry path. Relative to baseurl.
      *
      * @return a {@link java.lang.String} object.
      */
-    public String path() default "";
+    String path() default "";
 
     /**
      * HTTP method used to execute api method
      *
      * @return a {@link HTTP} object.
      */
-    public HTTP method();
+    HTTP method();
 
     /**
      * Body template
      *
      * @return a {@link java.lang.String} object.
      */
-    public String template() default "";
+    String template() default "";
 }

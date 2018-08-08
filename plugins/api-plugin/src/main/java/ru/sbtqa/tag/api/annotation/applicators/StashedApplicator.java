@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.ApiEntry;
 import ru.sbtqa.tag.api.ReflectionHelper;
 import ru.sbtqa.tag.api.annotation.Stashed;
+import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.datajack.Stash;
 
-@Order()
 public class StashedApplicator extends DefaultApplicator implements Applicator {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReflectionHelper.class);
@@ -31,6 +31,8 @@ public class StashedApplicator extends DefaultApplicator implements Applicator {
                     LOG.error("The field annotated by @Stashed has the null as title");
                 }
                 break;
+            default:
+                throw new ApiException("TODO");
         }
 
     }

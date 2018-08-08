@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api;
 
+import ru.sbtqa.tag.api.repository.Repository;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 public class ApiEnvironment extends Environment {

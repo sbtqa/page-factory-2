@@ -51,7 +51,7 @@ public @interface FromResponse {
     public String mask() default "";
 
     /**
-     * Parameter of necessity the annotated field. If set false, then annotated
+     * Body of necessity the annotated field. If set false, then annotated
      * parameter will set to null when it was found in document. If set true,
      * then annotated parameter will be set to equal value from responseApiEntry
      * answer, but if parameter wasn't found in document error exception will be

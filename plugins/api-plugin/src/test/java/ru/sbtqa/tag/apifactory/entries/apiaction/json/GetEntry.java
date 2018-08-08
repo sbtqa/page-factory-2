@@ -15,9 +15,5 @@ public class GetEntry extends ApiEntry {
         getResponse().body("id", equalTo(Default.ID));
         getResponse().body("name", equalTo(Default.NAME));
         getResponse().body("email", equalTo(Default.EMAIL));
-
-        System.out.println(
-                getResponse().extract().body().path("email").toString()
-        );
     }
 }

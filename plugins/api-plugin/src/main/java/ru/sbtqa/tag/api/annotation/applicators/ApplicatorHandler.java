@@ -15,27 +15,32 @@ public class ApplicatorHandler<T extends Applicator> {
     }
 
     public void apply() {
-
-        //TODO вынести в метод
-         applicators = applicators.stream()
-                .sorted(Comparator.comparing(applicator -> {
-                    if(applicator.getClass().getAnnotation(Order.class) != null) {
-                        return applicator.getClass().getAnnotation(Order.class).value();
-                    } else {
-                        try {
-                            return (int) Order.class.getDeclaredMethod("value").getDefaultValue();
-                        } catch (NoSuchMethodException e) {
-                            throw new ApiException("asd");
-                        }
-                    }
-
-
-                }))
-                .collect(Collectors.toList());
+        sort();
 
         for (T applicator : applicators) {
             applicator.apply();
         }
+
         applicators.clear();
+    }
+
+    private List<T> sort() {
+        return applicators.stream()
+                .sorted(Comparator.comparing(applicator -> {
+                    if (applicator.getClass().getAnnotation(Order.class) != null) {
+                        return applicator.getClass().getAnnotation(Order.class).value();
+                    } else {
+                        return getDefaultValue();
+                    }
+                }))
+                .collect(Collectors.toList());
+    }
+
+    private int getDefaultValue() {
+        try {
+            return (int) Order.class.getDeclaredMethod("value").getDefaultValue();
+        } catch (NoSuchMethodException e) {
+            throw new ApiException("Default value method is not available in Order annotation");
+        }
     }
 }
