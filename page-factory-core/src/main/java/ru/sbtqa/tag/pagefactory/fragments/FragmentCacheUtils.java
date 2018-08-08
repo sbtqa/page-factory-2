@@ -5,27 +5,26 @@ import com.google.common.graph.MutableGraph;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
-import gherkin.ast.Feature;
-import gherkin.ast.GherkinDocument;
-import gherkin.ast.ScenarioDefinition;
-import gherkin.ast.Step;
-import gherkin.ast.Tag;
+import gherkin.ast.*;
+import org.aeonbits.owner.ConfigFactory;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.aeonbits.owner.ConfigFactory;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 
 public class FragmentCacheUtils {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
     private static final String FRAGMENT_TAG = "@fragment";
 
-    private FragmentCacheUtils() {}
+    private FragmentCacheUtils() {
+    }
 
     public static List<CucumberFeature> cacheFragmentsToFeatures(Class clazz, List<CucumberFeature> features) {
         if (PROPERTIES.getFragmentsPath().isEmpty()) {
@@ -62,7 +61,7 @@ public class FragmentCacheUtils {
 
     public static MutableGraph<Object> cacheFragmentsAsGraph(List<CucumberFeature> features,
                                                              Map<String, ScenarioDefinition> fragmentsMap,
-                                                             Map<ScenarioDefinition, String> scenarioLanguageMap) {
+                                                             Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException {
         MutableGraph<Object> graph = GraphBuilder.directed().allowsSelfLoops(false).build();
 
         for (CucumberFeature cucumberFeature : features) {
@@ -79,7 +78,12 @@ public class FragmentCacheUtils {
 
                         if (FragmentUtils.isStepFragmentRequire(step, language)) {
                             String scenarioName = FragmentUtils.getFragmentName(step, language);
-                            graph.putEdge(scenario, fragmentsMap.get(scenarioName));
+                            if (fragmentsMap.get(scenarioName) != null) {
+                                graph.putEdge(scenario, fragmentsMap.get(scenarioName));
+                            } else {
+                                throw new FragmentException("Scenario \"" + scenario.getName() + "\" needs scenario \"" + scenarioName + "\" as fragment, " +
+                                        "but scenario \"" + scenarioName + "\" doesn't exist");
+                            }
                         }
 
                     }
