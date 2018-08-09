@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
@@ -17,9 +18,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.aeonbits.owner.ConfigFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 
 public class FragmentCacheUtils {
 
+    private static final Logger LOG = LoggerFactory.getLogger(FragmentCacheUtils.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
     private static final String FRAGMENT_TAG = "@fragment";
 
@@ -78,17 +86,22 @@ public class FragmentCacheUtils {
 
                         if (FragmentUtils.isStepFragmentRequire(step, language)) {
                             String scenarioName = FragmentUtils.getFragmentName(step, language);
-                            if (fragmentsMap.get(scenarioName) != null) {
-                                graph.putEdge(scenario, fragmentsMap.get(scenarioName));
-                            } else {
-                                throw new FragmentException("Scenario \"" + scenario.getName() + "\" needs scenario \"" + scenarioName + "\" as fragment, " +
-                                        "but scenario \"" + scenarioName + "\" doesn't exist");
+                            ScenarioDefinition scenarioAsFragment = fragmentsMap.get(scenarioName);
+
+                            if (scenarioAsFragment == null) {
+                                throw new FragmentException(String.format("There is no scenario (fragment) with name \"%s\"", scenarioName));
                             }
+
+                            graph.putEdge(scenario, scenarioAsFragment);
                         }
 
                     }
                 }
             }
+        }
+
+        if (Graphs.hasCycle(graph)) {
+            LOG.error("Fragments graph contains cycles");
         }
 
         return graph;

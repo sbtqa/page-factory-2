@@ -3,3 +3,11 @@
 .idea/
 *.iml
 *.war
+.project
+.factorypath
+.settings/
+**/.classpath
+**/.project
+**/.factorypath
+**/.settings/
+.vscode/

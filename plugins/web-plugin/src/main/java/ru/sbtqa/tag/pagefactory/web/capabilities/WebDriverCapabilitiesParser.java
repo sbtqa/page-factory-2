@@ -15,8 +15,10 @@ import ru.sbtqa.tag.qautils.properties.Props;
 
 public class WebDriverCapabilitiesParser implements CapabilitiesParser {
 
+    private static final String BROWSER_NAME = Props.get("webdriver.browser.name").toLowerCase();
+
     // prefix is a 'webdriver.ie.capability.' or 'webdriver.*.capability.' part
-    private static final String CAPABILITY_WITH_PREFIX_REGEX = "webdriver.(" + WebEnvironment.getBrowserName() + "|\\*).capability.(.*)";
+    private static final String CAPABILITY_WITH_PREFIX_REGEX = "webdriver.(" + BROWSER_NAME + "|\\*).capability.(.*)";
 
     private final DesiredCapabilities capabilities = new DesiredCapabilities();
     private final Map<String, Object> chromeOptions = new HashMap<>();

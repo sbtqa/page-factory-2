@@ -4,6 +4,7 @@ branches:
   - master
   - "/^[0-9]+\\.[0-9]+(\\.[0-9])?+(-.*)?$/"
 addons:
+  chrome: stable
   sonarcloud:
     organization: "sbtqasonarkey"
     token:
@@ -18,7 +19,7 @@ before_install:
 - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE
   --import-ownertrust; fi
 install:
-- mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true
+- mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true
   -Dgpg.skip -B -V
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip
