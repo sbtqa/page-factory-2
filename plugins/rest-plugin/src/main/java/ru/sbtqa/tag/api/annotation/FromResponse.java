@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Dependent response. Optional annotation. It will be used to try to initialize
- * api entry parameter from response of previous executed request to api.
+ * endpoint parameter from response of previous executed request to api.
  *
  *
  */
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface FromResponse {
 
     /**
-     * Api entry class which response use to
+     * endpoint class which response use to
      *
      * @return a {@link java.lang.Class} object.
      */

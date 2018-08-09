@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.properties;
 
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.Sources;
@@ -8,4 +8,7 @@ public interface ApiConfiguration extends Config {
 
     @Key("api.baseURI")
     String getBaseURI();
+
+    @Key("endpoint.package")
+    String getEndpointsPackage();
 }

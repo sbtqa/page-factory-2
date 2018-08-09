@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.utils;
 
 import cucumber.api.DataTable;
 import java.io.IOException;
@@ -12,8 +12,8 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.api.Entry;
 import ru.sbtqa.tag.api.annotation.Body;
-import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.ParameterType;
@@ -35,10 +35,10 @@ public class ReflectionHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReflectionHelper.class);
 
-    private ApiEntry apiEntry;
+    private Entry apiEntry;
     private List<Field> fields;
 
-    public ReflectionHelper(ApiEntry apiEntry) {
+    public ReflectionHelper(Entry apiEntry) {
         this.apiEntry = apiEntry;
         this.fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
     }
@@ -75,7 +75,7 @@ public class ReflectionHelper {
             }
         }
 
-        throw new ApiEntryInitializationException("There is no '" + name + "' parameter in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
+        throw new ApiEntryInitializationException("There is no '" + name + "' parameter in '" + apiEntry.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
     }
 
     /**
@@ -135,7 +135,7 @@ public class ReflectionHelper {
                 return;
             }
         }
-        throw new ApiEntryInitializationException("There is no '" + title + "' validation rule in '" + apiEntry.getClass().getAnnotation(Endpoint.class).title() + "' api entry.");
+        throw new ApiEntryInitializationException("There is no '" + title + "' validation rule in '" + apiEntry.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
     }
 
     public Map<String, Object> getParameters(ParameterType type) {

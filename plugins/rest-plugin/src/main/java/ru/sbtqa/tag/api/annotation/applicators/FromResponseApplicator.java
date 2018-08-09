@@ -4,8 +4,8 @@ import io.restassured.response.ValidatableResponse;
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.ApiEnvironment;
+import ru.sbtqa.tag.api.Entry;
+import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.exception.ApiException;
 
@@ -14,7 +14,7 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
 
     FromResponse fromResponse;
 
-    public FromResponseApplicator(ApiEntry entry, Field field) {
+    public FromResponseApplicator(Entry entry, Field field) {
         super(entry, field);
         this.fromResponse = field.getAnnotation(FromResponse.class);
     }

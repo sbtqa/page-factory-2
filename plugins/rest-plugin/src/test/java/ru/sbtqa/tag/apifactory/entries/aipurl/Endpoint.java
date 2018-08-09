@@ -1,16 +1,15 @@
-package ru.sbtqa.tag.apifactory.entries.apirequest;
+package ru.sbtqa.tag.apifactory.entries.aipurl;
 
 import static org.hamcrest.Matchers.equalTo;
-import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.Entry;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 
-@Endpoint(method = HTTP.GET, path = "client/get-with-params", title = "api request test")
-public class ApiRequestEntry extends ApiEntry {
+@ru.sbtqa.tag.api.annotation.Endpoint(method = HTTP.GET, path = "client/get-with-params", title = "api url test")
+public class Endpoint extends Entry {
 
     @Query(name = Default.PARAMETER_NAME1)
     private String param = Default.PARAMETER_VALUE1;
@@ -22,4 +21,6 @@ public class ApiRequestEntry extends ApiEntry {
     public void validate() {
         getResponse().body("result", equalTo(header + param));
     }
+
+
 }

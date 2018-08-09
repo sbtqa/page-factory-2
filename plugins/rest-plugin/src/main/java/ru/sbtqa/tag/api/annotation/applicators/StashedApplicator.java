@@ -3,8 +3,8 @@ package ru.sbtqa.tag.api.annotation.applicators;
 import java.lang.reflect.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.ReflectionHelper;
+import ru.sbtqa.tag.api.Entry;
+import ru.sbtqa.tag.api.utils.ReflectionHelper;
 import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.exception.ApiException;
 import ru.sbtqa.tag.datajack.Stash;
@@ -13,7 +13,7 @@ public class StashedApplicator extends DefaultApplicator implements Applicator {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReflectionHelper.class);
 
-    public StashedApplicator(ApiEntry entry, Field field) {
+    public StashedApplicator(Entry entry, Field field) {
         super(entry, field);
     }
 

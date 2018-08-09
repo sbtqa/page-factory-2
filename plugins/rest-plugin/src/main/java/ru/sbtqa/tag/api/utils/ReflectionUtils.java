@@ -1,12 +1,12 @@
 package ru.sbtqa.tag.api.utils;
 
 import java.lang.reflect.Field;
-import ru.sbtqa.tag.api.ApiEntry;
+import ru.sbtqa.tag.api.Entry;
 import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
 
 public class ReflectionUtils {
 
-    public static Object get(ApiEntry apiEntry, Field field) {
+    public static Object get(Entry apiEntry, Field field) {
         try {
             field.setAccessible(true);
             return field.get(apiEntry);
@@ -16,7 +16,7 @@ public class ReflectionUtils {
 
     }
 
-    public static void set(ApiEntry apiEntry, Field field, Object value) {
+    public static void set(Entry apiEntry, Field field, Object value) {
         try {
             field.setAccessible(true);
             field.set(apiEntry, value);

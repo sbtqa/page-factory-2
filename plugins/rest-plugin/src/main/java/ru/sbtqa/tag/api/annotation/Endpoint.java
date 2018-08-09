@@ -16,14 +16,14 @@ import ru.sbtqa.tag.api.rest.HTTP;
 public @interface Endpoint {
 
     /**
-     * Title. Used to find out Api entry by framework.
+     * Title. Used to find out endpoint by framework.
      *
      * @return a {@link java.lang.String} object.
      */
     String title();
 
     /**
-     * Api entry path. Relative to baseurl.
+     * endpoint path. Relative to baseurl.
      *
      * @return a {@link java.lang.String} object.
      */

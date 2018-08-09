@@ -16,7 +16,7 @@ import ru.sbtqa.tag.api.annotation.strategies.By;
 public @interface Stashed {
 
     /**
-     * Api entry class which response use to
+     * endpoint class which response use to
      *
      * @return a {@link java.lang.Class} object.
      */

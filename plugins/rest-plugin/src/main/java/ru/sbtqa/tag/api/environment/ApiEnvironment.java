@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.environment;
 
 import ru.sbtqa.tag.api.repository.Repository;
 import ru.sbtqa.tag.pagefactory.environment.Environment;

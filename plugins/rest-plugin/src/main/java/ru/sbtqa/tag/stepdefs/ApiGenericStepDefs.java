@@ -1,7 +1,8 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
-import ru.sbtqa.tag.api.ApiFactory;
+import ru.sbtqa.tag.api.EndpointManager;
+import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.exception.ApiException;
 
 /**
@@ -25,46 +26,44 @@ import ru.sbtqa.tag.api.exception.ApiException;
 public class ApiGenericStepDefs extends ApiSetupSteps {
 
     /**
-     * Execute api entry action (request) with no parameters
+     * Execute endpoint action (request) with no parameters
      *
-     * @param action name value of the api entry annotation to execute
-     * @throws ApiException if there is an error while api entry executing
+     * @param action name value of the endpoint annotation to execute
+     * @throws ApiException if there is an error while endpoint executing
      */
     public void userSendRequestNoParams(String action) {
-        ApiFactory.getApiFactory().getApiEntry(action);
-        ApiFactory.getApiFactory().getCurrentApiEntry().send();
+        EndpointManager.getEndpoint(action).send();
     }
 
     /**
-     * Execute api entry action (request) with parameters from given
+     * Execute endpoint action (request) with parameters from given
      * {@link cucumber.api.DataTable}
      *
-     * @param action name value of the api entry annotation to execute
+     * @param action name value of the endpoint annotation to execute
      * @param dataTable table of parameters
-     * @throws ApiException if there is an error while api entry executing
+     * @throws ApiException if there is an error while endpoint executing
      */
     public void userSendRequestTableParam(String action, DataTable dataTable) {
-        ApiFactory.getApiFactory().getApiEntry(action);
-        ApiFactory.getApiFactory().getCurrentApiEntry().send(dataTable);
+        EndpointManager.getEndpoint(action).send(dataTable);
     }
 
     /**
      * Execute a validation rule annotated by
      * {@link ru.sbtqa.tag.api.annotation.Validation} on current
-     * api entry
+     * endpoint
      *
      * @param rule name of the validation rule (name value of the
      * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
      * @throws ApiException if there is an error while validation rule executing
      */
     public void userValidate(String rule) {
-        ApiFactory.getApiFactory().getCurrentApiEntry().validate(rule);
+        EndpointContext.getCurrentEndpoint().validate(rule);
     }
 
     /**
      * Execute a validation rule annotated by
      * {@link ru.sbtqa.tag.api.annotation.Validation} on current
-     * api entry with parameters from given {@link cucumber.api.DataTable}
+     * endpoint with parameters from given {@link cucumber.api.DataTable}
      *
      * @param rule name of the validation rule (name value of the
      * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
@@ -72,6 +71,6 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @throws ApiException if there is an error while validation rule executing
      */
     public void userValidateTable(String rule, DataTable dataTable) {
-        ApiFactory.getApiFactory().getCurrentApiEntry().validate(rule, dataTable);
+        EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
     }
 }

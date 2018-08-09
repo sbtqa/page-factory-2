@@ -6,17 +6,19 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.aeonbits.owner.ConfigFactory;
-import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.ParameterType;
+import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.exception.ApiException;
+import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
 import ru.sbtqa.tag.api.rest.HTTP;
+import ru.sbtqa.tag.api.utils.ReflectionHelper;
 
 /**
  * Api object (ala Page object). Request to definite url with a set of
  * parameters such as request method, parameters, response validation.
  */
-public abstract class ApiEntry {
+public abstract class Entry implements Comparable {
 
     private static final ApiConfiguration properties = ConfigFactory.create(ApiConfiguration.class);
 
@@ -24,12 +26,14 @@ public abstract class ApiEntry {
     private HTTP requestMethod;
     private String requestPath;
     private String requestBodyTemplate;
+    private String title;
 
-    public ApiEntry() {
+    public Entry() {
         reflectionHelper = new ReflectionHelper(this);
-        requestMethod = this.getClass().getAnnotation(Endpoint.class).method();
-        requestPath = this.getClass().getAnnotation(Endpoint.class).path();
-        requestBodyTemplate = this.getClass().getAnnotation(Endpoint.class).template();
+        requestMethod = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).method();
+        requestPath = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).path();
+        requestBodyTemplate = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).template();
+        title = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title();
     }
 
     public void send(DataTable dataTable) {
@@ -123,5 +127,14 @@ public abstract class ApiEntry {
 
     public ValidatableResponse getResponse() {
         return ApiEnvironment.getRepository().get(this.getClass()).getResponse();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

@@ -3,15 +3,14 @@ package ru.sbtqa.tag.apifactory.entries.apirequest;
 import cucumber.api.DataTable;
 import java.util.Map;
 import static org.hamcrest.Matchers.equalTo;
-import ru.sbtqa.tag.api.ApiEntry;
-import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.Entry;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.rest.HTTP;
 
-@Endpoint(method = HTTP.GET, path = "client/get-with-params", title = "api request with params test")
-public class ApiRequestWithParamsEntry extends ApiEntry {
+@ru.sbtqa.tag.api.annotation.Endpoint(method = HTTP.GET, path = "client/get-with-params", title = "api request with params test")
+public class Endpoint extends Entry {
 
     @Query(name = "parameter-name-1")
     private String param;
