@@ -1,15 +1,16 @@
-package ru.sbtqa.tag.apifactory.entries.dependant;
+package ru.sbtqa.tag.apifactory.entries.fromresponse;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.Assert;
 import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.HTTP;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 
-@ru.sbtqa.tag.api.annotation.Endpoint(method = HTTP.GET, path = "client/get", title = "dependent second")
+@Endpoint(method = HTTP.GET, path = "client/get", title = "dependent second")
 public class PreviousSecondEndpointEntry extends EndpointEntry {
 
     @FromResponse(path = "email")

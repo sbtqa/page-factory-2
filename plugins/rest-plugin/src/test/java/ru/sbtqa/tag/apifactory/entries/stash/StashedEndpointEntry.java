@@ -2,15 +2,16 @@ package ru.sbtqa.tag.apifactory.entries.stash;
 
 import org.junit.Assert;
 import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.HTTP;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.annotation.strategies.By;
-import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 import ru.sbtqa.tag.datajack.Stash;
 
-@ru.sbtqa.tag.api.annotation.Endpoint(method = HTTP.GET, path = "client/get", title = "put in stash")
-public class PutInStashEndpointEntry extends EndpointEntry {
+@Endpoint(method = HTTP.GET, path = "client/get", title = "put in stash")
+public class StashedEndpointEntry extends EndpointEntry {
 
     @Stashed(by = By.NAME)
     private String stashByName = Default.PARAMETER_VALUE1;

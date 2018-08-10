@@ -4,7 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import ru.sbtqa.tag.api.rest.HTTP;
+import ru.sbtqa.tag.api.HTTP;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

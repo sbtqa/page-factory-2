@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
-import ru.sbtqa.tag.api.EndpointManager;
+import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 

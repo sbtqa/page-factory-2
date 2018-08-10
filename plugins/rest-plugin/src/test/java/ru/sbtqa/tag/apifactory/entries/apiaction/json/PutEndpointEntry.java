@@ -2,13 +2,14 @@ package ru.sbtqa.tag.apifactory.entries.apiaction.json;
 
 import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.HTTP;
 import ru.sbtqa.tag.api.annotation.Body;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 
-@ru.sbtqa.tag.api.annotation.Endpoint(method = HTTP.PUT, path = "client/put", title = "put test", template = "templates/Client.json")
+@Endpoint(method = HTTP.PUT, path = "client/put", title = "put test", template = "templates/Client.json")
 public class PutEndpointEntry extends EndpointEntry {
 
     @Header(name = "Content-Type")

@@ -30,13 +30,13 @@ public class ApplicatorHandler<T extends Applicator> {
                     if (applicator.getClass().getAnnotation(Order.class) != null) {
                         return applicator.getClass().getAnnotation(Order.class).value();
                     } else {
-                        return getDefaultValue();
+                        return getDefaultOrder();
                     }
                 }))
                 .collect(Collectors.toList());
     }
 
-    private int getDefaultValue() {
+    private int getDefaultOrder() {
         try {
             return (int) Order.class.getDeclaredMethod("value").getDefaultValue();
         } catch (NoSuchMethodException e) {

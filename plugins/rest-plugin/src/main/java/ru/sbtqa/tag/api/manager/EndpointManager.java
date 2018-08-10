@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.manager;
 
 import com.google.common.reflect.ClassPath;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.Set;
 import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.exception.RestPluginException;

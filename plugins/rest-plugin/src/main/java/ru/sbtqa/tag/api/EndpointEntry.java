@@ -5,6 +5,7 @@ import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import java.util.Map;
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.ParameterType;
@@ -12,21 +13,19 @@ import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
-import ru.sbtqa.tag.api.rest.HTTP;
-import ru.sbtqa.tag.api.utils.ReflectionHelper;
 
 public abstract class EndpointEntry {
 
-    private static final ApiConfiguration properties = ConfigFactory.create(ApiConfiguration.class);
+    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
 
-    private ReflectionHelper reflectionHelper;
+    private EndpointEntryReflection reflection;
     private HTTP requestMethod;
     private String requestPath;
     private String requestBodyTemplate;
     private String title;
 
     public EndpointEntry() {
-        reflectionHelper = new ReflectionHelper(this);
+        reflection = new EndpointEntryReflection(this);
         requestMethod = this.getClass().getAnnotation(Endpoint.class).method();
         requestPath = this.getClass().getAnnotation(Endpoint.class).path();
         requestBodyTemplate = this.getClass().getAnnotation(Endpoint.class).template();
@@ -34,7 +33,10 @@ public abstract class EndpointEntry {
     }
 
     public void send(DataTable dataTable) {
-        reflectionHelper.applyDatatable(dataTable);
+        for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
+            reflection.setParameterValueByTitle(dataTableRow.getKey(), dataTableRow.getValue());
+        }
+
         send();
     }
 
@@ -47,7 +49,7 @@ public abstract class EndpointEntry {
      * methods
      */
     public void send() {
-        String url = properties.getBaseURI() + "/" + requestPath;
+        String url = PROPERTIES.getBaseURI() + "/" + requestPath;
         send(url);
     }
 
@@ -61,7 +63,7 @@ public abstract class EndpointEntry {
      * an instance of bullet type
      */
     private void send(String url) {
-        reflectionHelper.applyAnnotations();
+        reflection.applyAnnotations();
 
         RequestSpecification request = buildRequest();
         Response response;
@@ -91,27 +93,26 @@ public abstract class EndpointEntry {
                 throw new UnsupportedOperationException("Request method " + requestMethod + " is not support");
         }
 
-        System.out.println("=============================RESPONSE");
         ApiEnvironment.getRepository().add(this.getClass(), new ApiPair(request, response.then().log().all()));
+
     }
 
     private RequestSpecification buildRequest() {
-        System.out.println("=============================REQUEST");
         RequestSpecification request = given().log().all();
 
-        request.queryParams(reflectionHelper.getParameters(ParameterType.QUERY));
+        request.queryParams(reflection.getParameters(ParameterType.QUERY));
 
-        request.headers(reflectionHelper.getParameters(ParameterType.HEADER));
+        request.headers(reflection.getParameters(ParameterType.HEADER));
 
-        if (!requestBodyTemplate.isEmpty()) {
-            request.body(reflectionHelper.getBody(requestBodyTemplate));
+        if (!HTTP.isBodiless(requestMethod)) {
+            request.body(reflection.getBody(requestBodyTemplate));
         }
 
         return request;
     }
 
     public void validate(String title, Object... params) {
-        reflectionHelper.validate(title, params);
+        reflection.validate(title, params);
     }
 
     public ValidatableResponse getResponse() {

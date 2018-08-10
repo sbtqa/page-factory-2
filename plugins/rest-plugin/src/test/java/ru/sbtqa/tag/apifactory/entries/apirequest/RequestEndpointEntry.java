@@ -6,7 +6,7 @@ import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.api.rest.HTTP;
+import ru.sbtqa.tag.api.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 
 @Endpoint(method = HTTP.GET, path = "client/get-with-params", title = "api request test")

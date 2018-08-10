@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
-import ru.sbtqa.tag.api.EndpointManager;
+import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.repository.ApiRepository;
 

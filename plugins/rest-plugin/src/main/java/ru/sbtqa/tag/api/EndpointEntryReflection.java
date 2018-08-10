@@ -1,6 +1,5 @@
-package ru.sbtqa.tag.api.utils;
+package ru.sbtqa.tag.api;
 
-import cucumber.api.DataTable;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -9,10 +8,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Body;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Header;
@@ -25,19 +24,21 @@ import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.get;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.set;
-import ru.sbtqa.tag.qautils.properties.Props;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
-public class ReflectionHelper {
+public class EndpointEntryReflection {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ReflectionHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EndpointEntryReflection.class);
+    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
+    private static final String BOM = "\uFEFF";
 
     private EndpointEntry endpoint;
     private List<Field> fields;
 
-    public ReflectionHelper(EndpointEntry endpoint) {
+    public EndpointEntryReflection(EndpointEntry endpoint) {
         this.endpoint = endpoint;
         this.fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(endpoint.getClass());
     }
@@ -84,26 +85,28 @@ public class ReflectionHelper {
      * doesn't exist or not available
      */
     public String getBody(String template) {
-        String body;
+        String templatePath = template.isEmpty() ? endpoint.getClass().getSimpleName() : template;
+        String body = loadTemplateFile(templatePath);
 
-        //get body template from resources
+        return replaceParameters(body);
+    }
 
-        // TODO читать по имени класса
-        String templatePath = Props.get("api.template.path", "");
-        String encoding = Props.get("api.encoding");
-        String templateFullPath = templatePath + template;
+    private String loadTemplateFile(String templatePath) {
         try {
-            body = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(templateFullPath), encoding).replace("\uFEFF", "");
+            return IOUtils
+                    .toString(getClass().getClassLoader().getResourceAsStream(templatePath), PROPERTIES.getTemplateEncoding())
+                    .replace(BOM, "");
         } catch (NullPointerException ex) {
-            throw new RestPluginException("Can't find template file by path " + templateFullPath, ex);
+            throw new RestPluginException("Can't find template file by path " + templatePath, ex);
         } catch (IOException ex) {
-            throw new RestPluginException("Template file '" + templateFullPath + "' is not available", ex);
+            throw new RestPluginException("Template file '" + templatePath + "' is not available", ex);
         }
+    }
 
-        //replace %parameter on parameter value
+    private String replaceParameters(String body) {
         for (Map.Entry<String, Object> parameter : getParameters(ParameterType.BODY).entrySet()) {
             if (parameter.getValue() instanceof String) {
-                String value = (null != parameter.getValue()) ? (String) parameter.getValue() : "";
+                String value = (String) parameter.getValue();
                 body = body.replaceAll("%" + parameter.getKey(), value);
             } else {
                 LOG.debug("Failed to substitute not String field to body template");
@@ -113,14 +116,7 @@ public class ReflectionHelper {
         return body;
     }
 
-    /**
-     * Perform action validation rule
-     *
-     * @param title a {@link java.lang.String} object.
-     * @param params a {@link java.lang.Object} object.
-     * @throws RestPluginException if can't invoke
-     * method
-     */
+
     public void validate(String title, Object... params) {
         Method[] methods = endpoint.getClass().getMethods();
         for (Method method : methods) {
@@ -134,6 +130,7 @@ public class ReflectionHelper {
                 return;
             }
         }
+
         throw new RestPluginException("There is no '" + title + "' validation rule in '" + endpoint.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
     }
 
@@ -160,17 +157,11 @@ public class ReflectionHelper {
                         }
                         break;
                     default:
-                        throw new RestPluginException("TODO");
+                        throw new RestPluginException(String.format("Parameter type \"%s\" is not supported", type));
                 }
             }
         }
 
         return parameters;
-    }
-
-    public void applyDatatable(DataTable dataTable) {
-        for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
-            setParameterValueByTitle(dataTableRow.getKey(), dataTableRow.getValue());
-        }
     }
 }

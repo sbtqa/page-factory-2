@@ -4,14 +4,14 @@ import java.lang.reflect.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.utils.ReflectionHelper;
+import ru.sbtqa.tag.api.EndpointEntryReflection;
 import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.datajack.Stash;
 
 public class StashedApplicator extends DefaultApplicator implements Applicator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ReflectionHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EndpointEntryReflection.class);
 
     public StashedApplicator(EndpointEntry entry, Field field) {
         super(entry, field);
