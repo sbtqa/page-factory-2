@@ -1,11 +1,11 @@
 package ru.sbtqa.tag.api.context;
 
-import ru.sbtqa.tag.api.Entry;
+import ru.sbtqa.tag.api.EndpointEntry;
 
 public class EndpointContext {
 
     private static String currentEndpointTitle;
-    private static Entry currentEndpoint;
+    private static EndpointEntry currentEndpoint;
 
     private EndpointContext() {}
 
@@ -17,11 +17,11 @@ public class EndpointContext {
         EndpointContext.currentEndpointTitle = currentEndpointTitle;
     }
 
-    public static Entry getCurrentEndpoint() {
+    public static EndpointEntry getCurrentEndpoint() {
         return currentEndpoint;
     }
 
-    public static void setCurrentEndpoint(Entry currentEndpoint) {
+    public static void setCurrentEndpoint(EndpointEntry currentEndpoint) {
         EndpointContext.currentEndpoint = currentEndpoint;
         EndpointContext.setCurrentEndpointTitle(currentEndpoint.getTitle());
     }

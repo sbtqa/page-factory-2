@@ -12,7 +12,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.Entry;
+import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Body;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Header;
@@ -24,8 +24,7 @@ import ru.sbtqa.tag.api.annotation.applicators.Applicator;
 import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
-import ru.sbtqa.tag.api.exception.ApiEntryInitializationException;
-import ru.sbtqa.tag.api.exception.ApiException;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.get;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.set;
 import ru.sbtqa.tag.qautils.properties.Props;
@@ -35,12 +34,12 @@ public class ReflectionHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReflectionHelper.class);
 
-    private Entry apiEntry;
+    private EndpointEntry endpoint;
     private List<Field> fields;
 
-    public ReflectionHelper(Entry apiEntry) {
-        this.apiEntry = apiEntry;
-        this.fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(apiEntry.getClass());
+    public ReflectionHelper(EndpointEntry endpoint) {
+        this.endpoint = endpoint;
+        this.fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(endpoint.getClass());
     }
 
     public void applyAnnotations() {
@@ -50,9 +49,9 @@ public class ReflectionHelper {
             ApplicatorHandler<Applicator> applicators = new ApplicatorHandler<>();
             for (Annotation annotation : field.getAnnotations()) {
                 if (annotation instanceof FromResponse) {
-                    applicators.add(new FromResponseApplicator(apiEntry, field));
+                    applicators.add(new FromResponseApplicator(endpoint, field));
                 } else if (annotation instanceof Stashed) {
-                    applicators.add(new StashedApplicator(apiEntry, field));
+                    applicators.add(new StashedApplicator(endpoint, field));
                 } else {
                     continue;
                 }
@@ -69,19 +68,19 @@ public class ReflectionHelper {
                         || annotation instanceof Query && ((Query) annotation).name().equals(name)
                         || annotation instanceof Header && ((Header) annotation).name().equals(name)
                         && value != null && !value.isEmpty()) {
-                    set(apiEntry, field, value);
+                    set(endpoint, field, value);
                     return;
                 }
             }
         }
 
-        throw new ApiEntryInitializationException("There is no '" + name + "' parameter in '" + apiEntry.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
+        throw new RestPluginException("There is no '" + name + "' parameter in '" + endpoint.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
     }
 
     /**
      * Get request body. Get request body template from resources
      *
-     * @throws ApiException if template file
+     * @throws RestPluginException if template file
      * doesn't exist or not available
      */
     public String getBody(String template) {
@@ -96,9 +95,9 @@ public class ReflectionHelper {
         try {
             body = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(templateFullPath), encoding).replace("\uFEFF", "");
         } catch (NullPointerException ex) {
-            throw new ApiEntryInitializationException("Can't find template file by path " + templateFullPath, ex);
+            throw new RestPluginException("Can't find template file by path " + templateFullPath, ex);
         } catch (IOException ex) {
-            throw new ApiEntryInitializationException("Template file '" + templateFullPath + "' is not available", ex);
+            throw new RestPluginException("Template file '" + templateFullPath + "' is not available", ex);
         }
 
         //replace %parameter on parameter value
@@ -119,23 +118,23 @@ public class ReflectionHelper {
      *
      * @param title a {@link java.lang.String} object.
      * @param params a {@link java.lang.Object} object.
-     * @throws ApiException if can't invoke
+     * @throws RestPluginException if can't invoke
      * method
      */
     public void validate(String title, Object... params) {
-        Method[] methods = apiEntry.getClass().getMethods();
+        Method[] methods = endpoint.getClass().getMethods();
         for (Method method : methods) {
             if (null != method.getAnnotation(Validation.class)
                     && method.getAnnotation(Validation.class).title().equals(title)) {
                 try {
-                    method.invoke(apiEntry, params);
+                    method.invoke(endpoint, params);
                 } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-                    throw new ApiException("Failed to invoke method", e);
+                    throw new RestPluginException("Failed to invoke method", e);
                 }
                 return;
             }
         }
-        throw new ApiEntryInitializationException("There is no '" + title + "' validation rule in '" + apiEntry.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
+        throw new RestPluginException("There is no '" + title + "' validation rule in '" + endpoint.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
     }
 
     public Map<String, Object> getParameters(ParameterType type) {
@@ -147,21 +146,21 @@ public class ReflectionHelper {
                 switch (type) {
                     case QUERY:
                         if (annotation instanceof Query) {
-                            parameters.put(((Query) annotation).name(), get(apiEntry, field));
+                            parameters.put(((Query) annotation).name(), get(endpoint, field));
                         }
                         break;
                     case HEADER:
                         if (annotation instanceof Header) {
-                            parameters.put(((Header) annotation).name(), get(apiEntry, field));
+                            parameters.put(((Header) annotation).name(), get(endpoint, field));
                         }
                         break;
                     case BODY:
                         if (annotation instanceof Body) {
-                            parameters.put(((Body) annotation).name(), get(apiEntry, field));
+                            parameters.put(((Body) annotation).name(), get(endpoint, field));
                         }
                         break;
                     default:
-                        throw new ApiException("TODO");
+                        throw new RestPluginException("TODO");
                 }
             }
         }

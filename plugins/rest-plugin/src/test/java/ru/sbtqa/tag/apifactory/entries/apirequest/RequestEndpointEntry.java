@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.apifactory.entries.apirequest;
 
 import static org.hamcrest.Matchers.equalTo;
-import ru.sbtqa.tag.api.Entry;
+import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Query;
@@ -10,7 +10,7 @@ import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.apifactory.utils.Default;
 
 @Endpoint(method = HTTP.GET, path = "client/get-with-params", title = "api request test")
-public class RequestEntry extends Entry {
+public class RequestEndpointEntry extends EndpointEntry {
 
     @Query(name = Default.PARAMETER_NAME1)
     private String param = Default.PARAMETER_VALUE1;

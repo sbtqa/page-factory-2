@@ -20,44 +20,44 @@ public @interface FromResponse {
      *
      * @return a {@link java.lang.Class} object.
      */
-    public Class responseApiEntry() default void.class;
+    Class endpointEntry() default void.class;
 
     /**
-     * Use data from previous response. Use without 'responseApiEntry'
+     * Use data from previous response. Use without 'endpointEntry'
      *
      * @return a {@link java.lang.Boolean} object.
      */
-    public boolean usePreviousResponse() default true;
+    boolean usePrevious() default true;
 
     /**
      * Path to search. Useful for body of response.
      *
      * @return a {@link java.lang.String} object.
      */
-    public String path() default "";
+    String path() default "";
 
     /**
      * Header name. Take value of this name
      *
      * @return {@link java.lang.String} object.
      */
-    public String header() default "";
+    String header() default "";
 
     /**
      * Regex mask on return value
      *
      * @return {@link java.lang.String} object.
      */
-    public String mask() default "";
+    String mask() default "";
 
     /**
      * Body of necessity the annotated field. If set false, then annotated
      * parameter will set to null when it was found in document. If set true,
-     * then annotated parameter will be set to equal value from responseApiEntry
+     * then annotated parameter will be set to equal value from endpointEntry
      * answer, but if parameter wasn't found in document error exception will be
      * thrown and tests finished
      *
      * @return a {@link java.lang.String} object.
      */
-    public boolean necessity() default true;
+    boolean necessity() default true;
 }

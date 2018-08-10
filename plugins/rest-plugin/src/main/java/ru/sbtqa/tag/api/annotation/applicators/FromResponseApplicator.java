@@ -4,19 +4,19 @@ import io.restassured.response.ValidatableResponse;
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import ru.sbtqa.tag.api.Entry;
+import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.annotation.FromResponse;
-import ru.sbtqa.tag.api.exception.ApiException;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 
 @Order(0)
 public class FromResponseApplicator extends DefaultApplicator implements Applicator {
 
-    FromResponse fromResponse;
+    FromResponse fromResponseAnnotation;
 
-    public FromResponseApplicator(Entry entry, Field field) {
+    public FromResponseApplicator(EndpointEntry entry, Field field) {
         super(entry, field);
-        this.fromResponse = field.getAnnotation(FromResponse.class);
+        this.fromResponseAnnotation = field.getAnnotation(FromResponse.class);
     }
 
     @Override
@@ -29,22 +29,22 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
     }
 
     private ValidatableResponse getResponse() {
-        Class fromApiEntry = fromResponse.responseApiEntry();
+        Class fromEndpoint = fromResponseAnnotation.endpointEntry();
 
-        if ((fromApiEntry == void.class || fromApiEntry == null) && fromResponse.usePreviousResponse()) {
+        if ((fromEndpoint == void.class || fromEndpoint == null) && fromResponseAnnotation.usePrevious()) {
             return ApiEnvironment.getRepository().getLast().getResponse();
         } else {
-            return ApiEnvironment.getRepository().get(fromApiEntry).getResponse();
+            return ApiEnvironment.getRepository().get(fromEndpoint).getResponse();
         }
     }
 
     private Object getValue(ValidatableResponse response) {
-        if (!"".equals(fromResponse.header())) {
-            return response.extract().header(fromResponse.header());
+        if (!"".equals(fromResponseAnnotation.header())) {
+            return response.extract().header(fromResponseAnnotation.header());
         } else {
-            if (response.extract().body().path(fromResponse.path()) != null
+            if (response.extract().body().path(fromResponseAnnotation.path()) != null
                     || field.getAnnotation(FromResponse.class).necessity()) {
-                return response.extract().body().path(fromResponse.path()).toString();
+                return response.extract().body().path(fromResponseAnnotation.path()).toString();
             } else {
                 return null;
             }
@@ -52,16 +52,16 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
     }
 
     private Object applyMask(Object value) {
-        if (!fromResponse.mask().isEmpty()) {
+        if (!fromResponseAnnotation.mask().isEmpty()) {
             if (value instanceof String) {
-                Matcher matcher = Pattern.compile(fromResponse.mask()).matcher((String) value);
+                Matcher matcher = Pattern.compile(fromResponseAnnotation.mask()).matcher((String) value);
                 value = "";
                 if (matcher.find()) {
                     value = matcher.group(1);
                 }
                 return value;
             } else {
-                throw new ApiException("Masking was failed because " + field.getName() + " is not instance of String");
+                throw new RestPluginException("Masking was failed because " + field.getName() + " is not instance of String");
             }
         } else {
             return value;

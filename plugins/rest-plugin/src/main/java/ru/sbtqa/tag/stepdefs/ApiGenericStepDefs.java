@@ -3,7 +3,7 @@ package ru.sbtqa.tag.stepdefs;
 import cucumber.api.DataTable;
 import ru.sbtqa.tag.api.EndpointManager;
 import ru.sbtqa.tag.api.context.EndpointContext;
-import ru.sbtqa.tag.api.exception.ApiException;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 
 /**
  * Basic step definitions, that should be available on every project
@@ -29,7 +29,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * Execute endpoint action (request) with no parameters
      *
      * @param action name value of the endpoint annotation to execute
-     * @throws ApiException if there is an error while endpoint executing
+     * @throws RestPluginException if there is an error while endpoint executing
      */
     public void userSendRequestNoParams(String action) {
         EndpointManager.getEndpoint(action).send();
@@ -41,7 +41,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      *
      * @param action name value of the endpoint annotation to execute
      * @param dataTable table of parameters
-     * @throws ApiException if there is an error while endpoint executing
+     * @throws RestPluginException if there is an error while endpoint executing
      */
     public void userSendRequestTableParam(String action, DataTable dataTable) {
         EndpointManager.getEndpoint(action).send(dataTable);
@@ -54,7 +54,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      *
      * @param rule name of the validation rule (name value of the
      * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
-     * @throws ApiException if there is an error while validation rule executing
+     * @throws RestPluginException if there is an error while validation rule executing
      */
     public void userValidate(String rule) {
         EndpointContext.getCurrentEndpoint().validate(rule);
@@ -68,7 +68,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param rule name of the validation rule (name value of the
      * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
      * @param dataTable table of parameters
-     * @throws ApiException if there is an error while validation rule executing
+     * @throws RestPluginException if there is an error while validation rule executing
      */
     public void userValidateTable(String rule, DataTable dataTable) {
         EndpointContext.getCurrentEndpoint().validate(rule, dataTable);

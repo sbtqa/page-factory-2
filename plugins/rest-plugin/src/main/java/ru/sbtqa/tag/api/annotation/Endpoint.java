@@ -6,11 +6,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import ru.sbtqa.tag.api.rest.HTTP;
 
-/**
- * This annotation used above ApiEntry class declaration
- *
- *
- */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Endpoint {

@@ -6,19 +6,16 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.aeonbits.owner.ConfigFactory;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
-import ru.sbtqa.tag.api.exception.ApiException;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
 import ru.sbtqa.tag.api.rest.HTTP;
 import ru.sbtqa.tag.api.utils.ReflectionHelper;
 
-/**
- * Api object (ala Page object). Request to definite url with a set of
- * parameters such as request method, parameters, response validation.
- */
-public abstract class Entry implements Comparable {
+public abstract class EndpointEntry {
 
     private static final ApiConfiguration properties = ConfigFactory.create(ApiConfiguration.class);
 
@@ -28,12 +25,12 @@ public abstract class Entry implements Comparable {
     private String requestBodyTemplate;
     private String title;
 
-    public Entry() {
+    public EndpointEntry() {
         reflectionHelper = new ReflectionHelper(this);
-        requestMethod = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).method();
-        requestPath = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).path();
-        requestBodyTemplate = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).template();
-        title = this.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title();
+        requestMethod = this.getClass().getAnnotation(Endpoint.class).method();
+        requestPath = this.getClass().getAnnotation(Endpoint.class).path();
+        requestBodyTemplate = this.getClass().getAnnotation(Endpoint.class).template();
+        title = this.getClass().getAnnotation(Endpoint.class).title();
     }
 
     public void send(DataTable dataTable) {
@@ -46,7 +43,7 @@ public abstract class Entry implements Comparable {
      * url and send request step
      *
      * @return response
-     * @throws ApiException if there is an error in setters, prepare or send
+     * @throws RestPluginException if there is an error in setters, prepare or send
      * methods
      */
     public void send() {
@@ -60,7 +57,7 @@ public abstract class Entry implements Comparable {
      *
      * @param url action target
      * @return response
-     * @throws ApiException if response is not
+     * @throws RestPluginException if response is not
      * an instance of bullet type
      */
     private void send(String url) {
@@ -113,14 +110,6 @@ public abstract class Entry implements Comparable {
         return request;
     }
 
-    /**
-     * Perform action validation rule
-     *
-     * @param title a {@link java.lang.String} object.
-     * @param params a {@link java.lang.Object} object.
-     * @throws ApiException if can't invoke
-     * method
-     */
     public void validate(String title, Object... params) {
         reflectionHelper.validate(title, params);
     }
@@ -131,10 +120,5 @@ public abstract class Entry implements Comparable {
 
     public String getTitle() {
         return title;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return 0;
     }
 }

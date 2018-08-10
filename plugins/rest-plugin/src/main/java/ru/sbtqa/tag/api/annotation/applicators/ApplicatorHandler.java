@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import ru.sbtqa.tag.api.exception.ApiException;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class ApplicatorHandler<T extends Applicator> {
 
@@ -40,7 +40,7 @@ public class ApplicatorHandler<T extends Applicator> {
         try {
             return (int) Order.class.getDeclaredMethod("value").getDefaultValue();
         } catch (NoSuchMethodException e) {
-            throw new ApiException("Default value method is not available in Order annotation");
+            throw new RestPluginException("Default value method is not available in Order annotation");
         }
     }
 }
