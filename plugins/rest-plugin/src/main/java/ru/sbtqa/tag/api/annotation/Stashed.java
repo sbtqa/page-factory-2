@@ -15,11 +15,6 @@ import ru.sbtqa.tag.api.annotation.strategies.By;
 @Target(ElementType.FIELD)
 public @interface Stashed {
 
-    /**
-     * endpoint class which response use to
-     *
-     * @return a {@link java.lang.Class} object.
-     */
     By by() default By.NAME;
 
     String title() default "";

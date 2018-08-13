@@ -111,11 +111,6 @@
       <artifactId>cucumber-java</artifactId>
       <version>${cucumber.version}</version>
     </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>allure-helper</artifactId>
-      <version>1.4.1</version>
-    </dependency>
   </dependencies>
 
   <build>

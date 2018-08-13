@@ -16,7 +16,6 @@ public abstract class DefaultApplicator {
 
     protected Object get(Field field) {
         return ReflectionUtils.get(endpoint, field);
-
     }
 
     protected void set(Field field, Object value) {

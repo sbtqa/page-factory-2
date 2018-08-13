@@ -10,7 +10,6 @@ import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
-import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
 
@@ -40,28 +39,11 @@ public abstract class EndpointEntry {
         send();
     }
 
-    /**
-     * Perform api request. Consist of prepare step, fill parameters step, buildRequest
-     * url and send request step
-     *
-     * @return response
-     * @throws RestPluginException if there is an error in setters, prepare or send
-     * methods
-     */
     public void send() {
         String url = PROPERTIES.getBaseURI() + "/" + requestPath;
         send(url);
     }
 
-    /**
-     * Perform action with request method to url. Override it if you need use
-     * another rest or soap implementation
-     *
-     * @param url action target
-     * @return response
-     * @throws RestPluginException if response is not
-     * an instance of bullet type
-     */
     private void send(String url) {
         reflection.applyAnnotations();
 

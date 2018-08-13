@@ -78,12 +78,6 @@ public class EndpointEntryReflection {
         throw new RestPluginException("There is no '" + name + "' parameter in '" + endpoint.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
     }
 
-    /**
-     * Get request body. Get request body template from resources
-     *
-     * @throws RestPluginException if template file
-     * doesn't exist or not available
-     */
     public String getBody(String template) {
         String templatePath = template.isEmpty() ? endpoint.getClass().getSimpleName() : template;
         String body = loadTemplateFile(templatePath);

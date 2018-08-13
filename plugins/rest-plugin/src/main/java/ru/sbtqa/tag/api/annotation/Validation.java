@@ -5,20 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Api response validation rule. To be executed, it must be directly called from
- * feature.
- *
- *
- */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Validation {
 
-    /**
-     * By this name rule will be searched by framework
-     *
-     * @return {@link java.lang.String} object.
-     */
     String title();
 }

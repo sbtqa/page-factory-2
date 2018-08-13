@@ -12,7 +12,7 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 @Order(0)
 public class FromResponseApplicator extends DefaultApplicator implements Applicator {
 
-    FromResponse fromResponseAnnotation;
+    private FromResponse fromResponseAnnotation;
 
     public FromResponseApplicator(EndpointEntry entry, Field field) {
         super(entry, field);

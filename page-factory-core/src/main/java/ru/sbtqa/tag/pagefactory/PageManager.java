@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +32,7 @@ import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 public class PageManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageManager.class);
-    private static final Map<Class<? extends Page>, Map<Field, String>>     PAGES_REPOSITORY = new HashMap<>();
+    private static final Map<Class<? extends Page>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     private PageManager() {}
@@ -228,6 +229,19 @@ public class PageManager {
     }
 
     private static Set<Class<?>> getAllClasses() {
-        return new Reflections(PROPERTIES.getPagesPackage()).getSubTypesOf(Object.class);
+        Set<Class<?>> allClasses = new HashSet();
+
+        Reflections reflections = new Reflections(PROPERTIES.getPagesPackage());
+        Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
+
+        for (String clazz : allClassesString) {
+            try {
+                allClasses.add(Class.forName(clazz));
+            } catch (ClassNotFoundException e) {
+                LOG.warn("Cannot add to cache class with name {}", clazz, e);
+            }
+        }
+
+        return allClasses;
     }
 }

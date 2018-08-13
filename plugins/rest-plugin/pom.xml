@@ -12,14 +12,13 @@
   </parent>
 
   <groupId>ru.sbtqa.tag.pagefactory</groupId>
-  <artifactId>api-plugin</artifactId>
+  <artifactId>rest-plugin</artifactId>
   <packaging>jar</packaging>
 
   <name>rest-plugin</name>
 
   <properties>
     <skipTests>false</skipTests>
-    <aspectj.version>1.8.10</aspectj.version>
   </properties>
 
   <dependencies>
@@ -82,9 +81,7 @@
       <artifactId>commons-collections</artifactId>
       <version>3.2.2</version>
     </dependency>
-
   </dependencies>
-
 
   <build>
     <plugins>
@@ -124,11 +121,6 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
           </dependency>
-          <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjtools</artifactId>-->
-            <!--<version>1.8.3</version>-->
-          <!--</dependency>-->
         </dependencies>
       </plugin>
     </plugins>
