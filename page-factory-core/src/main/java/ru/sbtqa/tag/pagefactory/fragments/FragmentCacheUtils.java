@@ -6,12 +6,11 @@ import com.google.common.graph.MutableGraph;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
-import gherkin.ast.*;
-import org.aeonbits.owner.ConfigFactory;
-import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
-
+import gherkin.ast.Feature;
+import gherkin.ast.GherkinDocument;
+import gherkin.ast.ScenarioDefinition;
+import gherkin.ast.Step;
+import gherkin.ast.Tag;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +30,7 @@ public class FragmentCacheUtils {
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
     private static final String FRAGMENT_TAG = "@fragment";
 
-    private FragmentCacheUtils() {
-    }
+    private FragmentCacheUtils() {}
 
     public static List<CucumberFeature> cacheFragmentsToFeatures(Class clazz, List<CucumberFeature> features) {
         if (PROPERTIES.getFragmentsPath().isEmpty()) {
