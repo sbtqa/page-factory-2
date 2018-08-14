@@ -53,8 +53,6 @@ public class EndpointEntryReflection {
                     applicators.add(new FromResponseApplicator(endpoint, field));
                 } else if (annotation instanceof Stashed) {
                     applicators.add(new StashedApplicator(endpoint, field));
-                } else {
-                    continue;
                 }
             }
 

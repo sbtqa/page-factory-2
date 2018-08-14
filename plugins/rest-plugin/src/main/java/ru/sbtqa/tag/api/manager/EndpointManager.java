@@ -22,6 +22,8 @@ public class EndpointManager {
     private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
     private static final Set<Class<?>> ENDPOINTS_CACHE = new HashSet<>();
 
+    private EndpointManager() {}
+
     public static EndpointEntry getEndpoint(String title) {
         if (null == EndpointContext.getCurrentEndpoint() || !EndpointContext.getCurrentEndpointTitle().equals(title)) {
             return getEndpointFromCache(title);

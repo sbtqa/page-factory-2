@@ -40,31 +40,6 @@ public class PageManager {
     }
 
     /**
-     * Initialize page by class
-     *
-     * @param page a page class
-     * @param driver a web driver
-     * @return the page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
-     */
-    public static Page getPage(Class<? extends Page> page, WebDriver driver) throws PageInitializationException {
-        return bootstrapPage(page, driver);
-    }
-
-    /**
-     * Get Page by PageEntry title
-     *
-     * @param packageName a path to page objects
-     * @param title a page title
-     * @param driver a web driver
-     * @return the page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
-     */
-    public static Page getPage(String packageName, String title, WebDriver driver) throws PageInitializationException {
-        return bootstrapPage(getPageClass(packageName, title), driver);
-    }
-
-    /**
      * Initialize page with specified title and save its instance to
      * {@link PageContext#currentPage} for further use
      *
@@ -74,17 +49,27 @@ public class PageManager {
      */
     public static Page getPage(String title) throws PageInitializationException {
         if (null == PageContext.getCurrentPage() || !PageContext.getCurrentPageTitle().equals(title)) {
-            if (null != PageContext.getCurrentPage()) {
-                getPage(PROPERTIES.getPagesPackage(), title, Environment.getDriverService().getDriver());
-            }
-            if (null == PageContext.getCurrentPage()) {
-                getPage(PROPERTIES.getPagesPackage(), title, Environment.getDriverService().getDriver());
-            }
+            Page page = getPage(title, Environment.getDriverService().getDriver());
+            PageContext.setCurrentPage(page);
+
             if (null == PageContext.getCurrentPage()) {
                 throw new AutotestError("Page object with title '" + title + "' is not registered");
             }
         }
+
         return PageContext.getCurrentPage();
+    }
+
+    /**
+     * Get Page by PageEntry title
+     *
+     * @param title a page title
+     * @param driver a web driver
+     * @return the page object
+     * @throws PageInitializationException if failed to execute corresponding page constructor
+     */
+    public static Page getPage(String title, WebDriver driver) throws PageInitializationException {
+        return bootstrapPage(getPageClass(title), driver);
     }
 
     /**
@@ -101,9 +86,7 @@ public class PageManager {
                 @SuppressWarnings("unchecked")
                 Constructor<Page> constructor = ((Constructor<Page>) page.getConstructor(WebDriver.class));
                 constructor.setAccessible(true);
-                Page currentPage = constructor.newInstance(driver);
-                PageContext.setCurrentPage(currentPage);
-                return currentPage;
+                return  constructor.newInstance(driver);
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new PageInitializationException("Failed to initialize page '" + page + "'", e);
             }
@@ -112,25 +95,12 @@ public class PageManager {
     }
 
     /**
-     * @param packageName a path to page objects
      * @param title a page title
      * @return the page class
      */
-    private static Class<?> getPageClass(final String packageName, String title) {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        final Set<Class<?>> allClasses = new HashSet<>();
-        // TODO: var add cash 5/29/17
-        try {
-            for (ClassPath.ClassInfo info : ClassPath.from(loader).getAllClasses()) {
-                if (info.getName().startsWith(packageName + ".")) {
-                    allClasses.add(info.load());
-                }
-            }
-        } catch (IOException ex) {
-            LOG.warn("Failed to shape class info set", ex);
-        }
-
-        for (Class<?> page : allClasses) {
+    private static Class<?> getPageClass(String title) {
+        for (Map.Entry<Class<? extends Page>, Map<Field, String>> pageEntry : PAGES_REPOSITORY.entrySet()) {
+            Class<?> page = pageEntry.getKey();
             String pageTitle = null;
             if (null != page.getAnnotation(PageEntry.class)) {
                 pageTitle = page.getAnnotation(PageEntry.class).title();
@@ -157,15 +127,12 @@ public class PageManager {
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
     public static Page changeUrlByTitle(String title) throws PageInitializationException {
-        if (null != PageContext.getCurrentPage()) {
-            PageContext.setCurrentPage(changeUrlByTitle(PROPERTIES.getPagesPackage(), title));
-        }
-        if (null == PageContext.getCurrentPage()) {
-            PageContext.setCurrentPage(changeUrlByTitle(PROPERTIES.getPagesPackage(), title));
-        }
+        PageContext.setCurrentPage(changeUrlByTitle(PROPERTIES.getPagesPackage(), title));
+
         if (null == PageContext.getCurrentPage()) {
             throw new AutotestError("Page Object with title " + title + " is not registered");
         }
+
         return PageContext.getCurrentPage();
     }
 
@@ -179,13 +146,13 @@ public class PageManager {
      */
     public static Page changeUrlByTitle(String packageName, String title) throws PageInitializationException {
 
-        Class<?> pageClass = getPageClass(packageName, title);
+        Class<?> pageClass = getPageClass(title);
         if (pageClass == null) {
             return null;
         }
 
         Annotation annotation = pageClass.getAnnotation(PageEntry.class);
-        String currentUrl = PageContext.getCurrentPage().getDriver().getCurrentUrl();
+        String currentUrl = Environment.getDriverService().getDriver().getCurrentUrl();
         if (annotation != null && !((PageEntry) annotation).url().isEmpty()) {
             if (currentUrl == null) {
                 throw new AutotestError("Current URL is null");
@@ -194,13 +161,13 @@ public class PageManager {
                     URL newUrl = new URL(currentUrl);
                     String finalUrl = new URL(newUrl.getProtocol(), newUrl.getHost(), newUrl.getPort(),
                             ((PageEntry) annotation).url()).toString();
-                    PageContext.getCurrentPage().getDriver().navigate().to(finalUrl);
+                    Environment.getDriverService().getDriver().navigate().to(finalUrl);
                 } catch (MalformedURLException ex) {
                     LOG.error("Failed to get current url", ex);
                 }
             }
 
-            return bootstrapPage(pageClass, PageContext.getCurrentPage().getDriver());
+            return bootstrapPage(pageClass, Environment.getDriverService().getDriver());
         }
 
         throw new AutotestError("Page " + title + " doesn't have fast URL in PageEntry");

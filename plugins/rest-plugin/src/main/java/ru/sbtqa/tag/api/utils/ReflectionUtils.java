@@ -6,6 +6,8 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class ReflectionUtils {
 
+    private ReflectionUtils() {}
+
     public static Object get(EndpointEntry endpoint, Field field) {
         try {
             field.setAccessible(true);
