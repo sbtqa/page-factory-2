@@ -1,15 +1,15 @@
-package ru.sbtqa.tag.apifactory.entries.apiaction.json;
+package ru.sbtqa.tag.api.entries.apiaction.json;
 
 import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.HTTP;
+import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Body;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.apifactory.utils.Default;
+import ru.sbtqa.tag.api.utils.Default;
 
-@Endpoint(method = HTTP.PATCH, path = "client/patch", title = "patch test", template = "templates/Client.json")
+@Endpoint(method = Rest.PATCH, path = "client/patch", title = "patch test", template = "templates/Client.json")
 public class PatchEndpointEntry extends EndpointEntry {
 
     @Header(name = "Content-Type")

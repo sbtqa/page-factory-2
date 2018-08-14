@@ -6,14 +6,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
+/**
+ * Queue of applicators.
+ * Add, sort applicators by {@link Order} and apply it
+ * @param <T> type of applicator's queue
+ */
 public class ApplicatorHandler<T extends Applicator> {
 
     private List<T> applicators = new ArrayList<>();
 
+    /**
+     * Add applicator to queue
+     * @param applicator applicator
+     */
     public void add(T applicator) {
         applicators.add(applicator);
     }
 
+    /**
+     * Sort by {@link Order} and perform applicators
+     */
     public void apply() {
         sort();
 
@@ -27,8 +39,9 @@ public class ApplicatorHandler<T extends Applicator> {
     private List<T> sort() {
         return applicators.stream()
                 .sorted(Comparator.comparing(applicator -> {
-                    if (applicator.getClass().getAnnotation(Order.class) != null) {
-                        return applicator.getClass().getAnnotation(Order.class).value();
+                    Order order = applicator.getClass().getAnnotation(Order.class);
+                    if (order != null) {
+                        return order.value();
                     } else {
                         return getDefaultOrder();
                     }

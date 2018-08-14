@@ -13,22 +13,30 @@ import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
 
+/**
+ * An endpoint request (ala Page Object).
+ * <p>
+ * It symbolizes the request for an api endpoint. You need to extends your entries from this class
+ * and annotate with {@link ru.sbtqa.tag.api.annotation.Endpoint}
+ */
 public abstract class EndpointEntry {
 
     private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
 
     private EndpointEntryReflection reflection;
-    private HTTP requestMethod;
-    private String requestPath;
-    private String requestBodyTemplate;
+    private Rest method;
+    private String path;
+    private String template;
     private String title;
 
     public EndpointEntry() {
         reflection = new EndpointEntryReflection(this);
-        requestMethod = this.getClass().getAnnotation(Endpoint.class).method();
-        requestPath = this.getClass().getAnnotation(Endpoint.class).path();
-        requestBodyTemplate = this.getClass().getAnnotation(Endpoint.class).template();
-        title = this.getClass().getAnnotation(Endpoint.class).title();
+
+        Endpoint endpoint = this.getClass().getAnnotation(Endpoint.class);
+        method = endpoint.method();
+        path = endpoint.path();
+        template = endpoint.template();
+        title = endpoint.title();
     }
 
     public void send(DataTable dataTable) {
@@ -40,7 +48,7 @@ public abstract class EndpointEntry {
     }
 
     public void send() {
-        String url = PROPERTIES.getBaseURI() + "/" + requestPath;
+        String url = PROPERTIES.getBaseURI() + "/" + path;
         send(url);
     }
 
@@ -49,7 +57,7 @@ public abstract class EndpointEntry {
 
         RequestSpecification request = buildRequest();
         Response response;
-        switch (requestMethod) {
+        switch (method) {
             case GET:
                 response = request.get(url);
                 break;
@@ -72,7 +80,7 @@ public abstract class EndpointEntry {
                 response = request.head(url);
                 break;
             default:
-                throw new UnsupportedOperationException("Request method " + requestMethod + " is not support");
+                throw new UnsupportedOperationException("Request method " + method + " is not supported");
         }
 
         ApiEnvironment.getRepository().add(this.getClass(), new ApiPair(request, response.then().log().all()));
@@ -81,15 +89,12 @@ public abstract class EndpointEntry {
 
     private RequestSpecification buildRequest() {
         RequestSpecification request = given().log().all();
-
         request.queryParams(reflection.getParameters(ParameterType.QUERY));
-
         request.headers(reflection.getParameters(ParameterType.HEADER));
-
-        if (!HTTP.isBodiless(requestMethod)) {
-            request.body(reflection.getBody(requestBodyTemplate));
+        if (!Rest.isBodiless(method)) {
+            request.body(reflection.getBody(template));
         }
-
+        
         return request;
     }
 

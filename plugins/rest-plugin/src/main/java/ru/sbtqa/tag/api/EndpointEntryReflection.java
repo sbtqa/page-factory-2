@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.annotation.Body;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.ParameterType;
@@ -29,6 +30,11 @@ import static ru.sbtqa.tag.api.utils.ReflectionUtils.get;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.set;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
+/**
+ * The assistant class for {@link EndpointEntry}.
+ * <p>
+ * It helps to apply all of the fields annotations and consists getters for this fields
+ */
 public class EndpointEntryReflection {
 
     private static final Logger LOG = LoggerFactory.getLogger(EndpointEntryReflection.class);
@@ -36,13 +42,18 @@ public class EndpointEntryReflection {
     private static final String BOM = "\uFEFF";
 
     private EndpointEntry endpoint;
+    private String entryTitle;
     private List<Field> fields;
 
     public EndpointEntryReflection(EndpointEntry endpoint) {
         this.endpoint = endpoint;
+        this.entryTitle = endpoint.getClass().getAnnotation(Endpoint.class).title();
         this.fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(endpoint.getClass());
     }
 
+    /**
+     * Apply all belongs annotations to fields in endpoint entry
+     */
     public void applyAnnotations() {
         for (Field field : fields) {
             field.setAccessible(true);
@@ -60,6 +71,12 @@ public class EndpointEntryReflection {
         }
     }
 
+    /**
+     * Get field by parameter annotation name (it can be one of {@link ru.sbtqa.tag.api.annotation.ParameterType}) and
+     * set value to this field
+     * @param name parameter annotation name
+     * @param value value to set
+     */
     public void setParameterValueByTitle(String name, String value) {
         for (Field field : fields) {
             for (Annotation annotation : field.getAnnotations()) {
@@ -73,9 +90,14 @@ public class EndpointEntryReflection {
             }
         }
 
-        throw new RestPluginException("There is no '" + name + "' parameter in '" + endpoint.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
+        throw new RestPluginException(String.format("There is no \"%s\" parameter in \"%s\" endpoint", name, entryTitle));
     }
 
+    /**
+     * Get template by path, replace all placeholders and return it
+     * @param template path to template {@link Endpoint#template()}
+     * @return template with replaced placeholders
+     */
     public String getBody(String template) {
         String templatePath = template.isEmpty() ? endpoint.getClass().getSimpleName() : template;
         String body = loadTemplateFile(templatePath);
@@ -108,23 +130,34 @@ public class EndpointEntryReflection {
         return body;
     }
 
-
+    /**
+     * Invoke method annotated with {@link Validation} by title
+     *
+     * @param title title of validation rule {@link Validation#title()}
+     * @param params params to pass to validation rule method
+     */
     public void validate(String title, Object... params) {
         Method[] methods = endpoint.getClass().getMethods();
         for (Method method : methods) {
-            if (null != method.getAnnotation(Validation.class)
-                    && method.getAnnotation(Validation.class).title().equals(title)) {
+            Validation validation = method.getAnnotation(Validation.class);
+            if (validation != null && validation.title().equals(title)) {
                 try {
                     method.invoke(endpoint, params);
                 } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-                    throw new RestPluginException("Failed to invoke method", e);
+                    throw new RestPluginException(String.format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", title, entryTitle), e);
                 }
                 return;
             }
         }
 
-        throw new RestPluginException("There is no '" + title + "' validation rule in '" + endpoint.getClass().getAnnotation(ru.sbtqa.tag.api.annotation.Endpoint.class).title() + "' endpoint.");
+        throw new RestPluginException(String.format("There is no \"%s\" validation rule in \"%s\" endpoint", title, entryTitle));
     }
+
+    /**
+     * Get name-field map with fields annotated with one of {@link ParameterType} annotation
+     * @param type type of parameter
+     * @return name-field map
+     */
 
     public Map<String, Object> getParameters(ParameterType type) {
         Map<String, Object> parameters = new HashMap<>();

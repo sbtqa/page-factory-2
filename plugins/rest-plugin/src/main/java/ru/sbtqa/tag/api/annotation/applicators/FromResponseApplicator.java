@@ -9,6 +9,9 @@ import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
+/**
+ * Applicator for {@link FromResponse} annotation
+ */
 @Order(0)
 public class FromResponseApplicator extends DefaultApplicator implements Applicator {
 

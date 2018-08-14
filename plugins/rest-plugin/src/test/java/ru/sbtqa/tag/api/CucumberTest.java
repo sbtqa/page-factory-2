@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.apifactory;
+package ru.sbtqa.tag.api;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -6,7 +6,7 @@ import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
-import ru.sbtqa.tag.apifactory.utils.JettyServiceUtils;
+import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(

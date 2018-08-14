@@ -1,7 +1,7 @@
-package ru.sbtqa.tag.apifactory.utils;
+package ru.sbtqa.tag.api.utils;
 
 
-import ru.sbtqa.tag.apifactory.dto.Client;
+import ru.sbtqa.tag.api.dto.Client;
 
 public class TestDataUtils {
 

@@ -1,10 +1,6 @@
 #language:en
-@apirequest
-Feature: Api request test
-
-  Scenario: Header and param
-    * user sends request for "api request test"
-    * system returns "result"
+@datatable
+Feature: Datatable test
 
   Scenario: Header and param with params
     * user sends request for "api request with params test" with parameters

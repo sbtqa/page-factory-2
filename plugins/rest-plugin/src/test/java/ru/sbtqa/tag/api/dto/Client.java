@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.apifactory.dto;
+package ru.sbtqa.tag.api.dto;
 
 public class Client {
 

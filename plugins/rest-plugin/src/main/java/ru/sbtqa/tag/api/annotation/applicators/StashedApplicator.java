@@ -9,6 +9,9 @@ import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.datajack.Stash;
 
+/**
+ * Applicator for {@link Stashed} annotation
+ */
 public class StashedApplicator extends DefaultApplicator implements Applicator {
 
     private static final Logger LOG = LoggerFactory.getLogger(EndpointEntryReflection.class);
