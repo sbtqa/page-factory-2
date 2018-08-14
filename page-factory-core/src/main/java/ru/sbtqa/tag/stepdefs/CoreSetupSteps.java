@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.Scenario;
-import ru.sbtqa.tag.pagefactory.PageManager;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.tasks.ConnectToLogTask;
@@ -34,8 +32,6 @@ public class CoreSetupSteps {
         }
 
         ScenarioContext.setScenario(scenario);
-        PageManager.cachePages();
-        PageContext.resetContext();
     }
 
     public void tearDown() {
