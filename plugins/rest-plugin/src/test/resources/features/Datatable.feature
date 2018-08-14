@@ -1,5 +1,5 @@
 #language:en
-@datatable
+@dаtatable
 Feature: Datatable test
 
   Scenario: Header and param with params
