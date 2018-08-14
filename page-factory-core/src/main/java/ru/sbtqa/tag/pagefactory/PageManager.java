@@ -126,24 +126,6 @@ public class PageManager {
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
     public static Page changeUrlByTitle(String title) throws PageInitializationException {
-        PageContext.setCurrentPage(changeUrlByTitle(PROPERTIES.getPagesPackage(), title));
-
-        if (null == PageContext.getCurrentPage()) {
-            throw new AutotestError("Page Object with title " + title + " is not registered");
-        }
-
-        return PageContext.getCurrentPage();
-    }
-
-    /**
-     * Redirect to Page by Page Entry url value
-     *
-     * @param packageName a path to page objects
-     * @param title  a page title
-     * @return the page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
-     */
-    public static Page changeUrlByTitle(String packageName, String title) throws PageInitializationException {
 
         Class<?> pageClass = getPageClass(title);
         if (pageClass == null) {
@@ -166,7 +148,10 @@ public class PageManager {
                 }
             }
 
-            return bootstrapPage(pageClass, Environment.getDriverService().getDriver());
+            Page page = bootstrapPage(pageClass, Environment.getDriverService().getDriver());
+            PageContext.setCurrentPage(page);
+
+            return page;
         }
 
         throw new AutotestError("Page " + title + " doesn't have fast URL in PageEntry");
