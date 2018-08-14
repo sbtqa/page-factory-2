@@ -66,7 +66,7 @@ public class DataParser {
     }
 
     private String parseTags(List<Tag> tags) {
-        Optional<Tag> dataTag = tags.stream().filter(predicate -> predicate.getName().startsWith("@data[\\s|=]")).findFirst();
+        Optional<Tag> dataTag = tags.stream().filter(predicate -> predicate.getName().startsWith("@data=")).findFirst();
         return dataTag.map(tag -> tag.getName().split("=")[1].trim()).orElse(null);
     }
 
