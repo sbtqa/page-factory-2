@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.Set;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.WebDriver;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -231,15 +229,13 @@ public class PageManager {
     private static Set<Class<?>> getAllClasses() {
         Set<Class<?>> allClasses = new HashSet();
 
-        Reflections reflections = new Reflections(PROPERTIES.getPagesPackage());
-        Collection<String> allClassesString = reflections.getStore().get("SubTypesScanner").values();
-
-        for (String clazz : allClassesString) {
-            try {
-                allClasses.add(Class.forName(clazz));
-            } catch (ClassNotFoundException | NoClassDefFoundError e) {
-                LOG.warn("Cannot add to cache class with name {}", clazz, e);
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        try {
+            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(PROPERTIES.getPagesPackage())) {
+                allClasses.add(info.load());
             }
+        } catch (IOException ex) {
+            LOG.warn("Failed to shape class info set", ex);
         }
 
         return allClasses;
