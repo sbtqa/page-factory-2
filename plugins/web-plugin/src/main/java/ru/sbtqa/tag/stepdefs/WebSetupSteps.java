@@ -15,6 +15,7 @@ public class WebSetupSteps {
         } else {
             isWebInited.set(true);
         }
+
         PageManager.cachePages();
         PageContext.resetContext();
         Environment.setDriverService(new WebDriverService());

@@ -75,7 +75,7 @@ public class PageManager {
     public static Page getPage(String title) throws PageInitializationException {
         if (null == PageContext.getCurrentPage() || !PageContext.getCurrentPageTitle().equals(title)) {
             if (null != PageContext.getCurrentPage()) {
-                getPage(PROPERTIES.getPagesPackage(), title, PageContext.getCurrentPage().getDriver());
+                getPage(PROPERTIES.getPagesPackage(), title, Environment.getDriverService().getDriver());
             }
             if (null == PageContext.getCurrentPage()) {
                 getPage(PROPERTIES.getPagesPackage(), title, Environment.getDriverService().getDriver());
