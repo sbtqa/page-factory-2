@@ -23,7 +23,6 @@ public class CoreSetupSteps {
         TaskHandler.addTask(new ConnectToLogTask());
         TaskHandler.addTask(new KillProcessesTask());
         TaskHandler.addTask(new StartVideoTask());
-        TaskHandler.handleTasks();
     }
 
     public void setUp(Scenario scenario) {
@@ -31,6 +30,7 @@ public class CoreSetupSteps {
             return;
         }
 
+        TaskHandler.handleTasks();
         ScenarioContext.setScenario(scenario);
     }
 

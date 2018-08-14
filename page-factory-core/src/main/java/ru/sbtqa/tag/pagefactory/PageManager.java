@@ -50,11 +50,10 @@ public class PageManager {
     public static Page getPage(String title) throws PageInitializationException {
         if (null == PageContext.getCurrentPage() || !PageContext.getCurrentPageTitle().equals(title)) {
             Page page = getPage(title, Environment.getDriverService().getDriver());
-            PageContext.setCurrentPage(page);
-
-            if (null == PageContext.getCurrentPage()) {
+            if (page == null) {
                 throw new AutotestError("Page object with title '" + title + "' is not registered");
             }
+            PageContext.setCurrentPage(page);
         }
 
         return PageContext.getCurrentPage();

@@ -28,4 +28,4 @@ Feature: Check html yandex elements functional + ActionTitles mechanism
     * user (select checkbox) "checkbox"
 
     * user in block "menu" (go to page) with a parameter "Home"
-    * user is on the page "Main"
+    * user is on the page "MainY"
