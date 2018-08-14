@@ -237,7 +237,7 @@ public class PageManager {
         for (String clazz : allClassesString) {
             try {
                 allClasses.add(Class.forName(clazz));
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException | NoClassDefFoundError e) {
                 LOG.warn("Cannot add to cache class with name {}", clazz, e);
             }
         }
