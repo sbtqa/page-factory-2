@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.utils.ReflectionUtils;
 
-public abstract class DefaultApplicator {
+public abstract class DefaultApplicator implements Applicator {
 
     EndpointEntry endpoint;
     Field field;
