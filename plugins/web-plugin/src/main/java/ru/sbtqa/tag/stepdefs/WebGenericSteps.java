@@ -35,7 +35,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class WebGenericSteps extends WebSetupSteps{
+public class WebGenericSteps extends WebSetupSteps {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebGenericSteps.class);
     

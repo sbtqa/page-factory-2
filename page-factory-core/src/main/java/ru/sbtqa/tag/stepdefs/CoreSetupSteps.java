@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.Scenario;
-import ru.sbtqa.tag.pagefactory.PageManager;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.tasks.ConnectToLogTask;
@@ -25,7 +23,6 @@ public class CoreSetupSteps {
         TaskHandler.addTask(new ConnectToLogTask());
         TaskHandler.addTask(new KillProcessesTask());
         TaskHandler.addTask(new StartVideoTask());
-        TaskHandler.handleTasks();
     }
 
     public void setUp(Scenario scenario) {
@@ -33,10 +30,8 @@ public class CoreSetupSteps {
             return;
         }
 
-        Environment.getDriverService().mountDriver();
+        TaskHandler.handleTasks();
         ScenarioContext.setScenario(scenario);
-        PageManager.cachePages();
-        PageContext.resetContext();
     }
 
     public void tearDown() {
@@ -47,7 +42,9 @@ public class CoreSetupSteps {
         TaskHandler.addTask(new StopVideoTask());
         TaskHandler.handleTasks();
 
-        Environment.getDriverService().demountDriver();
+        if (!Environment.isDriverEmpty()) {
+            Environment.getDriverService().demountDriver();
+        }
     }
 
 

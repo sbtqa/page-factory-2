@@ -46,6 +46,10 @@ public class WebDriverService implements DriverService {
 
     @Override
     public WebDriver getDriver() {
+        if (isDriverEmpty()) {
+            mountDriver();
+        }
+
         return webDriver;
     }
 
@@ -125,7 +129,7 @@ public class WebDriverService implements DriverService {
     }
 
     public void dispose() {
-        if (webDriver == null) {
+        if (isDriverEmpty()) {
             return;
         }
 
@@ -187,5 +191,10 @@ public class WebDriverService implements DriverService {
 
     public void setWebDriver(org.openqa.selenium.WebDriver aWebDriver) {
         webDriver = aWebDriver;
+    }
+
+    @Override
+    public boolean isDriverEmpty() {
+        return webDriver == null;
     }
 }

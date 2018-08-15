@@ -47,7 +47,7 @@ public class MobileDriverService implements DriverService {
 
     @Override
     public void demountDriver() {
-        if (mobileDriver == null) {
+        if (isDriverEmpty()) {
             return;
         }
 
@@ -60,6 +60,10 @@ public class MobileDriverService implements DriverService {
 
     @Override
     public AppiumDriver<AndroidElement> getDriver() {
+        if (isDriverEmpty()) {
+            mountDriver();
+        }
+
         return mobileDriver;
     }
 
@@ -69,5 +73,10 @@ public class MobileDriverService implements DriverService {
     
     public void setMobileDriver(AppiumDriver<AndroidElement> aMobileDriver) {
         mobileDriver = aMobileDriver;
+    }
+
+    @Override
+    public boolean isDriverEmpty() {
+        return mobileDriver == null;
     }
 }

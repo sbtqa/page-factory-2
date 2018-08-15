@@ -64,7 +64,6 @@
 
   <build>
     <plugins>
-      <!--We use jdi-elements-plugin in features. It need Java 8 during features-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

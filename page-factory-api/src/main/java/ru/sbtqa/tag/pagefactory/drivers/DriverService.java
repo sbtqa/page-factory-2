@@ -7,4 +7,5 @@ public interface DriverService {
     void mountDriver();
     void demountDriver();
     <T extends WebDriver> T getDriver();
+    boolean isDriverEmpty();
 }
