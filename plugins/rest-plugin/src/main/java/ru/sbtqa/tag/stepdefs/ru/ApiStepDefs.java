@@ -3,10 +3,10 @@ package ru.sbtqa.tag.stepdefs.ru;
 import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.bg.И;
-import ru.sbtqa.tag.stepdefs.ApiGenericStepDefs;
+import ru.sbtqa.tag.stepdefs.ApiSteps;
 
 
-public class ApiStepDefs extends ApiGenericStepDefs {
+public class ApiStepDefs extends ApiSteps {
 
     @Before
     public void iniApi() {

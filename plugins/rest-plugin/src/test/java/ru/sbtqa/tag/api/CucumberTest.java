@@ -26,6 +26,6 @@ public class CucumberTest {
 
     @AfterClass
     public static void teardown() throws Exception {
-        server.stop();
+//        server.stop();
     }
 }

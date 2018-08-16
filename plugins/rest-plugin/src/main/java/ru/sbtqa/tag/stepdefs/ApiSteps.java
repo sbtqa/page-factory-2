@@ -23,7 +23,13 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class ApiGenericStepDefs extends ApiSetupSteps {
+public class ApiSteps extends ApiSetupSteps {
+
+    public static final ApiSteps api = new ApiSteps();
+
+    public ApiSteps() {
+        initApi();
+    }
 
     /**
      * Execute endpoint action (request) with no parameters
@@ -33,6 +39,10 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      */
     public void userSendRequestNoParams(String action) {
         EndpointManager.getEndpoint(action).send();
+    }
+
+    public void userSendRequestNoParams(Class endpoint) {
+        EndpointManager.getEndpoint(endpoint).send();
     }
 
     /**
