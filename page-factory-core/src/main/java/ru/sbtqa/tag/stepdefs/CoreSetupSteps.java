@@ -15,6 +15,16 @@ public class CoreSetupSteps {
     private static final ThreadLocal<Boolean> isSetUp = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> isTearDown = ThreadLocal.withInitial(() -> false);
 
+    public void preSetUp() {
+        if (isAlreadyPerformed(isPreSetUp)) {
+            return;
+        }
+
+        TaskHandler.addTask(new ConnectToLogTask());
+        TaskHandler.addTask(new KillProcessesTask());
+        TaskHandler.addTask(new StartVideoTask());
+    }
+
     public void preSetUp(Scenario scenario) {
         if (isAlreadyPerformed(isPreSetUp)) {
             return;
@@ -25,6 +35,13 @@ public class CoreSetupSteps {
         TaskHandler.addTask(new StartVideoTask());
     }
 
+    public void setUp() {
+        if (isAlreadyPerformed(isSetUp)) {
+            return;
+        }
+
+        TaskHandler.handleTasks();
+    }
     public void setUp(Scenario scenario) {
         if (isAlreadyPerformed(isSetUp)) {
             return;
