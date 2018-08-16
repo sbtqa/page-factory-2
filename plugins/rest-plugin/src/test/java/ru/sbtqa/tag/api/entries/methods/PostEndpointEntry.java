@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.entries.apiaction.json;
+package ru.sbtqa.tag.api.entries.methods;
 
 import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;

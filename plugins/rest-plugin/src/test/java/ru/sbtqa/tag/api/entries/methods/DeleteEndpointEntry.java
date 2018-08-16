@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.entries.apiaction.json;
+package ru.sbtqa.tag.api.entries.methods;
 
 import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
@@ -11,8 +11,8 @@ import ru.sbtqa.tag.api.utils.Default;
 @Endpoint(method = Rest.DELETE, path = "client/delete", title = "delete test")
 public class DeleteEndpointEntry extends EndpointEntry {
 
-    @Query(name = Default.PARAMETER_NAME1)
-    private String queryParameter = Default.PARAMETER_VALUE1;
+    @Query(name = Default.QUERY_PARAMETER_NAME_1)
+    private String queryParameter = Default.QUERY_PARAMETER_VALUE_1;
 
     @Validation(title = "result")
     public void validate() {

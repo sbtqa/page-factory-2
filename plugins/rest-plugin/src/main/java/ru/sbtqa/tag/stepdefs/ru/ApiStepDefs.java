@@ -18,8 +18,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он )?отправляет запрос \"([^\"]*)\"$")
-    public void userSendRequestNoParams(String action) {
-        super.userSendRequestNoParams(action);
+    public void userSendRequestNoParams(String endpoint) {
+        super.userSendRequestNoParams(endpoint);
     }
 
     /**
@@ -27,8 +27,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он )?отправляет запрос \"([^\"]*)\" с параметрами:?$")
-    public void userSendRequestTableParam(String action, DataTable dataTable) {
-        super.userSendRequestTableParam(action, dataTable);
+    public void userSendRequestTableParam(String endpoint, DataTable dataTable) {
+        super.userSendRequestTableParam(endpoint, dataTable);
     }
 
     /**

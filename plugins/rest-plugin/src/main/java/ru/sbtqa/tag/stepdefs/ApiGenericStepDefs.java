@@ -1,9 +1,9 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
-import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+import ru.sbtqa.tag.api.manager.EndpointManager;
 
 /**
  * Basic step definitions, that should be available on every project
@@ -26,25 +26,25 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 public class ApiGenericStepDefs extends ApiSetupSteps {
 
     /**
-     * Execute endpoint action (request) with no parameters
+     * Execute endpoint endpoint (request) with no parameters
      *
-     * @param action name value of the endpoint annotation to execute
+     * @param endpoint name value of the endpoint annotation to execute
      * @throws RestPluginException if there is an error while endpoint executing
      */
-    public void userSendRequestNoParams(String action) {
-        EndpointManager.getEndpoint(action).send();
+    public void userSendRequestNoParams(String endpoint) {
+        EndpointManager.getEndpoint(endpoint).send();
     }
 
     /**
-     * Execute endpoint action (request) with parameters from given
+     * Execute endpoint endpoint (request) with parameters from given
      * {@link cucumber.api.DataTable}
      *
-     * @param action name value of the endpoint annotation to execute
+     * @param endpoint name value of the endpoint annotation to execute
      * @param dataTable table of parameters
      * @throws RestPluginException if there is an error while endpoint executing
      */
-    public void userSendRequestTableParam(String action, DataTable dataTable) {
-        EndpointManager.getEndpoint(action).send(dataTable);
+    public void userSendRequestTableParam(String endpoint, DataTable dataTable) {
+        EndpointManager.getEndpoint(endpoint).send(dataTable);
     }
 
     /**

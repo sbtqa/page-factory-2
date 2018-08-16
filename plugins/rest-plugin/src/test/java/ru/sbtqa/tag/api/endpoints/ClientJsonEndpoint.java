@@ -26,7 +26,7 @@ public class ClientJsonEndpoint {
     public Response get() {
         Client client = TestDataUtils.createDefaultClient();
         return Response.ok(client)
-                .header(Default.HEADER_NAME, Default.HEADER_VALUE)
+                .header(Default.HEADER_PARAMETER_NAME_1, Default.HEADER_PARAMETER_VALUE_1)
                 .build();
     }
 
@@ -34,10 +34,10 @@ public class ClientJsonEndpoint {
     @Path("get-with-params")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWithParams(
-            @HeaderParam(Default.HEADER_NAME) String header,
-            @QueryParam(Default.PARAMETER_NAME1) String param) {
+            @HeaderParam(Default.HEADER_PARAMETER_NAME_1) String header,
+            @QueryParam(Default.QUERY_PARAMETER_NAME_1) String query) {
         SimpleResult result = new SimpleResult();
-        result.setResult(header + param);
+        result.setResult(query + header);
 
         return Response.ok(result)
                 .build();
@@ -80,10 +80,27 @@ public class ClientJsonEndpoint {
     @Path("delete")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(
-            @QueryParam(Default.PARAMETER_NAME1) String param) {
+            @QueryParam(Default.QUERY_PARAMETER_NAME_1) String param) {
 
         SimpleResult result = new SimpleResult();
         result.setResult(param);
+
+        return Response.ok(result)
+                .build();
+    }
+
+    @POST
+    @Path("request-from-feature")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response requestFromFeature(
+            @QueryParam(Default.QUERY_PARAMETER_NAME_1) String query1,
+            @QueryParam(Default.QUERY_PARAMETER_NAME_2) String query2,
+            @HeaderParam(Default.HEADER_PARAMETER_NAME_1) String header1,
+            @HeaderParam(Default.HEADER_PARAMETER_NAME_2) String header2,
+            Client client) {
+
+        SimpleResult result = new SimpleResult();
+        result.setResult(query1 + query2 + header1 + header2 + client.getId() + client.getName() + client.getEmail());
 
         return Response.ok(result)
                 .build();

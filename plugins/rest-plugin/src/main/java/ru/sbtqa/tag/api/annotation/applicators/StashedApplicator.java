@@ -35,7 +35,7 @@ public class StashedApplicator extends DefaultApplicator implements Applicator {
                 }
                 break;
             default:
-                throw new RestPluginException("TODO");
+                throw new RestPluginException("Failed to apply @Stashed annotation");
         }
 
     }

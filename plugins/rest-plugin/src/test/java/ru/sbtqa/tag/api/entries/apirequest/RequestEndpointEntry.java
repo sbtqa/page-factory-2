@@ -12,11 +12,11 @@ import ru.sbtqa.tag.api.utils.Default;
 @Endpoint(method = Rest.GET, path = "client/get-with-params", title = "api request test")
 public class RequestEndpointEntry extends EndpointEntry {
 
-    @Query(name = Default.PARAMETER_NAME1)
-    private String param = Default.PARAMETER_VALUE1;
+    @Query(name = Default.QUERY_PARAMETER_NAME_1)
+    private String param = Default.QUERY_PARAMETER_VALUE_1;
 
-    @Header(name = Default.HEADER_NAME)
-    private String header = Default.HEADER_VALUE;
+    @Header(name = Default.HEADER_PARAMETER_NAME_1)
+    private String header = Default.HEADER_PARAMETER_VALUE_1;
 
     @Validation(title = "result")
     public void validate() {

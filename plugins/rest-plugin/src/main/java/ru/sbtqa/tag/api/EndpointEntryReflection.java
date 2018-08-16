@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -8,10 +7,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.aeonbits.owner.ConfigFactory;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.annotation.Body;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.FromResponse;
@@ -25,7 +20,6 @@ import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
-import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.get;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.set;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
@@ -36,10 +30,6 @@ import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
  * It helps to apply all of the fields annotations and consists getters for this fields
  */
 public class EndpointEntryReflection {
-
-    private static final Logger LOG = LoggerFactory.getLogger(EndpointEntryReflection.class);
-    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
-    private static final String BOM = "\uFEFF";
 
     private EndpointEntry endpoint;
     private String entryTitle;
@@ -91,43 +81,6 @@ public class EndpointEntryReflection {
         }
 
         throw new RestPluginException(String.format("There is no \"%s\" parameter in \"%s\" endpoint", name, entryTitle));
-    }
-
-    /**
-     * Get template by path, replace all placeholders and return it
-     * @param template path to template {@link Endpoint#template()}
-     * @return template with replaced placeholders
-     */
-    public String getBody(String template) {
-        String templatePath = template.isEmpty() ? endpoint.getClass().getSimpleName() : template;
-        String body = loadTemplateFile(templatePath);
-
-        return replaceParameters(body);
-    }
-
-    private String loadTemplateFile(String templatePath) {
-        try {
-            return IOUtils
-                    .toString(getClass().getClassLoader().getResourceAsStream(templatePath), PROPERTIES.getTemplateEncoding())
-                    .replace(BOM, "");
-        } catch (NullPointerException ex) {
-            throw new RestPluginException("Can't find template file by path " + templatePath, ex);
-        } catch (IOException ex) {
-            throw new RestPluginException("Template file '" + templatePath + "' is not available", ex);
-        }
-    }
-
-    private String replaceParameters(String body) {
-        for (Map.Entry<String, Object> parameter : getParameters(ParameterType.BODY).entrySet()) {
-            if (parameter.getValue() instanceof String) {
-                String value = (String) parameter.getValue();
-                body = body.replaceAll("%" + parameter.getKey(), value);
-            } else {
-                LOG.debug("Failed to substitute not String field to body template");
-            }
-        }
-
-        return body;
     }
 
     /**

@@ -10,29 +10,29 @@ import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
 
-@Endpoint(method = Rest.GET, path = "client/get", title = "dependent second")
-public class PreviousSecondEndpointEntry extends EndpointEntry {
+@Endpoint(method = Rest.GET, path = "client/get", title = "from response second")
+public class FromeResponseSecondEndpointEntry extends EndpointEntry {
 
     @FromResponse(path = "email")
     private String emailFromPreviousRequest;
 
-    @FromResponse(path = "email", endpointEntry = PreviousFirstEndpointEntry.class)
+    @FromResponse(path = "email", endpointEntry = FromResponseFirstEndpointEntry.class)
     private String emailFromSpecifiedRequest;
 
-    @FromResponse(endpointEntry = PreviousFirstEndpointEntry.class, header = Default.HEADER_NAME)
+    @FromResponse(endpointEntry = FromResponseFirstEndpointEntry.class, header = Default.HEADER_PARAMETER_NAME_1)
     private String firstHeaderValue;
 
-    @FromResponse(endpointEntry = PreviousFirstEndpointEntry.class, path = "nonexistent", necessity = false)
+    @FromResponse(endpointEntry = FromResponseFirstEndpointEntry.class, path = "nonexistent", necessity = false)
     private String nonexistent;
 
-    @FromResponse(endpointEntry = PreviousFirstEndpointEntry.class, path = "email", mask = Default.MASK)
+    @FromResponse(endpointEntry = FromResponseFirstEndpointEntry.class, path = "email", mask = Default.MASK)
     private String maskedValue;
 
     @Validation(title = "result")
     public void validate() {
         Assert.assertEquals(Default.EMAIL, emailFromPreviousRequest);
         Assert.assertEquals(Default.EMAIL, emailFromSpecifiedRequest);
-        Assert.assertEquals(Default.HEADER_VALUE, firstHeaderValue);
+        Assert.assertEquals(Default.HEADER_PARAMETER_VALUE_1, firstHeaderValue);
         Assert.assertEquals(null, nonexistent);
 
         String expectedMaskedValue = getMaskedValue(Default.EMAIL, Default.MASK);
