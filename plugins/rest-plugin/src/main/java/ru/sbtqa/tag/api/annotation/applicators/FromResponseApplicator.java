@@ -5,8 +5,8 @@ import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.annotation.FromResponse;
+import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
 /**
@@ -42,7 +42,7 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
     }
 
     private Object getValue(ValidatableResponse response) {
-        if (!"".equals(fromResponseAnnotation.header())) {
+        if (!fromResponseAnnotation.header().isEmpty()) {
             return response.extract().header(fromResponseAnnotation.header());
         } else {
             if (response.extract().body().path(fromResponseAnnotation.path()) != null
@@ -57,6 +57,8 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
     private Object applyMask(Object value) {
         if (!fromResponseAnnotation.mask().isEmpty()) {
             if (value instanceof String) {
+
+                // TODO в статику
                 Matcher matcher = Pattern.compile(fromResponseAnnotation.mask()).matcher((String) value);
                 value = "";
                 if (matcher.find()) {

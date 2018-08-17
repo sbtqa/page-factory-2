@@ -11,7 +11,7 @@ import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
 
 @Endpoint(method = Rest.GET, path = "client/get", title = "from response second")
-public class FromeResponseSecondEndpointEntry extends EndpointEntry {
+public class FromResponseSecondEndpointEntry extends EndpointEntry {
 
     @FromResponse(path = "email")
     private String emailFromPreviousRequest;
@@ -39,6 +39,7 @@ public class FromeResponseSecondEndpointEntry extends EndpointEntry {
         Assert.assertEquals(expectedMaskedValue, maskedValue);
     }
 
+    // TODO в статику
     private String getMaskedValue(String original, String mask) {
         Matcher matcher = Pattern.compile(Default.MASK).matcher(Default.EMAIL);
 
