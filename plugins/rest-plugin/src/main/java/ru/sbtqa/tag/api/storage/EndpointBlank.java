@@ -2,6 +2,7 @@ package ru.sbtqa.tag.api.storage;
 
 import java.util.HashMap;
 import java.util.Map;
+import ru.sbtqa.tag.api.annotation.ParameterType;
 
 public class EndpointBlank {
 
@@ -16,6 +17,20 @@ public class EndpointBlank {
 
     public String getTitle() {
         return title;
+    }
+
+    public void addParameter(ParameterType type, String name, String value) {
+        switch (type) {
+            case QUERY:
+                addQuery(name, value);
+                break;
+            case HEADER:
+                addHeader(name, value);
+                break;
+            case BODY:
+                addBodyParameter(name, value);
+                break;
+        }
     }
 
     public Map<String, Object> getHeaders() {

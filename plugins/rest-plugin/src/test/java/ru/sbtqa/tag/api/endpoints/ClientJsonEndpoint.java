@@ -100,9 +100,32 @@ public class ClientJsonEndpoint {
             Client client) {
 
         SimpleResult result = new SimpleResult();
-        result.setResult(query1 + query2 + header1 + header2 + client.getId() + client.getName() + client.getEmail());
+        result.setResult("q1=" + query1 + "|\n" + "q2=" +  query2 + "|\n" + "h1=" + header1 + "|\n" + "h2=" +  header2 + "|\n"
+                + "id=" + client.getId() + "|\n" + "name=" +  client.getName() + "|\n" + "email=" + client.getEmail() + "|\n");
 
         return Response.ok(result)
+                .header(Default.HEADER_PARAMETER_NAME_1, header1)
+                .header(Default.HEADER_PARAMETER_NAME_2, header2)
+                .build();
+    }
+
+    @POST
+    @Path("request-from-feature-2")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response requestFromFeature2(
+            @QueryParam("q2") String query1,
+            @QueryParam("query-parameter-value-1") String query2,
+            @HeaderParam("h") String header1,
+            @HeaderParam("Content-Type") String header2,
+            Client client) {
+
+        SimpleResult result = new SimpleResult();
+        result.setResult("q1=" + query1 + "|" + "q2=" +  query2 + "|" + "h1=" + header1 + "|" + "h2=" +  header2 + "|"
+                + "id=" + client.getId() + "|" + "name=" +  client.getName() + "|" + "email=" + client.getEmail() + "|");
+
+        return Response.ok(result)
+                .header(Default.HEADER_PARAMETER_NAME_1, header1)
+                .header(Default.HEADER_PARAMETER_NAME_2, header2)
                 .build();
     }
 }

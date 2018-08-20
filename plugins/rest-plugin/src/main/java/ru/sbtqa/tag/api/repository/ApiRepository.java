@@ -19,10 +19,10 @@ public class ApiRepository implements Repository {
         return pairs.get(endpoint);
     }
 
-    public ApiPair get(String title) {
+    public Class get(String title) {
         for (Map.Entry<Class<? extends EndpointEntry>, ApiPair> pair : pairs.entrySet()) {
             if (pair.getKey().getAnnotation(Endpoint.class).title().equals(title)) {
-                return pair.getValue();
+                return pair.getKey();
             }
         }
 
