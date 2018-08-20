@@ -14,6 +14,5 @@ public class RegexUtils {
         }
 
         return firstGroup;
-
     }
 }

@@ -128,7 +128,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      */
     public void addParameterFromResponseBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
-        String value = (String) FromResponseUtils.getFromResponseValue(fromEndpoint, false, "", path, mask, true);
+        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, "", path, mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
@@ -144,7 +144,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      */
     public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
-        String value = (String) FromResponseUtils.getFromResponseValue(fromEndpoint, false, headerName, "", mask, true);
+        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, headerName, "", mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);

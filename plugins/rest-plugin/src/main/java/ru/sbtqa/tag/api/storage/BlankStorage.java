@@ -7,7 +7,6 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 /**
  * The repository for {@link EndpointBlank} storing
  */
-//TODO implement repository?
 public class BlankStorage {
 
     List<EndpointBlank> blanks = new ArrayList<>();

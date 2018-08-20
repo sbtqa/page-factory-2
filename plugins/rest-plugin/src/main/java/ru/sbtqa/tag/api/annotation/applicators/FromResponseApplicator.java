@@ -32,7 +32,7 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
 
     @Override
     public void apply() {
-        Object value = FromResponseUtils.getFromResponseValue(fromEndpoint, isUsePrevious, header, path, mask, isNecessity);
+        Object value = FromResponseUtils.getValueFromResponse(fromEndpoint, isUsePrevious, header, path, mask, isNecessity);
         set(field, value);
     }
 }
