@@ -7,6 +7,7 @@ import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.manager.EndpointManager;
+import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.storage.EndpointBlank;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
 
@@ -31,7 +32,7 @@ import ru.sbtqa.tag.api.utils.FromResponseUtils;
 public class ApiGenericStepDefs extends ApiSetupSteps {
 
     /**
-     * TODO
+     * Execute the last endpoint (request) in {@link BlankStorage} with no parameters.
      */
     public void sendRequest() {
         String endpoint = ApiEnvironment.getBlankStorage().getLast().getTitle();
@@ -39,7 +40,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
     }
 
     /**
-     * Execute endpoint endpoint (request) with no parameters
+     * Execute endpoint (request) with no parameters
      *
      * @param endpoint name value of the endpoint annotation to execute
      * @throws RestPluginException if there is an error while endpoint executing
@@ -88,18 +89,19 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
     }
 
     /**
-     * TODO
-     * @param title
+     * Start filling parameters in endpoint
+     * @param title endpoint title
      */
     public void fillRequest(String title) {
         ApiEnvironment.getBlankStorage().add(new EndpointBlank(title));
     }
 
     /**
-     * TODO
-     * @param parameterType
-     * @param name
-     * @param value
+     * Add parameter to the last endpoint blank in {@link BlankStorage}
+     *
+     * @param parameterType {@link ParameterType} of parameter
+     * @param name with this name the parameter will be added to endpoint blank
+     * @param value  with this value the parameter will be added to endpoint blank
      */
     public void addParameter(String parameterType, String name, String value) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
@@ -107,9 +109,10 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
     }
 
     /**
-     * TODO
-     * @param parameterType
-     * @param dataTable
+     * Add a {@link DataTable} of parameters to the last endpoint blank in {@link BlankStorage}
+     *
+     * @param parameterType {@link ParameterType} of parameters
+     * @param dataTable table of parameters
      */
     public void addParameters(String parameterType, DataTable dataTable) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
@@ -119,12 +122,14 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
     }
 
     /**
-     * TODO
-     * @param parameterType
-     * @param parameterName
-     * @param fromEndpointTitle
-     * @param path
-     * @param mask
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from body of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter
+     * @param parameterName  with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param path get value from body by this path
+     * @param mask apply mask on this value
      */
     public void addParameterFromResponseBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
@@ -135,12 +140,14 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
     }
 
     /**
-     * TODO
-     * @param parameterType
-     * @param parameterName
-     * @param fromEndpointTitle
-     * @param headerName
-     * @param mask
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from header of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter to add
+     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param headerName get value from header with this name
+     * @param mask apply mask on this value
      */
     public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
