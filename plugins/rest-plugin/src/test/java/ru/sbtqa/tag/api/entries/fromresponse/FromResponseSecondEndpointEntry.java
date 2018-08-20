@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.api.entries.fromresponse;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.junit.Assert;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
@@ -9,6 +7,7 @@ import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
+import ru.sbtqa.tag.api.utils.RegexUtils;
 
 @Endpoint(method = Rest.GET, path = "client/get", title = "from response second")
 public class FromResponseSecondEndpointEntry extends EndpointEntry {
@@ -35,19 +34,7 @@ public class FromResponseSecondEndpointEntry extends EndpointEntry {
         Assert.assertEquals(Default.HEADER_PARAMETER_VALUE_1, firstHeaderValue);
         Assert.assertEquals(null, nonexistent);
 
-        String expectedMaskedValue = getMaskedValue(Default.EMAIL, Default.MASK);
+        String expectedMaskedValue = RegexUtils.getFirstMatcherGroup(Default.EMAIL, Default.MASK);
         Assert.assertEquals(expectedMaskedValue, maskedValue);
-    }
-
-    // TODO в статику
-    private String getMaskedValue(String original, String mask) {
-        Matcher matcher = Pattern.compile(Default.MASK).matcher(Default.EMAIL);
-
-        String expectedMaskedValue = "";
-        if (matcher.find()) {
-            expectedMaskedValue = matcher.group(1);
-        }
-
-        return expectedMaskedValue;
     }
 }
