@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 public class RegexUtils {
 
+    private RegexUtils() {}
+
     public static String getFirstMatcherGroup(String text, String mask) {
         Matcher matcher = Pattern.compile(mask).matcher(text);
         

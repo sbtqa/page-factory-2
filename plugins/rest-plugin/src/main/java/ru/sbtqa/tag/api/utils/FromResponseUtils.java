@@ -6,6 +6,8 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class FromResponseUtils {
 
+    private FromResponseUtils() {}
+
     public static Object getValueFromResponse(Class fromEndpoint, boolean isUsePrevious, String header, String path, String mask, boolean isNecessity) {
         ValidatableResponse response = getResponse(fromEndpoint, isUsePrevious);
         Object value = getValue(response, header, path, isNecessity);
