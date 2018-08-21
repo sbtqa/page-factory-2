@@ -100,8 +100,8 @@ public class ClientJsonEndpoint {
             Client client) {
 
         SimpleResult result = new SimpleResult();
-        result.setResult("q1=" + query1 + "|\n" + "q2=" +  query2 + "|\n" + "h1=" + header1 + "|\n" + "h2=" +  header2 + "|\n"
-                + "id=" + client.getId() + "|\n" + "name=" +  client.getName() + "|\n" + "email=" + client.getEmail() + "|\n");
+        result.setResult(String.format("q1=%s|\nq2=%s|\nh1=%s|\nh2=%s|\nid=%s|\nname=%s|\nemail=%s|\n",
+                query1, query2, header1, header2, client.getId(), client.getName(), client.getEmail()));
 
         return Response.ok(result)
                 .header(Default.HEADER_PARAMETER_NAME_1, header1)
@@ -120,8 +120,8 @@ public class ClientJsonEndpoint {
             Client client) {
 
         SimpleResult result = new SimpleResult();
-        result.setResult("q1=" + query1 + "|" + "q2=" +  query2 + "|" + "h1=" + header1 + "|" + "h2=" +  header2 + "|"
-                + "id=" + client.getId() + "|" + "name=" +  client.getName() + "|" + "email=" + client.getEmail() + "|");
+        result.setResult(String.format("q1=%s|q2=%s|h1=%s|h2=%s|id=%s|name=%s|email=%s|",
+                query1, query2, header1, header2, client.getId(), client.getName(), client.getEmail()));
 
         return Response.ok(result)
                 .header(Default.HEADER_PARAMETER_NAME_1, header1)

@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 
+/**
+ * The blank of the request.
+ * This blank filled from features with steps like "user add a header parameter with name "name" and value "value""
+ * and stored in {@link BlankStorage}. EndpointBlank.title is matched with @Endpoint.title.
+ * Before sending @Endpoint request this endppoint blank (header, queries, body params) applies to the request parameters
+ */
 public class EndpointBlank {
 
     private String title;
