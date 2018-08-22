@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,33 @@ public class EndpointEntryReflection {
         }
 
         throw new RestPluginException(String.format("There is no \"%s\" validation rule in \"%s\" endpoint", title, entryTitle));
+    }
+
+    /**
+     * Invoke method annotated with {@link Validation} by title
+     *
+     * @param params params to pass to validation rule method
+     */
+    public void validate(Object... params) {
+        List<Method> validateMethods = new ArrayList<>();
+
+        Method[] methods = endpoint.getClass().getMethods();
+        for (Method method : methods) {
+            Validation validation = method.getAnnotation(Validation.class);
+            if (validation != null) {
+                validateMethods.add(method);
+            }
+        }
+
+        if (validateMethods.size() == 0) {
+            try {
+                validateMethods.get(0).invoke(endpoint, params);
+            } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
+                throw new RestPluginException(String.format("Failed to execute validation rule in \"%s\" endpoint entry", entryTitle), e);
+            }
+        } else {
+            throw new RestPluginException("Много валидейт методов, необходимо укзать тайтл нужного");
+        }
     }
 
     /**

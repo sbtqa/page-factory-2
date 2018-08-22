@@ -138,6 +138,10 @@ public abstract class EndpointEntry {
         reflection.validate(title, params);
     }
 
+    public void validate(Object... params) {
+        reflection.validate(params);
+    }
+
     public ValidatableResponse getResponse() {
         return ApiEnvironment.getRepository().get(this.getClass()).getResponse();
     }

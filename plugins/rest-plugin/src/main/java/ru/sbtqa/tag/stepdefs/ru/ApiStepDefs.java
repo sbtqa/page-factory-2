@@ -4,10 +4,10 @@ import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.bg.И;
 import cucumber.api.java.en.And;
-import ru.sbtqa.tag.stepdefs.ApiGenericStepDefs;
+import ru.sbtqa.tag.stepdefs.ApiSteps;
 
 
-public class ApiStepDefs extends ApiGenericStepDefs {
+public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
 
     @Before
     public void iniApi() {
@@ -19,8 +19,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^(?:пользователь |он )?отправляет запрос$")
-    public void sendRequest() {
-        super.sendRequest();
+    public ApiSteps send() {
+        return super.send();
     }
 
     /**
@@ -28,8 +28,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он )?отправляет запрос \"([^\"]*)\"$")
-    public void sendRequest(String endpoint) {
-        super.sendRequest(endpoint);
+    public ApiSteps send(String endpoint) {
+        return super.send(endpoint);
     }
 
     /**
@@ -37,8 +37,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @И("^(?:пользователь |он )?отправляет запрос \"([^\"]*)\" с параметрами:?$")
-    public void sendRequestDatatable(String endpoint, DataTable dataTable) {
-        super.sendRequestDatatable(endpoint, dataTable);
+    public ApiSteps send(String endpoint, DataTable dataTable) {
+        return super.send(endpoint, dataTable);
     }
 
     /**
@@ -55,8 +55,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @И("^система возвращает ответ \"([^\"]*)\" с параметрами:?$")
-    public void validateTable(String rule, DataTable dataTable) {
-        super.validateTable(rule, dataTable);
+    public void validate(String rule, DataTable dataTable) {
+        super.validate(rule, dataTable);
     }
 
     /**
@@ -64,8 +64,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^(?:пользователь |он )? заполняет запрос \"([^\"]*)\"$")
-    public void fillRequest(String title) {
-        super.fillRequest(title);
+    public ApiSteps fill(String title) {
+        return super.fill(title);
     }
 
     /**
@@ -73,8 +73,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^(?:пользователь |он )? добавляет (query|header|body) параметр с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
-    public void addParameter(String parameterType, String name, String value) {
-        super.addParameter(parameterType, name, value);
+    public ApiSteps add(String parameterType, String name, String value) {
+        return super.add(parameterType, name, value);
     }
 
     /**
@@ -82,19 +82,19 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^(?:пользователь |он )? добавляет (query|header|body) параметры")
-    public void addParameters(String parameterType, DataTable dataTable) {
-        super.addParameters(parameterType, dataTable);
+    public ApiSteps add(String parameterType, DataTable dataTable) {
+        return super.add(parameterType, dataTable);
     }
 
     /**
      * {@inheritDoc}
      */
     @And("^(?:пользователь |он )? добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\" маскa \"([^\"]*)\"$")
-    public void addParameter(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
+    public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
         if (fromParameterType.equals("Header")) {
-            super.addParameterFromResponseHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+            return super.addToHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
         } else {
-            super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+            return super.addToBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
         }
     }
 }

@@ -29,14 +29,28 @@ import ru.sbtqa.tag.api.utils.FromResponseUtils;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class ApiGenericStepDefs extends ApiSetupSteps {
+public class ApiSteps extends ApiSetupSteps {
+
+    private static ApiSteps instance;
+
+    public ApiSteps() {
+        initApi();
+    }
+
+    public static ApiSteps getInstance() {
+        if (instance == null) {
+            instance = new ApiSteps();
+        }
+        return instance;
+    }
 
     /**
      * Execute the last endpoint (request) in {@link BlankStorage} with no parameters.
      */
-    public void sendRequest() {
+    public ApiSteps send() {
         String endpoint = ApiEnvironment.getBlankStorage().getLast().getTitle();
         EndpointManager.getEndpoint(endpoint).send();
+        return this;
     }
 
     /**
@@ -45,8 +59,9 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param endpoint name value of the endpoint annotation to execute
      * @throws RestPluginException if there is an error while endpoint executing
      */
-    public void sendRequest(String endpoint) {
+    public ApiSteps send(String endpoint) {
         EndpointManager.getEndpoint(endpoint).send();
+        return this;
     }
 
     /**
@@ -57,8 +72,22 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param dataTable table of parameters
      * @throws RestPluginException if there is an error while endpoint executing
      */
-    public void sendRequestDatatable(String endpoint, DataTable dataTable) {
+    public ApiSteps send(String endpoint, DataTable dataTable) {
         EndpointManager.getEndpoint(endpoint).send(dataTable);
+        return this;
+    }
+
+    /**
+     * Execute a validation rule annotated by
+     * {@link ru.sbtqa.tag.api.annotation.Validation} on current
+     * endpoint
+     *
+     * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
+     * @throws RestPluginException if there is an error while validation rule executing
+     */
+    // TODO пробросить в ру/ен степ дефы
+    public void validate() {
+        EndpointContext.getCurrentEndpoint().validate();
     }
 
     /**
@@ -84,7 +113,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param dataTable table of parameters
      * @throws RestPluginException if there is an error while validation rule executing
      */
-    public void validateTable(String rule, DataTable dataTable) {
+    public void validate(String rule, DataTable dataTable) {
         EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
     }
 
@@ -92,8 +121,9 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * Start filling parameters in endpoint
      * @param title endpoint title
      */
-    public void fillRequest(String title) {
+    public ApiSteps fill(String title) {
         ApiEnvironment.getBlankStorage().add(new EndpointBlank(title));
+        return this;
     }
 
     /**
@@ -103,9 +133,10 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param name with this name the parameter will be added to endpoint blank
      * @param value  with this value the parameter will be added to endpoint blank
      */
-    public void addParameter(String parameterType, String name, String value) {
+    public ApiSteps add(String parameterType, String name, String value) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, name, value);
+        return this;
     }
 
     /**
@@ -114,11 +145,12 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param parameterType {@link ParameterType} of parameters
      * @param dataTable table of parameters
      */
-    public void addParameters(String parameterType, DataTable dataTable) {
+    public ApiSteps add(String parameterType, DataTable dataTable) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
             ApiEnvironment.getBlankStorage().getLast().addParameter(type, dataTableRow.getKey(), dataTableRow.getValue());
         }
+        return this;
     }
 
     /**
@@ -131,12 +163,13 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param path get value from body by this path
      * @param mask apply mask on this value
      */
-    public void addParameterFromResponseBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
+    public ApiSteps addToBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
         String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, "", path, mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
+        return this;
     }
 
     /**
@@ -149,11 +182,12 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param headerName get value from header with this name
      * @param mask apply mask on this value
      */
-    public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
+    public ApiSteps addToHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
         String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, headerName, "", mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
+        return this;
     }
 }
