@@ -97,9 +97,12 @@ public class ApiStepDefs extends ApiGenericStepDefs {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @And("^user add a (query|header|body) parameter with name \"([^\"]*)\" and get value from response on \"([^\"]*)\" from header with name \"([^\"]*)\" and apply mask \"([^\"]*)\"$")
-    public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
-        super.addParameterFromResponseHeader(parameterType, parameterName, fromEndpointTitle, headerName, mask);
+    @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\". (Body|Header) \"([^\"]*)\" mask \"([^\"]*)\"$")
+    public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
+        if (fromParameterType.equals("Header")) {
+            super.addParameterFromResponseHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+        } else {
+            super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+        }
     }
 }

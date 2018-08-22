@@ -89,18 +89,12 @@ public class ApiStepDefs extends ApiGenericStepDefs {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @And("^(?:пользователь |он )? добавляет (query|header|body) параметр с именем \"([^\"]*)\" и берет значение из ответа на запрос \"([^\"]*)\" из тела по пути \"([^\"]*)\" и маске \"([^\"]*)\"$")
-    public void addParameterFromResponseBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
-        super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, path, mask);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^(?:пользователь |он )? добавляет (query|header|body) параметр с именем \"([^\"]*)\" и берет значение из ответа на запрос \"([^\"]*)\" из header по имени \"([^\"]*)\" и маске \"([^\"]*)\"$")
-    public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
-        super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, headerName, mask);
+    @And("^(?:пользователь |он )? добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\" маскa \"([^\"]*)\"$")
+    public void addParameter(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
+        if (fromParameterType.equals("Header")) {
+            super.addParameterFromResponseHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+        } else {
+            super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+        }
     }
 }
