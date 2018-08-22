@@ -3,6 +3,7 @@ package ru.sbtqa.tag.stepdefs;
 import cucumber.api.DataTable;
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
+import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.exception.RestPluginException;
@@ -53,11 +54,15 @@ public class ApiSteps extends ApiSetupSteps {
         return this;
     }
 
+    public ApiSteps send(Class endpoint) {
+        EndpointManager.getEndpoint(endpoint).send();
+        return this;
+    }
+
     /**
      * Execute endpoint (request) with no parameters
      *
      * @param endpoint name value of the endpoint annotation to execute
-     * @throws RestPluginException if there is an error while endpoint executing
      */
     public ApiSteps send(String endpoint) {
         EndpointManager.getEndpoint(endpoint).send();
@@ -65,51 +70,50 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Execute endpoint endpoint (request) with parameters from given
-     * {@link cucumber.api.DataTable}
+     * Execute endpoint endpoint (request) with parameters from given {@link DataTable}
      *
      * @param endpoint name value of the endpoint annotation to execute
      * @param dataTable table of parameters
-     * @throws RestPluginException if there is an error while endpoint executing
      */
     public ApiSteps send(String endpoint, DataTable dataTable) {
+        EndpointManager.getEndpoint(endpoint).send(dataTable.asMap(String.class, String.class));
+        return this;
+    }
+
+    /**
+     * Execute endpoint endpoint (request) with parameters from given {@link Map}
+     *
+     * @param endpoint name value of the endpoint annotation to execute
+     * @param dataTable table of parameters
+     */
+    public ApiSteps send(String endpoint, Map<String, String> dataTable) {
         EndpointManager.getEndpoint(endpoint).send(dataTable);
         return this;
     }
 
     /**
-     * Execute a validation rule annotated by
-     * {@link ru.sbtqa.tag.api.annotation.Validation} on current
-     * endpoint
-     *
-     * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
-     * @throws RestPluginException if there is an error while validation rule executing
+     * Execute a validation rule annotated by {@link Validation} on current endpoint.
+     * Works if endpoint contains only one validation rule
      */
-    // TODO пробросить в ру/ен степ дефы
     public void validate() {
         EndpointContext.getCurrentEndpoint().validate();
     }
 
     /**
-     * Execute a validation rule annotated by
-     * {@link ru.sbtqa.tag.api.annotation.Validation} on current
-     * endpoint
+     * Execute a validation rule annotated by {@link Validation} on current endpoint
      *
      * @param rule name of the validation rule (name value of the
-     * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
-     * @throws RestPluginException if there is an error while validation rule executing
+     * {@link Validation} annotation)
      */
     public void validate(String rule) {
         EndpointContext.getCurrentEndpoint().validate(rule);
     }
 
     /**
-     * Execute a validation rule annotated by
-     * {@link ru.sbtqa.tag.api.annotation.Validation} on current
-     * endpoint with parameters from given {@link cucumber.api.DataTable}
+     * Execute a validation rule annotated by {@link Validation} on current endpoint
+     * with parameters from given {@link DataTable}
      *
-     * @param rule name of the validation rule (name value of the
-     * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
+     * @param rule name of the validation rule (name value of the {@link Validation} annotation)
      * @param dataTable table of parameters
      * @throws RestPluginException if there is an error while validation rule executing
      */
@@ -119,6 +123,7 @@ public class ApiSteps extends ApiSetupSteps {
 
     /**
      * Start filling parameters in endpoint
+     *
      * @param title endpoint title
      */
     public ApiSteps fill(String title) {

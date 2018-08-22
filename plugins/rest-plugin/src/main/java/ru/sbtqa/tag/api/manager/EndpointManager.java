@@ -43,6 +43,24 @@ public class EndpointManager {
         throw new AutotestError("Page object with title '" + title + "' is not registered");
     }
 
+    public static EndpointEntry getEndpoint(Class endpointClass) {
+        if (null == EndpointContext.getCurrentEndpoint() || !EndpointContext.getCurrentEndpoint().getClass().equals(endpointClass)) {
+            return getEndpointFromCache(endpointClass);
+        }
+
+        return EndpointContext.getCurrentEndpoint();
+    }
+
+    private static EndpointEntry getEndpointFromCache(Class endpointClass) {
+        for (Class<?> entry : ENDPOINTS_CACHE) {
+            if (null != entry.getAnnotation(Endpoint.class)
+                    && entry.equals(endpointClass)) {
+                return bootstrapEndpoint(entry);
+            }
+        }
+        throw new AutotestError("Page object with class '" + endpointClass.getName() + "' is not registered");
+    }
+
     private static EndpointEntry bootstrapEndpoint(Class<?> entry) {
         try {
             Constructor<EndpointEntry> constructor = (Constructor<EndpointEntry>) entry.getConstructor();

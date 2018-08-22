@@ -52,6 +52,15 @@ public class ApiStepDefs extends ApiSteps {
      * {@inheritDoc}
      */
     @Override
+    @And("^user validates response$")
+    public void validate() {
+        super.validate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @And("^system returns \"([^\"]*)\" with parameters:?$")
     public void validate(String rule, DataTable dataTable) {
         super.validate(rule, dataTable);

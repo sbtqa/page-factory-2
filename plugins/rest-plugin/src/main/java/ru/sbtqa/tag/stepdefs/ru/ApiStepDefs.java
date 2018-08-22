@@ -54,6 +54,15 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      * {@inheritDoc}
      */
     @Override
+    @И("^(?:пользователь |он )?проверяет ответ$")
+    public void validate() {
+        super.validate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @И("^система возвращает ответ \"([^\"]*)\" с параметрами:?$")
     public void validate(String rule, DataTable dataTable) {
         super.validate(rule, dataTable);

@@ -1,9 +1,10 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.junit;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
 
@@ -23,12 +24,9 @@ public class JunitTests {
 
     @Test
     public void endpointsGetTest() {
-        // TODO send Endpoint.class
-        // TODO validate with no params
-        ApiSteps.getInstance().send("get with json").validate("default client");
+        ApiSteps api = ApiSteps.getInstance();
 
-
-//        ApiSteps.api.userSendRequestNoParams("get with json");
-//        ApiSteps.api.userValidate("default client");
+        api.send("get with json").validate("default client");
+        api.send(GetEndpointEntry.class).validate();
     }
 }
