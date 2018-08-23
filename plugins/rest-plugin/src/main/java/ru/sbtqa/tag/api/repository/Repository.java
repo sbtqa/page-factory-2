@@ -6,5 +6,6 @@ public interface Repository {
 
     void add(Class<? extends EndpointEntry> endpoint, ApiPair pair);
     ApiPair get(Class<? extends EndpointEntry> endpoint);
+    Class get(String endpointTitle);
     ApiPair getLast();
 }

@@ -1,9 +1,15 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
-import ru.sbtqa.tag.api.manager.EndpointManager;
+import java.util.Map;
+import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
+import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+import ru.sbtqa.tag.api.manager.EndpointManager;
+import ru.sbtqa.tag.api.storage.BlankStorage;
+import ru.sbtqa.tag.api.storage.EndpointBlank;
+import ru.sbtqa.tag.api.utils.FromResponseUtils;
 
 /**
  * Basic step definitions, that should be available on every project
@@ -26,25 +32,33 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 public class ApiGenericStepDefs extends ApiSetupSteps {
 
     /**
-     * Execute endpoint action (request) with no parameters
-     *
-     * @param action name value of the endpoint annotation to execute
-     * @throws RestPluginException if there is an error while endpoint executing
+     * Execute the last endpoint (request) in {@link BlankStorage} with no parameters.
      */
-    public void userSendRequestNoParams(String action) {
-        EndpointManager.getEndpoint(action).send();
+    public void sendRequest() {
+        String endpoint = ApiEnvironment.getBlankStorage().getLast().getTitle();
+        EndpointManager.getEndpoint(endpoint).send();
     }
 
     /**
-     * Execute endpoint action (request) with parameters from given
+     * Execute endpoint (request) with no parameters
+     *
+     * @param endpoint name value of the endpoint annotation to execute
+     * @throws RestPluginException if there is an error while endpoint executing
+     */
+    public void sendRequest(String endpoint) {
+        EndpointManager.getEndpoint(endpoint).send();
+    }
+
+    /**
+     * Execute endpoint endpoint (request) with parameters from given
      * {@link cucumber.api.DataTable}
      *
-     * @param action name value of the endpoint annotation to execute
+     * @param endpoint name value of the endpoint annotation to execute
      * @param dataTable table of parameters
      * @throws RestPluginException if there is an error while endpoint executing
      */
-    public void userSendRequestTableParam(String action, DataTable dataTable) {
-        EndpointManager.getEndpoint(action).send(dataTable);
+    public void sendRequestDatatable(String endpoint, DataTable dataTable) {
+        EndpointManager.getEndpoint(endpoint).send(dataTable);
     }
 
     /**
@@ -56,7 +70,7 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * {@link ru.sbtqa.tag.api.annotation.Validation} annotation)
      * @throws RestPluginException if there is an error while validation rule executing
      */
-    public void userValidate(String rule) {
+    public void validate(String rule) {
         EndpointContext.getCurrentEndpoint().validate(rule);
     }
 
@@ -70,7 +84,76 @@ public class ApiGenericStepDefs extends ApiSetupSteps {
      * @param dataTable table of parameters
      * @throws RestPluginException if there is an error while validation rule executing
      */
-    public void userValidateTable(String rule, DataTable dataTable) {
+    public void validateTable(String rule, DataTable dataTable) {
         EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
+    }
+
+    /**
+     * Start filling parameters in endpoint
+     * @param title endpoint title
+     */
+    public void fillRequest(String title) {
+        ApiEnvironment.getBlankStorage().add(new EndpointBlank(title));
+    }
+
+    /**
+     * Add parameter to the last endpoint blank in {@link BlankStorage}
+     *
+     * @param parameterType {@link ParameterType} of parameter
+     * @param name with this name the parameter will be added to endpoint blank
+     * @param value  with this value the parameter will be added to endpoint blank
+     */
+    public void addParameter(String parameterType, String name, String value) {
+        ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
+        ApiEnvironment.getBlankStorage().getLast().addParameter(type, name, value);
+    }
+
+    /**
+     * Add a {@link DataTable} of parameters to the last endpoint blank in {@link BlankStorage}
+     *
+     * @param parameterType {@link ParameterType} of parameters
+     * @param dataTable table of parameters
+     */
+    public void addParameters(String parameterType, DataTable dataTable) {
+        ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
+        for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
+            ApiEnvironment.getBlankStorage().getLast().addParameter(type, dataTableRow.getKey(), dataTableRow.getValue());
+        }
+    }
+
+    /**
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from body of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter
+     * @param parameterName  with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param path get value from body by this path
+     * @param mask apply mask on this value
+     */
+    public void addParameterFromResponseBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
+        Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
+        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, "", path, mask, true);
+
+        ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
+        ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
+    }
+
+    /**
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from header of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter to add
+     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param headerName get value from header with this name
+     * @param mask apply mask on this value
+     */
+    public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
+        Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
+        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, headerName, "", mask, true);
+
+        ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
+        ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
     }
 }

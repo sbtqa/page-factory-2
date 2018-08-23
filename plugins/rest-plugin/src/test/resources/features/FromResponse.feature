@@ -1,8 +1,8 @@
 #language:en
-@dependent
-Feature: Dependent response param test
+@fromresponse
+Feature: From response annotation test
 
-  Scenario: Dependent response param test
-    * user sends request for "dependent first"
-    * user sends request for "dependent second"
+  Scenario: From response annotation test
+    * user sends request for "from response first"
+    * user sends request for "from response second"
     * system returns "result"

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class ApiRepository implements Repository {
@@ -16,6 +17,16 @@ public class ApiRepository implements Repository {
 
     public ApiPair get(Class<? extends EndpointEntry> endpoint) {
         return pairs.get(endpoint);
+    }
+
+    public Class get(String title) {
+        for (Map.Entry<Class<? extends EndpointEntry>, ApiPair> pair : pairs.entrySet()) {
+            if (pair.getKey().getAnnotation(Endpoint.class).title().equals(title)) {
+                return pair.getKey();
+            }
+        }
+
+        throw new RestPluginException(String.format("There is no \"%s\" endpoint in request-response repository", title));
     }
 
     public ApiPair getLast() {

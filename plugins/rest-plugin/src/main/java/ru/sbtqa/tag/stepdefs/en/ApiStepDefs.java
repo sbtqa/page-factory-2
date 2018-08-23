@@ -17,9 +17,18 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      * {@inheritDoc}
      */
     @Override
+    @And("^user sends request$")
+    public void sendRequest() {
+        super.sendRequest();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @And("^user sends request (?:for|to|about) \"([^\"]*)\"$")
-    public void userSendRequestNoParams(String action) {
-        super.userSendRequestNoParams(action);
+    public void sendRequest(String endpoint) {
+        super.sendRequest(endpoint);
     }
 
     /**
@@ -27,8 +36,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^user sends request (?:for|to|about) \"([^\"]*)\" with parameters:?$")
-    public void userSendRequestTableParam(String action, DataTable dataTable) {
-        super.userSendRequestTableParam(action, dataTable);
+    public void sendRequestDatatable(String endpoint, DataTable dataTable) {
+        super.sendRequestDatatable(endpoint, dataTable);
     }
 
     /**
@@ -36,8 +45,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^system returns \"([^\"]*)\"$")
-    public void userValidate(String rule) {
-        super.userValidate(rule);
+    public void validate(String rule) {
+        super.validate(rule);
     }
 
     /**
@@ -45,7 +54,55 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^system returns \"([^\"]*)\" with parameters:?$")
-    public void userValidateTable(String rule, DataTable dataTable) {
-        super.userValidateTable(rule, dataTable);
+    public void validateTable(String rule, DataTable dataTable) {
+        super.validateTable(rule, dataTable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user fill the request \"([^\"]*)\"$")
+    public void fillRequest(String title) {
+        super.fillRequest(title);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user add a (query|header|body) parameter with name \"([^\"]*)\" and value \"([^\"]*)\"$")
+    public void addParameter(String parameterType, String name, String value) {
+        super.addParameter(parameterType, name, value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user add a (query|header|body) parameters$")
+    public void addParameters(String parameterType, DataTable dataTable) {
+        super.addParameters(parameterType, dataTable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user add a (query|header|body) parameter with name \"([^\"]*)\" and get value from response on \"([^\"]*)\" from body by path \"([^\"]*)\" and apply mask \"([^\"]*)\"$")
+    public void addParameterFromResponseBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
+        super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, path, mask);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\". (Body|Header) \"([^\"]*)\" mask \"([^\"]*)\"$")
+    public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
+        if (fromParameterType.equals("Header")) {
+            super.addParameterFromResponseHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+        } else {
+            super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+        }
     }
 }
