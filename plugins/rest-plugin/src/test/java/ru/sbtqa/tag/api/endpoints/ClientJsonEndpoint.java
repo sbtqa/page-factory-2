@@ -13,6 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ru.sbtqa.tag.api.dto.Client;
+import ru.sbtqa.tag.api.dto.Days;
 import ru.sbtqa.tag.api.dto.SimpleResult;
 import ru.sbtqa.tag.api.utils.Default;
 import ru.sbtqa.tag.api.utils.TestDataUtils;
@@ -126,6 +127,18 @@ public class ClientJsonEndpoint {
         return Response.ok(result)
                 .header(Default.HEADER_PARAMETER_NAME_1, header1)
                 .header(Default.HEADER_PARAMETER_NAME_2, header2)
+                .build();
+    }
+
+    @POST
+    @Path("replace")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response replace(Days days) {
+
+        SimpleResult result = new SimpleResult();
+        result.setResult(String.valueOf(days.isDay11() && days.isDay12() && days.isDay13() && days.isDay14() && days.isDay15()));
+
+        return Response.ok(result)
                 .build();
     }
 }

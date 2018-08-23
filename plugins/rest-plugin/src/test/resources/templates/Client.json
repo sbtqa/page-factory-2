@@ -1,10 +1,5 @@
 {
   "id": {id},
   "email": "{email}",
-  "name": "{name}",
-
-  "day1": {day1},
-  "day2": {day2},
-  "day11": {day11},
-  "day12": {day12}
+  "name": "{name}"
 }
