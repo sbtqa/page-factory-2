@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api.entries.methods;
 
-import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Body;
@@ -8,6 +7,8 @@ import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
+
+import static org.hamcrest.Matchers.equalTo;
 
 @Endpoint(method = Rest.POST, path = "client/post", title = "post with json", template = "templates/Client.json")
 public class PostEndpointEntry extends EndpointEntry {
@@ -23,6 +24,15 @@ public class PostEndpointEntry extends EndpointEntry {
 
     @Body(name = "email")
     private String email = Default.EMAIL;
+
+    @Body(name = "day1")
+    String day1 = "false";
+    @Body(name = "day2")
+    String day2 = "false";
+    @Body(name = "day11")
+    String day11 = "true";
+    @Body(name = "day12")
+    String day12 = "true";
 
     @Validation(title = "result")
     public void validate() {

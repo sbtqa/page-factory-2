@@ -11,7 +11,8 @@ public class TemplateUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(TemplateUtils.class);
     private static final String BOM = "\uFEFF";
-    private static final String PLACEHOLDER_MARK = "%";
+    private static final String PLACEHOLDER_START = "\\{";
+    private static final String PLACEHOLDER_FINISH = "\\}";
 
     private TemplateUtils() {}
 
@@ -45,7 +46,7 @@ public class TemplateUtils {
         for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
             if (parameter.getValue() instanceof String) {
                 String value = (String) parameter.getValue();
-                body = body.replaceAll(PLACEHOLDER_MARK + parameter.getKey(), value);
+                body = body.replaceAll(PLACEHOLDER_START + parameter.getKey() + PLACEHOLDER_FINISH, value);
             } else {
                 LOG.debug("Failed to substitute not String field to body template");
             }
