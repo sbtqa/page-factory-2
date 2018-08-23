@@ -25,15 +25,6 @@ public class PostEndpointEntry extends EndpointEntry {
     @Body(name = "email")
     private String email = Default.EMAIL;
 
-    @Body(name = "day1")
-    String day1 = "false";
-    @Body(name = "day2")
-    String day2 = "false";
-    @Body(name = "day11")
-    String day11 = "true";
-    @Body(name = "day12")
-    String day12 = "true";
-
     @Validation(title = "result")
     public void validate() {
         getResponse().body("result", equalTo(id + name + email));
