@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.stepdefs;
 
-import cucumber.api.DataTable;
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.annotation.Validation;
@@ -70,24 +69,13 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Execute endpoint endpoint (request) with parameters from given {@link DataTable}
-     *
-     * @param endpoint name value of the endpoint annotation to execute
-     * @param dataTable table of parameters
-     */
-    public ApiSteps send(String endpoint, DataTable dataTable) {
-        EndpointManager.getEndpoint(endpoint).send(dataTable.asMap(String.class, String.class));
-        return this;
-    }
-
-    /**
      * Execute endpoint endpoint (request) with parameters from given {@link Map}
      *
      * @param endpoint name value of the endpoint annotation to execute
-     * @param dataTable table of parameters
+     * @param data table of parameters
      */
-    public ApiSteps send(String endpoint, Map<String, String> dataTable) {
-        EndpointManager.getEndpoint(endpoint).send(dataTable);
+    public ApiSteps send(String endpoint, Map<String, String> data) {
+        EndpointManager.getEndpoint(endpoint).send(data);
         return this;
     }
 
@@ -111,14 +99,14 @@ public class ApiSteps extends ApiSetupSteps {
 
     /**
      * Execute a validation rule annotated by {@link Validation} on current endpoint
-     * with parameters from given {@link DataTable}
+     * with parameters from given {@link Map}
      *
      * @param rule name of the validation rule (name value of the {@link Validation} annotation)
-     * @param dataTable table of parameters
+     * @param data map of parameters
      * @throws RestPluginException if there is an error while validation rule executing
      */
-    public void validate(String rule, DataTable dataTable) {
-        EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
+    public void validate(String rule, Map<String, String> data) {
+        EndpointContext.getCurrentEndpoint().validate(rule, data);
     }
 
     /**
@@ -140,19 +128,29 @@ public class ApiSteps extends ApiSetupSteps {
      */
     public ApiSteps add(String parameterType, String name, String value) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
+        return add(type, name, value);
+    }
+
+    /**
+     * Add parameter to the last endpoint blank in {@link BlankStorage}
+     *
+     * @param type {@link ParameterType} of parameter
+     * @param name with this name the parameter will be added to endpoint blank
+     * @param value  with this value the parameter will be added to endpoint blank
+     */
+    public ApiSteps add(ParameterType type, String name, String value) {
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, name, value);
         return this;
     }
 
     /**
-     * Add a {@link DataTable} of parameters to the last endpoint blank in {@link BlankStorage}
+     * Add parameters to the last endpoint blank in {@link BlankStorage}
      *
-     * @param parameterType {@link ParameterType} of parameters
-     * @param dataTable table of parameters
+     * @param type {@link ParameterType} of parameters
+     * @param data parameters name-value pairs
      */
-    public ApiSteps add(String parameterType, DataTable dataTable) {
-        ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
-        for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
+    public ApiSteps add(ParameterType type, Map<String, String> data) {
+        for (Map.Entry<String, String> dataTableRow : data.entrySet()) {
             ApiEnvironment.getBlankStorage().getLast().addParameter(type, dataTableRow.getKey(), dataTableRow.getValue());
         }
         return this;

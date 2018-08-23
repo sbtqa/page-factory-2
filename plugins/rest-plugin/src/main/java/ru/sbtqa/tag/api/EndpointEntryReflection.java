@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api;
 
-import static java.lang.String.format;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -20,8 +19,10 @@ import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
-import static ru.sbtqa.tag.api.utils.ReflectionUtils.*;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
+
+import static java.lang.String.format;
+import static ru.sbtqa.tag.api.utils.ReflectionUtils.*;
 
 /**
  * The assistant class for {@link EndpointEntry}.

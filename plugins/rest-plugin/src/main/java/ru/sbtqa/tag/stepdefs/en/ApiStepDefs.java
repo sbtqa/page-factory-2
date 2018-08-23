@@ -3,6 +3,9 @@ package ru.sbtqa.tag.stepdefs.en;
 import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
+import java.util.Map;
+import ru.sbtqa.tag.api.annotation.ParameterType;
+import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
 
 public class ApiStepDefs extends ApiSteps {
@@ -33,10 +36,9 @@ public class ApiStepDefs extends ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user sends request (?:for|to|about) \"([^\"]*)\" with parameters:?$")
     public ApiSteps send(String endpoint, DataTable dataTable) {
-        return super.send(endpoint, dataTable);
+        return super.send(endpoint, dataTable.asMap(String.class, String.class));
     }
 
     /**
@@ -60,10 +62,9 @@ public class ApiStepDefs extends ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^system returns \"([^\"]*)\" with parameters:?$")
     public void validate(String rule, DataTable dataTable) {
-        super.validate(rule, dataTable);
+        EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
     }
 
     /**
@@ -87,10 +88,11 @@ public class ApiStepDefs extends ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user add a (query|header|body) parameters$")
     public ApiSteps add(String parameterType, DataTable dataTable) {
-        return super.add(parameterType, dataTable);
+        ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
+        Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
+        return super.add(type, dataMap);
     }
 
     /**

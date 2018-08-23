@@ -6,6 +6,6 @@ Feature: Datatable test
     * user sends request for "api request with params test" with parameters
       | query-parameter-name-1  | query-parameter-value-1  |
       | header-parameter-name-1 | header-parameter-value-1 |
-    * system returns "result" with parameters
+    * system returns "result with datatable" with parameters
       | query-parameter-name-1  | query-parameter-value-1  |
       | header-parameter-name-1 | header-parameter-value-1 |
