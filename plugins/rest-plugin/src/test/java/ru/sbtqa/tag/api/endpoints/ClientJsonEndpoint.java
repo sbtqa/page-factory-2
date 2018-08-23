@@ -123,12 +123,6 @@ public class ClientJsonEndpoint {
         result.setResult(String.format("q1=%s|q2=%s|h1=%s|h2=%s|id=%s|name=%s|email=%s|",
                 query1, query2, header1, header2, client.getId(), client.getName(), client.getEmail()));
 
-
-
-
-
-
-
         return Response.ok(result)
                 .header(Default.HEADER_PARAMETER_NAME_1, header1)
                 .header(Default.HEADER_PARAMETER_NAME_2, header2)

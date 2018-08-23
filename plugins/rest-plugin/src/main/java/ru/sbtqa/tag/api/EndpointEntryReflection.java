@@ -119,11 +119,11 @@ public class EndpointEntryReflection {
      * @param params params to pass to validation rule method
      */
     public void validate(Object... params) {
-        if (validations.size() == 1) {
-            Method validation = validations.values().stream().findFirst().orElseThrow(() -> new RestPluginException("There is no validation rules in \"%s\" endpoint"));
+        if (validations.size() < 2) {
+            Method validation = validations.values().stream().findFirst().orElseThrow(() -> new RestPluginException(format("There is no validation rules in \"%s\" endpoint", entryTitle)));
             invoke(validation, endpoint, params);
         } else {
-            throw new RestPluginException("There is more then 1 validation rule in \"%s\" endpoint. Please specify validation rule with it title");
+            throw new RestPluginException(format("There is more then 1 validation rule in \"%s\" endpoint. Please specify validation rule with it title", entryTitle));
         }
     }
 

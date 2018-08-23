@@ -53,6 +53,11 @@ public class ApiSteps extends ApiSetupSteps {
         return this;
     }
 
+    /**
+     * Execute endpoint (request) with no parameters
+     *
+     * @param endpoint class of the endpoint annotation to execute
+     */
     public ApiSteps send(Class endpoint) {
         EndpointManager.getEndpoint(endpoint).send();
         return this;
