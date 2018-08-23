@@ -15,16 +15,16 @@ public class FromResponseSecondEndpointEntry extends EndpointEntry {
     @FromResponse(path = "email")
     private String emailFromPreviousRequest;
 
-    @FromResponse(path = "email", endpointEntry = FromResponseFirstEndpointEntry.class)
+    @FromResponse(path = "email", endpoint = FromResponseFirstEndpointEntry.class)
     private String emailFromSpecifiedRequest;
 
-    @FromResponse(endpointEntry = FromResponseFirstEndpointEntry.class, header = Default.HEADER_PARAMETER_NAME_1)
+    @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, header = Default.HEADER_PARAMETER_NAME_1)
     private String firstHeaderValue;
 
-    @FromResponse(endpointEntry = FromResponseFirstEndpointEntry.class, path = "nonexistent", necessity = false)
+    @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, path = "nonexistent", necessity = false)
     private String nonexistent;
 
-    @FromResponse(endpointEntry = FromResponseFirstEndpointEntry.class, path = "email", mask = Default.MASK)
+    @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, path = "email", mask = Default.MASK)
     private String maskedValue;
 
     @Validation(title = "result")

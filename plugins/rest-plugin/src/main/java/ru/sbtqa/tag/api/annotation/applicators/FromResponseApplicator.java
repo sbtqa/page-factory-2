@@ -22,8 +22,8 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
         super(entry, field);
 
         FromResponse fromResponseAnnotation = field.getAnnotation(FromResponse.class);
-        fromEndpoint = fromResponseAnnotation.endpointEntry();
-        isUsePrevious = fromResponseAnnotation.usePrevious();
+        fromEndpoint = fromResponseAnnotation.endpoint();
+        isUsePrevious = fromResponseAnnotation.previous();
         path = fromResponseAnnotation.path();
         header = fromResponseAnnotation.header();
         mask = fromResponseAnnotation.mask();

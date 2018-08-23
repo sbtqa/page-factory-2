@@ -16,13 +16,13 @@ public @interface FromResponse {
      * Search response for this endpoint entry
      * @return endpoint entry
      */
-    Class endpointEntry() default void.class;
+    Class endpoint() default void.class;
 
     /**
      * Just use response of previous executed endpoint entry
      * @return true if need to use previous response (last)
      */
-    boolean usePrevious() default true;
+    boolean previous() default true;
 
     /**
      * If you need get some string from response body, fill it with some xpath (jpath, or smth)
