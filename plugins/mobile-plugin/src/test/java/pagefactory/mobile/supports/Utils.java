@@ -10,7 +10,7 @@ public class Utils {
 
     private Utils() {}
 
-    public static WebElement getRandomItem(String id) {
+    public static WebElement getRandomItem(int id) {
         Random random = new Random();
         List<WebElement> list = Environment.getDriverService().getDriver().findElements(By.id(id));
         int index = 1 + random.nextInt(list.size() - 1);

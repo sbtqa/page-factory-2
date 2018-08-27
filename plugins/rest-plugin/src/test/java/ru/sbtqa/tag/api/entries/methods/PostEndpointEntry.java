@@ -17,7 +17,7 @@ public class PostEndpointEntry extends EndpointEntry {
     private String header = "application/json";
 
     @Body(name = "id")
-    private String id = String.valueOf(Default.ID);
+    private int id = Default.ID;
 
     @Body(name = "name")
     private String name = Default.NAME;

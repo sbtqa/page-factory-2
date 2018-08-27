@@ -44,11 +44,11 @@ public class TemplateUtils {
      */
     public static String replacePlaceholders(String body, Map<String, Object> parameters) {
         for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
+            String value = String.valueOf(parameter.getValue());
             if (parameter.getValue() instanceof String) {
-                String value = (String) parameter.getValue();
                 body = body.replaceAll(PLACEHOLDER_START + parameter.getKey() + PLACEHOLDER_FINISH, value);
             } else {
-                LOG.debug("Failed to substitute not String field to body template");
+                body = body.replaceAll("\"" + PLACEHOLDER_START + parameter.getKey() + PLACEHOLDER_FINISH + "\"", value);
             }
         }
 
