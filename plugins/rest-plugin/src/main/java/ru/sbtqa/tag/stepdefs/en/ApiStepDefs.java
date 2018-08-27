@@ -3,10 +3,13 @@ package ru.sbtqa.tag.stepdefs.en;
 import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
-import ru.sbtqa.tag.stepdefs.ApiGenericStepDefs;
+import ru.sbtqa.tag.api.annotation.ParameterType;
+import ru.sbtqa.tag.api.context.EndpointContext;
+import ru.sbtqa.tag.stepdefs.ApiSteps;
 
+import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
-public class ApiStepDefs extends ApiGenericStepDefs {
+public class ApiStepDefs extends ApiSteps {
 
     @Before
     public void iniApi() {
@@ -18,8 +21,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^user sends request$")
-    public void sendRequest() {
-        super.sendRequest();
+    public ApiSteps send() {
+        return super.send();
     }
 
     /**
@@ -27,17 +30,16 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^user sends request (?:for|to|about) \"([^\"]*)\"$")
-    public void sendRequest(String endpoint) {
-        super.sendRequest(endpoint);
+    public ApiSteps send(String endpoint) {
+        return super.send(endpoint);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user sends request (?:for|to|about) \"([^\"]*)\" with parameters:?$")
-    public void sendRequestDatatable(String endpoint, DataTable dataTable) {
-        super.sendRequestDatatable(endpoint, dataTable);
+    public ApiSteps send(String endpoint, DataTable dataTable) {
+        return super.send(endpoint, dataTable.asMap(String.class, String.class));
     }
 
     /**
@@ -53,9 +55,17 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      * {@inheritDoc}
      */
     @Override
+    @And("^user validates response$")
+    public void validate() {
+        super.validate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @And("^system returns \"([^\"]*)\" with parameters:?$")
-    public void validateTable(String rule, DataTable dataTable) {
-        super.validateTable(rule, dataTable);
+    public void validate(String rule, DataTable dataTable) {
+        EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
     }
 
     /**
@@ -63,8 +73,8 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^user fill the request \"([^\"]*)\"$")
-    public void fillRequest(String title) {
-        super.fillRequest(title);
+    public ApiSteps fill(String title) {
+        return super.fill(title);
     }
 
     /**
@@ -72,37 +82,28 @@ public class ApiStepDefs extends ApiGenericStepDefs {
      */
     @Override
     @And("^user add a (query|header|body) parameter with name \"([^\"]*)\" and value \"([^\"]*)\"$")
-    public void addParameter(String parameterType, String name, String value) {
-        super.addParameter(parameterType, name, value);
+    public ApiSteps add(String parameterType, String name, String value) {
+        return super.add(parameterType, name, value);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user add a (query|header|body) parameters$")
-    public void addParameters(String parameterType, DataTable dataTable) {
-        super.addParameters(parameterType, dataTable);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user add a (query|header|body) parameter with name \"([^\"]*)\" and get value from response on \"([^\"]*)\" from body by path \"([^\"]*)\" and apply mask \"([^\"]*)\"$")
-    public void addParameterFromResponseBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
-        super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, path, mask);
+    public ApiSteps add(String parameterType, DataTable dataTable) {
+        ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
+        return super.add(type, toMap(dataTable));
     }
 
     /**
      * {@inheritDoc}
      */
     @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\". (Body|Header) \"([^\"]*)\" mask \"([^\"]*)\"$")
-    public void addParameterFromResponseHeader(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
+    public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
         if (fromParameterType.equals("Header")) {
-            super.addParameterFromResponseHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+            return super.addToHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
         } else {
-            super.addParameterFromResponseBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
+            return super.addToBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
         }
     }
 }

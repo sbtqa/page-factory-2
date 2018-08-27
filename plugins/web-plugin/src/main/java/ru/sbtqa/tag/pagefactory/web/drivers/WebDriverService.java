@@ -2,6 +2,11 @@ package ru.sbtqa.tag.pagefactory.web.drivers;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Dimension;
@@ -30,12 +35,6 @@ import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class WebDriverService implements DriverService {
 

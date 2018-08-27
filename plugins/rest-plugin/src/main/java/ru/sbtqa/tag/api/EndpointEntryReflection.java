@@ -2,7 +2,6 @@ package ru.sbtqa.tag.api;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +19,10 @@ import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
-import static ru.sbtqa.tag.api.utils.ReflectionUtils.get;
-import static ru.sbtqa.tag.api.utils.ReflectionUtils.set;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
+
+import static java.lang.String.format;
+import static ru.sbtqa.tag.api.utils.ReflectionUtils.*;
 
 /**
  * The assistant class for {@link EndpointEntry}.
@@ -34,11 +34,23 @@ public class EndpointEntryReflection {
     private EndpointEntry endpoint;
     private String entryTitle;
     private List<Field> fields;
+    private Map<String, Method> validations = new HashMap<>();
 
     public EndpointEntryReflection(EndpointEntry endpoint) {
         this.endpoint = endpoint;
         this.entryTitle = endpoint.getClass().getAnnotation(Endpoint.class).title();
         this.fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(endpoint.getClass());
+        cacheValidations();
+    }
+
+    private void cacheValidations() {
+        Method[] methods = endpoint.getClass().getMethods();
+        for (Method method : methods) {
+            Validation validation = method.getAnnotation(Validation.class);
+            if (validation != null) {
+                validations.put(validation.title(), method);
+            }
+        }
     }
 
     /**
@@ -64,6 +76,7 @@ public class EndpointEntryReflection {
     /**
      * Get field by parameter annotation name (it can be one of {@link ru.sbtqa.tag.api.annotation.ParameterType}) and
      * set value to this field
+     *
      * @param name parameter annotation name
      * @param value value to set
      */
@@ -80,7 +93,7 @@ public class EndpointEntryReflection {
             }
         }
 
-        throw new RestPluginException(String.format("There is no \"%s\" parameter in \"%s\" endpoint", name, entryTitle));
+        throw new RestPluginException(format("There is no \"%s\" parameter in \"%s\" endpoint", name, entryTitle));
     }
 
     /**
@@ -90,24 +103,33 @@ public class EndpointEntryReflection {
      * @param params params to pass to validation rule method
      */
     public void validate(String title, Object... params) {
-        Method[] methods = endpoint.getClass().getMethods();
-        for (Method method : methods) {
-            Validation validation = method.getAnnotation(Validation.class);
-            if (validation != null && validation.title().equals(title)) {
-                try {
-                    method.invoke(endpoint, params);
-                } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-                    throw new RestPluginException(String.format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", title, entryTitle), e);
-                }
-                return;
-            }
-        }
+        Method validation = validations.get(title);
 
-        throw new RestPluginException(String.format("There is no \"%s\" validation rule in \"%s\" endpoint", title, entryTitle));
+        if (validation != null) {
+            invoke(validation, endpoint, params);
+        } else {
+            throw new RestPluginException(format("There is no \"%s\" validation rule in \"%s\" endpoint", title, entryTitle));
+        }
+    }
+
+    /**
+     * Invoke method annotated with {@link Validation}.
+     * Works if endpoint contains only one validation rule
+     *
+     * @param params params to pass to validation rule method
+     */
+    public void validate(Object... params) {
+        if (validations.size() < 2) {
+            Method validation = validations.values().stream().findFirst().orElseThrow(() -> new RestPluginException(format("There is no validation rules in \"%s\" endpoint", entryTitle)));
+            invoke(validation, endpoint, params);
+        } else {
+            throw new RestPluginException(format("There is more then 1 validation rule in \"%s\" endpoint. Please specify validation rule with it title", entryTitle));
+        }
     }
 
     /**
      * Get name-field map with fields annotated with one of {@link ParameterType} annotation
+     *
      * @param type type of parameter
      * @return name-field map
      */
@@ -135,7 +157,7 @@ public class EndpointEntryReflection {
                         }
                         break;
                     default:
-                        throw new RestPluginException(String.format("Parameter type \"%s\" is not supported", type));
+                        throw new RestPluginException(format("Parameter type \"%s\" is not supported", type));
                 }
             }
         }

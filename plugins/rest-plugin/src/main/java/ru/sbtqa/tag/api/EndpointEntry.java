@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api;
 
-import cucumber.api.DataTable;
 import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -9,9 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
-import static ru.sbtqa.tag.api.annotation.ParameterType.BODY;
-import static ru.sbtqa.tag.api.annotation.ParameterType.HEADER;
-import static ru.sbtqa.tag.api.annotation.ParameterType.QUERY;
+import static ru.sbtqa.tag.api.annotation.ParameterType.*;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
@@ -46,8 +43,8 @@ public abstract class EndpointEntry {
         blankStorage = ApiEnvironment.getBlankStorage();
     }
 
-    public void send(DataTable dataTable) {
-        for (Map.Entry<String, String> dataTableRow : dataTable.asMap(String.class, String.class).entrySet()) {
+    public void send(Map<String, String> data) {
+        for (Map.Entry<String, String> dataTableRow : data.entrySet()) {
             reflection.setParameterValueByTitle(dataTableRow.getKey(), dataTableRow.getValue());
         }
 
@@ -136,6 +133,10 @@ public abstract class EndpointEntry {
 
     public void validate(String title, Object... params) {
         reflection.validate(title, params);
+    }
+
+    public void validate(Object... params) {
+        reflection.validate(params);
     }
 
     public ValidatableResponse getResponse() {
