@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api.entries.fromfeature;
 
-import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Body;
@@ -8,11 +7,13 @@ import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
 
+import static org.hamcrest.Matchers.equalTo;
+
 @Endpoint(method = Rest.POST, path = "client/request-from-feature", title = "first request from feature", template = "templates/Client.json")
 public class FirstRequestFromFeatureEntry extends EndpointEntry {
 
     @Body(name = "id")
-    private String id = "0";
+    private int id = 0;
 
     @Validation(title = "result")
     public void validate() {
