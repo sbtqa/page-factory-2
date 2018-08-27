@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api.junit;
 
-import com.google.common.net.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jetty.server.Server;
@@ -13,6 +12,9 @@ import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
 import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
+
+import static com.google.common.net.MediaType.JSON_UTF_8;
+import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 
 public class JunitTests {
 
@@ -62,7 +64,7 @@ public class JunitTests {
         bodies.put("email", "default_person@google.com");
 
         api.fill(FirstRequestFromFeatureEntry.class)
-                .add(ParameterType.HEADER, "Content-Type", MediaType.JSON_UTF_8.toString())
+                .add(ParameterType.HEADER, CONTENT_TYPE, JSON_UTF_8.toString())
                 .add(ParameterType.HEADER, headers)
                 .add(ParameterType.QUERY, "query-parameter-name-1", "query-parameter-value-1")
                 .add(ParameterType.QUERY, queries)
