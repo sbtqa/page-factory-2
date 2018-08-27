@@ -1,5 +1,5 @@
 {
-  "id": "{id}",
-  "email": "{email}",
-  "name": "{name}"
+  "id": "${id}",
+  "email": "${email}",
+  "name": "${name}"
 }

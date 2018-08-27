@@ -3,16 +3,14 @@ package ru.sbtqa.tag.api.utils;
 import java.io.IOException;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class TemplateUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TemplateUtils.class);
     private static final String BOM = "\uFEFF";
-    private static final String PLACEHOLDER_START = "\\{";
+    private static final String PLACEHOLDER_START = "\\$\\{";
     private static final String PLACEHOLDER_FINISH = "\\}";
+    private static final String QUOTE = "\"";
 
     private TemplateUtils() {}
 
@@ -45,11 +43,15 @@ public class TemplateUtils {
     public static String replacePlaceholders(String body, Map<String, Object> parameters) {
         for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
             String value = String.valueOf(parameter.getValue());
+
+            String placeholder;
             if (parameter.getValue() instanceof String) {
-                body = body.replaceAll(PLACEHOLDER_START + parameter.getKey() + PLACEHOLDER_FINISH, value);
+                placeholder = PLACEHOLDER_START + parameter.getKey() + PLACEHOLDER_FINISH;
             } else {
-                body = body.replaceAll("\"" + PLACEHOLDER_START + parameter.getKey() + PLACEHOLDER_FINISH + "\"", value);
+                placeholder = QUOTE + PLACEHOLDER_START + parameter.getKey() + PLACEHOLDER_FINISH + QUOTE;
             }
+
+            body = body.replaceAll(placeholder, value);
         }
 
         return body;
