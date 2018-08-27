@@ -16,13 +16,13 @@ public @interface FromResponse {
      * Search response for this endpoint entry
      * @return endpoint entry
      */
-    Class endpointEntry() default void.class;
+    Class endpoint() default void.class;
 
     /**
      * Just use response of previous executed endpoint entry
      * @return true if need to use previous response (last)
      */
-    boolean usePrevious() default true;
+    boolean previous() default true;
 
     /**
      * If you need get some string from response body, fill it with some xpath (jpath, or smth)
@@ -40,11 +40,11 @@ public @interface FromResponse {
     String mask() default "";
 
     /**
-     * Parameter of necessity the annotated field. If set false, then annotated
+     * Parameter of optional the annotated field. If set false, then annotated
      * parameter will set to null when it was not found in document. If set true,
      * then annotated parameter will be set to equal value from responseEntry
      * answer, but if parameter wasn't found in document error exception will be
      * thrown and tests finished
      */
-    boolean necessity() default true;
+    boolean optional() default false;
 }

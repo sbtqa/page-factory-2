@@ -97,7 +97,7 @@ public class DataParser {
                 continue;
             }
             if (collection != null) {
-                DataProvider.updateCollection(DataProvider.getInstance().fromCollection(collection.replace("$", "")));
+                DataFactory.updateCollection(DataFactory.getInstance().fromCollection(collection.replace("$", "")));
 
                 replacedStep = replacedStep.replace(stepDataMatcher.start(2) + offset, stepDataMatcher.end(2) + offset, "");
                 offset -= collection.length();
@@ -110,7 +110,7 @@ public class DataParser {
             }
 
             String dataPath = normalizeValue(value);
-            String parsedValue = DataProvider.getInstance().get(dataPath).getValue();
+            String parsedValue = DataFactory.getInstance().get(dataPath).getValue();
             replacedStep = replacedStep.replace(stepDataMatcher.start(3) - 1 + offset, stepDataMatcher.end(3) + offset, parsedValue);
             offset += parsedValue.length() - 1 - value.length();
         }
@@ -124,13 +124,13 @@ public class DataParser {
         if (tagMatcher.matches()) {
             String collection = tagMatcher.group(1);
             String value = tagMatcher.group(2);
-            TestDataObject tdo = DataProvider.getInstance().fromCollection(collection);
+            TestDataObject tdo = DataFactory.getInstance().fromCollection(collection);
 
             if (value != null) {
                 tdo = tdo.get(normalizeValue(value));
             }
 
-            DataProvider.updateCollection(tdo);
+            DataFactory.updateCollection(tdo);
         }
     }
 

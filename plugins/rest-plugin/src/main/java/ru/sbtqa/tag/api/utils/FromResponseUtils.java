@@ -8,9 +8,9 @@ public class FromResponseUtils {
 
     private FromResponseUtils() {}
 
-    public static Object getValueFromResponse(Class fromEndpoint, boolean isUsePrevious, String header, String path, String mask, boolean isNecessity) {
+    public static Object getValueFromResponse(Class fromEndpoint, boolean isUsePrevious, String header, String path, String mask, boolean isOptional) {
         ValidatableResponse response = getResponse(fromEndpoint, isUsePrevious);
-        Object value = getValue(response, header, path, isNecessity);
+        Object value = getValue(response, header, path, isOptional);
         value = applyMask(value, mask);
         
         return value;
@@ -24,11 +24,11 @@ public class FromResponseUtils {
         }
     }
 
-    private static Object getValue(ValidatableResponse response, String header, String path, boolean isNecessity) {
+    private static Object getValue(ValidatableResponse response, String header, String path, boolean isOptional) {
         if (!header.isEmpty()) {
             return response.extract().header(header);
         } else {
-            if (response.extract().body().path(path) != null || isNecessity) {
+            if (response.extract().body().path(path) != null || !isOptional) {
                 return response.extract().body().path(path).toString();
             } else {
                 return null;
