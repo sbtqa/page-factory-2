@@ -2,6 +2,7 @@ package ru.sbtqa.tag.api.storage;
 
 import java.util.HashMap;
 import java.util.Map;
+import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 
 /**
@@ -19,6 +20,10 @@ public class EndpointBlank {
 
     public EndpointBlank(String title) {
         this.title = title;
+    }
+
+    public EndpointBlank(Class endpoint) {
+        this.title = ((Endpoint) endpoint.getAnnotation(Endpoint.class)).title();
     }
 
     public String getTitle() {

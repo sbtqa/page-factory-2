@@ -85,6 +85,17 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
+     * Execute endpoint endpoint (request) with parameters from given {@link Map}
+     *
+     * @param endpoint class of the endpoint annotation to execute
+     * @param data table of parameters
+     */
+    public ApiSteps send(Class endpoint, Map<String, String> data) {
+        EndpointManager.getEndpoint(endpoint).send(data);
+        return this;
+    }
+
+    /**
      * Execute a validation rule annotated by {@link Validation} on current endpoint.
      * Works if endpoint contains only one validation rule
      */
@@ -121,6 +132,11 @@ public class ApiSteps extends ApiSetupSteps {
      */
     public ApiSteps fill(String title) {
         ApiEnvironment.getBlankStorage().add(new EndpointBlank(title));
+        return this;
+    }
+
+    public ApiSteps fill(Class endpoint) {
+        ApiEnvironment.getBlankStorage().add(new EndpointBlank(endpoint));
         return this;
     }
 

@@ -4,10 +4,11 @@ import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.bg.И;
 import cucumber.api.java.en.And;
-import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
+
+import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
 
 public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
@@ -93,8 +94,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
     @And("^(?:пользователь |он )? добавляет (query|header|body) параметры")
     public ApiSteps add(String parameterType, DataTable dataTable) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
-        Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
-        return super.add(type, dataMap);
+        return super.add(type, toMap(dataTable));
     }
 
     /**

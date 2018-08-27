@@ -21,7 +21,7 @@ public class FromResponseSecondEndpointEntry extends EndpointEntry {
     @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, header = Default.HEADER_PARAMETER_NAME_1)
     private String firstHeaderValue;
 
-    @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, path = "nonexistent", necessity = false)
+    @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, path = "nonexistent", optional = true)
     private String nonexistent;
 
     @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, path = "email", mask = Default.MASK)

@@ -40,11 +40,11 @@ public @interface FromResponse {
     String mask() default "";
 
     /**
-     * Parameter of necessity the annotated field. If set false, then annotated
+     * Parameter of optional the annotated field. If set false, then annotated
      * parameter will set to null when it was not found in document. If set true,
      * then annotated parameter will be set to equal value from responseEntry
      * answer, but if parameter wasn't found in document error exception will be
      * thrown and tests finished
      */
-    boolean necessity() default true;
+    boolean optional() default false;
 }

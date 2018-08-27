@@ -27,7 +27,7 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
         path = fromResponseAnnotation.path();
         header = fromResponseAnnotation.header();
         mask = fromResponseAnnotation.mask();
-        isNecessity = fromResponseAnnotation.necessity();
+        isNecessity = fromResponseAnnotation.optional();
     }
 
     @Override
