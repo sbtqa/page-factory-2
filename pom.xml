@@ -4,7 +4,7 @@
 
   <groupId>ru.sbtqa.tag</groupId>
   <artifactId>page-factory-2</artifactId>
-  <version>4.0-SNAPSHOT</version>
+  <version>5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>page-factory-2</name>
