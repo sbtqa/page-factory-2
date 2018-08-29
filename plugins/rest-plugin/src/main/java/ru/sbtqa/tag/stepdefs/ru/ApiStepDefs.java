@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.bg.И;
 import cucumber.api.java.en.And;
+import cucumber.api.java.ru.Тогда;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
@@ -48,16 +49,8 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^система возвращает (?:ответ )?\"([^\"]*)\"$")
-    public void validate(String rule) {
-        super.validate(rule);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^(?:пользователь |он )?проверяет ответ$")
+    @И("^(?:пользователь |он )?проверяет ответ")
+    @Тогда("система возвращает ответ$")
     public void validate() {
         super.validate();
     }
@@ -65,7 +58,18 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @И("^система возвращает (?:ответ )?\"([^\"]*)\" с параметрами:?$")
+    @Override
+    @И("^(?:пользователь |он )?проверяет(?: ответ)?\"([^\"]*)\"$")
+    @Тогда("^система возвращает (?:ответ )?\"([^\"]*)\"$")
+    public void validate(String rule) {
+        super.validate(rule);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @И("^(?:пользователь |он )?проверяет(?: ответ)?\"([^\"]*)\" с параметрами:?$")
+    @Тогда("^система возвращает (?:ответ )?\"([^\"]*)\" с параметрами:?$")
     public void validate(String rule, DataTable dataTable) {
         EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
     }
