@@ -19,7 +19,7 @@ public class PlaceholderUtils {
      */
     public static String replacePlaceholders(String string, Map<String, Object> parameters) {
         for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
-            replacePlaceholder(string, parameter.getKey(), parameter.getValue());
+            string = replacePlaceholder(string, parameter.getKey(), parameter.getValue());
         }
 
         return string;
