@@ -102,12 +102,12 @@ public abstract class EndpointEntry {
     }
 
     private Map<String, ?> getQueryParameters() {
-        Map<String, Object> headers = new HashMap<>();
+        Map<String, Object> queries = new HashMap<>();
 
-        headers.putAll(reflection.getParameters(QUERY));
-        headers.putAll(blankStorage.get(title).getQueries());
+        queries.putAll(reflection.getParameters(QUERY));
+        queries.putAll(blankStorage.get(title).getQueries());
 
-        return headers;
+        return queries;
     }
 
     private Map<String, ?> getHeaders() {
