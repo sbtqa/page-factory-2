@@ -15,4 +15,8 @@ public interface ApiConfiguration extends Config {
     @Key("api.template.encoding")
     @DefaultValue("UTF-8")
     String getTemplateEncoding();
+
+    @Key("api.ssl.relaxed")
+    @DefaultValue("true")
+    boolean isSslRelaxed();
 }
