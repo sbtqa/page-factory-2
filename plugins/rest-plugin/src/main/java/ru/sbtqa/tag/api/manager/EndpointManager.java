@@ -40,7 +40,7 @@ public class EndpointManager {
             }
         }
 
-        throw new AutotestError("Page object with title '" + title + "' is not registered");
+        throw new AutotestError("Endpoint entry with title '" + title + "' is not registered");
     }
 
     public static EndpointEntry getEndpoint(Class endpointClass) {
@@ -58,7 +58,7 @@ public class EndpointManager {
                 return bootstrapEndpoint(entry);
             }
         }
-        throw new AutotestError("Page object with class '" + endpointClass.getName() + "' is not registered");
+        throw new AutotestError("Endpoint entry with class '" + endpointClass.getName() + "' is not registered");
     }
 
     private static EndpointEntry bootstrapEndpoint(Class<?> entry) {

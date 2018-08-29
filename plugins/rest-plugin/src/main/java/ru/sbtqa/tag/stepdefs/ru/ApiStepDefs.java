@@ -48,7 +48,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^система возвращает ответ \"([^\"]*)\"$")
+    @И("^система возвращает (?:ответ )?\"([^\"]*)\"$")
     public void validate(String rule) {
         super.validate(rule);
     }
@@ -65,7 +65,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @И("^система возвращает ответ \"([^\"]*)\" с параметрами:?$")
+    @И("^система возвращает (?:ответ )?\"([^\"]*)\" с параметрами:?$")
     public void validate(String rule, DataTable dataTable) {
         EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
     }
@@ -74,7 +74,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^(?:пользователь |он )? заполняет запрос \"([^\"]*)\"$")
+    @And("^(?:пользователь |он )?заполняет запрос \"([^\"]*)\"$")
     public ApiSteps fill(String title) {
         return super.fill(title);
     }
@@ -83,7 +83,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^(?:пользователь |он )? добавляет (query|header|body) параметр с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
+    @And("^(?:пользователь |он )?добавляет (query|header|body) параметр с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String name, String value) {
         return super.add(parameterType, name, value);
     }
@@ -91,7 +91,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @And("^(?:пользователь |он )? добавляет (query|header|body) параметры")
+    @And("^(?:пользователь |он )?добавляет (query|header|body) параметры")
     public ApiSteps add(String parameterType, DataTable dataTable) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         return super.add(type, toMap(dataTable));
@@ -100,7 +100,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @And("^(?:пользователь |он )? добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\" маскa \"([^\"]*)\"$")
+    @And("^(?:пользователь |он )?добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\" маскa \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
         if (fromParameterType.equals("Header")) {
             return super.addToHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
