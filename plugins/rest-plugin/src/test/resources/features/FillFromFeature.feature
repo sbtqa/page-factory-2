@@ -25,8 +25,8 @@ Feature: Fill request from feature
     * user add header parameter "h" from response on "first request from feature". Body "result" mask "h1=(.*)\|"
     * user add body parameter "name" from response on "first request from feature". Body "result" mask "name=(.*)\|"
     * user add body parameter "id" from response on "first request from feature". Body "result" mask "id=(.*)\|"
-    * user add query parameter "q2" from response on "first request from feature". Header "header-parameter-name-1" mask ""
-    * user add header parameter "Content-Type" from response on "first request from feature". Header "Content-Type" mask ""
+    * user add query parameter "q2" from response on "first request from feature". Header "header-parameter-name-1"
+    * user add header parameter "Content-Type" from response on "first request from feature". Header "Content-Type"
     * user add body parameter "email" from response on "first request from feature". Header "header-parameter-name-2" mask "-(.*)-"
     * user sends request
     * system returns "result"

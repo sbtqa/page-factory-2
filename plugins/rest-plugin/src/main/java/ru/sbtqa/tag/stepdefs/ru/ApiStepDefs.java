@@ -7,6 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.ru.Тогда;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
+import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
 
 import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
@@ -102,7 +103,30 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
     }
 
     /**
-     * {@inheritDoc}
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from header of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter to add
+     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param fromParameterType get value from header or body
+     * @param fromParameter get value from header with this name
+     */
+    @And("^(?:пользователь |он )?добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\"$")
+    public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter) {
+        return add(parameterType, parameterName, fromEndpointTitle, fromParameterType, fromParameter, "");
+    }
+
+    /**
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from header of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter to add
+     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param fromParameterType get value from header or body
+     * @param fromParameter get value from header with this name
+     * @param mask apply mask on this value
      */
     @And("^(?:пользователь |он )?добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\" маскa \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {

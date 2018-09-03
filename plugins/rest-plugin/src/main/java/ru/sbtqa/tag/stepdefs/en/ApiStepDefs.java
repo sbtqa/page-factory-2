@@ -5,6 +5,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
+import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
 
 import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
@@ -93,6 +94,21 @@ public class ApiStepDefs extends ApiSteps {
     public ApiSteps add(String parameterType, DataTable dataTable) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         return super.add(type, toMap(dataTable));
+    }
+
+    /**
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from header of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter to add
+     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param fromParameterType get value from header or body
+     * @param fromParameter get value from header with this name
+     */
+    @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\". (Body|Header) \"([^\"]*)\"$")
+    public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter) {
+        return add(parameterType, parameterName, fromEndpointTitle, fromParameterType, fromParameter, "");
     }
 
     /**
