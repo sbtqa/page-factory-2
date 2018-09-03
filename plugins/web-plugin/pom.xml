@@ -31,8 +31,8 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>datajack</artifactId>
+      <groupId>ru.sbtqa.tag.datajack</groupId>
+      <artifactId>datajack-api</artifactId>
       <version>${tag.version.datajack}</version>
     </dependency>
     <dependency>
@@ -64,6 +64,11 @@
       <groupId>net.lightbody.bmp</groupId>
       <artifactId>browsermob-core</artifactId>
       <version>2.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag.datajack.providers</groupId>
+      <artifactId>json-provider</artifactId>
+      <version>${tag.version.datajack}</version>
     </dependency>
 
     <!--test-->
