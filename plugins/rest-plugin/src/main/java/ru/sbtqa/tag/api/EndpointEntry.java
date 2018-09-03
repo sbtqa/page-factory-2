@@ -11,6 +11,7 @@ import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
 import ru.sbtqa.tag.api.storage.BlankStorage;
+import ru.sbtqa.tag.api.utils.PathUtils;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
 
@@ -55,7 +56,7 @@ public abstract class EndpointEntry {
 
     public void send() {
         reflection.applyAnnotations();
-        String url = PROPERTIES.getBaseURI() + "/" + path;
+        String url = PathUtils.unite( PROPERTIES.getBaseURI(), path);
 
         RequestSpecification request = buildRequest();
         Response response;

@@ -17,6 +17,6 @@ public interface ApiConfiguration extends Config {
     String getTemplateEncoding();
 
     @Key("api.ssl.relaxed")
-    @DefaultValue("true")
+    @DefaultValue("false")
     boolean isSslRelaxed();
 }
