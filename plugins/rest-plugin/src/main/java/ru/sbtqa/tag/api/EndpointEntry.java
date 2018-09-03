@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api;
 
-import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
@@ -8,12 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
-import static ru.sbtqa.tag.api.annotation.ParameterType.*;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
 import ru.sbtqa.tag.api.storage.BlankStorage;
+import ru.sbtqa.tag.api.utils.PathUtils;
+import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
+
+import static io.restassured.RestAssured.given;
+import static ru.sbtqa.tag.api.annotation.ParameterType.*;
 
 /**
  * An endpoint request (ala Page Object).
@@ -52,12 +55,8 @@ public abstract class EndpointEntry {
     }
 
     public void send() {
-        String url = PROPERTIES.getBaseURI() + "/" + path;
-        send(url);
-    }
-
-    private void send(String url) {
         reflection.applyAnnotations();
+        String url = PathUtils.unite( PROPERTIES.getBaseURI(), path);
 
         RequestSpecification request = buildRequest();
         Response response;
@@ -104,12 +103,12 @@ public abstract class EndpointEntry {
     }
 
     private Map<String, ?> getQueryParameters() {
-        Map<String, Object> headers = new HashMap<>();
+        Map<String, Object> queries = new HashMap<>();
 
-        headers.putAll(reflection.getParameters(QUERY));
-        headers.putAll(blankStorage.get(title).getQueries());
+        queries.putAll(reflection.getParameters(QUERY));
+        queries.putAll(blankStorage.get(title).getQueries());
 
-        return headers;
+        return queries;
     }
 
     private Map<String, ?> getHeaders() {
@@ -128,7 +127,7 @@ public abstract class EndpointEntry {
         parameters.putAll(reflection.getParameters(BODY));
         parameters.putAll(blankStorage.get(title).getBodies());
 
-        return TemplateUtils.replacePlaceholders(body, parameters);
+        return PlaceholderUtils.replacePlaceholders(body, parameters);
     }
 
     public void validate(String title, Object... params) {
@@ -145,5 +144,13 @@ public abstract class EndpointEntry {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

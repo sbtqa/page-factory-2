@@ -13,8 +13,8 @@ import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
 
+import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.MediaType.JSON_UTF_8;
-import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 
 public class JunitTests {
 
@@ -47,7 +47,6 @@ public class JunitTests {
         api.send(WithParamsEndpointEntry.class, parameters)
                 .validate("result with map", parameters);
     }
-
 
     @Test
     public void FillOnTheFlyTest() {

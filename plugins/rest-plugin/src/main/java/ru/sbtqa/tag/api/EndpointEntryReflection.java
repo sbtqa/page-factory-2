@@ -17,6 +17,7 @@ import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.annotation.applicators.Applicator;
 import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
+import ru.sbtqa.tag.api.annotation.applicators.QueryApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
@@ -66,6 +67,8 @@ public class EndpointEntryReflection {
                     applicators.add(new FromResponseApplicator(endpoint, field));
                 } else if (annotation instanceof Stashed) {
                     applicators.add(new StashedApplicator(endpoint, field));
+                } else if (annotation instanceof Query) {
+                    applicators.add(new QueryApplicator(endpoint, field));
                 }
             }
 
@@ -138,8 +141,11 @@ public class EndpointEntryReflection {
         Map<String, Object> parameters = new HashMap<>();
 
         for (Field field : fields) {
-            for (Annotation annotation : field.getAnnotations()) {
+            if (get(endpoint, field) == null) {
+                continue;
+            }
 
+            for (Annotation annotation : field.getAnnotations()) {
                 switch (type) {
                     case QUERY:
                         if (annotation instanceof Query) {

@@ -12,10 +12,10 @@ public class FromResponseUtils {
         ValidatableResponse response = getResponse(fromEndpoint, isUsePrevious);
         Object value = getValue(response, header, path, isOptional);
         value = applyMask(value, mask);
-        
+
         return value;
     }
-    
+
     private static ValidatableResponse getResponse(Class fromEndpoint, boolean isUsePrevious) {
         if ((fromEndpoint == void.class || fromEndpoint == null) && isUsePrevious) {
             return ApiEnvironment.getRepository().getLast().getResponse();
@@ -40,6 +40,8 @@ public class FromResponseUtils {
         if (!mask.isEmpty()) {
             if (value instanceof String) {
                 return RegexUtils.getFirstMatcherGroup((String) value, mask);
+            } else if (value == null) {
+                throw new RestPluginException("Can't masking null value");
             } else {
                 throw new RestPluginException("Masking was failed because value is not instance of String");
             }

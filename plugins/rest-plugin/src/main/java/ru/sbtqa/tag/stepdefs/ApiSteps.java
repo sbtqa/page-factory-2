@@ -145,7 +145,7 @@ public class ApiSteps extends ApiSetupSteps {
      *
      * @param parameterType {@link ParameterType} of parameter
      * @param name with this name the parameter will be added to endpoint blank
-     * @param value  with this value the parameter will be added to endpoint blank
+     * @param value with this value the parameter will be added to endpoint blank
      */
     public ApiSteps add(String parameterType, String name, String value) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
@@ -157,7 +157,7 @@ public class ApiSteps extends ApiSetupSteps {
      *
      * @param type {@link ParameterType} of parameter
      * @param name with this name the parameter will be added to endpoint blank
-     * @param value  with this value the parameter will be added to endpoint blank
+     * @param value with this value the parameter will be added to endpoint blank
      */
     public ApiSteps add(ParameterType type, String name, String value) {
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, name, value);
@@ -182,7 +182,21 @@ public class ApiSteps extends ApiSetupSteps {
      * Get value from body of one of the previous responses
      *
      * @param parameterType {@link ParameterType} of parameter
-     * @param parameterName  with this name the parameter will be added to endpoint blank
+     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param path get value from body by this path
+     */
+    public ApiSteps addToBody(String parameterType, String parameterName, String fromEndpointTitle, String path) {
+        addToBody(parameterType, parameterName, fromEndpointTitle, path, "");
+        return this;
+    }
+
+    /**
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from body of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter
+     * @param parameterName with this name the parameter will be added to endpoint blank
      * @param fromEndpointTitle get response with this title
      * @param path get value from body by this path
      * @param mask apply mask on this value
@@ -193,6 +207,20 @@ public class ApiSteps extends ApiSetupSteps {
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
+        return this;
+    }
+
+    /**
+     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
+     * Get value from header of one of the previous responses
+     *
+     * @param parameterType {@link ParameterType} of parameter to add
+     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param fromEndpointTitle get response with this title
+     * @param headerName get value from header with this name
+     */
+    public ApiSteps addToHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName) {
+        addToBody(parameterType, parameterName, fromEndpointTitle, headerName, "");
         return this;
     }
 
