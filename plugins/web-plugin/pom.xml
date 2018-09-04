@@ -65,13 +65,14 @@
       <artifactId>browsermob-core</artifactId>
       <version>2.1.5</version>
     </dependency>
+
+    <!--test-->
     <dependency>
       <groupId>ru.sbtqa.tag.datajack.providers</groupId>
       <artifactId>json-provider</artifactId>
       <version>${tag.version.datajack}</version>
+      <scope>test</scope>
     </dependency>
-
-    <!--test-->
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-annotations</artifactId>

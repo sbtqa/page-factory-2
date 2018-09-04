@@ -15,8 +15,26 @@ public class DataFactory {
 
     private static TestDataProvider testDataProvider;
     private static String configCollection;
-    private static final String BASE_FQDN = "rru.sbtqa.tag.datajack.providers.";
-    private enum Providers {PropertiesDataProvider, ExcelDataProvider, MongoDataProvider, JsonDataProvider}
+    private static final String BASE_FQDN = "ru.sbtqa.tag.datajack.providers.";
+
+    private enum PROVIDERS {
+        JsonDataProvider("json.JsonDataProvider"),
+        PropertiesDataProvider("properties.PropertiesDataProvider"),
+        ExcelDataProvider,
+        MongoDataProvider;
+
+        private String value;
+
+        PROVIDERS() {
+            this.value = this.name();
+        }
+
+        PROVIDERS(String value) {
+            this.value = value;
+        }
+
+    }
+
 
     public static TestDataProvider getDataProvider() throws DataException {
         if (testDataProvider == null) {
@@ -26,33 +44,33 @@ public class DataFactory {
             switch (dataType) {
                 case "json":
 
-                    testDataProvider = initProvider("json.JsonDataProvider",
+                    testDataProvider = initProvider(PROVIDERS.JsonDataProvider,
                             Props.get("data.folder"),
                             Props.get("data.initial.collection"),
                             Props.get("data.extension", "json")
                     );
                     break;
                 case "properties":
-                    testDataProvider = initProvider("properties.PropertiesDataProvider",
+                    testDataProvider = initProvider(PROVIDERS.PropertiesDataProvider,
                             Props.get("data.folder"),
                             Props.get("data.initial.collection"),
                             Props.get("data.extension", "properties")
                     );
                     break;
                 case "excel":
-                    testDataProvider = initProvider("ExcelDataProvider",
+                    testDataProvider = initProvider(PROVIDERS.ExcelDataProvider,
                             Props.get("data.folder"),
                             Props.get("data.initial.collection")
                     );
                     break;
                 case "mongo":
-                    testDataProvider = initProvider("MongoDataProvider",
+                    testDataProvider = initProvider(PROVIDERS.MongoDataProvider,
                             new MongoClient(new MongoClientURI(Props.get("data.uri"))).getDB("data.db"),
                             Props.get("data.initial.collection")
                     );
                     break;
                 default:
-                    throw new DataException(format("Data adaptor %s isn't supported", dataType));
+                    throw new DataException(format("Data provider %s isn't supported", dataType));
             }
         }
         return testDataProvider;
@@ -67,17 +85,17 @@ public class DataFactory {
     }
 
 
-    private static TestDataProvider initProvider(String provider, Object... args) throws DataException {
+    private static TestDataProvider initProvider(PROVIDERS provider, Object... args) throws DataException {
         try {
-
             Class<? extends TestDataProvider> providerClass =
-                    (Class<? extends TestDataProvider>) Class.forName(BASE_FQDN + provider,false, DataFactory.class.getClassLoader());
+                    (Class<? extends TestDataProvider>) DataFactory.class.getClassLoader()
+                            .loadClass(BASE_FQDN + provider.value);
 
             return ConstructorUtils.invokeConstructor(providerClass, args);
         } catch (ClassNotFoundException e) {
             throw new DataException(format("Could not find data provider %s in classpath. " +
-                    "Make sure you're added required dependency", provider));
-        } catch ( NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
+                    "Make sure you're added required dependency", provider.name()));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
             throw new DataException(format("Could not initialize data provider %s", provider), ex);
         }
     }
