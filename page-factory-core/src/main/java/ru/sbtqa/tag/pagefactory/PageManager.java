@@ -48,7 +48,9 @@ public class PageManager {
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
     public static Page getPage(String title) throws PageInitializationException {
-        if (null == PageContext.getCurrentPage() || !PageContext.getCurrentPageTitle().equals(title)) {
+        if (null == PageContext.getCurrentPage()
+                || !PageContext.getCurrentPageTitle().equals(title)
+                || Environment.getDriverService().isDriverEmpty()) {
             Page page = getPage(title, Environment.getDriverService().getDriver());
             if (page == null) {
                 throw new AutotestError("Page object with title '" + title + "' is not registered");
