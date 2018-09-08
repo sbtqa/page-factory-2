@@ -18,19 +18,19 @@ public class DataFactory {
     private static final String BASE_FQDN = "ru.sbtqa.tag.datajack.providers.";
 
     private enum PROVIDERS {
-        JsonDataProvider("json.JsonDataProvider"),
-        PropertiesDataProvider("properties.PropertiesDataProvider"),
-        ExcelDataProvider,
-        MongoDataProvider;
+        JSON_DATA_PROVIDER("json.JsonDataProvider"),
+        PROPERTIES_DATA_PROVIDER("properties.PropertiesDataProvider"),
+        EXCEL_DATA_PROVIDER("excel.ExcelDataProvider"),
+        MONGO_DATA_PROVIDER("mongo.MongoDataProvider");
 
         private String value;
 
-        PROVIDERS() {
-            this.value = this.name();
-        }
-
         PROVIDERS(String value) {
             this.value = value;
+        }
+
+        String getName() {
+            return value.split("\\.")[1];
         }
 
     }
@@ -44,27 +44,27 @@ public class DataFactory {
             switch (dataType) {
                 case "json":
 
-                    testDataProvider = initProvider(PROVIDERS.JsonDataProvider,
+                    testDataProvider = initProvider(PROVIDERS.JSON_DATA_PROVIDER,
                             Props.get("data.folder"),
                             Props.get("data.initial.collection"),
                             Props.get("data.extension", "json")
                     );
                     break;
                 case "properties":
-                    testDataProvider = initProvider(PROVIDERS.PropertiesDataProvider,
+                    testDataProvider = initProvider(PROVIDERS.PROPERTIES_DATA_PROVIDER,
                             Props.get("data.folder"),
                             Props.get("data.initial.collection"),
                             Props.get("data.extension", "properties")
                     );
                     break;
                 case "excel":
-                    testDataProvider = initProvider(PROVIDERS.ExcelDataProvider,
+                    testDataProvider = initProvider(PROVIDERS.EXCEL_DATA_PROVIDER,
                             Props.get("data.folder"),
                             Props.get("data.initial.collection")
                     );
                     break;
                 case "mongo":
-                    testDataProvider = initProvider(PROVIDERS.MongoDataProvider,
+                    testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER,
                             new MongoClient(new MongoClientURI(Props.get("data.uri"))).getDB("data.db"),
                             Props.get("data.initial.collection")
                     );
@@ -94,7 +94,7 @@ public class DataFactory {
             return ConstructorUtils.invokeConstructor(providerClass, args);
         } catch (ClassNotFoundException e) {
             throw new DataException(format("Could not find data provider %s in classpath. " +
-                    "Make sure you're added required dependency", provider.name()));
+                    "Make sure you're added required maven dependency", provider.getName()));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
             throw new DataException(format("Could not initialize data provider %s", provider), ex);
         }
