@@ -14,7 +14,6 @@ import static java.lang.String.format;
 public class DataFactory {
 
     private static TestDataProvider testDataProvider;
-    private static String configCollection;
     private static final String BASE_FQDN = "ru.sbtqa.tag.datajack.providers.";
 
     private enum PROVIDERS {
@@ -35,38 +34,40 @@ public class DataFactory {
 
     }
 
+    private DataFactory() {
+    }
 
     public static TestDataProvider getDataProvider() throws DataException {
         if (testDataProvider == null) {
-            configCollection = Props.get("data.initial.collection", null);
-            String dataType = Props.get("data.type", "stash");
+            String initialCollection = Props.get("data.initial.collection");
+            String dataFolder = Props.get("data.folder");
+            String dataType = Props.get("data.type");
 
             switch (dataType) {
                 case "json":
-
                     testDataProvider = initProvider(PROVIDERS.JSON_DATA_PROVIDER,
-                            Props.get("data.folder"),
-                            Props.get("data.initial.collection"),
+                            dataFolder,
+                            initialCollection,
                             Props.get("data.extension", "json")
                     );
                     break;
                 case "properties":
                     testDataProvider = initProvider(PROVIDERS.PROPERTIES_DATA_PROVIDER,
-                            Props.get("data.folder"),
-                            Props.get("data.initial.collection"),
+                            dataFolder,
+                            initialCollection,
                             Props.get("data.extension", "properties")
                     );
                     break;
                 case "excel":
                     testDataProvider = initProvider(PROVIDERS.EXCEL_DATA_PROVIDER,
-                            Props.get("data.folder"),
-                            Props.get("data.initial.collection")
+                            dataFolder,
+                            initialCollection
                     );
                     break;
                 case "mongo":
                     testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER,
                             new MongoClient(new MongoClientURI(Props.get("data.uri"))).getDB("data.db"),
-                            Props.get("data.initial.collection")
+                            initialCollection
                     );
                     break;
                 default:
@@ -79,11 +80,6 @@ public class DataFactory {
     public static void updateCollection(TestDataProvider newObject) {
         testDataProvider = newObject;
     }
-
-    public static String getConfigCollection() {
-        return configCollection;
-    }
-
 
     private static TestDataProvider initProvider(PROVIDERS provider, Object... args) throws DataException {
         try {
