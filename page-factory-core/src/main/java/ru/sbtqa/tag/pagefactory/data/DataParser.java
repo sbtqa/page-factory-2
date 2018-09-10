@@ -6,6 +6,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -49,7 +50,7 @@ public class DataParser {
         try {
             return (List<Tag>) FieldUtils.readField(scenarioDefinition, "tags", true);
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            return new ArrayList<>();
+            return Collections.EMPTY_LIST;
         }
     }
 
@@ -83,7 +84,7 @@ public class DataParser {
                 parseDataTagValue(currentScenarioDataTagValue != null ? currentScenarioDataTagValue : featureDataTagValue);
             }
 
-            String builtPath = collection == null ? "$" + value : "$" + collection + value;
+            String builtPath = "$" + (collection == null ? "" : collection) + value;
             String parsedValue = DataFactory.getDataProvider().getByPath(builtPath).getValue();
             replacedStep = replacedStep.replace(stepDataMatcher.start(), stepDataMatcher.end(), parsedValue);
             stepDataMatcher = stepDataPattern.matcher(replacedStep);
