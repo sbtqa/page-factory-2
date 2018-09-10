@@ -50,28 +50,9 @@
       <version>${tag.version.videorecorder}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>datajack</artifactId>
+      <groupId>ru.sbtqa.tag.datajack</groupId>
+      <artifactId>datajack-api</artifactId>
       <version>${tag.version.datajack}</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag.datajack.adaptors</groupId>
-      <artifactId>datajack-json-adaptor</artifactId>
-      <version>${tag.version.datajack.json}</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag.datajack.adaptors</groupId>
-      <artifactId>datajack-properties-adaptor</artifactId>
-      <version>${tag.version.datajack.properties}</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>ru.sbtqa.tag.datajack.adaptors</groupId>
-      <artifactId>datajack-excel-adaptor</artifactId>
-      <version>${tag.version.datajack.excel}</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>

@@ -59,14 +59,10 @@
     <cucumber.version>2.4.0</cucumber.version>
     <aspectj.version>1.8.13</aspectj.version>
     <tag.version.allurehelper>1.4.0</tag.version.allurehelper>
-    <tag.version.datajack>1.2.0</tag.version.datajack>
     <tag.version.qautils>1.3.1</tag.version.qautils>
     <tag.version.videorecorder>1.0.6</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
-    <tag.version.datajack>1.2.0</tag.version.datajack>
-    <tag.version.datajack.json>1.1.0</tag.version.datajack.json>
-    <tag.version.datajack.properties>1.0.0</tag.version.datajack.properties>
-    <tag.version.datajack.excel>1.1.0</tag.version.datajack.excel>
+    <tag.version.datajack>4.0.2</tag.version.datajack>
   </properties>
 
   <modules>

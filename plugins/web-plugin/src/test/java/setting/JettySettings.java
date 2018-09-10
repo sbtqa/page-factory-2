@@ -19,7 +19,7 @@ public class JettySettings {
 
     private static final Logger LOG = LoggerFactory.getLogger(JettySettings.class);
 
-    public static final String WAR_PATH = "src/test/resources/test-web-app.war";
+    public final String WAR_PATH = getClass().getClassLoader().getResource("test-web-app.war").getFile();
     public static final int PORT = 8181;
 
     private static boolean dunit = true;
@@ -50,8 +50,7 @@ public class JettySettings {
 
             WebAppContext webapp = new WebAppContext();
             webapp.setContextPath("/");
-            File warFile = new File(JettySettings.WAR_PATH);
-            webapp.setWar(warFile.getAbsolutePath());
+            webapp.setWar(WAR_PATH);
 
             server.setHandler(webapp);
             server.start();

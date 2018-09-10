@@ -26,7 +26,7 @@ public class CucumberAspect {
         }
 
         DataParser dataParser = new DataParser();
-        dataParser.replaceStepPlaceholders(cucumberFeatures);
+        dataParser.replaceDataPlaceholders(cucumberFeatures);
 
         joinPoint.proceed();
     }
