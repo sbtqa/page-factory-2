@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.data;
 
+import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
@@ -65,10 +66,10 @@ public class DataFactory {
                     );
                     break;
                 case "mongo":
-                    testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER,
-                            new MongoClient(new MongoClientURI(Props.get("data.uri"))).getDB("data.db"),
-                            initialCollection
-                    );
+                    MongoClient mongoClient = new MongoClient(new MongoClientURI(Props.get("data.uri")));
+                    DB db = mongoClient.getDB(Props.get("data.db"));
+
+                    testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER, db, initialCollection);
                     break;
                 default:
                     throw new DataException(format("Data provider %s isn't supported", dataType));
