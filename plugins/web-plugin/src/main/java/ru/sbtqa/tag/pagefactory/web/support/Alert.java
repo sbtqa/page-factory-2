@@ -3,7 +3,7 @@ package ru.sbtqa.tag.pagefactory.web.support;
 import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
@@ -24,7 +24,7 @@ public class Alert {
 
         while (timeoutTime > System.currentTimeMillis()) {
             try {
-                return PageContext.getCurrentPage().getDriver().switchTo().alert();
+                return Environment.getDriverService().getDriver().switchTo().alert();
             } catch (Exception e) {
                 LOG.debug("Alert has not appeared yet", e);
             }

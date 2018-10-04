@@ -74,6 +74,18 @@ public class PageManager {
     }
 
     /**
+     * Get Page by class
+     *
+     * @param page a page class
+     * @param driver a web driver
+     * @return the page object
+     * @throws PageInitializationException if failed to execute corresponding page constructor
+     */
+    public static Page getPage(Class<? extends Page> page, WebDriver driver) throws PageInitializationException {
+        return bootstrapPage(page, driver);
+    }
+
+    /**
      * Run constructor of specified page class and put its instance into static
      * {@link PageContext#currentPage} variable
      *
@@ -85,9 +97,9 @@ public class PageManager {
         if (page != null) {
             try {
                 @SuppressWarnings("unchecked")
-                Constructor<Page> constructor = ((Constructor<Page>) page.getConstructor(WebDriver.class));
+                Constructor<Page> constructor = ((Constructor<Page>) page.getConstructor());
                 constructor.setAccessible(true);
-                return  constructor.newInstance(driver);
+                return  constructor.newInstance();
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new PageInitializationException("Failed to initialize page '" + page + "'", e);
             }

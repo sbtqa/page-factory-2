@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.datajack.Stash;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 @Aspect
 public class StashWindowHandles {
@@ -16,7 +16,7 @@ public class StashWindowHandles {
 
     @Before("click()")
     public void stash() {
-        WebDriver webDriver = PageContext.getCurrentPage().getDriver();
+        WebDriver webDriver = Environment.getDriverService().getDriver();
         Stash.put("beforeClickHandles", webDriver.getWindowHandles());
     }
 

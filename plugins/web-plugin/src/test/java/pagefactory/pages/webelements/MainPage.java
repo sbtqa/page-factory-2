@@ -1,6 +1,5 @@
 package pagefactory.pages.webelements;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -16,8 +15,4 @@ public class MainPage extends AbstractPage {
     @ElementTitle("License text")
     @FindBy(xpath = "//*[@id='license']/p[@class='lead']")
     private WebElement licenseText;
-
-    public MainPage(WebDriver driver) {
-        super(driver);
-    }
 }

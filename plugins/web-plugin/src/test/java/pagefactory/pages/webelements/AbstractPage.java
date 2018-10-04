@@ -1,6 +1,5 @@
 package pagefactory.pages.webelements;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.WebPage;
@@ -24,10 +23,6 @@ public class AbstractPage extends WebPage {
     @ElementTitle("HomeRedirect")
     @FindBy(xpath = "//a[text()='Home']")
     private WebElement homeButtonWithRedirect;
-
-    public AbstractPage(WebDriver driver) {
-        super(driver);
-    }
 
     @ActionTitle("go to page")
     public void goToPage(String pageName) {

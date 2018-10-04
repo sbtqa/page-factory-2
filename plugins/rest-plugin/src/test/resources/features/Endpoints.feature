@@ -26,5 +26,3 @@ Feature: Api action test
   Scenario: delete
     * user sends request for "delete test"
     * system returns "result"
-
-# TODO add OPTIONS, HEAD tests

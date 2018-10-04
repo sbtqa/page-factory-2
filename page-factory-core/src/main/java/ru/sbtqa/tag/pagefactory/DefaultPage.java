@@ -1,10 +1,10 @@
 package ru.sbtqa.tag.pagefactory;
 
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
+import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
@@ -13,15 +13,24 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
-public abstract class DefaultPage extends Page {
+public abstract class DefaultPage implements Page {
 
     PageActions pageActions;
     PageChecks pageChecks;
 
-    public DefaultPage(WebDriver driver) {
-        super(driver);
+    public DefaultPage() {
         pageActions = Environment.getPageActions();
         pageChecks = Environment.getPageChecks();
+    }
+
+    /**
+     * Get title of current page object
+     *
+     * @return the title
+     */
+    @Override
+    public String getTitle() {
+        return this.getClass().getAnnotation(PageEntry.class).title();
     }
 
     /**
