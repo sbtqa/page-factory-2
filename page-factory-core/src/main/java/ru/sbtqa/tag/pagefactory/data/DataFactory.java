@@ -4,6 +4,8 @@ import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.TestDataProvider;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.qautils.properties.Props;
@@ -14,6 +16,7 @@ import static java.lang.String.format;
 
 public class DataFactory {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DataFactory.class);
     private static TestDataProvider testDataProvider;
     private static final String BASE_FQDN = "ru.sbtqa.tag.datajack.providers.";
 
@@ -42,7 +45,7 @@ public class DataFactory {
         if (testDataProvider == null) {
             String initialCollection = Props.get("data.initial.collection");
             String dataFolder = Props.get("data.folder");
-            String dataType = Props.get("data.type");
+            String dataType = Props.get("data.type", "stash");
 
             switch (dataType) {
                 case "json":
@@ -70,6 +73,9 @@ public class DataFactory {
                     DB db = mongoClient.getDB(Props.get("data.db"));
 
                     testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER, db, initialCollection);
+                    break;
+                case "stash":
+                    LOG.warn("Data provider isnt't set. Leaving all placeholders as is.");
                     break;
                 default:
                     throw new DataException(format("Data provider %s isn't supported", dataType));

@@ -6,6 +6,7 @@ import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import ru.sbtqa.tag.pagefactory.data.DataFactory;
 import ru.sbtqa.tag.pagefactory.data.DataParser;
 import ru.sbtqa.tag.pagefactory.fragments.FragmentReplacer;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
@@ -25,9 +26,10 @@ public class CucumberAspect {
             fragmentReplacer.replace();
         }
 
-        DataParser dataParser = new DataParser();
-        dataParser.replaceDataPlaceholders(cucumberFeatures);
-
+        if (DataFactory.getDataProvider() != null) {
+            DataParser dataParser = new DataParser();
+            dataParser.replaceDataPlaceholders(cucumberFeatures);
+        }
         joinPoint.proceed();
     }
 }

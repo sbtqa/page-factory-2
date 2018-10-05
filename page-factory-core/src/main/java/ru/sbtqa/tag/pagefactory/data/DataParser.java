@@ -4,6 +4,7 @@ import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
+import ru.sbtqa.tag.qautils.properties.Props;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +23,7 @@ public class DataParser {
     public void replaceDataPlaceholders(List<CucumberFeature> cucumberFeatures) throws DataException, IllegalAccessException {
 
         for (CucumberFeature cucumberFeature : cucumberFeatures) {
+            featureDataTagValue = "$" + Props.get("data.initial.collection");
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
             Feature feature = gherkinDocument.getFeature();
 
@@ -97,7 +99,9 @@ public class DataParser {
     }
 
     private void setFeatureDataTag(String featureDataTag) {
-        this.featureDataTagValue = featureDataTag;
+        if (featureDataTag != null) {
+            this.featureDataTagValue = featureDataTag;
+        }
     }
 
     private void setCurrentScenarioTag(String currentScenarioDataTag) {
