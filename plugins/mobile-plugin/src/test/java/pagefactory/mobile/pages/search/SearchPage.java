@@ -35,8 +35,7 @@ public class SearchPage extends MobilePage {
     @FindBy(xpath = "//android.widget.TextView[@text='Предоставление легкового автомобиля']")
     protected WebElement btnAuto;
 
-    public SearchPage(WebDriver driver) {
-        super(driver);
+    public SearchPage() {
         ExpectedConditionsUtils.waitUntilElementPresent(nptSearch);
     }
 

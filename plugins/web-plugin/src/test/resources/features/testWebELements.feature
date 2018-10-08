@@ -4,46 +4,46 @@ Feature: Check web elements functional + ActionTitles mechanism
   @test
   Scenario: Check web elements functional + ActionTitles mechanism
     * user is on the page "Main"
-    * user (click the button) "Contact"
+    * user clicks the button "Contact"
     * user is on the page "Contact"
 
     #CHECKS
-    * user (checks that the field is empty) "first name"
-    * user (fill the field) "first name" "Alex"
-    * user (checks that the field is not empty) "first name"
-    * user (checks value) "first name" "Alex"
-    * user (check that values are not equal) "first name" "Billy"
+    * user checks that the field "first name" is empty
+    * user fills the field "first name" with value "Alex"
+    * user checks that the field "first name" is not empty
+    * user checks in the element "first name" value "Alex"
+    * user checks in the element "first name" that the value is not equal "Billy"
 
     #ACTIONS
     * user (clears all of the fields)
 
     #click
-    * user (click the button) "send"
+    * user clicks the button "send"
     * user (check that error message contains) "Please specify your first name"
 
     #fill
-    * user (fill the field) "first name" "Alex"
-    * user (click the button) "send"
+    * user fills the field "first name" with value "Alex"
+    * user clicks the button "send"
     * user (check that error message not contains) "Please specify your first name"
 
     #press
     * user (clears all of the fields)
-    * user (press the key) "Enter"
+    * user presses the key "Enter"
     * user (check that error message contains) "Please specify your first name"
-    * user (fill the field) "first name" "Alex"
-    * user (press the key) "Enter"
+    * user fills the field "first name" with value "Alex"
+    * user presses the key "Enter"
     * user (check that error message not contains) "Please specify your first name"
 
     #select
-    * user (select) "state" "Novosibirsk"
-    * user (checks value) "state" "Novosibirsk"
+    * user selects in "state" the value "Novosibirsk"
+    * user checks in the element "state" value "Novosibirsk"
 
     #checkbox
-    * user (select checkbox) "checkbox"
+    * user selects the checkbox "checkbox"
     * user (checks checkbox) "true"
 
     #alert
-    * user (click the button) "alert"
-    * user (accepts alert) "Alert text"
-    * user (click the button) "alert"
-    * user (dismisses alert) "Alert text"
+    * user clicks the button "alert"
+    * user accepts alert with text "Alert text"
+    * user clicks the button "alert"
+    * user dismisses alert with text "Alert text"

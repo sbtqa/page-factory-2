@@ -4,5 +4,5 @@ Feature: actions fragments
 
   @fragment
   Scenario: level2-first
-    * user (fill the field) "last name" "<last name>"
+    * user fills the field "last name" "<last name>"
 

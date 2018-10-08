@@ -4,9 +4,12 @@ import cucumber.api.DataTable;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.When;
 import cucumber.api.java.ru.И;
 import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
@@ -102,6 +105,97 @@ public class CoreSteps extends CoreGenericSteps {
         super.userActionListParam(action, list);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь заполняет поле \"(.*?)\" (?:значением |)\"(.*?)\"$")
+    public void fill(String elementTitle, String text) throws PageException {
+        super.fill(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь кликает по ссылке \"(.*?)\"$")
+    @When("^пользователь нажимает кнопку \"(.*?)\"$")
+    public void click(String elementTitle) throws PageException {
+        super.click(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь нажимает клавишу \"(.*?)\"$")
+    public void pressKey(String keyName) {
+        super.pressKey(keyName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь нажимает клавишу \"(.*?)\" на элементе \"(.*?)\"$")
+    public void pressKey(String keyName, String elementTitle) throws PageException {
+        super.pressKey(keyName, elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь выбирает в \"(.*?)\" значение \"(.*?)\"$")
+    public void select(String elementTitle, String option) throws PageException {
+        super.select(elementTitle, option);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь отмечает чекбокс \"(.*?)\"$")
+    public void setCheckBox(String elementTitle) throws PageException {
+        super.setCheckBox(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь в \"(.*?)\" проверяет значение \"(.*?)\"$")
+    public void checkValueIsEqual(String elementTitle, String text) throws PageException {
+        super.checkValueIsEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь в \"(.*?)\" проверяет несовпадение значению \"(.*?)\"$")
+    public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+        super.checkValueIsNotEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь проверяет что поле \"(.*?)\" непустое$")
+    public void checkNotEmpty(String elementTitle) throws PageException {
+        super.checkNotEmpty(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^пользователь проверяет что поле \"(.*?)\" пустое$")
+    public void checkEmpty(String elementTitle) throws PageException {
+        super.checkEmpty(elementTitle);
+    }
+    
     /**
      * {@inheritDoc}
      */

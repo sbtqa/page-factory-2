@@ -1,6 +1,5 @@
 package pagefactory.mobile.pages.main;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
@@ -15,8 +14,7 @@ public class MainPage extends MobilePage {
     @FindBy(id = "ru.sberbank.sbt.eso:id/frag_main_searchview")
     protected WebElement nptHelper;
 
-    public MainPage(WebDriver driver) {
-        super(driver);
+    public MainPage() {
         ExpectedConditionsUtils.waitUntilElementPresent(nptHelper);
     }
 }

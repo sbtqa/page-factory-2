@@ -4,7 +4,7 @@ Feature: Check fragments functional
   @test-fragments
   Scenario Outline: Check fragments functional
     * user is on the page "Main"
-    * user (click the button) "Contact"
+    * user clicks the button "Contact"
     * user is on the page "Contact"
 
     #CHECKS
