@@ -164,7 +164,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь в \"(.*?)\" проверяет значение \"(.*?)\"$")
+    @And("^пользователь проверяет что в поле \"(.*?)\" значение \"(.*?)\"$")
     public void checkValueIsEqual(String elementTitle, String text) throws PageException {
         super.checkValueIsEqual(elementTitle, text);
     }
@@ -173,7 +173,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь в \"(.*?)\" проверяет несовпадение значению \"(.*?)\"$")
+    @And("^пользователь проверяет что в поле \"(.*?)\" не значение \"(.*?)\"$")
     public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         super.checkValueIsNotEqual(elementTitle, text);
     }
