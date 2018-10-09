@@ -51,7 +51,7 @@ public class PageManager {
         if (null == PageContext.getCurrentPage()
                 || !PageContext.getCurrentPageTitle().equals(title)
                 || Environment.getDriverService().isDriverEmpty()) {
-            Page page = getPage(title, Environment.getDriverService().getDriver());
+            Page page = bootstrapPage(getPageClass(title));
             if (page == null) {
                 throw new AutotestError("Page object with title '" + title + "' is not registered");
             }
@@ -62,27 +62,14 @@ public class PageManager {
     }
 
     /**
-     * Get Page by PageEntry title
-     *
-     * @param title a page title
-     * @param driver a web driver
-     * @return the page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
-     */
-    public static Page getPage(String title, WebDriver driver) throws PageInitializationException {
-        return bootstrapPage(getPageClass(title), driver);
-    }
-
-    /**
      * Get Page by class
      *
      * @param page a page class
-     * @param driver a web driver
      * @return the page object
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
-    public static Page getPage(Class<? extends Page> page, WebDriver driver) throws PageInitializationException {
-        return bootstrapPage(page, driver);
+    public static Page getPage(Class<? extends Page> page) throws PageInitializationException {
+        return bootstrapPage(page);
     }
 
     /**
@@ -93,7 +80,7 @@ public class PageManager {
      * @return the initialized page object
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
-    private static Page bootstrapPage(Class<?> page, WebDriver driver) throws PageInitializationException {
+    private static Page bootstrapPage(Class<?> page) throws PageInitializationException {
         if (page != null) {
             try {
                 @SuppressWarnings("unchecked")
@@ -162,7 +149,7 @@ public class PageManager {
                 }
             }
 
-            Page page = bootstrapPage(pageClass, Environment.getDriverService().getDriver());
+            Page page = bootstrapPage(pageClass);
             PageContext.setCurrentPage(page);
 
             return page;
