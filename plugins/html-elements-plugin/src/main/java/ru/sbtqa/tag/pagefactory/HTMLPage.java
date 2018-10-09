@@ -5,7 +5,7 @@ import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
 /**
- * Page with common action with html-elements
+ * Inherit your html page objects from this class
  */
 public abstract class HTMLPage extends WebPage {
 

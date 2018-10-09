@@ -10,22 +10,22 @@ Feature: Check html yandex elements functional + ActionTitles mechanism
     * user is on the page "ContactY"
 
     * user (check that error message not contains) "Please specify your first name"
-    * user (click the button) "send"
+    * user clicks the button "send"
     * user (check that error message contains) "Please specify your first name"
 
-    * user (fill the field) "first name" "Alex"
-    * user (click the button) "send"
+    * user fills the field "first name" "Alex"
+    * user clicks the button "send"
     * user (check that error message not contains) "Please specify your first name"
 
     * user (check that error message contains) "Please specify your last name"
-    * user (click the button) "send"
+    * user clicks the button "send"
     * user (check that error message contains) "Please specify your last name"
 
-    * user (fill the field) "last name" "Alexeev"
-    * user (click the button) "send"
+    * user fills the field "last name" "Alexeev"
+    * user clicks the button "send"
     * user (check that error message not contains) "Please specify your last name"
 
-    * user (select checkbox) "checkbox"
+    * user selects the checkbox "checkbox"
 
     * user in block "menu" (go to page) with a parameter "Home"
     * user is on the page "MainY"
