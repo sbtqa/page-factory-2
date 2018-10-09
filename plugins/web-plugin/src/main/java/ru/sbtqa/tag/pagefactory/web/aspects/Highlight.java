@@ -37,13 +37,13 @@ public class Highlight {
     }
 
     private String getElementBorderStyle(WebElement webElement) {
-        JavascriptExecutor js = (JavascriptExecutor) Environment.getDriverService().getDriver();
+        JavascriptExecutor js = Environment.getDriverService().getDriver();
         return (String) js.executeScript("return arguments[0].style.border", webElement);
     }
 
     private void highlightElementOn(WebElement webElement) {
         try {
-            JavascriptExecutor js = (JavascriptExecutor) Environment.getDriverService().getDriver();
+            JavascriptExecutor js = Environment.getDriverService().getDriver();
             js.executeScript("arguments[0].style.border='3px solid red'", webElement);
         } catch (Exception e) {
             LOG.warn("Something went wrong with element highlight", e);
@@ -53,7 +53,7 @@ public class Highlight {
     private void highlightElementOff(WebElement webElement, String originalStyle) {
         originalStyle = (originalStyle == null) ? "" : originalStyle;
         try {
-            JavascriptExecutor js = (JavascriptExecutor) Environment.getDriverService().getDriver();
+            JavascriptExecutor js = Environment.getDriverService().getDriver();
             js.executeScript("arguments[0].style.border='" + originalStyle + "'", webElement);
         } catch (Exception e) {
             LOG.debug("Something went wrong with element highlight", e);

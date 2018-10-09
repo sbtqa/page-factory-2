@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
