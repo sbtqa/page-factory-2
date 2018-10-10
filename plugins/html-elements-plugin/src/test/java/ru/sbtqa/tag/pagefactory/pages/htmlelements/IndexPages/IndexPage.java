@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.pages.htmlelements.IndexPages;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.HTMLPage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -21,8 +20,4 @@ public class IndexPage extends HTMLPage {
     @ElementTitle("License text")
     @FindBy(xpath = "//*[@id='license']/p[@class='lead']")
     private TextBlock licenseText;
-
-    public IndexPage(WebDriver driver) {
-        super(driver);
-    }
 }

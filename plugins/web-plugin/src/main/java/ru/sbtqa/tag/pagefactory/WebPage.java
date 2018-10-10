@@ -5,6 +5,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
@@ -16,13 +17,11 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  */
 public abstract class WebPage extends DefaultPage {
 
-    public WebPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
+    public WebPage() {
+        PageFactory.initElements((WebDriver) Environment.getDriverService().getDriver(), this);
     }
 
-    public WebPage(WebDriver driver, FieldDecorator decorator) {
-        super(driver);
+    public WebPage(FieldDecorator decorator) {
         PageFactory.initElements(decorator, this);
     }
 

@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory;
 
-import org.openqa.selenium.WebDriver;
 import ru.sbtqa.tag.pagefactory.jdi.utils.JDIUtils;
 
 /**
@@ -9,8 +8,7 @@ import ru.sbtqa.tag.pagefactory.jdi.utils.JDIUtils;
  */
 public abstract class JDIPage extends DefaultPage {
 
-    public JDIPage(WebDriver driver) {
-        super(driver);
+    public JDIPage() {
         JDIUtils.initElementsOnPage(this);
     }
 }

@@ -7,7 +7,6 @@ import com.epam.jdi.uitests.web.selenium.elements.common.Text;
 import com.epam.jdi.uitests.web.selenium.elements.complex.RadioButtons;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Selector;
 import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -52,10 +51,6 @@ public class ContactPage extends AbstractPage {
     @ElementTitle("To be or not to be")
     private RadioButtons toBe;
 
-    public ContactPage(WebDriver driver) {
-        super(driver);
-    }
-    
     @ActionTitle("check that error message contains")
     public void errContains(String msg) {
         Assert.assertTrue(errorMsg.getText().contains(msg));

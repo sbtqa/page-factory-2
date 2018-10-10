@@ -2,13 +2,14 @@ package ru.sbtqa.tag.pagefactory.web.actions;
 
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.support.Alert;
 import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
 
@@ -45,7 +46,7 @@ public class WebPageActions implements PageActions {
     @Override
     public void press(Object element, String keyName) {
         WebElement webElement = (WebElement) element;
-        Actions actions = new Actions(PageContext.getCurrentPage().getDriver());
+        Actions actions = new Actions((WebDriver) Environment.getDriverService().getDriver());
 
         if (null != webElement) {
             actions.moveToElement(webElement);

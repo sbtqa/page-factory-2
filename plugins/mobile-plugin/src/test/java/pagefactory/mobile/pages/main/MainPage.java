@@ -16,7 +16,6 @@ public class MainPage extends MobilePage {
     protected WebElement nptHelper;
 
     public MainPage(WebDriver driver) {
-        super(driver);
         ExpectedConditionsUtils.waitUntilElementPresent(nptHelper);
     }
 }

@@ -19,7 +19,6 @@ public class BuildingPage extends MobilePage {
     protected WebElement list;
 
     public BuildingPage(WebDriver driver) {
-        super(driver);
         ExpectedConditionsUtils.waitUntilElementPresent(lbl);
         ExpectedConditionsUtils.waitUntilElementPresent(list);
     }

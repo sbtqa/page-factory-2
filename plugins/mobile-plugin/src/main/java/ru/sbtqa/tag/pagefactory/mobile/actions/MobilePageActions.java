@@ -3,10 +3,10 @@ package ru.sbtqa.tag.pagefactory.mobile.actions;
 import io.appium.java_client.AppiumDriver;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.mobile.support.AdbConsole;
 import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
@@ -57,7 +57,7 @@ public class MobilePageActions implements PageActions {
     @Override
     public void press(Object element, String keyName) {
         Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = new Actions(PageContext.getCurrentPage().getDriver());
+        Actions actions = new Actions((WebDriver) Environment.getDriverService().getDriver());
         actions.sendKeys(key).build().perform();
     }
 

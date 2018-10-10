@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.pagefactory.mobile;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import ru.sbtqa.tag.pagefactory.DefaultPage;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.mobile.utils.SwipeUtils;
@@ -14,11 +12,6 @@ import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
  * If we want to extend this functional - inherit from this class
  */
 public abstract class MobilePage extends DefaultPage {
-
-    public MobilePage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
-    }
 
     /**
      * Swipe until text is visible

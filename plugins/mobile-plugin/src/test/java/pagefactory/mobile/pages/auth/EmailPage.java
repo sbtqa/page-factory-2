@@ -1,6 +1,5 @@
 package pagefactory.mobile.pages.auth;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
@@ -17,8 +16,4 @@ public class EmailPage extends MobilePage {
     @ElementTitle(value = "ОК")
     @FindBy(id = "ru.sberbank.sbt.eso:id/request_pin")
     protected WebElement btnOk;
-
-    public EmailPage(WebDriver driver) {
-        super(driver);
-    }
 }
