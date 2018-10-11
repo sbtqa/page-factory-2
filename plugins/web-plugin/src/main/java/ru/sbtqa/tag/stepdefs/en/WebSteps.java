@@ -90,6 +90,7 @@ public class WebSteps extends WebGenericSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     @And("^user accepts alert with text \"(.*?)\"$")
     public void acceptAlert(String text) throws WaitException {
         super.acceptAlert(text);
@@ -98,6 +99,7 @@ public class WebSteps extends WebGenericSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     @And("^user dismisses alert with text \"(.*?)\"$")
     public void dismissAlert(String text) throws WaitException {
         super.dismissAlert(text);
@@ -106,6 +108,7 @@ public class WebSteps extends WebGenericSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     @And("^user checks that text \"(.*?)\" appears on the page$")
     public void checkTextAppears(String text) throws WaitException {
         super.checkTextAppears(text);
@@ -114,6 +117,7 @@ public class WebSteps extends WebGenericSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     @And("^user checks that text \"(.*?)\" is absent on the page$")
     public void checkTextIsNotPresent(String text) {
         super.checkTextIsNotPresent(text);
@@ -122,6 +126,7 @@ public class WebSteps extends WebGenericSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     @And("^user checks that modal window with text \"(.*?)\" is appears$")
     public void checkModalWindowAppears(String text) throws WaitException {
         super.checkModalWindowAppears(text);
@@ -130,6 +135,7 @@ public class WebSteps extends WebGenericSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     @And("^user checks that element with text \"(.*?)\" is present$")
     @When("^user checks that the text \"(.*?)\" is visible$")
     public void checkElementWithTextIsPresent(String text) {
