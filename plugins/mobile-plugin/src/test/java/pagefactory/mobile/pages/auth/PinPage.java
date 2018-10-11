@@ -18,9 +18,6 @@ public class PinPage extends MobilePage {
     @FindBy(id = "ru.sberbank.sbt.eso:id/vPin")
     protected WebElement nptPin;
 
-    public PinPage() {
-        ExpectedConditionsUtils.waitUntilElementPresent(nptPin);
-    }
 
     @ActionTitle("вводит пин")
     public void enterPin() {

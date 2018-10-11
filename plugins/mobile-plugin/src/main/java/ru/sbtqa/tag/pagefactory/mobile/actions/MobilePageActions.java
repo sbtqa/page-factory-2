@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.mobile.support.AdbConsole;
 import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
