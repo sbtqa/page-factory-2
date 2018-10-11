@@ -8,7 +8,7 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 /**
  * Inherit your web page objects from this class
  */
-public interface WebPage extends Page {
+public abstract class WebPage implements Page {
 
     public WebPage() {
         PageFactory.initElements((WebDriver) Environment.getDriverService().getDriver(), this);
