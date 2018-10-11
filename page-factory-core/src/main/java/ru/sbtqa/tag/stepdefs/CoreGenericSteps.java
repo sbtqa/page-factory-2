@@ -136,20 +136,6 @@ public class CoreGenericSteps extends CoreSetupSteps {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, list);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Fill specified element with text
      *
@@ -270,20 +256,6 @@ public class CoreGenericSteps extends CoreSetupSteps {
             throw new AutotestError("'" + elementTitle + "' value is not empty");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Element is focused
