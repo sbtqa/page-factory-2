@@ -8,6 +8,7 @@ import ru.sbtqa.tag.stepdefs.MobileGenericSteps;
 public class MobileSteps extends MobileGenericSteps {
 
     @Before(order = 1)
+    @Override
     public void initMobile() {
         super.initMobile();
     }
