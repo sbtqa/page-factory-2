@@ -2,6 +2,9 @@ package ru.sbtqa.tag.pagefactory;
 
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 
+/**
+ * Entry point to the page-factory
+ */
 public interface Page {
 
     /**
