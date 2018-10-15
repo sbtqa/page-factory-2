@@ -1,6 +1,5 @@
 package pagefactory.mobile.pages.building;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
@@ -18,7 +17,7 @@ public class BuildingPage extends MobilePage {
     @FindBy(id = "ru.sberbank.sbt.eso:id/suggest_list")
     protected WebElement list;
 
-    public BuildingPage(WebDriver driver) {
+    public BuildingPage() {
         ExpectedConditionsUtils.waitUntilElementPresent(lbl);
         ExpectedConditionsUtils.waitUntilElementPresent(list);
     }

@@ -5,8 +5,10 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.When;
 import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
@@ -100,6 +102,97 @@ public class CoreSteps extends CoreGenericSteps {
     @And("^user \\((.*?)\\) from the list$")
     public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {
         super.userActionListParam(action, list);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user fills the field \"(.*?)\" (?:with value |)\"(.*?)\"$")
+    public void fill(String elementTitle, String text) throws PageException {
+        super.fill(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user clicks the link \"(.*?)\"$")
+    @When("^user clicks the button \"(.*?)\"$")
+    public void click(String elementTitle) throws PageException {
+        super.click(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user presses the key \"(.*?)\"$")
+    public void pressKey(String keyName) {
+        super.pressKey(keyName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user presses the key \"(.*?)\" on the element \"(.*?)\"$")
+    public void pressKey(String keyName, String elementTitle) throws PageException {
+        super.pressKey(keyName, elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user selects in \"(.*?)\" the value \"(.*?)\"$")
+    public void select(String elementTitle, String option) throws PageException {
+        super.select(elementTitle, option);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user selects the checkbox \"(.*?)\"$")
+    public void setCheckBox(String elementTitle) throws PageException {
+        super.setCheckBox(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user checks in the element \"(.*?)\" value \"(.*?)\"$")
+    public void checkValueIsEqual(String elementTitle, String text) throws PageException {
+        super.checkValueIsEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user checks in the element \"(.*?)\" that the value is not equal \"(.*?)\"$")
+    public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+        super.checkValueIsNotEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user checks that the field \"(.*?)\" is not empty$")
+    public void checkNotEmpty(String elementTitle) throws PageException {
+        super.checkNotEmpty(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @And("^user checks that the field \"(.*?)\" is empty$")
+    public void checkEmpty(String elementTitle) throws PageException {
+        super.checkEmpty(elementTitle);
     }
 
     /**

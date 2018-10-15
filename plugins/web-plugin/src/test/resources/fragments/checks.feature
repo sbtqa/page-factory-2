@@ -4,8 +4,8 @@ Feature: checks fragments
 
   @fragment
   Scenario: checks fragment
-    * user (checks that the field is empty) "first name"
-    * user (fill the field) "first name" "Alex"
-    * user (checks that the field is not empty) "first name"
-    * user (checks value) "first name" "Alex"
-    * user (check that values are not equal) "first name" "Billy"
+    * user checks that the field "first name" is empty
+    * user fills the field "first name" "Alex"
+    * user checks that the field "first name" is not empty
+    * user checks in the element "first name" value "Alex"
+    * user checks in the element "first name" that the value is not equal "Billy"

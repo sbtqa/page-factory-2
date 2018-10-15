@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
+import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
+import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 /**
@@ -122,6 +125,76 @@ public class WebGenericSteps extends WebSetupSteps {
      */
     public void reInitPage() {
         Environment.getDriverService().getDriver().navigate().refresh();
+    }
+
+    /**
+     * Wait for an alert with specified text, and accept it
+     *
+     * @param text alert message
+     * @throws WaitException in case if alert didn't appear during default wait
+     * timeout
+     */
+    public void acceptAlert(String text) throws WaitException {
+        ((WebPageActions) Environment.getPageActions()).acceptAlert();
+    }
+
+    /**
+     * Wait for an alert with specified text, and dismiss it
+     *
+     * @param text alert message
+     * @throws WaitException in case if alert didn't appear during default wait
+     * timeout
+     */
+    public void dismissAlert(String text) throws WaitException {
+        ((WebPageActions) Environment.getPageActions()).dismissAlert();
+    }
+
+    /**
+     * Wait for appearance of the required text in current DOM model. Text will
+     * be space-trimmed, so only non-space characters will matter.
+     *
+     * @param text text to search
+     * @throws WaitException if text didn't appear on the page during the
+     * timeout
+     */
+    public void checkTextAppears(String text) throws WaitException {
+        WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, true);
+    }
+
+    /**
+     * Check whether specified text is absent on the page. Text is being
+     * space-trimmed before assertion, so only non-space characters will matter
+     *
+     * @param text text to search for
+     */
+    public void checkTextIsNotPresent(String text) {
+        WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, false);
+    }
+
+    /**
+     * Wait for a new browser window, then wait for a specific text inside the
+     * appeared window List of previously opened windows is being saved before
+     * each click, so if modal window appears without click, this method won't
+     * catch it. Text is being waited by {@link #checkTextAppears}, so it will
+     * be space-trimmed as well
+     *
+     * @param text text that will be searched inside of the window
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
+     */
+    public void checkModalWindowAppears(String text) throws WaitException {
+        WebExpectedConditionsUtils.waitForModalWindowWithText(text);
+    }
+
+    /**
+     * Perform a check that there is an element with required text on current
+     * page
+     *
+     * @param text a {@link java.lang.String} object.
+     */
+    public void checkElementWithTextIsPresent(String text) {
+        if (!WebExpectedConditionsUtils.checkElementWithTextIsPresent(text)) {
+            throw new AutotestError("Text '" + text + "' is not present");
+        }
     }
 
     /**

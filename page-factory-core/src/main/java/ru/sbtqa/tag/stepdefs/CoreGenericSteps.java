@@ -2,13 +2,17 @@ package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
 import java.util.List;
+import org.openqa.selenium.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
+import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 /**
  * Basic step definitions, that should be available on every project Notations
@@ -36,7 +40,7 @@ import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 public class CoreGenericSteps extends CoreSetupSteps {
 
     private static final Logger LOG = LoggerFactory.getLogger(CoreGenericSteps.class);
-    
+
     /**
      * Initialize a page with corresponding title (defined via
      * {@link ru.sbtqa.tag.pagefactory.annotations.PageEntry} annotation)
@@ -130,6 +134,127 @@ public class CoreGenericSteps extends CoreSetupSteps {
      */
     public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {
         ReflectionUtils.executeMethodByTitle(PageContext.getCurrentPage(), action, list);
+    }
+
+    /**
+     * Fill specified element with text
+     *
+     * @param elementTitle element to fill
+     * @param text text to enter
+     * @throws PageException if page was not initialized, or required element couldn't be found
+     */
+    public void fill(String elementTitle, String text) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Environment.getPageActions().fill(element, text);
+    }
+
+    /**
+     * Click specified element
+     *
+     * @param elementTitle title of the element to click
+     * @throws PageException if page was not initialized, or required element couldn't be found
+     */
+    public void click(String elementTitle) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Environment.getPageActions().click(element);
+    }
+
+    /**
+     * Press key on keyboard
+     *
+     * @param keyName name of the key. See available key names in {@link Keys}
+     */
+    public void pressKey(String keyName) {
+        Environment.getPageActions().press(null, keyName);
+    }
+
+    /**
+     * Press key on keyboard with focus on specified element
+     *
+     * @param keyName name of the key. See available key names in {@link Keys}
+     * @param elementTitle title of element that accepts key commands
+     * @throws PageException if couldn't find element with required title
+     */
+    public void pressKey(String keyName, String elementTitle) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Environment.getPageActions().press(element, keyName);
+    }
+
+    /**
+     * Select specified option in select-element
+     *
+     * @param elementTitle element that is supposed to be selectable
+     * @param option option to select
+     * @throws PageException if required
+     * element couldn't be found, or current page isn't initialized
+     */
+    public void select(String elementTitle, String option) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Environment.getPageActions().select(element, option);
+    }
+
+    /**
+     * Set checkbox element to selected state
+     *
+     * @param elementTitle element that is supposed to represent checkbox
+     * @throws PageException if page was not initialized, or required element couldn't be found
+     */
+    public void setCheckBox(String elementTitle) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Environment.getPageActions().setCheckbox(element, true);
+    }
+
+    /**
+     * Check that the element's value is equal with specified value
+     *
+     * @param text value for comparison
+     * @param elementTitle title of the element to search
+     */
+    public void checkValueIsEqual(String elementTitle, String text) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (!Environment.getPageChecks().checkEquality(element, text)) {
+            throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'");
+        }
+    }
+
+    /**
+     * Check that the element's value is not equal with specified value
+     *
+     * @param text value for comparison
+     * @param elementTitle title of the element to search
+     * @throws PageException if current page wasn't initialized, or element with required title was not found
+     */
+    public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (Environment.getPageChecks().checkEquality(element, text)) {
+            throw new AutotestError("'" + elementTitle + "' value is equal with '" + text + "'");
+        }
+    }
+
+    /**
+     * Check that the element's value is not empty
+     *
+     * @param elementTitle title of the element to check
+     * @throws PageException if current page was not initialized, or element wasn't found on the page
+     */
+    public void checkNotEmpty(String elementTitle) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (Environment.getPageChecks().checkEmptiness(element)) {
+            throw new AutotestError("'" + elementTitle + "' value is empty");
+        }
+    }
+
+    /**
+     * Check that the element's value is empty
+     *
+     * @param elementTitle title of the element to check
+     * @throws PageException if current page was not initialized, or element wasn't found on the page
+     */
+    public void checkEmpty(String elementTitle) throws PageException {
+        Object element = ReflectionUtils.getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        if (!Environment.getPageChecks().checkEmptiness(element)) {
+            throw new AutotestError("'" + elementTitle + "' value is not empty");
+        }
     }
 
     /**
