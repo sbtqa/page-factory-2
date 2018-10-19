@@ -29,7 +29,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)переключается на соседнюю вкладку$")
+    @И("^(?:пользователь |он )?переключается на соседнюю вкладку$")
     public void switchesToNextTab() {
         super.switchesToNextTab();
     }
@@ -38,7 +38,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^URL соответствует \"(.*?)\"$")
+    @И("^URL соответствует \"([^\"]*)\"$")
     public void urlMatches(String url) {
         super.urlMatches(url);
     }
@@ -47,7 +47,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)закрывает текущее окно и возвращается на \"(.*?)\"$")
+    @И("^(?:пользователь |он )?закрывает текущее окно и возвращается на \"([^\"]*)\"$")
     public void closingCurrentWin(String title) {
         super.closingCurrentWin(title);
     }
@@ -56,7 +56,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)нажимает назад в браузере$")
+    @И("^(?:пользователь |он )?нажимает назад в браузере$")
     public void backPage() {
         super.backPage();
     }
@@ -65,7 +65,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)переходит на страницу \"(.*?)\" по ссылке$")
+    @И("^(?:пользователь |он )?переходит на страницу \"([^\"]*)\" по ссылке$")
     public void goToUrl(String url) {
         super.goToUrl(url);
     }
@@ -74,7 +74,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)(?:переходит на|открывает) url \"(.*?)\"$")
+    @И("^(?:пользователь |он )?(?:переходит на|открывает) url \"([^\"]*)\"$")
     public void goToPageByUrl(String url) throws PageInitializationException {
         super.goToPageByUrl(url);
     }
@@ -92,7 +92,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь принимает уведомление с текстом \"(.*?)\"$")
+    @And("^пользователь принимает уведомление с текстом \"([^\"]*)\"$")
     public void acceptAlert(String text) throws WaitException {
         super.acceptAlert(text);
     }
@@ -101,7 +101,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь отклоняет уведомление с текстом \"(.*?)\"$")
+    @And("^пользователь отклоняет уведомление с текстом \"([^\"]*)\"$")
     public void dismissAlert(String text) throws WaitException {
         super.dismissAlert(text);
     }
@@ -110,7 +110,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что текст \"(.*?)\" появляется на странице$")
+    @And("^пользователь проверяет что текст \"([^\"]*)\" появляется на странице$")
     public void checkTextAppears(String text) throws WaitException {
         super.checkTextAppears(text);
     }
@@ -119,7 +119,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что текст \"(.*?)\" отсутствует на странице$")
+    @And("^пользователь проверяет что текст \"([^\"]*)\" отсутствует на странице$")
     public void checkTextIsNotPresent(String text) {
         super.checkTextIsNotPresent(text);
     }
@@ -128,7 +128,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что модальное окно с текстом \"(.*?)\" появляется$")
+    @And("^пользователь проверяет что модальное окно с текстом \"([^\"]*)\" появляется$")
     public void checkModalWindowAppears(String text) throws WaitException {
         super.checkModalWindowAppears(text);
     }
@@ -137,8 +137,8 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что элемент с текстом \"(.*?)\" существует$")
-    @When("^пользователь проверяет что текст \"(.*?)\" отоброжается$")
+    @And("^пользователь проверяет что элемент с текстом \"([^\"]*)\" существует$")
+    @When("^пользователь проверяет что текст \"([^\"]*)\" отоброжается$")
     public void checkElementWithTextIsPresent(String text) {
         super.checkElementWithTextIsPresent(text);
     }

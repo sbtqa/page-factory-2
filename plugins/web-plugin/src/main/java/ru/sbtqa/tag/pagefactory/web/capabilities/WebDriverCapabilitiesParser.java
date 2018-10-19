@@ -21,7 +21,7 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
     private static final String CAPABILITY_WITH_PREFIX_REGEX = "webdriver.(" + BROWSER_NAME + "|\\*).capability.(.*)";
 
     private final DesiredCapabilities capabilities = new DesiredCapabilities();
-    private final Map<String, Object> chromeOptions = new HashMap<>();
+    private final ChromeOptions chromeOptions = new HashMap<>();
 
     @Override
     public DesiredCapabilities parse() {
