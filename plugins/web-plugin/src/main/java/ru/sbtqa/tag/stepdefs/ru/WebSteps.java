@@ -92,7 +92,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь принимает уведомление с текстом \"([^\"]*)\"$")
+    @And("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
     public void acceptAlert(String text) throws WaitException {
         super.acceptAlert(text);
     }
@@ -101,7 +101,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь отклоняет уведомление с текстом \"([^\"]*)\"$")
+    @And("^(?:пользователь |он )?отклоняет уведомление с текстом \"([^\"]*)\"$")
     public void dismissAlert(String text) throws WaitException {
         super.dismissAlert(text);
     }
@@ -110,7 +110,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что текст \"([^\"]*)\" появляется на странице$")
+    @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" появляется на странице$")
     public void checkTextAppears(String text) throws WaitException {
         super.checkTextAppears(text);
     }
@@ -119,7 +119,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что текст \"([^\"]*)\" отсутствует на странице$")
+    @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отсутствует на странице$")
     public void checkTextIsNotPresent(String text) {
         super.checkTextIsNotPresent(text);
     }
@@ -128,7 +128,7 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что модальное окно с текстом \"([^\"]*)\" появляется$")
+    @And("^(?:пользователь |он )?проверяет что модальное окно с текстом \"([^\"]*)\" появляется$")
     public void checkModalWindowAppears(String text) throws WaitException {
         super.checkModalWindowAppears(text);
     }
@@ -137,8 +137,8 @@ public class WebSteps extends WebGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что элемент с текстом \"([^\"]*)\" существует$")
-    @When("^пользователь проверяет что текст \"([^\"]*)\" отоброжается$")
+    @And("^(?:пользователь |он )?проверяет что элемент с текстом \"([^\"]*)\" существует$")
+    @When("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отоброжается$")
     public void checkElementWithTextIsPresent(String text) {
         super.checkElementWithTextIsPresent(text);
     }
