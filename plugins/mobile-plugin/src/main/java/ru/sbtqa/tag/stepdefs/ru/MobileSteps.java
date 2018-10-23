@@ -17,7 +17,7 @@ public class MobileSteps extends MobileGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь свайпает в направлении \"(.*?)\" до текста \"(.*?)\"$")
+    @And("^(?:пользователь |он )?свайпает в направлении \"(.*?)\" до текста \"(.*?)\"$")
     public void swipeToTextByDirection(String direction, String text) throws SwipeException {
         super.swipeToTextByDirection(direction, text);
     }
@@ -26,7 +26,7 @@ public class MobileSteps extends MobileGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь свайпает по стратегии совпадения \"(.*?)\" до текста \"(.*?)\"$")
+    @And("^(?:пользователь |он )?свайпает по стратегии совпадения \"(.*?)\" до текста \"(.*?)\"$")
     public void swipeToTextByMatch(String strategy, String text) throws SwipeException {
         super.swipeToTextByMatch(strategy, text);
     }

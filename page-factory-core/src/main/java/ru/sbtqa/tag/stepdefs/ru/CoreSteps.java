@@ -37,7 +37,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)(?:находится на странице|открывается страница|открывается вкладка мастера) \"([^\"]*)\"$")
+    @И("^(?:пользователь |он )?(?:находится на странице|открывается страница|открывается вкладка мастера) \"([^\"]*)\"$")
     public void openPage(String title) throws PageInitializationException {
         super.openPage(title);
     }
@@ -46,7 +46,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)\\((.*?)\\)$")
+    @И("^(?:пользователь |он )?\\(([^)]*)\\)$")
     public void userActionNoParams(String action) throws NoSuchMethodException {
         super.userActionNoParams(action);
     }
@@ -55,7 +55,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)\\((.*?)\\) (?:с параметром |)\"([^\"]*)\"$")
+    @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметром )?\"([^\"]*)\"$")
     public void userActionOneParam(String action, String param) throws NoSuchMethodException {
         super.userActionOneParam(action, param);
     }
@@ -64,7 +64,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)\\((.*?)\\) (?:с параметрами |)\"([^\"]*)\" \"([^\"]*)\"$")
+    @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметрами )?\"([^\"]*)\" \"([^\"]*)\"$")
     public void userActionTwoParams(String action, String param1, String param2) throws NoSuchMethodException {
         super.userActionTwoParams(action, param1, param2);
     }
@@ -73,7 +73,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)\\((.*?)\\) (?:с параметрами |)\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
+    @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметрами )?\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
     public void userActionThreeParams(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         super.userActionThreeParams(action, param1, param2, param3);
     }
@@ -82,7 +82,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)\\((.*?)\\) данными$")
+    @И("^(?:пользователь |он )?\\(([^)]*)\\) данными$")
     public void userActionTableParam(String action, DataTable dataTable) throws NoSuchMethodException {
         super.userActionTableParam(action, dataTable);
     }
@@ -91,7 +91,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)\\((.*?)\\) [^\"]*\"([^\"]*)\" данными$")
+    @И("^(?:пользователь |он )?\\(([^)]*)\\) \"([^\"]*)\" данными$")
     public void userDoActionWithObject(String action, String param, DataTable dataTable) throws NoSuchMethodException {
         super.userDoActionWithObject(action, param, dataTable);
     }
@@ -100,7 +100,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)\\((.*?)\\) из списка$")
+    @И("^(?:пользователь |он )?\\(([^)]*)\\) из списка$")
     public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {
         super.userActionListParam(action, list);
     }
@@ -109,7 +109,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь заполняет поле \"(.*?)\" (?:значением |)\"(.*?)\"$")
+    @And("^(?:пользователь |он )?заполняет поле \"([^\"]*)\" (?:значением )?\"([^\"]*)\"$")
     public void fill(String elementTitle, String text) throws PageException {
         super.fill(elementTitle, text);
     }
@@ -118,8 +118,8 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь кликает по ссылке \"(.*?)\"$")
-    @When("^пользователь нажимает кнопку \"(.*?)\"$")
+    @And("^(?:пользователь |он )?кликает по ссылке \"([^\"]*)\"$")
+    @When("^(?:пользователь |он )?нажимает кнопку \"([^\"]*)\"$")
     public void click(String elementTitle) throws PageException {
         super.click(elementTitle);
     }
@@ -128,7 +128,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь нажимает клавишу \"(.*?)\"$")
+    @And("^(?:пользователь |он )?нажимает клавишу \"([^\"]*)\"$")
     public void pressKey(String keyName) {
         super.pressKey(keyName);
     }
@@ -137,7 +137,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь нажимает клавишу \"(.*?)\" на элементе \"(.*?)\"$")
+    @And("^(?:пользователь |он )?нажимает клавишу \"([^\"]*)\" на элементе \"([^\"]*)\"$")
     public void pressKey(String keyName, String elementTitle) throws PageException {
         super.pressKey(keyName, elementTitle);
     }
@@ -146,7 +146,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь выбирает в \"(.*?)\" значение \"(.*?)\"$")
+    @And("^(?:пользователь |он )?выбирает в \"([^\"]*)\" значение \"([^\"]*)\"$")
     public void select(String elementTitle, String option) throws PageException {
         super.select(elementTitle, option);
     }
@@ -155,7 +155,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь отмечает чекбокс \"(.*?)\"$")
+    @And("^(?:пользователь |он )?отмечает чекбокс \"([^\"]*)\"$")
     public void setCheckBox(String elementTitle) throws PageException {
         super.setCheckBox(elementTitle);
     }
@@ -164,7 +164,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что в поле \"(.*?)\" значение \"(.*?)\"$")
+    @And("^(?:пользователь |он )?проверяет что в поле \"([^\"]*)\" значение \"([^\"]*)\"$")
     public void checkValueIsEqual(String elementTitle, String text) throws PageException {
         super.checkValueIsEqual(elementTitle, text);
     }
@@ -173,7 +173,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что в поле \"(.*?)\" не значение \"(.*?)\"$")
+    @And("^(?:пользователь |он )?проверяет что в поле \"([^\"]*)\" не значение \"([^\"]*)\"$")
     public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         super.checkValueIsNotEqual(elementTitle, text);
     }
@@ -182,7 +182,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что поле \"(.*?)\" непустое$")
+    @And("^(?:пользователь |он )?проверяет что поле \"([^\"]*)\" непустое$")
     public void checkNotEmpty(String elementTitle) throws PageException {
         super.checkNotEmpty(elementTitle);
     }
@@ -191,7 +191,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^пользователь проверяет что поле \"(.*?)\" пустое$")
+    @And("^(?:пользователь |он )?проверяет что поле \"([^\"]*)\" пустое$")
     public void checkEmpty(String elementTitle) throws PageException {
         super.checkEmpty(elementTitle);
     }
@@ -200,7 +200,7 @@ public class CoreSteps extends CoreGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он |)вставляет фрагмент \"([^\"]*)\"$")
+    @И("^(?:пользователь |он )?вставляет фрагмент \"([^\"]*)\"$")
     public void userInsertsFragment(String fragmentName) throws FragmentException {
         super.userInsertsFragment(fragmentName);
     }

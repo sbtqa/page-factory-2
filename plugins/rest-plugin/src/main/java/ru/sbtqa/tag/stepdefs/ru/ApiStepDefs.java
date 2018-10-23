@@ -112,7 +112,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      * @param fromParameterType get value from header or body
      * @param fromParameter get value from header with this name
      */
-    @And("^(?:пользователь |он )?добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\"$")
+    @And("^(?:пользователь |он )?добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\" (Путь|Header) \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter) {
         return add(parameterType, parameterName, fromEndpointTitle, fromParameterType, fromParameter, "");
     }
@@ -128,7 +128,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      * @param fromParameter get value from header with this name
      * @param mask apply mask on this value
      */
-    @And("^(?:пользователь |он )?добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\". (Путь|Header) \"([^\"]*)\" маскa \"([^\"]*)\"$")
+    @And("^(?:пользователь |он )?добавляет (query|header|body) параметр \"([^\"]*)\" из ответа на запрос \"([^\"]*)\" (Путь|Header) \"([^\"]*)\" маскa \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
         if (fromParameterType.equals("Header")) {
             return super.addToHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
