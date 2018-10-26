@@ -4,6 +4,8 @@ import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.allurehelper.ParamsHelper;
 import ru.sbtqa.tag.allurehelper.Type;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
@@ -15,6 +17,7 @@ import ru.sbtqa.tag.pagefactory.utils.ScreenshotUtils;
 public class AttachScreenshot {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AttachScreenshot.class);
 
     @Pointcut("execution(* ru.sbtqa.tag.stepdefs.CoreSetupSteps.tearDown()) && if()")
     public static boolean attachScreenshotOnTearDown() {
@@ -24,7 +27,11 @@ public class AttachScreenshot {
 
     @Before("attachScreenshotOnTearDown()")
     public void attach() {
-        ScreenshotUtils screenshot = ScreenshotUtils.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
-        ParamsHelper.addAttachmentToRender(screenshot.take(), "ScreenshotUtils", Type.PNG);
+        try {
+            ScreenshotUtils screenshot = ScreenshotUtils.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
+            ParamsHelper.addAttachmentToRender(screenshot.take(), "ScreenshotUtils", Type.PNG);
+        } catch (Exception e) {
+            LOG.error("Can't attach screenshot to allure reports", e);
+        }
     }
 }

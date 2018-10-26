@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
@@ -14,6 +15,12 @@ public class WebSteps extends WebGenericSteps {
     @Before(order = 1)
     public void initWeb() {
         super.initWeb();
+    }
+
+    @Override
+    @After(order = 9999)
+    public void disposeWeb() {
+        super.disposeWeb();
     }
 
     /**
