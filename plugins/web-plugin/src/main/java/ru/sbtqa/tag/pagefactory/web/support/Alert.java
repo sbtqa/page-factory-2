@@ -16,7 +16,7 @@ public class Alert {
     private org.openqa.selenium.Alert alert;
 
     public Alert() {
-        new Alert(PROPERTIES.getTimeout());
+        this(PROPERTIES.getTimeout());
     }
 
     public Alert(int timeout) {
