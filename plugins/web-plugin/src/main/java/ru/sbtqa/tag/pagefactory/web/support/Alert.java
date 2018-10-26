@@ -16,11 +16,17 @@ public class Alert {
     private org.openqa.selenium.Alert alert;
 
     public Alert() {
-        alert = switchToAlert();
+        this(PROPERTIES.getTimeout());
     }
 
-    private org.openqa.selenium.Alert switchToAlert() {
-        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
+    public Alert(int timeout) {
+        if (!Environment.isDriverEmpty()) {
+            alert = switchToAlert(timeout);
+        }
+    }
+
+    private org.openqa.selenium.Alert switchToAlert(int timeout) {
+        long timeoutTime = System.currentTimeMillis() + timeout * 1000;
 
         while (timeoutTime > System.currentTimeMillis()) {
             try {
@@ -32,7 +38,7 @@ public class Alert {
             sleep(1);
         }
 
-        throw new WaitException("Timed out after '" + PROPERTIES.getTimeout() + "' seconds waiting for alert to accept");
+        throw new WaitException("Timed out after '" + timeout + "' seconds waiting for alert to accept");
     }
 
     private void sleep(int sec) {

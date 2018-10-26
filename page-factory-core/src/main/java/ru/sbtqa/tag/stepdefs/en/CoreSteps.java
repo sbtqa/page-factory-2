@@ -27,7 +27,7 @@ public class CoreSteps extends CoreGenericSteps {
     }
 
     @Override
-    @After(order = 99999)
+    @After(order = 1)
     public void tearDown() {
         super.tearDown();
     }
