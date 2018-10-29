@@ -27,14 +27,13 @@ import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 public class ReflectionImpl implements Reflection {
 
-    public static final Logger LOG = LoggerFactory.getLogger(ReflectionUtils.class);
+    public static final Logger LOG = LoggerFactory.getLogger(ReflectionImpl.class);
 
     @Override
     public String getElementTitle(Page page, Object element) {
