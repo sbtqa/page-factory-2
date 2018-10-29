@@ -31,7 +31,7 @@
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>allure-helper</artifactId>
-      <version>${tag.version.allurehelper}</version>
+      <version>1.5-SNAPSHOT</version>
       <exclusions>
         <exclusion>
           <artifactId>guava</artifactId>

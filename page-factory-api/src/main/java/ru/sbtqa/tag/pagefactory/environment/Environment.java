@@ -3,6 +3,7 @@ package ru.sbtqa.tag.pagefactory.environment;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
+import ru.sbtqa.tag.pagefactory.reflection.Reflection;
 
 /**
  * Static storage for infrastructure
@@ -12,6 +13,7 @@ public class Environment {
     private static DriverService driverService;
     private static PageActions pageActions;
     private static PageChecks pageChecks;
+    private static Reflection reflection;
 
     public static void setDriverService(DriverService driverService) {
         Environment.driverService = driverService;
@@ -39,5 +41,13 @@ public class Environment {
 
     public static void setPageChecks(PageChecks pageChecks) {
         Environment.pageChecks = pageChecks;
+    }
+
+    public static Reflection getReflection() {
+        return reflection;
+    }
+
+    public static void setReflection(Reflection reflection) {
+        Environment.reflection = reflection;
     }
 }
