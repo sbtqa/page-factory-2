@@ -31,9 +31,9 @@ import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
-public class ReflectionImpl implements Reflection {
+public class DefaultReflection implements Reflection {
 
-    public static final Logger LOG = LoggerFactory.getLogger(ReflectionImpl.class);
+    public static final Logger LOG = LoggerFactory.getLogger(DefaultReflection.class);
 
     @Override
     public String getElementTitle(Page page, Object element) {

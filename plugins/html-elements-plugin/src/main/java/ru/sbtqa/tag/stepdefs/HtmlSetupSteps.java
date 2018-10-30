@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.reflection.HtmlReflectionImpl;
+import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 public class HtmlSetupSteps {
@@ -13,7 +13,7 @@ public class HtmlSetupSteps {
         isAlreadyPerformed(isHtmlInited);
 
         Environment.setDriverService(new WebDriverService());
-        Environment.setReflection(new HtmlReflectionImpl());
+        Environment.setReflection(new HtmlReflection());
     }
 
     public synchronized void disposeHtml() {
