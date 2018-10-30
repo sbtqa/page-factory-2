@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.utils.ReflectionUtils;
+import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
 
 public class FragmentCacheUtils {
 
@@ -51,7 +51,7 @@ public class FragmentCacheUtils {
             Feature feature = gherkinDocument.getFeature();
             List<ScenarioDefinition> scenarioDefinitions = feature.getChildren();
             for (ScenarioDefinition scenario : scenarioDefinitions) {
-                List<Tag> tags = ReflectionUtils.getScenarioTags(scenario);
+                List<Tag> tags = new DefaultReflection().getScenarioTags(scenario);
                 if (isFragmentTagContains(tags)) {
                     fragments.put(scenario.getName(), scenario);
                 }

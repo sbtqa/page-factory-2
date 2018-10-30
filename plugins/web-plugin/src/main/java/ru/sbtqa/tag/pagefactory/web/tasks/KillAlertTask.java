@@ -14,7 +14,7 @@ public class KillAlertTask implements Task {
     public void handle() {
         try {
             new Alert(1).dismiss();
-        } catch (WaitException e) {
+        } catch (WaitException | NullPointerException e) {
             LOG.debug("No alert opened", e);
         }
     }

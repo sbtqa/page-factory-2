@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.utils;
+package ru.sbtqa.tag.pagefactory.reflection;
 
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Tag;
@@ -31,21 +31,12 @@ import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
-public class ReflectionUtils {
-    
-    public static final Logger LOG = LoggerFactory.getLogger(ReflectionUtils.class);
+public class DefaultReflection implements Reflection {
 
-    /**
-     * Search for the given Object in page repository storage, that is being
-     * generated during preconditions to all features. If element is found, return
-     * its title annotation. If nothing found, log debug message and return
-     * toString() of corresponding element
-     *
-     * @param element Object to search
-     * @param page page for searching
-     * @return title of the given element
-     */
-    public static String getElementTitle(Page page, Object element) {
+    public static final Logger LOG = LoggerFactory.getLogger(DefaultReflection.class);
+
+    @Override
+    public String getElementTitle(Page page, Object element) {
         for (Map.Entry<Field, String> entry : PageManager.getPageRepository().get(page.getClass()).entrySet()) {
             try {
                 if (getElementByField(page, entry.getKey()) == element) {
@@ -62,16 +53,8 @@ public class ReflectionUtils {
         return element.toString();
     }
 
-    /**
-     * Find method with corresponding title on current page, and execute it
-     *
-     * @param page the page on which the method is executing
-     * @param title title of the method to call
-     * @param param parameters that will be passed to method
-     * @throws java.lang.NoSuchMethodException if required method couldn't be
-     * found
-     */
-    public static void executeMethodByTitle(Page page, String title, Object... param) throws NoSuchMethodException {
+    @Override
+    public void executeMethodByTitle(Page page, String title, Object... param) throws NoSuchMethodException {
         List<Method> methods = getDeclaredMethods(page.getClass());
         for (Method method : methods) {
             if (isRequiredAction(method, title)) {
@@ -80,47 +63,34 @@ public class ReflectionUtils {
                     MethodUtils.invokeMethod(page, method.getName(), param);
                     return;
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e)); 
+                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e));
                 }
             }
         }
-        
+
         throw new NoSuchMethodException("There is no '" + title + "' method on '" + page.getTitle() + "' page object");
     }
-    
-    /**
-     * Return a list of methods declared tin the given class and its super
-     * classes
-     *
-     * @param clazz class to check
-     * @return list of methods. could be empty list
-     */
-    public static List<Method> getDeclaredMethods(Class clazz) {
+
+    @Override
+    public List<Method> getDeclaredMethods(Class clazz) {
         List<Method> methods = new ArrayList<>(Arrays.asList(clazz.getDeclaredMethods()));
-        
+
         Class supp = clazz.getSuperclass();
-        
+
         while (supp != java.lang.Object.class) {
             methods.addAll(Arrays.asList(supp.getDeclaredMethods()));
             supp = supp.getSuperclass();
         }
-        
+
         return methods;
     }
-    
-    /**
-     * Check whether given method has {@link ActionTitle} or
-     * {@link ActionTitles} annotation with required title
-     *
-     * @param method method to check
-     * @param title required title
-     * @return true|false
-     */
-    public static Boolean isRequiredAction(Method method, final String title) {
+
+    @Override
+    public Boolean isRequiredAction(Method method, String title) {
         ActionTitle actionTitle = method.getAnnotation(ActionTitle.class);
         ActionTitles actionTitles = method.getAnnotation(ActionTitles.class);
         List<ActionTitle> actionList = new ArrayList<>();
-        
+
         if (actionTitles != null) {
             actionList.addAll(Arrays.asList(actionTitles.value()));
         }
@@ -143,51 +113,28 @@ public class ReflectionUtils {
                 return true;
             }
         }
-        
+
         return false;
     }
 
-    /**
-     * Find specified Object by title annotation among current page fields
-     *
-     * @param page the page on which the method is executing
-     * @param title title of the element to search
-     * @param <T> supposed type of the field. if field cannot be cast into this type, it will fail
-     * @return Object found by corresponding title
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if failed to
-     * find corresponding element or element type is set incorrectly
-     */
-    public static <T extends Object> T getElementByTitle(Page page, String title) throws PageException {
+    @Override
+    public <T> T getElementByTitle(Page page, String title) throws PageException {
         for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
             if (isRequiredElement(field, title)) {
                 return getElementByField(page, field);
             }
         }
-        
+
         throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, page.getTitle()));
     }
-    
-        
-    /**
-     * Check whether {@link ElementTitle} annotation of the field has a
-     * required value
-     *
-     * @param field field to check
-     * @param title value of ElementTitle annotation of required element
-     * @return true|false
-     */
-    public static boolean isRequiredElement(Field field, String title) {
+
+    @Override
+    public boolean isRequiredElement(Field field, String title) {
         return getFieldTitle(field).equals(title);
     }
-    
-    /**
-     * Return value of {@link ElementTitle} annotation for the field. If
-     * none present, return empty string
-     *
-     * @param field field to check
-     * @return either an element title, or an empty string
-     */
-    public static String getFieldTitle(Field field) {
+
+    @Override
+    public String getFieldTitle(Field field) {
         for (Annotation a : field.getAnnotations()) {
             if (a instanceof ElementTitle) {
                 return ((ElementTitle) a).value();
@@ -195,20 +142,9 @@ public class ReflectionUtils {
         }
         return "";
     }
-    
-    /**
-     * Get object from a field of specified parent
-     *
-     * @param parentObject object that contains(must contain) given field
-     * @param field field to get
-     * @param <T> supposed type of the field. if field cannot be cast into
-     * this type, it will fail
-     * @return element of requested type
-     * @throws ElementDescriptionException in case if field does not belong
-     * to the object, or element could not be cast to specified type
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T getElementByField(Object parentObject, Field field) throws ElementDescriptionException {
+
+    @Override
+    public <T> T getElementByField(Object parentObject, Field field) throws ElementDescriptionException {
         field.setAccessible(true);
         Object element;
         try {
@@ -223,17 +159,8 @@ public class ReflectionUtils {
         }
     }
 
-    /**
-     * Find a method with {@link ValidationRule} annotation on current page, and
-     * call it
-     *
-     * @param page the page on which the method is executing
-     * @param title title of the validation rule
-     * @param params parameters passed to called method
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if couldn't
-     * find corresponding validation rule
-     */
-    public static void fireValidationRule(Page page, String title, Object... params) throws PageException {
+    @Override
+    public void fireValidationRule(Page page, String title, Object... params) throws PageException {
         Method[] methods = page.getClass().getMethods();
         for (Method method : methods) {
             if (null != method.getAnnotation(ValidationRule.class)
@@ -250,7 +177,8 @@ public class ReflectionUtils {
         throw new PageException("There is no '" + title + "' validation rule in '" + page.getTitle() + "' page.");
     }
 
-    public static List<Tag> getScenarioTags(ScenarioDefinition scenarioDefinition) {
+    @Override
+    public List<Tag> getScenarioTags(ScenarioDefinition scenarioDefinition) {
         try {
             return (List<Tag>) FieldUtils.readField(scenarioDefinition, "tags", true);
         } catch (IllegalArgumentException | IllegalAccessException e) {

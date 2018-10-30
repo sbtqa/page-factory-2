@@ -4,8 +4,9 @@ import cucumber.api.DataTable;
 import java.util.Locale;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.html.utils.HtmlReflectionUtils;
+import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -46,7 +47,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
  * Step Definitions for html-elements-plugin.
  * Common action with pages describes by html-elements.
  */
-public class HtmlGenericStepDefs extends HtmlSetupSteps{
+public class HtmlGenericStepDefs extends HtmlSetupSteps {
 
     /**
      * Execute action with no parameters inside block element User|he keywords
@@ -58,7 +59,7 @@ public class HtmlGenericStepDefs extends HtmlSetupSteps{
      * specified block
      */
     public void userActionInBlockNoParams(String block, String action) throws NoSuchMethodException {
-        HtmlReflectionUtils.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
+        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
     }
 
     /**
@@ -72,7 +73,7 @@ public class HtmlGenericStepDefs extends HtmlSetupSteps{
      * specified block
      */
     public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws NoSuchMethodException {
-        HtmlReflectionUtils.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
+        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
     }
 
     /**
@@ -86,7 +87,7 @@ public class HtmlGenericStepDefs extends HtmlSetupSteps{
      * specified block
      */
     public void userActionInBlockOneParam(String block, String action, String param) throws NoSuchMethodException {
-        HtmlReflectionUtils.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
+        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
     }
 
     /**
@@ -101,7 +102,7 @@ public class HtmlGenericStepDefs extends HtmlSetupSteps{
      * specified block
      */
     public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws NoSuchMethodException {
-        HtmlReflectionUtils.executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
+        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
     }
 
     /**
@@ -152,7 +153,7 @@ public class HtmlGenericStepDefs extends HtmlSetupSteps{
             default:
                 clazz = WebElement.class;
         }
-        HtmlReflectionUtils.findElementInBlockByTitle(PageContext.getCurrentPage(), block, elementTitle, clazz);
+        ((HtmlReflection) Environment.getReflection()).findElementInBlockByTitle(PageContext.getCurrentPage(), block, elementTitle, clazz);
     }
 
     /**
@@ -167,7 +168,7 @@ public class HtmlGenericStepDefs extends HtmlSetupSteps{
      */
     public void findElementInList(String listTitle, String value) throws PageException {
         boolean found = false;
-        for (WebElement webElement : HtmlReflectionUtils.findListOfElements(PageContext.getCurrentPage(), listTitle)) {
+        for (WebElement webElement : ((HtmlReflection) Environment.getReflection()).findListOfElements(PageContext.getCurrentPage(), listTitle)) {
             if (webElement.getText().equals(value)) {
                 found = true;
                 break;
