@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
@@ -234,7 +233,7 @@ public class HtmlReflection extends DefaultReflection {
      * @return first found block object
      * @throws java.util.NoSuchElementException if couldn't find any block
      */
-    public HtmlElement findBlock(Page page, String blockPath) throws NoSuchElementException {
+    public HtmlElement findBlock(Page page, String blockPath) {
         try {
             List<HtmlElement> blocks = findBlocks(blockPath, page, true);
             if (blocks.isEmpty()) {
@@ -255,7 +254,7 @@ public class HtmlReflection extends DefaultReflection {
      * @param blockPath full path or just a name of the block to search
      * @return list of objects that were found by specified path
      */
-    public List<HtmlElement> findBlocks(Page page, String blockPath) throws NoSuchElementException {
+    public List<HtmlElement> findBlocks(Page page, String blockPath) {
         try {
             return findBlocks(blockPath, page, false);
         } catch (IllegalAccessException ex) {
@@ -448,6 +447,7 @@ public class HtmlReflection extends DefaultReflection {
         return "";
     }
 
+    @Override
     public <T> T getElementByField(Object parentObject, Field field) throws ElementDescriptionException {
         Object element = super.getElementByField(parentObject, field);
         isUsedBlock = false;
