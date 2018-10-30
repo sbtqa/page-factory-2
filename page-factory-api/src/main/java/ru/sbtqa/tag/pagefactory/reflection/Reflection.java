@@ -115,10 +115,5 @@ public interface Reflection {
      */
     void fireValidationRule(Page page, String title, Object... params) throws PageException;
 
-    /**
-     * TODO
-     * @param scenarioDefinition
-     * @return
-     */
     List<Tag> getScenarioTags(ScenarioDefinition scenarioDefinition);
 }

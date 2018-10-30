@@ -49,8 +49,6 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
  */
 public class HtmlGenericStepDefs extends HtmlSetupSteps {
 
-
-
     /**
      * Execute action with no parameters inside block element User|he keywords
      * are optional

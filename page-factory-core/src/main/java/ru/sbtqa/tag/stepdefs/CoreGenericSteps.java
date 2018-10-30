@@ -39,7 +39,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 public class CoreGenericSteps extends CoreSetupSteps {
 
     private static final Logger LOG = LoggerFactory.getLogger(CoreGenericSteps.class);
-    
+
     /**
      * Initialize a page with corresponding title (defined via
      * {@link ru.sbtqa.tag.pagefactory.annotations.PageEntry} annotation)
