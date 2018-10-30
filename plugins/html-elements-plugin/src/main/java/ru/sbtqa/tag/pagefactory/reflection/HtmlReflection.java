@@ -23,7 +23,7 @@ import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 
-public class HtmlDefaultReflection extends DefaultReflection implements HtmlReflection {
+public class HtmlReflection extends DefaultReflection {
 
     private boolean isUsedBlock = false;
     private WebElement usedBlock = null;
