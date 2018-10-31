@@ -11,7 +11,7 @@ public class ApplyActions {
 
     private static PageActions pageActions = new MobilePageActions();
 
-    @Before("preinitialization(ru.sbtqa.tag.pagefactory.mobile.MobilePage.new(..))")
+    @Before("execution(ru.sbtqa.tag.pagefactory.mobile.MobilePage.new(..))")
     public void apply() {
         Environment.setPageActions(pageActions);
     }

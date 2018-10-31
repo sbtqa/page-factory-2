@@ -11,7 +11,7 @@ public class ApplyActions {
 
     private static PageActions pageActions = new JdiPageActions();
 
-    @Before("preinitialization(ru.sbtqa.tag.pagefactory.JDIPage.new(..))")
+    @Before("execution(ru.sbtqa.tag.pagefactory.JDIPage.new(..))")
     public void apply() {
         Environment.setPageActions(pageActions);
     }

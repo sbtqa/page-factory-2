@@ -11,7 +11,7 @@ public class ApplyChecks {
 
     private static PageChecks pageChecks = new MobilePageChecks();
 
-    @Before("preinitialization(ru.sbtqa.tag.pagefactory.mobile.MobilePage.new(..))")
+    @Before("execution(ru.sbtqa.tag.pagefactory.mobile.MobilePage.new(..))")
     public void apply() {
         Environment.setPageChecks(pageChecks);
     }
