@@ -11,7 +11,7 @@ public class ApplyActions {
 
     private static PageActions pageActions = new HtmlPageActions();
 
-    @Before("preinitialization(ru.sbtqa.tag.pagefactory.HTMLPage.new(..))")
+    @Before("execution(ru.sbtqa.tag.pagefactory.HTMLPage.new(..))")
     public void apply() {
         Environment.setPageActions(pageActions);
     }

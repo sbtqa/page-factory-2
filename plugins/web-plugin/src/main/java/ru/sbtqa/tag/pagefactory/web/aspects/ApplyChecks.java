@@ -11,7 +11,7 @@ public class ApplyChecks {
 
     private static PageChecks pageChecks = new WebPageChecks();
 
-    @Before("preinitialization(ru.sbtqa.tag.pagefactory.WebPage.new(..))")
+    @Before("execution(ru.sbtqa.tag.pagefactory.WebPage.new(..))")
     public void apply() {
         Environment.setPageChecks(pageChecks);
     }
