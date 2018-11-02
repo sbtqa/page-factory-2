@@ -57,10 +57,6 @@ public interface WebConfiguration extends Configuration {
     @DefaultValue("")
     String getProxy();
 
-    @Key("webdriver.shared")
-    @DefaultValue("false")
-    boolean getShared();
-
 
     @Key("selenoid.browserVersion")
     @DefaultValue("")

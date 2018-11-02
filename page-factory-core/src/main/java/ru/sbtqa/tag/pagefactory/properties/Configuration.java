@@ -13,6 +13,10 @@ public interface Configuration extends Config {
     @DefaultValue("20")
     int getTimeout();
 
+    @Key("driver.shared")
+    @DefaultValue("false")
+    boolean getShared();
+
 
     @Key("video.enabled")
     @DefaultValue("false")
