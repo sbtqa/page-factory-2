@@ -4,6 +4,9 @@ page.package = ru.sbtqa.tag.myproject.pages
 #default wait timeout in seconds. 20 by default
 timeout = 20
 
+#optional. Share driver between tests. False by default
+driver.shared = true
+
 #optional. False by default
 video.enabled = false
 video.path.dest = /tmp/video

@@ -28,10 +28,10 @@ Feature: Check web elements functional + ActionTitles mechanism
 
     #press
     * user (clears all of the fields)
-    * user presses the key "Enter"
+    * user presses the key "Enter" on the element "send"
     * user (check that error message contains) "Please specify your first name"
     * user fills the field "first name" with value "Alex"
-    * user presses the key "Enter"
+    * user presses the key "Enter" on the element "send"
     * user (check that error message not contains) "Please specify your first name"
 
     #select

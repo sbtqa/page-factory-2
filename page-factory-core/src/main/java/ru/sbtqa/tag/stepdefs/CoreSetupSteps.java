@@ -1,8 +1,10 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.Scenario;
+import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
 import ru.sbtqa.tag.pagefactory.tasks.ConnectToLogTask;
 import ru.sbtqa.tag.pagefactory.tasks.KillProcessesTask;
@@ -15,6 +17,8 @@ public class CoreSetupSteps {
     private static final ThreadLocal<Boolean> isPreSetUp = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> isSetUp = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> isTearDown = ThreadLocal.withInitial(() -> false);
+
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     public void preSetUp(Scenario scenario) {
         if (isAlreadyPerformed(isPreSetUp)) {
@@ -45,7 +49,7 @@ public class CoreSetupSteps {
         TaskHandler.addTask(new StopVideoTask());
         TaskHandler.handleTasks();
 
-        if (!Environment.isDriverEmpty()) {
+        if (!Environment.isDriverEmpty() && !PROPERTIES.getShared()) {
             Environment.getDriverService().demountDriver();
         }
     }

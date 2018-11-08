@@ -1,8 +1,10 @@
 package ru.sbtqa.tag.stepdefs;
 
+import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 import ru.sbtqa.tag.pagefactory.web.tasks.KillAlertTask;
@@ -12,12 +14,22 @@ public class WebSetupSteps {
     private static final ThreadLocal<Boolean> isWebInited = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> isWebDisposed = ThreadLocal.withInitial(() -> false);
 
+    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+
     public synchronized void initWeb() {
         isAlreadyPerformed(isWebInited);
 
         PageManager.cachePages();
         PageContext.resetContext();
-        Environment.setDriverService(new WebDriverService());
+
+        if (isNewDriverNeeded()) {
+            Environment.setDriverService(new WebDriverService());
+        }
+    }
+
+    private boolean isNewDriverNeeded() {
+        return Environment.isDriverEmpty()
+                || (!Environment.isDriverEmpty() && !PROPERTIES.getShared());
     }
 
     public synchronized void disposeWeb() {
