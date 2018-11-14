@@ -106,6 +106,10 @@ public interface WebConfiguration extends Configuration {
     @DefaultValue("")
     String getSelenoidContainerLables();
 
+    @Key("selenoid.sessionTimeout")
+    @DefaultValue("")
+    String getSelenoidSessionTimeout();
+
 
     @Key("aspects.highlight.enabled")
     @DefaultValue("false")
