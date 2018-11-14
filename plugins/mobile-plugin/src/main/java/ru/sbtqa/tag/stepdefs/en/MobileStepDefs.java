@@ -1,23 +1,23 @@
-package ru.sbtqa.tag.stepdefs.ru;
+package ru.sbtqa.tag.stepdefs.en;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
-import ru.sbtqa.tag.stepdefs.MobileGenericSteps;
+import ru.sbtqa.tag.stepdefs.MobileSetupSteps;
+import ru.sbtqa.tag.stepdefs.MobileSteps;
 
-public class MobileSteps extends MobileGenericSteps {
+public class MobileStepDefs extends MobileSteps {
 
     @Before(order = 1)
-    @Override
     public void initMobile() {
-        super.initMobile();
+        MobileSetupSteps.initMobile();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @And("^(?:пользователь |он )?свайпает в направлении \"(.*?)\" до текста \"(.*?)\"$")
+    @And("^user swipes in direction \"(.*?)\" to the text \"(.*?)\"$")
     public void swipeToTextByDirection(String direction, String text) throws SwipeException {
         super.swipeToTextByDirection(direction, text);
     }
@@ -26,7 +26,7 @@ public class MobileSteps extends MobileGenericSteps {
      * {@inheritDoc}
      */
     @Override
-    @And("^(?:пользователь |он )?свайпает по стратегии совпадения \"(.*?)\" до текста \"(.*?)\"$")
+    @And("^user swipes with match strategy \"(.*?)\" to the text \"(.*?)\"$")
     public void swipeToTextByMatch(String strategy, String text) throws SwipeException {
         super.swipeToTextByMatch(strategy, text);
     }

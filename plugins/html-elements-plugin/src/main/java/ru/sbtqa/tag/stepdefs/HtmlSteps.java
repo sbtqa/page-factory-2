@@ -1,11 +1,15 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
+import java.util.List;
 import java.util.Locale;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.i18n.I18N;
@@ -47,7 +51,20 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
  * Step Definitions for html-elements-plugin.
  * Common action with pages describes by html-elements.
  */
-public class HtmlGenericStepDefs extends HtmlSetupSteps {
+public class HtmlSteps extends WebSteps {
+
+    private static HtmlSteps instance;
+
+    public HtmlSteps() {
+        HtmlSetupSteps.initHtml();
+    }
+
+    public static HtmlSteps getInstance() {
+        if (instance == null) {
+            instance = new HtmlSteps();
+        }
+        return instance;
+    }
 
     /**
      * Execute action with no parameters inside block element User|he keywords
@@ -179,4 +196,261 @@ public class HtmlGenericStepDefs extends HtmlSetupSteps {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps openCopyPage() {
+        return (HtmlSteps) super.openCopyPage();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps switchesToNextTab() {
+        return (HtmlSteps) super.switchesToNextTab();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps urlMatches(String url) {
+        return (HtmlSteps) super.urlMatches(url);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps closingCurrentWin(String title) {
+        return (HtmlSteps) super.closingCurrentWin(title);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps backPage() {
+        return (HtmlSteps) super.backPage();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps goToUrl(String url) {
+        return (HtmlSteps) super.goToUrl(url);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps goToPageByUrl(String url) throws PageInitializationException {
+        return (HtmlSteps) super.goToPageByUrl(url);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps reInitPage() {
+        return (HtmlSteps) super.reInitPage();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps acceptAlert(String text) throws WaitException {
+        return (HtmlSteps) super.acceptAlert(text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps dismissAlert(String text) throws WaitException {
+        return (HtmlSteps) super.dismissAlert(text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps checkTextAppears(String text) throws WaitException {
+        return (HtmlSteps) super.checkTextAppears(text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps checkTextIsNotPresent(String text) {
+        return (HtmlSteps) super.checkTextIsNotPresent(text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps checkModalWindowAppears(String text) throws WaitException {
+        return (HtmlSteps) super.checkModalWindowAppears(text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HtmlSteps checkElementWithTextIsPresent(String text) {
+        return (HtmlSteps) super.checkElementWithTextIsPresent(text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps openPage(String title) throws PageInitializationException {
+        return (HtmlSteps) super.openPage(title);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps action(String action) throws NoSuchMethodException {
+        return (HtmlSteps) super.action(action);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps action(String action, String param) throws NoSuchMethodException {
+        return (HtmlSteps) super.action(action, param);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps action(String action, String param1, String param2) throws NoSuchMethodException {
+        return (HtmlSteps) super.action(action, param1, param2);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
+        return (HtmlSteps) super.action(action, param1, param2, param3);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps action(String action, DataTable dataTable) throws NoSuchMethodException {
+        return (HtmlSteps) super.action(action, dataTable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
+        return (HtmlSteps) super.action(action, param, dataTable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps action(String action, List<String> list) throws NoSuchMethodException {
+        return (HtmlSteps) super.action(action, list);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps fill(String elementTitle, String text) throws PageException {
+        return (HtmlSteps) super.fill(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps click(String elementTitle) throws PageException {
+        return (HtmlSteps) super.click(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps pressKey(String keyName) {
+        return (HtmlSteps) super.pressKey(keyName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps pressKey(String keyName, String elementTitle) throws PageException {
+        return (HtmlSteps) super.pressKey(keyName, elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps select(String elementTitle, String option) throws PageException {
+        return (HtmlSteps) super.select(elementTitle, option);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps setCheckBox(String elementTitle) throws PageException {
+        return (HtmlSteps) super.setCheckBox(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps checkValueIsEqual(String elementTitle, String text) throws PageException {
+        return (HtmlSteps) super.checkValueIsEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+        return (HtmlSteps) super.checkValueIsNotEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps checkNotEmpty(String elementTitle) throws PageException {
+        return (HtmlSteps) super.checkNotEmpty(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps checkEmpty(String elementTitle) throws PageException {
+        return (HtmlSteps) super.checkEmpty(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps isElementFocused(String element) {
+        return (HtmlSteps) super.isElementFocused(element);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HtmlSteps userInsertsFragment(String fragmentName) throws FragmentException {
+        return (HtmlSteps) super.userInsertsFragment(fragmentName);
+    }
 }

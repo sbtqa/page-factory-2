@@ -7,20 +7,19 @@ import cucumber.api.java.en.When;
 import cucumber.api.java.ru.И;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.stepdefs.WebGenericSteps;
+import ru.sbtqa.tag.stepdefs.WebSetupSteps;
+import ru.sbtqa.tag.stepdefs.WebSteps;
 
-public class WebSteps extends WebGenericSteps {
+public class WebStepDefs extends WebSteps {
 
-    @Override
     @Before(order = 1)
     public void initWeb() {
-        super.initWeb();
+        WebSetupSteps.initWeb();
     }
 
-    @Override
     @After(order = 9999)
     public void disposeWeb() {
-        super.disposeWeb();
+        WebSetupSteps.disposeWeb();
     }
 
     /**
@@ -28,8 +27,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^открывается копия страницы в новой вкладке$")
-    public void openCopyPage() {
-        super.openCopyPage();
+    public WebSteps openCopyPage() {
+        return super.openCopyPage();
     }
 
     /**
@@ -37,8 +36,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?переключается на соседнюю вкладку$")
-    public void switchesToNextTab() {
-        super.switchesToNextTab();
+    public WebSteps switchesToNextTab() {
+        return super.switchesToNextTab();
     }
 
     /**
@@ -46,8 +45,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^URL соответствует \"([^\"]*)\"$")
-    public void urlMatches(String url) {
-        super.urlMatches(url);
+    public WebSteps urlMatches(String url) {
+        return super.urlMatches(url);
     }
 
     /**
@@ -55,8 +54,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?закрывает текущее окно и возвращается на \"([^\"]*)\"$")
-    public void closingCurrentWin(String title) {
-        super.closingCurrentWin(title);
+    public WebSteps closingCurrentWin(String title) {
+        return super.closingCurrentWin(title);
     }
 
     /**
@@ -64,8 +63,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?нажимает назад в браузере$")
-    public void backPage() {
-        super.backPage();
+    public WebSteps backPage() {
+        return super.backPage();
     }
 
     /**
@@ -73,8 +72,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?переходит на страницу \"([^\"]*)\" по ссылке$")
-    public void goToUrl(String url) {
-        super.goToUrl(url);
+    public WebSteps goToUrl(String url) {
+        return super.goToUrl(url);
     }
 
     /**
@@ -82,8 +81,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?(?:переходит на|открывает) url \"([^\"]*)\"$")
-    public void goToPageByUrl(String url) throws PageInitializationException {
-        super.goToPageByUrl(url);
+    public WebSteps goToPageByUrl(String url) throws PageInitializationException {
+        return super.goToPageByUrl(url);
     }
 
     /**
@@ -91,8 +90,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @И("^обновляем страницу$")
-    public void reInitPage() {
-        super.reInitPage();
+    public WebSteps reInitPage() {
+        return super.reInitPage();
     }
 
     /**
@@ -100,8 +99,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
-    public void acceptAlert(String text) throws WaitException {
-        super.acceptAlert(text);
+    public WebSteps acceptAlert(String text) throws WaitException {
+        return super.acceptAlert(text);
     }
 
     /**
@@ -109,8 +108,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?отклоняет уведомление с текстом \"([^\"]*)\"$")
-    public void dismissAlert(String text) throws WaitException {
-        super.dismissAlert(text);
+    public WebSteps dismissAlert(String text) throws WaitException {
+        return super.dismissAlert(text);
     }
 
     /**
@@ -118,8 +117,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" появляется на странице$")
-    public void checkTextAppears(String text) throws WaitException {
-        super.checkTextAppears(text);
+    public WebSteps checkTextAppears(String text) throws WaitException {
+        return super.checkTextAppears(text);
     }
 
     /**
@@ -127,8 +126,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отсутствует на странице$")
-    public void checkTextIsNotPresent(String text) {
-        super.checkTextIsNotPresent(text);
+    public WebSteps checkTextIsNotPresent(String text) {
+        return super.checkTextIsNotPresent(text);
     }
 
     /**
@@ -136,8 +135,8 @@ public class WebSteps extends WebGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что модальное окно с текстом \"([^\"]*)\" появляется$")
-    public void checkModalWindowAppears(String text) throws WaitException {
-        super.checkModalWindowAppears(text);
+    public WebSteps checkModalWindowAppears(String text) throws WaitException {
+        return super.checkModalWindowAppears(text);
     }
 
     /**
@@ -146,16 +145,7 @@ public class WebSteps extends WebGenericSteps {
     @Override
     @And("^(?:пользователь |он )?проверяет что элемент с текстом \"([^\"]*)\" существует$")
     @When("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отоброжается$")
-    public void checkElementWithTextIsPresent(String text) {
-        super.checkElementWithTextIsPresent(text);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^в фокусе находится элемент \"([^\"]*)\"$")
-    public void isElementFocused(String element) {
-        super.isElementFocused(element);
+    public WebSteps checkElementWithTextIsPresent(String text) {
+        return super.checkElementWithTextIsPresent(text);
     }
 }

@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import ru.sbtqa.tag.qautils.i18n.I18N;
-import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
+import ru.sbtqa.tag.stepdefs.CoreSteps;
 
 public class FragmentUtils {
 
@@ -47,6 +47,6 @@ public class FragmentUtils {
      * @return regex of steps in need of replacement
      */
     private static String getFragmentStepRegex(String language) {
-        return I18N.getI18n(CoreGenericSteps.class, new Locale(language)).get(FRAGMENT_STEP_REGEX_KEY);
+        return I18N.getI18n(CoreSteps.class, new Locale(language)).get(FRAGMENT_STEP_REGEX_KEY);
     }
 }

@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.junit;
+package ru.sbtqa.tag.api;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +25,6 @@ public class JunitTests {
     public static void setupClass() {
         server = JettyServiceUtils.startJetty();
         api = ApiSteps.getInstance();
-    }
-
-    @AfterClass
-    public static void teardown() throws Exception {
-        server.stop();
     }
 
     @Test
@@ -71,4 +66,10 @@ public class JunitTests {
                 .add(ParameterType.BODY, bodies)
                 .send().validate();
     }
+
+    @AfterClass
+    public static void teardown() throws Exception {
+        server.stop();
+    }
+
 }

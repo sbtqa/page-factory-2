@@ -9,6 +9,8 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 import ru.sbtqa.tag.pagefactory.web.tasks.KillAlertTask;
 
+
+// TODO переименовать и вынести
 public class WebSetupSteps {
 
     private static final ThreadLocal<Boolean> isWebInited = ThreadLocal.withInitial(() -> false);
@@ -16,8 +18,8 @@ public class WebSetupSteps {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-    public synchronized void initWeb() {
-        isAlreadyPerformed(isWebInited);
+    public static synchronized void initWeb() {
+//        isAlreadyPerformed(isWebInited);
 
         PageManager.cachePages();
         PageContext.resetContext();
@@ -27,18 +29,18 @@ public class WebSetupSteps {
         }
     }
 
-    private boolean isNewDriverNeeded() {
+    private static boolean isNewDriverNeeded() {
         return Environment.isDriverEmpty()
                 || (!Environment.isDriverEmpty() && !PROPERTIES.getShared());
     }
 
-    public synchronized void disposeWeb() {
-        isAlreadyPerformed(isWebDisposed);
+    public static synchronized void disposeWeb() {
+//        isAlreadyPerformed(isWebDisposed);
 
         TaskHandler.addTask(new KillAlertTask());
     }
 
-    private synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
+    private static synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
         if (t.get()) {
             return true;
         } else {

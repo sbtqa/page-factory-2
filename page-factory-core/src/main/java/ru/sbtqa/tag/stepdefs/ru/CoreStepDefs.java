@@ -11,26 +11,24 @@ import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
-import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
+import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
+import ru.sbtqa.tag.stepdefs.CoreSteps;
 
-public class CoreSteps extends CoreGenericSteps {
+public class CoreStepDefs extends CoreSteps {
 
-    @Override
     @Before(order = 0)
-    public void preSetUp(Scenario scenario) {
-        super.preSetUp(scenario);
+    public void preSetUp() {
+        CoreSetupSteps.preSetUp();
     }
 
-    @Override
     @Before(order = 99999)
     public void setUp(Scenario scenario) {
-        super.setUp(scenario);
+        CoreSetupSteps.setUp(scenario);
     }
 
-    @Override
     @After(order = 1)
     public void tearDown() {
-        super.tearDown();
+        CoreSetupSteps.tearDown();
     }
 
     /**
@@ -38,8 +36,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?(?:находится на странице|открывается страница|открывается вкладка мастера) \"([^\"]*)\"$")
-    public void openPage(String title) throws PageInitializationException {
-        super.openPage(title);
+    public CoreSteps openPage(String title) throws PageInitializationException {
+        return super.openPage(title);
     }
 
     /**
@@ -47,8 +45,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\)$")
-    public void userActionNoParams(String action) throws NoSuchMethodException {
-        super.userActionNoParams(action);
+    public CoreSteps action(String action) throws NoSuchMethodException {
+        return super.action(action);
     }
 
     /**
@@ -56,8 +54,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметром )?\"([^\"]*)\"$")
-    public void userActionOneParam(String action, String param) throws NoSuchMethodException {
-        super.userActionOneParam(action, param);
+    public CoreSteps action(String action, String param) throws NoSuchMethodException {
+        return super.action(action, param);
     }
 
     /**
@@ -65,8 +63,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметрами )?\"([^\"]*)\" \"([^\"]*)\"$")
-    public void userActionTwoParams(String action, String param1, String param2) throws NoSuchMethodException {
-        super.userActionTwoParams(action, param1, param2);
+    public CoreSteps action(String action, String param1, String param2) throws NoSuchMethodException {
+        return super.action(action, param1, param2);
     }
 
     /**
@@ -74,8 +72,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметрами )?\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public void userActionThreeParams(String action, String param1, String param2, String param3) throws NoSuchMethodException {
-        super.userActionThreeParams(action, param1, param2, param3);
+    public CoreSteps action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
+        return super.action(action, param1, param2, param3);
     }
 
     /**
@@ -83,8 +81,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) данными$")
-    public void userActionTableParam(String action, DataTable dataTable) throws NoSuchMethodException {
-        super.userActionTableParam(action, dataTable);
+    public CoreSteps action(String action, DataTable dataTable) throws NoSuchMethodException {
+        return super.action(action, dataTable);
     }
 
     /**
@@ -92,8 +90,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) \"([^\"]*)\" данными$")
-    public void userDoActionWithObject(String action, String param, DataTable dataTable) throws NoSuchMethodException {
-        super.userDoActionWithObject(action, param, dataTable);
+    public CoreSteps action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
+        return super.action(action, param, dataTable);
     }
 
     /**
@@ -101,8 +99,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) из списка$")
-    public void userActionListParam(String action, List<String> list) throws NoSuchMethodException {
-        super.userActionListParam(action, list);
+    public CoreSteps action(String action, List<String> list) throws NoSuchMethodException {
+        return super.action(action, list);
     }
 
     /**
@@ -110,8 +108,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?заполняет поле \"([^\"]*)\" (?:значением )?\"([^\"]*)\"$")
-    public void fill(String elementTitle, String text) throws PageException {
-        super.fill(elementTitle, text);
+    public CoreSteps fill(String elementTitle, String text) throws PageException {
+        return super.fill(elementTitle, text);
     }
 
     /**
@@ -120,8 +118,8 @@ public class CoreSteps extends CoreGenericSteps {
     @Override
     @And("^(?:пользователь |он )?кликает по ссылке \"([^\"]*)\"$")
     @When("^(?:пользователь |он )?нажимает кнопку \"([^\"]*)\"$")
-    public void click(String elementTitle) throws PageException {
-        super.click(elementTitle);
+    public CoreSteps click(String elementTitle) throws PageException {
+        return super.click(elementTitle);
     }
 
     /**
@@ -129,8 +127,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?нажимает клавишу \"([^\"]*)\"$")
-    public void pressKey(String keyName) {
-        super.pressKey(keyName);
+    public CoreSteps pressKey(String keyName) {
+        return super.pressKey(keyName);
     }
 
     /**
@@ -138,8 +136,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?нажимает клавишу \"([^\"]*)\" на элементе \"([^\"]*)\"$")
-    public void pressKey(String keyName, String elementTitle) throws PageException {
-        super.pressKey(keyName, elementTitle);
+    public CoreSteps pressKey(String keyName, String elementTitle) throws PageException {
+        return super.pressKey(keyName, elementTitle);
     }
 
     /**
@@ -147,8 +145,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?выбирает в \"([^\"]*)\" значение \"([^\"]*)\"$")
-    public void select(String elementTitle, String option) throws PageException {
-        super.select(elementTitle, option);
+    public CoreSteps select(String elementTitle, String option) throws PageException {
+        return super.select(elementTitle, option);
     }
 
     /**
@@ -156,8 +154,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?отмечает чекбокс \"([^\"]*)\"$")
-    public void setCheckBox(String elementTitle) throws PageException {
-        super.setCheckBox(elementTitle);
+    public CoreSteps setCheckBox(String elementTitle) throws PageException {
+        return super.setCheckBox(elementTitle);
     }
 
     /**
@@ -165,8 +163,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что в поле \"([^\"]*)\" значение \"([^\"]*)\"$")
-    public void checkValueIsEqual(String elementTitle, String text) throws PageException {
-        super.checkValueIsEqual(elementTitle, text);
+    public CoreSteps checkValueIsEqual(String elementTitle, String text) throws PageException {
+        return super.checkValueIsEqual(elementTitle, text);
     }
 
     /**
@@ -174,8 +172,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что в поле \"([^\"]*)\" не значение \"([^\"]*)\"$")
-    public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
-        super.checkValueIsNotEqual(elementTitle, text);
+    public CoreSteps checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+        return super.checkValueIsNotEqual(elementTitle, text);
     }
 
     /**
@@ -183,8 +181,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что поле \"([^\"]*)\" непустое$")
-    public void checkNotEmpty(String elementTitle) throws PageException {
-        super.checkNotEmpty(elementTitle);
+    public CoreSteps checkNotEmpty(String elementTitle) throws PageException {
+        return super.checkNotEmpty(elementTitle);
     }
 
     /**
@@ -192,8 +190,8 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что поле \"([^\"]*)\" пустое$")
-    public void checkEmpty(String elementTitle) throws PageException {
-        super.checkEmpty(elementTitle);
+    public CoreSteps checkEmpty(String elementTitle) throws PageException {
+        return super.checkEmpty(elementTitle);
     }
     
     /**
@@ -201,7 +199,7 @@ public class CoreSteps extends CoreGenericSteps {
      */
     @Override
     @И("^(?:пользователь |он )?вставляет фрагмент \"([^\"]*)\"$")
-    public void userInsertsFragment(String fragmentName) throws FragmentException {
-        super.userInsertsFragment(fragmentName);
+    public CoreSteps userInsertsFragment(String fragmentName) throws FragmentException {
+        return super.userInsertsFragment(fragmentName);
     }
 }

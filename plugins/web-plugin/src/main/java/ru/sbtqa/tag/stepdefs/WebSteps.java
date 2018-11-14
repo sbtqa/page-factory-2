@@ -1,14 +1,15 @@
 package ru.sbtqa.tag.stepdefs;
 
+import cucumber.api.DataTable;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
@@ -38,33 +39,46 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class WebGenericSteps extends WebSetupSteps {
+public class WebSteps extends CoreSteps {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebGenericSteps.class);
-    
+    private static WebSteps instance;
+
+    public WebSteps() {
+        WebSetupSteps.initWeb();
+    }
+
+    public static WebSteps getInstance() {
+        if (instance == null) {
+            instance = new WebSteps();
+        }
+        return instance;
+    }
+
     /**
      * Open a copy for current page in a new browser tab User|he keywords are
      * optional
      */
-    public void openCopyPage() {
+    public WebSteps openCopyPage() {
         String pageUrl = Environment.getDriverService().getDriver().getCurrentUrl();
         ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
         List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
         Environment.getDriverService().getDriver().switchTo().window(tabs.get(tabs.size() - 1));
+        return this;
     }
 
     /**
      * Switch to a neighbour browser tab
      */
-    public void switchesToNextTab() {
+    public WebSteps switchesToNextTab() {
         String currentTab = Environment.getDriverService().getDriver().getWindowHandle();
         List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
         for (int i = 0; i < tabs.size(); i++) {
             if (tabs.get(i).equals(currentTab)) {
                 Environment.getDriverService().getDriver().switchTo().window(tabs.get(i + 1));
-                return;
+                return this;
             }
         }
+        throw new AutotestError("Unable to to find current tab " + currentTab);
     }
 
     /**
@@ -72,8 +86,9 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param url url for comparison
      */
-    public void urlMatches(String url) {
+    public WebSteps urlMatches(String url) {
         Assert.assertEquals("URL is different from the expected: ", url, Environment.getDriverService().getDriver().getCurrentUrl());
+        return this;
     }
 
     /**
@@ -81,12 +96,12 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param title title of the page to open
      */
-    public void closingCurrentWin(String title) {
+    public WebSteps closingCurrentWin(String title) {
         Environment.getDriverService().getDriver().close();
         for (String windowHandle : Environment.getDriverService().getDriver().getWindowHandles()) {
             Environment.getDriverService().getDriver().switchTo().window(windowHandle);
             if (Environment.getDriverService().getDriver().getTitle().equals(title)) {
-                return;
+                return this;
             }
         }
         throw new AutotestError("Unable to return to the previously opened page: " + title);
@@ -95,8 +110,9 @@ public class WebGenericSteps extends WebSetupSteps {
     /**
      * Return to previous location (via browser "back" button)
      */
-    public void backPage() {
+    public WebSteps backPage() {
         Environment.getDriverService().getDriver().navigate().back();
+        return this;
     }
 
     /**
@@ -104,8 +120,9 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param url url to go to
      */
-    public void goToUrl(String url) {
+    public WebSteps goToUrl(String url) {
         Environment.getDriverService().getDriver().get(url);
+        return this;
     }
 
     /**
@@ -116,15 +133,17 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws PageInitializationException if page with corresponding URL is
      * absent or couldn't be initialized
      */
-    public void goToPageByUrl(String url) throws PageInitializationException {
+    public WebSteps goToPageByUrl(String url) throws PageInitializationException {
         PageManager.changeUrlByTitle(url);
+        return this;
     }
 
     /**
      * Refresh browser page
      */
-    public void reInitPage() {
+    public WebSteps reInitPage() {
         Environment.getDriverService().getDriver().navigate().refresh();
+        return this;
     }
 
     /**
@@ -134,8 +153,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
-    public void acceptAlert(String text) throws WaitException {
+    public WebSteps acceptAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).acceptAlert();
+        return this;
     }
 
     /**
@@ -145,8 +165,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
-    public void dismissAlert(String text) throws WaitException {
+    public WebSteps dismissAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).dismissAlert();
+        return this;
     }
 
     /**
@@ -157,8 +178,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws WaitException if text didn't appear on the page during the
      * timeout
      */
-    public void checkTextAppears(String text) throws WaitException {
+    public WebSteps checkTextAppears(String text) throws WaitException {
         WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, true);
+        return this;
     }
 
     /**
@@ -167,8 +189,9 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param text text to search for
      */
-    public void checkTextIsNotPresent(String text) {
+    public WebSteps checkTextIsNotPresent(String text) {
         WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, false);
+        return this;
     }
 
     /**
@@ -181,8 +204,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @param text text that will be searched inside of the window
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
      */
-    public void checkModalWindowAppears(String text) throws WaitException {
+    public WebSteps checkModalWindowAppears(String text) throws WaitException {
         WebExpectedConditionsUtils.waitForModalWindowWithText(text);
+        return this;
     }
 
     /**
@@ -191,18 +215,170 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param text a {@link java.lang.String} object.
      */
-    public void checkElementWithTextIsPresent(String text) {
+    public WebSteps checkElementWithTextIsPresent(String text) {
         if (!WebExpectedConditionsUtils.checkElementWithTextIsPresent(text)) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
+        return this;
     }
 
     /**
-     * Element is focused
-     *
-     * @param element element to focus on
+     * {@inheritDoc}
      */
-    public void isElementFocused(String element) {
-        LOG.warn("Note that isElementFocused method is still an empty!");
+    @Override
+    public WebSteps openPage(String title) throws PageInitializationException {
+        return (WebSteps) super.openPage(title);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps action(String action) throws NoSuchMethodException {
+        return (WebSteps) super.action(action);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps action(String action, String param) throws NoSuchMethodException {
+        return (WebSteps) super.action(action, param);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps action(String action, String param1, String param2) throws NoSuchMethodException {
+        return (WebSteps) super.action(action, param1, param2);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
+        return (WebSteps) super.action(action, param1, param2, param3);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps action(String action, DataTable dataTable) throws NoSuchMethodException {
+        return (WebSteps) super.action(action, dataTable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
+        return (WebSteps) super.action(action, param, dataTable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps action(String action, List<String> list) throws NoSuchMethodException {
+        return (WebSteps) super.action(action, list);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps fill(String elementTitle, String text) throws PageException {
+        return (WebSteps) super.fill(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps click(String elementTitle) throws PageException {
+        return (WebSteps) super.click(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps pressKey(String keyName) {
+        return (WebSteps) super.pressKey(keyName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps pressKey(String keyName, String elementTitle) throws PageException {
+        return (WebSteps) super.pressKey(keyName, elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps select(String elementTitle, String option) throws PageException {
+        return (WebSteps) super.select(elementTitle, option);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps setCheckBox(String elementTitle) throws PageException {
+        return (WebSteps) super.setCheckBox(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps checkValueIsEqual(String elementTitle, String text) throws PageException {
+        return (WebSteps) super.checkValueIsEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+        return (WebSteps) super.checkValueIsNotEqual(elementTitle, text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps checkNotEmpty(String elementTitle) throws PageException {
+        return (WebSteps) super.checkNotEmpty(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps checkEmpty(String elementTitle) throws PageException {
+        return (WebSteps) super.checkEmpty(elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps isElementFocused(String element) {
+        return (WebSteps) super.isElementFocused(element);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebSteps userInsertsFragment(String fragmentName) throws FragmentException {
+        return (WebSteps) super.userInsertsFragment(fragmentName);
     }
 }

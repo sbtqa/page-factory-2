@@ -5,7 +5,7 @@ import ru.sbtqa.tag.pagefactory.mobile.utils.SwipeUtils;
 import ru.sbtqa.tag.qautils.strategies.DirectionStrategy;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
-public class MobileGenericSteps extends MobileSetupSteps {
+public class MobileSteps {
 
     /**
      * Swipe until text is visible
