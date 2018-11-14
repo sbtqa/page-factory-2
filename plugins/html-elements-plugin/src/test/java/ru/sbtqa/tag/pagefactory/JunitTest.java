@@ -1,37 +1,56 @@
 package ru.sbtqa.tag.pagefactory;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
 import ru.sbtqa.tag.stepdefs.HtmlSteps;
+import setting.JettySettings;
 
 public class JunitTest {
 
-    private static HtmlSteps html;
+    private static HtmlSteps htmlSteps;
+    private static JettySettings server = new JettySettings();
 
-    @Before
-    public void before() {
-        html = HtmlSteps.getInstance();
+    @BeforeClass
+    public static void before() throws Exception {
+        htmlSteps = HtmlSteps.getInstance();
+        server.startJetty();
     }
 
     @Test
     public void webTestTitles() throws PageException, NoSuchMethodException {
-        html.openPage("Test Automation Gears")
-                .fill("Search repositories...", "page-factory-2-example")
-                .click("page-factory-2-example")
+        htmlSteps.openPage("MainY")
+                .find("menu", "button", "Home")
+                .actionInBlock("menu", "go to page", "Contact")
+                .openPage("ContactY")
 
-                .openPage("Page-factory-2 example")
-                .action("выбирает ветку", "for-example")
-                .click("example.txt")
+                .action("check that error message not contains", "Please specify your first name")
+                .click("send")
+                .action("check that error message contains", "Please specify your first name")
 
-                .openPage("Example")
-                .checkValueIsEqual("Text", "Тестовый текст для примера");
+                .fill("first name", "Alex")
+                .click("send")
+                .action("check that error message not contains", "Please specify your first name")
+
+                .action("check that error message contains", "Please specify your last name")
+                .click("send")
+                .action("check that error message contains", "Please specify your last name")
+
+                .fill("last name", "Alexeev")
+                .click("send")
+                .action("check that error message not contains", "Please specify your last name")
+
+                .setCheckBox("checkbox")
+
+                .actionInBlock("menu", "go to page", "Home")
+                .openPage("MainY");
+
     }
 
-    @After
-    public void after() {
+    @AfterClass
+    public static void after() {
         CoreSetupSteps.tearDown();
     }
 }

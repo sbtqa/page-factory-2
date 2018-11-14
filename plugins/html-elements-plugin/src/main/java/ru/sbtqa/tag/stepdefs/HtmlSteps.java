@@ -2,7 +2,6 @@ package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
 import java.util.List;
-import java.util.Locale;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
@@ -12,7 +11,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Image;
@@ -75,8 +73,9 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void actionInBlock(String block, String action) throws NoSuchMethodException {
+    public HtmlSteps actionInBlock(String block, String action) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
+        return this;
     }
 
     /**
@@ -89,8 +88,9 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
+    public HtmlSteps actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
+        return this;
     }
 
     /**
@@ -103,8 +103,9 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void actionInBlock(String block, String action, String param) throws NoSuchMethodException {
+    public HtmlSteps actionInBlock(String block, String action, String param) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
+        return this;
     }
 
     /**
@@ -118,8 +119,9 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
+    public HtmlSteps actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
+        return this;
     }
 
     /**
@@ -133,44 +135,50 @@ public class HtmlSteps extends WebSteps {
      * @throws PageException if current page is not initialized, or element
      * wasn't found
      */
-    public void find(String block, String elementType, String elementTitle) throws PageException {
-        String[] packages = this.getClass().getCanonicalName().split("\\.");
-        String currentLanguage = packages[packages.length - 2];
-        I18N i18n = I18N.getI18n(this.getClass(), new Locale(currentLanguage));
-        String key = i18n.getKey(elementType);
+    public HtmlSteps find(String block, String elementType, String elementTitle) throws PageException {
         Class<? extends WebElement> clazz;
-        switch (key) {
-            case "ru.sbtqa.tag.pagefactory.type.element":
+        switch (elementType) {
+            case "element":
+            case "элемент":
                 clazz = WebElement.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.textinput":
+            case "textinput":
+            case "текстовое поле":
                 clazz = TextInput.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.checkbox":
+            case "checkbox":
+            case "чекбокс":
                 clazz = CheckBox.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.radiobutton":
+            case "radiobutton":
+            case "радиокнопка":
                 clazz = Radio.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.table":
+            case "table":
+            case "таблицу":
                 clazz = Table.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.header":
+            case "header":
+            case "заголовок":
                 clazz = TextBlock.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.button":
+            case "button":
+            case "кнопку":
                 clazz = Button.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.link":
+            case "link":
+            case "ссылку":
                 clazz = Link.class;
                 break;
-            case "ru.sbtqa.tag.pagefactory.type.image":
+            case "image":
+            case "изображение":
                 clazz = Image.class;
                 break;
             default:
                 clazz = WebElement.class;
         }
         ((HtmlReflection) Environment.getReflection()).findElementInBlockByTitle(PageContext.getCurrentPage(), block, elementTitle, clazz);
+        return this;
     }
 
     /**
@@ -183,7 +191,7 @@ public class HtmlSteps extends WebSteps {
      * @throws PageException if page wasn't initialized of required list wasn't
      * found
      */
-    public void find(String listTitle, String value) throws PageException {
+    public HtmlSteps find(String listTitle, String value) throws PageException {
         boolean found = false;
         for (WebElement webElement : ((HtmlReflection) Environment.getReflection()).findListOfElements(PageContext.getCurrentPage(), listTitle)) {
             if (webElement.getText().equals(value)) {
@@ -194,6 +202,7 @@ public class HtmlSteps extends WebSteps {
         if (!found) {
             throw new AutotestError(String.format("Element with text '%s' is absent in list '%s'", value, listTitle));
         }
+        return this;
     }
 
     /**

@@ -19,8 +19,8 @@ public class HtmlStepDefs extends HtmlSteps {
      */
     @Override
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\)$")
-    public void actionInBlock(String block, String action) throws NoSuchMethodException {
-        super.actionInBlock(block, action);
+    public HtmlSteps actionInBlock(String block, String action) throws NoSuchMethodException {
+        return super.actionInBlock(block, action);
     }
 
     /**
@@ -28,8 +28,8 @@ public class HtmlStepDefs extends HtmlSteps {
      */
     @Override
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\) с параметрами из таблицы$")
-    public void actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
-        super.actionInBlock(block, action, dataTable);
+    public HtmlSteps actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
+        return super.actionInBlock(block, action, dataTable);
     }
 
     /**
@@ -37,8 +37,8 @@ public class HtmlStepDefs extends HtmlSteps {
      */
     @Override
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\) с параметром \"([^\"]*)\"$")
-    public void actionInBlock(String block, String action, String param) throws NoSuchMethodException {
-        super.actionInBlock(block, action, param);
+    public HtmlSteps actionInBlock(String block, String action, String param) throws NoSuchMethodException {
+        return super.actionInBlock(block, action, param);
     }
 
     /**
@@ -46,8 +46,8 @@ public class HtmlStepDefs extends HtmlSteps {
      */
     @Override
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\) с параметрами \"([^\"]*)\" \"([^\"]*)\"$")
-    public void actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
-        super.actionInBlock(block, action, param1, param2);
+    public HtmlSteps actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
+        return super.actionInBlock(block, action, param1, param2);
     }
 
     /**
@@ -55,8 +55,8 @@ public class HtmlStepDefs extends HtmlSteps {
      */
     @Override
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" находит (элемент|текстовое поле|чекбокс|радиокнопка|таблицу|заголовок|кнопку|ссылку|изображение) \"([^\"]*)\"$")
-    public void find(String block, String elementType, String elementTitle) throws PageException {
-        super.find(block, elementType, elementTitle);
+    public HtmlSteps find(String block, String elementType, String elementTitle) throws PageException {
+        return super.find(block, elementType, elementTitle);
     }
 
     /**
@@ -64,7 +64,7 @@ public class HtmlStepDefs extends HtmlSteps {
      */
     @Override
     @И("^(?:пользователь |он )?в списке \"([^\"]*)\" находит элемент со значением \"([^\"]*)\"$")
-    public void find(String listTitle, String value) throws PageException {
-        super.find(listTitle, value);
+    public HtmlSteps find(String listTitle, String value) throws PageException {
+        return super.find(listTitle, value);
     }
 }
