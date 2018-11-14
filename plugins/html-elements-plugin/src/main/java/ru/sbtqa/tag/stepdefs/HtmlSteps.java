@@ -75,7 +75,7 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void userActionInBlockNoParams(String block, String action) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
     }
 
@@ -89,7 +89,7 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void userActionInBlockTableParam(String block, String action, DataTable dataTable) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
     }
 
@@ -103,7 +103,7 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void userActionInBlockOneParam(String block, String action, String param) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action, String param) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
     }
 
@@ -118,7 +118,7 @@ public class HtmlSteps extends WebSteps {
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public void userActionInBlockTwoParams(String block, String action, String param1, String param2) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
     }
 
@@ -133,7 +133,7 @@ public class HtmlSteps extends WebSteps {
      * @throws PageException if current page is not initialized, or element
      * wasn't found
      */
-    public void findElementInBlock(String block, String elementType, String elementTitle) throws PageException {
+    public void find(String block, String elementType, String elementTitle) throws PageException {
         String[] packages = this.getClass().getCanonicalName().split("\\.");
         String currentLanguage = packages[packages.length - 2];
         I18N i18n = I18N.getI18n(this.getClass(), new Locale(currentLanguage));
@@ -183,7 +183,7 @@ public class HtmlSteps extends WebSteps {
      * @throws PageException if page wasn't initialized of required list wasn't
      * found
      */
-    public void findElementInList(String listTitle, String value) throws PageException {
+    public void find(String listTitle, String value) throws PageException {
         boolean found = false;
         for (WebElement webElement : ((HtmlReflection) Environment.getReflection()).findListOfElements(PageContext.getCurrentPage(), listTitle)) {
             if (webElement.getText().equals(value)) {
@@ -199,6 +199,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps openCopyPage() {
         return (HtmlSteps) super.openCopyPage();
     }
@@ -206,6 +207,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps switchesToNextTab() {
         return (HtmlSteps) super.switchesToNextTab();
     }
@@ -213,6 +215,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps urlMatches(String url) {
         return (HtmlSteps) super.urlMatches(url);
     }
@@ -220,6 +223,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps closingCurrentWin(String title) {
         return (HtmlSteps) super.closingCurrentWin(title);
     }
@@ -227,6 +231,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps backPage() {
         return (HtmlSteps) super.backPage();
     }
@@ -234,6 +239,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps goToUrl(String url) {
         return (HtmlSteps) super.goToUrl(url);
     }
@@ -241,6 +247,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps goToPageByUrl(String url) throws PageInitializationException {
         return (HtmlSteps) super.goToPageByUrl(url);
     }
@@ -248,6 +255,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps reInitPage() {
         return (HtmlSteps) super.reInitPage();
     }
@@ -255,6 +263,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps acceptAlert(String text) throws WaitException {
         return (HtmlSteps) super.acceptAlert(text);
     }
@@ -262,6 +271,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps dismissAlert(String text) throws WaitException {
         return (HtmlSteps) super.dismissAlert(text);
     }
@@ -269,6 +279,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps checkTextAppears(String text) throws WaitException {
         return (HtmlSteps) super.checkTextAppears(text);
     }
@@ -276,6 +287,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps checkTextIsNotPresent(String text) {
         return (HtmlSteps) super.checkTextIsNotPresent(text);
     }
@@ -283,6 +295,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps checkModalWindowAppears(String text) throws WaitException {
         return (HtmlSteps) super.checkModalWindowAppears(text);
     }
@@ -290,6 +303,7 @@ public class HtmlSteps extends WebSteps {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HtmlSteps checkElementWithTextIsPresent(String text) {
         return (HtmlSteps) super.checkElementWithTextIsPresent(text);
     }

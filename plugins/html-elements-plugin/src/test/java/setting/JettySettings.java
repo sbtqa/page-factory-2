@@ -1,8 +1,6 @@
 package setting;
 
 import cucumber.api.java.Before;
-import java.io.File;
-import static java.lang.Runtime.getRuntime;
 import java.lang.management.ManagementFactory;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
@@ -10,14 +8,15 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by Liza on 07.06.17.
- */
+import static java.lang.Runtime.getRuntime;
+
 public class JettySettings {
 
-    public final String WAR_PATH = getClass().getClassLoader().getResource("test-web-app.war").getFile();
-    public static final int PORT = 8181;
     private static final Logger LOG = LoggerFactory.getLogger(JettySettings.class);
+
+    private final String WAR_PATH = getClass().getClassLoader().getResource("test-web-app.war").getFile();
+    private static final int PORT = 8181;
+
     private static boolean dunit = true;
 
     private Server server;
@@ -27,14 +26,11 @@ public class JettySettings {
 
         if (dunit) {
             // stop jetty after all features
-            getRuntime().addShutdownHook(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        server.stop();
-                    } catch (Exception e) {
-                        LOG.error(e.getMessage());
-                    }
+            getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    server.stop();
+                } catch (Exception e) {
+                    LOG.error("Error with stopping jetty server", e);
                 }
             }));
 
