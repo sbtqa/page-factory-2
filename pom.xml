@@ -74,6 +74,7 @@
     <module>plugins/html-elements-plugin</module>
     <module>plugins/mobile-plugin</module>
     <module>plugins/rest-plugin</module>
+    <module>page-factory-doc</module>
   </modules>
 
   <distributionManagement>

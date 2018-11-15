@@ -9,7 +9,7 @@ import ru.sbtqa.tag.pagefactory.html.actions.HtmlPageActions;
 @Aspect
 public class ApplyActions {
 
-    private static PageActions pageActions = new HtmlPageActions();
+    private static final PageActions pageActions = new HtmlPageActions();
 
     @Before("execution(ru.sbtqa.tag.pagefactory.HTMLPage.new(..))")
     public void apply() {
