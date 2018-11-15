@@ -5,7 +5,9 @@ import ru.sbtqa.tag.pagefactory.jdi.utils.JDIUtils;
 
 public class JdiSetupSteps {
 
-    public synchronized void initJDI() {
+    private JdiSetupSteps() {}
+
+    public static void initJDI() {
         JDIUtils.setJDIConfig(() -> Environment.getDriverService().getDriver());
     }
 }
