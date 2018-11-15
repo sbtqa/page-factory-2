@@ -10,10 +10,10 @@
   </parent>
 
   <groupId>ru.sbtqa.tag.pagefactory</groupId>
-  <artifactId>html-elements-plugin</artifactId>
+  <artifactId>html-plugin</artifactId>
   <packaging>jar</packaging>
 
-  <name>html-elements-plugin</name>
+  <name>html-plugin</name>
 
   <properties>
     <renamed.war>test-web-app.war</renamed.war>

@@ -46,7 +46,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 
 
 /**
- * Step Definitions for html-elements-plugin.
+ * Step Definitions for html-plugin.
  * Common action with pages describes by html-elements.
  */
 public class HtmlSteps extends WebSteps {
