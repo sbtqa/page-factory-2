@@ -95,17 +95,7 @@ public class DefaultReflection implements Reflection {
             actionList.add(actionTitle);
         }
 
-//        I18N i18n = null;
-//        try {
-//            i18n = I18N.getI18n(method.getDeclaringClass(), ScenarioContext.getScenario());
-//        } catch (I18NRuntimeException e) {
-//            LOG.debug("There is no bundle for translation class. Leave it as is", e);
-//        }
-
         for (ActionTitle action : actionList) {
-//            String actionValue;
-//            actionValue = (i18n != null) ? i18n.get(action.value()) :  action.value();
-
             if (action.value().equals(title)) {
                 return true;
             }

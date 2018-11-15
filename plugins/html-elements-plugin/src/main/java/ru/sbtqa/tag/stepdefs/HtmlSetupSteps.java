@@ -10,6 +10,8 @@ public class HtmlSetupSteps {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
+    private HtmlSetupSteps() {}
+
     public static void initHtml() {
         if (isNewDriverNeeded()) {
             Environment.setDriverService(new WebDriverService());

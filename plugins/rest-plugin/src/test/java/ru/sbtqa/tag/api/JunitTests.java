@@ -71,5 +71,4 @@ public class JunitTests {
     public static void teardown() throws Exception {
         server.stop();
     }
-
 }

@@ -5,9 +5,9 @@ import ru.sbtqa.tag.pagefactory.mobile.drivers.MobileDriverService;
 
 public class MobileSetupSteps {
 
+    private MobileSetupSteps() {}
+
     public static void initMobile() {
-//        PageManager.cachePages();
-//        PageContext.resetContext();
         Environment.setDriverService(new MobileDriverService());
     }
 }

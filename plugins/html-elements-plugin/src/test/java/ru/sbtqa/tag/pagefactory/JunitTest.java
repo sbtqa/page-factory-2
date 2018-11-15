@@ -46,7 +46,6 @@ public class JunitTest {
 
                 .actionInBlock("menu", "go to page", "Home")
                 .openPage("MainY");
-
     }
 
     @AfterClass

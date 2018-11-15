@@ -12,11 +12,11 @@ import ru.sbtqa.tag.pagefactory.tasks.StartVideoTask;
 import ru.sbtqa.tag.pagefactory.tasks.StopVideoTask;
 import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
-
-// TODO Переименовать и вынести
 public class CoreSetupSteps {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+
+    private CoreSetupSteps() {}
 
     public static void preSetUp() {
         TaskHandler.addTask(new ConnectToLogTask());
