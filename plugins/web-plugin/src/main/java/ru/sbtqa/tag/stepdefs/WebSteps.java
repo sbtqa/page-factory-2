@@ -10,5 +10,4 @@ public class WebSteps extends WebGenericSteps<WebSteps> {
         }
         return instance;
     }
-
 }

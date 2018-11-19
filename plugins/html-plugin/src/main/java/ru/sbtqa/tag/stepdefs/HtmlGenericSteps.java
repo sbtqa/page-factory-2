@@ -90,24 +90,8 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
-    public T actionInBlock(String block, String action, String param) throws NoSuchMethodException {
+    public T actionInBlock(String block, String action, String... param) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
-        return (T) this;
-    }
-
-    /**
-     * Execute action with two parameters inside block element User|he keywords
-     * are optional
-     *
-     * @param block path or name of the block
-     * @param action title of the action to execute
-     * @param param1 first parameter
-     * @param param2 second parameter
-     * @throws NoSuchMethodException if corresponding method doesn't exist in
-     * specified block
-     */
-    public T actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
-        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param1, param2);
         return (T) this;
     }
 

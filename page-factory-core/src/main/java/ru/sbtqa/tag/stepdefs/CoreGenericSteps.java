@@ -76,35 +76,8 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @param param parameter
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public T action(String action, String param) throws NoSuchMethodException {
+    public T action(String action, Object... param) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param);
-        return (T) this;
-    }
-
-    /**
-     * Execute action with two parameters User|he keywords are optional
-     *
-     * @param action title of the action to execute
-     * @param param1 first parameter
-     * @param param2 second parameter
-     * @throws NoSuchMethodException if corresponding method doesn't exist
-     */
-    public T action(String action, String param1, String param2) throws NoSuchMethodException {
-        Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2);
-        return (T) this;
-    }
-
-    /**
-     * Execute action with three parameters User|he keywords are optional
-     *
-     * @param action title of the action to execute
-     * @param param1 first parameter
-     * @param param2 second parameter
-     * @param param3 third parameter
-     * @throws NoSuchMethodException if corresponding method doesn't exist
-     */
-    public T action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
-        Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2, param3);
         return (T) this;
     }
 

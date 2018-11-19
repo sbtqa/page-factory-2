@@ -51,7 +51,6 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user \\(([^)]*)\\) (?:with param )?\"([^\"]*)\"$")
     public CoreStepDefs action(String action, String param) throws NoSuchMethodException {
         return super.action(action, param);
@@ -60,7 +59,6 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user \\(([^)]*)\\) (?:with the parameters )?\"([^\"]*)\" \"([^\"]*)\"$")
     public CoreStepDefs action(String action, String param1, String param2) throws NoSuchMethodException {
         return super.action(action, param1, param2);
@@ -69,7 +67,6 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user \\(([^)]*)\\) (?:with the parameters )?\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
     public CoreStepDefs action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         return super.action(action, param1, param2, param3);

@@ -35,7 +35,6 @@ public class HtmlStepDefs extends HtmlGenericSteps<HtmlStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user in block \"([^\"]*)\" \\(([^)]*)\\) with a parameter \"([^\"]*)\"$")
     public HtmlStepDefs actionInBlock(String block, String action, String param) throws NoSuchMethodException {
         return super.actionInBlock(block, action, param);
@@ -44,7 +43,6 @@ public class HtmlStepDefs extends HtmlGenericSteps<HtmlStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @And("^user in block \"([^\"]*)\" \\(([^)]*)\\) with the parameters \"([^\"]*)\" \"([^\"]*)\"$")
     public HtmlStepDefs actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
         return super.actionInBlock(block, action, param1, param2);

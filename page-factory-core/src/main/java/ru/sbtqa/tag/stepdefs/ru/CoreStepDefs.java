@@ -52,7 +52,6 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметром )?\"([^\"]*)\"$")
     public CoreStepDefs action(String action, String param) throws NoSuchMethodException {
         return super.action(action, param);
@@ -61,7 +60,6 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметрами )?\"([^\"]*)\" \"([^\"]*)\"$")
     public CoreStepDefs action(String action, String param1, String param2) throws NoSuchMethodException {
         return super.action(action, param1, param2);
@@ -70,7 +68,6 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
     /**
      * {@inheritDoc}
      */
-    @Override
     @И("^(?:пользователь |он )?\\(([^)]*)\\) (?:с параметрами )?\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
     public CoreStepDefs action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         return super.action(action, param1, param2, param3);
