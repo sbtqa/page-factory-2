@@ -6,10 +6,10 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
+import ru.sbtqa.tag.stepdefs.WebGenericSteps;
 import ru.sbtqa.tag.stepdefs.WebSetupSteps;
-import ru.sbtqa.tag.stepdefs.WebSteps;
 
-public class WebStepDefs extends WebSteps {
+public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
 
     @Before(order = 1)
     public void initWeb() {
@@ -27,7 +27,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^copy of the page is being opened in a new tab$")
-    public WebSteps openCopyPage() {
+    public WebStepDefs openCopyPage() {
         return super.openCopyPage();
     }
 
@@ -36,7 +36,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user switches to the next tab$")
-    public WebSteps switchesToNextTab() {
+    public WebStepDefs switchesToNextTab() {
         return super.switchesToNextTab();
     }
 
@@ -45,7 +45,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^URL matches \"([^\"]*)\"$")
-    public WebSteps urlMatches(String url) {
+    public WebStepDefs urlMatches(String url) {
         return super.urlMatches(url);
     }
 
@@ -54,7 +54,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user closes the current window and returns to \"([^\"]*)\"$")
-    public WebSteps closingCurrentWin(String title) {
+    public WebStepDefs closingCurrentWin(String title) {
         return super.closingCurrentWin(title);
     }
 
@@ -63,7 +63,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user push back in the browser$")
-    public WebSteps backPage() {
+    public WebStepDefs backPage() {
         return super.backPage();
     }
 
@@ -72,7 +72,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user navigates to page \"([^\"]*)\"$")
-    public WebSteps goToUrl(String url) {
+    public WebStepDefs goToUrl(String url) {
         return super.goToUrl(url);
     }
 
@@ -81,7 +81,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user navigates to url \"([^\"]*)\"$")
-    public WebSteps goToPageByUrl(String url) throws PageInitializationException {
+    public WebStepDefs goToPageByUrl(String url) throws PageInitializationException {
         return super.goToPageByUrl(url);
     }
 
@@ -90,7 +90,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user refreshes the page$")
-    public WebSteps reInitPage() {
+    public WebStepDefs reInitPage() {
         return super.reInitPage();
     }
 
@@ -99,7 +99,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user accepts alert with text \"([^\"]*)\"$")
-    public WebSteps acceptAlert(String text) throws WaitException {
+    public WebStepDefs acceptAlert(String text) throws WaitException {
         return super.acceptAlert(text);
     }
 
@@ -108,7 +108,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user dismisses alert with text \"([^\"]*)\"$")
-    public WebSteps dismissAlert(String text) throws WaitException {
+    public WebStepDefs dismissAlert(String text) throws WaitException {
         return super.dismissAlert(text);
     }
 
@@ -117,7 +117,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user checks that text \"([^\"]*)\" appears on the page$")
-    public WebSteps checkTextAppears(String text) throws WaitException {
+    public WebStepDefs checkTextAppears(String text) throws WaitException {
         return super.checkTextAppears(text);
     }
 
@@ -126,7 +126,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user checks that text \"([^\"]*)\" is absent on the page$")
-    public WebSteps checkTextIsNotPresent(String text) {
+    public WebStepDefs checkTextIsNotPresent(String text) {
         return super.checkTextIsNotPresent(text);
     }
 
@@ -135,7 +135,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^user checks that modal window with text \"([^\"]*)\" is appears$")
-    public WebSteps checkModalWindowAppears(String text) throws WaitException {
+    public WebStepDefs checkModalWindowAppears(String text) throws WaitException {
         return super.checkModalWindowAppears(text);
     }
 
@@ -145,7 +145,7 @@ public class WebStepDefs extends WebSteps {
     @Override
     @And("^user checks that element with text \"([^\"]*)\" is present$")
     @When("^user checks that the text \"([^\"]*)\" is visible$")
-    public WebSteps checkElementWithTextIsPresent(String text) {
+    public WebStepDefs checkElementWithTextIsPresent(String text) {
         return super.checkElementWithTextIsPresent(text);
     }
 }

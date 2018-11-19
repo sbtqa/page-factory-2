@@ -36,23 +36,13 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class CoreSteps {
+public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CoreSteps.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoreGenericSteps.class);
 
-    private static CoreSteps instance;
-
-    public CoreSteps() {
+    public CoreGenericSteps() {
         CoreSetupSteps.preSetUp();
         CoreSetupSteps.setUp(null);
-    }
-
-    public static CoreSteps getInstance() {
-        if (instance == null) {
-            instance = new CoreSteps();
-
-        }
-        return instance;
     }
 
     /**
@@ -63,9 +53,9 @@ public class CoreSteps {
      * @param title of the page to initialize
      * @throws PageInitializationException if page initialization failed
      */
-    public CoreSteps openPage(String title) throws PageInitializationException {
+    public T openPage(String title) throws PageInitializationException {
         PageManager.getPage(title);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -74,9 +64,9 @@ public class CoreSteps {
      * @param action title of the action to execute
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public CoreSteps action(String action) throws NoSuchMethodException {
+    public T action(String action) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -86,9 +76,9 @@ public class CoreSteps {
      * @param param parameter
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public CoreSteps action(String action, String param) throws NoSuchMethodException {
+    public T action(String action, String param) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -99,9 +89,9 @@ public class CoreSteps {
      * @param param2 second parameter
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public CoreSteps action(String action, String param1, String param2) throws NoSuchMethodException {
+    public T action(String action, String param1, String param2) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -113,9 +103,9 @@ public class CoreSteps {
      * @param param3 third parameter
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public CoreSteps action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
+    public T action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param1, param2, param3);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -126,9 +116,9 @@ public class CoreSteps {
      * @param dataTable table of parameters
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public CoreSteps action(String action, DataTable dataTable) throws NoSuchMethodException {
+    public T action(String action, DataTable dataTable) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, dataTable);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -140,9 +130,9 @@ public class CoreSteps {
      * @param dataTable table of parameters
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public CoreSteps action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
+    public T action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param, dataTable);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -153,9 +143,9 @@ public class CoreSteps {
      * @param list parameters list
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    public CoreSteps action(String action, List<String> list) throws NoSuchMethodException {
+    public T action(String action, List<String> list) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, list);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -165,10 +155,10 @@ public class CoreSteps {
      * @param text text to enter
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    public CoreSteps fill(String elementTitle, String text) throws PageException {
+    public T fill(String elementTitle, String text) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         Environment.getPageActions().fill(element, text);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -177,10 +167,10 @@ public class CoreSteps {
      * @param elementTitle title of the element to click
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    public CoreSteps click(String elementTitle) throws PageException {
+    public T click(String elementTitle) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         Environment.getPageActions().click(element);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -188,9 +178,9 @@ public class CoreSteps {
      *
      * @param keyName name of the key. See available key names in {@link Keys}
      */
-    public CoreSteps pressKey(String keyName) {
+    public T pressKey(String keyName) {
         Environment.getPageActions().press(null, keyName);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -200,10 +190,10 @@ public class CoreSteps {
      * @param elementTitle title of element that accepts key commands
      * @throws PageException if couldn't find element with required title
      */
-    public CoreSteps pressKey(String keyName, String elementTitle) throws PageException {
+    public T pressKey(String keyName, String elementTitle) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         Environment.getPageActions().press(element, keyName);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -214,10 +204,10 @@ public class CoreSteps {
      * @throws PageException if required
      * element couldn't be found, or current page isn't initialized
      */
-    public CoreSteps select(String elementTitle, String option) throws PageException {
+    public T select(String elementTitle, String option) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         Environment.getPageActions().select(element, option);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -226,10 +216,10 @@ public class CoreSteps {
      * @param elementTitle element that is supposed to represent checkbox
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    public CoreSteps setCheckBox(String elementTitle) throws PageException {
+    public T setCheckBox(String elementTitle) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         Environment.getPageActions().setCheckbox(element, true);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -238,12 +228,12 @@ public class CoreSteps {
      * @param text value for comparison
      * @param elementTitle title of the element to search
      */
-    public CoreSteps checkValueIsEqual(String elementTitle, String text) throws PageException {
+    public T checkValueIsEqual(String elementTitle, String text) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (!Environment.getPageChecks().checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'");
         }
-        return this;
+        return (T) this;
     }
 
     /**
@@ -253,12 +243,12 @@ public class CoreSteps {
      * @param elementTitle title of the element to search
      * @throws PageException if current page wasn't initialized, or element with required title was not found
      */
-    public CoreSteps checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+    public T checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (Environment.getPageChecks().checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is equal with '" + text + "'");
         }
-        return this;
+        return (T) this;
     }
 
     /**
@@ -267,12 +257,12 @@ public class CoreSteps {
      * @param elementTitle title of the element to check
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
-    public CoreSteps checkNotEmpty(String elementTitle) throws PageException {
+    public T checkNotEmpty(String elementTitle) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (Environment.getPageChecks().checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is empty");
         }
-        return this;
+        return (T) this;
     }
 
     /**
@@ -281,12 +271,12 @@ public class CoreSteps {
      * @param elementTitle title of the element to check
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
-    public CoreSteps checkEmpty(String elementTitle) throws PageException {
+    public T checkEmpty(String elementTitle) throws PageException {
         Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
         if (!Environment.getPageChecks().checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is not empty");
         }
-        return this;
+        return (T) this;
     }
 
     /**
@@ -294,9 +284,9 @@ public class CoreSteps {
      *
      * @param element element to focus on
      */
-    public CoreSteps isElementFocused(String element) {
+    public T isElementFocused(String element) {
         LOG.warn("Note that isElementFocused method is still an empty!");
-        return this;
+        return (T) this;
     }
 
     /**
@@ -304,7 +294,7 @@ public class CoreSteps {
      *
      * @param fragmentName scenario name to insert instead of this step
      */
-    public CoreSteps userInsertsFragment(String fragmentName) throws FragmentException {
+    public T userInsertsFragment(String fragmentName) throws FragmentException {
         throw new FragmentException("The fragment-needed step must be replaced, but this did not happened");
     }
 }

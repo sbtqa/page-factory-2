@@ -10,10 +10,10 @@ import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
-import ru.sbtqa.tag.stepdefs.CoreSteps;
 
-public class CoreStepDefs extends CoreSteps {
+public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
 
     @Before(order = 0)
     public void preSetUp() {
@@ -35,7 +35,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^(?:user |he )?(?:is on the page|page is being opened|master tab is being opened) \"([^\"]*)\"$")
-    public CoreSteps openPage(String title) throws PageInitializationException {
+    public CoreStepDefs openPage(String title) throws PageInitializationException {
         return super.openPage(title);
     }
 
@@ -44,7 +44,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user \\(([^)]*)\\)$")
-    public CoreSteps action(String action) throws NoSuchMethodException {
+    public CoreStepDefs action(String action) throws NoSuchMethodException {
         return super.action(action);
     }
 
@@ -53,7 +53,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user \\(([^)]*)\\) (?:with param )?\"([^\"]*)\"$")
-    public CoreSteps action(String action, String param) throws NoSuchMethodException {
+    public CoreStepDefs action(String action, String param) throws NoSuchMethodException {
         return super.action(action, param);
     }
 
@@ -62,7 +62,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user \\(([^)]*)\\) (?:with the parameters )?\"([^\"]*)\" \"([^\"]*)\"$")
-    public CoreSteps action(String action, String param1, String param2) throws NoSuchMethodException {
+    public CoreStepDefs action(String action, String param1, String param2) throws NoSuchMethodException {
         return super.action(action, param1, param2);
     }
 
@@ -71,7 +71,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user \\(([^)]*)\\) (?:with the parameters )?\"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public CoreSteps action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
+    public CoreStepDefs action(String action, String param1, String param2, String param3) throws NoSuchMethodException {
         return super.action(action, param1, param2, param3);
     }
 
@@ -80,7 +80,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user \\(([^)]*)\\) data$")
-    public CoreSteps action(String action, DataTable dataTable) throws NoSuchMethodException {
+    public CoreStepDefs action(String action, DataTable dataTable) throws NoSuchMethodException {
         return super.action(action, dataTable);
     }
 
@@ -89,7 +89,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user \\(([^)]*)\\) \"([^\"]*)\" data$")
-    public CoreSteps action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
+    public CoreStepDefs action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
         return super.action(action, param, dataTable);
     }
 
@@ -98,7 +98,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user \\(([^)]*)\\) from the list$")
-    public CoreSteps action(String action, List<String> list) throws NoSuchMethodException {
+    public CoreStepDefs action(String action, List<String> list) throws NoSuchMethodException {
         return super.action(action, list);
     }
 
@@ -107,7 +107,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user fills the field \"([^\"]*)\" (?:with value )?\"([^\"]*)\"$")
-    public CoreSteps fill(String elementTitle, String text) throws PageException {
+    public CoreStepDefs fill(String elementTitle, String text) throws PageException {
         return super.fill(elementTitle, text);
     }
 
@@ -117,7 +117,7 @@ public class CoreStepDefs extends CoreSteps {
     @Override
     @And("^user clicks the link \"([^\"]*)\"$")
     @When("^user clicks the button \"([^\"]*)\"$")
-    public CoreSteps click(String elementTitle) throws PageException {
+    public CoreStepDefs click(String elementTitle) throws PageException {
         return super.click(elementTitle);
     }
 
@@ -126,7 +126,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user presses the key \"([^\"]*)\"$")
-    public CoreSteps pressKey(String keyName) {
+    public CoreStepDefs pressKey(String keyName) {
         return super.pressKey(keyName);
     }
 
@@ -135,7 +135,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user presses the key \"([^\"]*)\" on the element \"([^\"]*)\"$")
-    public CoreSteps pressKey(String keyName, String elementTitle) throws PageException {
+    public CoreStepDefs pressKey(String keyName, String elementTitle) throws PageException {
         return super.pressKey(keyName, elementTitle);
     }
 
@@ -144,7 +144,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user selects in \"([^\"]*)\" the value \"([^\"]*)\"$")
-    public CoreSteps select(String elementTitle, String option) throws PageException {
+    public CoreStepDefs select(String elementTitle, String option) throws PageException {
         return super.select(elementTitle, option);
     }
 
@@ -153,7 +153,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user selects the checkbox \"([^\"]*)\"$")
-    public CoreSteps setCheckBox(String elementTitle) throws PageException {
+    public CoreStepDefs setCheckBox(String elementTitle) throws PageException {
         return super.setCheckBox(elementTitle);
     }
 
@@ -162,7 +162,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user checks in the element \"([^\"]*)\" value \"([^\"]*)\"$")
-    public CoreSteps checkValueIsEqual(String elementTitle, String text) throws PageException {
+    public CoreStepDefs checkValueIsEqual(String elementTitle, String text) throws PageException {
         return super.checkValueIsEqual(elementTitle, text);
     }
 
@@ -171,7 +171,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user checks in the element \"([^\"]*)\" that the value is not equal \"([^\"]*)\"$")
-    public CoreSteps checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+    public CoreStepDefs checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         return super.checkValueIsNotEqual(elementTitle, text);
     }
 
@@ -180,7 +180,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user checks that the field \"([^\"]*)\" is not empty$")
-    public CoreSteps checkNotEmpty(String elementTitle) throws PageException {
+    public CoreStepDefs checkNotEmpty(String elementTitle) throws PageException {
         return super.checkNotEmpty(elementTitle);
     }
 
@@ -189,7 +189,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^user checks that the field \"([^\"]*)\" is empty$")
-    public CoreSteps checkEmpty(String elementTitle) throws PageException {
+    public CoreStepDefs checkEmpty(String elementTitle) throws PageException {
         return super.checkEmpty(elementTitle);
     }
 
@@ -198,7 +198,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^element \"([^\"]*)\" is focused$")
-    public CoreSteps isElementFocused(String element) {
+    public CoreStepDefs isElementFocused(String element) {
         return super.isElementFocused(element);
     }
 
@@ -207,7 +207,7 @@ public class CoreStepDefs extends CoreSteps {
      */
     @Override
     @And("^(?:user |he )?inserts fragment \"([^\"]*)\"$")
-    public CoreSteps userInsertsFragment(String fragmentName) throws FragmentException {
+    public CoreStepDefs userInsertsFragment(String fragmentName) throws FragmentException {
         return super.userInsertsFragment(fragmentName);
     }
 }

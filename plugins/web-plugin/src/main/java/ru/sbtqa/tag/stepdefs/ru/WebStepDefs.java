@@ -8,9 +8,9 @@ import cucumber.api.java.ru.И;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.stepdefs.WebSetupSteps;
-import ru.sbtqa.tag.stepdefs.WebSteps;
+import ru.sbtqa.tag.stepdefs.WebGenericSteps;
 
-public class WebStepDefs extends WebSteps {
+public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
 
     @Before(order = 1)
     public void initWeb() {
@@ -27,7 +27,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^открывается копия страницы в новой вкладке$")
-    public WebSteps openCopyPage() {
+    public WebStepDefs openCopyPage() {
         return super.openCopyPage();
     }
 
@@ -36,7 +36,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^(?:пользователь |он )?переключается на соседнюю вкладку$")
-    public WebSteps switchesToNextTab() {
+    public WebStepDefs switchesToNextTab() {
         return super.switchesToNextTab();
     }
 
@@ -45,7 +45,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^URL соответствует \"([^\"]*)\"$")
-    public WebSteps urlMatches(String url) {
+    public WebStepDefs urlMatches(String url) {
         return super.urlMatches(url);
     }
 
@@ -54,7 +54,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^(?:пользователь |он )?закрывает текущее окно и возвращается на \"([^\"]*)\"$")
-    public WebSteps closingCurrentWin(String title) {
+    public WebStepDefs closingCurrentWin(String title) {
         return super.closingCurrentWin(title);
     }
 
@@ -63,7 +63,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^(?:пользователь |он )?нажимает назад в браузере$")
-    public WebSteps backPage() {
+    public WebStepDefs backPage() {
         return super.backPage();
     }
 
@@ -72,7 +72,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^(?:пользователь |он )?переходит на страницу \"([^\"]*)\" по ссылке$")
-    public WebSteps goToUrl(String url) {
+    public WebStepDefs goToUrl(String url) {
         return super.goToUrl(url);
     }
 
@@ -81,7 +81,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^(?:пользователь |он )?(?:переходит на|открывает) url \"([^\"]*)\"$")
-    public WebSteps goToPageByUrl(String url) throws PageInitializationException {
+    public WebStepDefs goToPageByUrl(String url) throws PageInitializationException {
         return super.goToPageByUrl(url);
     }
 
@@ -90,7 +90,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @И("^обновляем страницу$")
-    public WebSteps reInitPage() {
+    public WebStepDefs reInitPage() {
         return super.reInitPage();
     }
 
@@ -99,7 +99,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
-    public WebSteps acceptAlert(String text) throws WaitException {
+    public WebStepDefs acceptAlert(String text) throws WaitException {
         return super.acceptAlert(text);
     }
 
@@ -108,7 +108,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^(?:пользователь |он )?отклоняет уведомление с текстом \"([^\"]*)\"$")
-    public WebSteps dismissAlert(String text) throws WaitException {
+    public WebStepDefs dismissAlert(String text) throws WaitException {
         return super.dismissAlert(text);
     }
 
@@ -117,7 +117,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" появляется на странице$")
-    public WebSteps checkTextAppears(String text) throws WaitException {
+    public WebStepDefs checkTextAppears(String text) throws WaitException {
         return super.checkTextAppears(text);
     }
 
@@ -126,7 +126,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отсутствует на странице$")
-    public WebSteps checkTextIsNotPresent(String text) {
+    public WebStepDefs checkTextIsNotPresent(String text) {
         return super.checkTextIsNotPresent(text);
     }
 
@@ -135,7 +135,7 @@ public class WebStepDefs extends WebSteps {
      */
     @Override
     @And("^(?:пользователь |он )?проверяет что модальное окно с текстом \"([^\"]*)\" появляется$")
-    public WebSteps checkModalWindowAppears(String text) throws WaitException {
+    public WebStepDefs checkModalWindowAppears(String text) throws WaitException {
         return super.checkModalWindowAppears(text);
     }
 
@@ -145,7 +145,7 @@ public class WebStepDefs extends WebSteps {
     @Override
     @And("^(?:пользователь |он )?проверяет что элемент с текстом \"([^\"]*)\" существует$")
     @When("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отоброжается$")
-    public WebSteps checkElementWithTextIsPresent(String text) {
+    public WebStepDefs checkElementWithTextIsPresent(String text) {
         return super.checkElementWithTextIsPresent(text);
     }
 }

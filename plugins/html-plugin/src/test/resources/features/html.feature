@@ -1,7 +1,7 @@
 #language = en
 Feature: Check html yandex elements functional + ActionTitles mechanism
 
-  @htmlElementsCheck
+  @html
   Scenario: html elements check
 
     * user is on the page "MainY"

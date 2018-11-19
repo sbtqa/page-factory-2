@@ -20,7 +20,7 @@ public class JunitTest {
     }
 
     @Test
-    public void webTestTitles() throws PageException, NoSuchMethodException {
+    public void htmlTest() throws PageException, NoSuchMethodException {
         htmlSteps.openPage("MainY")
                 .find("menu", "button", "Home")
                 .actionInBlock("menu", "go to page", "Contact")

@@ -1,7 +1,7 @@
 #language: en
 Feature: Check web elements functional + ActionTitles mechanism
 
-  @test
+  @web
   Scenario: Check web elements functional + ActionTitles mechanism
     * user is on the page "Main"
     * user clicks the button "Contact"

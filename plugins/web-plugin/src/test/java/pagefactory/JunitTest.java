@@ -6,18 +6,21 @@ import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
 import ru.sbtqa.tag.stepdefs.WebSteps;
+import setting.JettySettings;
 
 public class JunitTest {
 
     private static WebSteps webSteps;
+    private static JettySettings server = new JettySettings();
 
     @BeforeClass
-    public static void before() {
+    public static void before() throws Exception {
         webSteps = WebSteps.getInstance();
+        server.startJetty();
     }
 
     @Test
-    public void webTestTitles() throws PageException, NoSuchMethodException {
+    public void webTest() throws PageException, NoSuchMethodException {
         webSteps.openPage("Main")
                 .click("Contact")
 
