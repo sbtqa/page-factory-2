@@ -22,7 +22,8 @@ import ru.sbtqa.tag.pagefactory.Tag;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(monochrome = true, plugin = {"pretty"},
-        // Укажите здесь корневые пакеты, в которых хранятся шаги. Если вы написали свои классы с шагами, не забудьте указать здесь пакеты, в которых они находятся
+        // Укажите здесь корневые пакеты, в которых хранятся шаги
+        // Если вы написали свои классы с шагами, не забудьте указать здесь пакеты, в которых они находятся
         glue = {"ru.sbtqa.tag.stepdefs",
                 "ru.your.project.stepdefs"},
         // Укажите здесь путь до каталога с фичами
@@ -33,3 +34,105 @@ import ru.sbtqa.tag.pagefactory.Tag;
 
 public class CucumberTest extends Tag{}
 ----
+
+
+==== Параметры запуска
+===== Параметры для работы с `Selenium WebDriver`
+
+[width="100%",options="header"]
+|====================
+^.^| Параметр ^.^| Описание
+2.1+^.^| **Обязательные**
+| webdriver.browser.name 
+| Имя браузера, в котором нужно запустить автотесты. Возможные значения: `Chrome`, `IE`, `Firefox`, `Safari`
+
+| webdriver.starting.url
+| Начальная страница запуска автотестов
+
+2.1+^.^| **Опциональные**
+
+| webdriver.browser.version 
+|
+
+| webdriver.browser.path
+| Если вы используете локальный экземпляр веб драйвера, укажите путь до него в данном параметре. Пример: src/test/resources/webdrivers/chromedriver.exe
+
+| webdriver.browser.size
+| 
+
+| webdriver.browser.ie.killOnDispose
+| Только для Windows. + 
+Возможные значения: true или false. + 
+Параметр используется для того, чтобы указать, убивать ли принудительно браузер IE после выполнения тестов или нет.
+
+| webdriver.create.attempts
+| Количество попыток на запуск браузера. По умолчанию: 3
+
+| webdriver.drivers.path
+| 
+
+| webdriver.version
+| 
+
+| webdriver.nexus.url
+| 
+
+| webdriver.os.arch
+| 
+
+| webdriver.url
+| Если вы используете RemoteDriver, укажите путь до него в данном параметре. 
+Пример: http://127.0.0.1:4444/wd/hub
+
+| webdriver.proxy
+| Добавьте этот параметр, если нужно указать прокси сервер. Пример: http://proxy.com:8080
+
+| selenoid.browserVersion
+| 
+
+| selenoid.enableVNC
+| 
+
+| selenoid.screenResolution
+| 
+
+| selenoid.enableVideo
+| 
+
+| selenoid.video.name
+| 
+
+| selenoid.video.screenSize
+| 
+
+| selenoid.video.frameRate
+| 
+
+| selenoid.nameOfTests
+| 
+
+| selenoid.timeZone
+| 
+
+| selenoid.hostEntries
+| 
+
+| selenoid.applicationContainers
+| 
+
+| selenoid.containerLables
+| 
+
+| selenoid.sessionTimeout
+| 
+
+| aspects.highlight.enabled
+| 
+
+| aspects.click.ru.sbtqa.tag.pagefactory.mobile.actions.enabled
+| 
+
+| aspects.scroll.to.element.enabled
+| 
+
+|====================
