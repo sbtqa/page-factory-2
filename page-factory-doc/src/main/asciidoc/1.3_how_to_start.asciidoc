@@ -7,7 +7,6 @@
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
       <artifactId>web-plugin</artifactId>
       <version>Актуальная версия</version>
-      <type>jar</type>
     </dependency>
 ----
 
