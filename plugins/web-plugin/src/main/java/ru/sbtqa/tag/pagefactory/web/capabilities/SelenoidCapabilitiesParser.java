@@ -36,6 +36,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
         setCapability("labels", PROPERTIES.getSelenoidContainerLables());
+        setCapability("sessionTimeout", PROPERTIES.getSelenoidSessionTimeout());
 
         setBrowserDefaultCapabilities();
 

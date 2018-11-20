@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -11,68 +9,53 @@
     <relativePath>../..</relativePath>
   </parent>
 
-  <groupId>ru.sbtqa.tag.pagefactory</groupId>
-  <artifactId>web-plugin</artifactId>
-  <packaging>jar</packaging>
-
-  <name>web-plugin</name>
-
   <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.2.20.v20161216</jetty.version>
     <skipTests>false</skipTests>
     <aspectj.version>1.8.10</aspectj.version>
   </properties>
 
+  <groupId>ru.sbtqa.tag.pagefactory</groupId>
+  <artifactId>jdi-plugin</artifactId>
+  <packaging>jar</packaging>
+
+  <name>jdi-plugin</name>
+
   <dependencies>
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>page-factory-core</artifactId>
+      <artifactId>web-plugin</artifactId>
       <version>${project.version}</version>
+      <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag.datajack</groupId>
-      <artifactId>datajack-api</artifactId>
-      <version>${tag.version.datajack}</version>
+      <groupId>com.epam.jdi</groupId>
+      <artifactId>jdi-uitest-core</artifactId>
+      <version>1.0.71</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa</groupId>
-      <artifactId>webdrivermanager</artifactId>
-      <version>${tag.version.webdrivermanager}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-chrome-driver</artifactId>
-      <version>${selenium.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-firefox-driver</artifactId>
-      <version>${selenium.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-safari-driver</artifactId>
-      <version>${selenium.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-ie-driver</artifactId>
-      <version>${selenium.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>net.lightbody.bmp</groupId>
-      <artifactId>browsermob-core</artifactId>
-      <version>2.1.5</version>
+      <groupId>com.epam.jdi</groupId>
+      <artifactId>jdi-uitest-web</artifactId>
+      <version>1.0.71</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.testng</groupId>
+          <artifactId>testng</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-java</artifactId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!--test-->
-    <dependency>
-      <groupId>ru.sbtqa.tag.datajack.providers</groupId>
-      <artifactId>json-provider</artifactId>
-      <version>${tag.version.datajack}</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-annotations</artifactId>
@@ -91,7 +74,9 @@
       <version>${jetty.version}</version>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
+
   <build>
     <plugins>
       <!--We use jdi-plugin in features. It need Java 8 during features-->
@@ -126,9 +111,9 @@
         </configuration>
         <executions>
           <execution>
+            <id>default-compile</id>
             <goals>
               <goal>compile</goal>
-              <goal>test-compile</goal>
             </goals>
           </execution>
         </executions>
@@ -138,6 +123,11 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.20</version>
         <configuration>
+          <!--browsermob-core version 2.1.0-beta-4 contains servlet-api 2.5.0 and jetty can't normally work.
+           It required 3.1.0 version of servlet-api during test-->
+          <classpathDependencyExcludes>
+            <classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>
+          </classpathDependencyExcludes>
           <argLine>
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
             -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
@@ -182,5 +172,4 @@
     </plugins>
 
   </build>
-
 </project>
