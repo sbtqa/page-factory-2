@@ -1,0 +1,5 @@
+=== Настройки проекта
+
+include::1.1.2_core_config.asciidoc[]
+
+include::1.1.1_web_config.asciidoc[]

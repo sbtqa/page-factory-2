@@ -27,3 +27,5 @@ include::1.10_fragments.asciidoc[]
 
 include::1.9_data.asciidoc[]
 
+include::1.1_settings.asciidoc[]
+
