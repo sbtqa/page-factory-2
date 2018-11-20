@@ -1,0 +1,21 @@
+==== Шаги работы с блоками в английской локализации
+[source,]
+----
+* user in block "Block" (action)
+* user in block "Block" (action) with a parameter "Param"
+* user in block "Block" (action) with the parameters of table
+    | Value | Value |
+    | Value | Value |
+* user in block "Block" (action) with the parameters "Param 1" “Param 2” …
+
+* user in block "Block" finds "Element"
+* user in block "Block" finds textinput "Element" 
+* user in block "Block" finds checkbox "Element" 
+* user in block "Block" finds radiobutton "Element"  
+* user in block "Block" finds link "Element"  
+* user in block "Block" finds table "Element"  
+* user in block "Block" finds header "Element"  
+* user in block "Block" finds button "Element"  
+* user in block "Block" finds image "Element"
+* user in list "List" finds the value element "Element"
+----

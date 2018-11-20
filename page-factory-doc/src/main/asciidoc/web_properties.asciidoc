@@ -1,0 +1,5 @@
+=== Настройки проекта
+
+include::common_properties.asciidoc[]
+
+include::web_plugin_properties.asciidoc[]

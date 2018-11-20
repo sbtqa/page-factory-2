@@ -11,20 +11,24 @@
     public WebElement element;
 ----
 
-Инициализировать элементы страницы не нужно, так как этот функционал уже зафиксирован на странице-родителе - `WebPage`
+Инициализировать элементы страницы не нужно, так как этот функционал уже зафиксирован на странице-родителе - `{pn}`
 
 Если же такая необходимость возникла, то достаточно определить конструктор страницы, вызвав в нем родительский конструктор с нужным декоратором.
 
 Например:
 
 
-[source,]
+[source, subs="attributes+"]
 ----
 @PageEntry(title = "Ваша страница")
-public abstract class YourPage extends WebPage {
+public abstract class YourPage extends {pn} {
 
     public YourPage() {
         super(new HtmlElementDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())));
     }
 }
 ----
+
+
+
+

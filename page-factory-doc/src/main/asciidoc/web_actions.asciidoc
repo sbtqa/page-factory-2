@@ -1,11 +1,11 @@
 ==== Глагольные выражения
-`Web plugin` позволяет описывать шаги, свойственные отдельной странице, непосредственно на ней. Такие шаги называются глагольными выражениями. Они имеют базу в фреймворке и за счет этого их описание сводится к простому именованию методов через специальную аннотацию - `@ActionTitle`. 
+`{plug}` позволяет описывать шаги, свойственные отдельной странице, непосредственно на ней. Такие шаги называются глагольными выражениями. Они имеют базу в фреймворке и за счет этого их описание сводится к простому именованию методов через специальную аннотацию - `@ActionTitle`. 
 
 Пример::
-[source,]
+[source, subs="attributes+"]
 ----
 @PageEntry(title = "Ваша страница")
-public abstract class YourPage extends WebPage {
+public abstract class YourPage extends {pn} {
 
     @ActionTitle(value = "тестирует")
     public void check() {
@@ -24,10 +24,10 @@ public abstract class YourPage extends WebPage {
 
 Одно глагольное выражение может иметь несколько именований. В этом может быть необходимость, когда есть желание внести конкретику в тестовом сценарии. Сделать это можно при помощи аннотации `@ActionTitles` Например:
 
-[source,]
+[source, subs="attributes+"]
 ----
 @PageEntry(title = "Ваша страница")
-public abstract class YourPage extends WebPage {
+public abstract class YourPage extends {pn} {
     
     @ActionTitles({
         @ActionTitle(value = "тестирует"),
@@ -41,10 +41,10 @@ public abstract class YourPage extends WebPage {
 
 Глагольные выражения могут иметь какие угодно параметры для этого достаточно добавить параметр в сигнатуре метода. Например:
 
-[source,]
+[source, subs="attributes+"]
 ----
 @PageEntry(title = "Ваша страница")
-public abstract class YourPage extends WebPage {
+public abstract class YourPage extends {pn} {
 
     @ActionTitle(value = "тестирует с параметром")
     public void check(String param) {
@@ -61,7 +61,7 @@ public abstract class YourPage extends WebPage {
 ====
 
 ===== База для глагольных выражений
-Как уже говорилось выше, глагольные выражения базируются на уже описанных в `Web plugin`шагах особой структуры. Они приведены ниже
+Как уже говорилось выше, глагольные выражения базируются на уже описанных в `{plug}`шагах особой структуры. Они приведены ниже
 
 NOTE: Перед шагом можно прописать действующее лицо - *__пользователь__* или *__он__* в любом из русскоязычных шагов
 
