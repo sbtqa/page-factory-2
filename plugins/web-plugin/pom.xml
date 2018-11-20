@@ -7,7 +7,7 @@
   <parent>
     <groupId>ru.sbtqa.tag</groupId>
     <artifactId>page-factory-2</artifactId>
-    <version>7.0-SNAPSHOT</version>
+    <version>8.0-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
 
@@ -94,7 +94,7 @@
   </dependencies>
   <build>
     <plugins>
-      <!--We use jdi-elements-plugin in features. It need Java 8 during features-->
+      <!--We use jdi-plugin in features. It need Java 8 during features-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

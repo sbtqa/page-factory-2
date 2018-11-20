@@ -21,7 +21,8 @@ public class AttachScreenshot {
 
     @Pointcut("execution(* ru.sbtqa.tag.stepdefs.CoreSetupSteps.tearDown()) && if()")
     public static boolean attachScreenshotOnTearDown() {
-        return ScenarioContext.getScenario().isFailed()
+        return ScenarioContext.getScenario() != null
+                && ScenarioContext.getScenario().isFailed()
                 && !Environment.isDriverEmpty();
     }
 

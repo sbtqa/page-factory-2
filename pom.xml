@@ -4,7 +4,7 @@
 
   <groupId>ru.sbtqa.tag</groupId>
   <artifactId>page-factory-2</artifactId>
-  <version>7.0-SNAPSHOT</version>
+  <version>8.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>page-factory-2</name>
@@ -70,8 +70,8 @@
     <module>page-factory-core</module>
     <module>tests/test-web-app</module>
     <module>plugins/web-plugin</module>
-    <module>plugins/jdi-elements-plugin</module>
-    <module>plugins/html-elements-plugin</module>
+    <module>plugins/jdi-plugin</module>
+    <module>plugins/html-plugin</module>
     <module>plugins/mobile-plugin</module>
     <module>plugins/rest-plugin</module>
     <module>page-factory-doc</module>

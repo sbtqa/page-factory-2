@@ -22,13 +22,10 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
-import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.qautils.i18n.I18N;
-import ru.sbtqa.tag.qautils.i18n.I18NRuntimeException;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 public class DefaultReflection implements Reflection {
@@ -98,18 +95,8 @@ public class DefaultReflection implements Reflection {
             actionList.add(actionTitle);
         }
 
-        I18N i18n = null;
-        try {
-            i18n = I18N.getI18n(method.getDeclaringClass(), ScenarioContext.getScenario());
-        } catch (I18NRuntimeException e) {
-            LOG.debug("There is no bundle for translation class. Leave it as is", e);
-        }
-
         for (ActionTitle action : actionList) {
-            String actionValue;
-            actionValue = (i18n != null) ? i18n.get(action.value()) :  action.value();
-
-            if (actionValue.equals(title)) {
+            if (action.value().equals(title)) {
                 return true;
             }
         }

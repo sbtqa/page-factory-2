@@ -5,8 +5,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
@@ -38,33 +36,37 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class WebGenericSteps extends WebSetupSteps {
+public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSteps<T> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebGenericSteps.class);
-    
+    public WebGenericSteps() {
+        WebSetupSteps.initWeb();
+    }
+
     /**
      * Open a copy for current page in a new browser tab User|he keywords are
      * optional
      */
-    public void openCopyPage() {
+    public T openCopyPage() {
         String pageUrl = Environment.getDriverService().getDriver().getCurrentUrl();
         ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
         List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
         Environment.getDriverService().getDriver().switchTo().window(tabs.get(tabs.size() - 1));
+        return (T) this;
     }
 
     /**
      * Switch to a neighbour browser tab
      */
-    public void switchesToNextTab() {
+    public T switchesToNextTab() {
         String currentTab = Environment.getDriverService().getDriver().getWindowHandle();
         List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
         for (int i = 0; i < tabs.size(); i++) {
             if (tabs.get(i).equals(currentTab)) {
                 Environment.getDriverService().getDriver().switchTo().window(tabs.get(i + 1));
-                return;
+                return (T) this;
             }
         }
+        throw new AutotestError("Unable to to find current tab " + currentTab);
     }
 
     /**
@@ -72,8 +74,9 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param url url for comparison
      */
-    public void urlMatches(String url) {
+    public T urlMatches(String url) {
         Assert.assertEquals("URL is different from the expected: ", url, Environment.getDriverService().getDriver().getCurrentUrl());
+        return (T) this;
     }
 
     /**
@@ -81,12 +84,12 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param title title of the page to open
      */
-    public void closingCurrentWin(String title) {
+    public T closingCurrentWin(String title) {
         Environment.getDriverService().getDriver().close();
         for (String windowHandle : Environment.getDriverService().getDriver().getWindowHandles()) {
             Environment.getDriverService().getDriver().switchTo().window(windowHandle);
             if (Environment.getDriverService().getDriver().getTitle().equals(title)) {
-                return;
+                return (T) this;
             }
         }
         throw new AutotestError("Unable to return to the previously opened page: " + title);
@@ -95,8 +98,9 @@ public class WebGenericSteps extends WebSetupSteps {
     /**
      * Return to previous location (via browser "back" button)
      */
-    public void backPage() {
+    public T backPage() {
         Environment.getDriverService().getDriver().navigate().back();
+        return (T) this;
     }
 
     /**
@@ -104,8 +108,9 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param url url to go to
      */
-    public void goToUrl(String url) {
+    public T goToUrl(String url) {
         Environment.getDriverService().getDriver().get(url);
+        return (T) this;
     }
 
     /**
@@ -116,15 +121,17 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws PageInitializationException if page with corresponding URL is
      * absent or couldn't be initialized
      */
-    public void goToPageByUrl(String url) throws PageInitializationException {
+    public T goToPageByUrl(String url) throws PageInitializationException {
         PageManager.changeUrlByTitle(url);
+        return (T) this;
     }
 
     /**
      * Refresh browser page
      */
-    public void reInitPage() {
+    public T reInitPage() {
         Environment.getDriverService().getDriver().navigate().refresh();
+        return (T) this;
     }
 
     /**
@@ -134,8 +141,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
-    public void acceptAlert(String text) throws WaitException {
+    public T acceptAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).acceptAlert();
+        return (T) this;
     }
 
     /**
@@ -145,8 +153,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
-    public void dismissAlert(String text) throws WaitException {
+    public T dismissAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).dismissAlert();
+        return (T) this;
     }
 
     /**
@@ -157,8 +166,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @throws WaitException if text didn't appear on the page during the
      * timeout
      */
-    public void checkTextAppears(String text) throws WaitException {
+    public T checkTextAppears(String text) throws WaitException {
         WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, true);
+        return (T) this;
     }
 
     /**
@@ -167,8 +177,9 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param text text to search for
      */
-    public void checkTextIsNotPresent(String text) {
+    public T checkTextIsNotPresent(String text) {
         WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, false);
+        return (T) this;
     }
 
     /**
@@ -181,8 +192,9 @@ public class WebGenericSteps extends WebSetupSteps {
      * @param text text that will be searched inside of the window
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
      */
-    public void checkModalWindowAppears(String text) throws WaitException {
+    public T checkModalWindowAppears(String text) throws WaitException {
         WebExpectedConditionsUtils.waitForModalWindowWithText(text);
+        return (T) this;
     }
 
     /**
@@ -191,18 +203,10 @@ public class WebGenericSteps extends WebSetupSteps {
      *
      * @param text a {@link java.lang.String} object.
      */
-    public void checkElementWithTextIsPresent(String text) {
+    public T checkElementWithTextIsPresent(String text) {
         if (!WebExpectedConditionsUtils.checkElementWithTextIsPresent(text)) {
             throw new AutotestError("Text '" + text + "' is not present");
         }
-    }
-
-    /**
-     * Element is focused
-     *
-     * @param element element to focus on
-     */
-    public void isElementFocused(String element) {
-        LOG.warn("Note that isElementFocused method is still an empty!");
+        return (T) this;
     }
 }
