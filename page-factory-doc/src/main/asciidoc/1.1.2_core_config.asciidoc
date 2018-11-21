@@ -120,24 +120,41 @@ fragments.path = src/test/resources/fragments
 [width="100%",options="header"]
 |====================
 ^.^| Параметр ^.^| Описание
+2.1+^.^| Обязательные
 | data.type
-| Тип данных + 
+| Тип данных
+
 Возможные значения: `json`, `mongo`, `excel`, `properties` + 
 
-| data.extension
-| Расширение файлов данных (используется для задания нестандартных расширений)
-
 | data.folder
-| Путь до каталога с данными
+| Путь до каталога с данными. Для `excel` путь до файла без расширения
 
 Пример:
 
 data.folder = src/test/resources/data/
 
+Пример для `excel`
+
+data.folder = src/test/resources/data/Data
+
 |data.initial.collection
-| Коллекция данных по умолчанию. Указывается без расширения
+| Коллекция данных по умолчанию. Указывается без расширения. Для `excel` - имя вкладки
 
 Пример:
 
 data.initial.collection = Data
+2.1+^.^| Обязательные при работе с `mongodb`
+| data.uri
+| Адрес базы данных. Параметр для `data.type = mongo`
+
+Пример:
+
+data.uri = mongodb://username:password@host.ru:8080
+
+| data.db
+| Имя базы данных. Параметр для `data.type = mongo`
+
+2.1+^.^| Необязательные
+| data.extension
+| Расширение файлов данных (используется для задания нестандартных расширений). Для `excel` не учитывается (всегда будет `xslx`)
 |====================
