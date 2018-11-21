@@ -31,8 +31,6 @@ include::html_steps.asciidoc[]
 
 include::cucumber_override.asciidoc[]
 
-
-
 include::cucumber_features.asciidoc[]
 
 include::cucumber_fragments.asciidoc[]
@@ -41,4 +39,6 @@ include::cucumber_data.asciidoc[]
 
 include::web_properties.asciidoc[]
 
-include::html_methods.asciidoc[]
+=== Методы для работы с элементами страниц
+
+include::html_reflection.asciidoc[]
