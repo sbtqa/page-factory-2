@@ -5,6 +5,7 @@
 :pn: WebPage
 :st: WebSteps
 :stg: WebGenericSteps
+:act: WebPageActions
 
 include::web_how_to_start.asciidoc[]
 
@@ -20,9 +21,10 @@ include::web_steps.asciidoc[]
 
 include::web_actions.asciidoc[]
 
-=== Переопределение стандартных методов
+==== Переопределение стандартных методов
 
-Раздел в разработке
+include::cucumber_override.asciidoc[]
+
 
 
 include::cucumber_features.asciidoc[]

@@ -1,0 +1,95 @@
+Переопределить шаги плагина {plug} можно одним из двух способов:
+
+1. Переопределить непосредственно шаг
+2. Переопределить действие внутри шага
+
+===== Переопределение шага
+Чтобы переопределить шаг, нужно унаследоваться от класса с шагаими - {stg} и переопределить метод как в примере
+
+[source,  subs="attributes+"]
+----
+public class YourGenericSteps<T extends YourGenericSteps<T>> extends {stg}<T> {
+    @Override
+    public T click(String elementTitle) throws PageException {
+        ...
+        return (T) this;
+    }
+}
+----
+
+===== Переопределение действия
+Для переопределения действия нужно:
+
+{counter:b}. Создать класс, в котором будут храниться новые действия, унаследовавшись от `{act}`, и описать в нем методы. Пример для клика:
+
+[source, subs="attributes+"]
+----
+public class YourPageActions extends {act} {
+
+    @Override
+    public void click(Object element){
+        ...
+    }
+}
+----
+
+{counter:b}. Реализовать аспект для этих действий
+
+
+[source, subs="attributes+"]
+----
+@Aspect
+public class ApplyActions {
+
+    private static final YourPageActions pageActions = new YourPageActions();
+
+    @Before("execution(ru.your.project.page.YourBasePage.new(..))")
+    public void apply() {
+        Environment.setPageActions(pageActions);
+    }
+}
+----
+
+В качестве параметра аннотации `@Before` нужно передать конструктор базовой страницы проекта или, если ее нет, можно указать коструктор родителя `ru.sbtqa.tag.pagefactory.{pn}.new(..)`
+
+{counter:b}. Добавить файл конфигурации `aop.xml`, указав путь к созданному аспекту в `aspect name` и каталог использования в `include within`
+
+[source, subs="attributes+"]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+    <aspects>
+        <aspect name="ru.your.project.aspects.ApplyActions"/>
+    </aspects>
+    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
+        <include within="ru.your.project..*"/>
+    </weaver>
+</aspectj>
+----
+====== Действия для переопределения
+
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| void fill(Object element, String text) 
+| Заполняет поле
+
+| void click(Object element); 
+| Выполняет нажатие по элементу
+
+| void press(Object element, String key); 
+| Выполняет нажатие клавиши
+
+| void select(Object element, String option); 
+| Выбирает из выпадающего списка
+
+| void setCheckbox 
+| Отмечает признак или снимает отметку
+
+| void acceptAlert() 
+| Принимает алерт
+
+| void dismissAlert() 
+| Отклоняет алерт
+|====================
+
