@@ -1,5 +1,5 @@
 == Web plugin
-Инструмент для автоматизации web приложений, базирующийся на `selenium` и `cucumber`
+Плагин для автоматизации web приложений, базирующийся на `selenium` и `cucumber`
 
 include::1.3_how_to_start.asciidoc[]
 
