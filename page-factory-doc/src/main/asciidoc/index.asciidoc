@@ -7,7 +7,6 @@ include::header.asciidoc[]
 image::images/structure.png[]
 
 include::1_web-plugin.asciidoc[Web plugin]
-include::2_html-elements-plugin.asciidoc[Html plugin]
+include::2_html-plugin.asciidoc[Html plugin]
 include::3_rest-plugin.asciidoc[Rest plugin]
 include::4_mobile_plugin.asciidoc[Mobile plugin]
-include::5_jdi_plugin.asciidoc[Jdi plugin]
