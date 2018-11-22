@@ -17,7 +17,7 @@ public class ConnectToLogTask implements Task {
             PropertyConfigurator.configure(DEFAULT_LOG_PROPERTIES_PATH);
             LOG.info("Log4j properties were picked up on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
         } else {
-            LOG.warn("There is no log4j.properties on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
+            LOG.debug("There is no log4j.properties on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
         }
     }
 }

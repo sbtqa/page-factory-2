@@ -22,6 +22,10 @@ public interface Configuration extends Config {
     @DefaultValue("false")
     boolean isVideoEnabled();
 
+    @Key("video.path")
+    @DefaultValue("")
+    String getVideoPath();
+
     @Key("tasks.to.kill")
     @DefaultValue("")
     String getTasksToKill();

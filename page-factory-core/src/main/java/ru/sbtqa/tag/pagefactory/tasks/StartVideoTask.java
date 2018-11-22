@@ -11,7 +11,8 @@ public class StartVideoTask implements Task {
     @Override
     public void handle() {
         if(PROPERTIES.isVideoEnabled()) {
-            VideoRecorder.getInstance().startRecording();
+            VideoRecorder.setVideoFolder(PROPERTIES.getVideoPath());
+            VideoRecorder.startRecording();
         }
     }
 }
