@@ -6,6 +6,7 @@
 :st: HtmlSteps
 :stg: HtmlGenericSteps
 :act: HtmlPageActions
+:ref: HtmlReflection
 
 include::web_how_to_start.asciidoc[]
 
@@ -27,7 +28,7 @@ include::html_actions_in_block.asciidoc[]
 
 include::html_steps.asciidoc[]
 
-==== Переопределение стандартных методов
+
 
 include::cucumber_override.asciidoc[]
 
@@ -39,6 +40,9 @@ include::cucumber_data.asciidoc[]
 
 include::web_properties.asciidoc[]
 
-=== Методы для работы с элементами страниц
+=== Вспомогательные методы
 
 include::html_reflection.asciidoc[]
+
+include::reflection_override.asciidoc[]
+

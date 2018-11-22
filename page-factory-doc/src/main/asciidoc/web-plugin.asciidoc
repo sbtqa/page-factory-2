@@ -6,6 +6,7 @@
 :st: WebSteps
 :stg: WebGenericSteps
 :act: WebPageActions
+:ref: DefaultReflection
 
 include::web_how_to_start.asciidoc[]
 
@@ -21,7 +22,7 @@ include::web_steps.asciidoc[]
 
 include::web_actions.asciidoc[]
 
-==== Переопределение стандартных методов
+
 
 include::cucumber_override.asciidoc[]
 
@@ -35,3 +36,8 @@ include::cucumber_data.asciidoc[]
 
 include::web_properties.asciidoc[]
 
+=== Вспомогательные методы
+
+include::web_reflection.asciidoc[]
+
+include::reflection_override.asciidoc[]
