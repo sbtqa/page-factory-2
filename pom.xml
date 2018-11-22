@@ -60,7 +60,7 @@
     <aspectj.version>1.8.13</aspectj.version>
     <tag.version.allurehelper>1.4.2</tag.version.allurehelper>
     <tag.version.qautils>1.4.0</tag.version.qautils>
-    <tag.version.videorecorder>1.0.6</tag.version.videorecorder>
+    <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
     <tag.version.datajack>4.0.4</tag.version.datajack>
   </properties>
