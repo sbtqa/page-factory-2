@@ -9,9 +9,7 @@ driver.shared = true
 
 #optional. False by default
 video.enabled = false
-video.path.dest = /tmp/video
-video.path.temp = /tmp/video
-video.highlight.enabled = false
+video.path = /tmp/video
 
 #optional. driver or raw. Raw by default
 screenshot.strategy = driver

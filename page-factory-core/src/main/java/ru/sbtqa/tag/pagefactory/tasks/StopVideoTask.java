@@ -10,10 +10,8 @@ public class StopVideoTask implements Task {
 
     @Override
     public void handle() {
-        if (PROPERTIES.isVideoEnabled() && VideoRecorder.getInstance().isVideoStarted()) {
-            VideoRecorder.getInstance().stopRecording();
-            VideoRecorder.getInstance().resetVideoRecorder();
+        if (PROPERTIES.isVideoEnabled()) {
+            VideoRecorder.stopRecording();
         }
     }
-
 }
