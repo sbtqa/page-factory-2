@@ -1,0 +1,27 @@
+
+[source,]
+----
+    * user is on the page "Page"
+    * page is being opened "Page"
+    * master tab is being opened "Page"
+    
+    * copy of the page is being opened in a new tab
+    * user switches to the next tab
+    * URL matches "URL"
+    * user closes the current window and returns to "Page"
+    * user push back in the browser
+    * user navigates to page "URL"
+    * user navigates to url "URL"
+    * user refreshes the page
+    
+    * user accepts alert with text "Text of alert"
+    * user dismisses alert with text "Text of alert"
+    
+    * user checks that text "Текст" appears on the page
+    * user checks that text "Текст" is absent on the page
+    
+    * user checks that modal window with text "Текст модального окна" is appears
+
+    * user checks that element with text "Text" is present
+    * user checks that the text "Text" is visible
+----

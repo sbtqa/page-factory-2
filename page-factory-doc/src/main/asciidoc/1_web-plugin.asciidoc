@@ -1,0 +1,31 @@
+== Web plugin
+Плагин для автоматизации web приложений, базирующийся на `selenium` и `cucumber`
+
+include::1.3_how_to_start.asciidoc[]
+
+include::1.4_pages.asciidoc[]
+
+include::1.5_elements.asciidoc[]
+
+=== Шаги и глагольные выражения
+
+Использовать элементы в тестовых сценариях можно двумя способами: в шагах либо в глагольных выражениях
+
+include::1.6_steps.asciidoc[]
+
+include::1.7_actions.asciidoc[]
+
+
+=== Переопределение стандартных методов
+
+Раздел в разработке
+
+
+include::1.8_features.asciidoc[]
+
+include::1.10_fragments.asciidoc[]
+
+include::1.9_data.asciidoc[]
+
+include::1.1_settings.asciidoc[]
+

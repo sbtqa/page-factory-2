@@ -1,0 +1,159 @@
+== HTML Plugin
+Плагин, позволяющий реализовать автоматизацию на проекте с использованием типизированных элементов и блоков. Он представляет из себя `web plugin`, расширенный возможностями библиотеки `htmlelements-java` и дополненный логикой взаимодействия с блоками и типизированными элементами.
+
+include::2.2_how_to_start.asciidoc[]
+
+=== Инициализация элементов страницы
+Инициализировать элементы страницы не нужно, так как этот функционал уже зафиксирован на странице-родителе - `HTMLPage`
+
+Если же такая необходимость возникла, то достаточно определить конструктор страницы, вызвав в нем родительский конструктор с нужным декоратором.
+
+Например:
+
+
+[source,]
+----
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
+import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.HTMLPage;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
+
+@PageEntry(title = "Ваша страница")
+public abstract class YourPage extends HTMLPage {
+
+    public YourPage() {
+        super(new HtmlElementDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())));
+    }
+}
+----
+
+TIP: Рекомендуется заводить в проекте базовую страницу, унаследованную от `HTMLPage`, и уже от нее наследовать все остальные. Это позволит в случае необходимости описать ряд действий на базовой странице проекта.
+
+
+=== Блоки и элементы
+Для работы с элементами в плагине используется библиотека `htmlelements-java`. Он позволяет описывать элементы на странице свойственными им типами (Button, TextIntup, CheckBox и пр.) и группировать эти элементы в блоки. Подробнее об этом можно узнать из документации на данный фреймворк. 
+
+`Html plugin` расширяет функциональные возможности `htmlelements-java` в части работы с комбинированием элементов в блоках
+
+Остановимся на этом подробнее.
+
+Предположим, что у нас есть несколько одинаковых групп элементов. Рассмотрим на примере элементов со страницы яндекс маркета
+
+image::images/blocks.png[]
+
+Каждый товар имеет одинаковое описание - цена, название, категория товара и визуальное представление товара. + 
+На странице таких товаров может быть очень много и при необходимости взаимодействия с ними придется объявлять много однотипных элементов, в которых просто запутаться. Чтобы таких ситуаций не возникало, проще считать каждый товар - одним элементом страницы - блоком, содержащим в себе элементы описания товара.
+
+Для примера блок будет выглядеть следующим образом:
+
+
+[source,]
+----
+import org.openqa.selenium.support.FindBy;
+import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.yandex.qatools.htmlelements.element.Image;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.TextBlock;
+import ru.yandex.qatools.htmlelements.element.Link;
+
+public class Product extends HtmlElement {
+
+    @ElementTitle("Изображение товара")
+    @FindBy(xpath = ".//img")
+    private Image image;
+
+    @ElementTitle("Стоимость")
+    @FindBy(xpath = ".//span[text()]")
+    private TextBlock cost;
+
+    @ElementTitle("Наименование")
+    @FindBy(xpath = ".//div[starts-with(@class,’name’)]")
+    private Link name;
+
+    @ElementTitle("Категория")
+    @FindBy(xpath = ".//div[text() and not(starts-with(@class,'name'))]")
+    private TextBlock category;
+}
+----
+TIP: Обратите внимание, что все пути внутри блока должны быть относительными (начинаться с точки), иначе поиск элемента не будет выполняться в контексте блока
+
+Элементы предполагают работу с блоком через его именование в классе-блоке и указанием там же пути до него через соответствующие аннотации @Name и @Block, но в контексте `Html plugin` - это не нужно и накладывает ряд функциональных ограничений. Например, нельзя объявить два одинаковых блока на странице. + 
+Поэтому правильнее будет объявлять блоки как и любые другие элементы, задавая им имя и путь через аннотации `@ElementTitle` и `@FindBy` соответственно.
+
+Пример для описанного выше блока:
+
+
+[source,]
+----
+import org.openqa.selenium.support.FindBy;
+import ru.sbtqa.tag.pagefactory.HTMLPage;
+import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+
+@PageEntry(title = "Продукты маркета")
+public class ProductPage extends HTMLPage {
+
+    @ElementTitle("Наушники")
+    @FindBy(xpath = "(//div[@data-zone-name='product'])[1]")
+    private Product headphones;
+
+    @ElementTitle("Телефон")
+    @FindBy(xpath = "(//div[@data-zone-name='product'])[2]")
+    private Product phone;
+}
+----
+
+=== Глагольные выражения в блоках
+В блоке можно определить глагольные выражения аналогично определению на страницах. Эти выражения будут работать только в контексте блока и только с его элементами
+
+Например, давайте определим проверку категории товара в ранее созданном блоке
+
+
+[source,]
+----
+import org.junit.Assert;
+import org.openqa.selenium.support.FindBy;
+import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
+import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.yandex.qatools.htmlelements.element.Image;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.TextBlock;
+import ru.yandex.qatools.htmlelements.element.Link;
+
+public class Product extends HtmlElement {
+
+    @ElementTitle("Изображение товара")
+    @FindBy(xpath = ".//img")
+    private Image image;
+
+
+    @ElementTitle("Стоимость")
+    @FindBy(xpath = ".//span[text()]")
+    private TextBlock cost;
+
+    @ElementTitle("Наименование")
+    @FindBy(xpath = ".//div[starts-with(@class,’name’)]")
+    private Link name;
+
+    @ElementTitle("Категория")
+    @FindBy(xpath = ".//div[text() and not(starts-with(@class,'name'))]")
+    private TextBlock category;
+
+    @ActionTitle("проверяет категорию товара")
+    public void checkCategory(String expectedCategory){
+        Assert.assertEquals(“Категория товара не соответствует ожидаемой”, expectedCategory, category.getText());
+    }
+}
+----
+
+Выполнить такое глагольное выражение можно следующим образом (для блока с наушниками) 
+
+[source,]
+----
+ * в блоке "Наушники" (проверяет категорию товара) с параметром "Наушники и Bluetooth-гарнитуры"
+----
+
+include::2.1_html_steps.asciidoc[]
+
+include::2.3_methods.asciidoc[]

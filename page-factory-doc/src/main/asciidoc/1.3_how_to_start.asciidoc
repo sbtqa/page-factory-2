@@ -1,0 +1,35 @@
+=== Как начать использовать
+Для начала использования необходимо подключить зависимость, указав актуальную версию плагина
+
+[source,]
+----
+    <dependency>
+      <groupId>ru.sbtqa.tag.pagefactory</groupId>
+      <artifactId>web-plugin</artifactId>
+      <version>Актуальная версия</version>
+    </dependency>
+----
+
+Затем создать, если еще не создан, файл запуска тестов, унаследовав его от класса `Tag`
+
+[source,]
+----
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
+import ru.sbtqa.tag.pagefactory.Tag;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(monochrome = true, plugin = {"pretty"},
+        // Укажите здесь корневые пакеты, в которых хранятся шаги
+        // Если вы написали свои классы с шагами, не забудьте указать здесь пакеты, в которых они находятся
+        glue = {"ru.sbtqa.tag.stepdefs",
+                "ru.your.project.stepdefs"},
+        // Укажите здесь путь до каталога с фичами
+        features = {"src/test/resources/ru/features/"},
+	    // Здесь можно указать тэг теста или нескольких тестов, которые нужно запустить
+        tags = {"@test"}
+)
+
+public class CucumberTest extends Tag{}
+----

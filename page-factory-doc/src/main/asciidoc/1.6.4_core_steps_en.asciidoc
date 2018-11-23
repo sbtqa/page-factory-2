@@ -1,0 +1,24 @@
+[source,]
+----
+    * user fills the field "Element" "Text"
+    * user fills the field "Element" with value "Text"
+
+    * user clicks the link "Element"
+    * user clicks the button "Element"
+
+    * user presses the key "KEY"
+    * user presses the key "KEY" on the element "Element"
+
+    * user selects in "Element" the value "Option"
+
+    * user selects the checkbox "Element"
+
+    * user checks in the element "Element" value "Text"
+    * user checks in the element "Element" that the value is not equal "Text"
+    * user checks that the field "Element" is not empty
+    * user checks that the field "Element" is empty
+    
+    * element "Element" is focused
+
+    * inserts fragment "Fragment"
+----

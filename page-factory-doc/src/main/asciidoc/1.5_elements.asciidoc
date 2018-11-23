@@ -1,0 +1,30 @@
+=== Описание элементов
+Элемент web-страницы можно описать в классе-странице задав путь до него в структуре DOM и имя. Элемент может не иметь имени, если к нему не нужно обращаться из тестового сценария, например в ситуации, когда он используется только в методах страницы.
+
+Для задания пути, как правило, используется стандартная аннотация selenium - `@FindBy` или другие аналогичные аннотации. Почитать о методах поиска и локаторах можно link:https://kreisfahrer.gitbooks.io/selenium-webdriver/content/webdriver_intro/tipi_lokatorov.html[в документации selenium]. Для задания имени - аннотация `@ElementTitle` 
+
+Пример::
+[source,]
+----
+    @ElementTitle(value = "Элемент")
+    @FindBy(xpath = "//span")
+    public WebElement element;
+----
+
+Инициализировать элементы страницы не нужно, так как этот функционал уже зафиксирован на странице-родителе - `WebPage`
+
+Если же такая необходимость возникла, то достаточно определить конструктор страницы, вызвав в нем родительский конструктор с нужным декоратором.
+
+Например:
+
+
+[source,]
+----
+@PageEntry(title = "Ваша страница")
+public abstract class YourPage extends WebPage {
+
+    public YourPage() {
+        super(new HtmlElementDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())));
+    }
+}
+----
