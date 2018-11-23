@@ -28,21 +28,16 @@ include::html_actions_in_block.asciidoc[]
 
 include::html_steps.asciidoc[]
 
-
-
-include::cucumber_override.asciidoc[]
-
-include::cucumber_features.asciidoc[]
-
-include::cucumber_fragments.asciidoc[]
-
-include::cucumber_data.asciidoc[]
+include::cucumber.asciidoc[]
 
 include::web_properties.asciidoc[]
+
+include::allure.asciidoc[]
 
 === Вспомогательные методы
 
 include::html_reflection.asciidoc[]
 
-include::reflection_override.asciidoc[]
+include::web_methods.asciidoc[]
 
+include::web_alert.asciidoc[]
