@@ -1,7 +1,9 @@
 package ru.sbtqa.tag.api.endpoints;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PATCH;
@@ -85,6 +87,32 @@ public class ClientJsonEndpoint {
 
         SimpleResult result = new SimpleResult();
         result.setResult(param);
+
+        return Response.ok(result)
+                .build();
+    }
+
+    @POST
+    @Path("form")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response form(
+            @FormParam("id") int id,
+            @FormParam("name") String name,
+            @FormParam("email") String email
+    ) {
+        SimpleResult result = new SimpleResult();
+        result.setResult(id + name + email);
+        return Response.ok(result)
+                .build();
+    }
+
+    @GET
+    @Path("cookie")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response cookie(@CookieParam(Default.COOKIE_NAME) String cookie) {
+        SimpleResult result = new SimpleResult();
+        result.setResult(cookie);
 
         return Response.ok(result)
                 .build();

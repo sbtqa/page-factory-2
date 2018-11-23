@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.Body;
+import ru.sbtqa.tag.api.annotation.Cookie;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Header;
@@ -89,6 +90,7 @@ public class EndpointEntryReflection {
                 if (annotation instanceof Body && ((Body) annotation).name().equals(name)
                         || annotation instanceof Query && ((Query) annotation).name().equals(name)
                         || annotation instanceof Header && ((Header) annotation).name().equals(name)
+                        || annotation instanceof Cookie && ((Cookie) annotation).name().equals(name)
                         && value != null && !value.isEmpty()) {
                     set(endpoint, field, value);
                     return;
@@ -160,6 +162,11 @@ public class EndpointEntryReflection {
                     case BODY:
                         if (annotation instanceof Body) {
                             parameters.put(((Body) annotation).name(), get(endpoint, field));
+                        }
+                        break;
+                    case COOKIE:
+                        if (annotation instanceof Cookie) {
+                            parameters.put(((Cookie) annotation).name(), get(endpoint, field));
                         }
                         break;
                     default:
