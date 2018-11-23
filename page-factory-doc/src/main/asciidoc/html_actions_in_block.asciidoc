@@ -1,0 +1,49 @@
+=== Глагольные выражения в блоках
+В блоке можно определить глагольные выражения аналогично определению на страницах. Эти выражения будут работать только в контексте блока и только с его элементами
+
+Например, давайте определим проверку категории товара в ранее созданном блоке
+
+
+[source,]
+----
+import org.junit.Assert;
+import org.openqa.selenium.support.FindBy;
+import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
+import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
+import ru.yandex.qatools.htmlelements.element.Image;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.TextBlock;
+import ru.yandex.qatools.htmlelements.element.Link;
+
+public class Product extends HtmlElement {
+
+    @ElementTitle("Изображение товара")
+    @FindBy(xpath = ".//img")
+    private Image image;
+
+
+    @ElementTitle("Стоимость")
+    @FindBy(xpath = ".//span[text()]")
+    private TextBlock cost;
+
+    @ElementTitle("Наименование")
+    @FindBy(xpath = ".//div[starts-with(@class,’name’)]")
+    private Link name;
+
+    @ElementTitle("Категория")
+    @FindBy(xpath = ".//div[text() and not(starts-with(@class,'name'))]")
+    private TextBlock category;
+
+    @ActionTitle("проверяет категорию товара")
+    public void checkCategory(String expectedCategory){
+        Assert.assertEquals(“Категория товара не соответствует ожидаемой”, expectedCategory, category.getText());
+    }
+}
+----
+
+Выполнить такое глагольное выражение можно следующим образом (для блока с наушниками) 
+
+[source,]
+----
+ * в блоке "Наушники" (проверяет категорию товара) с параметром "Наушники и Bluetooth-гарнитуры"
+----

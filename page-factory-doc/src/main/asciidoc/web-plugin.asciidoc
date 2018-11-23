@@ -1,0 +1,37 @@
+== Web plugin
+Плагин для автоматизации web приложений, базирующийся на `selenium` и `cucumber`
+
+:plug: web-plugin
+:pn: WebPage
+:st: WebSteps
+:stg: WebGenericSteps
+:act: WebPageActions
+:ref: DefaultReflection
+
+include::web_how_to_start.asciidoc[]
+
+include::web_pages.asciidoc[]
+
+include::web_elements.asciidoc[]
+
+=== Шаги и глагольные выражения
+
+Использовать элементы в тестовых сценариях можно двумя способами: в шагах либо в глагольных выражениях
+
+include::web_steps.asciidoc[]
+
+include::web_actions.asciidoc[]
+
+include::cucumber.asciidoc[]
+
+include::web_properties.asciidoc[]
+
+include::allure.asciidoc[]
+
+=== Вспомогательные методы
+
+include::web_reflection.asciidoc[]
+
+include::web_methods.asciidoc[]
+
+include::web_alert.asciidoc[]

@@ -1,0 +1,25 @@
+==== Проверки текстовых значений элементов
+:sup: WebPageChecks
+:envr: setPageChecks
+
+Обратиться к методам можно через `Environment.getPageChecks()`
+
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| boolean checkEquality(Object element, String text)
+| Получает текстовое значение элемента и сравнивает его с переданным
+
+| boolean checkEquality(Object element, String text, MatchStrategy matchStrategy)
+| Получает текстовое значение элемента и сравнивает его с переданным с учетом стратегии поиска:
+
+*__MatchStrategy.EXACT__* - для проверки на строгое соответствие + 
+*__MatchStrategy.CONTAINS__* - в случае, когда текстовое значение элемента должно содержать в себе переданный текст 
+
+| boolean checkEmptiness(Object element)
+| Проверяет, что элемент не содержит текстовое значение 
+|====================
+
+
+===== Переопределение проверок
+include::environment_override.asciidoc[]

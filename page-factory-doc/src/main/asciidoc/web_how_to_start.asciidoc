@@ -1,11 +1,11 @@
 === Как начать использовать
 Для начала использования необходимо подключить зависимость, указав актуальную версию плагина
 
-[source,]
+[source, subs="attributes+"]
 ----
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>web-plugin</artifactId>
+      <artifactId>{plug}</artifactId>
       <version>Актуальная версия</version>
     </dependency>
 ----

@@ -1,0 +1,28 @@
+==== Методы ожиданий и проверок
+
+Обратиться к методам можно через `WebExpectedConditionsUtils`
+
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| static String getElementValue(WebElement webElement)
+| Получает текстовое значение элемента
+
+| static void waitForPageToLoad(boolean... stopRecursion)
+| Ожидает загрузки страницы. Если страница не загружена - обновляет и проверяет повторно. Повторят эти действия до тех пор пока страница не будет открыта либо пока не истечет стандартный таймаут (задан в параметре `timeout` конфигурации)
+
+| static void waitForTextInInputExists(WebElement webElement, long timeout)
+| Ожидает появления в поле ввода текстового значения
+
+| static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent)
+| Проверяет наличие или отсутствие текста на странице в зависимости от параметра `shouldTextBePresent`
+
+| static void waitForModalWindowWithText(String text)
+| Ожидает появления модального окна с заданным текстом
+
+| static String findNewWindowHandle(Set<String> existingHandles, int timeout)
+| Получает на вход ранее открытые окна и ждет в течении переданного таймаута, что появится новое. Как только новое окно появилось, возвращает его идентификатор
+
+| static String findNewWindowHandle(Set<String> existingHandles)
+| Получает на вход ранее открытые окна и ждет в течение стандартного ожидания, что появится новое. Как только новое окно появилось, возвращает его идентификатор
+|====================

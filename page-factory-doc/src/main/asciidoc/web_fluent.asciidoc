@@ -1,0 +1,54 @@
+==== Как использовать шаги без `cucumber` (Fluent API)
+
+Обратиться к методам-шагам можно следующим образом: `{st}.getInstance()`
+
+Пример::
+[source,  subs="attributes+"]
+----
+{st}.getInstance().openPage("Main")
+                      .find("menu", "button", "Home")
+                      .click("Contact")
+                      .openPage("Contact")
+                      .checkEmpty("first name");
+----
+
+==== Как использовать шаги проекта без `cucumber`
+Чтобы использовать кастомные шаги вашего проекта через Fluent API, унаследуйте класс с шагами от `{stg}` с учетом типизации.
+
+WARNING: Каждый метод вашего класса с шгами должен возварщать объект типа `this` приведенный к `T`
+
+Пример класса::
+[source,  subs="attributes+"]
+----
+public class YourGenericSteps<T extends YourGenericSteps<T>> extends {stg}<T> {
+    public T yourMethod() {
+        ...
+        return (T) this;
+    }
+}
+----
+
+Далее на основе этого класса нужно создать строго типизированный класс, который позволит до комплияции понимать, с каким контекстом происходит взаимодействие в текущий  момент. Сделать это можно следующим образом:
+[source,]
+----
+public class YourSteps extends YourGenericSteps<YourSteps> {
+     private static YourSteps instance;
+     
+     public static YourSteps getInstance() {
+        if (instance == null) {
+            instance = new YourSteps();
+        }
+        return instance;
+    }
+}
+----
+
+Пример работы:
+[source,]
+----
+YourSteps.getInstance().openPage("Main")
+                      .find("menu", "button", "Home")
+                      .yourMethod()
+                      .openPage("Contact")
+                      .checkEmpty("first name");
+----

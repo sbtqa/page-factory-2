@@ -1,3 +1,7 @@
+=== Настройки проекта
+
+include::common_properties.asciidoc[]
+
 ==== Параметры для работы с `Selenium WebDriver`
 
 [width="100%",options="header"]

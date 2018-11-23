@@ -1,0 +1,54 @@
+==== Переопределение стандартных методов
+:sup: {act}
+:envr: setPageActions
+
+Переопределить шаги плагина {plug} можно одним из двух способов:
+
+1. Переопределить непосредственно шаг
+2. Переопределить действие внутри шага
+
+===== Переопределение шага
+Чтобы переопределить шаг, нужно унаследоваться от класса с шагаими - {stg} и переопределить метод как в примере
+
+[source,  subs="attributes+"]
+----
+public class YourGenericSteps<T extends YourGenericSteps<T>> extends {stg}<T> {
+    @Override
+    public T click(String elementTitle) throws PageException {
+        ...
+        return (T) this;
+    }
+}
+----
+
+===== Переопределение действия
+
+include::environment_override.asciidoc[]
+
+====== Действия для переопределения
+
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| void fill(Object element, String text) 
+| Заполняет поле
+
+| void click(Object element); 
+| Выполняет нажатие по элементу
+
+| void press(Object element, String key); 
+| Выполняет нажатие клавиши
+
+| void select(Object element, String option); 
+| Выбирает из выпадающего списка
+
+| void setCheckbox 
+| Отмечает признак или снимает отметку
+
+| void acceptAlert() 
+| Принимает алерт
+
+| void dismissAlert() 
+| Отклоняет алерт
+|====================
+
