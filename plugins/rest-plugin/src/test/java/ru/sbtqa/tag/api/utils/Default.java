@@ -8,6 +8,9 @@ public interface Default {
     String EMAIL = "default_person@google.com";
     String MASK = "@(\\w*)\\.";
 
+    String COOKIE_NAME = "cookie-name";
+    String COOKIE_VALUE = "cookie-value";
+
     String QUERY_PARAMETER_NAME_1 = "query-parameter-name-1";
     String QUERY_PARAMETER_NAME_2 = "query-parameter-name-2";
     String QUERY_PARAMETER_VALUE_1 = "query-parameter-value-1";

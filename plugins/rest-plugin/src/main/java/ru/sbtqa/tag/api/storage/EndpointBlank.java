@@ -15,6 +15,7 @@ public class EndpointBlank {
 
     private String title;
     private Map<String, Object> headers = new HashMap<>();
+    private Map<String, Object> cookies = new HashMap<>();
     private Map<String, Object> queries = new HashMap<>();
     private Map<String, String> bodies = new HashMap<>();
 
@@ -41,6 +42,9 @@ public class EndpointBlank {
             case BODY:
                 addBodyParameter(name, value);
                 break;
+            case COOKIE:
+                addCookie(name, value);
+                break;
         }
     }
 
@@ -49,6 +53,14 @@ public class EndpointBlank {
     }
 
     public void addHeader(String name, Object value) {
+        headers.put(name, value);
+    }
+
+    public Map<String, Object> getCookies() {
+        return cookies;
+    }
+
+    private void addCookie(String name, String value) {
         headers.put(name, value);
     }
 

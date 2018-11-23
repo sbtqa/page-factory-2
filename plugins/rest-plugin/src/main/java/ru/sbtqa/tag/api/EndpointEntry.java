@@ -94,9 +94,12 @@ public abstract class EndpointEntry {
 
         request.queryParams(getQueryParameters());
         request.headers(getHeaders());
+        request.cookies(getCookies());
 
-        if (!Rest.isBodiless(method)) {
+        if (!Rest.isBodiless(method) && !template.isEmpty()) {
             request.body(getBody());
+        } else {
+            request.formParams(getForm());
         }
         
         return request;
@@ -120,14 +123,31 @@ public abstract class EndpointEntry {
         return headers;
     }
 
-    private String getBody() {
-        String body = TemplateUtils.loadFromResources(this.getClass(), template, PROPERTIES.getTemplateEncoding());
+    private Map<String, ?> getCookies() {
+        Map<String, Object> headers = new HashMap<>();
 
+        headers.putAll(reflection.getParameters(COOKIE));
+        headers.putAll(blankStorage.get(title).getCookies());
+
+        return headers;
+    }
+
+    public String getBody() {
+        String body = TemplateUtils.loadFromResources(this.getClass(), template, PROPERTIES.getTemplateEncoding());
+        return PlaceholderUtils.replacePlaceholders(body, getParameters());
+    }
+
+    public Map<String, Object> getForm() {
+        return getParameters();
+    }
+
+    public Map<String, Object> getParameters() {
         Map<String, Object> parameters = new HashMap<>();
+
         parameters.putAll(reflection.getParameters(BODY));
         parameters.putAll(blankStorage.get(title).getBodies());
 
-        return PlaceholderUtils.replacePlaceholders(body, parameters);
+        return parameters;
     }
 
     public void validate(String title, Object... params) {
