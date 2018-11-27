@@ -11,7 +11,6 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
-import ru.sbtqa.tag.qautils.managers.DateManager;
 
 public class WebWait extends Wait {
 
@@ -46,22 +45,6 @@ public class WebWait extends Wait {
     }
 
     /**
-     * @param webElement a {@link org.openqa.selenium.WebElement} object.
-     * @param timeout in milliseconds
-     * @throws WaitException in case if text didn't load in input
-     */
-    public static void waitForTextInInputExists(WebElement webElement, long timeout) throws WaitException, InterruptedException {
-        long timeoutTime = DateManager.getCurrentTimestamp() + timeout;
-        while (timeoutTime > DateManager.getCurrentTimestamp()) {
-            Thread.sleep(1000);
-            if (!webElement.getAttribute("value").isEmpty()) {
-                return;
-            }
-        }
-        throw new WaitException("Timed out after '" + timeout + "' milliseconds waiting for existence of '" + webElement + "'");
-    }
-
-    /**
      * Wait until specified text either appears, or disappears from page source
      *
      * @param text text to search in page source
@@ -82,9 +65,9 @@ public class WebWait extends Wait {
     }
 
     /**
-     *
-     * @param text
-     * @throws WaitException
+     * Wait for a modal window with text to appear
+     * @param text expected text in modal window
+     * @throws WaitException in case if window was not found
      */
     public static void waitForModalWindowWithText(String text) throws WaitException {
         try {

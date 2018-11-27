@@ -10,7 +10,11 @@ public class WindowHandles {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
+    private WindowHandles() {}
+
     /**
+     * Find new window handle
+     *
      * @param existingHandles an existing handles
      * @return the new window handle
      * @throws WaitException in case if new window handle didn't find
@@ -20,6 +24,8 @@ public class WindowHandles {
     }
 
     /**
+     * Find new window handle
+     *
      * @param existingHandles an existing handles
      * @param timeout timeout
      * @return the new window handle
