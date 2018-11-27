@@ -26,9 +26,4 @@ public class PageContext {
         PageContext.currentPage = currentPage;
         PageContext.setCurrentPageTitle(currentPage.getTitle());
     }
-
-    public static void resetContext() {
-        currentPage = null;
-        currentPageTitle = null;
-    }
 }
