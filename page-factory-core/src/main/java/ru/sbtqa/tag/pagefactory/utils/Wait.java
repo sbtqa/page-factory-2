@@ -18,9 +18,6 @@ public class Wait {
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
     private static final String NOT_VISIBLE = "Element with xpath \"%s\" is not visible";
 
-
-    private Wait() {}
-
     /**
      * Wait until the element becomes visible
      *
