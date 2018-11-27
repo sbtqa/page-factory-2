@@ -33,4 +33,8 @@ public interface MobileConfiguration extends Configuration {
     @Key("appium.click.adb")
     @DefaultValue("false")
     boolean isAppiumClickAdb();
+
+    @Key("appium.strategies.reset")
+    @DefaultValue("")
+    String getAppiumResetStrategy();
 }

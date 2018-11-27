@@ -31,6 +31,13 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("autoGrantPermissions", "true");
         capabilities.setCapability("unicodeKeyboard", "true");
         capabilities.setCapability("resetKeyboard", "true");
+        if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase("noreset")) {
+            capabilities.setCapability("noReset","true");
+        } else if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase("fullreset")) {
+            capabilities.setCapability("fullReset","true");
+        }
+
+
         LOG.info("Capabilities are {}", capabilities);
 
         URL url;
