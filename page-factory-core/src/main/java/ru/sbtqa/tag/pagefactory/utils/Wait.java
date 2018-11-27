@@ -11,9 +11,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
+import static java.lang.String.format;
+
 public class Wait {
 
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final String NOT_VISIBLE = "Element with xpath \"%s\" is not visible";
+
+
+    private Wait() {}
 
     /**
      * Wait until the element becomes visible
@@ -21,7 +27,7 @@ public class Wait {
      * @param xpath element xpath
      */
     public static void visibility(String xpath) {
-        visibility(xpath, "Element with xpath \"" + xpath + "\" is not visible", PROPERTIES.getTimeout());
+        visibility(xpath, format(NOT_VISIBLE, xpath), PROPERTIES.getTimeout());
     }
 
     /**
@@ -50,7 +56,7 @@ public class Wait {
      * @param by locator to search for an item
      */
     public static void visibility(By by) {
-        visibility(by, "Element by \"" + by + "\" is not visible", PROPERTIES.getTimeout());
+        visibility(by, format(NOT_VISIBLE, by), PROPERTIES.getTimeout());
     }
 
     /**
@@ -79,7 +85,7 @@ public class Wait {
      * @param element element
      */
     public static void visibility(WebElement element) {
-        visibility(element, "Element \"" + element + "\" is not visible", PROPERTIES.getTimeout());
+        visibility(element, format(NOT_VISIBLE, element), PROPERTIES.getTimeout());
     }
 
     /**
