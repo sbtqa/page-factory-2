@@ -11,10 +11,10 @@ import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.managers.DateManager;
 
-public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
+public class WebExpectedConditionsUtils extends Wait {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebExpectedConditionsUtils.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
@@ -60,7 +60,7 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
                 if ("complete".equals((String) ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("return document.readyState"))) {
                     return;
                 }
-                sleep(1);
+                Thread.sleep(1000);
             } catch (Exception | AssertionError e) {
                 LOG.debug("WebPage does not become to ready state", e);
                 Environment.getDriverService().getDriver().navigate().refresh();
@@ -79,10 +79,10 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
      * @param timeout in milliseconds
      * @throws WaitException in case if text didn't load in input
      */
-    public static void waitForTextInInputExists(WebElement webElement, long timeout) throws WaitException {
+    public static void waitForTextInInputExists(WebElement webElement, long timeout) throws WaitException, InterruptedException {
         long timeoutTime = DateManager.getCurrentTimestamp() + timeout;
         while (timeoutTime > DateManager.getCurrentTimestamp()) {
-            sleep(1);
+            Thread.sleep(1000);
             if (!webElement.getAttribute("value").isEmpty()) {
                 return;
             }
@@ -97,14 +97,15 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
      * @param shouldTextBePresent boolean, self explanatory
      * @throws WaitException in case if text didn't load in the page source
      */
-    public static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent) throws WaitException {
-        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() / 1000;
-        WebElement body = waitUntilElementAppearsInDom(By.tagName("body"));
+    public static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent) throws WaitException, InterruptedException {
+        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
+        Wait.presence(By.tagName("body"), "Element \"body\" did not appear after timeout");
         while (timeoutTime > System.currentTimeMillis()) {
+            WebElement body = Environment.getDriverService().getDriver().findElement(By.tagName("body"));
             if (body.getText().replaceAll("\\s+", "").contains(text.replaceAll("\\s+", "")) == shouldTextBePresent) {
                 return;
             }
-            sleep(1);
+            Thread.sleep(1000);
         }
         throw new WaitException("Timed out after '" + PROPERTIES.getTimeout() + "' seconds waiting for presence of '" + text + "' in page source");
     }
@@ -127,7 +128,7 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
      * @return the new window handle
      * @throws WaitException in case if new window handle didn't find
      */
-    public static String findNewWindowHandle(Set<String> existingHandles, int timeout) throws WaitException {
+    public static String findNewWindowHandle(Set<String> existingHandles, int timeout) throws WaitException, InterruptedException {
         long timeoutTime = System.currentTimeMillis() + timeout;
 
         while (timeoutTime > System.currentTimeMillis()) {
@@ -141,7 +142,7 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
                     }
                 }
             }
-            sleep(1);
+            Thread.sleep(1000);
         }
 
         throw new WaitException("Timed out after '" + timeout + "' milliseconds waiting for new modal window");
@@ -152,19 +153,7 @@ public class WebExpectedConditionsUtils extends ExpectedConditionsUtils {
      * @return the new window handle
      * @throws WaitException in case if new window handle didn't find
      */
-    public static String findNewWindowHandle(Set<String> existingHandles) throws WaitException {
+    public static String findNewWindowHandle(Set<String> existingHandles) throws WaitException, InterruptedException {
         return findNewWindowHandle(existingHandles, PROPERTIES.getTimeout());
-    }
-
-    /**
-     * @param sec a int.
-     */
-    private static void sleep(int sec) {
-        try {
-            Thread.sleep(sec * 1000L);
-        } catch (InterruptedException e) {
-            LOG.warn("Error while thread is sleeping", e);
-            Thread.currentThread().interrupt();
-        }
     }
 }

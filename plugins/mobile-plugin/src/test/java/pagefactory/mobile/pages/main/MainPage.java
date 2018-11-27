@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
-import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.utils.Wait;
 
 @PageEntry(title = "Главная страница")
 public class MainPage extends MobilePage {
@@ -15,6 +15,6 @@ public class MainPage extends MobilePage {
     protected WebElement nptHelper;
 
     public MainPage() {
-        ExpectedConditionsUtils.waitUntilElementPresent(nptHelper);
+        Wait.waitUntilElementPresent(nptHelper);
     }
 }
