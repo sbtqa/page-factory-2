@@ -37,6 +37,6 @@ public class SearchPage extends MobilePage {
     @ActionTitle("ждёт появления списка")
     public void waitListAppears() throws InterruptedException {
         Thread.sleep(1000);
-        Wait.waitUntilElementPresent(list);
+        Wait.visibility(list);
     }
 }

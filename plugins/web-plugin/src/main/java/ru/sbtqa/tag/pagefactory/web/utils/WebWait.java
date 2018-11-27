@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.web.utils;
 
-import java.util.Set;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,37 +13,10 @@ import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.managers.DateManager;
 
-public class WebExpectedConditionsUtils extends Wait {
+public class WebWait extends Wait {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebExpectedConditionsUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
-
-    /**
-     * Get outer element text. Used for get text from checkboxes and radio
-     * buttons
-     *
-     * @param webElement an investigated element
-     * @return the text of the element
-     */
-    public static String getElementValue(WebElement webElement) {
-        String elementValue = "Cannot parse element";
-        String elementId = webElement.getAttribute("id");
-
-        if (elementId == null) {
-            throw new IllegalArgumentException("Getting value is not support in element without id");
-        }
-
-        WebElement possibleTextMatcher = Environment.getDriverService().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/.."));
-        if (possibleTextMatcher.getText().isEmpty()) {
-            possibleTextMatcher = Environment.getDriverService().getDriver().findElement(By.xpath("//*[@id='" + elementId + "']/../.."));
-            if ("tr".equals(possibleTextMatcher.getTagName())) {
-                elementValue = possibleTextMatcher.getText();
-            }
-        } else {
-            elementValue = possibleTextMatcher.getText();
-        }
-        return elementValue;
-    }
 
     /**
      * Wait for page prepared with javascript
@@ -53,11 +25,10 @@ public class WebExpectedConditionsUtils extends Wait {
      * @throws WaitException in case if page didn't load
      */
     public static void waitForPageToLoad(boolean... stopRecursion) throws WaitException {
-
         long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
         while (timeoutTime > System.currentTimeMillis()) {
             try {
-                if ("complete".equals((String) ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("return document.readyState"))) {
+                if ("complete".equals(((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("return document.readyState"))) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -65,7 +36,7 @@ public class WebExpectedConditionsUtils extends Wait {
                 LOG.debug("WebPage does not become to ready state", e);
                 Environment.getDriverService().getDriver().navigate().refresh();
                 LOG.debug("WebPage refreshed");
-                if ((stopRecursion.length == 0) || (stopRecursion.length > 0 && !stopRecursion[0])) {
+                if ((stopRecursion.length == 0) || !stopRecursion[0]) {
                     waitForPageToLoad(true);
                 }
             }
@@ -110,9 +81,14 @@ public class WebExpectedConditionsUtils extends Wait {
         throw new WaitException("Timed out after '" + PROPERTIES.getTimeout() + "' seconds waiting for presence of '" + text + "' in page source");
     }
 
+    /**
+     *
+     * @param text
+     * @throws WaitException
+     */
     public static void waitForModalWindowWithText(String text) throws WaitException {
         try {
-            String popupHandle = WebExpectedConditionsUtils.findNewWindowHandle((Set<String>) Stash.getValue("beforeClickHandles"));
+            String popupHandle = WindowHandles.findNewWindowHandle(Stash.getValue("beforeClickHandles"));
             if (null != popupHandle && !popupHandle.isEmpty()) {
                 Environment.getDriverService().getDriver().switchTo().window(popupHandle);
             }
@@ -120,40 +96,5 @@ public class WebExpectedConditionsUtils extends Wait {
         } catch (Exception ex) {
             throw new WaitException("Modal window with text '" + text + "' didn't appear during timeout", ex);
         }
-    }
-
-    /**
-     * @param existingHandles an existing handles
-     * @param timeout timeout
-     * @return the new window handle
-     * @throws WaitException in case if new window handle didn't find
-     */
-    public static String findNewWindowHandle(Set<String> existingHandles, int timeout) throws WaitException, InterruptedException {
-        long timeoutTime = System.currentTimeMillis() + timeout;
-
-        while (timeoutTime > System.currentTimeMillis()) {
-            Set<String> currentHandles = Environment.getDriverService().getDriver().getWindowHandles();
-
-            if (currentHandles.size() != existingHandles.size()
-                    || (currentHandles.size() == existingHandles.size() && !currentHandles.equals(existingHandles))) {
-                for (String currentHandle : currentHandles) {
-                    if (!existingHandles.contains(currentHandle)) {
-                        return currentHandle;
-                    }
-                }
-            }
-            Thread.sleep(1000);
-        }
-
-        throw new WaitException("Timed out after '" + timeout + "' milliseconds waiting for new modal window");
-    }
-
-    /**
-     * @param existingHandles an existing handles
-     * @return the new window handle
-     * @throws WaitException in case if new window handle didn't find
-     */
-    public static String findNewWindowHandle(Set<String> existingHandles) throws WaitException, InterruptedException {
-        return findNewWindowHandle(existingHandles, PROPERTIES.getTimeout());
     }
 }

@@ -15,6 +15,6 @@ public class MainPage extends MobilePage {
     protected WebElement nptHelper;
 
     public MainPage() {
-        Wait.waitUntilElementPresent(nptHelper);
+        Wait.visibility(nptHelper);
     }
 }

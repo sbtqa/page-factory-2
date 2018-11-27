@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.support.Alert;
-import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 
 public class WebPageActions implements PageActions {
 
@@ -39,7 +39,7 @@ public class WebPageActions implements PageActions {
     @Override
     public void click(Object element) {
         WebElement webElement = (WebElement) element;
-        WebExpectedConditionsUtils.waitForElementGetEnabled(webElement);
+        WebWait.visibility(webElement);
         webElement.click();
     }
 

@@ -19,6 +19,15 @@ public class Wait {
      * Wait until the element becomes visible
      *
      * @param xpath element xpath
+     */
+    public static void visibility(String xpath) {
+        visibility(xpath, "Element with xpath \"" + xpath + "\" is not visible", PROPERTIES.getTimeout());
+    }
+
+    /**
+     * Wait until the element becomes visible
+     *
+     * @param xpath element xpath
      * @param message message in case the element did not appear after waiting
      */
     public static void visibility(String xpath, String message) {
@@ -39,6 +48,15 @@ public class Wait {
      * Wait until the element becomes visible
      *
      * @param by locator to search for an item
+     */
+    public static void visibility(By by) {
+        visibility(by, "Element by \"" + by + "\" is not visible", PROPERTIES.getTimeout());
+    }
+
+    /**
+     * Wait until the element becomes visible
+     *
+     * @param by locator to search for an item
      * @param message message in case the element did not appear after waiting
      */
     public static void visibility(By by, String message) {
@@ -53,6 +71,15 @@ public class Wait {
      */
     public static void visibility(By by, String message, int timeout) {
         wait(ExpectedConditions.visibilityOfElementLocated(by), message, timeout);
+    }
+
+    /**
+     * Wait until the element becomes visible
+     *
+     * @param element element
+     */
+    public static void visibility(WebElement element) {
+        visibility(element, "Element \"" + element + "\" is not visible", PROPERTIES.getTimeout());
     }
 
     /**
@@ -578,6 +605,18 @@ public class Wait {
      */
     public static void clickable(WebElement element, String message, int timeout) {
         wait(ExpectedConditions.elementToBeClickable(element), message, timeout);
+    }
+
+    /**
+     * Waits during the standard timeout for the condition specified by the {@link ExpectedCondition} parameter.
+     * For example, to wait for an element to invisible by its locator {@code ExpectedConditions.invisibilityOfElementLocated (by)}
+     *
+     * @param condition check condition
+     * @param message message in case verification failed
+     */
+    public static void wait(ExpectedCondition condition, String message) {
+        new WebDriverWait(Environment.getDriverService().getDriver(), PROPERTIES.getTimeout())
+                .withMessage(message).until(condition);
     }
 
     /**

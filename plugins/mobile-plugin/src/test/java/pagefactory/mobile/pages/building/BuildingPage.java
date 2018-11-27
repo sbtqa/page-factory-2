@@ -18,7 +18,7 @@ public class BuildingPage extends MobilePage {
     protected WebElement list;
 
     public BuildingPage() {
-        Wait.waitUntilElementPresent(lbl);
-        Wait.waitUntilElementPresent(list);
+        Wait.visibility(lbl);
+        Wait.visibility(list);
     }
 }

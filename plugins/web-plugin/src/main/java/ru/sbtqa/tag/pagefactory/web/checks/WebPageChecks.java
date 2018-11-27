@@ -3,7 +3,7 @@ package ru.sbtqa.tag.pagefactory.web.checks;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
-import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 public class WebPageChecks implements PageChecks {
@@ -17,7 +17,7 @@ public class WebPageChecks implements PageChecks {
     @Override
     public boolean checkEquality(Object element, String text) {
         WebElement webElement = (WebElement) element;
-        WebExpectedConditionsUtils.waitForElementGetEnabled(webElement);
+        WebWait.visibility(webElement);
         return checkEquality(webElement, text, MatchStrategy.EXACT);
     }
 
@@ -47,7 +47,7 @@ public class WebPageChecks implements PageChecks {
     @Override
     public boolean checkEmptiness(Object element) {
         WebElement webElement = (WebElement) element;
-        WebExpectedConditionsUtils.waitForElementGetEnabled(webElement);
+        WebWait.visibility(webElement);
         String value = getWebElementValue(webElement);
         return "".equals(value) || value.isEmpty();
     }

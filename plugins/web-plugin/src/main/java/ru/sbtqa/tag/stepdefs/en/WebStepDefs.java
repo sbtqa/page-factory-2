@@ -117,7 +117,7 @@ public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
      */
     @Override
     @And("^user checks that text \"([^\"]*)\" appears on the page$")
-    public WebStepDefs checkTextAppears(String text) throws WaitException {
+    public WebStepDefs checkTextAppears(String text) throws WaitException, InterruptedException {
         return super.checkTextAppears(text);
     }
 
@@ -126,7 +126,7 @@ public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
      */
     @Override
     @And("^user checks that text \"([^\"]*)\" is absent on the page$")
-    public WebStepDefs checkTextIsNotPresent(String text) {
+    public WebStepDefs checkTextIsNotPresent(String text) throws InterruptedException {
         return super.checkTextIsNotPresent(text);
     }
 
