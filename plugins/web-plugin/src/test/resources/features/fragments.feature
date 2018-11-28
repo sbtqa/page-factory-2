@@ -27,7 +27,7 @@ Feature: Check fragments functional
       | Alex |
 
   @test-fragments-datatable
-  Scenario: Check fragments functional
+  Scenario: Check fragments datatable functional
     * user is on the page "Main"
     * user clicks the button "Contact"
     * user is on the page "Contact"
