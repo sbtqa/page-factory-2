@@ -60,7 +60,6 @@ public class FragmentReplacer {
      * @param steps list of steps in which the search for a step requiring replacement is performed on a fragment
      * @param language steps language
      * @return the list of steps with the substituted fragments
-     * @throws IllegalAccessException If can not copy the location from the replaced step to the steps of the fragment
      * @throws FragmentException if the fragment with the required name is not found
      */
     private List<Step> replaceSteps(List<Step> steps, String language) throws FragmentException {

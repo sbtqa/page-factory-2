@@ -24,7 +24,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
 
-public class FragmentCacheUtils {
+class FragmentCacheUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(FragmentCacheUtils.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
@@ -32,7 +32,7 @@ public class FragmentCacheUtils {
 
     private FragmentCacheUtils() {}
 
-    public static List<CucumberFeature> cacheFragmentsToFeatures(Class clazz, List<CucumberFeature> features) {
+    static List<CucumberFeature> cacheFragmentsToFeatures(Class clazz, List<CucumberFeature> features) {
         if (PROPERTIES.getFragmentsPath().isEmpty()) {
             return features;
         } else {
@@ -43,7 +43,7 @@ public class FragmentCacheUtils {
         }
     }
 
-    public static Map<String, ScenarioDefinition> cacheFragmentsAsMap(List<CucumberFeature> features) {
+    static Map<String, ScenarioDefinition> cacheFragmentsAsMap(List<CucumberFeature> features) {
         Map<String, ScenarioDefinition> fragments = new HashMap<>();
 
         for (CucumberFeature cucumberFeature : features) {
@@ -65,7 +65,7 @@ public class FragmentCacheUtils {
         return tags.stream().anyMatch(tag -> tag.getName().equals(FRAGMENT_TAG));
     }
 
-    public static MutableGraph<Object> cacheFragmentsAsGraph(List<CucumberFeature> features,
+    static MutableGraph<Object> cacheFragmentsAsGraph(List<CucumberFeature> features,
                                                              Map<String, ScenarioDefinition> fragmentsMap,
                                                              Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException {
         MutableGraph<Object> graph = GraphBuilder.directed().allowsSelfLoops(false).build();
@@ -105,7 +105,7 @@ public class FragmentCacheUtils {
         return graph;
     }
 
-    public static Map<ScenarioDefinition, String> cacheScenarioLanguage(List<CucumberFeature> features) {
+    static Map<ScenarioDefinition, String> cacheScenarioLanguage(List<CucumberFeature> features) {
         Map<ScenarioDefinition, String> scenarioLanguageMap = new HashMap<>();
 
         for (CucumberFeature cucumberFeature : features) {

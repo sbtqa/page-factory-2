@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
-public class FragmentUtils {
+class FragmentUtils {
 
     private static final String FRAGMENT_STEP_REGEX_KEY = "ru.sbtqa.tag.pagefactory.insertFragment";
 
@@ -20,7 +20,7 @@ public class FragmentUtils {
      * @param language step's language
      * @return name of the scenario (fragment) to substitute
      */
-    public static String getFragmentName(Step step, String language) {
+    static String getFragmentName(Step step, String language) {
         String regex = getFragmentStepRegex(language);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(step.getText());
@@ -35,7 +35,7 @@ public class FragmentUtils {
      * @param language step's language
      * @return returns true if the step needs to be replaced with a fragment
      */
-    public static boolean isStepFragmentRequire(Step step, String language) {
+    static boolean isStepFragmentRequire(Step step, String language) {
         String regex = getFragmentStepRegex(language);
         return Pattern.matches(regex, step.getText());
     }
