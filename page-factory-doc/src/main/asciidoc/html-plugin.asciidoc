@@ -28,7 +28,7 @@ include::html_actions_in_block.asciidoc[]
 
 include::html_steps.asciidoc[]
 
-include::cucumber.asciidoc[]
+include::cucumber_doc.asciidoc[]
 
 include::web_properties.asciidoc[]
 
