@@ -268,7 +268,7 @@ public class HtmlReflection extends DefaultReflection {
      * first found block (for faster searches)
      * @return list of found blocks. could be empty
      */
-    //TODO - покрыть юнит тестами - логика базовая и не супер очевидная
+    //TODO - should be covered by unit tests with different cases (inner classes / blocks / etc)
     private List<HtmlElement> findBlocks(String blockPath, Object context, boolean returnFirstFound) {
         String[] blockChain;
         if (blockPath.contains("->")) {
@@ -277,24 +277,22 @@ public class HtmlReflection extends DefaultReflection {
             blockChain = new String[]{blockPath};
         }
         List<HtmlElement> found = new ArrayList<>();
-
-        //ищем по глубине - чем менее глубоко нашли - тем раньше должны вернуть
+        
         List<Field> blockElements = FieldUtilsExt.getDeclaredFieldsWithInheritance(context.getClass()).stream()
                 .filter(this::isBlockElement)
                 .collect(Collectors.toList());
 
         for (Field currentField : blockElements) {
-            if (isRequiredElement(currentField, blockChain[0])) {//нашли нужный элемент по имени
-                currentField.setAccessible(true);
+            if (isRequiredElement(currentField, blockChain[0])) {//required field is found by element title
                 // isBlockElement() ensures that this is a HtmlElement instance
                 HtmlElement foundBlock = (HtmlElement) getNextContext(currentField, context, blockPath);
-                if (blockChain.length == 1) {//если это последний элемент для поиска
+                if (blockChain.length == 1) {
                     // Found required block directly inside the context
                     found.add(foundBlock);
                     if (returnFirstFound) {
                         return found;
                     }
-                } else {//мы в середине цепочки - идём глубже
+                } else {//we need to go deeper in chain of blocks
                     // Continue to search in the element chain, reducing its length by the first found element
                     // +2 because '->' adds 2 symbols
                     String reducedPath = blockPath.substring(blockChain[0].length() + 2);
@@ -303,8 +301,8 @@ public class HtmlReflection extends DefaultReflection {
             }
         }
 
-        //не нашли совпадения по имени - значит ищем по имени во всех блоках внутри контекста
-        if (blockChain.length == 1) {//TODO - тут на самом деле ещё бага - в случае, когда A->B->C , мы С ищем во всех подблоках B
+        //block is not found in the current context, need to check blocks in all block fields
+        if (blockChain.length == 1) {//TODO - maybe bug here - when chain is A->B->C , then С lookup is performed in C and its subblocks recursively
             for (Field currentField : blockElements) {
                 if (!isRequiredElement(currentField, blockChain[0])) {
                     found.addAll(findBlocks(blockPath, getNextContext(currentField, context, blockPath), returnFirstFound));
