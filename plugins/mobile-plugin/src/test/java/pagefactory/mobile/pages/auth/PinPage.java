@@ -9,7 +9,6 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.mobile.actions.MobilePageActions;
-import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
 
 @PageEntry(title = "Страница авторизации. Ввод PIN")
 public class PinPage extends MobilePage {

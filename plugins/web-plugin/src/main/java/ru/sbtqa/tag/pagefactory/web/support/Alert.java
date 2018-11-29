@@ -6,11 +6,11 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 
 public class Alert {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebExpectedConditionsUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     private org.openqa.selenium.Alert alert;
