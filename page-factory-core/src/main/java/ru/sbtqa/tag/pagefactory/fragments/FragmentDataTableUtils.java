@@ -30,9 +30,12 @@ class FragmentDataTableUtils {
         for (int i = FIRST_ROW_INDEX; i < dataTable.getRows().size(); i++) {
             Map<String, String> dataTableRow = new HashMap<>();
 
-            for (int j = 0; j < dataTable.getRows().get(HEADER_INDEX).getCells().size(); j++) {
-                String key = dataTable.getRows().get(HEADER_INDEX).getCells().get(j).getValue();
-                String value = dataTable.getRows().get(i).getCells().get(j).getValue();
+            List<TableRow> rows = dataTable.getRows();
+            for (int j = 0; j < rows.get(HEADER_INDEX).getCells().size(); j++) {
+                String key = rows.get(HEADER_INDEX).getCells().get(j).getValue();
+
+                List<TableCell> cells = dataTable.getRows().get(i).getCells();
+                String value = cells.get(j).getValue();
 
                 dataTableRow.put(key, value);
             }
