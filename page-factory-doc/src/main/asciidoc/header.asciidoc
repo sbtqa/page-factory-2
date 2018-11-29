@@ -1,4 +1,4 @@
 :icons: font
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :numbered:

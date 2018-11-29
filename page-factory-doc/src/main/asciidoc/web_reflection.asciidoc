@@ -1,0 +1,53 @@
+==== Вспомогательные методы, использующие рефлексию
+
+
+`{plug}` предоставляет ряд методов для работы с блоками и типизированными элементами
+
+Обратиться к методам можно через `Environment.getReflection()`
+
+=====  Работа с элементами
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| String getElementTitle(Page page, Object element)
+| Возвращает значение аннотации `@ElementTitle` для переданного элемента
+
+| <T> T getElementByTitle(Page page, String title)
+| Возвращает элемент страницы по его имени (значение аннотации `@ElementTitle`)
+
+| boolean isRequiredElement(Field field, String title)
+| Проверяет, является ли поле объявляением элемента или нет (аннотировано `@ElementTitle` или нет) 
+
+| String getFieldTitle(Field field)
+| Получает значение аннотации `@ElementTitle` поля
+
+| <T> T getElementByField(Object parentObject, Field field)
+| Получает объект поля для указанного родителя
+|====================
+
+=====  Работа с глагольными выражениями
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| void executeMethodByTitle(Page page, String title, Object... param)
+| Находит глагольное выражение на переданной странице и выполняет его
+
+| Boolean isRequiredAction(Method method, String title)
+| Проверяет, является ли метод глагольным выражением или нет (аннотирован `@ActionTitle` или `@ActionTitles` или нет)
+|====================
+
+===== Другие полезные методы
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| List<Method> getDeclaredMethods(Class clazz)
+| Возвращает методы переданного класса, включая методы родителя
+
+
+| void fireValidationRule(Page page, String title, Object... params)
+| Находит метод страницы, у которого значение аннотации `@ValidationRule` совпадает с переданным, и выполняет его
+
+| List<Tag> getScenarioTags(ScenarioDefinition scenarioDefinition)
+| Получает список тэгов сценария
+|====================
+

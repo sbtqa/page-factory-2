@@ -3,6 +3,7 @@ package ru.sbtqa.tag.stepdefs;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.PageManager;
@@ -10,7 +11,7 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
-import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 /**
@@ -166,8 +167,8 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @throws WaitException if text didn't appear on the page during the
      * timeout
      */
-    public T checkTextAppears(String text) throws WaitException {
-        WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, true);
+    public T checkTextAppears(String text) throws WaitException, InterruptedException {
+        WebWait.waitForTextPresenceInPageSource(text, true);
         return (T) this;
     }
 
@@ -177,8 +178,8 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      *
      * @param text text to search for
      */
-    public T checkTextIsNotPresent(String text) {
-        WebExpectedConditionsUtils.waitForTextPresenceInPageSource(text, false);
+    public T checkTextIsNotPresent(String text) throws InterruptedException {
+        WebWait.waitForTextPresenceInPageSource(text, false);
         return (T) this;
     }
 
@@ -193,7 +194,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
      */
     public T checkModalWindowAppears(String text) throws WaitException {
-        WebExpectedConditionsUtils.waitForModalWindowWithText(text);
+        WebWait.waitForModalWindowWithText(text);
         return (T) this;
     }
 
@@ -204,9 +205,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @param text a {@link java.lang.String} object.
      */
     public T checkElementWithTextIsPresent(String text) {
-        if (!WebExpectedConditionsUtils.checkElementWithTextIsPresent(text)) {
-            throw new AutotestError("Text '" + text + "' is not present");
-        }
+        WebWait.visibility(By.xpath("//*[contains(text(), '" + text + "')]"), "Text \"" + text + "\" is not present");
         return (T) this;
     }
 }

@@ -50,25 +50,25 @@ public class PageManager {
         if (null == PageContext.getCurrentPage()
                 || !PageContext.getCurrentPageTitle().equals(title)
                 || Environment.getDriverService().isDriverEmpty()) {
-            Page page = bootstrapPage(getPageClass(title));
-            if (page == null) {
-                throw new AutotestError("Page object with title '" + title + "' is not registered");
-            }
-            PageContext.setCurrentPage(page);
+            getPage(getPageClass(title));
         }
-
         return PageContext.getCurrentPage();
     }
 
     /**
      * Get Page by class
      *
-     * @param page a page class
+     * @param pageClass a page class
      * @return the page object
      * @throws PageInitializationException if failed to execute corresponding page constructor
      */
-    public static Page getPage(Class<? extends Page> page) throws PageInitializationException {
-        return bootstrapPage(page);
+    public static Page getPage(Class<? extends Page> pageClass) throws PageInitializationException {
+        Page page = bootstrapPage(pageClass);
+            if (page == null) {
+                throw new AutotestError("Page object with title '" + pageClass + "' is not registered");
+            }
+            PageContext.setCurrentPage(page);
+        return page;
     }
 
     /**
@@ -97,9 +97,9 @@ public class PageManager {
      * @param title a page title
      * @return the page class
      */
-    private static Class<?> getPageClass(String title) {
+    private static Class<? extends Page> getPageClass(String title) {
         for (Map.Entry<Class<? extends Page>, Map<Field, String>> pageEntry : PAGES_REPOSITORY.entrySet()) {
-            Class<?> page = pageEntry.getKey();
+            Class<? extends Page> page = pageEntry.getKey();
             String pageTitle = null;
             if (null != page.getAnnotation(PageEntry.class)) {
                 pageTitle = page.getAnnotation(PageEntry.class).title();

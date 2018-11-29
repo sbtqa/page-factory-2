@@ -1,0 +1,22 @@
+==== Методы для работы со страницами
+
+Обратиться к методам можно через класс `PageManager`
+
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| static Map<Class<? extends Page>, Map<Field, String>> getPageRepository()
+| Получает репозиторий страниц (набор: страница - набор полей-элементов страницы с именами)
+
+| static Page getPage(String title)
+| Получает страницу по имени (значение `title` аннотации `@PageEntry`)
+
+| static Page getPage(Class<? extends Page> page)
+| Получает страницу по имени класса
+
+| static Page changeUrlByTitle(String title) 
+| Перенаправляет на URL (по значению `url` аннотации `@PageEntry`) страницы с заданным именем (значение `title` аннотации `@PageEntry`)
+
+| static void cachePages()
+| Вносит все страницы проекта в репозиторий страниц
+|====================

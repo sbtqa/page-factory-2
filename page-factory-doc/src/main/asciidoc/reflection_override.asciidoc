@@ -1,0 +1,27 @@
+==== Переопределение методов для работы с рефлексией
+
+Создать класс, унаследовавшись от `{ref}`, и переопределить в нем методы. Пример для получения элемента:
+
+[source, subs="attributes+"]
+----
+public class YourReflection extends {ref} {
+
+    @Override
+    public <T> T getElementByTitle(Page page, String title) {
+        ...
+        return (T) element;
+    }
+}
+----
+
+Добавить аннотированный `@Before` метод, который будет устанавливать, какие методы работы с рефлексией использовать (`order` > 2):
+
+[source, subs="attributes+"]
+----
+public class YourStepDefs {
+    @Before(order = 3)
+    public void setReflection() {
+        Environment.setReflection(new YourReflection());
+    }
+}
+----

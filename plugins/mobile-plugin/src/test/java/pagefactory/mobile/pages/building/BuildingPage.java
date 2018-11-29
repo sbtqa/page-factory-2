@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
-import ru.sbtqa.tag.pagefactory.utils.ExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.utils.Wait;
 
 @PageEntry(title = "Здание")
 public class BuildingPage extends MobilePage {
@@ -18,7 +18,7 @@ public class BuildingPage extends MobilePage {
     protected WebElement list;
 
     public BuildingPage() {
-        ExpectedConditionsUtils.waitUntilElementPresent(lbl);
-        ExpectedConditionsUtils.waitUntilElementPresent(list);
+        Wait.visibility(lbl);
+        Wait.visibility(list);
     }
 }

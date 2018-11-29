@@ -11,13 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
-import ru.sbtqa.tag.pagefactory.web.utils.WebExpectedConditionsUtils;
+import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 
 @Aspect
 public class Highlight {
 
     private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
-    private static final Logger LOG = LoggerFactory.getLogger(WebExpectedConditionsUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
 
     @Pointcut("call(* org.openqa.selenium.WebElement.click()) && if()")
     public static boolean isHighlighEnabled() {
