@@ -1,0 +1,43 @@
+== HTML Plugin
+Плагин, позволяющий реализовать web автоматизацию на проекте с использованием типизированных элементов и блоков. Он базируется на `selenium`,  `cucumber` и `htmlelements-java`. Инструмент содержит логику взаимодействия с блоками и типизированными элементами
+
+:plug: html-plugin
+:pn: HTMLPage
+:st: HtmlSteps
+:stg: HtmlGenericSteps
+:act: HtmlPageActions
+:ref: HtmlReflection
+
+include::web_how_to_start.asciidoc[]
+
+include::web_pages.asciidoc[]
+
+include::web_elements.asciidoc[]
+
+include::html_blocks.asciidoc[]
+
+=== Шаги и глагольные выражения
+
+Использовать элементы в тестовых сценариях можно двумя способами: в шагах либо в глагольных выражениях
+
+include::web_steps.asciidoc[]
+
+include::web_actions.asciidoc[]
+
+include::html_actions_in_block.asciidoc[]
+
+include::html_steps.asciidoc[]
+
+include::cucumber.asciidoc[]
+
+include::web_properties.asciidoc[]
+
+include::allure.asciidoc[]
+
+=== Вспомогательные методы
+
+include::html_reflection.asciidoc[]
+
+include::web_methods.asciidoc[]
+
+include::web_alert.asciidoc[]

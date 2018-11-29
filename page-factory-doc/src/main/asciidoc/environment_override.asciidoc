@@ -1,0 +1,48 @@
+Для переопределения нужно:
+
+Создать класс, в котором будут храниться переопределенные методы, унаследовавшись от `{sup}`, и описать в нем методы. Пример для клика:
+
+[source, subs="attributes+"]
+----
+public class Your{sup} extends {sup} {
+
+    @Override
+    public void click(Object element){
+        ...
+    }
+}
+----
+
+Реализовать аспект
+
+
+[source, subs="attributes+"]
+----
+@Aspect
+public class ApplyActions {
+
+    private static final Your{sup} your{sup} = new Your{sup}();
+
+    @Before("execution(ru.your.project.page.YourBasePage.new(..))")
+    public void apply() {
+        Environment.{envr}(your{sup});
+    }
+}
+----
+
+В качестве параметра аннотации `@Before` нужно передать конструктор базовой страницы проекта или, если ее нет, можно указать коструктор родителя `ru.sbtqa.tag.pagefactory.{pn}.new(..)`
+
+Добавить файл конфигурации `aop.xml`, указав путь к созданному аспекту в `aspect name` и каталог использования в `include within`
+
+[source, subs="attributes+"]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+    <aspects>
+        <aspect name="ru.your.project.aspects.ApplyActions"/>
+    </aspects>
+    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
+        <include within="ru.your.project..*"/>
+    </weaver>
+</aspectj>
+----
