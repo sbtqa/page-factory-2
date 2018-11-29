@@ -63,8 +63,8 @@ public interface WebConfiguration extends Configuration {
     String getSelenoidBrowserVersion();
 
     @Key("selenoid.enableVNC")
-    @DefaultValue("")
-    String getSelenoidEnableVNC();
+    @DefaultValue("false")
+    boolean getSelenoidEnableVNC();
 
     @Key("selenoid.screenResolution")
     @DefaultValue("")
