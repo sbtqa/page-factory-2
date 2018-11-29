@@ -21,6 +21,7 @@ import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
+import java.util.stream.Collectors;
 
 public class HtmlReflection extends DefaultReflection {
 
