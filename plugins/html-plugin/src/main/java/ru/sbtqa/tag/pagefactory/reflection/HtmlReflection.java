@@ -234,16 +234,12 @@ public class HtmlReflection extends DefaultReflection {
      * @throws java.util.NoSuchElementException if couldn't find any block
      */
     public HtmlElement findBlock(Page page, String blockPath) {
-        try {
-            List<HtmlElement> blocks = findBlocks(blockPath, page, true);
-            if (blocks.isEmpty()) {
-                throw new java.util.NoSuchElementException(String.format("Couldn't find block '%s' on a page '%s'",
-                        blockPath, PageContext.getCurrentPageTitle()));
-            }
-            return blocks.get(0);
-        } catch (IllegalAccessException ex) {
-            throw new FactoryRuntimeException(String.format("Internal error during attempt to find block '%s'", blockPath), ex);
+        List<HtmlElement> blocks = findBlocks(blockPath, page, true);
+        if (blocks.isEmpty()) {
+            throw new java.util.NoSuchElementException(String.format("Couldn't find block '%s' on a page '%s'",
+                    blockPath, PageContext.getCurrentPageTitle()));
         }
+        return blocks.get(0);
     }
 
     /**
@@ -255,11 +251,7 @@ public class HtmlReflection extends DefaultReflection {
      * @return list of objects that were found by specified path
      */
     public List<HtmlElement> findBlocks(Page page, String blockPath) {
-        try {
-            return findBlocks(blockPath, page, false);
-        } catch (IllegalAccessException ex) {
-            throw new FactoryRuntimeException(String.format("Internal error during attempt to find a block '%s'", blockPath), ex);
-        }
+        return findBlocks(blockPath, page, false);
     }
 
     /**
@@ -274,10 +266,9 @@ public class HtmlReflection extends DefaultReflection {
      * @param returnFirstFound whether the search should be stopped on a
      * first found block (for faster searches)
      * @return list of found blocks. could be empty
-     * @throws IllegalAccessException if called with invalid context
      */
-    private List<HtmlElement> findBlocks(String blockPath, Object context, boolean returnFirstFound)
-            throws IllegalAccessException {
+    //TODO - покрыть юнит тестами - логика базовая и не супер очевидная
+    private List<HtmlElement> findBlocks(String blockPath, Object context, boolean returnFirstFound) {
         String[] blockChain;
         if (blockPath.contains("->")) {
             blockChain = blockPath.split("->");
@@ -285,31 +276,54 @@ public class HtmlReflection extends DefaultReflection {
             blockChain = new String[]{blockPath};
         }
         List<HtmlElement> found = new ArrayList<>();
-        for (Field currentField : FieldUtilsExt.getDeclaredFieldsWithInheritance(context.getClass())) {
-            if (isBlockElement(currentField)) {
-                if (isRequiredElement(currentField, blockChain[0])) {
-                    currentField.setAccessible(true);
-                    // isBlockElement() ensures that this is a HtmlElement instance
-                    HtmlElement foundBlock = (HtmlElement) currentField.get(context);
-                    if (blockChain.length == 1) {
-                        // Found required block directly inside the context
-                        found.add(foundBlock);
-                        if (returnFirstFound) {
-                            return found;
-                        }
-                    } else {
-                        // Continue to search in the element chain, reducing its length by the first found element
-                        // +2 because '->' adds 2 symbols
-                        String reducedPath = blockPath.substring(blockChain[0].length() + 2);
-                        found.addAll(findBlocks(reducedPath, foundBlock, returnFirstFound));
+
+        //ищем по глубине - чем менее глубоко нашли - тем раньше должны вернуть
+        List<Field> blockElements = FieldUtilsExt.getDeclaredFieldsWithInheritance(context.getClass()).stream()
+                .filter(this::isBlockElement)
+                .collect(Collectors.toList());
+
+        for (Field currentField : blockElements) {
+            if (isRequiredElement(currentField, blockChain[0])) {//нашли нужный элемент по имени
+                currentField.setAccessible(true);
+                // isBlockElement() ensures that this is a HtmlElement instance
+                HtmlElement foundBlock = (HtmlElement) getNextContext(currentField, context, blockPath);
+                if (blockChain.length == 1) {//если это последний элемент для поиска
+                    // Found required block directly inside the context
+                    found.add(foundBlock);
+                    if (returnFirstFound) {
+                        return found;
                     }
-                } else if (blockChain.length == 1) {
-                    found.addAll(findBlocks(blockPath, currentField.get(context), returnFirstFound));
+                } else {//мы в середине цепочки - идём глубже
+                    // Continue to search in the element chain, reducing its length by the first found element
+                    // +2 because '->' adds 2 symbols
+                    String reducedPath = blockPath.substring(blockChain[0].length() + 2);
+                    found.addAll(findBlocks(reducedPath, foundBlock, returnFirstFound));
                 }
             }
         }
+
+        //не нашли совпадения по имени - значит ищем по имени во всех блоках внутри контекста
+        if (blockChain.length == 1) {//TODO - тут на самом деле ещё бага - в случае, когда A->B->C , мы С ищем во всех подблоках B
+            for (Field currentField : blockElements) {
+                if (!isRequiredElement(currentField, blockChain[0])) {
+                    found.addAll(findBlocks(blockPath, getNextContext(currentField, context, blockPath), returnFirstFound));
+                }
+            }
+        }
+
+
         return found;
     }
+
+    private Object getNextContext(Field field, Object context, String blockPath) {
+        try {
+            field.setAccessible(true);
+            return field.get(context);
+        } catch (IllegalAccessException e) {
+            throw new FactoryRuntimeException(String.format("Internal error during attempt to find a block '%s'", blockPath), e);
+        }
+    }
+
 
     /**
      * Check if corresponding field is a block. I.e. it has
