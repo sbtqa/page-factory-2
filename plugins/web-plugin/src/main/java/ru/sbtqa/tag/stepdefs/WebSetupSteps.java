@@ -2,7 +2,6 @@ package ru.sbtqa.tag.stepdefs;
 
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
-import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
@@ -17,7 +16,6 @@ public class WebSetupSteps {
 
     public static synchronized void initWeb() {
         PageManager.cachePages();
-        PageContext.resetContext();
 
         if (isNewDriverNeeded()) {
             Environment.setDriverService(new WebDriverService());

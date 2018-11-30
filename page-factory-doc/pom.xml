@@ -51,7 +51,7 @@
             <executions>
               <execution>
                 <id>create-archive</id>
-                <phase>install</phase>
+                <phase>package</phase>
                 <goals>
                   <goal>single</goal>
                 </goals>
@@ -135,7 +135,7 @@
             <executions>
               <execution>
                 <id>create-archive</id>
-                <phase>install</phase>
+                <phase>package</phase>
                 <goals>
                   <goal>single</goal>
                 </goals>
