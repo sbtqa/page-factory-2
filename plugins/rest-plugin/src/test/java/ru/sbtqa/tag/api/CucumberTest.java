@@ -13,6 +13,7 @@ import ru.sbtqa.tag.api.utils.JettyServiceUtils;
         glue = {"ru.sbtqa.tag.stepdefs"},
         features = {"src/test/resources/features"},
         plugin = {"pretty"}
+        ,tags = {"@dаtatable"}
 )
 public class CucumberTest {
 
