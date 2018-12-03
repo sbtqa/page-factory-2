@@ -1,0 +1,30 @@
+package ru.sbtqa.tag.api.entries.apirequest;
+
+import cucumber.api.DataTable;
+import java.util.Map;
+import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.Rest;
+import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.annotation.Header;
+import ru.sbtqa.tag.api.annotation.Query;
+import ru.sbtqa.tag.api.annotation.Validation;
+import ru.sbtqa.tag.api.utils.Default;
+
+import static org.hamcrest.Matchers.equalTo;
+
+@Endpoint(method = Rest.GET, path = "client/get-with-params", title = "api request with params test placeholders")
+public class WithParamsPlaceholdersEndpointEntry extends EndpointEntry {
+
+    @Query(name = Default.QUERY_PARAMETER_NAME_1)
+    private String query = "new-${parameter-1}";
+
+    @Header(name = Default.HEADER_PARAMETER_NAME_1)
+    private String header = "[{\"value\":\"${parameter-2}\", \"visible\":true, \"name\":\"name\"}]";
+
+    @Validation(title = "result with datatable placeholders")
+    public void validate(DataTable dataTable) {
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        String expectedResult = data.get(Default.QUERY_PARAMETER_NAME_1) + data.get(Default.HEADER_PARAMETER_NAME_1);
+        getResponse().body("result", equalTo(expectedResult));
+    }
+}

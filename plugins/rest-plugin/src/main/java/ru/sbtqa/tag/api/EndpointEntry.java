@@ -48,7 +48,11 @@ public abstract class EndpointEntry {
 
     public void send(Map<String, String> data) {
         for (Map.Entry<String, String> dataTableRow : data.entrySet()) {
-            reflection.setParameterValueByTitle(dataTableRow.getKey(), dataTableRow.getValue());
+            String key = dataTableRow.getKey();
+            String value = dataTableRow.getValue();
+
+            reflection.setParameterValueByTitle(key, value);
+            reflection.replacePlaceholdersInParameterValue(key, value);
         }
 
         send();
