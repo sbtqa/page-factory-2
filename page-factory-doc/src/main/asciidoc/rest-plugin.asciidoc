@@ -11,4 +11,36 @@
 
 include::web_how_to_start.asciidoc[]
 
-include::web_pages.asciidoc[]
+В файле `application.properties` в параметре `api.baseURI` прописать путь тестируемого приложения. Например:
+
+[source,]
+----
+api.baseURI = http://api.com
+----
+
+=== Описание методов API
+Для описания метода необходимо создать класс, унаследовав его от `EndpointEntry`
+
+
+Параметры метода нужно задать аннотацией `@Endpoint`. С ее помощью определяются:
+
+* `method` - метод (POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD)
+* `path` - путь, относительно заданного в `api.baseURI`
+* `title` - имя метода для обращения из тестового сценария
+* `template` - шаблон запроса
+
+*__Пример:__*
+[source,]
+----
+@Endpoint(method = Rest.GET, path = "repos/sbtqa", title = "Запрос")
+public class ApiEntry extends EndpointEntry {
+...
+}
+----
+
+Путь до пакета с описанными методами необходимо прописать в файле конфигурации. Например:
+
+[source,]
+----
+api.endpoint.package = ru.sbtqa.rest
+----
