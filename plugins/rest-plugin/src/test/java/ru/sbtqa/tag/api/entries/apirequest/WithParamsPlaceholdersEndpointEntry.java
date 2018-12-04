@@ -26,7 +26,11 @@ public class WithParamsPlaceholdersEndpointEntry extends EndpointEntry {
 
     @Validation(title = "result with datatable placeholders")
     public void validate(DataTable dataTable) {
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        validate(dataTable.asMap(String.class, String.class));
+    }
+
+    @Validation(title = "result with map placeholders")
+    public void validate(Map<String, String> data) {
         String expectedResult = data.get(Default.QUERY_PARAMETER_NAME_1) + data.get(Default.HEADER_PARAMETER_NAME_1) + data.get("header2");
         getResponse().body("result", equalTo(expectedResult));
     }

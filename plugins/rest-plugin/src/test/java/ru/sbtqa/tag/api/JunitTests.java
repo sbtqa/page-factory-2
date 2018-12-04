@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsEndpointEntry;
+import ru.sbtqa.tag.api.entries.apirequest.WithParamsPlaceholdersEndpointEntry;
 import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
 import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
@@ -41,6 +42,23 @@ public class JunitTests {
 
         api.send(WithParamsEndpointEntry.class, parameters)
                 .validate("result with map", parameters);
+    }
+
+    @Test
+    public void getWithParamsPlaceholdersTest() {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("parameter-1", "parameter-value-1");
+        parameters.put("parameter-2", "parameter-value-2");
+        parameters.put("parameter-3", "Alex");
+        parameters.put("header2", "header-value-2");
+
+        Map<String, String> resultParameters = new HashMap<>();
+        resultParameters.put("query-parameter-name-1", "new-parameter-value-1");
+        resultParameters.put("header-parameter-name-1", "[{\"value\":\"parameter-value-2\", \"visible\":true, \"name\":\"Alex\"}]");
+        resultParameters.put("header2", "header-value-2");
+
+        api.send(WithParamsPlaceholdersEndpointEntry.class, parameters)
+                .validate("result with map placeholders", resultParameters);
     }
 
     @Test
