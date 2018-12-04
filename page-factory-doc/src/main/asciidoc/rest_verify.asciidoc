@@ -1,0 +1,126 @@
+=== Проверки
+
+Для проверки выполнения запроса необходимо определить один или несколько методов валидации. Методы валидации должны быть аннотированы `@Validate`. Эта аннотация задает имя для вызова метода из фичи (параметр `title`) 
+
+TIP: В примерах шагов "пользователь" может быть заменено на "он" или убрано
+
+==== Проверка без параметров
+
+Пример:
+
+[source,]
+----
+@Endpoint(method = Rest.POST, path = "user", title = "Запрос")
+public class ReplacerEntry extends EndpointEntry {
+
+    @Validation(title = "result")
+    public void validate() {
+        ...
+    }
+}
+----
+
+Выполнить описанную таким образом проверку из фичи можно одним из следующих способов:
+
+[source, ]
+----
+    * пользователь проверяет "result"
+    * пользователь проверяет ответ "result"
+    * система возвращает "result"
+    * система возвращает ответ "result"
+----
+
+Если в классе реализована только одна проверка без параметров, то проверку можно выполнить без указания имени метода одним из шагов:
+
+[source, ]
+----
+    * пользователь проверяет ответ
+    * система возвращает ответ
+----
+
+==== Проверка таблицы значений
+
+Шаги верификации могут так же принимать на вход DataTable (cucumber). Для них метод проверки будет иметь вид:
+
+[source,]
+----
+@Endpoint(method = Rest.POST, path = "user", title = "Запрос")
+public class ReplacerEntry extends EndpointEntry {
+
+    @Validation(title = "result")
+    public void validate(DataTable dataTable) {
+        Map<String, String> data = CastUtils.toMap(dataTable);
+        ...
+    }
+}
+----
+
+Шаги:
+
+[source,]
+----
+    * пользователь проверяет ответ "result" с параметрами:
+        | параметр 1 | значение 1 |
+        | параметр 2 | значение 2 |
+        
+    * пользователь проверяет ответ "result" с параметрами:
+        | параметр 1 | значение 1 |
+        | параметр 2 | значение 2 |
+        
+    * система возвращает ответ "result" с параметрами:
+        | параметр 1 | значение 1 |
+        | параметр 2 | значение 2 |
+        
+    * система возвращает ответ "result" с параметрами:
+        | параметр 1 | значение 1 |
+        | параметр 2 | значение 2 |
+----
+
+==== Как реализовать свои шаги проверки
+
+Если есть необходимость передавать в метод верификации параметр, отличный от `DataTable`, то необходимо определить в проекте соответствующий шаг. Пример для проверки с одним параметром:
+[source,]
+----
+@И("^(?:пользователь |он )?проверяет \"([^\"]*)\" с параметром \"([^\"]*)\"$")
+public void validateWithparam(String rule, String param) {
+    
+    // Если нужно два или более параметров, просто добавьте их в метод через запятую
+    EndpointContext.getCurrentEndpoint().validate(rule, param);
+}
+----
+
+После этого можно написать проверку:
+[source,]
+----
+@Endpoint(method = Rest.POST, path = "user", title = "Запрос")
+public class ReplacerEntry extends EndpointEntry {
+
+    @Validation(title = "result")
+    public void validate(String param) {
+        ...
+    }
+}
+----
+
+И выполнить ее в фиче:
+
+[source,]
+----
+    * пользователь проверяет "result" с параметром "param value"
+----
+
+==== Как писать реализацию проверок 
+Получить ответ запроса можно методом `getResponse()` в любом `Entry`-классе. Этот метод вернет `ValidatableResponse`. О том, как с ним работать и какие проверки он имеет можно узнать в доументации link::https://github.com/rest-assured/rest-assured/wiki/Usage#verifying-response-data[rest-assured]
+
+Пример:
+[source,]
+----
+@Endpoint(method = Rest.POST, path = "user", title = "Запрос")
+public class ReplacerEntry extends EndpointEntry {
+
+    @Validation(title = "result")
+    public void validate() {
+        getResponse().body("result", equalTo("expected result"));
+    }
+}
+----

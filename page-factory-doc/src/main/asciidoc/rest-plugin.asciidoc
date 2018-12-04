@@ -20,14 +20,20 @@ api.baseURI = http://api.com
 
 include::rest_entries.asciidoc[]
 include::rest_entries_param.asciidoc[]
-include::rest_entries_examples.asciidoc[]
-
-верификация
-шаги отправки и верификации
-
+include::rest_send.asciidoc[]
+include::rest_verify.asciidoc[]
 include::rest_build_request.asciidoc[]
+include::rest_entries_examples.asciidoc[]
+include::rest_steps_en.asciidoc[]
 
-Пример??
+=== SSL
+Включить упрощенную схему работы с ssl можно следующим образом:
+[source,]
+----
+api.ssl.relaxed = true
+----
+
+Подробнее об этом можно узнать в документации link::https://github.com/rest-assured/rest-assured/wiki/Usage#ssl[rest-assured]
 
 
 

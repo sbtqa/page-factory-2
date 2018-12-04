@@ -1,0 +1,49 @@
+=== Шаги работы с API в английской локализации
+[source, java]
+----
+    * user sends request
+
+    * user sends request for "Request"
+    * user sends request to "Request"
+    * user sends request about "Request"
+
+    * user sends request for "Request" with parameters:
+      | param | value |
+    * user sends request to "Request" with parameters:
+      | param | value |
+    * user sends request about "" with parameters:
+      | param | value |
+
+    * system returns "result"
+    * user validates response
+    * system returns "result" with parameters:
+      | param | value |
+
+    * user fill the request "Request"
+    * user add a query parameter with name "query parameter" and value "value"
+    * user add a header parameter with name "header parameter" and value "value"
+    * user add a body parameter with name "body parameter" and value "value"
+
+    * user add a query parameters
+      | query param | value |
+    * user add a header parameters
+      | header parameter | value |
+    * user add a body parameters
+      | body parameter | value |
+
+    * user add query parameter "header parameter" from response on "Request" Header "header"
+    * user add header parameter "header parameter" from response on "Request" Header "header"
+    * user add body parameter "header parameter" from response on "Request" Header "header"
+
+    * user add query parameter "header parameter" from response on "Request" Body "body.path"
+    * user add header parameter "header parameter" from response on "Request" Body "body.path"
+    * user add body parameter "header parameter" from response on "Request" Body "body.path"
+
+    * user add query parameter "header parameter" from response on "Request" Header "header" mask "-(.*)-"
+    * user add header parameter "header parameter" from response on "Request" Header "header" mask "-(.*)-"
+    * user add body parameter "header parameter" from response on "Request" Header "header" mask "-(.*)-"
+
+    * user add query parameter "header parameter" from response on "Request" Body "body.path" mask "-(.*)-"
+    * user add header parameter "header parameter" from response on "Request" Body "body.path" mask "-(.*)-"
+    * user add body parameter "header parameter" from response on "Request" Body "body.path" mask "-(.*)-"
+----
