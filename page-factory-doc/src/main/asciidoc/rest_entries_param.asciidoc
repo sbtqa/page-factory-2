@@ -1,0 +1,40 @@
+==== Параметры запроса
+===== Шаблоны
+Если тело запроса представляет собой json, то нужно создать шаблон запроса. Допустим тело запроса имеет вид:
+
+[source,]
+----
+{
+    "name": "Liza",
+    "number": "79236666666",
+}
+----
+
+Тогда шаблон (допустим, users.json файл) можно описать так:
+[source,]
+----
+{
+    "name": "${name}",
+    "number": "${number}",
+}
+----
+
+Путь до файла шаблона нужно прописать в аннотации `@Endpoint` запроса в параметре `template`. Например:
+
+[source,]
+----
+@Endpoint(method = Rest.POST, path = "user", title = "Запрос", template = "users.json")
+public class ReplacerEntry extends EndpointEntry {
+
+    @Body(name = "name")
+    private String bodyName = "Liza";
+
+    @Body(name = "number")
+    private String bodyNumber = "79236666666";
+}
+----
+
+При этом подстановка в шаблон будет выполнена по соответствию параметра `name` аннотации `@Body` и значения, обозначенного через `${}`
+
+WARNING: Путь до каталога с шаблонами указывается относительно каталога тестовых ресурсов `src/test/resources`
+

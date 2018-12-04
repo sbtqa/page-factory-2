@@ -18,29 +18,16 @@ include::web_how_to_start.asciidoc[]
 api.baseURI = http://api.com
 ----
 
-=== Описание методов API
-Для описания метода необходимо создать класс, унаследовав его от `EndpointEntry`
+include::rest_entries.asciidoc[]
+include::rest_entries_param.asciidoc[]
+include::rest_entries_examples.asciidoc[]
+
+верификация
+шаги отправки и верификации
+
+include::rest_build_request.asciidoc[]
+
+Пример??
 
 
-Параметры метода нужно задать аннотацией `@Endpoint`. С ее помощью определяются:
 
-* `method` - метод (POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD)
-* `path` - путь, относительно заданного в `api.baseURI`
-* `title` - имя метода для обращения из тестового сценария
-* `template` - шаблон запроса
-
-*__Пример:__*
-[source,]
-----
-@Endpoint(method = Rest.GET, path = "repos/sbtqa", title = "Запрос")
-public class ApiEntry extends EndpointEntry {
-...
-}
-----
-
-Путь до пакета с описанными методами необходимо прописать в файле конфигурации. Например:
-
-[source,]
-----
-api.endpoint.package = ru.sbtqa.rest
-----
