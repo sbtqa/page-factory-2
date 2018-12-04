@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.annotation.Body;
 import ru.sbtqa.tag.api.annotation.Cookie;
 import ru.sbtqa.tag.api.annotation.Endpoint;
@@ -21,6 +23,7 @@ import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.QueryApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 import static java.lang.String.format;
@@ -32,6 +35,8 @@ import static ru.sbtqa.tag.api.utils.ReflectionUtils.*;
  * It helps to apply all of the fields annotations and consists getters for this fields
  */
 public class EndpointEntryReflection {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EndpointEntryReflection.class);
 
     private EndpointEntry endpoint;
     private String entryTitle;
@@ -87,18 +92,43 @@ public class EndpointEntryReflection {
     public void setParameterValueByTitle(String name, String value) {
         for (Field field : fields) {
             for (Annotation annotation : field.getAnnotations()) {
-                if (annotation instanceof Body && ((Body) annotation).name().equals(name)
+                if ((annotation instanceof Body && ((Body) annotation).name().equals(name)
                         || annotation instanceof Query && ((Query) annotation).name().equals(name)
                         || annotation instanceof Header && ((Header) annotation).name().equals(name)
-                        || annotation instanceof Cookie && ((Cookie) annotation).name().equals(name)
-                        && value != null && !value.isEmpty()) {
+                        || annotation instanceof Cookie && ((Cookie) annotation).name().equals(name))
+                        && value != null && !value.isEmpty()
+                        && get(endpoint, field) == null) {
                     set(endpoint, field, value);
                     return;
                 }
             }
         }
 
-        throw new RestPluginException(format("There is no \"%s\" parameter in \"%s\" endpoint", name, entryTitle));
+        LOG.debug("There is no \"{}\" parameter in \"{}\" endpoint", name, entryTitle);
+    }
+
+    /**
+     * Get field value by parameter annotation name (it can be one of {@link ru.sbtqa.tag.api.annotation.ParameterType})
+     * and replace placeholders
+     *
+     * @param name placeholder
+     * @param value replace placeholder to this value
+     */
+    public void replacePlaceholdersInParameterValue(String name, String value) {
+        for (Field field : fields) {
+            for (Annotation annotation : field.getAnnotations()) {
+                Object fieldValue = get(endpoint, field);
+                if ((annotation instanceof Body
+                        || annotation instanceof Query
+                        || annotation instanceof Header
+                        || annotation instanceof Cookie)
+                        && fieldValue instanceof String) {
+                    set(endpoint, field, PlaceholderUtils.replacePlaceholder((String) fieldValue, name, value) );
+                }
+            }
+        }
+
+        LOG.debug("There is no \"{}\" parameter in \"{}\" endpoint", name, entryTitle);
     }
 
     /**
