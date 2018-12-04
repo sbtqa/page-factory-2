@@ -46,6 +46,20 @@ public class ClientJsonEndpoint {
                 .build();
     }
 
+    @GET
+    @Path("get-with-params-placeholder")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getWithParams(
+            @HeaderParam(Default.HEADER_PARAMETER_NAME_1) String header1,
+            @HeaderParam("header2") String header2,
+            @QueryParam(Default.QUERY_PARAMETER_NAME_1) String query) {
+        SimpleResult result = new SimpleResult();
+        result.setResult(query + header1 + header2);
+
+        return Response.ok(result)
+                .build();
+    }
+
     @POST
     @Path("post")
     @Consumes(MediaType.APPLICATION_JSON)
