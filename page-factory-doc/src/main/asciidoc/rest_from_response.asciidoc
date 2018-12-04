@@ -1,0 +1,29 @@
+=== Использование результатов предыдущых запросов
+{plug} позволяет использовать значения, полученные в предыдущих запросах в параметрах следующих. Для этих целей служит аннотация `@FromResponse`
+
+Парметры:
+
+* *__endpoint__* - имя запроса, из ответа на который нужно взять значение. Если не задано, то предполагется предыдущий запрос 
+
+* *__previous__* 
+* *__path__* - путь к значению в теле ответа. может быть jpath или xpath 
+* *__header__* - задает имя параметра заголовка предыдущего ответа, откуда нужно взять значение
+* *__mask__* - накладывает маску на полученное значение
+* *__optional__* - опционален параметр или нет. Если искомое значение будет не найдено при `optional = true` переменной будет присвоено значение `null`, при `optional = false` будет выброшено исключение
+
+Пример использования:
+[source,]
+----
+@Endpoint(method = Rest.GET, path = "get", title = "from response")
+public class FromResponseSecondEndpointEntry extends EndpointEntry {
+
+    // присвоит значение по имени email из body предыдущего запроса
+    // Если не найдено, то присвоит null
+    @FromResponse(path = "email", optional = true)
+    private String emailFromPreviousRequest;
+
+    // присвоит значение по имени header name from first response из header запроса FirstResponseEntry, предварительно наложив на него маску
+    @FromResponse(endpoint = FirstResponseEntry.class, header = "header name from first response", mask = Default.MASK)
+    private String header;
+}
+----
