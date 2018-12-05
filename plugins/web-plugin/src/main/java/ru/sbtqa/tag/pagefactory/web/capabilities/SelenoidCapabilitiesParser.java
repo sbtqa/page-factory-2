@@ -56,7 +56,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     }
 
     private void setCapability(String capabilityName, boolean capabilityValue) {
-        setCapability(capabilityName, String.valueOf(capabilityValue), "%s");
+        capabilities.setCapability(capabilityName, capabilityValue);
     }
 
     private void setVersion(String capabilityValue) {
