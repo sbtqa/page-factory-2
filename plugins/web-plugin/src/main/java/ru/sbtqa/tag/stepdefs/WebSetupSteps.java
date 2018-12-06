@@ -13,13 +13,9 @@ public class WebSetupSteps {
     public static synchronized void initWeb() {
         PageManager.cachePages();
 
-        if (isNewDriverNeeded()) {
+        if (Environment.isDriverEmpty()) {
             Environment.setDriverService(new WebDriverService());
         }
-    }
-
-    private static boolean isNewDriverNeeded() {
-        return Environment.isDriverEmpty();
     }
 
     public static synchronized void disposeWeb() {

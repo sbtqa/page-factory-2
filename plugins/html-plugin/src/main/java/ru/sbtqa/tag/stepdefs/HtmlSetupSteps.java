@@ -9,13 +9,9 @@ public class HtmlSetupSteps {
     private HtmlSetupSteps() {}
 
     public static void initHtml() {
-        if (isNewDriverNeeded()) {
+        if (Environment.isDriverEmpty()) {
             Environment.setDriverService(new WebDriverService());
         }
         Environment.setReflection(new HtmlReflection());
-    }
-
-    private static boolean isNewDriverNeeded() {
-        return Environment.isDriverEmpty();
     }
 }
