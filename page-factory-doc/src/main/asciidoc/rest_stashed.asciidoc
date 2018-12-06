@@ -18,7 +18,7 @@ private String stashByName = "Это запоминаемое значение";
 Stash.getValue("stashByName");
 ----
 
-Пример сзаданием имени ключа:
+Пример с заданием имени ключа:
 
 [source,]
 ----
