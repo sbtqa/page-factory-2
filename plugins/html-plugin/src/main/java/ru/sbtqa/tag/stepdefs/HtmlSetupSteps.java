@@ -1,14 +1,10 @@
 package ru.sbtqa.tag.stepdefs;
 
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 public class HtmlSetupSteps {
-
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     private HtmlSetupSteps() {}
 
@@ -20,7 +16,6 @@ public class HtmlSetupSteps {
     }
 
     private static boolean isNewDriverNeeded() {
-        return Environment.isDriverEmpty()
-                || (!Environment.isDriverEmpty() && !PROPERTIES.getShared());
+        return Environment.isDriverEmpty();
     }
 }
