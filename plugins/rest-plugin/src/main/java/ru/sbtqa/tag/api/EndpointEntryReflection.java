@@ -96,8 +96,7 @@ public class EndpointEntryReflection {
                         || annotation instanceof Query && ((Query) annotation).name().equals(name)
                         || annotation instanceof Header && ((Header) annotation).name().equals(name)
                         || annotation instanceof Cookie && ((Cookie) annotation).name().equals(name))
-                        && value != null && !value.isEmpty()
-                        && get(endpoint, field) == null) {
+                        && value != null && !value.isEmpty()) {
                     set(endpoint, field, value);
                     return;
                 }
