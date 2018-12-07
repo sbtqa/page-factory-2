@@ -17,9 +17,9 @@ public interface Page {
     }
 
     /**
-     * Get title of current page object
+     * Get url of current page object
      *
-     * @return the title
+     * @return the url
      */
     default String getUrl() {
         return this.getClass().getAnnotation(PageEntry.class).url();
