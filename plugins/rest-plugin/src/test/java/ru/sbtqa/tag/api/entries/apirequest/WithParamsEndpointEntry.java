@@ -11,6 +11,7 @@ import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
 
 import static org.hamcrest.Matchers.equalTo;
+import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
 @Endpoint(method = Rest.GET, path = "client/get-with-params", title = "api request with params test")
 public class WithParamsEndpointEntry extends EndpointEntry {
@@ -23,7 +24,7 @@ public class WithParamsEndpointEntry extends EndpointEntry {
 
     @Validation(title = "result with datatable")
     public void validate(DataTable dataTable) {
-        validate(dataTable.asMap(String.class, String.class));
+        validate(toMap(dataTable));
     }
 
     @Validation(title = "result with map")

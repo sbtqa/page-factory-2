@@ -11,6 +11,7 @@ import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
 
 import static org.hamcrest.Matchers.equalTo;
+import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
 @Endpoint(method = Rest.GET, path = "client/get-with-params-placeholder", title = "api request with params test placeholders")
 public class WithParamsPlaceholdersEndpointEntry extends EndpointEntry {
@@ -26,7 +27,7 @@ public class WithParamsPlaceholdersEndpointEntry extends EndpointEntry {
 
     @Validation(title = "result with datatable placeholders")
     public void validate(DataTable dataTable) {
-        validate(dataTable.asMap(String.class, String.class));
+        validate(toMap(dataTable));
     }
 
     @Validation(title = "result with map placeholders")
