@@ -9,15 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface PageEntry {
 
-    /**
-     *
-     * @return TODO
-     */
     String title();
         
-    /**
-     *
-     * @return TODO
-     */
     String url() default "";
 }
