@@ -20,9 +20,10 @@ public class EndpointManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(EndpointManager.class);
     private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
-    private static final Set<Class<?>> ENDPOINTS_CACHE = new HashSet<>();
+    private static final ThreadLocal<Set<Class<?>>> ENDPOINTS_CACHE = ThreadLocal.withInitial(() -> new HashSet<Class<?>>());
 
-    private EndpointManager() {}
+    private EndpointManager() {
+    }
 
     public static EndpointEntry getEndpoint(String title) {
         if (null == EndpointContext.getCurrentEndpoint() || !EndpointContext.getCurrentEndpointTitle().equals(title)) {
@@ -33,7 +34,7 @@ public class EndpointManager {
     }
 
     private static EndpointEntry getEndpointFromCache(String title) {
-        for (Class<?> entry : ENDPOINTS_CACHE) {
+        for (Class<?> entry : ENDPOINTS_CACHE.get()) {
             if (null != entry.getAnnotation(Endpoint.class)
                     && entry.getAnnotation(Endpoint.class).title().equals(title)) {
                 return bootstrapEndpoint(entry);
@@ -52,7 +53,7 @@ public class EndpointManager {
     }
 
     private static EndpointEntry getEndpointFromCache(Class endpointClass) {
-        for (Class<?> entry : ENDPOINTS_CACHE) {
+        for (Class<?> entry : ENDPOINTS_CACHE.get()) {
             if (null != entry.getAnnotation(Endpoint.class)
                     && entry.equals(endpointClass)) {
                 return bootstrapEndpoint(entry);
@@ -77,9 +78,11 @@ public class EndpointManager {
     public static void cacheEndpoints() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
+            Set<Class<?>> cache = new HashSet<>();
             for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(PROPERTIES.getEndpointsPackage())) {
-                ENDPOINTS_CACHE.add(info.load());
+                cache.add(info.load());
             }
+            ENDPOINTS_CACHE.set(cache);
         } catch (IOException ex) {
             LOG.warn("Failed to shape class info set", ex);
         }

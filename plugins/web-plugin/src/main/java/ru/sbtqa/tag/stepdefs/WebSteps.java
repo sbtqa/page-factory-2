@@ -2,12 +2,15 @@ package ru.sbtqa.tag.stepdefs;
 
 public class WebSteps extends WebGenericSteps<WebSteps> {
 
-    private static WebSteps instance;
+    static final ThreadLocal<WebSteps> storage = new ThreadLocal<WebSteps>() {
+        @Override
+        protected WebSteps initialValue() {
+            return new WebSteps();
+        }
+
+    };
 
     public static WebSteps getInstance() {
-        if (instance == null) {
-            instance = new WebSteps();
-        }
-        return instance;
+        return storage.get();
     }
 }

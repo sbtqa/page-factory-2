@@ -6,11 +6,20 @@ import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 public class HtmlSetupSteps {
 
-    private HtmlSetupSteps() {}
+    static final ThreadLocal<WebDriverService> storage = new ThreadLocal<WebDriverService>() {
+        @Override
+        protected WebDriverService initialValue() {
+            return new WebDriverService();
+        }
+
+    };
+
+    private HtmlSetupSteps() {
+    }
 
     public static void initHtml() {
         if (Environment.isDriverEmpty()) {
-            Environment.setDriverService(new WebDriverService());
+            Environment.setDriverService(storage.get());
         }
         Environment.setReflection(new HtmlReflection());
     }

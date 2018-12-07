@@ -10,44 +10,44 @@ import ru.sbtqa.tag.pagefactory.reflection.Reflection;
  */
 public class Environment {
 
-    private static DriverService driverService;
-    private static PageActions pageActions;
-    private static PageChecks pageChecks;
-    private static Reflection reflection;
+    static InheritableThreadLocal<DriverService> driverService = new InheritableThreadLocal<DriverService>();
+    static ThreadLocal<PageActions> pageActions = new ThreadLocal<>();
+    static ThreadLocal<PageChecks> pageChecks = new ThreadLocal<>();
+    static ThreadLocal<Reflection> reflection = new ThreadLocal<>();
 
     public static void setDriverService(DriverService driverService) {
-        Environment.driverService = driverService;
+        Environment.driverService.set(driverService);
     }
 
     public static DriverService getDriverService() {
-        return driverService;
+        return driverService.get();
     }
 
     public static boolean isDriverEmpty() {
-        return driverService == null || driverService.isDriverEmpty();
+        return driverService.get() == null || driverService.get().isDriverEmpty();
     }
 
     public static PageActions getPageActions() {
-        return pageActions;
+        return pageActions.get();
     }
 
     public static void setPageActions(PageActions pageActions) {
-        Environment.pageActions = pageActions;
+        Environment.pageActions.set(pageActions);
     }
 
     public static PageChecks getPageChecks() {
-        return pageChecks;
+        return pageChecks.get();
     }
 
     public static void setPageChecks(PageChecks pageChecks) {
-        Environment.pageChecks = pageChecks;
+        Environment.pageChecks.set(pageChecks);
     }
 
     public static Reflection getReflection() {
-        return reflection;
+        return reflection.get();
     }
 
     public static void setReflection(Reflection reflection) {
-        Environment.reflection = reflection;
+        Environment.reflection.set(reflection);
     }
 }

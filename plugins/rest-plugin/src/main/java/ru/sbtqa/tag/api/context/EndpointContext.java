@@ -4,25 +4,26 @@ import ru.sbtqa.tag.api.EndpointEntry;
 
 public class EndpointContext {
 
-    private static String currentEndpointTitle;
-    private static EndpointEntry currentEndpoint;
+    private static ThreadLocal<String> currentEndpointTitle = new ThreadLocal<>();
+    private static ThreadLocal<EndpointEntry> currentEndpoint = new ThreadLocal<>();
 
-    private EndpointContext() {}
+    private EndpointContext() {
+    }
 
     public static String getCurrentEndpointTitle() {
-        return currentEndpointTitle;
+        return currentEndpointTitle.get();
     }
 
     private static void setCurrentEndpointTitle(String currentEndpointTitle) {
-        EndpointContext.currentEndpointTitle = currentEndpointTitle;
+        EndpointContext.currentEndpointTitle.set(currentEndpointTitle);
     }
 
     public static EndpointEntry getCurrentEndpoint() {
-        return currentEndpoint;
+        return currentEndpoint.get();
     }
 
     public static void setCurrentEndpoint(EndpointEntry currentEndpoint) {
-        EndpointContext.currentEndpoint = currentEndpoint;
+        EndpointContext.currentEndpoint.set(currentEndpoint);
         EndpointContext.setCurrentEndpointTitle(currentEndpoint.getTitle());
     }
 }

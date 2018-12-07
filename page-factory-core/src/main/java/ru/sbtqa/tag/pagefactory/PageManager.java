@@ -29,13 +29,16 @@ import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 public class PageManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageManager.class);
-    private static final Map<Class<? extends Page>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
+
+    private static final ThreadLocal<Map<Class<? extends Page>, Map<Field, String>>> PAGES_REPOSITORY
+            = ThreadLocal.withInitial(() -> new HashMap<Class<? extends Page>, Map<Field, String>>());
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-    private PageManager() {}
+    private PageManager() {
+    }
 
     public static Map<Class<? extends Page>, Map<Field, String>> getPageRepository() {
-        return PAGES_REPOSITORY;
+        return PAGES_REPOSITORY.get();
     }
 
     /**
@@ -44,7 +47,8 @@ public class PageManager {
      *
      * @param title a page title
      * @return the page instance
-     * @throws PageInitializationException if failed to execute corresponding page constructor
+     * @throws PageInitializationException if failed to execute corresponding
+     * page constructor
      */
     public static Page getPage(String title) throws PageInitializationException {
         if (null == PageContext.getCurrentPage()
@@ -60,14 +64,15 @@ public class PageManager {
      *
      * @param pageClass a page class
      * @return the page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
+     * @throws PageInitializationException if failed to execute corresponding
+     * page constructor
      */
     public static Page getPage(Class<? extends Page> pageClass) throws PageInitializationException {
         Page page = bootstrapPage(pageClass);
-            if (page == null) {
-                throw new AutotestError("Page object with title '" + pageClass + "' is not registered");
-            }
-            PageContext.setCurrentPage(page);
+        if (page == null) {
+            throw new AutotestError("Page object with title '" + pageClass + "' is not registered");
+        }
+        PageContext.setCurrentPage(page);
         return page;
     }
 
@@ -77,7 +82,8 @@ public class PageManager {
      *
      * @param page a page class
      * @return the initialized page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
+     * @throws PageInitializationException if failed to execute corresponding
+     * page constructor
      */
     private static Page bootstrapPage(Class<?> page) throws PageInitializationException {
         if (page != null) {
@@ -85,7 +91,7 @@ public class PageManager {
                 @SuppressWarnings("unchecked")
                 Constructor<Page> constructor = ((Constructor<Page>) page.getConstructor());
                 constructor.setAccessible(true);
-                return  constructor.newInstance();
+                return constructor.newInstance();
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new PageInitializationException("Failed to initialize page '" + page + "'", e);
             }
@@ -98,7 +104,7 @@ public class PageManager {
      * @return the page class
      */
     private static Class<? extends Page> getPageClass(String title) {
-        for (Map.Entry<Class<? extends Page>, Map<Field, String>> pageEntry : PAGES_REPOSITORY.entrySet()) {
+        for (Map.Entry<Class<? extends Page>, Map<Field, String>> pageEntry : PAGES_REPOSITORY.get().entrySet()) {
             Class<? extends Page> page = pageEntry.getKey();
             String pageTitle = null;
             if (null != page.getAnnotation(PageEntry.class)) {
@@ -121,9 +127,10 @@ public class PageManager {
     /**
      * Redirect to Page by Page Entry url value
      *
-     * @param title  a page title
+     * @param title a page title
      * @return the page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
+     * @throws PageInitializationException if failed to execute corresponding
+     * page constructor
      */
     public static Page changeUrlByTitle(String title) throws PageInitializationException {
 
@@ -173,7 +180,7 @@ public class PageManager {
                 }
             }
 
-            PAGES_REPOSITORY.put((Class<? extends Page>) page, fieldsMap);
+            PAGES_REPOSITORY.get().put((Class<? extends Page>) page, fieldsMap);
         }
     }
 

@@ -4,26 +4,26 @@ import ru.sbtqa.tag.pagefactory.Page;
 
 public class PageContext {
 
-    private static String currentPageTitle;
-    private static Page currentPage;
+    static ThreadLocal<String> currentPageTitle = new ThreadLocal<>();
+    static ThreadLocal<Page> currentPage = new ThreadLocal<>();
 
     private PageContext() {
     }
 
     public static String getCurrentPageTitle() {
-        return currentPageTitle;
+        return currentPageTitle.get();
     }
 
     private static void setCurrentPageTitle(String currentPageTitle) {
-        PageContext.currentPageTitle = currentPageTitle;
+        PageContext.currentPageTitle.set(currentPageTitle);
     }
 
     public static Page getCurrentPage() {
-        return currentPage;
+        return currentPage.get();
     }
 
     public static void setCurrentPage(Page currentPage) {
-        PageContext.currentPage = currentPage;
+        PageContext.currentPage.set(currentPage);
         PageContext.setCurrentPageTitle(currentPage.getTitle());
     }
 }

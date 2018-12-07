@@ -8,13 +8,22 @@ import ru.sbtqa.tag.pagefactory.web.tasks.KillAlertTask;
 
 public class WebSetupSteps {
 
-    private WebSetupSteps() {}
+    static final ThreadLocal<WebDriverService> storage = new ThreadLocal<WebDriverService>() {
+        @Override
+        protected WebDriverService initialValue() {
+            return new WebDriverService();
+        }
+
+    };
+
+    private WebSetupSteps() {
+    }
 
     public static synchronized void initWeb() {
         PageManager.cachePages();
 
         if (Environment.isDriverEmpty()) {
-            Environment.setDriverService(new WebDriverService());
+            Environment.setDriverService(storage.get());
         }
     }
 

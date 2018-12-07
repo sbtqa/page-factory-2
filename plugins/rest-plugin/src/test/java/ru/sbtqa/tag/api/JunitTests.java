@@ -20,18 +20,16 @@ import static com.google.common.net.MediaType.JSON_UTF_8;
 public class JunitTests {
 
     private static Server server;
-    private static ApiSteps api;
 
     @BeforeClass
     public static void setupClass() {
         server = JettyServiceUtils.startJetty();
-        api = ApiSteps.getInstance();
     }
 
     @Test
     public void simpleGetTest() {
-        api.send("get with json").validate("default client");
-        api.send(GetEndpointEntry.class).validate();
+        ApiSteps.getInstance().send("get with json").validate("default client");
+        ApiSteps.getInstance().send(GetEndpointEntry.class).validate();
     }
 
     @Test
@@ -40,7 +38,7 @@ public class JunitTests {
         parameters.put("query-parameter-name-1", "query-parameter-value-1");
         parameters.put("header-parameter-name-1", "header-parameter-value-1");
 
-        api.send(WithParamsEndpointEntry.class, parameters)
+        ApiSteps.getInstance().send(WithParamsEndpointEntry.class, parameters)
                 .validate("result with map", parameters);
     }
 
@@ -57,7 +55,7 @@ public class JunitTests {
         resultParameters.put("header-parameter-name-1", "[{\"value\":\"parameter-value-2\", \"visible\":true, \"name\":\"Alex\"}]");
         resultParameters.put("header2", "header-value-2");
 
-        api.send(WithParamsPlaceholdersEndpointEntry.class, parameters)
+        ApiSteps.getInstance().send(WithParamsPlaceholdersEndpointEntry.class, parameters)
                 .validate("result with map placeholders", resultParameters);
     }
 
@@ -75,7 +73,7 @@ public class JunitTests {
         bodies.put("name", "Default_person");
         bodies.put("email", "default_person@google.com");
 
-        api.fill(FirstRequestFromFeatureEntry.class)
+        ApiSteps.getInstance().fill(FirstRequestFromFeatureEntry.class)
                 .add(ParameterType.HEADER, CONTENT_TYPE, JSON_UTF_8.toString())
                 .add(ParameterType.HEADER, headers)
                 .add(ParameterType.QUERY, "query-parameter-name-1", "query-parameter-value-1")
@@ -90,3 +88,4 @@ public class JunitTests {
         server.stop();
     }
 }
+
