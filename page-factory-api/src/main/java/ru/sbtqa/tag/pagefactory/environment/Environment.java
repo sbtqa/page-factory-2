@@ -48,6 +48,8 @@ public class Environment {
     }
 
     public static void setReflection(Reflection reflection) {
-        Environment.reflection.set(reflection);
+        if (Environment.reflection.get() == null || !reflection.getClass().isAssignableFrom(Environment.reflection.get().getClass())) {
+              Environment.reflection.set(reflection);
+        }
     }
 }

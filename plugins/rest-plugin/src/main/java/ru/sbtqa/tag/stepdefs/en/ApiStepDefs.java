@@ -40,7 +40,7 @@ public class ApiStepDefs extends ApiSteps {
      */
     @And("^user sends request (?:for|to|about) \"([^\"]*)\" with parameters:?$")
     public ApiSteps send(String endpoint, DataTable dataTable) {
-        return super.send(endpoint, dataTable.asMap(String.class, String.class));
+        return super.send(endpoint, toMap(dataTable));
     }
 
     /**

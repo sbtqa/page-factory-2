@@ -43,7 +43,7 @@ public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {
      */
     @И("^(?:пользователь |он )?отправляет запрос \"([^\"]*)\" с параметрами:?$")
     public ApiSteps send(String endpoint, DataTable dataTable) {
-        return super.send(endpoint, dataTable.asMap(String.class, String.class));
+        return super.send(endpoint, toMap(dataTable));
     }
 
     /**
