@@ -6,9 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
@@ -111,19 +109,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      */
     public T goToUrl(String url) {
         Environment.getDriverService().getDriver().get(url);
-        return (T) this;
-    }
-
-    /**
-     * Initialize a page with corresponding URL
-     *
-     * @param url value of the
-     * {@link ru.sbtqa.tag.pagefactory.annotations.PageEntry#url} to search for
-     * @throws PageInitializationException if page with corresponding URL is
-     * absent or couldn't be initialized
-     */
-    public T goToPageByUrl(String url) throws PageInitializationException {
-        PageManager.changeUrlByTitle(url);
         return (T) this;
     }
 

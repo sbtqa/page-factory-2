@@ -4,7 +4,6 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
-import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.stepdefs.WebGenericSteps;
 import ru.sbtqa.tag.stepdefs.WebSetupSteps;
@@ -71,18 +70,9 @@ public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
      * {@inheritDoc}
      */
     @Override
-    @And("^user navigates to page \"([^\"]*)\"$")
+    @And("^user navigates to url \"([^\"]*)\"$")
     public WebStepDefs goToUrl(String url) {
         return super.goToUrl(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @And("^user navigates to url \"([^\"]*)\"$")
-    public WebStepDefs goToPageByUrl(String url) throws PageInitializationException {
-        return super.goToPageByUrl(url);
     }
 
     /**

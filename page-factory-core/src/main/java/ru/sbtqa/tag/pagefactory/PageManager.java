@@ -65,7 +65,7 @@ public class PageManager {
             throw new AutotestError("Page object with title '" + pageClass + "' is not registered");
         }
         PageContext.setCurrentPage(page);
-        Environment.getDriverService().getDriver().get(url);
+        setUrl(page.getUrl());
 
         return page;
     }
@@ -113,44 +113,11 @@ public class PageManager {
         return null;
     }
 
-//    /**
-//     * Redirect to Page by Page Entry url value
-//     *
-//     * @param title  a page title
-//     * @return the page object
-//     * @throws PageInitializationException if failed to execute corresponding page constructor
-//     */
-//    public static Page changeUrlByTitle(String title) throws PageInitializationException {
-//
-//        Class<?> pageClass = getPageClass(title);
-//        if (pageClass == null) {
-//            return null;
-//        }
-//
-//        Annotation annotation = pageClass.getAnnotation(PageEntry.class);
-//        String currentUrl = Environment.getDriverService().getDriver().getCurrentUrl();
-//        if (annotation != null && !((PageEntry) annotation).url().isEmpty()) {
-//            if (currentUrl == null) {
-//                throw new AutotestError("Current URL is null");
-//            } else {
-//                try {
-//                    URL newUrl = new URL(currentUrl);
-//                    String finalUrl = new URL(newUrl.getProtocol(), newUrl.getHost(), newUrl.getPort(),
-//                            ((PageEntry) annotation).url()).toString();
-//                    Environment.getDriverService().getDriver().navigate().to(finalUrl);
-//                } catch (MalformedURLException ex) {
-//                    LOG.error("Failed to get current url", ex);
-//                }
-//            }
-//
-//            Page page = bootstrapPage(pageClass);
-//            PageContext.setCurrentPage(page);
-//
-//            return page;
-//        }
-//
-//        throw new AutotestError("Page " + title + " doesn't have fast URL in PageEntry");
-//    }
+    private static void setUrl(String url) {
+        if (!url.isEmpty()) {
+            Environment.getDriverService().getDriver().get(url);
+        }
+    }
 
     public static void cachePages() {
         Set<Class<?>> allClasses = new HashSet();
