@@ -13,11 +13,11 @@ public @interface PageEntry {
      *
      * @return TODO
      */
-    public String title();
+    String title();
         
     /**
      *
      * @return TODO
      */
-    public String url() default "";
+    String url() default "";
 }

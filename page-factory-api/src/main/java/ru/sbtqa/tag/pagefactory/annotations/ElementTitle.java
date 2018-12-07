@@ -18,5 +18,5 @@ public @interface ElementTitle {
      *
      * @return a {@link String} object.
      */
-    public String value();
+    String value();
     }

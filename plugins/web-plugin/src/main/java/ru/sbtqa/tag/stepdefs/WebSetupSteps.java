@@ -6,15 +6,11 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 import ru.sbtqa.tag.pagefactory.web.tasks.KillAlertTask;
 
+import static java.lang.ThreadLocal.*;
+
 public class WebSetupSteps {
 
-    static final ThreadLocal<WebDriverService> storage = new ThreadLocal<WebDriverService>() {
-        @Override
-        protected WebDriverService initialValue() {
-            return new WebDriverService();
-        }
-
-    };
+    static final ThreadLocal<WebDriverService> storage = withInitial(WebDriverService::new);
 
     private WebSetupSteps() {
     }

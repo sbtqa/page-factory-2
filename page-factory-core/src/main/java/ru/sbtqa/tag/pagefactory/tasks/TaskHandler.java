@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TaskHandler {
 
-    private static ThreadLocal<List<Task>> tasks = ThreadLocal.withInitial(() -> new ArrayList<Task>());
+    private static ThreadLocal<List<Task>> tasks = ThreadLocal.withInitial(ArrayList::new);
 
     private TaskHandler() {
     }

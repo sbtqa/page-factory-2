@@ -11,6 +11,8 @@ import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.storage.EndpointBlank;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
 
+import static java.lang.ThreadLocal.*;
+
 /**
  * Basic step definitions, that should be available on every project
  *
@@ -35,13 +37,7 @@ public class ApiSteps extends ApiSetupSteps {
         initApi();
     }
 
-    static final ThreadLocal<ApiSteps> storage = new ThreadLocal<ApiSteps>() {
-        @Override
-        protected ApiSteps initialValue() {
-            return new ApiSteps();
-        }
-
-    };
+    static final ThreadLocal<ApiSteps> storage = withInitial(ApiSteps::new);
 
     public static ApiSteps getInstance() {
         return storage.get();

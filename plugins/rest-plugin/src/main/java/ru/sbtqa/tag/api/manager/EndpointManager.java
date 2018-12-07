@@ -20,7 +20,7 @@ public class EndpointManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(EndpointManager.class);
     private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
-    private static final ThreadLocal<Set<Class<?>>> ENDPOINTS_CACHE = ThreadLocal.withInitial(() -> new HashSet<Class<?>>());
+    private static final ThreadLocal<Set<Class<?>>> ENDPOINTS_CACHE = ThreadLocal.withInitial(HashSet::new);
 
     private EndpointManager() {
     }

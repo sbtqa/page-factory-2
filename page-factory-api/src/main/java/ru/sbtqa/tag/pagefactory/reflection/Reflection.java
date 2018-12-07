@@ -67,7 +67,7 @@ public interface Reflection {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if failed to
      * find corresponding element or element type is set incorrectly
      */
-    <T extends Object> T getElementByTitle(Page page, String title) throws PageException;
+    <T> T getElementByTitle(Page page, String title) throws PageException;
 
 
     /**

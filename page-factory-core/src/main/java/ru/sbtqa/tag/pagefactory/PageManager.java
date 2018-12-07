@@ -31,7 +31,7 @@ public class PageManager {
     private static final Logger LOG = LoggerFactory.getLogger(PageManager.class);
 
     private static final ThreadLocal<Map<Class<? extends Page>, Map<Field, String>>> PAGES_REPOSITORY
-            = ThreadLocal.withInitial(() -> new HashMap<Class<? extends Page>, Map<Field, String>>());
+            = ThreadLocal.withInitial(HashMap::new);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
     private PageManager() {
@@ -43,7 +43,7 @@ public class PageManager {
 
     /**
      * Initialize page with specified title and save its instance to
-     * {@link PageContext#currentPage} for further use
+     * {@link PageContext#getCurrentPage()} for further use
      *
      * @param title a page title
      * @return the page instance
@@ -78,7 +78,7 @@ public class PageManager {
 
     /**
      * Run constructor of specified page class and put its instance into static
-     * {@link PageContext#currentPage} variable
+     * {@link PageContext#getCurrentPage()} variable
      *
      * @param page a page class
      * @return the initialized page object
@@ -113,7 +113,7 @@ public class PageManager {
                 try {
                     pageTitle = (String) FieldUtils.readStaticField(page, "title", true);
                 } catch (IllegalArgumentException | IllegalAccessException ex) {
-                    LOG.debug("Failed to read {} becase it is not page object", pageTitle, ex);
+                    LOG.debug("Failed to read {} because it is not page object", title, ex);
                 }
             }
             if (pageTitle != null && pageTitle.equals(title)) {
@@ -139,16 +139,16 @@ public class PageManager {
             return null;
         }
 
-        Annotation annotation = pageClass.getAnnotation(PageEntry.class);
+        PageEntry annotation = pageClass.getAnnotation(PageEntry.class);
         String currentUrl = Environment.getDriverService().getDriver().getCurrentUrl();
-        if (annotation != null && !((PageEntry) annotation).url().isEmpty()) {
+        if (annotation != null && !annotation.url().isEmpty()) {
             if (currentUrl == null) {
                 throw new AutotestError("Current URL is null");
             } else {
                 try {
                     URL newUrl = new URL(currentUrl);
                     String finalUrl = new URL(newUrl.getProtocol(), newUrl.getHost(), newUrl.getPort(),
-                            ((PageEntry) annotation).url()).toString();
+                            annotation.url()).toString();
                     Environment.getDriverService().getDriver().navigate().to(finalUrl);
                 } catch (MalformedURLException ex) {
                     LOG.error("Failed to get current url", ex);
@@ -165,10 +165,7 @@ public class PageManager {
     }
 
     public static void cachePages() {
-        Set<Class<?>> allClasses = new HashSet();
-        allClasses.addAll(getAllClasses());
-
-        for (Class<?> page : allClasses) {
+        for (Class<?> page : getAllClasses()) {
             List<Field> fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(page);
             Map<Field, String> fieldsMap = new HashMap<>();
             for (Field field : fields) {
