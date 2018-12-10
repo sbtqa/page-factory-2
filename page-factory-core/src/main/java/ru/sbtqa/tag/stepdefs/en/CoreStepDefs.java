@@ -103,7 +103,7 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
      * {@inheritDoc}
      */
     @Override
-    @When("^user fills the field \"([^\"]*)\" (?:with value)?$")
+    @When("^user fills the field \"([^\"]*)\"(?: with value)?$")
     @And("^user fills the field \"([^\"]*)\" (?:with value )?\"([^\"]*)\"$")
     public CoreStepDefs fill(String elementTitle, String text) throws PageException {
         return super.fill(elementTitle, text);

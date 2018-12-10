@@ -5,10 +5,9 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import cucumber.api.java.ru.И;
-import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.stepdefs.WebSetupSteps;
 import ru.sbtqa.tag.stepdefs.WebGenericSteps;
+import ru.sbtqa.tag.stepdefs.WebSetupSteps;
 
 public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
 
@@ -71,18 +70,9 @@ public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он )?переходит на страницу \"([^\"]*)\" по ссылке$")
+    @И("^(?:пользователь |он )?(?:переходит на|открывает) url \"([^\"]*)\"$")
     public WebStepDefs goToUrl(String url) {
         return super.goToUrl(url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @И("^(?:пользователь |он )?(?:переходит на|открывает) url \"([^\"]*)\"$")
-    public WebStepDefs goToPageByUrl(String url) throws PageInitializationException {
-        return super.goToPageByUrl(url);
     }
 
     /**

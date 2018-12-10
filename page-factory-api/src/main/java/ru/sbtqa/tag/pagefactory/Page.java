@@ -15,4 +15,13 @@ public interface Page {
     default String getTitle() {
         return this.getClass().getAnnotation(PageEntry.class).title();
     }
+
+    /**
+     * Get url of current page object
+     *
+     * @return the url
+     */
+    default String getUrl() {
+        return this.getClass().getAnnotation(PageEntry.class).url();
+    }
 }
