@@ -103,7 +103,7 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
      * {@inheritDoc}
      */
     @Override
-    @И("^(?:пользователь |он )?заполняет поле \"([^\"]*)\" (?:значением)?$")
+    @И("^(?:пользователь |он )?заполняет поле \"([^\"]*)\"(?: значением)?$")
     @Когда("^(?:пользователь |он )?заполняет поле \"([^\"]*)\" (?:значением )?\"([^\"]*)\"$")
     public CoreStepDefs fill(String elementTitle, String text) throws PageException {
         return super.fill(elementTitle, text);
