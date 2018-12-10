@@ -33,8 +33,6 @@ import ru.yandex.qatools.htmlelements.element.*;
  * documentation</a>
  *
  *
- *
- *
  * Step Definitions for html-plugin.
  * Common action with pages describes by html-elements.
  */
