@@ -26,22 +26,26 @@ import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 public class PageManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageManager.class);
-    private static final Map<Class<? extends Page>, Map<Field, String>> PAGES_REPOSITORY = new HashMap<>();
+
+    private static final ThreadLocal<Map<Class<? extends Page>, Map<Field, String>>> PAGES_REPOSITORY
+            = ThreadLocal.withInitial(HashMap::new);
     private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
 
-    private PageManager() {}
+    private PageManager() {
+    }
 
     public static Map<Class<? extends Page>, Map<Field, String>> getPageRepository() {
-        return PAGES_REPOSITORY;
+        return PAGES_REPOSITORY.get();
     }
 
     /**
      * Initialize page with specified title and save its instance to
-     * {@link PageContext#currentPage} for further use
+     * {@link PageContext#getCurrentPage()} for further use
      *
      * @param title a page title
      * @return the page instance
-     * @throws PageInitializationException if failed to execute corresponding page constructor
+     * @throws PageInitializationException if failed to execute corresponding
+     * page constructor
      */
     public static Page getPage(String title) throws PageInitializationException {
         if (null == PageContext.getCurrentPage()
@@ -57,7 +61,8 @@ public class PageManager {
      *
      * @param pageClass a page class
      * @return the page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
+     * @throws PageInitializationException if failed to execute corresponding
+     * page constructor
      */
     public static Page getPage(Class<? extends Page> pageClass) throws PageInitializationException {
         Page page = bootstrapPage(pageClass);
@@ -72,11 +77,12 @@ public class PageManager {
 
     /**
      * Run constructor of specified page class and put its instance into static
-     * {@link PageContext#currentPage} variable
+     * {@link PageContext#getCurrentPage()} variable
      *
      * @param page a page class
      * @return the initialized page object
-     * @throws PageInitializationException if failed to execute corresponding page constructor
+     * @throws PageInitializationException if failed to execute corresponding
+     * page constructor
      */
     private static Page bootstrapPage(Class<?> page) throws PageInitializationException {
         if (page != null) {
@@ -93,7 +99,7 @@ public class PageManager {
     }
 
     private static Class<? extends Page> getPageClass(String title) {
-        for (Map.Entry<Class<? extends Page>, Map<Field, String>> pageEntry : PAGES_REPOSITORY.entrySet()) {
+        for (Map.Entry<Class<? extends Page>, Map<Field, String>> pageEntry : PAGES_REPOSITORY.get().entrySet()) {
             Class<? extends Page> page = pageEntry.getKey();
             String pageTitle = null;
             if (null != page.getAnnotation(PageEntry.class)) {
@@ -102,7 +108,7 @@ public class PageManager {
                 try {
                     pageTitle = (String) FieldUtils.readStaticField(page, "title", true);
                 } catch (IllegalArgumentException | IllegalAccessException ex) {
-                    LOG.debug("Failed to read {} becase it is not page object", pageTitle, ex);
+                    LOG.debug("Failed to read {} because it is not page object", title, ex);
                 }
             }
             if (pageTitle != null && pageTitle.equals(title)) {
@@ -120,10 +126,7 @@ public class PageManager {
     }
 
     public static void cachePages() {
-        Set<Class<?>> allClasses = new HashSet();
-        allClasses.addAll(getAllClasses());
-
-        for (Class<?> page : allClasses) {
+        for (Class<?> page : getAllClasses()) {
             List<Field> fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(page);
             Map<Field, String> fieldsMap = new HashMap<>();
             for (Field field : fields) {
@@ -135,7 +138,7 @@ public class PageManager {
                 }
             }
 
-            PAGES_REPOSITORY.put((Class<? extends Page>) page, fieldsMap);
+            PAGES_REPOSITORY.get().put((Class<? extends Page>) page, fieldsMap);
         }
     }
 

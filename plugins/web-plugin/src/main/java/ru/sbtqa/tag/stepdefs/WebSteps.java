@@ -1,13 +1,12 @@
 package ru.sbtqa.tag.stepdefs;
 
+import static java.lang.ThreadLocal.*;
+
 public class WebSteps extends WebGenericSteps<WebSteps> {
 
-    private static WebSteps instance;
+    static final ThreadLocal<WebSteps> storage = withInitial(WebSteps::new);
 
     public static WebSteps getInstance() {
-        if (instance == null) {
-            instance = new WebSteps();
-        }
-        return instance;
+        return storage.get();
     }
 }

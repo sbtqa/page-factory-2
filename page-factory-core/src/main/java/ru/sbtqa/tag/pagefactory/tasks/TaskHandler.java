@@ -5,18 +5,19 @@ import java.util.List;
 
 public class TaskHandler {
 
-    private static List<Task> tasks = new ArrayList<>();
+    private static ThreadLocal<List<Task>> tasks = ThreadLocal.withInitial(ArrayList::new);
 
-    private TaskHandler() {}
+    private TaskHandler() {
+    }
 
     public static void addTask(Task task) {
-        tasks.add(task);
+        tasks.get().add(task);
     }
 
     public static void handleTasks() {
-        for (Task task : tasks) {
+        for (Task task : tasks.get()) {
             task.handle();
         }
-        tasks.clear();
+        tasks.get().clear();
     }
 }

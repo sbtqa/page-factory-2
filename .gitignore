@@ -11,3 +11,5 @@
 **/.factorypath
 **/.settings/
 .vscode/
+**/.attach_pid*
+.attach_pid*

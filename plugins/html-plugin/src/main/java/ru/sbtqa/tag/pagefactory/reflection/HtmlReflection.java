@@ -398,7 +398,7 @@ public class HtmlReflection extends DefaultReflection {
      * @param <T> supposed type of the field. if field cannot be cast into this type, it will fail
      * @param page the page on which the method will be executed
      * @param title a {@link String} object.
-     * @return a {@link org.openqa.selenium.WebElement} object.
+     * @return a {@link WebElement} object.
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if nothing found or current page is not initialized
      */
     @SuppressWarnings(value = "unchecked")

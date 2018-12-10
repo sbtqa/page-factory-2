@@ -32,7 +32,7 @@ public class FromResponseSecondEndpointEntry extends EndpointEntry {
         Assert.assertEquals(Default.EMAIL, emailFromPreviousRequest);
         Assert.assertEquals(Default.EMAIL, emailFromSpecifiedRequest);
         Assert.assertEquals(Default.HEADER_PARAMETER_VALUE_1, firstHeaderValue);
-        Assert.assertEquals(null, nonexistent);
+        Assert.assertNull(nonexistent);
 
         String expectedMaskedValue = RegexUtils.getFirstMatcherGroup(Default.EMAIL, Default.MASK);
         Assert.assertEquals(expectedMaskedValue, maskedValue);

@@ -6,22 +6,22 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 
 public class ApiEnvironment extends Environment {
 
-    private static Repository repository;
-    private static BlankStorage blankStorage;
+    private static final ThreadLocal<Repository> repository = new ThreadLocal<>();
+    private static final ThreadLocal<BlankStorage> blankStorage = new ThreadLocal<>();
 
     public static void setRepository(Repository repository) {
-        ApiEnvironment.repository = repository;
+        ApiEnvironment.repository.set(repository);
     }
 
     public static Repository getRepository() {
-        return repository;
+        return repository.get();
     }
 
     public static BlankStorage getBlankStorage() {
-        return blankStorage;
+        return blankStorage.get();
     }
 
     public static void setBlankStorage(BlankStorage blankStorage) {
-        ApiEnvironment.blankStorage = blankStorage;
+        ApiEnvironment.blankStorage.set(blankStorage);
     }
 }

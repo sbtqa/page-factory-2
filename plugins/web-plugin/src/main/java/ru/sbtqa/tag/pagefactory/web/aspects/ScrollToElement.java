@@ -24,7 +24,7 @@ public class ScrollToElement {
     }
 
     @Around("isScrollToElementEnabled()")
-    public void highlight(ProceedingJoinPoint joinPoint) throws Throwable {
+    public void highlight(ProceedingJoinPoint joinPoint) {
         WebElement webElement = (WebElement) joinPoint.getTarget();
         WebDriver webDriver = Environment.getDriverService().getDriver();
 

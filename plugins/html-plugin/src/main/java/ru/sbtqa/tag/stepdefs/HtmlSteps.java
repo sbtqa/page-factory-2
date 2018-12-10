@@ -2,12 +2,9 @@ package ru.sbtqa.tag.stepdefs;
 
 public class HtmlSteps extends HtmlGenericSteps<HtmlSteps> {
 
-    private static HtmlSteps instance;
+    static final ThreadLocal<HtmlSteps> storage = ThreadLocal.withInitial(HtmlSteps::new);
 
     public static HtmlSteps getInstance() {
-        if (instance == null) {
-            instance = new HtmlSteps();
-        }
-        return instance;
+        return storage.get();
     }
 }
