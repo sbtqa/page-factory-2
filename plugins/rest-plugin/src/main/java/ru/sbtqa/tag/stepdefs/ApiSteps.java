@@ -11,6 +11,8 @@ import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.storage.EndpointBlank;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
 
+import static java.lang.ThreadLocal.*;
+
 /**
  * Basic step definitions, that should be available on every project
  *
@@ -31,21 +33,19 @@ import ru.sbtqa.tag.api.utils.FromResponseUtils;
  */
 public class ApiSteps extends ApiSetupSteps {
 
-    private static ApiSteps instance;
-
     public ApiSteps() {
         initApi();
     }
 
+    static final ThreadLocal<ApiSteps> storage = withInitial(ApiSteps::new);
+
     public static ApiSteps getInstance() {
-        if (instance == null) {
-            instance = new ApiSteps();
-        }
-        return instance;
+        return storage.get();
     }
 
     /**
-     * Execute the last endpoint (request) in {@link BlankStorage} with no parameters.
+     * Execute the last endpoint (request) in {@link BlankStorage} with no
+     * parameters.
      */
     public ApiSteps send() {
         String endpoint = ApiEnvironment.getBlankStorage().getLast().getTitle();
@@ -74,7 +74,8 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Execute endpoint endpoint (request) with parameters from given {@link Map}
+     * Execute endpoint endpoint (request) with parameters from given
+     * {@link Map}
      *
      * @param endpoint name value of the endpoint annotation to execute
      * @param data table of parameters
@@ -85,7 +86,8 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Execute endpoint endpoint (request) with parameters from given {@link Map}
+     * Execute endpoint endpoint (request) with parameters from given
+     * {@link Map}
      *
      * @param endpoint class of the endpoint annotation to execute
      * @param data table of parameters
@@ -96,15 +98,16 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Execute a validation rule annotated by {@link Validation} on current endpoint.
-     * Works if endpoint contains only one validation rule
+     * Execute a validation rule annotated by {@link Validation} on current
+     * endpoint. Works if endpoint contains only one validation rule
      */
     public void validate() {
         EndpointContext.getCurrentEndpoint().validate();
     }
 
     /**
-     * Execute a validation rule annotated by {@link Validation} on current endpoint
+     * Execute a validation rule annotated by {@link Validation} on current
+     * endpoint
      *
      * @param rule name of the validation rule (name value of the
      * {@link Validation} annotation)
@@ -114,12 +117,14 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Execute a validation rule annotated by {@link Validation} on current endpoint
-     * with parameters from given {@link Map}
+     * Execute a validation rule annotated by {@link Validation} on current
+     * endpoint with parameters from given {@link Map}
      *
-     * @param rule name of the validation rule (name value of the {@link Validation} annotation)
+     * @param rule name of the validation rule (name value of the
+     * {@link Validation} annotation)
      * @param data map of parameters
-     * @throws RestPluginException if there is an error while validation rule executing
+     * @throws RestPluginException if there is an error while validation rule
+     * executing
      */
     public void validate(String rule, Map<String, String> data) {
         EndpointContext.getCurrentEndpoint().validate(rule, data);
@@ -145,7 +150,8 @@ public class ApiSteps extends ApiSetupSteps {
      *
      * @param parameterType {@link ParameterType} of parameter
      * @param name with this name the parameter will be added to endpoint blank
-     * @param value with this value the parameter will be added to endpoint blank
+     * @param value with this value the parameter will be added to endpoint
+     * blank
      */
     public ApiSteps add(String parameterType, String name, String value) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
@@ -157,7 +163,8 @@ public class ApiSteps extends ApiSetupSteps {
      *
      * @param type {@link ParameterType} of parameter
      * @param name with this name the parameter will be added to endpoint blank
-     * @param value with this value the parameter will be added to endpoint blank
+     * @param value with this value the parameter will be added to endpoint
+     * blank
      */
     public ApiSteps add(ParameterType type, String name, String value) {
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, name, value);
@@ -178,11 +185,13 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
-     * Get value from body of one of the previous responses
+     * Add parameter with {@link ParameterType} to the last endpoint blank in
+     * {@link BlankStorage}. Get value from body of one of the previous
+     * responses
      *
      * @param parameterType {@link ParameterType} of parameter
-     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param parameterName with this name the parameter will be added to
+     * endpoint blank
      * @param fromEndpointTitle get response with this title
      * @param path get value from body by this path
      */
@@ -192,11 +201,13 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
-     * Get value from body of one of the previous responses
+     * Add parameter with {@link ParameterType} to the last endpoint blank in
+     * {@link BlankStorage}. Get value from body of one of the previous
+     * responses
      *
      * @param parameterType {@link ParameterType} of parameter
-     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param parameterName with this name the parameter will be added to
+     * endpoint blank
      * @param fromEndpointTitle get response with this title
      * @param path get value from body by this path
      * @param mask apply mask on this value
@@ -211,11 +222,13 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
-     * Get value from header of one of the previous responses
+     * Add parameter with {@link ParameterType} to the last endpoint blank in
+     * {@link BlankStorage}. Get value from header of one of the previous
+     * responses
      *
      * @param parameterType {@link ParameterType} of parameter to add
-     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param parameterName with this name the parameter will be added to
+     * endpoint blank
      * @param fromEndpointTitle get response with this title
      * @param headerName get value from header with this name
      */
@@ -225,11 +238,13 @@ public class ApiSteps extends ApiSetupSteps {
     }
 
     /**
-     * Add parameter with {@link ParameterType} to the last endpoint blank in {@link BlankStorage}.
-     * Get value from header of one of the previous responses
+     * Add parameter with {@link ParameterType} to the last endpoint blank in
+     * {@link BlankStorage}. Get value from header of one of the previous
+     * responses
      *
      * @param parameterType {@link ParameterType} of parameter to add
-     * @param parameterName with this name the parameter will be added to endpoint blank
+     * @param parameterName with this name the parameter will be added to
+     * endpoint blank
      * @param fromEndpointTitle get response with this title
      * @param headerName get value from header with this name
      * @param mask apply mask on this value

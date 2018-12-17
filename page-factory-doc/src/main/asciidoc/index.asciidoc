@@ -8,5 +8,4 @@ image::images/structure.png[]
 
 include::web-plugin.asciidoc[Web plugin]
 include::html-plugin.asciidoc[Html plugin]
-include::3_rest-plugin.asciidoc[Rest plugin]
-include::4_mobile_plugin.asciidoc[Mobile plugin]
+include::rest-plugin.asciidoc[Rest plugin]

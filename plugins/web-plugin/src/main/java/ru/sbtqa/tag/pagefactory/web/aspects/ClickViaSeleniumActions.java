@@ -22,7 +22,7 @@ public class ClickViaSeleniumActions {
     }
 
     @Around("isClickViaSeleniumActionsEnabled()")
-    public void actions(ProceedingJoinPoint joinPoint) throws Throwable {
+    public void actions(ProceedingJoinPoint joinPoint) {
         WebElement element = (WebElement) joinPoint.getTarget();
         Actions actions = new Actions((WebDriver) Environment.getDriverService().getDriver());
         actions.moveToElement(element);

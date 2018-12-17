@@ -14,7 +14,6 @@
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.2.20.v20161216</jetty.version>
     <skipTests>false</skipTests>
-    <aspectj.version>1.8.10</aspectj.version>
   </properties>
 
   <groupId>ru.sbtqa.tag.pagefactory</groupId>
@@ -102,7 +101,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>aspectj-maven-plugin</artifactId>
-        <version>1.8</version>
+        <version>${aspectj.plugin.version}</version>
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>

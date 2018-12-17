@@ -19,6 +19,6 @@ public class FirstRequestFromFeatureEntry extends EndpointEntry {
     public void validate() {
         getResponse().body("result", equalTo("q1=" + Default.QUERY_PARAMETER_VALUE_1 + "|\n" + "q2=" + Default.QUERY_PARAMETER_VALUE_2
                 + "|\n" + "h1=" + Default.HEADER_PARAMETER_VALUE_1 + "|\n" + "h2=" + Default.HEADER_PARAMETER_VALUE_2 + "|\n"
-                + "id=" + String.valueOf(Default.ID) + "|\n" + "name=" + Default.NAME + "|\n" + "email=" + Default.EMAIL + "|\n"));
+                + "id=" + Default.ID + "|\n" + "name=" + Default.NAME + "|\n" + "email=" + Default.EMAIL + "|\n"));
     }
 }

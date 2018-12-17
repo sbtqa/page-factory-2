@@ -1,6 +1,6 @@
 package pagefactory;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
@@ -10,18 +10,18 @@ import setting.JettySettings;
 
 public class JunitTest {
 
-    private static WebSteps webSteps;
     private static JettySettings server = new JettySettings();
 
     @BeforeClass
     public static void before() throws Exception {
-        webSteps = WebSteps.getInstance();
         server.startJetty();
     }
 
     @Test
     public void webTest() throws PageException, NoSuchMethodException {
-        webSteps.openPage("Main")
+        WebSteps.getInstance()
+
+                .openPage("Main")
                 .click("Contact")
 
                 .openPage("Contact")
@@ -59,8 +59,8 @@ public class JunitTest {
                 .dismissAlert("Alert text");
     }
 
-    @AfterClass
-    public static void after() {
+    @After
+    public void after() {
         CoreSetupSteps.tearDown();
     }
 }
