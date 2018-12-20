@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.reflection;
+package ru.sbtqa.tag.pagefactory.find;
 
 import java.util.Arrays;
 import java.util.List;

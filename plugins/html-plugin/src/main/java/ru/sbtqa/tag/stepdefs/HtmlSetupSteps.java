@@ -1,10 +1,11 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 import static java.lang.ThreadLocal.*;
+import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
+import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 
 public class HtmlSetupSteps {
 
@@ -18,5 +19,6 @@ public class HtmlSetupSteps {
             Environment.setDriverService(storage.get());
         }
         Environment.setReflection(new HtmlReflection());
+        Environment.setFindUtils(new HtmlFindUtils());
     }
 }

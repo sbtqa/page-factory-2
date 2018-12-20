@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.pages.htmlelements.ContactPages;
 
+import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -51,6 +52,10 @@ public class ContactPage extends HTMLPage {
     @FindBy(xpath = "//*[@id='error_message']")
     @ElementTitle(value = "error msg")
     private TextBlock errorMsg;
+    
+    @FindBy(xpath = "//input[@type='text']")
+    @ElementTitle(value = "input list")
+    private List<TextInput> inputList;
 
     @ActionTitle("check that error message contains")
     public void errContains(String msg) {
