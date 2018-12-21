@@ -244,7 +244,7 @@ public class HtmlFindUtils extends FindUtils {
 
     /**
      * Searches for an element of the specified type by the specified name or
-     * path
+     * path 
      * <p>
      * As a path, an enumeration of elements in a nested structure can be used
      * through the separator "{@code ->}", for example:
@@ -263,7 +263,7 @@ public class HtmlFindUtils extends FindUtils {
      * @return Returns an element from a page by name or path
      */
     public <T extends WebElement> T find(String name, Class<T> type, boolean wait) {
-        Class instanсeType = type;
+        Class instanceType = type;
         T element = find(name, wait);
         Class elementType = element.getClass();
 
@@ -274,7 +274,7 @@ public class HtmlFindUtils extends FindUtils {
                         + "Expected: %s. Found: %s", name, type.getName(), elementType.getName()));
             }
         } else if (!(type.equals(WebElement.class) || isHtmlElement(elementType))) {
-            return (T) createElementWithCustomType(instanсeType, element);
+            return (T) createElementWithCustomType(instanceType, element);
         }
         return element;
     }
