@@ -13,6 +13,9 @@ import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isTypifiedEl
 
 public class HtmlElementUtils {
 
+    private HtmlElementUtils() {
+    }
+
     /**
      * Получает {@code WebElement}. Если элемент уже имеет тип
      * {@code WebElement}, то вернет его. Если наследник

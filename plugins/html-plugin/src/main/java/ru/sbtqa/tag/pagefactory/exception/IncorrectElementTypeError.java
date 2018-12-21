@@ -1,12 +1,12 @@
-package ru.sbtqa.tag.pagefactory.exceptions;
+package ru.sbtqa.tag.pagefactory.exception;
 
-public class ElementDisabledException extends AssertionError {
+public class IncorrectElementTypeError extends AssertionError {
 
     /**
      *
      * @param e a {@link Throwable} object.
      */
-    public ElementDisabledException(Throwable e) {
+    public IncorrectElementTypeError(Throwable e) {
         super(e);
     }
 
@@ -15,7 +15,7 @@ public class ElementDisabledException extends AssertionError {
      * @param message a {@link String} object.
      * @param e a {@link Throwable} object.
      */
-    public ElementDisabledException(String message, Throwable e) {
+    public IncorrectElementTypeError(String message, Throwable e) {
         super(message, e);
     }
 
@@ -23,7 +23,7 @@ public class ElementDisabledException extends AssertionError {
      *
      * @param message a {@link String} object.
      */
-    public ElementDisabledException(String message) {
+    public IncorrectElementTypeError(String message) {
         super(message);
     }
 }

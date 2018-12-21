@@ -12,10 +12,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledException;
+import ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 
 public class ElementUtils {
+
+    private ElementUtils() {
+    }
 
     /**
      * Double-clicks an item
@@ -163,13 +166,13 @@ public class ElementUtils {
      * @param text the text value of the element to click on
      * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException If
      * no such element is found in the list
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledException If
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledError If
      * element is disabled
      */
     public static <T extends WebElement> void clickOnElemenByText(List<T> elements, String text) throws ElementNotFoundException {
         T element = getElementByText(elements, text);
         if (!element.isEnabled()) {
-            throw new ElementDisabledException(format("Element with text '%s' is disabled.", text));
+            throw new ElementDisabledError(format("Element with text '%s' is disabled.", text));
         }
         element.click();
     }
@@ -269,8 +272,8 @@ public class ElementUtils {
      * @param <T> type of element relative to which we will perform the search
      * @param currentContext element for which we will execute search
      * @param xpath path to the element
-     * @return Returns the text of the element. If the element was not found by the
-     * specified path, then returns an empty string
+     * @return Returns the text of the element. If the element was not found by
+     * the specified path, then returns an empty string
      */
     public static <T extends WebElement> String getTextByElementXpath(T currentContext, String xpath) {
         List<WebElement> elements = currentContext.findElements(By.xpath(xpath));

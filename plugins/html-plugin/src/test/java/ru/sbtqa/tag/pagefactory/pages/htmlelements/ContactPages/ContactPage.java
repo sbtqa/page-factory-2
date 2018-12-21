@@ -9,7 +9,7 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.exception.IncorrectElementTypeException;
+import ru.sbtqa.tag.pagefactory.exception.IncorrectElementTypeError;
 import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
 import ru.sbtqa.tag.pagefactory.pages.htmlelements.blocks.MenuBlock;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
@@ -103,7 +103,7 @@ public class ContactPage extends HTMLPage {
         try {
             htmlFindUtils.find("first name", Button.class);
             throw new AutotestError("Type check failed.");
-        } catch (IncorrectElementTypeException e) {
+        } catch (IncorrectElementTypeError e) {
         }
     }
 

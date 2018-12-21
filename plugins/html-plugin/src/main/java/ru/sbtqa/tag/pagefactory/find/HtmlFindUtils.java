@@ -10,8 +10,8 @@ import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
-import ru.sbtqa.tag.pagefactory.exception.ElementSearchException;
-import ru.sbtqa.tag.pagefactory.exception.IncorrectElementTypeException;
+import ru.sbtqa.tag.pagefactory.exception.ElementSearchError;
+import ru.sbtqa.tag.pagefactory.exception.IncorrectElementTypeError;
 import ru.sbtqa.tag.pagefactory.utils.HtmlElementUtils;
 import static ru.sbtqa.tag.pagefactory.utils.HtmlElementUtils.createElementWithCustomType;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
@@ -23,7 +23,6 @@ import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isTypifiedEl
 public class HtmlFindUtils extends FindUtils {
 
     @Override
-    @Deprecated
     public <T> T getElementByTitle(Page page, String title) {
         return find(title);
     }
@@ -98,7 +97,7 @@ public class HtmlFindUtils extends FindUtils {
             if (!(wait || element.isPresent())) {
                 throw new IllegalStateException(errorText);
             } else {
-                throw new ElementSearchException(errorText);
+                throw new ElementSearchError(errorText);
             }
         }
         if (wait) {
@@ -127,7 +126,7 @@ public class HtmlFindUtils extends FindUtils {
     public <T extends WebElement> List<T> findList(String name) throws ElementDescriptionException {
         return findList(null, name);
     }
-    
+
     /**
      * Gets a list of elements by name or path
      * <p>
@@ -158,15 +157,15 @@ public class HtmlFindUtils extends FindUtils {
             String listName = name.substring(lastSeparatorIndex + ELEMENT_SEPARATOR.length(), name.length());
 
             field = getField(element.getElement(), listName);
-            if (field == null) {
-                throw new ElementSearchException("Element list not found");
-            }
         } else {
             field = getField(context, name);
         }
+        if (field == null) {
+            throw new ElementSearchError("Element list not found");
+        }
 
         if (!field.getType().isAssignableFrom(List.class)) {
-            throw new IncorrectElementTypeException(format("The element was found, "
+            throw new IncorrectElementTypeError(format("The element was found, "
                     + "but it is not a list. The search was performed along the way: %s", name));
         }
         return (List<T>) getElementByField(element, field);
@@ -194,7 +193,7 @@ public class HtmlFindUtils extends FindUtils {
                 element.setCurrentPosition(element.getCurrentPosition() - 1);
             }
         } catch (AutotestError | IllegalArgumentException | ElementDescriptionException ex) {
-            throw new ElementSearchException("Element " + formErrorMessage(element), ex);
+            throw new ElementSearchError("Element " + formErrorMessage(element), ex);
         }
         return element;
     }
@@ -270,14 +269,14 @@ public class HtmlFindUtils extends FindUtils {
 
         if (isTypifiedElement(elementType) || isHtmlElement(elementType)) {
             if (!type.isAssignableFrom(elementType)) {
-                throw new IncorrectElementTypeException(format("Found component named '%s', "
+                throw new IncorrectElementTypeError(format("Found component named '%s', "
                         + "but his type does not meet the required. "
                         + "Expected: %s. Found: %s", name, type.getName(), elementType.getName()));
             }
         } else if (!(type.equals(WebElement.class) || isHtmlElement(elementType))) {
             return (T) createElementWithCustomType(instanсeType, element);
         }
-        return (T) element;
+        return element;
     }
 
     /**
@@ -375,7 +374,7 @@ public class HtmlFindUtils extends FindUtils {
                 currentElement.setElement(null);
             }
         } else {
-            LOG.debug("Element with index " + index + " was received.");
+            LOG.debug("Element with index {} was received.", index);
             currentElement.setElement(list.get(index));
         }
     }
