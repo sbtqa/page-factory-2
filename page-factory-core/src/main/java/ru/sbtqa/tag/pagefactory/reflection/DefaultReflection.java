@@ -23,7 +23,6 @@ import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
-import ru.sbtqa.tag.pagefactory.exceptions.NoSuchActionException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 
 public class DefaultReflection implements Reflection {
@@ -58,7 +57,7 @@ public class DefaultReflection implements Reflection {
                     method.invoke(context, param);
                     return;
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new NoSuchActionException("Error while executing action '" + title + "' on " 
+                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " 
                             + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e));
                 }
             }

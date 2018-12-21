@@ -5,7 +5,6 @@ import static ru.sbtqa.tag.pagefactory.find.ComplexElement.ELEMENT_SEPARATOR;
 import java.lang.reflect.Field;
 import java.util.List;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
@@ -18,8 +17,8 @@ import static ru.sbtqa.tag.pagefactory.utils.HtmlElementUtils.createElementWithC
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.TypifiedElement;
+import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isHtmlElement;
+import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isTypifiedElement;
 
 public class HtmlFindUtils extends FindUtils {
 
@@ -121,6 +120,26 @@ public class HtmlFindUtils extends FindUtils {
      * <p>
      *
      * @param <T> type of the returned element
+     * @param name list name or path to it
+     * @return Returns a list from a page by name or path
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException
+     */
+    public <T extends WebElement> List<T> findList(String name) throws ElementDescriptionException {
+        return findList(null, name);
+    }
+    
+    /**
+     * Gets a list of elements by name or path
+     * <p>
+     * As a path, an enumeration of elements in a nested structure can be used
+     * through the separator "{@code ->}", for example:
+     * <ul>
+     * <li> element in the block: Block{@code ->}Element
+     * <li> element in the list with the sequence number 3: List{@code ->}3
+     * </ul>
+     * <p>
+     *
+     * @param <T> type of the returned element
      * @param context current context - where to start searching for an element.
      * Specify {@code null} if you need to perform a search in the context of
      * the current page, or an element to search for
@@ -182,7 +201,7 @@ public class HtmlFindUtils extends FindUtils {
 
     private String formErrorMessage(ComplexElement element) {
         StringBuilder errorMessage = new StringBuilder();
-        String currenElementName = element.getCurrentName();
+        String currenElementName = "\"" + element.getCurrentName() + "\"";
 
         if (element.getElementPath().size() > 1) {
             if (currenElementName.chars().allMatch(Character::isDigit)) {
@@ -249,13 +268,13 @@ public class HtmlFindUtils extends FindUtils {
         T element = find(name, wait);
         Class elementType = element.getClass();
 
-        if (element instanceof TypifiedElement || element instanceof HtmlElement)  {
+        if (isTypifiedElement(elementType) || isHtmlElement(elementType)) {
             if (!type.isAssignableFrom(elementType)) {
-                throw new AutotestError(format("Found component named '%s', "
+                throw new IncorrectElementTypeException(format("Found component named '%s', "
                         + "but his type does not meet the required. "
                         + "Expected: %s. Found: %s", name, type.getName(), elementType.getName()));
             }
-        } else if (!(type.equals(WebElement.class) || type.equals(RemoteWebElement.class) || element instanceof HtmlElement)) {
+        } else if (!(type.equals(WebElement.class) || isHtmlElement(elementType))) {
             return (T) createElementWithCustomType(instanсeType, element);
         }
         return (T) element;

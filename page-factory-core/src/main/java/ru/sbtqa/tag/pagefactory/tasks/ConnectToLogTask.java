@@ -15,7 +15,7 @@ public class ConnectToLogTask implements Task {
     public void handle() {
         if (new File(DEFAULT_LOG_PROPERTIES_PATH).exists()) {
             PropertyConfigurator.configure(DEFAULT_LOG_PROPERTIES_PATH);
-            LOG.info("Log4j properties were picked up on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
+            LOG.debug("Log4j properties were picked up on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
         } else {
             LOG.debug("There is no log4j.properties on the path {}", DEFAULT_LOG_PROPERTIES_PATH);
         }
