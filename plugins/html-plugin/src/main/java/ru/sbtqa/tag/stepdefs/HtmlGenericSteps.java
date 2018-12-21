@@ -31,7 +31,7 @@ import ru.yandex.qatools.htmlelements.element.*;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
- * @param <T>
+ * @param <T> type of steps - any successor {@code HtmlGenericSteps}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  *
@@ -51,10 +51,9 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      *
      * @param block path or name of the block
      * @param action title of the action to execute
-     * @return 
+     * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException
      */
     public T actionInBlock(String block, String action) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action);
@@ -68,10 +67,9 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      * @param block path or name of the block
      * @param action title of the action to execute
      * @param dataTable table of parameters
-     * @return 
+     * @return Returns itself
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException
      */
     public T actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action, dataTable);
@@ -85,10 +83,9 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      * @param block path or name of the block
      * @param action title of the action to execute
      * @param param parameter
-     * @return 
+     * @return Returns itself
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException
      */
     public T actionInBlock(String block, String action, String... param) throws NoSuchMethodException {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action, param);
@@ -102,7 +99,7 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      * @param listTitle title of the list to search for
      * @param value required value of the element. for text elements value is
      * being checked via getText() method
-     * @return 
+     * @return Returns itself
      * @throws PageException if page wasn't initialized of required list wasn't
      * found
      */

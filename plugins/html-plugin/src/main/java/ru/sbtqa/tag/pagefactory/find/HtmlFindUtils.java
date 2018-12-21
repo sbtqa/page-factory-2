@@ -144,7 +144,7 @@ public class HtmlFindUtils extends FindUtils {
      * the current page, or an element to search for
      * @param name list name or path to it
      * @return Returns a list from a page by name or path
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException Error get element by field
      */
     public <T extends WebElement> List<T> findList(T context, String name) throws ElementDescriptionException {
         ComplexElement element = new ComplexElement(context, name, false);
