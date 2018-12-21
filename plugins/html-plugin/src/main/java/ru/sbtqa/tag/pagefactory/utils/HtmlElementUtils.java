@@ -9,6 +9,7 @@ import ru.sbtqa.tag.pagefactory.html.loader.CustomHtmlElementLoader;
 import ru.sbtqa.tag.pagefactory.html.loader.decorators.CustomHtmlElementDecorator;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
+import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isTypifiedElement;
 
 public class HtmlElementUtils {
 
@@ -24,7 +25,7 @@ public class HtmlElementUtils {
      */
     public static <T extends WebElement> WebElement getWebElement(T element) {
         WebElement webElement;
-        if (element instanceof TypifiedElement) {
+        if (isTypifiedElement(element.getClass())) {
             webElement = ((TypifiedElement) element).getWrappedElement();
         } else {
             webElement = element;

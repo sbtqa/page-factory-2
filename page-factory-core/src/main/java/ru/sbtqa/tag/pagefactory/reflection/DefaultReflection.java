@@ -23,6 +23,7 @@ import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
+import ru.sbtqa.tag.pagefactory.exceptions.NoSuchActionException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 
 public class DefaultReflection implements Reflection {
@@ -63,7 +64,7 @@ public class DefaultReflection implements Reflection {
             }
         }
 
-        throw new NoSuchMethodException("There is no '" + title + "' method on '" + context.getClass() + "' page object");
+        throw new NoSuchActionException("There is no '" + title + "' method on '" + context.getClass() + "' page object");
     }
 
     @Override
