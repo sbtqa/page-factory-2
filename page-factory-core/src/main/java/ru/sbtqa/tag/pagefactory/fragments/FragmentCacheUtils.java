@@ -66,8 +66,8 @@ class FragmentCacheUtils {
     }
 
     static MutableGraph<Object> cacheFragmentsAsGraph(List<CucumberFeature> features,
-                                                             Map<String, ScenarioDefinition> fragmentsMap,
-                                                             Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException {
+                                                      Map<String, ScenarioDefinition> fragmentsMap,
+                                                      Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException {
         MutableGraph<Object> graph = GraphBuilder.directed().allowsSelfLoops(false).build();
 
         for (CucumberFeature cucumberFeature : features) {
@@ -75,25 +75,23 @@ class FragmentCacheUtils {
             Feature feature = gherkinDocument.getFeature();
             List<ScenarioDefinition> scenarioDefinitions = feature.getChildren();
             for (ScenarioDefinition scenario : scenarioDefinitions) {
-                if (!scenario.getName().isEmpty()) {
-                    graph.addNode(scenario);
+                graph.addNode(scenario);
 
-                    List<Step> steps = scenario.getSteps();
-                    for (Step step : steps) {
-                        String language = scenarioLanguageMap.get(scenario);
+                List<Step> steps = scenario.getSteps();
+                for (Step step : steps) {
+                    String language = scenarioLanguageMap.get(scenario);
 
-                        if (FragmentUtils.isStepFragmentRequire(step, language)) {
-                            String scenarioName = FragmentUtils.getFragmentName(step, language);
-                            ScenarioDefinition scenarioAsFragment = fragmentsMap.get(scenarioName);
+                    if (FragmentUtils.isStepFragmentRequire(step, language)) {
+                        String scenarioName = FragmentUtils.getFragmentName(step, language);
+                        ScenarioDefinition scenarioAsFragment = fragmentsMap.get(scenarioName);
 
-                            if (scenarioAsFragment == null) {
-                                throw new FragmentException(String.format("There is no scenario (fragment) with name \"%s\"", scenarioName));
-                            }
-
-                            graph.putEdge(scenario, scenarioAsFragment);
+                        if (scenarioAsFragment == null) {
+                            throw new FragmentException(String.format("There is no scenario (fragment) with name \"%s\"", scenarioName));
                         }
 
+                        graph.putEdge(scenario, scenarioAsFragment);
                     }
+
                 }
             }
         }
