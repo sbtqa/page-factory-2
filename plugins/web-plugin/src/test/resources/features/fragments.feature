@@ -1,11 +1,11 @@
 #language: en
 Feature: Check fragments functional
 
+  Background:
+    * user inserts fragment "go to contact page"
+
   @test-fragments
   Scenario Outline: Check fragments functional
-    * user is on the page "Main"
-    * user clicks the button "Contact"
-    * user is on the page "Contact"
 
     #CHECKS
     * user inserts fragment "checks fragment"
