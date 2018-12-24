@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +22,9 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
-import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
+import ru.sbtqa.tag.pagefactory.exceptions.NoSuchActionError;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 public class DefaultReflection implements Reflection {
 
@@ -51,21 +49,22 @@ public class DefaultReflection implements Reflection {
     }
 
     @Override
-    public void executeMethodByTitle(Page page, String title, Object... param) throws NoSuchMethodException {
-        List<Method> methods = getDeclaredMethods(page.getClass());
+    public void executeMethodByTitle(Object context, String title, Object... param) throws NoSuchMethodException {
+        List<Method> methods = getDeclaredMethods(context.getClass());
         for (Method method : methods) {
             if (isRequiredAction(method, title)) {
                 try {
                     method.setAccessible(true);
-                    MethodUtils.invokeMethod(page, method.getName(), param);
+                    method.invoke(context, param);
                     return;
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e));
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " 
+                            + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e));
                 }
             }
         }
 
-        throw new NoSuchMethodException("There is no '" + title + "' method on '" + page.getTitle() + "' page object");
+        throw new NoSuchActionError("There is no '" + title + "' method on '" + context.getClass() + "' page object");
     }
 
     @Override
@@ -102,17 +101,6 @@ public class DefaultReflection implements Reflection {
         }
 
         return false;
-    }
-
-    @Override
-    public <T> T getElementByTitle(Page page, String title) throws PageException {
-        for (Field field : FieldUtilsExt.getDeclaredFieldsWithInheritance(page.getClass())) {
-            if (isRequiredElement(field, title)) {
-                return getElementByField(page, field);
-            }
-        }
-
-        throw new ElementNotFoundException(String.format("Element '%s' is not present on current page '%s''", title, page.getTitle()));
     }
 
     @Override

@@ -1,34 +1,35 @@
 package ru.sbtqa.tag.pagefactory.pages.htmlelements.blocks;
 
+import static java.lang.String.format;
 import org.openqa.selenium.support.FindBy;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
-import ru.yandex.qatools.htmlelements.annotations.Name;
-import ru.yandex.qatools.htmlelements.element.Button;
+import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.Link;
 
-@Name("menu")
-@FindBy(xpath = "//div[@class='navbar-collapse collapse']")
+@FindBy(xpath = "//nav")
 public class MenuBlock extends HtmlElement {
 
     @ElementTitle("Contact")
-    @FindBy(xpath = "//a[text()='Contact']")
-    private Button contactButton;
+    @FindBy(xpath = ".//a[text()='Contact']")
+    private Link contact;
 
     @ElementTitle("Home")
-    @FindBy(xpath = "//a[text()='Home']")
-    private Button homeButton;
-
+    @FindBy(xpath = ".//a[text()='Home']")
+    private Link home;
+    
     @ActionTitle("go to page")
     public void goToPage(String pageName) {
         switch (pageName.toLowerCase()) {
             case "home":
-                homeButton.click();
+                home.click();
                 break;
-
             case "contact":
-                contactButton.click();
+                contact.click();
                 break;
+            default:
+                throw new AutotestError(format("Tab '%s' not found.", pageName));
         }
     }
 }
