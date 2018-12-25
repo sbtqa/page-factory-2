@@ -18,7 +18,6 @@ public enum Rest {
         switch (rest) {
             case GET:
             case HEAD:
-            case DELETE:
                 return true;
             default:
                 return false;
