@@ -26,4 +26,5 @@ public class WaitException extends AssertionError {
     public WaitException(String message) {
         super(message);
     }
+
 }

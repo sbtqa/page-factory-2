@@ -30,13 +30,13 @@ public interface Reflection {
     /**
      * Find method with corresponding title on current page, and execute it
      *
-     * @param context context on which the method is executing
+     * @param page the page on which the method is executing
      * @param title title of the method to call
      * @param param parameters that will be passed to method
      * @throws java.lang.NoSuchMethodException if required method couldn't be
      * found
      */
-    void executeMethodByTitle(Object context, String title, Object... param) throws NoSuchMethodException;
+    void executeMethodByTitle(Page page, String title, Object... param) throws NoSuchMethodException;
 
     /**
      * Return a list of methods declared tin the given class and its super
@@ -56,6 +56,19 @@ public interface Reflection {
      * @return true|false
      */
     Boolean isRequiredAction(Method method, final String title);
+
+    /**
+     * Find specified Object by title annotation among current page fields
+     *
+     * @param page the page on which the method is executing
+     * @param title title of the element to search
+     * @param <T> supposed type of the field. if field cannot be cast into this type, it will fail
+     * @return Object found by corresponding title
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if failed to
+     * find corresponding element or element type is set incorrectly
+     */
+    <T> T getElementByTitle(Page page, String title) throws PageException;
+
 
     /**
      * Check whether {@link ElementTitle} annotation of the field has a

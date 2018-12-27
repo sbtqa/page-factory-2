@@ -52,6 +52,15 @@ public class HtmlStepDefs extends HtmlGenericSteps<HtmlStepDefs> {
      * {@inheritDoc}
      */
     @Override
+    @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" находит (элемент|текстовое поле|чекбокс|радиокнопка|таблицу|заголовок|кнопку|ссылку|изображение) \"([^\"]*)\"$")
+    public HtmlStepDefs find(String block, String elementType, String elementTitle) throws PageException {
+        return super.find(block, elementType, elementTitle);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @И("^(?:пользователь |он )?в списке \"([^\"]*)\" находит элемент со значением \"([^\"]*)\"$")
     public HtmlStepDefs find(String listTitle, String value) throws PageException {
         return super.find(listTitle, value);

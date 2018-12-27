@@ -32,7 +32,6 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
- * @param <T> type of steps - any successor {@code WebGenericSteps}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
@@ -45,7 +44,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
     /**
      * Open a copy for current page in a new browser tab User|he keywords are
      * optional
-     * @return Returns itself 
      */
     public T openCopyPage() {
         String pageUrl = Environment.getDriverService().getDriver().getCurrentUrl();
@@ -57,7 +55,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
 
     /**
      * Switch to a neighbour browser tab
-     * @return Returns itself 
      */
     public T switchesToNextTab() {
         String currentTab = Environment.getDriverService().getDriver().getWindowHandle();
@@ -75,7 +72,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Check that current URL matches the inputted one
      *
      * @param url url for comparison
-     * @return Returns itself 
      */
     public T urlMatches(String url) {
         Assert.assertEquals("URL is different from the expected: ", url, Environment.getDriverService().getDriver().getCurrentUrl());
@@ -86,7 +82,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Close current browser tab and open a tab with given name
      *
      * @param title title of the page to open
-     * @return Returns itself 
      */
     public T closingCurrentWin(String title) {
         Environment.getDriverService().getDriver().close();
@@ -101,7 +96,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
 
     /**
      * Return to previous location (via browser "back" button)
-     * @return Returns itself 
      */
     public T backPage() {
         Environment.getDriverService().getDriver().navigate().back();
@@ -112,7 +106,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Go to specified url
      *
      * @param url url to go to
-     * @return Returns itself 
      */
     public T goToUrl(String url) {
         Environment.getDriverService().getDriver().get(url);
@@ -121,7 +114,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
 
     /**
      * Refresh browser page
-     * @return Returns itself 
      */
     public T reInitPage() {
         Environment.getDriverService().getDriver().navigate().refresh();
@@ -132,7 +124,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Wait for an alert with specified text, and accept it
      *
      * @param text alert message
-     * @return Returns itself 
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
@@ -145,7 +136,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Wait for an alert with specified text, and dismiss it
      *
      * @param text alert message
-     * @return Returns itself 
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
@@ -159,10 +149,8 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * be space-trimmed, so only non-space characters will matter.
      *
      * @param text text to search
-     * @return Returns itself
      * @throws WaitException if text didn't appear on the page during the
      * timeout
-     * @throws java.lang.InterruptedException if the element is missing
      */
     public T checkTextAppears(String text) throws WaitException, InterruptedException {
         WebWait.waitForTextPresenceInPageSource(text, true);
@@ -174,8 +162,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * space-trimmed before assertion, so only non-space characters will matter
      *
      * @param text text to search for
-     * @return Returns itself
-     * @throws java.lang.InterruptedException if the element is missing
      */
     public T checkTextIsNotPresent(String text) throws InterruptedException {
         WebWait.waitForTextPresenceInPageSource(text, false);
@@ -190,7 +176,6 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * be space-trimmed as well
      *
      * @param text text that will be searched inside of the window
-     * @return Returns itself
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
      */
     public T checkModalWindowAppears(String text) throws WaitException {
@@ -202,8 +187,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Perform a check that there is an element with required text on current
      * page
      *
-     * @param text a {@link java.lang.String} object
-     * @return Returns itself
+     * @param text a {@link java.lang.String} object.
      */
     public T checkElementWithTextIsPresent(String text) {
         WebWait.visibility(By.xpath("//*[contains(text(), '" + text + "')]"), "Text \"" + text + "\" is not present");

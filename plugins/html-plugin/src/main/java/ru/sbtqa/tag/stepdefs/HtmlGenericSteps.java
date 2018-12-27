@@ -1,14 +1,12 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
-import java.util.List;
-import org.junit.Assert;
 import org.openqa.selenium.WebElement;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
-import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
+import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.yandex.qatools.htmlelements.element.*;
 
 /**
@@ -31,7 +29,6 @@ import ru.yandex.qatools.htmlelements.element.*;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
- * @param <T> type of steps - any successor {@code HtmlGenericSteps}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  *
@@ -51,12 +48,11 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      *
      * @param block path or name of the block
      * @param action title of the action to execute
-     * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
     public T actionInBlock(String block, String action) throws NoSuchMethodException {
-        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action);
+        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action);
         return (T) this;
     }
 
@@ -67,12 +63,11 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      * @param block path or name of the block
      * @param action title of the action to execute
      * @param dataTable table of parameters
-     * @return Returns itself
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
     public T actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
-        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action, dataTable);
+        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, dataTable);
         return (T) this;
     }
 
@@ -83,12 +78,68 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      * @param block path or name of the block
      * @param action title of the action to execute
      * @param param parameter
-     * @return Returns itself
      * @throws NoSuchMethodException if corresponding method doesn't exist in
      * specified block
      */
     public T actionInBlock(String block, String action, String... param) throws NoSuchMethodException {
-        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action, param);
+        ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(PageContext.getCurrentPage(), block, action, param);
+        return (T) this;
+    }
+
+    /**
+     * Find element inside given block. Element name itself is a parameter, and
+     * defines type of the element to search for User|he keywords are optional
+     *
+     * @param block path or name of the block
+     * @param elementType type of the searched element. Could be one of Yandex
+     * element types types
+     * @param elementTitle title of the element to search
+     * @throws PageException if current page is not initialized, or element
+     * wasn't found
+     */
+    public T find(String block, String elementType, String elementTitle) throws PageException {
+        Class<? extends WebElement> clazz;
+        switch (elementType) {
+            case "element":
+            case "элемент":
+                clazz = WebElement.class;
+                break;
+            case "textinput":
+            case "текстовое поле":
+                clazz = TextInput.class;
+                break;
+            case "checkbox":
+            case "чекбокс":
+                clazz = CheckBox.class;
+                break;
+            case "radiobutton":
+            case "радиокнопка":
+                clazz = Radio.class;
+                break;
+            case "table":
+            case "таблицу":
+                clazz = Table.class;
+                break;
+            case "header":
+            case "заголовок":
+                clazz = TextBlock.class;
+                break;
+            case "button":
+            case "кнопку":
+                clazz = Button.class;
+                break;
+            case "link":
+            case "ссылку":
+                clazz = Link.class;
+                break;
+            case "image":
+            case "изображение":
+                clazz = Image.class;
+                break;
+            default:
+                clazz = WebElement.class;
+        }
+        ((HtmlReflection) Environment.getReflection()).findElementInBlockByTitle(PageContext.getCurrentPage(), block, elementTitle, clazz);
         return (T) this;
     }
 
@@ -99,14 +150,20 @@ public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericS
      * @param listTitle title of the list to search for
      * @param value required value of the element. for text elements value is
      * being checked via getText() method
-     * @return Returns itself
      * @throws PageException if page wasn't initialized of required list wasn't
      * found
      */
     public T find(String listTitle, String value) throws PageException {
-        List<WebElement> elements = ((HtmlFindUtils) Environment.getFindUtils()).findList(null, value);
-        WebElement element = ElementUtils.getElementByTextWithEmptyResult(elements, value);
-        Assert.assertNotNull(String.format("Element with text '%s' is absent in list '%s'", value, listTitle), element);
+        boolean found = false;
+        for (WebElement webElement : ((HtmlReflection) Environment.getReflection()).findListOfElements(PageContext.getCurrentPage(), listTitle)) {
+            if (webElement.getText().equals(value)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new AutotestError(String.format("Element with text '%s' is absent in list '%s'", value, listTitle));
+        }
         return (T) this;
     }
 }
