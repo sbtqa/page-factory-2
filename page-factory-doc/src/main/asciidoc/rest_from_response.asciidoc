@@ -9,19 +9,12 @@
 * *__mask__* - накладывает маску на полученное значение
 * *__optional__* - опционален параметр или нет (по умолчанию `optional = false`). Если искомое значение будет не найдено при `optional = true` переменной будет присвоено значение `null`, при `optional = false` будет выброшено исключение
 
-Пример использования:
-[source,]
-----
-@Endpoint(method = Rest.GET, path = "get", title = "from response")
-public class FromResponseSecondEndpointEntry extends EndpointEntry {
+*__Пример подстановки из заголовка предыдущего запроса:__*
 
-    // присвоит значение по имени email из body предыдущего запроса
-    // Если не найдено, то присвоит null
-    @FromResponse(path = "email", optional = true)
-    private String emailFromPreviousRequest;
+image::images/rest-response.png[]
 
-    // присвоит значение по имени header name from first response из header запроса FirstResponseEntry, предварительно наложив на него маску
-    @FromResponse(endpoint = FirstResponseEntry.class, header = "header name from first response", mask = Default.MASK)
-    private String header;
-}
-----
+*__Пример подстановки из тела запроса по маске:__*
+
+image::images/rest-response-body.png[]
+image::images/rest-response-body2.png[]
+
