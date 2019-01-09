@@ -29,8 +29,6 @@ include::rest_verify.asciidoc[]
 
 include::rest_build_request.asciidoc[]
 
-include::rest_entries_examples.asciidoc[]
-
 include::rest_steps_en.asciidoc[]
 
 === SSL
