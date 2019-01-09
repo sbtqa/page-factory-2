@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.WebElement;
 
-class ComplexElement<T extends WebElement> {
+public class ComplexElement<T extends WebElement> {
 
     public static final String ELEMENT_SEPARATOR = "->";
     private T element;
