@@ -1,12 +1,12 @@
-package ru.sbtqa.tag.pagefactory.exceptions;
+package ru.sbtqa.tag.pagefactory.exception;
 
-public class WaitException extends AssertionError {
+public class ElementSearchError extends AssertionError {
 
     /**
      *
      * @param e a {@link Throwable} object.
      */
-    public WaitException(Throwable e) {
+    public ElementSearchError(Throwable e) {
         super(e);
     }
 
@@ -15,7 +15,7 @@ public class WaitException extends AssertionError {
      * @param message a {@link String} object.
      * @param e a {@link Throwable} object.
      */
-    public WaitException(String message, Throwable e) {
+    public ElementSearchError(String message, Throwable e) {
         super(message, e);
     }
 
@@ -23,7 +23,7 @@ public class WaitException extends AssertionError {
      *
      * @param message a {@link String} object.
      */
-    public WaitException(String message) {
+    public ElementSearchError(String message) {
         super(message);
     }
 }

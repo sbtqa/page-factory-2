@@ -1,14 +1,11 @@
 package ru.sbtqa.tag.api.utils;
 
-import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.api.exception.RestPluginException;
-
+import static java.lang.String.format;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import static java.lang.String.format;
+import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class ReflectionUtils {
 
@@ -37,15 +34,7 @@ public class ReflectionUtils {
         try {
             method.invoke(endpoint, params);
         } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-            String ruleTitle = method.getAnnotation(Validation.class).title();
-            Throwable directThrowable = e;
-            if (directThrowable.getCause() != null) {
-                directThrowable = e.getCause();
-                if (directThrowable.getCause() != null) {
-                    directThrowable = directThrowable.getCause();
-                }
-            }
-            throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
+            throw new RestPluginException(format("Failed to execute validation rule in \"%s\" endpoint entry", endpoint), e);
         }
     }
 }

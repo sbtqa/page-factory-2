@@ -17,7 +17,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.safari.SafariDriver;
@@ -104,9 +103,7 @@ public class WebDriverService implements DriverService {
     private WebDriver createRemoteWebDriver(String webDriverUrl, DesiredCapabilities capabilities) throws MalformedURLException {
         URL remoteUrl = new URL(webDriverUrl);
         capabilities.merge(new SelenoidCapabilitiesParser().parse());
-        RemoteWebDriver remoteWebDriver = new RemoteWebDriver(remoteUrl, capabilities);
-        remoteWebDriver.setFileDetector(new LocalFileDetector());
-        return remoteWebDriver;
+        return new RemoteWebDriver(remoteUrl, capabilities);
     }
 
     private void setBrowserSize() {
