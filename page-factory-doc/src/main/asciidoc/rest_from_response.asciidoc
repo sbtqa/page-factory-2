@@ -11,10 +11,10 @@
 
 *__Пример подстановки из заголовка предыдущего запроса:__*
 
-image:rest-response.png[]
+image::images/rest-response.png[]
 
 *__Пример подстановки из тела запроса по маске:__*
 
-image:rest-response-body.png[]
-image:rest-response-body2.png[]
+image::images/rest-response-body.png[]
+image::images/rest-response-body2.png[]
 

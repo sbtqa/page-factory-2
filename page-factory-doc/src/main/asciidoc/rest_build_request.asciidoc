@@ -39,7 +39,7 @@ WARNING: Обратите внимание! Параметры могут быт
 
 Пример сборки запроса:
 
-image:rest-fill-simple.png[]
+image::images/rest-fill-simple.png[]
 
 *__Добавление параметра из ответа на запрос__*
 
@@ -89,13 +89,13 @@ NOTE: [aqua]#В качества параметра пути указыватс�
 
 *__Пример подстановки из заголовка ответа__*
 
-image:rest-response-header.png[]
+image::images/rest-response-header.png[]
 
 *__Пример подстановки в тело запроса по маске__*
 
-image:rest-response-mask.png[]
-image:rest-response-mask2.png[]
+image::images/rest-response-mask.png[]
+image::images/rest-response-mask2.png[]
 
 *__Пример работы с маской__*
 
-image:rest-response-body-mask.png[]
+image::images/rest-response-body-mask.png[]

@@ -57,11 +57,11 @@ api.template.encoding = utf-8
 
 *__Пример использования шаблона:__*
 
-image:rest-json.png[]
+image::images/rest-json.png[]
 
 *__Пример использования шаблона с частичной подстановкой:__*
 
-image:rest-json-replace.png[]
+image::images/rest-json-replace.png[]
 
 ===== Передача парметров формы (form-data)
 Если нужно передать параметры формы, то достаточно описать параметры для метода. + 
@@ -70,12 +70,12 @@ WARNING: [red]#Для передачи значений параметров API
 
 *__Пример:__*
 
-image:rest-formparam.png[]
+image::images/rest-formparam.png[]
 
 
 *__Пример с использованием таблицы данных:__*
 
-image:rest-form-param-datatable.png[]
+image::images/rest-form-param-datatable.png[]
 
 ===== Подстановка фрагмента параметра
 
@@ -83,4 +83,4 @@ image:rest-form-param-datatable.png[]
 
 *__Пример:__*
 
-image:rest-replace.png[]
+image::images/rest-replace.png[]

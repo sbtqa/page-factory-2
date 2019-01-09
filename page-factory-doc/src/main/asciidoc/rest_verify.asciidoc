@@ -78,7 +78,7 @@ public class ReplacerEntry extends EndpointEntry {
 
 *__Пример:__*
 
-image:rest-validate.png[]
+image::images/rest-validate.png[]
 
 ==== Как реализовать свои шаги проверки
 
