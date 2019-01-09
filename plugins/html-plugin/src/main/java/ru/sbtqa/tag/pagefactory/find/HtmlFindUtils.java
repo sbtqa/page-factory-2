@@ -26,6 +26,10 @@ public class HtmlFindUtils extends FindUtils {
     public <T> T getElementByTitle(Page page, String title) {
         return find(title);
     }
+    
+    protected boolean isNumeric(String text){
+       return text.chars().allMatch(Character::isDigit);
+    }
 
     /**
      * Gets an element by its name or path. The element is assumed to be on the
@@ -89,22 +93,26 @@ public class HtmlFindUtils extends FindUtils {
      * @return Returns an element from a page by name or path
      */
     public <T extends WebElement> T find(T context, String name, boolean wait) {
+        ComplexElement element = findAndCheckComplexElement(context, name, wait);
+        if (element.getElement() == null) {
+           throw new ElementSearchError(format("Element not found '%s' on page", name));
+        }
+        return (T) element.getElement();
+    }
+    
+    protected <T extends WebElement> ComplexElement findAndCheckComplexElement(T context, String name, boolean wait) {
         ComplexElement element = findComplexElement(context, name, wait);
 
         if (element.getElement() == null) {
-            String errorText = format("Element not found '%s' on page", name);
-
             if (!(wait || element.isPresent())) {
-                throw new IllegalStateException(errorText);
-            } else {
-                throw new ElementSearchError(errorText);
+                throw new IllegalStateException(format("Element not found '%s' on page", name));
             }
         }
         if (wait) {
             Wait.visibility(HtmlElementUtils.getWebElement(element.getElement()),
                     "The page does not display the element " + formErrorMessage(element));
         }
-        return (T) element.getElement();
+        return element;
     }
 
     /**
@@ -185,7 +193,7 @@ public class HtmlFindUtils extends FindUtils {
                 Field field = getField(element.getElement(), element.getCurrentName());
 
                 if (field == null) {
-                    throw new AutotestError("No element declared on page " + formErrorMessage(element));
+                    throw new ElementSearchError("No element declared on page " + formErrorMessage(element));
                 }
                 findElement(field, element);
             }
@@ -349,7 +357,7 @@ public class HtmlFindUtils extends FindUtils {
         return null;
     }
 
-    private static void findElementOfList(List<WebElement> list, ComplexElement currentElement) {
+    protected static void findElementOfList(List<WebElement> list, ComplexElement currentElement) {
         int position = currentElement.getCurrentPosition();
 
         int index = 0;
