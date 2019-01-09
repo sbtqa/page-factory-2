@@ -21,6 +21,7 @@ public class JunitTest {
     public void htmlTest() throws PageException, NoSuchMethodException {
         HtmlSteps.getInstance()
                 .openPage("MainY")
+                .find("menu", "button", "Home")
                 .actionInBlock("menu", "go to page", "Contact")
                 .openPage("ContactY")
                 .action("check that error message not contains", "Please specify your first name")

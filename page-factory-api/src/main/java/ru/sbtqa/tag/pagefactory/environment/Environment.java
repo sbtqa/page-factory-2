@@ -3,7 +3,6 @@ package ru.sbtqa.tag.pagefactory.environment;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
-import ru.sbtqa.tag.pagefactory.find.Find;
 import ru.sbtqa.tag.pagefactory.reflection.Reflection;
 
 /**
@@ -15,7 +14,6 @@ public class Environment {
     static ThreadLocal<PageActions> pageActions = new ThreadLocal<>();
     static ThreadLocal<PageChecks> pageChecks = new ThreadLocal<>();
     static ThreadLocal<Reflection> reflection = new ThreadLocal<>();
-    static ThreadLocal<Find> findUtils = new ThreadLocal<>();
 
     public static void setDriverService(DriverService driverService) {
         Environment.driverService.set(driverService);
@@ -47,16 +45,6 @@ public class Environment {
 
     public static Reflection getReflection() {
         return reflection.get();
-    }
-
-    public static void setFindUtils(Find findUtils) {
-        if (Environment.findUtils.get() == null || !findUtils.getClass().isAssignableFrom(Environment.findUtils.get().getClass())) {
-            Environment.findUtils.set(findUtils);
-        }
-    }
-
-    public static Find getFindUtils() {
-        return findUtils.get();
     }
 
     public static void setReflection(Reflection reflection) {

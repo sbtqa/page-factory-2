@@ -51,11 +51,7 @@ public class PageManager {
         if (null == PageContext.getCurrentPage()
                 || !PageContext.getCurrentPageTitle().equals(title)
                 || Environment.getDriverService().isDriverEmpty()) {
-            Class pageClass = getPageClass(title);
-            if (pageClass == null) {
-                throw new AutotestError("Page object with title '" + title + "' is not registered");
-            }
-            getPage(pageClass);
+            getPage(getPageClass(title));
         }
         return PageContext.getCurrentPage();
     }
@@ -71,7 +67,7 @@ public class PageManager {
     public static Page getPage(Class<? extends Page> pageClass) throws PageInitializationException {
         Page page = bootstrapPage(pageClass);
         if (page == null) {
-            throw new AutotestError("Page object '" + pageClass + "' is not registered");
+            throw new AutotestError("Page object with title '" + pageClass + "' is not registered");
         }
         PageContext.setCurrentPage(page);
         setUrl(page.getUrl());

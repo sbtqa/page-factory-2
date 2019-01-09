@@ -7,6 +7,7 @@ import org.aeonbits.owner.Config.Sources;
 public interface ApiConfiguration extends Config {
 
     @Key("api.baseURI")
+    @DefaultValue("")
     String getBaseURI();
 
     @Key("api.endpoint.package")
