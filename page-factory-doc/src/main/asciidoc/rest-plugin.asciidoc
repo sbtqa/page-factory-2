@@ -1,4 +1,5 @@
 == Rest plugin
+
 Плагин для автоматизации API приложений, базирующийся на `rest-assured` и `cucumber`
 
 Основная идея заключается в том, что каждый метод API описывается отдельным классом, в котором есть поля запроса и методы валидации
@@ -19,11 +20,15 @@ api.baseURI = http://api.com
 ----
 
 include::rest_entries.asciidoc[]
-include::rest_entries_param.asciidoc[]
+
 include::rest_send.asciidoc[]
+
+include::rest_entries_param.asciidoc[]
+
 include::rest_verify.asciidoc[]
+
 include::rest_build_request.asciidoc[]
-include::rest_entries_examples.asciidoc[]
+
 include::rest_steps_en.asciidoc[]
 
 === SSL

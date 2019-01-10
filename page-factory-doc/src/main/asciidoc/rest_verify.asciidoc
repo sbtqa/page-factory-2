@@ -20,7 +20,7 @@ public class ReplacerEntry extends EndpointEntry {
 }
 ----
 
-Выполнить описанную таким образом проверку из фичи можно одним из следующих способов:
+Выполнить написанную таким образом проверку из фичи можно одним из следующих способов:
 
 [source, ]
 ----
@@ -55,7 +55,7 @@ public class ReplacerEntry extends EndpointEntry {
 }
 ----
 
-Шаги:
+*__Шаги:__*
 
 [source,]
 ----
@@ -75,6 +75,10 @@ public class ReplacerEntry extends EndpointEntry {
         | параметр 1 | значение 1 |
         | параметр 2 | значение 2 |
 ----
+
+*__Пример:__*
+
+image::images/rest-validate.png[]
 
 ==== Как реализовать свои шаги проверки
 
