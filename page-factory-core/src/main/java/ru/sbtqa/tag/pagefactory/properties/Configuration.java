@@ -3,7 +3,7 @@ package ru.sbtqa.tag.pagefactory.properties;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.Sources;
 
-@Sources({"file:${TagConfigFile}", "classpath:config/application.properties"})
+@Sources({"file:/${TagConfigFile}", "classpath:config/application.properties"})
 public interface Configuration extends Config {
 
     @Key("page.package")
