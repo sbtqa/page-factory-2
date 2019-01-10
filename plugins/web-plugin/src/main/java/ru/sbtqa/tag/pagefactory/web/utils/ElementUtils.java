@@ -26,8 +26,8 @@ public class ElementUtils {
      * @param <T> type of element passed - any successor {@code WebElement}
      * @param element element element clicked
      */
-    public static <T extends WebElement> void doubleClick(T element) {
-        new Actions((WebDriver) Environment.getDriverService().getDriver()).doubleClick((WebElement) element).perform();
+    public static void doubleClick(WebElement element) {
+        new Actions((WebDriver) Environment.getDriverService().getDriver()).doubleClick(element).perform();
     }
 
     /**
