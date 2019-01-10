@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -15,7 +14,7 @@ import static java.lang.String.format;
 
 public class Wait {
 
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
     private static final String NOT_VISIBLE = "Element with xpath \"%s\" is not visible";
 
     /**

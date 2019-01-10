@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.web.support;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
@@ -11,7 +10,7 @@ import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 public class Alert {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     private org.openqa.selenium.Alert alert;
 

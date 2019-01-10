@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.web.utils;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -15,7 +14,7 @@ import ru.sbtqa.tag.pagefactory.utils.Wait;
 public class WebWait extends Wait {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     /**
      * Wait for page prepared with javascript
