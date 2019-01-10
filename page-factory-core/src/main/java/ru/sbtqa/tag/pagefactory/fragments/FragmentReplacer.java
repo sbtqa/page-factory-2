@@ -1,89 +1,101 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import com.google.common.graph.EndpointPair;
-import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 
 public class FragmentReplacer {
 
     private List<CucumberFeature> features;
-    private Map<String, ScenarioDefinition> fragmentsMap;
     private MutableGraph<Object> fragmentsGraph;
     private Map<ScenarioDefinition, String> scenarioLanguageMap;
 
     public FragmentReplacer(List<CucumberFeature> features) throws FragmentException {
         this.features = FragmentCacheUtils.cacheFragmentsToFeatures(this.getClass(), features);
         this.scenarioLanguageMap = FragmentCacheUtils.cacheScenarioLanguage(this.features);
-        this.fragmentsMap = FragmentCacheUtils.cacheFragmentsAsMap(this.features);
+        Map<String, ScenarioDefinition> fragmentsMap = FragmentCacheUtils.cacheFragmentsAsMap(this.features);
         this.fragmentsGraph = FragmentCacheUtils.cacheFragmentsAsGraph(this.features, fragmentsMap, scenarioLanguageMap);
     }
 
     /**
-     * The graph of insertion of fragments is transposing and reversing. Starting from the lower-level elements,
-     * fragments are inserting into the upper levels.
+     * In the graph, terminal fragments are searched and substituted cyclically.
+     * The cycle will be completed when all fragments are substituted and there are no edges left in the graph.
      *
      * @throws IllegalAccessException if it was not possible to replace a step with a fragment
-     * @throws FragmentException if it is impossible to find the fragment by the specified name
+     * @throws FragmentException if fragments replacing is in an infinite loop
      */
     public void replace() throws IllegalAccessException, FragmentException {
-        Set<EndpointPair<Object>> edgesSet = Graphs.transpose(fragmentsGraph).edges();
-        ArrayList<EndpointPair<Object>> edgesList = new ArrayList<>(edgesSet);
-        Collections.reverse(edgesList);
+        ArrayList<EndpointPair<Object>> edgesList = new ArrayList<>(fragmentsGraph.edges());
 
-        for (EndpointPair edge : edgesList) {
-            ScenarioDefinition scenario = (ScenarioDefinition) edge.nodeV();
-            replaceInScenario(scenario);
+
+        while (!fragmentsGraph.edges().isEmpty()) {
+            int fragmentsGraphSize = fragmentsGraph.edges().size();
+
+            for (EndpointPair edge : edgesList) {
+                ScenarioDefinition fragment = (ScenarioDefinition) edge.nodeV();
+                ScenarioDefinition scenario = (ScenarioDefinition) edge.nodeU();
+
+                if (isTerminal(fragment)) {
+                    replaceFragmentInScenario(scenario, fragment);
+                    fragmentsGraph.removeEdge(scenario, fragment);
+                }
+            }
+
+            if (fragmentsGraphSize == fragmentsGraph.edges().size()) {
+                throw new FragmentException("Fragments replacing is no longer performed, it will lead to an infinite loop. Interrupting...");
+            }
         }
     }
 
-    private void replaceInScenario(ScenarioDefinition scenario) throws FragmentException, IllegalAccessException {
-        String language = scenarioLanguageMap.get(scenario);
-        List<Step> replacementSteps = replaceSteps(scenario.getSteps(), language);
+    /**
+     * In case of graph
+     *
+     * a -> b
+     * |
+     * -> c
+     * |
+     * d -> e -> f
+     *
+     * nodes 'a' and 'd' is terminal
+     *
+     * @param node
+     * @return
+     */
+    private boolean isTerminal(Object node) {
+        for (EndpointPair edge : fragmentsGraph.edges()) {
+            if (edge.nodeU().equals(node)) {
+                return false;
+            }
+        }
 
-        FieldUtils.writeField(scenario, "steps", replacementSteps, true);
+        return true;
     }
 
-    /**
-     * Bypass the passed list of steps and if a step is found that should be replaced with a fragment, then take the scenario
-     * name, find its steps and substitute them for a step that requires a replacement for the fragment
-     *
-     * @param steps list of steps in which the search for a step requiring replacement is performed on a fragment
-     * @param language steps language
-     * @return the list of steps with the substituted fragments
-     * @throws FragmentException if the fragment with the required name is not found
-     */
-    private List<Step> replaceSteps(List<Step> steps, String language) throws FragmentException {
+    private void replaceFragmentInScenario(ScenarioDefinition scenario, ScenarioDefinition fragment) throws FragmentException, IllegalAccessException {
+        String language = scenarioLanguageMap.get(scenario);
         List<Step> replacementSteps = new ArrayList<>();
 
-        for (Step step : steps) {
-            if (FragmentUtils.isStepFragmentRequire(step, language)) {
-                replacementSteps.addAll(replaceStep(step, language));
+        for (Step step : scenario.getSteps()) {
+            if (FragmentUtils.isStepFragmentRequire(step, language)
+                    && FragmentUtils.getFragmentName(step, language).equals(fragment.getName())) {
+                replacementSteps.addAll(replaceStepWithFragment(step, fragment));
             } else {
                 replacementSteps.add(step);
             }
         }
 
-        return replacementSteps;
+        FieldUtils.writeField(scenario, "steps", replacementSteps, true);
     }
 
-    private List<Step> replaceStep(Step stepToReplace, String language) throws FragmentException {
-        String fragmentName = FragmentUtils.getFragmentName(stepToReplace, language);
-        List<Step> replacementSteps = fragmentsMap.get(fragmentName).getSteps();
-
-        if (replacementSteps == null) {
-            throw new FragmentException(String.format("Can't find scenario fragment with name \"%s\"", fragmentName));
-        }
-
+    private List<Step> replaceStepWithFragment(Step stepToReplace, ScenarioDefinition fragment) throws FragmentException {
+        List<Step> replacementSteps = fragment.getSteps();
         StepReplacer stepReplacer = new StepReplacer(stepToReplace);
 
         return stepReplacer.replaceWith(replacementSteps);
