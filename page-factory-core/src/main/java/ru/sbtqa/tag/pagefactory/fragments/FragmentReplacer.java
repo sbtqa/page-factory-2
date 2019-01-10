@@ -75,7 +75,7 @@ public class FragmentReplacer {
         return true;
     }
 
-    private void replaceFragmentInScenario(ScenarioDefinition scenario, ScenarioDefinition fragment) throws FragmentException, IllegalAccessException {
+    private void replaceFragmentInScenario(ScenarioDefinition scenario, ScenarioDefinition fragment) throws IllegalAccessException {
         String language = scenarioLanguageMap.get(scenario);
         List<Step> replacementSteps = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class FragmentReplacer {
         FieldUtils.writeField(scenario, "steps", replacementSteps, true);
     }
 
-    private List<Step> replaceStepWithFragment(Step stepToReplace, ScenarioDefinition fragment) throws FragmentException {
+    private List<Step> replaceStepWithFragment(Step stepToReplace, ScenarioDefinition fragment) {
         List<Step> replacementSteps = fragment.getSteps();
         StepReplacer stepReplacer = new StepReplacer(stepToReplace);
 
