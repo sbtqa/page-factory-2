@@ -26,9 +26,9 @@ public class HtmlFindUtils extends FindUtils {
     public <T> T getElementByTitle(Page page, String title) {
         return find(title);
     }
-    
-    protected boolean isNumeric(String text){
-       return text.chars().allMatch(Character::isDigit);
+
+    protected boolean isNumeric(String text) {
+        return text.chars().allMatch(Character::isDigit);
     }
 
     /**
@@ -94,18 +94,17 @@ public class HtmlFindUtils extends FindUtils {
      */
     public <T extends WebElement> T find(T context, String name, boolean wait) {
         ComplexElement element = findAndCheckComplexElement(context, name, wait);
-        if (element.getElement() == null) {
-           throw new ElementSearchError(format("Element not found '%s' on page", name));
-        }
         return (T) element.getElement();
     }
-    
+
     protected <T extends WebElement> ComplexElement findAndCheckComplexElement(T context, String name, boolean wait) {
         ComplexElement element = findComplexElement(context, name, wait);
 
         if (element.getElement() == null) {
             if (!(wait || element.isPresent())) {
                 throw new IllegalStateException(format("Element not found '%s' on page", name));
+            } else {
+                throw new ElementSearchError(format("Element not found '%s' on page", name));
             }
         }
         if (wait) {
@@ -152,7 +151,8 @@ public class HtmlFindUtils extends FindUtils {
      * the current page, or an element to search for
      * @param name list name or path to it
      * @return Returns a list from a page by name or path
-     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException Error get element by field
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException
+     * Error get element by field
      */
     public <T extends WebElement> List<T> findList(T context, String name) throws ElementDescriptionException {
         ComplexElement element = new ComplexElement(context, name, false);
@@ -191,7 +191,6 @@ public class HtmlFindUtils extends FindUtils {
             for (; element.getCurrentPosition() < element.getElementPath().size();
                     element.setCurrentPosition(element.getCurrentPosition() + 1)) {
                 Field field = getField(element.getElement(), element.getCurrentName());
-
                 if (field == null) {
                     throw new ElementSearchError("No element declared on page " + formErrorMessage(element));
                 }
@@ -252,7 +251,7 @@ public class HtmlFindUtils extends FindUtils {
 
     /**
      * Searches for an element of the specified type by the specified name or
-     * path 
+     * path
      * <p>
      * As a path, an enumeration of elements in a nested structure can be used
      * through the separator "{@code ->}", for example:
