@@ -32,13 +32,10 @@ public class FragmentReplacer {
      * @throws FragmentException if fragments replacing is in an infinite loop
      */
     public void replace() throws IllegalAccessException, FragmentException {
-        ArrayList<EndpointPair<Object>> edgesList = new ArrayList<>(fragmentsGraph.edges());
-
-
         while (!fragmentsGraph.edges().isEmpty()) {
             int fragmentsGraphSize = fragmentsGraph.edges().size();
 
-            for (EndpointPair edge : edgesList) {
+            for (EndpointPair edge : new ArrayList<>(fragmentsGraph.edges())) {
                 ScenarioDefinition fragment = (ScenarioDefinition) edge.nodeV();
                 ScenarioDefinition scenario = (ScenarioDefinition) edge.nodeU();
 
