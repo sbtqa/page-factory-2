@@ -206,7 +206,7 @@ public class HtmlFindUtils extends FindUtils {
         return element;
     }
 
-    private String formErrorMessage(ComplexElement element) {
+    protected String formErrorMessage(ComplexElement element) {
         StringBuilder errorMessage = new StringBuilder();
         String currenElementName = "\"" + element.getCurrentName() + "\"";
 

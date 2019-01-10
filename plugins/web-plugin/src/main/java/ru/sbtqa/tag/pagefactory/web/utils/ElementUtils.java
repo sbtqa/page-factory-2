@@ -27,7 +27,7 @@ public class ElementUtils {
      * @param element element element clicked
      */
     public static <T extends WebElement> void doubleClick(T element) {
-        new Actions((WebDriver) Environment.getDriverService().getDriver()).doubleClick(element).perform();
+        new Actions((WebDriver) Environment.getDriverService().getDriver()).doubleClick((WebElement) element).perform();
     }
 
     /**

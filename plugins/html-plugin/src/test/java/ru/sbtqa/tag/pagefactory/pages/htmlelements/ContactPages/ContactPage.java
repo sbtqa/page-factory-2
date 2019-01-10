@@ -97,15 +97,15 @@ public class ContactPage extends HTMLPage {
         checkType(htmlFindUtils.find("first name", WebElement.class), TextInput.class);
     }
     
-    @ActionTitle("check find element with incorrect type")
-    public void findElementWithIncorrectType() {
-        HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
-        try {
-            htmlFindUtils.find("first name", Button.class);
-            throw new AutotestError("Type check failed.");
-        } catch (IncorrectElementTypeError e) {
-        }
-    }
+     @ActionTitle("check find element with incorrect type")
+     public void findElementWithIncorrectType() {
+         HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
+         try {
+             htmlFindUtils.find("first name", Button.class);
+             throw new AutotestError("Type check failed.");
+         } catch (IncorrectElementTypeError e) {
+         }
+     }
 
     private <T extends WebElement> void checkType(T element, Class expectedType) {
         Assert.assertTrue("Incorrect type", element.getClass().equals(expectedType));
