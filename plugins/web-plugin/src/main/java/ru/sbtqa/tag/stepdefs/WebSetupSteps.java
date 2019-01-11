@@ -1,12 +1,11 @@
 package ru.sbtqa.tag.stepdefs;
 
+import static java.lang.ThreadLocal.withInitial;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 import ru.sbtqa.tag.pagefactory.web.tasks.KillAlertTask;
-
-import static java.lang.ThreadLocal.withInitial;
 
 public class WebSetupSteps {
 

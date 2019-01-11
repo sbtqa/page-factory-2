@@ -1,12 +1,11 @@
 package ru.sbtqa.tag.pagefactory.tasks;
 
+import java.io.IOException;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
-
-import java.io.IOException;
 
 public class KillProcessesTask implements Task {
 

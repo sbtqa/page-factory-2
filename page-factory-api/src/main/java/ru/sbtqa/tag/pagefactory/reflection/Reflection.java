@@ -2,6 +2,9 @@ package ru.sbtqa.tag.pagefactory.reflection;
 
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Tag;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.List;
 import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
@@ -9,10 +12,6 @@ import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.List;
 
 public interface Reflection {
 

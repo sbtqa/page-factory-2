@@ -3,11 +3,10 @@ package ru.sbtqa.tag.pagefactory.jdi.utils;
 import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
 import com.epam.jdi.uitests.web.settings.WebSettings;
-import org.openqa.selenium.WebDriver;
-import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
-
 import java.io.IOException;
 import java.util.function.Supplier;
+import org.openqa.selenium.WebDriver;
+import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 
 /**
  * Utils methods for jdi-plugin

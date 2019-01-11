@@ -3,6 +3,7 @@ package ru.sbtqa.tag.pagefactory.mobile.utils;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.TouchAction;
+import java.util.List;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
@@ -13,8 +14,6 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
 import ru.sbtqa.tag.qautils.strategies.DirectionStrategy;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
-
-import java.util.List;
 
 public class SwipeUtils {
 

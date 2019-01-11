@@ -8,7 +8,11 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.pages.htmlelements.blocks.MenuBlock;
-import ru.yandex.qatools.htmlelements.element.*;
+import ru.yandex.qatools.htmlelements.element.CheckBox;
+import ru.yandex.qatools.htmlelements.element.Radio;
+import ru.yandex.qatools.htmlelements.element.Select;
+import ru.yandex.qatools.htmlelements.element.TextBlock;
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
 @PageEntry(title = "ContactY")
 public class ContactPage extends HTMLPage {

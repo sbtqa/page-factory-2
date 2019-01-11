@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.api.utils;
 
 import cucumber.api.DataTable;
-
 import java.util.Map;
 
 public class CastUtils {

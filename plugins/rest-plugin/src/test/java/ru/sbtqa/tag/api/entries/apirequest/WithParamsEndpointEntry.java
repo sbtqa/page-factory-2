@@ -1,18 +1,16 @@
 package ru.sbtqa.tag.api.entries.apirequest;
 
 import cucumber.api.DataTable;
+import java.util.Map;
+import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.api.utils.Default;
-
-import java.util.Map;
-
-import static org.hamcrest.Matchers.equalTo;
 import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
+import ru.sbtqa.tag.api.utils.Default;
 
 @Endpoint(method = Rest.GET, path = "client/get-with-params", title = "api request with params test")
 public class WithParamsEndpointEntry extends EndpointEntry {

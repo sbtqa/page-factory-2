@@ -1,12 +1,11 @@
 package ru.sbtqa.tag.api.repository;
 
-import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.annotation.Endpoint;
-import ru.sbtqa.tag.api.exception.RestPluginException;
-
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class ApiRepository implements Repository {
 

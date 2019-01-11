@@ -1,10 +1,9 @@
 package ru.sbtqa.tag.api.annotation.applicators;
 
+import java.lang.reflect.Field;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Applicator for {@link FromResponse} annotation

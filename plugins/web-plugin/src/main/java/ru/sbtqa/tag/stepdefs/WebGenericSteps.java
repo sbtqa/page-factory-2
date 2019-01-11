@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -9,9 +11,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Basic step definitions, that should be available on every project Notations

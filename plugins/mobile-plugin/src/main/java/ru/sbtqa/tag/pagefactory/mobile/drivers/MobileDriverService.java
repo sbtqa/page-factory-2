@@ -3,15 +3,14 @@ package ru.sbtqa.tag.pagefactory.mobile.drivers;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class MobileDriverService implements DriverService {
 

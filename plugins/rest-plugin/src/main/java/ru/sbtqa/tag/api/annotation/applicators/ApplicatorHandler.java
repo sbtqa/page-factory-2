@@ -1,11 +1,10 @@
 package ru.sbtqa.tag.api.annotation.applicators;
 
-import ru.sbtqa.tag.api.exception.RestPluginException;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 
 /**
  * Queue of applicators.

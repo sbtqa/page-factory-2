@@ -1,9 +1,8 @@
 package ru.sbtqa.tag.api.annotation.applicators;
 
+import java.lang.reflect.Field;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.utils.ReflectionUtils;
-
-import java.lang.reflect.Field;
 
 public abstract class DefaultApplicator implements Applicator {
 

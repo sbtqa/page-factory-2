@@ -1,25 +1,23 @@
 package ru.sbtqa.tag.pagefactory.html.loader.decorators;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
-import ru.sbtqa.tag.qautils.errors.AutotestError;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.TypifiedElement;
-import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
-import ru.yandex.qatools.htmlelements.loader.decorator.proxyhandlers.TypifiedElementListNamedProxyHandler;
-import ru.yandex.qatools.htmlelements.pagefactory.CustomElementLocatorFactory;
-import ru.yandex.qatools.htmlelements.utils.HtmlElementUtils;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ElementLocator;
 import static ru.sbtqa.tag.pagefactory.html.loader.CustomHtmlElementLoader.createHtmlElement;
 import static ru.sbtqa.tag.pagefactory.html.loader.CustomHtmlElementLoader.createTypifiedElement;
+import ru.sbtqa.tag.qautils.errors.AutotestError;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.TypifiedElement;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
 import static ru.yandex.qatools.htmlelements.loader.decorator.ProxyFactory.createTypifiedElementListProxy;
+import ru.yandex.qatools.htmlelements.loader.decorator.proxyhandlers.TypifiedElementListNamedProxyHandler;
+import ru.yandex.qatools.htmlelements.pagefactory.CustomElementLocatorFactory;
+import ru.yandex.qatools.htmlelements.utils.HtmlElementUtils;
 import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.getElementName;
 
 /**

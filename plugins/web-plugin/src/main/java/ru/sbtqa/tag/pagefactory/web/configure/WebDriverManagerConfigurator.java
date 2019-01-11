@@ -7,11 +7,6 @@ import com.google.gson.stream.JsonReader;
 import io.github.bonigarcia.wdm.Architecture;
 import io.github.bonigarcia.wdm.BrowserManager;
 import io.github.bonigarcia.wdm.OperativeSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
-import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.apache.commons.lang3.SystemUtils.*;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
+import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 
 public class WebDriverManagerConfigurator {
 

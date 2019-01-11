@@ -1,16 +1,15 @@
 package ru.sbtqa.tag.pagefactory.web.capabilities;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
-import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 
 public class SelenoidCapabilitiesParser implements CapabilitiesParser {
 

@@ -6,19 +6,22 @@ import com.google.common.graph.MutableGraph;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
-import gherkin.ast.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
-
+import gherkin.ast.Feature;
+import gherkin.ast.GherkinDocument;
+import gherkin.ast.ScenarioDefinition;
+import gherkin.ast.Step;
+import gherkin.ast.Tag;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
 
 class FragmentCacheUtils {
 

@@ -5,12 +5,11 @@ import com.google.common.graph.MutableGraph;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 
 public class FragmentReplacer {
 

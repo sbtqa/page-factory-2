@@ -6,13 +6,12 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
+import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
-
-import java.util.List;
 
 public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
 

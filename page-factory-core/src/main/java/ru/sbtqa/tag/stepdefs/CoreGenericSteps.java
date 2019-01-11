@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
+import java.util.List;
 import org.openqa.selenium.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-
-import java.util.List;
 
 /**
  * Basic step definitions, that should be available on every project Notations
