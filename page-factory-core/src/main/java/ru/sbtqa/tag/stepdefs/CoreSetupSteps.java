@@ -3,6 +3,7 @@ package ru.sbtqa.tag.stepdefs;
 import cucumber.api.Scenario;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.find.FindUtils;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
 import ru.sbtqa.tag.pagefactory.tasks.ConnectToLogTask;
@@ -23,6 +24,7 @@ public class CoreSetupSteps {
         TaskHandler.addTask(new StartVideoTask());
 
         Environment.setReflection(new DefaultReflection());
+        Environment.setFindUtils(new FindUtils());
     }
 
     public static void setUp(Scenario scenario) {

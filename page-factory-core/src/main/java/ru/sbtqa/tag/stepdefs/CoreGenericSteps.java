@@ -33,6 +33,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
+ * @param <T> type of steps - any successor {@code CoreGenericSteps}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
@@ -51,6 +52,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * User|he keywords are optional
      *
      * @param title of the page to initialize
+     * @return Returns itself 
      * @throws PageInitializationException if page initialization failed
      */
     public T openPage(String title) throws PageInitializationException {
@@ -62,6 +64,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Execute action with no parameters User|he keywords are optional
      *
      * @param action title of the action to execute
+     * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public T action(String action) throws NoSuchMethodException {
@@ -74,6 +77,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param action title of the action to execute
      * @param param parameter
+     * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public T action(String action, Object... param) throws NoSuchMethodException {
@@ -87,6 +91,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param action title of the action to execute
      * @param dataTable table of parameters
+     * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public T action(String action, DataTable dataTable) throws NoSuchMethodException {
@@ -101,6 +106,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @param action title of the action to execute
      * @param param parameter
      * @param dataTable table of parameters
+     * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public T action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
@@ -114,6 +120,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param action title of the action to execute
      * @param list parameters list
+     * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
     public T action(String action, List<String> list) throws NoSuchMethodException {
@@ -126,10 +133,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param elementTitle element to fill
      * @param text text to enter
+     * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
     public T fill(String elementTitle, String text) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         Environment.getPageActions().fill(element, text);
         return (T) this;
     }
@@ -138,10 +146,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Click specified element
      *
      * @param elementTitle title of the element to click
+     * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
     public T click(String elementTitle) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         Environment.getPageActions().click(element);
         return (T) this;
     }
@@ -150,6 +159,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Press key on keyboard
      *
      * @param keyName name of the key. See available key names in {@link Keys}
+     * @return Returns itself 
      */
     public T pressKey(String keyName) {
         Environment.getPageActions().press(null, keyName);
@@ -161,10 +171,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param keyName name of the key. See available key names in {@link Keys}
      * @param elementTitle title of element that accepts key commands
+     * @return Returns itself 
      * @throws PageException if couldn't find element with required title
      */
     public T pressKey(String keyName, String elementTitle) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         Environment.getPageActions().press(element, keyName);
         return (T) this;
     }
@@ -174,11 +185,12 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param elementTitle element that is supposed to be selectable
      * @param option option to select
+     * @return Returns itself 
      * @throws PageException if required
      * element couldn't be found, or current page isn't initialized
      */
     public T select(String elementTitle, String option) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         Environment.getPageActions().select(element, option);
         return (T) this;
     }
@@ -187,10 +199,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Set checkbox element to selected state
      *
      * @param elementTitle element that is supposed to represent checkbox
+     * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
     public T setCheckBox(String elementTitle) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         Environment.getPageActions().setCheckbox(element, true);
         return (T) this;
     }
@@ -200,9 +213,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param text value for comparison
      * @param elementTitle title of the element to search
+     * @return Returns itself 
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException 
      */
     public T checkValueIsEqual(String elementTitle, String text) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'");
         }
@@ -214,10 +229,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      *
      * @param text value for comparison
      * @param elementTitle title of the element to search
+     * @return Returns itself 
      * @throws PageException if current page wasn't initialized, or element with required title was not found
      */
     public T checkValueIsNotEqual(String elementTitle, String text) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is equal with '" + text + "'");
         }
@@ -228,10 +244,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Check that the element's value is not empty
      *
      * @param elementTitle title of the element to check
+     * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
     public T checkNotEmpty(String elementTitle) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is empty");
         }
@@ -242,10 +259,11 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Check that the element's value is empty
      *
      * @param elementTitle title of the element to check
+     * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
     public T checkEmpty(String elementTitle) throws PageException {
-        Object element = Environment.getReflection().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        Object element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is not empty");
         }
@@ -256,6 +274,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Element is focused
      *
      * @param element element to focus on
+     * @return Returns itself 
      */
     public T isElementFocused(String element) {
         LOG.warn("Note that isElementFocused method is still an empty!");
@@ -266,8 +285,15 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * Current step will be replaced with steps of specified scenario
      *
      * @param fragmentName scenario name to insert instead of this step
+     * @return Returns itself 
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.FragmentException 
      */
     public T userInsertsFragment(String fragmentName) throws FragmentException {
         throw new FragmentException("The fragment-needed step must be replaced, but this did not happened");
     }
+    
+    private Object getElement(String elementTitle) throws PageException {
+        return Environment.getFindUtils().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+    }
+            
 }

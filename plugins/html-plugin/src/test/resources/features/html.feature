@@ -5,7 +5,6 @@ Feature: Check html yandex elements functional + ActionTitles mechanism
   Scenario: html elements check
 
     * user is on the page "MainY"
-    * user in block "menu" finds button "Home"
     * user in block "menu" (go to page) with a parameter "Contact"
     * user is on the page "ContactY"
 
