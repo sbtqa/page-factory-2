@@ -5,6 +5,7 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
 import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
+import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 
 public class HtmlSetupSteps {
 
