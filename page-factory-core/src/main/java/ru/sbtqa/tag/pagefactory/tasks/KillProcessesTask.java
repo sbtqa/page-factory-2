@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.pagefactory.tasks;
 
 import java.io.IOException;
-import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,7 @@ import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
 public class KillProcessesTask implements Task {
 
     private static final Logger LOG = LoggerFactory.getLogger(CoreSetupSteps.class);
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     @Override
     public void handle() {

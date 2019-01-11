@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.aspects.report;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -16,7 +15,7 @@ import ru.sbtqa.tag.pagefactory.utils.ScreenshotUtils;
 @Aspect
 public class AttachScreenshot {
 
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
     private static final Logger LOG = LoggerFactory.getLogger(AttachScreenshot.class);
 
     @Pointcut("execution(* ru.sbtqa.tag.stepdefs.CoreSetupSteps.tearDown()) && if()")

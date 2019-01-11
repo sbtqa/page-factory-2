@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
+import static java.lang.ThreadLocal.withInitial;
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.annotation.Validation;
@@ -10,8 +11,6 @@ import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.storage.EndpointBlank;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
-
-import static java.lang.ThreadLocal.*;
 
 /**
  * Basic step definitions, that should be available on every project

@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.web.aspects;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,7 +15,7 @@ import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 @Aspect
 public class ScrollToElement {
 
-    private static final WebConfiguration properties = ConfigFactory.create(WebConfiguration.class);
+    private static final WebConfiguration properties = WebConfiguration.create();
 
     @Pointcut("call(* org.openqa.selenium.WebElement.click()) && if()")
     public static boolean isScrollToElementEnabled() {

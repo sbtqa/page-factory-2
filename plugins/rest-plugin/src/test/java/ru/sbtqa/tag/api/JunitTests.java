@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.api;
 
+import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
+import static com.google.common.net.MediaType.JSON_UTF_8;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jetty.server.Server;
@@ -13,9 +15,6 @@ import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
 import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
-
-import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
-import static com.google.common.net.MediaType.JSON_UTF_8;
 
 public class JunitTests {
 

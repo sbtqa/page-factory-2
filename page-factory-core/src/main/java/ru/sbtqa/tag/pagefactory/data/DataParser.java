@@ -1,19 +1,28 @@
 package ru.sbtqa.tag.pagefactory.data;
 
 import cucumber.runtime.model.CucumberFeature;
-import gherkin.ast.*;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import ru.sbtqa.tag.datajack.exceptions.DataException;
-import ru.sbtqa.tag.qautils.properties.Props;
-
+import gherkin.ast.DataTable;
+import gherkin.ast.DocString;
+import gherkin.ast.Examples;
+import gherkin.ast.Feature;
+import gherkin.ast.GherkinDocument;
+import gherkin.ast.Node;
+import gherkin.ast.ScenarioDefinition;
+import gherkin.ast.ScenarioOutline;
+import gherkin.ast.Step;
+import gherkin.ast.TableCell;
+import gherkin.ast.TableRow;
+import gherkin.ast.Tag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.apache.commons.lang3.reflect.FieldUtils;
+import ru.sbtqa.tag.datajack.exceptions.DataException;
 import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_REGEX;
+import ru.sbtqa.tag.qautils.properties.Props;
 
 public class DataParser {
 

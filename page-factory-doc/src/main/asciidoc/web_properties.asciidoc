@@ -104,3 +104,63 @@ http://proxy.com:8080
 Возможные значения: `true`, `false` 
 | `false`
 |====================
+
+
+
+==== Параметры работы с browser capabilities
+[width="100%",options="header"]
+|====================
+^.^| Параметр ^.^| Описание ^.^| Пример
+| webdriver.chrome.capability.*
+(* - имя необходимой capability)
+| Устанавливает значение заданной capability
+|webdriver.chrome.capability.binary = C:\\Chrome\\chrome.exe - указать путь до исполняемого файла Google Chrome
+
+| webdriver.chrome.capability.options.args
+| Аргументы командной строки браузера. Передаются через запятую
+| webdriver.chrome.capability.options.args = user-data-dir=C:\\workspace\\user-data\\,start-maximized
+
+|====================
+
+
+==== Параметры работы с Selenoid/Moon
+[width="100%",options="header"]
+|====================
+^.^| Параметр ^.^| Описание ^.^| Пример
+|selenoid.browserVersion
+| Версия браузера
+|selenoid.browserVersion = 58.0
+|selenoid.enableVNC
+| Включение/выключение доступа по VNC
+|selenoid.enableVNC = true
+|selenoid.screenResolution
+| Разрешение экрана
+selenoid.screenResolution = 1280x1024x24
+|selenoid.enableVideo
+| Включение/выключение записи видео
+|selenoid.enableVideo = true
+|selenoid.video.name
+| Имя видеофайла
+selenoid.video.name = my-cool-video.mp4
+|selenoid.video.screenSize
+| Разрешение видео
+|selenoid.video.screenSize = 1024x768
+|selenoid.video.frameRate
+| Количество кадров в секунду
+|selenoid.video.frameRate = 24
+|selenoid.nameOfTests
+| Имя теста
+|selenoid.nameOfTests = myCoolTestName
+|selenoid.timeZone
+| Таймзона
+|selenoid.timeZone = Europe/Moscow
+|selenoid.hostEntries
+| Список передаваемых хостов
+|selenoid.hostEntries = example.com:192.168.0.1,test.com:192.168.0.2
+|selenoid.applicationContainers
+| Контейнеры
+|selenoid.applicationContainers = spring-application-main:my-cool-app,spring-application-gateway
+|selenoid.containerLables
+| Метки для быстрого поиска на дашборде
+|selenoid.containerLables = environment:testing,build-number:14353
+|====================

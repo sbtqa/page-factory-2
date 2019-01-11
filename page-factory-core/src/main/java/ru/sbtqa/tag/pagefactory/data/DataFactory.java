@@ -3,16 +3,14 @@ package ru.sbtqa.tag.pagefactory.data;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import static java.lang.String.format;
+import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.TestDataProvider;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.qautils.properties.Props;
-
-import java.lang.reflect.InvocationTargetException;
-
-import static java.lang.String.format;
 
 public class DataFactory {
 

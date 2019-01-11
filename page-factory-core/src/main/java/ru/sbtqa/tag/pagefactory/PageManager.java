@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,7 @@ public class PageManager {
 
     private static final ThreadLocal<Map<Class<? extends Page>, Map<Field, String>>> PAGES_REPOSITORY
             = ThreadLocal.withInitial(HashMap::new);
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     private PageManager() {
     }

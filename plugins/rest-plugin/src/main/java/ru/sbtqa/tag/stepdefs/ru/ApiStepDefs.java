@@ -8,9 +8,8 @@ import cucumber.api.java.ru.Тогда;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.storage.BlankStorage;
-import ru.sbtqa.tag.stepdefs.ApiSteps;
-
 import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
+import ru.sbtqa.tag.stepdefs.ApiSteps;
 
 
 public class ApiStepDefs extends ru.sbtqa.tag.stepdefs.ApiSteps {

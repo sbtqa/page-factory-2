@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.aspects.report;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,7 +10,7 @@ import ru.sbtqa.tag.pagefactory.properties.Configuration;
 @Aspect
 public class Click {
 
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     @Pointcut("execution(* ru.sbtqa.tag.pagefactory.*.click(..)) && if()")
     public static boolean isClickReportEnabled() {

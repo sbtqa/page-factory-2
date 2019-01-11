@@ -1,9 +1,8 @@
 package ru.sbtqa.tag.pagefactory.properties;
 
 import org.aeonbits.owner.Config;
-import org.aeonbits.owner.Config.Sources;
-
-@Sources("classpath:config/application.properties")
+import org.aeonbits.owner.ConfigFactory;
+import ru.sbtqa.tag.qautils.properties.Props;
 public interface Configuration extends Config {
 
     @Key("page.package")
@@ -63,4 +62,9 @@ public interface Configuration extends Config {
     @Key("fragments.path")
     @DefaultValue("")
     String getFragmentsPath();
+
+
+    static Configuration create() {
+        return ConfigFactory.create(Configuration.class, Props.getProps());
+    }
 }

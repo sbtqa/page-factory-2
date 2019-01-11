@@ -1,14 +1,13 @@
 package ru.sbtqa.tag.pagefactory.web.utils;
 
 import java.util.Set;
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 
 public class WindowHandles {
 
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
 
     private WindowHandles() {}
 

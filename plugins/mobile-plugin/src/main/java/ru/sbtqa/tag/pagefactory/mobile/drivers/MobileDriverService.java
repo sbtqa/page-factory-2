@@ -5,7 +5,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 public class MobileDriverService implements DriverService {
 
     private static final Logger LOG = LoggerFactory.getLogger(MobileDriverService.class);
-    private static final MobileConfiguration PROPERTIES = ConfigFactory.create(MobileConfiguration.class);
+    private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
 
     private AppiumDriver<AndroidElement> mobileDriver;
     private String deviceUdId;

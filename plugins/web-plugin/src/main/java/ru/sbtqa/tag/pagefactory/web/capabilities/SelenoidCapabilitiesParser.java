@@ -5,18 +5,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 
 public class SelenoidCapabilitiesParser implements CapabilitiesParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
-    private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
+    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
     private static final String VIDEONAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy'_'hh:mm:ss").format(new Date()) + '_' + UUID.randomUUID().toString() + "_%s";
 
     private final DesiredCapabilities capabilities = new DesiredCapabilities();
