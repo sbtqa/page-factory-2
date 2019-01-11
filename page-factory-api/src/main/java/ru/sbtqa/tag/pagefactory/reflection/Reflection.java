@@ -10,6 +10,7 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitles;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.find.Find;
@@ -69,7 +70,9 @@ public interface Reflection {
     boolean isRequiredElement(Field field, String title);
 
     /**
-     * Method moved to {@link Find}
+     * Find specified Object by title annotation among current page fields
+     * @deprecated will be removed in future versions
+     *          use {@link Find}
      *
      * @param page the page on which the method is executing
      * @param title title of the element to search
@@ -79,7 +82,9 @@ public interface Reflection {
      * find corresponding element or element type is set incorrectly
      */
     @Deprecated
-    <T> T getElementByTitle(Page page, String title) throws PageException;
+    default <T> T getElementByTitle(Page page, String title) throws PageException {
+        return Environment.getFindUtils().getElementByTitle(page, title);
+    }
     
     /**
      * Return value of {@link ElementTitle} annotation for the field. If
