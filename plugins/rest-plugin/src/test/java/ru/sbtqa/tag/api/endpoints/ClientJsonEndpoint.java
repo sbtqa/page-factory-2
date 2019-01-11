@@ -1,24 +1,14 @@
 package ru.sbtqa.tag.api.endpoints;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PATCH;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import ru.sbtqa.tag.api.dto.Client;
 import ru.sbtqa.tag.api.dto.Days;
 import ru.sbtqa.tag.api.dto.SimpleResult;
 import ru.sbtqa.tag.api.utils.Default;
 import ru.sbtqa.tag.api.utils.TestDataUtils;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/client")
 public class ClientJsonEndpoint {

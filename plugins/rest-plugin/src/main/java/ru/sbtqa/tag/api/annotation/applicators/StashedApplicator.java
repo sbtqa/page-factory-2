@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api.annotation.applicators;
 
-import java.lang.reflect.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.EndpointEntry;
@@ -8,6 +7,8 @@ import ru.sbtqa.tag.api.EndpointEntryReflection;
 import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.datajack.Stash;
+
+import java.lang.reflect.Field;
 
 /**
  * Applicator for {@link Stashed} annotation

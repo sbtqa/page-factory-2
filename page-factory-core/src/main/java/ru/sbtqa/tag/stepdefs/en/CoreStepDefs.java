@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.stepdefs.en;
 
-import java.util.List;
 import cucumber.api.DataTable;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -12,6 +11,8 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
+
+import java.util.List;
 
 public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
 

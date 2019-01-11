@@ -1,12 +1,6 @@
 package ru.sbtqa.tag.api.manager;
 
 import com.google.common.reflect.ClassPath;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Set;
-import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.EndpointEntry;
@@ -16,10 +10,16 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.Set;
+
 public class EndpointManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(EndpointManager.class);
-    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
+    private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
     private static final ThreadLocal<Set<Class<?>>> ENDPOINTS_CACHE = ThreadLocal.withInitial(HashSet::new);
 
     private EndpointManager() {

@@ -1,10 +1,7 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
-import gherkin.ast.DataTable;
-import gherkin.ast.Node;
-import gherkin.ast.Step;
-import gherkin.ast.TableCell;
-import gherkin.ast.TableRow;
+import gherkin.ast.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

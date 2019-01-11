@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -9,6 +7,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.String.format;
 

@@ -1,8 +1,9 @@
 package ru.sbtqa.tag.api.utils;
 
-import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+
+import java.io.IOException;
 
 public class TemplateUtils {
 

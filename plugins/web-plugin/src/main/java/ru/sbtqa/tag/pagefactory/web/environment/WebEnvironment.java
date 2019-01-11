@@ -1,13 +1,12 @@
 package ru.sbtqa.tag.pagefactory.web.environment;
 
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 
 public class WebEnvironment extends Environment {
 
-    private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
+    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
 
     public static BrowserName getBrowserName() {
         return adaptBrowserName(PROPERTIES.getBrowserName().replace(' ', '_'));

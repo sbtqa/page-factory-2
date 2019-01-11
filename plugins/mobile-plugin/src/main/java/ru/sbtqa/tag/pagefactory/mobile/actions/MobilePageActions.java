@@ -1,20 +1,19 @@
 package ru.sbtqa.tag.pagefactory.mobile.actions;
 
 import io.appium.java_client.AppiumDriver;
-import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import ru.sbtqa.tag.pagefactory.mobile.support.AdbConsole;
-import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
+import ru.sbtqa.tag.pagefactory.mobile.support.AdbConsole;
 
 public class MobilePageActions implements PageActions {
 
-    private static final MobileConfiguration PROPERTIES = ConfigFactory.create(MobileConfiguration.class);
+    private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
 
     @Override
     public void fill(Object element, String text) {

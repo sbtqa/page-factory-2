@@ -1,10 +1,11 @@
 package ru.sbtqa.tag.api.annotation;
 
+import ru.sbtqa.tag.api.Rest;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import ru.sbtqa.tag.api.Rest;
 
 /**
  * Annotate class that is the inheritor of {@link ru.sbtqa.tag.api.EndpointEntry}

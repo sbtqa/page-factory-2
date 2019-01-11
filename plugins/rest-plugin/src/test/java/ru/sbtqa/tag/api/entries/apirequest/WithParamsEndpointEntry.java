@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.api.entries.apirequest;
 
 import cucumber.api.DataTable;
-import java.util.Map;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Endpoint;
@@ -9,6 +8,8 @@ import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
+
+import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static ru.sbtqa.tag.api.utils.CastUtils.toMap;

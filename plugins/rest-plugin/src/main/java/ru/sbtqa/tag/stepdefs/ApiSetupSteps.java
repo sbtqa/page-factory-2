@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
@@ -10,7 +9,7 @@ import ru.sbtqa.tag.api.storage.BlankStorage;
 
 public class ApiSetupSteps {
 
-    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
+    private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
     private static final ThreadLocal<Boolean> isInitApi = ThreadLocal.withInitial(() -> false);
 
     public void initApi() {

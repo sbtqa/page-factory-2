@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory.properties;
 
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigFactory;
-
 import ru.sbtqa.tag.qautils.properties.Props;
 public interface Configuration extends Config {
 

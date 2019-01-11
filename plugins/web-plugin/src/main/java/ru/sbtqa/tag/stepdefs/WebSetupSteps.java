@@ -6,7 +6,7 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 import ru.sbtqa.tag.pagefactory.web.tasks.KillAlertTask;
 
-import static java.lang.ThreadLocal.*;
+import static java.lang.ThreadLocal.withInitial;
 
 public class WebSetupSteps {
 

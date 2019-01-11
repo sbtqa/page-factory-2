@@ -1,11 +1,12 @@
 package ru.sbtqa.tag.api.utils;
 
-import java.net.URI;
-import javax.ws.rs.core.UriBuilder;
 import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import ru.sbtqa.tag.api.endpoints.ClientJsonEndpoint;
+
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
 
 public class JettyServiceUtils {
 

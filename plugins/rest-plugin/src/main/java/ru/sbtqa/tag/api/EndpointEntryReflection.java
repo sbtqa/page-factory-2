@@ -1,30 +1,19 @@
 package ru.sbtqa.tag.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.api.annotation.*;
+import ru.sbtqa.tag.api.annotation.applicators.*;
+import ru.sbtqa.tag.api.exception.RestPluginException;
+import ru.sbtqa.tag.api.utils.PlaceholderUtils;
+import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.annotation.Body;
-import ru.sbtqa.tag.api.annotation.Cookie;
-import ru.sbtqa.tag.api.annotation.Endpoint;
-import ru.sbtqa.tag.api.annotation.FromResponse;
-import ru.sbtqa.tag.api.annotation.Header;
-import ru.sbtqa.tag.api.annotation.ParameterType;
-import ru.sbtqa.tag.api.annotation.Query;
-import ru.sbtqa.tag.api.annotation.Stashed;
-import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.api.annotation.applicators.Applicator;
-import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
-import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
-import ru.sbtqa.tag.api.annotation.applicators.QueryApplicator;
-import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
-import ru.sbtqa.tag.api.exception.RestPluginException;
-import ru.sbtqa.tag.api.utils.PlaceholderUtils;
-import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 import static java.lang.String.format;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.*;

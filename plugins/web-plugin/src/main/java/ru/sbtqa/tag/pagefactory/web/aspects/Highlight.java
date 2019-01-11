@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.web.aspects;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,7 +15,7 @@ import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 @Aspect
 public class Highlight {
 
-    private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
+    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
     private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
 
     @Pointcut("call(* org.openqa.selenium.WebElement.click()) && if()")

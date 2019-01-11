@@ -1,3 +1,13 @@
+==== Конфигурационыый файл
+
+Конфигурационный файл по умолчанию должен быть расположен по пути '/src/test/resources/application.properties'. +
+Но этот путь можно переопределить, передав местоположение через системную переменную 'TagConfigFile':
+
+[source,]
+----
+mvn test -DTagConfigFile=custom-place/config.properties
+----
+
 ==== Общие конфигурации
 
 [width="100%",options="header"]

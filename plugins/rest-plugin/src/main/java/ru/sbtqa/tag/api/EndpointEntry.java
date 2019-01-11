@@ -3,9 +3,6 @@ package ru.sbtqa.tag.api;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import java.util.HashMap;
-import java.util.Map;
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
@@ -14,6 +11,9 @@ import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.utils.PathUtils;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static ru.sbtqa.tag.api.annotation.ParameterType.*;
@@ -26,7 +26,7 @@ import static ru.sbtqa.tag.api.annotation.ParameterType.*;
  */
 public abstract class EndpointEntry {
 
-    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
+    private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
 
     private EndpointEntryReflection reflection;
     private BlankStorage blankStorage;

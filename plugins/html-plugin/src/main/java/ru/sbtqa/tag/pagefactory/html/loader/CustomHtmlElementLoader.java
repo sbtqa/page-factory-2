@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.pagefactory.html.loader;
 
-import java.lang.reflect.InvocationTargetException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -11,6 +10,9 @@ import ru.yandex.qatools.htmlelements.exceptions.HtmlElementsException;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 import ru.yandex.qatools.htmlelements.pagefactory.CustomElementLocatorFactory;
+
+import java.lang.reflect.InvocationTargetException;
+
 import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.newInstance;
 
 public class CustomHtmlElementLoader extends HtmlElementLoader {

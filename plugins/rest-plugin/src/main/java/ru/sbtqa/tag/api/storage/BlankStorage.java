@@ -1,8 +1,9 @@
 package ru.sbtqa.tag.api.storage;
 
+import ru.sbtqa.tag.api.exception.RestPluginException;
+
 import java.util.ArrayList;
 import java.util.List;
-import ru.sbtqa.tag.api.exception.RestPluginException;
 
 /**
  * The repository for {@link EndpointBlank} storing

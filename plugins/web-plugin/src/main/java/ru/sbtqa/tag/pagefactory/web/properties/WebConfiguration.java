@@ -1,7 +1,9 @@
 package ru.sbtqa.tag.pagefactory.web.properties;
 
 import org.aeonbits.owner.Config.Sources;
+import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.qautils.properties.Props;
 
 @Sources("classpath:config/application.properties")
 public interface WebConfiguration extends Configuration {
@@ -122,4 +124,9 @@ public interface WebConfiguration extends Configuration {
     @Key("aspects.scroll.to.element.enabled")
     @DefaultValue("false")
     boolean isScrollToElementEnabled();
+
+    static WebConfiguration create() {
+        return ConfigFactory.create(WebConfiguration.class, Props.getProps());
+    }
+
 }

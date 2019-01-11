@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 
 public class WebWait extends Wait {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
-    private static final Configuration PROPERTIES = Configuration.create();
+    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
 
     /**
      * Wait for page prepared with javascript

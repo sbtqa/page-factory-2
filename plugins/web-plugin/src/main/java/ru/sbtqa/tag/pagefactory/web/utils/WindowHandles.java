@@ -1,13 +1,14 @@
 package ru.sbtqa.tag.pagefactory.web.utils;
 
-import java.util.Set;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
+
+import java.util.Set;
 
 public class WindowHandles {
 
-    private static final Configuration PROPERTIES = Configuration.create();
+    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
 
     private WindowHandles() {}
 
