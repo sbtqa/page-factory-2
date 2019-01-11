@@ -9,6 +9,7 @@ import ru.sbtqa.tag.qautils.properties.Props;
 public interface ApiConfiguration extends Config {
 
     @Key("api.baseURI")
+    @DefaultValue("")
     String getBaseURI();
 
     @Key("api.endpoint.package")

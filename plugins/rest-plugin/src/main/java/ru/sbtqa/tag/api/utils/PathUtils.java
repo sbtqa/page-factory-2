@@ -10,9 +10,13 @@ public class PathUtils {
     private PathUtils() {}
 
     public static String unite(String left, String right) {
-        left = left.replaceAll(SLASHES_ON_END_REGEX, EMPTY_LINE);
-        right = right.replaceAll(SLASHES_ON_START_REGEX, EMPTY_LINE);
+        if (left.isEmpty()) {
+            return right;
+        } else {
+            left = left.replaceAll(SLASHES_ON_END_REGEX, EMPTY_LINE);
+            right = right.replaceAll(SLASHES_ON_START_REGEX, EMPTY_LINE);
 
-        return left + SLASH + right;
+            return left + SLASH + right;
+        }
     }
 }

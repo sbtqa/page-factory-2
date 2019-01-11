@@ -35,7 +35,15 @@ public class ReflectionUtils {
         try {
             method.invoke(endpoint, params);
         } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-            throw new RestPluginException(format("Failed to execute validation rule in \"%s\" endpoint entry", endpoint), e);
+            String ruleTitle = method.getAnnotation(Validation.class).title();
+            Throwable directThrowable = e;
+            if (directThrowable.getCause() != null) {
+                directThrowable = e.getCause();
+                if (directThrowable.getCause() != null) {
+                    directThrowable = directThrowable.getCause();
+                }
+            }
+            throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
         }
     }
 }
