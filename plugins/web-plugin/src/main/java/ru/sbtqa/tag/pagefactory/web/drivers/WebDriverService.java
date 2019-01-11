@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
@@ -35,7 +34,7 @@ import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 public class WebDriverService implements DriverService {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebDriverService.class);
-    private static final WebConfiguration PROPERTIES = ConfigFactory.create(WebConfiguration.class);
+    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
 
     private WebDriver webDriver;
 

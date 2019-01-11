@@ -1,13 +1,12 @@
 package ru.sbtqa.tag.api.entries.parameters;
 
+import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Cookie;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
-
-import static org.hamcrest.Matchers.equalTo;
 
 @Endpoint(method = Rest.GET, path = "client/cookie", title = "cookie")
 public class CookieEntry extends EndpointEntry {

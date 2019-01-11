@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
@@ -27,7 +26,7 @@ import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
 class FragmentCacheUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(FragmentCacheUtils.class);
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
     private static final String FRAGMENT_TAG = "@fragment";
 
     private FragmentCacheUtils() {}

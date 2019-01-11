@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.runtime.model.CucumberFeature;
 import java.util.List;
-import org.aeonbits.owner.ConfigFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,7 +13,7 @@ import ru.sbtqa.tag.pagefactory.properties.Configuration;
 @Aspect
 public class CucumberAspect {
 
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     @Around("call(* cucumber.api.junit.Cucumber.addChildren(..))")
     public void replaceSteps(ProceedingJoinPoint joinPoint) throws Throwable {

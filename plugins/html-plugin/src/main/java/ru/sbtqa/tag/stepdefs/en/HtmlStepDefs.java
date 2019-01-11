@@ -4,8 +4,8 @@ import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.stepdefs.HtmlSetupSteps;
 import ru.sbtqa.tag.stepdefs.HtmlGenericSteps;
+import ru.sbtqa.tag.stepdefs.HtmlSetupSteps;
 
 public class HtmlStepDefs extends HtmlGenericSteps<HtmlStepDefs> {
 

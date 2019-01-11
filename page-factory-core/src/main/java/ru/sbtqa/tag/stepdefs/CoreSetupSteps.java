@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.Scenario;
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.find.FindUtils;
@@ -15,7 +14,7 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 
 public class CoreSetupSteps {
 
-    private static final Configuration PROPERTIES = ConfigFactory.create(Configuration.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     private CoreSetupSteps() {}
 

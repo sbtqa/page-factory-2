@@ -1,13 +1,12 @@
 package ru.sbtqa.tag.api.entries.form;
 
+import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Body;
 import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
-
-import static org.hamcrest.Matchers.equalTo;
 
 @Endpoint(method = Rest.POST, path = "client/form", title = "form")
 public class FormEndpointEntry extends EndpointEntry {

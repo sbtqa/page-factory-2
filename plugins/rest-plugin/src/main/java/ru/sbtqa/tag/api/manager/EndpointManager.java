@@ -6,7 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
-import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.EndpointEntry;
@@ -19,7 +18,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 public class EndpointManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(EndpointManager.class);
-    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
+    private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
     private static final ThreadLocal<Set<Class<?>>> ENDPOINTS_CACHE = ThreadLocal.withInitial(HashSet::new);
 
     private EndpointManager() {

@@ -1,12 +1,16 @@
 package ru.sbtqa.tag.api;
 
+import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.api.annotation.Endpoint;
+import static ru.sbtqa.tag.api.annotation.ParameterType.BODY;
+import static ru.sbtqa.tag.api.annotation.ParameterType.COOKIE;
+import static ru.sbtqa.tag.api.annotation.ParameterType.HEADER;
+import static ru.sbtqa.tag.api.annotation.ParameterType.QUERY;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
@@ -14,9 +18,6 @@ import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.utils.PathUtils;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
-
-import static io.restassured.RestAssured.given;
-import static ru.sbtqa.tag.api.annotation.ParameterType.*;
 
 /**
  * An endpoint request (ala Page Object).
@@ -26,7 +27,7 @@ import static ru.sbtqa.tag.api.annotation.ParameterType.*;
  */
 public abstract class EndpointEntry {
 
-    private static final ApiConfiguration PROPERTIES = ConfigFactory.create(ApiConfiguration.class);
+    private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
 
     private EndpointEntryReflection reflection;
     private BlankStorage blankStorage;
