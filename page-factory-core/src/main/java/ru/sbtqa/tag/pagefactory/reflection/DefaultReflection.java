@@ -64,7 +64,7 @@ public class DefaultReflection implements Reflection {
             }
         }
 
-        throw new NoSuchActionError("There is no '" + title + "' method on '" + context.getClass() + "' page object");
+        throw new NoSuchActionError("There is no '" + title + "' method on '" + context.getClass());
     }
 
     @Override

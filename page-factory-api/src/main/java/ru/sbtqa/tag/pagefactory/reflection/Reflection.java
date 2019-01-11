@@ -12,6 +12,7 @@ import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ValidationRule;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.find.Find;
 
 public interface Reflection {
 
@@ -28,9 +29,9 @@ public interface Reflection {
     String getElementTitle(Page page, Object element);
 
     /**
-     * Find method with corresponding title on current page, and execute it
+     * Find method with corresponding title on current page or block, and execute it
      *
-     * @param context context on which the method is executing
+     * @param context context on which the method is executing: page or block
      * @param title title of the method to call
      * @param param parameters that will be passed to method
      * @throws java.lang.NoSuchMethodException if required method couldn't be
@@ -67,6 +68,19 @@ public interface Reflection {
      */
     boolean isRequiredElement(Field field, String title);
 
+    /**
+     * Method moved to {@link Find}
+     *
+     * @param page the page on which the method is executing
+     * @param title title of the element to search
+     * @param <T> supposed type of the field. if field cannot be cast into this type, it will fail
+     * @return Object found by corresponding title
+     * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException if failed to
+     * find corresponding element or element type is set incorrectly
+     */
+    @Deprecated
+    <T> T getElementByTitle(Page page, String title) throws PageException;
+    
     /**
      * Return value of {@link ElementTitle} annotation for the field. If
      * none present, return empty string
