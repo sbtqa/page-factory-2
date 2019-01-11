@@ -112,12 +112,13 @@ http://proxy.com:8080
 |====================
 ^.^| Параметр ^.^| Описание ^.^| Пример
 | webdriver.chrome.capability.*
-| * - имя необходимой capability
-|webdriver.chrome.capability.binary=C:\\Chrome\\chrome.exe - указать путь до исполняемого файла Google Chrome
+(* - имя необходимой capability)
+| Устанавливает значение заданной capability
+|webdriver.chrome.capability.binary = C:\\Chrome\\chrome.exe - указать путь до исполняемого файла Google Chrome
 
 | webdriver.chrome.capability.options.args
 | Аргументы командной строки браузера. Передаются через запятую
-| webdriver.chrome.capability.options.args=user-data-dir=C:\\workspace\\user-data\\,start-maximized
+| webdriver.chrome.capability.options.args = user-data-dir=C:\\workspace\\user-data\\,start-maximized
 
 |====================
 
@@ -130,7 +131,7 @@ http://proxy.com:8080
 | Версия браузера
 |selenoid.browserVersion = 58.0
 |selenoid.enableVNC
-| Включить доступ к просмотру выполнения по VNC или нет
+| Включение/выключение доступа по VNC
 |selenoid.enableVNC = true
 |selenoid.screenResolution
 | Разрешение экрана
@@ -139,7 +140,7 @@ selenoid.screenResolution = 1280x1024x24
 | Включение/выключение записи видео
 |selenoid.enableVideo = true
 |selenoid.video.name
-| Имя виденофайла
+| Имя видеофайла
 selenoid.video.name = my-cool-video.mp4
 |selenoid.video.screenSize
 | Разрешение видео
