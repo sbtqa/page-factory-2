@@ -23,7 +23,6 @@ public class ElementUtils {
     /**
      * Double-clicks an item
      *
-     * @param <T> type of element passed - any successor {@code WebElement}
      * @param element element element clicked
      */
     public static void doubleClick(WebElement element) {
