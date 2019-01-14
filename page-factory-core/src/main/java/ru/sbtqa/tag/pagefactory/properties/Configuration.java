@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.properties;
 
+import java.util.Properties;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.qautils.properties.Props;
@@ -63,6 +64,13 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getFragmentsPath();
 
+    static <T extends Config> T init(Class<T> configuration) {
+        Properties allProps = Props.getProps();
+        allProps.putAll(System.getenv());
+        allProps.putAll(System.getProperties());
+
+        return ConfigFactory.create(configuration, allProps);
+    }
 
     static Configuration create() {
         return ConfigFactory.create(Configuration.class, Props.getProps());
