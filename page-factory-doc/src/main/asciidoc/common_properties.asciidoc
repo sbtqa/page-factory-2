@@ -8,6 +8,14 @@
 mvn test -DTagConfigFile=custom-place/config.properties
 ----
 
+Так же можно задавать отдельные свойства через переменные окружения, либо через java system properties.
+
+Все последующие свойства переопределяют предыдущие. Приоритет значений следующий: +
+* По-умолчанию читается application.properties
+* Далее идет чтнетние TagConfigFile
+* Затем считытываются переменные окружения
+* И в конце - java system properties
+
 ==== Общие конфигурации
 
 [width="100%",options="header"]
