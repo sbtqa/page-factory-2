@@ -13,6 +13,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -93,7 +94,7 @@ public class WebDriverService implements DriverService {
                 setWebDriver(new InternetExplorerDriver(capabilities));
             } else if (browserName.equals(BrowserName.EDGE)) {
                 WebDriverManagerConfigurator.configureDriver(EdgeDriverManager.getInstance(), BrowserName.EDGE.getName());
-                setWebDriver(new org.openqa.selenium.edge.EdgeDriver(capabilities));
+                setWebDriver(new EdgeDriver(capabilities));
             } else {
                 throw new UnsupportedBrowserException("'" + browserName + "' is not supported yet");
             }
