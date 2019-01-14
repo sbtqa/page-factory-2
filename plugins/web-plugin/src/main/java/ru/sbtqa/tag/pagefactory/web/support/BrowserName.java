@@ -8,7 +8,8 @@ public enum BrowserName {
     CHROME("chrome"),
     FIREFOX("firefox"),
     OPERA("firefox"),
-    SAFARI("safari");
+    SAFARI("safari"),
+    EDGE("edge");
 
     private String name;
 
