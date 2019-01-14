@@ -60,6 +60,11 @@
       <version>${selenium.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-edge-driver</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
       <groupId>net.lightbody.bmp</groupId>
       <artifactId>browsermob-core</artifactId>
       <version>2.1.5</version>
