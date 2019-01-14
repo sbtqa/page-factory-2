@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
+import io.qameta.allure.Step;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
@@ -136,6 +137,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
+    @Step
     public T acceptAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).acceptAlert();
         return (T) this;
@@ -149,6 +151,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
+    @Step
     public T dismissAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).dismissAlert();
         return (T) this;

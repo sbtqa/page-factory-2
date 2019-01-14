@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
+import io.qameta.allure.Step;
 import java.util.List;
 import org.openqa.selenium.Keys;
 import org.slf4j.Logger;
@@ -55,6 +56,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageInitializationException if page initialization failed
      */
+    @Step
     public T openPage(String title) throws PageInitializationException {
         PageManager.getPage(title);
         return (T) this;
@@ -67,6 +69,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
+    @Step
     public T action(String action) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action);
         return (T) this;
@@ -136,6 +139,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
+    @Step
     public T fill(String elementTitle, String text) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().fill(element, text);
@@ -149,6 +153,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
+    @Step
     public T click(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().click(element);
@@ -174,6 +179,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if couldn't find element with required title
      */
+    @Step
     public T pressKey(String keyName, String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().press(element, keyName);
@@ -189,6 +195,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @throws PageException if required
      * element couldn't be found, or current page isn't initialized
      */
+    @Step
     public T select(String elementTitle, String option) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().select(element, option);
@@ -202,6 +209,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
+    @Step
     public T setCheckBox(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().setCheckbox(element, true);
@@ -216,6 +224,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException 
      */
+    @Step
     public T checkValueIsEqual(String elementTitle, String text) throws PageException {
         Object element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEquality(element, text)) {
@@ -232,6 +241,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if current page wasn't initialized, or element with required title was not found
      */
+    @Step
     public T checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         Object element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEquality(element, text)) {
@@ -247,6 +257,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
+    @Step
     public T checkNotEmpty(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEmptiness(element)) {
@@ -262,6 +273,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
+    @Step
     public T checkEmpty(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEmptiness(element)) {
