@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.pagefactory.mobile.properties;
 
-import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.qautils.properties.Props;
 
 public interface MobileConfiguration extends Configuration {
 
@@ -39,7 +37,7 @@ public interface MobileConfiguration extends Configuration {
     String getAppiumResetStrategy();
 
     static MobileConfiguration create() {
-        return ConfigFactory.create(MobileConfiguration.class, Props.getProps());
+        return Configuration.init(MobileConfiguration.class);
     }
 
 }
