@@ -1,6 +1,10 @@
 package ru.sbtqa.tag.stepdefs;
 
 import io.restassured.RestAssured;
+import io.restassured.config.LogConfig;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.ToLoggerPrintStream;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
@@ -24,6 +28,9 @@ public class ApiSetupSteps {
         if (PROPERTIES.isSslRelaxed()) {
             RestAssured.useRelaxedHTTPSValidation();
         }
+
+        ToLoggerPrintStream toLoggerPrintStream = new ToLoggerPrintStream(LoggerFactory.getLogger(EndpointEntry.class));
+        RestAssured.config = RestAssured.config().logConfig(new LogConfig(toLoggerPrintStream.getPrintStream(), true));
     }
 
     private synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {

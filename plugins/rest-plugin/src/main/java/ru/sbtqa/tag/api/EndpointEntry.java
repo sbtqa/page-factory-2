@@ -1,16 +1,11 @@
 package ru.sbtqa.tag.api;
 
-import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.Endpoint;
-import static ru.sbtqa.tag.api.annotation.ParameterType.BODY;
-import static ru.sbtqa.tag.api.annotation.ParameterType.COOKIE;
-import static ru.sbtqa.tag.api.annotation.ParameterType.HEADER;
-import static ru.sbtqa.tag.api.annotation.ParameterType.QUERY;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
@@ -18,6 +13,12 @@ import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.utils.PathUtils;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
+
+import static io.restassured.RestAssured.given;
+import static ru.sbtqa.tag.api.annotation.ParameterType.BODY;
+import static ru.sbtqa.tag.api.annotation.ParameterType.COOKIE;
+import static ru.sbtqa.tag.api.annotation.ParameterType.HEADER;
+import static ru.sbtqa.tag.api.annotation.ParameterType.QUERY;
 
 /**
  * An endpoint request (ala Page Object).
@@ -61,7 +62,7 @@ public abstract class EndpointEntry {
 
     public void send() {
         reflection.applyAnnotations();
-        String url = PathUtils.unite( PROPERTIES.getBaseURI(), path);
+        String url = PathUtils.unite(PROPERTIES.getBaseURI(), path);
 
         RequestSpecification request = buildRequest();
         Response response;
@@ -91,11 +92,11 @@ public abstract class EndpointEntry {
                 throw new UnsupportedOperationException("Request method " + method + " is not supported");
         }
 
-        ApiEnvironment.getRepository().add(this.getClass(), new ApiPair(request, response.then().log().all()));
+        ApiEnvironment.getRepository().add(this.getClass(), new ApiPair(request, response.then().log().all(true)));
     }
 
     private RequestSpecification buildRequest() {
-        RequestSpecification request = given().log().all();
+        RequestSpecification request = given().log().all(true);
 
         request.queryParams(getQueryParameters());
         request.headers(getHeaders());
@@ -106,7 +107,7 @@ public abstract class EndpointEntry {
         } else {
             request.formParams(getForm());
         }
-        
+
         return request;
     }
 

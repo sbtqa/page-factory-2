@@ -10,5 +10,6 @@
     </aspects>
     <weaver options="-Xset:weaveJavaxPackages=true">
         <include within="ru.sbtqa.tag..*"/>
+        <include within="io.qameta.allure..*"/>
     </weaver>
 </aspectj>

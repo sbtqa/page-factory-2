@@ -48,6 +48,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * optional
      * @return Returns itself 
      */
+    @Step("copy of the page is being opened in a new tab")
     public T openCopyPage() {
         String pageUrl = Environment.getDriverService().getDriver().getCurrentUrl();
         ((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("window.open('" + pageUrl + "', '_blank')");
@@ -60,6 +61,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Switch to a neighbour browser tab
      * @return Returns itself 
      */
+    @Step("user switches to the next tab")
     public T switchesToNextTab() {
         String currentTab = Environment.getDriverService().getDriver().getWindowHandle();
         List<String> tabs = new ArrayList<>(Environment.getDriverService().getDriver().getWindowHandles());
@@ -78,6 +80,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @param url url for comparison
      * @return Returns itself 
      */
+    @Step("URL matches \"{url}\"")
     public T urlMatches(String url) {
         Assert.assertEquals("URL is different from the expected: ", url, Environment.getDriverService().getDriver().getCurrentUrl());
         return (T) this;
@@ -89,6 +92,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @param title title of the page to open
      * @return Returns itself 
      */
+    @Step("user closes the current window and returns to \"{title}\"")
     public T closingCurrentWin(String title) {
         Environment.getDriverService().getDriver().close();
         for (String windowHandle : Environment.getDriverService().getDriver().getWindowHandles()) {
@@ -104,6 +108,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Return to previous location (via browser "back" button)
      * @return Returns itself 
      */
+    @Step("user push back in the browser")
     public T backPage() {
         Environment.getDriverService().getDriver().navigate().back();
         return (T) this;
@@ -115,6 +120,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @param url url to go to
      * @return Returns itself 
      */
+    @Step("user navigates to url \"{url}\"")
     public T goToUrl(String url) {
         Environment.getDriverService().getDriver().get(url);
         return (T) this;
@@ -124,6 +130,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Refresh browser page
      * @return Returns itself 
      */
+    @Step("user refreshes the page")
     public T reInitPage() {
         Environment.getDriverService().getDriver().navigate().refresh();
         return (T) this;
@@ -137,7 +144,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
-    @Step
+    @Step("user accepts alert with text \"{text}\"")
     public T acceptAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).acceptAlert();
         return (T) this;
@@ -151,7 +158,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
-    @Step
+    @Step("user dismisses alert with text \"{text}\"")
     public T dismissAlert(String text) throws WaitException {
         ((WebPageActions) Environment.getPageActions()).dismissAlert();
         return (T) this;
@@ -167,6 +174,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * timeout
      * @throws java.lang.InterruptedException if the element is missing
      */
+    @Step("user checks that text \"{text}\" appears on the page")
     public T checkTextAppears(String text) throws WaitException, InterruptedException {
         WebWait.waitForTextPresenceInPageSource(text, true);
         return (T) this;
@@ -180,6 +188,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @return Returns itself
      * @throws java.lang.InterruptedException if the element is missing
      */
+    @Step("user checks that text \"{text}\" is absent on the page")
     public T checkTextIsNotPresent(String text) throws InterruptedException {
         WebWait.waitForTextPresenceInPageSource(text, false);
         return (T) this;
@@ -196,6 +205,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @return Returns itself
      * @throws ru.sbtqa.tag.pagefactory.exceptions.WaitException if
      */
+    @Step("user checks that modal window with text \"{text}\" is appears")
     public T checkModalWindowAppears(String text) throws WaitException {
         WebWait.waitForModalWindowWithText(text);
         return (T) this;
@@ -208,6 +218,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * @param text a {@link java.lang.String} object
      * @return Returns itself
      */
+    @Step("user checks that element with text \"{text}\" is present")
     public T checkElementWithTextIsPresent(String text) {
         WebWait.visibility(By.xpath("//*[contains(text(), '" + text + "')]"), "Text \"" + text + "\" is not present");
         return (T) this;

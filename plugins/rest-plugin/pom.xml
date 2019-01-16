@@ -81,6 +81,12 @@
       <artifactId>commons-collections</artifactId>
       <version>3.2.2</version>
     </dependency>
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit4</artifactId>
+      <version>2.9.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -114,6 +120,12 @@
           <argLine>
             -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
           </argLine>
+          <properties>
+            <property>
+              <name>listener</name>
+              <value>io.qameta.allure.junit4.AllureJunit4</value>
+            </property>
+          </properties>
         </configuration>
         <dependencies>
           <dependency>
@@ -122,6 +134,15 @@
             <version>${aspectj.version}</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <reportVersion>2.7.0</reportVersion>
+          <resultsDirectory>../allure-results</resultsDirectory>
+        </configuration>
       </plugin>
     </plugins>
   </build>

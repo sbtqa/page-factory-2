@@ -56,7 +56,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageInitializationException if page initialization failed
      */
-    @Step
+    @Step("user is on the page \"{title}\"")
     public T openPage(String title) throws PageInitializationException {
         PageManager.getPage(title);
         return (T) this;
@@ -69,7 +69,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
-    @Step
+    @Step("user ({action})")
     public T action(String action) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action);
         return (T) this;
@@ -83,6 +83,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
+    @Step("user ({action}) with parameters \"{param}\"")
     public T action(String action, Object... param) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param);
         return (T) this;
@@ -97,6 +98,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
+    @Step("user ({action}) with datatable \"{dataTable}\"")
     public T action(String action, DataTable dataTable) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, dataTable);
         return (T) this;
@@ -112,6 +114,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
+    @Step("user ({action}) with parameter \"{param}\" with datatable \"{dataTable}\"")
     public T action(String action, String param, DataTable dataTable) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, param, dataTable);
         return (T) this;
@@ -126,6 +129,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws NoSuchMethodException if corresponding method doesn't exist
      */
+    @Step("user ({action}) from the list \"{list}\"")
     public T action(String action, List<String> list) throws NoSuchMethodException {
         Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, list);
         return (T) this;
@@ -139,7 +143,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    @Step
+    @Step("user fills the field \"{elementTitle}\" with value \"{text}\"")
     public T fill(String elementTitle, String text) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().fill(element, text);
@@ -153,7 +157,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    @Step
+    @Step("user clicks \"{elementTitle}\"")
     public T click(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().click(element);
@@ -166,6 +170,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @param keyName name of the key. See available key names in {@link Keys}
      * @return Returns itself 
      */
+    @Step("user presses the key \"{keyName}\"")
     public T pressKey(String keyName) {
         Environment.getPageActions().press(null, keyName);
         return (T) this;
@@ -179,7 +184,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if couldn't find element with required title
      */
-    @Step
+    @Step("user presses the key \"{keyName}\" on the element \"{elementTitle}\"")
     public T pressKey(String keyName, String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().press(element, keyName);
@@ -195,7 +200,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @throws PageException if required
      * element couldn't be found, or current page isn't initialized
      */
-    @Step
+    @Step("user selects in \"{elementTitle}\" the value \"{option}\"")
     public T select(String elementTitle, String option) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().select(element, option);
@@ -209,7 +214,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    @Step
+    @Step("user selects the checkbox \"{elementTitle}\"")
     public T setCheckBox(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         Environment.getPageActions().setCheckbox(element, true);
@@ -224,7 +229,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException 
      */
-    @Step
+    @Step("user checks in the element \"{elementTitle}\" value \"{text}\"")
     public T checkValueIsEqual(String elementTitle, String text) throws PageException {
         Object element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEquality(element, text)) {
@@ -241,7 +246,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if current page wasn't initialized, or element with required title was not found
      */
-    @Step
+    @Step("user checks in the element \"{elementTitle}\" that the value is not equal \"{text}\"")
     public T checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         Object element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEquality(element, text)) {
@@ -257,7 +262,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
-    @Step
+    @Step("user checks that the field \"{elementTitle}\" is not empty")
     public T checkNotEmpty(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEmptiness(element)) {
@@ -273,7 +278,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
-    @Step
+    @Step("user checks that the field \"{elementTitle}\" is empty")
     public T checkEmpty(String elementTitle) throws PageException {
         Object element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEmptiness(element)) {
@@ -288,6 +293,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @param element element to focus on
      * @return Returns itself 
      */
+    @Step("element \"{element}\" is focused")
     public T isElementFocused(String element) {
         LOG.warn("Note that isElementFocused method is still an empty!");
         return (T) this;
@@ -300,6 +306,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
      * @return Returns itself 
      * @throws ru.sbtqa.tag.pagefactory.exceptions.FragmentException 
      */
+    @Step("user inserts fragment \"{fragmentName}\"")
     public T userInsertsFragment(String fragmentName) throws FragmentException {
         throw new FragmentException("The fragment-needed step must be replaced, but this did not happened");
     }
