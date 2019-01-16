@@ -24,25 +24,14 @@ import ru.sbtqa.tag.allurehelper.Type;
  */
 public class ToLoggerPrintStream {
 
-    /**
-     * Logger for this class
-     */
     private Logger myLog;
     private PrintStream myPrintStream;
 
-    /**
-     * Constructor
-     *
-     * @param aLogger
-     */
     public ToLoggerPrintStream(Logger aLogger) {
         super();
         myLog = aLogger;
     }
 
-    /**
-     * @return printStream
-     */
     public PrintStream getPrintStream() {
         if (myPrintStream == null) {
             OutputStream output = new OutputStream() {
@@ -53,9 +42,6 @@ public class ToLoggerPrintStream {
                     this.myStringBuilder.append((char) b);
                 }
 
-                /**
-                 * @see java.io.OutputStream#flush()
-                 */
                 @Override
                 public void flush() {
                     String dispatch = this.myStringBuilder.toString();
