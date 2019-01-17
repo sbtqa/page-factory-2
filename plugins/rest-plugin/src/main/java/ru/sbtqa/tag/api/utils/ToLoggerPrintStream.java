@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.api.utils;
 
 import java.io.OutputStream;
 import java.io.PrintStream;

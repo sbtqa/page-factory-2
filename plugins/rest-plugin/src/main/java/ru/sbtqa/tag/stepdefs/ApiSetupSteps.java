@@ -4,7 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.config.LogConfig;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.ToLoggerPrintStream;
+import ru.sbtqa.tag.api.utils.ToLoggerPrintStream;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
