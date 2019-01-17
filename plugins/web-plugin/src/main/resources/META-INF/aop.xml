@@ -10,5 +10,5 @@
     </aspects>
     <weaver options="-Xset:weaveJavaxPackages=true">
         <include within="ru.sbtqa.tag..*"/>
-    </weaver> 
+    </weaver>
 </aspectj>
