@@ -1,8 +1,10 @@
 package ru.sbtqa.tag.stepdefs;
 
 import cucumber.api.DataTable;
+import static java.lang.String.format;
 import java.util.List;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.PageManager;
@@ -11,6 +13,9 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 /**
@@ -40,6 +45,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CoreGenericSteps.class);
+    private static final Configuration PROPERTIES = Configuration.create();
 
     public CoreGenericSteps() {
         CoreSetupSteps.preSetUp();
@@ -131,13 +137,14 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Fill specified element with text
      *
+     * @param <E> element type
      * @param elementTitle element to fill
      * @param text text to enter
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    public T fill(String elementTitle, String text) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T fill(String elementTitle, String text) throws PageException {
+        E element = getElement(elementTitle);
         Environment.getPageActions().fill(element, text);
         return (T) this;
     }
@@ -145,12 +152,13 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Click specified element
      *
+     * @param <E> element type
      * @param elementTitle title of the element to click
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    public T click(String elementTitle) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T click(String elementTitle) throws PageException {
+        E element = getElement(elementTitle);
         Environment.getPageActions().click(element);
         return (T) this;
     }
@@ -169,13 +177,14 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Press key on keyboard with focus on specified element
      *
+     * @param <E> element type
      * @param keyName name of the key. See available key names in {@link Keys}
      * @param elementTitle title of element that accepts key commands
      * @return Returns itself 
      * @throws PageException if couldn't find element with required title
      */
-    public T pressKey(String keyName, String elementTitle) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T pressKey(String keyName, String elementTitle) throws PageException {
+        E element = getElement(elementTitle);
         Environment.getPageActions().press(element, keyName);
         return (T) this;
     }
@@ -183,14 +192,15 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Select specified option in select-element
      *
+     * @param <E> element type
      * @param elementTitle element that is supposed to be selectable
      * @param option option to select
      * @return Returns itself 
      * @throws PageException if required
      * element couldn't be found, or current page isn't initialized
      */
-    public T select(String elementTitle, String option) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T select(String elementTitle, String option) throws PageException {
+        E element = getElement(elementTitle);
         Environment.getPageActions().select(element, option);
         return (T) this;
     }
@@ -198,12 +208,13 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Set checkbox element to selected state
      *
+     * @param <E> element type
      * @param elementTitle element that is supposed to represent checkbox
      * @return Returns itself 
      * @throws PageException if page was not initialized, or required element couldn't be found
      */
-    public T setCheckBox(String elementTitle) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T setCheckBox(String elementTitle) throws PageException {
+        E element = getElement(elementTitle);
         Environment.getPageActions().setCheckbox(element, true);
         return (T) this;
     }
@@ -211,13 +222,14 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Check that the element's value is equal with specified value
      *
+     * @param <E> element type
      * @param text value for comparison
      * @param elementTitle title of the element to search
      * @return Returns itself 
      * @throws ru.sbtqa.tag.pagefactory.exceptions.PageException 
      */
-    public T checkValueIsEqual(String elementTitle, String text) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T checkValueIsEqual(String elementTitle, String text) throws PageException {
+        E element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'");
         }
@@ -227,13 +239,14 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Check that the element's value is not equal with specified value
      *
+     * @param <E> element type
      * @param text value for comparison
      * @param elementTitle title of the element to search
      * @return Returns itself 
      * @throws PageException if current page wasn't initialized, or element with required title was not found
      */
-    public T checkValueIsNotEqual(String elementTitle, String text) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T checkValueIsNotEqual(String elementTitle, String text) throws PageException {
+        E element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEquality(element, text)) {
             throw new AutotestError("'" + elementTitle + "' value is equal with '" + text + "'");
         }
@@ -243,12 +256,13 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Check that the element's value is not empty
      *
+     * @param <E> element type
      * @param elementTitle title of the element to check
      * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
-    public T checkNotEmpty(String elementTitle) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T checkNotEmpty(String elementTitle) throws PageException {
+        E element = getElement(elementTitle);
         if (Environment.getPageChecks().checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is empty");
         }
@@ -258,12 +272,13 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     /**
      * Check that the element's value is empty
      *
+     * @param <E> element type
      * @param elementTitle title of the element to check
      * @return Returns itself 
      * @throws PageException if current page was not initialized, or element wasn't found on the page
      */
-    public T checkEmpty(String elementTitle) throws PageException {
-        Object element = getElement(elementTitle);
+    public <E> T checkEmpty(String elementTitle) throws PageException {
+        E element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEmptiness(element)) {
             throw new AutotestError("'" + elementTitle + "' value is not empty");
         }
@@ -292,8 +307,95 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
         throw new FragmentException("The fragment-needed step must be replaced, but this did not happened");
     }
     
-    private Object getElement(String elementTitle) throws PageException {
+    private <E> E getElement(String elementTitle) throws PageException {
         return Environment.getFindUtils().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
     }
-            
+
+    public T appearElement(String elementName) throws PageException {
+        appearElement(PROPERTIES.getTimeout(), elementName);
+        return (T) this;
+    }
+    
+    public T appearElement(int timeout, String elementName) throws PageException {
+        WebElement element = getElement(elementName);
+        String message = format("The element '%s' has not appeared from the page within '%s' seconds.", elementName, timeout);
+        Wait.visibility(element, message, timeout);
+        return (T) this;
+    }
+
+    public T waitInvisibility(String elementName) throws PageException {
+        waitInvisibility(PROPERTIES.getTimeout(), elementName);
+        return (T) this;
+    }
+    
+    public T waitInvisibility(int timeout, String elementName) throws PageException {
+        WebElement element = getElement(elementName);
+        String message = format("The element '%s' has not disappeared from the page within '%s' seconds.", elementName, timeout);
+        Wait.invisibility(element, message, timeout);
+        return (T) this;
+    }
+
+    public T waitChangeAttribute(String attribute, String elementName, String attributeValue) throws PageException {
+        waitChangeAttribute(PROPERTIES.getTimeout(), attribute, elementName, attributeValue);
+        return (T) this;
+    }
+
+    public T waitChangeAttribute(int timeout, String attribute, String elementName, String attributeValue) throws PageException {
+        WebElement element = getElement(elementName);
+        String message = format("Attribute '%s' of the element '%s' is not equal to '%s' within "
+                + "'%s' seconds. The attribute value: %s", attribute, elementName, attributeValue, timeout, element.getAttribute(attribute));
+        Wait.changeAttribute(element, attribute, attributeValue, message, timeout);
+        return (T) this;
+    }
+    
+    public T waitAttributeContains(String attribute, String elementName, Condition negation, String partAttributeValue) throws PageException {
+        waitAttributeContains(PROPERTIES.getTimeout(), attribute, elementName, negation, partAttributeValue);
+        return (T) this;
+    }
+    
+    public T waitAttributeContains(int timeout, String attribute, String elementName, Condition negation, String partAttributeValue) throws PageException {
+        boolean isPositive = negation.equals(Condition.POSITIVE);
+
+        WebElement element = getElement(elementName);
+        String message = format("After waiting, attribute '%s' of the element '%s' is " + (isPositive ? "not " : "")
+                + "contains value '%s'. Attribute value: %s", attribute, elementName, partAttributeValue, element.getAttribute(attribute));
+
+        if (isPositive) {
+            Wait.attributeContains(element, attribute, partAttributeValue, message, timeout);
+        } else {
+            Wait.attributeNotContains(element, attribute, partAttributeValue, message, timeout);
+        }
+        return (T) this;
+    }
+
+    public T waitElementContainsText(String elementName, Condition negation, String text) throws PageException {
+        waitElementContainsText(PROPERTIES.getTimeout(), elementName, negation, text);
+        return (T) this;
+    }
+
+    public T waitElementContainsText(int timeout, String elementName, Condition negation, String text) throws PageException {
+        boolean isPositive = negation.equals(Condition.POSITIVE);
+        WebElement element = getElement(elementName);
+        String message = format("After waiting, text of the element '%s' is " + (isPositive ? "not " : "") 
+                + "contains value '%s'. Text of the element: %s", elementName, text, element.getText());
+
+        if (isPositive) {
+            Wait.textContains(element, text, message, timeout);
+        } else {
+            Wait.textNotContains(element, text, message, timeout);
+        }
+        return (T) this;
+    }
+    
+    public T waitClickability(String elementName) throws PageException {
+        waitClickability(PROPERTIES.getTimeout(), elementName);
+        return (T) this;
+    }
+
+    public T waitClickability(int timeout, String elementName) throws PageException {
+        WebElement element = getElement(elementName);
+        String message = format("The element '%s' didn't become clickable within %s seconds", elementName, timeout);
+        Wait.clickable(element, message, timeout);
+        return (T) this;
+    }
 }

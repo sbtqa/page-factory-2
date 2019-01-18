@@ -16,6 +16,14 @@ include::web_elements.asciidoc[]
 
 include::html_blocks.asciidoc[]
 
+include::html_find_utils.asciidoc[]
+
+=== Методы работы с элементами
+
+include::web_element_utils.asciidoc[]
+
+include::html_element_utils.asciidoc[]
+
 === Шаги и глагольные выражения
 
 Использовать элементы в тестовых сценариях можно двумя способами: в шагах либо в глагольных выражениях

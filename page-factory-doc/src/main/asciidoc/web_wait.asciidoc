@@ -1,0 +1,236 @@
+==== Методы работы с ожиданиями
+
+Обратиться к методам можно через `Wait`
+
+Время ожидания для всех методов стандартное (из параметра `timeout` файла конфигурации), если не задано явно другого
+
+Во всех методах ниже - `message` - сообщение об ошибке в случае неудачной проверки
+
+===== Ожидания появления элемента
+|====================
+| *Метод* | *Описание*
+| static void visibility(String xpath)
+| Ожидает появления элемента. Принимает на вход xpath - путь до элемента
+
+| static void visibility(String xpath, String message)
+| Ожидает появления элемента. Принимает на вход xpath - путь до элемента
+
+| static void visibility(String xpath, String message, int timeout)
+| Ожидает появления элемента в течение заданного времени. Принимает на вход xpath - путь до элемента
+
+| static void visibility(By by)
+| Ожидает появления элемента. Принимает на вход локатор для поиска элемента
+
+| static void visibility(By by, String message)
+| Ожидает появления элемента. Принимает на вход локатор для поиска элемента
+
+| static void visibility(By by, String message, int timeout)
+| Ожидает появления элемента в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void visibility(WebElement element)
+| Ожидает появления элемента. Принимает на вход элемент
+
+| static void visibility(WebElement element, String message)
+| Ожидает появления элемента. Принимает на вход элемент
+
+| static void visibility(WebElement element, String message, int timeout)
+| Ожидает появления элемента в течение заданного времени. Принимает на вход элемент
+|====================
+
+===== Ожидания исчезновения элемента
+|====================
+| *Метод* | *Описание*
+| static void visibility(String xpath)
+| Ожидает появления элемента. Принимает на вход xpath - путь до элемента
+
+| static void visibility(String xpath, String message)
+| Ожидает появления элемента. Принимает на вход xpath - путь до элемента
+
+| static void visibility(String xpath, String message, int timeout)
+| Ожидает появления элемента в течение заданного времени. Принимает на вход xpath - путь до элемента
+
+| static void visibility(By by)
+| Ожидает появления элемента. Принимает на вход локатор для поиска элемента
+
+| static void visibility(By by, String message)
+| Ожидает появления элемента. Принимает на вход локатор для поиска элемента
+
+| static void visibility(By by, String message, int timeout)
+| Ожидает появления элемента в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void visibility(WebElement element)
+| Ожидает появления элемента. Принимает на вход элемент
+
+| static void visibility(WebElement element, String message)
+| Ожидает появления элемента. Принимает на вход элемент
+
+| static void visibility(WebElement element, String message, int timeout)
+| Ожидает появления элемента в течение заданного времени. Принимает на вход элемент
+|====================
+
+===== Ожидания изменения атрибутов элемента
+|====================
+| *Метод* | *Описание*
+| static void changeAttribute(WebElement element, String attribute, String attributeValue, String message) 
+| Ожидает изменения значения атрибута (например `class`). Принимает на вход элемент
+
+| static void changeAttribute(WebElement element, String attribute, String attributeValue, String message, int timeout) 
+| Ожидает изменения значения атрибута (например `class`) в течение заданного времени. Принимает на вход элемент
+
+| static void changeAttribute(By by, String attribute, String attributeValue, String message)
+| Ожидает изменения значения атрибута (например `class`). Принимает на вход локатор для поиска элемента 
+
+| static void changeAttribute(By by, String attribute, String attributeValue, String message, int timeout)
+| Ожидает изменения значения атрибута (например `class`) в течение заданного времени. Принимает на вход локатор для поиска элемента 
+|====================
+
+===== Ожидания состояния атрибутов элемента
+|====================
+| *Метод* | *Описание*
+| static void attributeContains(WebElement element, String attribute, String partAttributeValue, String message)
+| Ожидает появления в атрибуте определенного текстового фрагмента. Принимает на вход элемент
+
+| static void attributeContains(WebElement element, String attribute, String partAttributeValue, String message, int timeout)
+| Ожидает появления в атрибуте определенного текстового фрагмента в течение заданного времени. Принимает на вход элемент
+
+| static void attributeContains(By by, String attribute, String partAttributeValue, String message)
+| Ожидает появления в атрибуте определенного текстового фрагмента. Принимает на вход локатор для поиска элемента
+
+| static void attributeContains(By by, String attribute, String partAttributeValue, String message, int timeout)
+| Ожидает появления в атрибуте определенного текстового фрагмента в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void attributeNotContains(WebElement element, String attribute, String partAttributeValue, String message)
+| Ожидает исчезновения в атрибуте определенного текстового фрагмента. Принимает на вход элемент
+
+| static void attributeNotContains(WebElement element, String attribute, String partAttributeValue, String message, int timeout)
+| Ожидает исчезновения в атрибуте определенного текстового фрагмента в течение заданного времени. Принимает на вход элемент
+
+| static void attributeNotContains(By by, String attribute, String partAttributeValue, String message)
+| Ожидает исчезновения в атрибуте определенного текстового фрагмента. Принимает на вход локатор для поиска элемента
+
+| static void attributeNotContains(By by, String attribute, String partAttributeValue, String message, int timeout)
+| Ожидает исчезновения в атрибуте определенного текстового фрагмента в течение заданного времени. Принимает на вход локатор для поиска элемента
+|====================
+
+===== Ожидания изменения текстовых значений
+|====================
+| *Метод* | *Описание*
+| static void textContains(String xpath, String text, String message)
+| Ожидает изменения или появления текста в элементе. Принимает на вход xpath - путь до ожидаемого элемента
+
+| static void textContains(String xpath, String text, String message, int timeout)
+| Ожидает изменения или появления текста в элементе в течение заданного времени. Принимает на вход xpath - путь до ожидаемого элемента
+
+| static void textContains(By by, String text, String message)
+| Ожидает изменения или появления текста в элементе. Принимает на вход локатор для поиска элемента
+
+| static void textContains(By by, String text, String message, int timeout)
+| Ожидает изменения или появления текста в элементе в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void textContains(WebElement element, String text, String message)
+| Ожидает изменения или появления текста в элементе. Принимает на вход элемент
+
+| static void textContains(WebElement element, String text, String message, int timeout)
+| Ожидает изменения или появления текста в элементе в течение заданного времени. Принимает на вход элемент
+
+
+
+| static void textNotContains(String xpath, String text, String message)
+| Ожидает отсутствия текста в элементе. Принимает на вход xpath - путь до ожидаемого элемента
+
+| static void textNotContains(String xpath, String text, String message, int timeout)
+| Ожидает отсутствия текста в элементе в течение заданного времени. Принимает на вход xpath - путь до ожидаемого элемента
+
+| static void textNotContains(By by, String text, String message)
+| Ожидает отсутствия текста в элементе. Принимает на вход локатор для поиска элемента
+
+| static void textNotContains(By by, String text, String message, int timeout)
+| Ожидает отсутствия текста в элементе в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void textNotContains(WebElement element, String text, String message)
+| Ожидает отсутствия текста в элементе. Принимает на вход элемент
+
+| static void textNotContains(WebElement element, String text, String message, int timeout)
+| Ожидает отсутствия текста в элементе в течение заданного времени. Принимает на вход элемент
+
+
+
+| static void textNotEquals(By by, String text, String message)
+| Ожидает неравенства текста в элементе. Принимает на вход локатор для поиска элемента
+
+| static void textNotEquals(By by, String text, String message, int timeout)
+| Ожидает неравенства текста в элементе в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+
+
+| static void textEquals(By by, String text, String message)
+| Ожидает равенства текста в элементе. Принимает на вход локатор для поиска элемента
+
+| static void textEquals(By by, String text, String message, int timeout)
+| Ожидает равенства текста в элементе в течение заданного времени. Принимает на вход локатор для поиска элемента
+|====================
+
+===== Ожидания появления элемента в структуре DOM
+|====================
+| *Метод* | *Описание*
+| static void presence(String xpath, String message)
+| Ожидает появления элемента в структуре DOM. Принимает на вход локатор для поиска элемента
+
+| static void presence(String xpath, String message, int timeout)
+| Ожидает появления элемента в структуре DOM в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void presence(By by, String message)
+| Ожидает появления элемента в структуре DOM. Принимает на вход локатор для поиска элемента
+
+| static void presence(By by, String message, int timeout)
+| Ожидает появления элемента в структуре DOM в течение заданного времени. Принимает на вход локатор для поиска элемента
+|====================
+
+===== Ожидания кликабельности элемента
+|====================
+| *Метод* | *Описание*
+| static void clickable(String xpath, String message)
+| Ожидает кликабельности элемента. Принимает на вход локатор для поиска элемента
+
+| static void clickable(String xpath, String message, int timeout)
+| Ожидает кликабельности элемента в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void clickable(By by, String message)
+| Ожидает кликабельности элемента. Принимает на вход локатор для поиска элемента
+
+| static void clickable(By by, String message, int timeout)
+| Ожидает кликабельности элемента в течение заданного времени. Принимает на вход локатор для поиска элемента
+
+| static void clickable(WebElement element, String message)
+| Ожидает кликабельности элемента. Принимает на вход элемент
+
+| static void clickable(WebElement element, String message, int timeout)
+| Ожидает кликабельности элемента в течение заданного времени. Принимает на вход элемент
+|====================
+
+===== Ожидание выполнения переданного условия
+|====================
+| *Метод* | *Описание*
+| static void wait(ExpectedCondition condition, String message)
+| Ожидает в течении стандартного таймаута выполнения условия, заданного параметром `ExpectedCondition`. Например, для ожидания исчезновения элемента по его локатору `ExpectedConditions.invisibilityOfElementLocated(by)`
+
+| static void wait(ExpectedCondition condition, String message)
+| Ожидает в течении переданного таймаута выполнения условия, заданного параметром `ExpectedCondition`. Например, для ожидания исчезновения элемента по его локатору `ExpectedConditions.invisibilityOfElementLocated(by)`
+|====================
+
+===== Другие ожидания
+
+Обратиться к методам можно через `WebWait`
+
+[width="100%",options="header"]
+|====================
+^.^| Метод ^.^| Описание
+| static void waitForPageToLoad(boolean... stopRecursion)
+| Ожидает загрузки страницы. Если страница не загружена - обновляет и проверяет повторно. Повторят эти действия до тех пор пока страница не будет открыта либо пока не истечет стандартный таймаут (задан в параметре `timeout` конфигурации)
+
+| static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent)
+| Проверяет наличие или отсутствие текста на странице в зависимости от параметра `shouldTextBePresent`
+
+| static void waitForModalWindowWithText(String text)
+| Ожидает появления модального окна с заданным текстом
+|====================

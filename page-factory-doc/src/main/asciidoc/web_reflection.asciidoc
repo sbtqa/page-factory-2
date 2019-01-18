@@ -12,9 +12,6 @@
 | String getElementTitle(Page page, Object element)
 | Возвращает значение аннотации `@ElementTitle` для переданного элемента
 
-| <T> T getElementByTitle(Page page, String title)
-| Возвращает элемент страницы по его имени (значение аннотации `@ElementTitle`)
-
 | boolean isRequiredElement(Field field, String title)
 | Проверяет, является ли поле объявляением элемента или нет (аннотировано `@ElementTitle` или нет) 
 
@@ -29,8 +26,8 @@
 [width="100%",options="header"]
 |====================
 ^.^| Метод ^.^| Описание
-| void executeMethodByTitle(Page page, String title, Object... param)
-| Находит глагольное выражение на переданной странице и выполняет его
+| void executeMethodByTitle(Object context, String title, Object... param)
+| Находит глагольное выражение в переданном контексте и выполняет его. В качестве контекста может выступать блок или страница
 
 | Boolean isRequiredAction(Method method, String title)
 | Проверяет, является ли метод глагольным выражением или нет (аннотирован `@ActionTitle` или `@ActionTitles` или нет)

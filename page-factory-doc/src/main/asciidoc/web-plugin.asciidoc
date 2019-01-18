@@ -14,6 +14,19 @@ include::web_pages.asciidoc[]
 
 include::web_elements.asciidoc[]
 
+=== Поиск элементов
+
+Поиск элемента можно выполнить следующим образом:
+
+[source, ]
+----
+((FindUtils) Environment.getFindUtils()).getElementByTitle("Имя элемента");
+----
+
+=== Методы работы с элементами
+
+include::web_element_utils.asciidoc[]
+
 === Шаги и глагольные выражения
 
 Использовать элементы в тестовых сценариях можно двумя способами: в шагах либо в глагольных выражениях

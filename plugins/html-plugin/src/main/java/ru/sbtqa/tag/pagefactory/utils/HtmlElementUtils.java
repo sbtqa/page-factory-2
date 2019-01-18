@@ -27,13 +27,12 @@ public class HtmlElementUtils {
      * @return преобразованный к {@code WebElement} элемент
      */
     public static <T extends WebElement> WebElement getWebElement(T element) {
-        WebElement webElement;
         if (isTypifiedElement(element.getClass())) {
-            webElement = ((TypifiedElement) element).getWrappedElement();
+            TypifiedElement typifiedElement = (TypifiedElement) element;
+            return typifiedElement.getWrappedElement();
         } else {
-            webElement = element;
+            return element;
         }
-        return webElement;
     }
 
     /**
