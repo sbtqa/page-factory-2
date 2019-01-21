@@ -1,0 +1,137 @@
+==== Проверки атрибутов
+
+:t: Обратиться к методам можно через `ElementUtils`
+
+{t}
+
+|====================
+| *Метод* | *Описание*
+| static <T extends WebElement> boolean isElementAttributeContains(T element, String attribute, String partialAttributeValue) 
+| Проверяет, что атрибут элемента содержит переданное значение
+
+Вернет `true`, если значение найдено в атрибуте элемента и `false`, если не найдено
+
+| static <T extends WebElement> boolean isElementAttributeEquals(T element, String attribute, String attributeValue) 
+| Проверяет, что атрибут элемента равен переданному значению
+
+Вернет `true`, если переданное значение равно значению атрибута элемента и `false`, если нет
+|====================
+
+==== Поиск в списке элементов по атрибуту
+
+{t}
+
+|====================
+| *Метод* | *Описание*
+| static <T extends WebElement> T getElementWithAttributeWithEmptyResult(List<T> elements, String attribute, String attributeValue)
+| Возвращает элемент, заданный атрибут которого равен переданному значению
+
+Если такой элемент в списке не найден, вернет `null`
+
+
+
+| static <T extends WebElement> T getElementWithAttribute(List<T> elements, String attribute, String attributeValue)
+| Возвращает элемент, заданный атрибут которого равен переданному значению
+
+Если такой элемент в списке не найден, будет выброшено исключение
+
+
+| static <T extends WebElement> T getElementWithPartAttributeWithEmptyResult(List<T> elements, String attribute, String partialAttributeValue)
+| Возвращает элемент, атрибут которого содержит переданное значение
+
+Если такой элемент в списке не найден, вернет `null`
+
+
+| static <T extends WebElement> T getElementWithPartAttribute(List<T> elements, String attribute, String partialAttributeValue) 
+| Возвращает элемент, атрибут которого содержит переданное значение
+
+Если такой элемент в списке не найден, будет выброшено исключение
+|====================
+
+==== Получение текстовых значений элементов
+
+{t}
+
+|====================
+| *Метод* | *Описание*
+
+| static <T extends WebElement> List<String> getElementsText(List<T> elements) 
+| Получает текстовые значения переданных элементов
+|====================
+
+==== Получение элемента списка по текстовому значению
+
+{t}
+
+|====================
+| *Метод* | *Описание*
+| static <T extends WebElement> T getElementByTextWithEmptyResult(List<T> elements, String text)
+| Возвращает элемент заданного типа и с заданным текстовым значением. Если такой элемент не найден, вернет `null`
+
+
+| static <T extends WebElement> T getElementByText(List<T> elements, String text)
+| Возвращает элемент заданного типа и с заданным текстовым значением
+
+Если такой элемент не найден, то будет выброшено исключение
+|====================
+
+==== Получение элемента списка по индексу
+
+{t}
+
+|====================
+| *Метод* | *Описание*
+| static <T extends WebElement> T getElementByIndex(List<T> elements, int index)
+| Возвращает элемент списка по индексу с обработкой граничных значений
+|====================
+
+==== Поиск элемента в списке по предикату
+
+{t}
+
+|====================
+| *Метод* | *Описание*
+| static <T extends WebElement> T getElementByPredicateWithEmptyResult(List<T> elements, Predicate<T> predicate) 
+| Возвращает элемент списка, соответствующий предикату
+
+Если такой элемент не найден в списке, вернет `null`
+
+
+
+| static <T extends WebElement> T getElementByPredicate(List<T> elements, Predicate<T> predicate)
+| Возвращает элемент списка, соответствующий предикату
+
+Если такой элемент не найден в списке, будет выброшено исключение
+|====================
+
+==== Другие полезные методы
+
+{t}
+
+|====================
+| *Метод* | *Описание*
+
+| static <T extends WebElement> void doubleClick(T element) 
+| Выполняет двойной клик по элементу 
+
+| static <T extends WebElement> boolean isListContains(List<T> elements, String text)
+| Проверяет, что список элементов содержит текстовое значение, строго равное переданному
+
+Вернет `true`, если текст найден в списке элементов и `false`, если не найден 
+
+
+| static <T extends WebElement> void clickOnElemenByText(List<T> elements, String text)
+| Находит элемент в списке элементов с заданным текстом и кликает по нему.
+
+Проверяет, не является ли элемент недоступным для редактирования. Если недоступен, кидает исключение
+
+
+| static <T extends WebElement> String getTextByElementXpath(T currentContext, String xpath)
+| Получает текстовое значение элемента по его xpath выражению
+
+В качетве параметра передается элемент, относительно которого будем выполнять
+поиск
+
+Если элемент не был найден по указанному пути, то возвращает пустую строку
+
+|====================

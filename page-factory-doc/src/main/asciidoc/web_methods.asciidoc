@@ -6,4 +6,4 @@ include::driver.asciidoc[]
 
 include::web_environment.asciidoc[]
 
-include::web_utils.asciidoc[]
+include::web_wait.asciidoc[]

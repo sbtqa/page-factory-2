@@ -17,11 +17,33 @@
     * user accepts alert with text "Text of alert"
     * user dismisses alert with text "Text of alert"
     
-    * user checks that text "Текст" appears on the page
-    * user checks that text "Текст" is absent on the page
+    * user checks that text "Text" appears on the page
+    * user checks that text "Text" is absent on the page
     
-    * user checks that modal window with text "Текст модального окна" is appears
+    * user checks that modal window with text "Text" is appears
 
     * user checks that element with text "Text" is present
     * user checks that the text "Text" is visible
+
+    * user is waiting for the element to appear "Element"
+    * user is waiting 5 seconds for the element to appear "Element"
+
+    * user is waiting for the element to disappear "Element"
+    * user is waiting 5 seconds for the element to disappear "Element"
+
+    * user is waiting for the value of the "class" attribute of the element "Element" to become "value"
+    * user is waiting 5 seconds for the value of the "class" attribute of the element "Element" to become "value"
+
+    * user is waiting for the value of the "class" attribute of the element "Element" should contain "part of value"
+    * user is waiting for the value of the "class" attribute of the element "Element" should not contain "part of value"
+    * user is waiting 5 seconds for the value of the "class" attribute of the element "Element" should contain "part of value"
+    * user is waiting 5 seconds for the value of the "class" attribute of the element "Element" should not contain "part of value"
+
+    * user is waiting for the element "Element" to contain text "text"
+    * user is waiting for the element "Element" to not contain text "text"
+    * user is waiting 5 seconds for the element "Element" to contain text "text"
+    * user is waiting 5 seconds for the element "Element" to not contain text "text"
+
+    * user is waiting for the element "Element" to become clickable
+    * user is waiting 5 seconds for the element "Element" to become clickable
 ----
