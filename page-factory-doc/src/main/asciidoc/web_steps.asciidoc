@@ -9,6 +9,7 @@ NOTE: Перед шагом можно прописать действующее
 
 include::web_plugin_steps.asciidoc[]
 include::web_core_steps.asciidoc[]
+include::web_wait_steps.asciidoc[]
 
 О том как писать свои шаги, можно узнать в документации link:https://docs.cucumber.io/guides/10-minute-tutorial[cucumber]
 
