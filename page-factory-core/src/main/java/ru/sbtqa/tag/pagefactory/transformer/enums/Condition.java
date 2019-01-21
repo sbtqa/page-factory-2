@@ -6,9 +6,8 @@ import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
 
 @XStreamConverter(ConditionTransformer.class)
 public enum Condition {
-
+    
     NEGATIVE("не"),
-    NEGATIVE_EN("not"),
     POSITIVE(null);
 
     private final String name;
@@ -24,13 +23,10 @@ public enum Condition {
     public static Condition fromString(String name) {
         if (name == null) {
             return Condition.POSITIVE;
-        } else {
-            for (Condition value : Condition.values()) {
-                if (value.name != null && value.name.equalsIgnoreCase(name.trim())) {
-                    return value;
-                }
-            }
-            throw new CucumberException("Incorrect enum-value in steps: " + name);
         }
+        if ("not".equalsIgnoreCase(name.trim()) || Condition.NEGATIVE.getValue().equalsIgnoreCase(name.trim())) {
+            return Condition.NEGATIVE;
+        }
+        throw new CucumberException("Incorrect enum-value in steps: " + name);
     }
 }

@@ -27,5 +27,5 @@
 
 Если элемент уже имеет тип `WebElement`, то вернет его
 
-Если элемент являеься наследником `TypifiedElement`, то получит `WebElement` через `getWrappedElement()`
+Если элемент является наследником `TypifiedElement`, то получит `WebElement` через `getWrappedElement()`
 |====================
