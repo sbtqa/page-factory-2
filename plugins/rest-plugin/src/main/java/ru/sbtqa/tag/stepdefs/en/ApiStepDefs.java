@@ -105,7 +105,7 @@ public class ApiStepDefs extends ApiSteps {
      * @param fromParameterType get value from header or body
      * @param fromParameter get value from header with this name
      */
-    @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\" (Body|Header) \"([^\"]*)\"$")
+    @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\" (body|header) \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter) {
         return add(parameterType, parameterName, fromEndpointTitle, fromParameterType, fromParameter, "");
     }
@@ -113,7 +113,7 @@ public class ApiStepDefs extends ApiSteps {
     /**
      * {@inheritDoc}
      */
-    @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\" (Body|Header) \"([^\"]*)\" mask \"([^\"]*)\"$")
+    @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\" (body|header) \"([^\"]*)\" mask \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
         if (fromParameterType.equals("Header")) {
             return super.addToHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);

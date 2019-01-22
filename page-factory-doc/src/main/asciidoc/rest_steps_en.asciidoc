@@ -31,19 +31,19 @@
     * user add a body parameters
       | body parameter | value |
 
-    * user add query parameter "header parameter" from response on "Request" Header "header"
-    * user add header parameter "header parameter" from response on "Request" Header "header"
-    * user add body parameter "header parameter" from response on "Request" Header "header"
+    * user add query parameter "header parameter" from response on "Request" header "header"
+    * user add header parameter "header parameter" from response on "Request" header "header"
+    * user add body parameter "header parameter" from response on "Request" header "header"
 
-    * user add query parameter "header parameter" from response on "Request" Body "body.path"
-    * user add header parameter "header parameter" from response on "Request" Body "body.path"
-    * user add body parameter "header parameter" from response on "Request" Body "body.path"
+    * user add query parameter "header parameter" from response on "Request" body "body.path"
+    * user add header parameter "header parameter" from response on "Request" body "body.path"
+    * user add body parameter "header parameter" from response on "Request" body "body.path"
 
-    * user add query parameter "header parameter" from response on "Request" Header "header" mask "-(.*)-"
-    * user add header parameter "header parameter" from response on "Request" Header "header" mask "-(.*)-"
-    * user add body parameter "header parameter" from response on "Request" Header "header" mask "-(.*)-"
+    * user add query parameter "header parameter" from response on "Request" header "header" mask "-(.*)-"
+    * user add header parameter "header parameter" from response on "Request" header "header" mask "-(.*)-"
+    * user add body parameter "header parameter" from response on "Request" header "header" mask "-(.*)-"
 
-    * user add query parameter "header parameter" from response on "Request" Body "body.path" mask "-(.*)-"
-    * user add header parameter "header parameter" from response on "Request" Body "body.path" mask "-(.*)-"
-    * user add body parameter "header parameter" from response on "Request" Body "body.path" mask "-(.*)-"
+    * user add query parameter "header parameter" from response on "Request" body "body.path" mask "-(.*)-"
+    * user add header parameter "header parameter" from response on "Request" body "body.path" mask "-(.*)-"
+    * user add body parameter "header parameter" from response on "Request" body "body.path" mask "-(.*)-"
 ----
