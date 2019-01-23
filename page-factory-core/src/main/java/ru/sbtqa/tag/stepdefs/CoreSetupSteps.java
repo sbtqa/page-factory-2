@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.stepdefs;
 
-import cucumber.api.Scenario;
-import ru.sbtqa.tag.pagefactory.context.ScenarioContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.find.FindUtils;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
@@ -27,9 +25,8 @@ public class CoreSetupSteps {
         Environment.setFindUtils(new FindUtils());
     }
 
-    public static void setUp(Scenario scenario) {
+    public static void setUp() {
         TaskHandler.handleTasks();
-        ScenarioContext.setScenario(scenario);
     }
 
     public static void tearDown() {
