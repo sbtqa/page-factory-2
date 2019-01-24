@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>page-factory-2</artifactId>
+        <groupId>ru.sbtqa.tag</groupId>
+        <version>9.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mq-factory</artifactId>
+    <version>1.3.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <mq.version>8.0.0.2</mq.version>
+    </properties>
+
+    <!--<build>-->
+    <!--<testResources>-->
+    <!--<testResource>-->
+    <!--<directory>src/test/resources</directory>-->
+    <!--</testResource>-->
+    <!--</testResources>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.plugins</groupId>-->
+    <!--<artifactId>maven-compiler-plugin</artifactId>-->
+    <!--<version>3.7.0</version>-->
+    <!--<configuration>-->
+    <!--<encoding>${project.build.sourceEncoding}</encoding>-->
+    <!--<compilerVersion>${java.version}</compilerVersion>-->
+    <!--<source>${java.version}</source>-->
+    <!--<target>${java.version}</target>-->
+    <!--</configuration>-->
+    <!--</plugin>-->
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.plugins</groupId>-->
+    <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+    <!--<version>3.0.1</version>-->
+    <!--<executions>-->
+    <!--<execution>-->
+    <!--<id>attach-javadocs</id>-->
+    <!--<goals>-->
+    <!--<goal>jar</goal>-->
+    <!--</goals>-->
+    <!--</execution>-->
+    <!--</executions>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
+    <!--</build>-->
+
+    <!--<distributionManagement>-->
+    <!--<repository>-->
+    <!--<id>nexus</id>-->
+    <!--<url>http://nexus.sigma.sbrf.ru:8099/nexus/content/repositories/sbt-qa_release/</url>-->
+    <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>nexus</id>-->
+    <!--<url>http://nexus.sigma.sbrf.ru:8099/nexus/content/repositories/sbt-qa_snapshot/</url>-->
+    <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.sbtqa.tag</groupId>
+            <artifactId>qa-utils</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>0.11.0.2</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.testng</groupId>-->
+        <!--<artifactId>testng</artifactId>-->
+        <!--<version>6.14.3</version>-->
+        <!--<scope>test</scope>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--<groupId>com.ibm</groupId>-->
+        <!--<artifactId>com.ibm.mq.headers</artifactId>-->
+        <!--<version>${mq.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.ibm</groupId>-->
+        <!--<artifactId>com.ibm.mq.jmqi</artifactId>-->
+        <!--<version>${mq.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.ibm</groupId>-->
+        <!--<artifactId>com.ibm.mq</artifactId>-->
+        <!--<version>${mq.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.ibm</groupId>-->
+        <!--<artifactId>com.ibm.mqjms</artifactId>-->
+        <!--<version>${mq.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.ibm</groupId>-->
+        <!--<artifactId>dhbcore</artifactId>-->
+        <!--<version>7.5.0.6</version>-->
+        <!--</dependency>-->
+    </dependencies>
+
+</project>

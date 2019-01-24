@@ -75,6 +75,7 @@
     <module>plugins/html-plugin</module>
     <module>plugins/mobile-plugin</module>
     <module>plugins/rest-plugin</module>
+    <module>plugins/mq-factory</module>
   </modules>
 
   <distributionManagement>
