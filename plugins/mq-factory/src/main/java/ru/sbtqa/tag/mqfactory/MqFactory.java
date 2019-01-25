@@ -10,9 +10,6 @@ import ru.sbtqa.tag.mqimpl.KafkaImpl;
 import javax.jms.Connection;
 import java.util.Properties;
 
-/**
- * @author sbt-polosov-va
- */
 public class MqFactory {
 
     public static final String MQ_TYPE = "mq.type";

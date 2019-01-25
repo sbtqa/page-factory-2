@@ -7,10 +7,6 @@ import ru.sbtqa.tag.mqfactory.interfaces.Condition;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
-/**
- * @author Vadim Trofimov
- * @since 10.01.2018
- */
 public class SubstringCondition implements Condition<TextMessage> {
     private static final Logger LOG = LoggerFactory.getLogger(SubstringCondition.class);
     private final String rquid;

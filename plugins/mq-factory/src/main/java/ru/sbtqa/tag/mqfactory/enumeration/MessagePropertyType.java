@@ -1,9 +1,5 @@
 package ru.sbtqa.tag.mqfactory.enumeration;
 
-/**
- * @author Vadim Trofimov
- * @since 25.12.2017
- */
 public enum MessagePropertyType {
     TOPIC,
     PARTITION,
