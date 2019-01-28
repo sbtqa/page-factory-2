@@ -4,10 +4,7 @@ import ru.sbtqa.tag.mqfactory.exception.MqException;
 
 import java.util.List;
 
-/**
- * @author Vadim Trofimov
- * @since 22.12.2017
- */
+
 public interface Jms<T> extends Mq<T> {
 
     /**

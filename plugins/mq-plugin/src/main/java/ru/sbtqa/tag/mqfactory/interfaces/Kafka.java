@@ -4,10 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.util.List;
 
-/**
- * @author Vadim Trofimov
- * @since 22.12.2017
- */
+
 public interface Kafka<T> extends Mq<T> {
 
     /**
