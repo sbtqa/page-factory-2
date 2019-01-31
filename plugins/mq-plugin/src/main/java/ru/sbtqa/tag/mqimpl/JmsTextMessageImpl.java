@@ -2,13 +2,12 @@ package ru.sbtqa.tag.mqimpl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.mqfactory.MqConfiguration;
 import ru.sbtqa.tag.mqfactory.exception.JmsException;
 import ru.sbtqa.tag.mqfactory.exception.MqException;
 import ru.sbtqa.tag.mqfactory.interfaces.Condition;
 import ru.sbtqa.tag.mqfactory.interfaces.Jms;
 import ru.sbtqa.tag.mqfactory.interfaces.JmsUpdater;
-import ru.sbtqa.tag.qautils.properties.Props;
-import ru.sbtqa.tag.qautils.properties.PropsRuntimeException;
 
 import javax.jms.*;
 import javax.jms.Queue;
@@ -18,13 +17,13 @@ import java.util.concurrent.TimeUnit;
 public class JmsTextMessageImpl implements Jms<TextMessage> {
 
     private static final Logger LOG = LoggerFactory.getLogger(JmsTextMessageImpl.class);
-    private static final String TIMEOUT_PROP = "mq.timeout";
+    private static final MqConfiguration PROPS = MqConfiguration.create();
+
     public static final String JMS_MESSAGE_ID = "JMSMessageID";
     public static final String JMS_CORRELATION_ID = "JMSCorrelationID";
 
     private Connection connection;
     private String lastMsgId;
-    private Long timeout = 50000L;
 
     public JmsTextMessageImpl(Connection connection) {
         if (connection == null) {
@@ -32,16 +31,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
         }
         this.connection = connection;
 
-        String timeoutValue = "";
-        try {
-            timeoutValue = Props.get(TIMEOUT_PROP);
-        } catch (PropsRuntimeException ex) {
-            LOG.error("Can't get properties!", ex);
-        }
-        if (!timeoutValue.isEmpty()) {
-            timeout = Long.valueOf(timeoutValue);
-            LOG.info("*** [MQ] Set timeout to {} ms ***", timeout);
-        }
+        LOG.info("*** [MQ] Set timeout to {} ms ***", PROPS.getMqTimeout());
     }
 
     @Override
@@ -72,7 +62,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
         Queue queue = createQueue(session, queueName);
         try {
             LOG.info("*** [MQ] Receiving answer ***");
-            TextMessage message = receiveMessage(session, queue, JMS_CORRELATION_ID, lastMsgId, timeout);
+            TextMessage message = receiveMessage(session, queue, JMS_CORRELATION_ID, lastMsgId, PROPS.getMqTimeout());
             if (message != null) {
                 lastMsgId = "";
             }
@@ -88,7 +78,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
         Session session = createSession();
         Queue queue = createQueue(session, queueName);
         try {
-            return receiveMessage(session, queue, JMS_MESSAGE_ID, messageId, timeout);
+            return receiveMessage(session, queue, JMS_MESSAGE_ID, messageId, PROPS.getMqTimeout());
         } finally {
             sessionClose(session);
         }
@@ -110,7 +100,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
             Enumeration queueEnum;
             long startTime = System.currentTimeMillis();
             Set<String> browsedMessages = new HashSet<>();
-            while ((System.currentTimeMillis() - startTime < timeout) && messages.isEmpty()) {
+            while ((System.currentTimeMillis() - startTime < PROPS.getMqTimeout()) && messages.isEmpty()) {
                 try {
                     queueEnum = browser.getEnumeration();
                 } catch (JMSException ex) {
@@ -185,7 +175,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
             Enumeration queueEnum;
             long startTime = System.currentTimeMillis();
             Set<String> browsedMessages = new HashSet<>();
-            while ((System.currentTimeMillis() - startTime < timeout) && messages.isEmpty()) {
+            while ((System.currentTimeMillis() - startTime < PROPS.getMqTimeout()) && messages.isEmpty()) {
                 try {
                     queueEnum = browser.getEnumeration();
                 } catch (JMSException ex) {

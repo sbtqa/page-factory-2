@@ -18,6 +18,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>ru.sbtqa.tag.pagefactory</groupId>
+      <artifactId>page-factory-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>qa-utils</artifactId>
       <version>${tag.version.qautils}</version>

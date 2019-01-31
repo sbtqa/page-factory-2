@@ -9,10 +9,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.mqfactory.MqConfiguration;
 import ru.sbtqa.tag.mqfactory.enumeration.MessagePropertyType;
 import ru.sbtqa.tag.mqfactory.exception.KafkaException;
 import ru.sbtqa.tag.mqfactory.interfaces.Kafka;
-import ru.sbtqa.tag.qautils.properties.Props;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import java.util.Properties;
 public class KafkaImpl implements Kafka<ConsumerRecord> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaImpl.class);
-    private static final String TIMEOUT_PROP = "kafka.timeout";
+    private static final MqConfiguration PROPS = MqConfiguration.create();
 
     private Properties producerProperties;
     private Properties consumerProperties;
@@ -59,7 +59,7 @@ public class KafkaImpl implements Kafka<ConsumerRecord> {
         TopicPartition tp = new TopicPartition(topicName, partition);
         consumer.assign(Collections.singletonList(tp));
         consumer.seek(tp, consumer.position(tp) - numberOfMessages);
-        ConsumerRecords<String, String> records = consumer.poll(Long.valueOf(Props.get(TIMEOUT_PROP)));
+        ConsumerRecords<String, String> records = consumer.poll(PROPS.getKafkaTimeout());
         for (ConsumerRecord<String, String> rec : records) {
             buffer.add(rec);
         }
@@ -75,7 +75,7 @@ public class KafkaImpl implements Kafka<ConsumerRecord> {
         List<TopicPartition> partitions = Collections.singletonList(tp);
         consumer.assign(partitions);
         consumer.seekToBeginning(partitions);
-        ConsumerRecords<String, String> records = consumer.poll(Long.valueOf(Props.get(TIMEOUT_PROP)));
+        ConsumerRecords<String, String> records = consumer.poll(PROPS.getKafkaTimeout());
         for (ConsumerRecord<String, String> rec : records) {
             buffer.add(rec);
         }
