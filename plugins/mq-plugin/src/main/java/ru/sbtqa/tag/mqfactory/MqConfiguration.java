@@ -6,11 +6,11 @@ import ru.sbtqa.tag.pagefactory.properties.Configuration;
 public interface MqConfiguration extends Config {
 
     @Key("mq.timeout")
-    @DefaultValue("50000")
+    @DefaultValue("1000")
     Long getMqTimeout();
 
     @Key("kafka.timeout")
-    @DefaultValue("10000")
+    @DefaultValue("500")
     Long getKafkaTimeout();
 
     static MqConfiguration create() {
