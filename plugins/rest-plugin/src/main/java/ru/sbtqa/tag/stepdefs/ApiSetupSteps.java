@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
 import io.restassured.RestAssured;
+import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
@@ -13,6 +14,7 @@ public class ApiSetupSteps {
     private static final ThreadLocal<Boolean> isInitApi = ThreadLocal.withInitial(() -> false);
 
     public void initApi() {
+        EndpointContext.clear();
         if (isAlreadyPerformed(isInitApi)) {
             return;
         }
