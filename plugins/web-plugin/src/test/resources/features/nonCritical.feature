@@ -1,14 +1,24 @@
 #language: en
-@test-non-critical @data=$Data
+@data=$Data
 Feature: Data sources
 
   Background:
     * ? user is on the page "Main"
 
+  @test-non-critical
   Scenario: Data From Feature Tag
     * ? user clicks the button "Contact"
     * ? user is on the page "Contact"
     * ? failed step
+    * user inserts fragment "fill non critical fragment"
+      | first name          | button name |
+      | ${Admin.first name} | send        |
+    * ? user checks in the element "first name" value "Alex"
+
+  @test-non-critical
+  Scenario: Data From Feature Tag 2
+    * ? user clicks the button "Contact"
+    * ? user is on the page "Contact"
     * user inserts fragment "fill non critical fragment"
       | first name          | button name |
       | ${Admin.first name} | send        |

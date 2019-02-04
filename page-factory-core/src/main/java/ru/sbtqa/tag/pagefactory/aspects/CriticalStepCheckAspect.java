@@ -58,7 +58,7 @@ public class CriticalStepCheckAspect {
                 } catch (AssertionError e) {
                     pickle.setIsFailed(true);
                     step.set(instance, pickle);
-                    LOG.warn("Uncritical step failed", e);
+                    LOG.warn("Non-critical step failed", e);
                     this.brokenCases.get().add(Allure.getLifecycle().getCurrentTestCase().get());
                     AllureLifecycle lifecycle = Allure.getLifecycle();
                     lifecycle.updateStep(stepResult ->
