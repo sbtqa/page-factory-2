@@ -21,7 +21,7 @@ public class AttachScreenshot {
     private void attach() {
         try {
             ScreenshotUtils screenshot = ScreenshotUtils.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
-            ParamsHelper.addAttachmentToRender(screenshot.take(), "Screenshot of failed step", Type.PNG);
+            ParamsHelper.addAttachmentToRender(screenshot.take(), "Screenshot", Type.PNG);
         } catch (Exception e) {
             LOG.error("Can't attach screenshot to allure reports", e);
         }
