@@ -49,7 +49,7 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
 
     public CoreGenericSteps() {
         CoreSetupSteps.preSetUp();
-        CoreSetupSteps.setUp(null);
+        CoreSetupSteps.setUp();
     }
 
     /**

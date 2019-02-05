@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.stepdefs.en;
 
 import cucumber.api.DataTable;
-import cucumber.api.Scenario;
 import cucumber.api.Transform;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -25,8 +24,8 @@ public class CoreStepDefs extends CoreGenericSteps<CoreStepDefs> {
     }
 
     @Before(order = 99999)
-    public void setUp(Scenario scenario) {
-        CoreSetupSteps.setUp(scenario);
+    public void setUp() {
+        CoreSetupSteps.setUp();
     }
 
     @After(order = 1)
