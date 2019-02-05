@@ -7,10 +7,14 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.model.Status;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -44,26 +48,35 @@ public class CriticalStepCheckAspect {
 
     @Around("runStep()")
     public void runStep(ProceedingJoinPoint joinPoint) throws Throwable {
-        if (joinPoint.getThis() != null) {
-            Object instance = joinPoint.getThis();
-            Field step = instance.getClass().getDeclaredField(FIELD_NAME);
+        Object instance = joinPoint.getThis();
+        if (instance != null && FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME) != null) {
+            Field step = FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME);
             step.setAccessible(true);
-            PickleStepCustom pickle = (PickleStepCustom) step.get(instance);
+            Object stepObject = step.get(instance);
 
-            if (pickle.isCritical()) {
+            if (!(stepObject instanceof PickleStepCustom)
+                    || ((PickleStepCustom) stepObject).isCritical()) {
                 joinPoint.proceed();
             } else {
+                PickleStepCustom pickle = (PickleStepCustom) stepObject;
                 try {
                     joinPoint.proceed();
                 } catch (AssertionError e) {
+                    AllureLifecycle lifecycle = Allure.getLifecycle();
+                    Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
+                    if (!currentTestCase.isPresent()) {
+                        throw e;
+                    }
+
                     pickle.setIsFailed(true);
                     step.set(instance, pickle);
+                    this.brokenCases.get().add(currentTestCase.get());
                     LOG.warn("Non-critical step failed", e);
-                    this.brokenCases.get().add(Allure.getLifecycle().getCurrentTestCase().get());
-                    AllureLifecycle lifecycle = Allure.getLifecycle();
+
                     lifecycle.updateStep(stepResult ->
                             stepResult.withStatus(Status.BROKEN));
                     this.textAttachment(e.getMessage(), ExceptionUtils.getStackTrace(e));
+
                     if (!Environment.isDriverEmpty()) {
                         ScreenshotUtils screenshot = ScreenshotUtils.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
                         ParamsHelper.addAttachmentToRender(screenshot.take(), "Screenshot", Type.PNG);
@@ -81,10 +94,14 @@ public class CriticalStepCheckAspect {
     @Around("send()")
     public void send(ProceedingJoinPoint joinPoint) throws Throwable {
         Event event = (Event) joinPoint.getArgs()[0];
+        AllureLifecycle lifecycle = Allure.getLifecycle();
+        Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
+
         if (event instanceof TestCaseFinished
                 && ((TestCaseFinished) event).result.getStatus() == Result.Type.PASSED
-                && this.brokenCases.get().contains(Allure.getLifecycle().getCurrentTestCase().get())
-        ) {
+                && currentTestCase.isPresent()
+                && this.brokenCases.get().contains(currentTestCase.get())
+                ) {
             final Result result = new Result(Result.Type.AMBIGUOUS, ((TestCaseFinished) event).result.getDuration(),
                     new AutotestError("Some non-critical steps are failed"));
 

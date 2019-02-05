@@ -4,9 +4,11 @@ import cucumber.runtime.Argument;
 import cucumber.runtime.StepDefinition;
 import cucumber.runtime.xstream.LocalizedXStreams;
 import gherkin.pickles.PickleStep;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,12 +21,18 @@ public class CriticalStepAspect {
 
     private static final String NON_CRITICAL = "? ";
 
-    @Pointcut("execution(* cucumber.runtime.RuntimeGlue.stepDefinitionMatch(..))  && args(featurePath, step,..)")
-    public void addSignOfCriticality(String featurePath, PickleStep step) {
+    @Pointcut(value = "execution(* cucumber.runtime.RuntimeGlue.stepDefinitionMatch(..)) && args(featurePath, step,..)",
+            argNames = "featurePath,step")
+    public void addSignOfCritically(String featurePath, PickleStep step) {
     }
 
-    @Around("addSignOfCriticality(featurePath, step)")
-    public Object addSignOfCriticality(ProceedingJoinPoint joinPoint, String featurePath, PickleStep step) throws Throwable {
+    @Pointcut(value = "call(cucumber.runtime.StepDefinitionMatch.new(..)) && args(arguments, stepDefinition, featurePath, step, localizedXStreams,..)",
+            argNames = "arguments,stepDefinition,featurePath,step,localizedXStreams")
+    public void argumentOffset(List<Argument> arguments, StepDefinition stepDefinition, String featurePath, PickleStep step, LocalizedXStreams localizedXStreams) {
+    }
+
+    @Around(value = "addSignOfCritically(featurePath, step)", argNames = "joinPoint,featurePath,step")
+    public Object addSignOfCritically(ProceedingJoinPoint joinPoint, String featurePath, PickleStep step) throws Throwable {
         PickleStepCustom newStep;
         String stepText = step.getText();
 
@@ -37,11 +45,9 @@ public class CriticalStepAspect {
         return joinPoint.proceed(new Object[]{featurePath, newStep});
     }
 
-    @Pointcut("call(cucumber.runtime.StepDefinitionMatch.new(..))  && args(arguments, stepDefinition, featurePath, step, localizedXStreams,..)")
-    public void argumentOffset(List<Argument> arguments, StepDefinition stepDefinition, String featurePath, PickleStep step, LocalizedXStreams localizedXStreams) {
-    }
 
-    @Around("argumentOffset(arguments, stepDefinition, featurePath, step, localizedXStreams)")
+    @Around(value = "argumentOffset(arguments, stepDefinition, featurePath, step, localizedXStreams)",
+            argNames = "joinPoint,arguments,stepDefinition,featurePath,step,localizedXStreams")
     public Object argumentOffset(ProceedingJoinPoint joinPoint, List<Argument> arguments, StepDefinition stepDefinition, String featurePath, PickleStep step, LocalizedXStreams localizedXStreams) throws Throwable {
         if (step.getClass().equals(PickleStepCustom.class)) {
             List<Argument> shiftedArguments = new ArrayList<>();
