@@ -49,8 +49,8 @@ public class CriticalStepCheckAspect {
     @Around("runStep()")
     public void runStep(ProceedingJoinPoint joinPoint) throws Throwable {
         Object instance = joinPoint.getThis();
-        if (instance != null && FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME) != null) {
-            Field step = FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME);
+        if (instance != null && FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME, true) != null) {
+            Field step = FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME, true);
             step.setAccessible(true);
             Object stepObject = step.get(instance);
 
@@ -61,7 +61,7 @@ public class CriticalStepCheckAspect {
                 PickleStepCustom pickle = (PickleStepCustom) stepObject;
                 try {
                     joinPoint.proceed();
-                } catch (AssertionError e) {
+                } catch (Throwable e) {
                     AllureLifecycle lifecycle = Allure.getLifecycle();
                     Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
                     if (!currentTestCase.isPresent()) {
