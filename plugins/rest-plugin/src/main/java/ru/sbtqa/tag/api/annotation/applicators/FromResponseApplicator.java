@@ -12,7 +12,6 @@ import ru.sbtqa.tag.api.utils.FromResponseUtils;
 public class FromResponseApplicator extends DefaultApplicator implements Applicator {
 
     private Class fromEndpoint;
-    private boolean isUsePrevious;
     private String path;
     private String header;
     private String mask;
@@ -23,7 +22,6 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
 
         FromResponse fromResponseAnnotation = field.getAnnotation(FromResponse.class);
         fromEndpoint = fromResponseAnnotation.endpoint();
-        isUsePrevious = fromResponseAnnotation.previous();
         path = fromResponseAnnotation.path();
         header = fromResponseAnnotation.header();
         mask = fromResponseAnnotation.mask();
@@ -32,7 +30,7 @@ public class FromResponseApplicator extends DefaultApplicator implements Applica
 
     @Override
     public void apply() {
-        Object value = FromResponseUtils.getValueFromResponse(fromEndpoint, isUsePrevious, header, path, mask, isNecessity);
+        Object value = FromResponseUtils.getValueFromResponse(fromEndpoint, header, path, mask, isNecessity);
         set(field, value);
     }
 }
