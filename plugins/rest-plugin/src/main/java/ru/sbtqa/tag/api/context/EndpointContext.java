@@ -26,4 +26,9 @@ public class EndpointContext {
         EndpointContext.currentEndpoint.set(currentEndpoint);
         EndpointContext.setCurrentEndpointTitle(currentEndpoint.getTitle());
     }
+
+    public static void clear() {
+        EndpointContext.currentEndpoint.set(null);
+        EndpointContext.setCurrentEndpointTitle(null);
+    }
 }
