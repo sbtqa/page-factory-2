@@ -6,8 +6,9 @@ import cucumber.api.java.en.And;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.storage.BlankStorage;
-import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 import ru.sbtqa.tag.stepdefs.ApiSteps;
+
+import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
 public class ApiStepDefs extends ApiSteps {
 
@@ -115,7 +116,7 @@ public class ApiStepDefs extends ApiSteps {
      */
     @And("^user add (query|header|body) parameter \"([^\"]*)\" from response on \"([^\"]*)\" (body|header) \"([^\"]*)\" mask \"([^\"]*)\"$")
     public ApiSteps add(String parameterType, String parameterName, String fromEndpointTitle, String fromParameterType, String fromParameter, String mask) {
-        if (fromParameterType.equals("Header")) {
+        if (fromParameterType.equals("header")) {
             return super.addToHeader(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
         } else {
             return super.addToBody(parameterType, parameterName, fromEndpointTitle, fromParameter, mask);
