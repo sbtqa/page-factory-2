@@ -13,36 +13,18 @@ public class Your{sup} extends {sup} {
 }
 ----
 
-Реализовать аспект
+Создать базовую страницу проекта, унаследовав её от базовой страницы плагина. Переопределить необходимые классы `Environment`. Унаследовать все страницы своего проекта от этой базовой страницы.
 
-
-[source, subs="attributes+"]
+Пример::
+[source, subs="attributes+" ]
 ----
-@Aspect
-public class ApplyActions {
+package ru.sbt.qa.your.project.pages;
 
-    private static final Your{sup} your{sup} = new Your{sup}();
+import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.{pn};
 
-    @Before("execution(ru.your.project.page.YourBasePage.new(..))")
-    public void apply() {
-        Environment.{envr}(your{sup});
-    }
+@PageEntry(title = "Ваша страница")
+public abstract class YourPage extends {pn} {
+    Environment.{envr}(your{sup});
 }
-----
-
-В качестве параметра аннотации `@Before` нужно передать конструктор базовой страницы проекта или, если ее нет, можно указать коструктор родителя `ru.sbtqa.tag.pagefactory.{pn}.new(..)`
-
-Добавить файл конфигурации `aop.xml`, указав путь к созданному аспекту в `aspect name` и каталог использования в `include within`
-
-[source, subs="attributes+"]
-----
-<?xml version="1.0" encoding="UTF-8"?>
-<aspectj>
-    <aspects>
-        <aspect name="ru.your.project.aspects.ApplyActions"/>
-    </aspects>
-    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
-        <include within="ru.your.project..*"/>
-    </weaver>
-</aspectj>
 ----

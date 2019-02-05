@@ -50,9 +50,7 @@ public class Environment {
     }
 
     public static void setFindUtils(Find findUtils) {
-        if (Environment.findUtils.get() == null || !findUtils.getClass().isAssignableFrom(Environment.findUtils.get().getClass())) {
-            Environment.findUtils.set(findUtils);
-        }
+        Environment.findUtils.set(findUtils);
     }
 
     public static Find getFindUtils() {
@@ -60,8 +58,6 @@ public class Environment {
     }
 
     public static void setReflection(Reflection reflection) {
-        if (Environment.reflection.get() == null || !reflection.getClass().isAssignableFrom(Environment.reflection.get().getClass())) {
-            Environment.reflection.set(reflection);
-        }
+        Environment.reflection.set(reflection);
     }
 }
