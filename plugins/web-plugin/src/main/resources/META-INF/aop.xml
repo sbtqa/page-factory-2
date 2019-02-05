@@ -5,8 +5,6 @@
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.Highlight"/>
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ClickViaSeleniumActions"/>
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ScrollToElement"/>
-        <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ApplyActions"/>
-        <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ApplyChecks"/>
     </aspects>
     <weaver options="-Xset:weaveJavaxPackages=true">
         <include within="ru.sbtqa.tag..*"/>

@@ -1,24 +1,17 @@
 package ru.sbtqa.tag.stepdefs;
 
-import static java.lang.ThreadLocal.withInitial;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 
-import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
-import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
+import static java.lang.ThreadLocal.withInitial;
 
 public class HtmlSetupSteps {
 
-    static final ThreadLocal<WebDriverService> storage = withInitial(WebDriverService::new);
-
-    private HtmlSetupSteps() {
-    }
+    private static final ThreadLocal<WebDriverService> storage = withInitial(WebDriverService::new);
 
     public static void initHtml() {
         if (Environment.isDriverEmpty()) {
             Environment.setDriverService(storage.get());
         }
-        Environment.setReflection(new HtmlReflection());
-        Environment.setFindUtils(new HtmlFindUtils());
     }
 }
