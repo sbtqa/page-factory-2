@@ -1,9 +1,11 @@
 package ru.sbtqa.tag.pagefactory.properties;
 
-import java.util.Properties;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.qautils.properties.Props;
+
 public interface Configuration extends Config {
 
     @Key("page.package")
@@ -65,8 +67,18 @@ public interface Configuration extends Config {
     String getFragmentsPath();
 
     static <T extends Config> T init(Class<T> configuration) {
-        Properties allProps = Props.getProps();
-        allProps.putAll(System.getenv());
+        java.util.Properties allProps = Props.getProps();
+
+        Arrays.asList(configuration.getMethods()).stream()
+                .forEach((Method method) -> {
+                    if (method.isAnnotationPresent(Key.class)) {
+                        String annotationValue = method.getAnnotation(Key.class).value();
+                        if (null != System.getenv(annotationValue)) {
+                            allProps.put(annotationValue, System.getenv(annotationValue));
+                        }
+                    }
+                });
+
         allProps.putAll(System.getProperties());
 
         return ConfigFactory.create(configuration, allProps);
