@@ -1,14 +1,4 @@
-=== Как начать использовать
-Для начала использования необходимо подключить зависимость, указав актуальную версию плагина
-
-[source, subs="attributes+"]
-----
-    <dependency>
-      <groupId>ru.sbtqa.tag.pagefactory</groupId>
-      <artifactId>{plug}</artifactId>
-      <version>Актуальная версия</version>
-    </dependency>
-----
+include::dependency_how_to_start.asciidoc[]
 
 Затем создать, если еще не создан, файл запуска тестов, унаследовав его от класса `Tag`
 

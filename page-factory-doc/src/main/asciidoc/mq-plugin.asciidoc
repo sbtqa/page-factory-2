@@ -1,0 +1,71 @@
+== MQ plugin
+
+Плагин, позволяющий автоматизировать приложение, взаимодействующее по транспортам `MQ` или `Kafka`. В обоих случаях плагин подключается к серверу и предоставляет возможность отправки, поиска, удаления сообщений в/из MQ или Kafka
+
+:plug: mq-plugin
+
+include::dependency_how_to_start.asciidoc[]
+
+В файле `application.properties` прописать параметры. Значения указываются в миллисекундах Например:
+-------------------
+mq.timeout = 1000
+kafka.timeout = 500
+-------------------
+
+* `mq.timeout` устанавливает таймаут на ожидание вычитки сообщения из очереди в случае, если такового сообщения нет.
+* `kafka.timeout` устанавливает таймаут на ожидание вычитки сообщения из топика.
+
+=== Примеры создания коннекта к MQ
+
+Рассмотрим примеры подключения к ActiveMQ и WebSphere. Для создания подключения необходимо использовать статический метод `getMq`, передав параметры подключения в качестве параметра
+----------------------------
+MqFactory.getMq(Properties);
+----------------------------
+
+В параметрах подключения необходимо передать `mq.type` и `jms.connection` переменные. Например:
+---------------------------------------------------------
+Properties connProps = new Properties();
+connProps.put(MqFactory.MQ_TYPE, "activeMq");
+connProps.put(MqFactory.JMS_CONNECTION, queueConnection);
+---------------------------------------------------------
+
+.Пример подключения к ActiveMQ
+-------------------------------------------------
+private Jms<TextMessage> createConnection() {
+    QueueConnection queueConnection = null;
+    try {
+        ActiveMQConnectionFactory mqCF = new ActiveMQConnectionFactory(<Адрес хоста>);
+        queueConnection = mqCF.createQueueConnection();
+    } catch (JMSException ex) {
+        LOG.error("", ex);
+    }
+
+    Properties connProps = new Properties();
+    connProps.put(MqFactory.MQ_TYPE, "activeMq");
+    connProps.put(MqFactory.JMS_CONNECTION, queueConnection);
+    mQueueConnection = queueConnection;
+    return MqFactory.getMq(connProps);
+}
+-------------------------------------------------
+
+.Пример подключения к WebSphere
+-------------------------------------------------
+private Jms<JMSTextMessage> createConnection() {
+    QueueConnection queueConnection = null;
+    try {
+        MQQueueConnectionFactory mqCF = new MQQueueConnectionFactory();
+        mqCF.setHostName(<IP адрес хоста>);
+        mqCF.setPort(<Порт>);
+        mqCF.setChannel(<Имя канала>);
+        mqCF.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
+        queueConnection = mqCF.createQueueConnection();
+    } catch (JMSException ex) {
+        LOG.error("", ex);
+    }
+
+    Properties connProps = new Properties();
+    connProps.put(MqFactory.MQ_TYPE, "websphere");
+    connProps.put(MqFactory.JMS_CONNECTION, queueConnection);
+    return MqFactory.getMq(connProps);
+}
+-------------------------------------------------
