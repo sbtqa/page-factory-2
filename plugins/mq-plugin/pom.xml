@@ -16,6 +16,10 @@
 
   <name>mq-plugin</name>
 
+  <properties>
+    <skipTests>false</skipTests>
+  </properties>
+
   <build>
     <plugins>
       <!-- Plugins for ActiveMQ  -->

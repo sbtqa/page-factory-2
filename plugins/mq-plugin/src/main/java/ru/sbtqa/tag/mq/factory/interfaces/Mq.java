@@ -1,6 +1,6 @@
-package ru.sbtqa.tag.mqfactory.interfaces;
+package ru.sbtqa.tag.mq.factory.interfaces;
 
-import ru.sbtqa.tag.mqfactory.exception.MqException;
+import ru.sbtqa.tag.mq.factory.exception.MqException;
 
 
 public interface Mq<T> {
@@ -11,7 +11,7 @@ public interface Mq<T> {
      * @param queueName  Queue name
      * @param requestMsg message for sending
      * @return message ID
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't create session
+     * @throws MqException if can't create session
      */
     String sendRequest(String queueName, String requestMsg) throws MqException;
 
@@ -20,7 +20,7 @@ public interface Mq<T> {
      *
      * @param queueName queue name for connect
      * @return answer from queue as Object
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't receive message or if can't create consumer for message
+     * @throws MqException if can't receive message or if can't create consumer for message
      */
     T getAnswer(String queueName) throws MqException;
 
@@ -29,7 +29,7 @@ public interface Mq<T> {
      *
      * @param message message
      * @return text from message as String
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't get text from message
+     * @throws MqException if can't get text from message
      */
     String getMessageText(T message) throws MqException;
 
@@ -39,7 +39,7 @@ public interface Mq<T> {
      * @param message  message for sending
      * @param property property for return
      * @return property of the message as Object
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't get message property
+     * @throws MqException if can't get message property
      */
     String getMessageProperty(T message, String property) throws MqException;
 

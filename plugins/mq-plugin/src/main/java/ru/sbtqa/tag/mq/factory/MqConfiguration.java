@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.mqfactory;
+package ru.sbtqa.tag.mq.factory;
 
 import org.aeonbits.owner.Config;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;

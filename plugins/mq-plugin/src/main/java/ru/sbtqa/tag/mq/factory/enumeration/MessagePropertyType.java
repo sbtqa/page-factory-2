@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.mqfactory.enumeration;
+package ru.sbtqa.tag.mq.factory.enumeration;
 
 public enum MessagePropertyType {
     TOPIC,

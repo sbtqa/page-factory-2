@@ -1,23 +1,23 @@
-package ru.sbtqa.tag.mqfactory.exception;
+package ru.sbtqa.tag.mq.factory.exception;
 
-public class MqException extends Exception {
+public class KafkaException extends MqException {
 
     /**
-     * Constructor for MqException.
+     * Constructor for KafkaException.
      *
      * @param message a {@link java.lang.String} object.
      * @param e       a {@link java.lang.Throwable} object.
      */
-    public MqException(String message, Throwable e) {
+    public KafkaException(String message, Throwable e) {
         super(message, e);
     }
 
     /**
-     * Constructor for MqException.
+     * Constructor for KafkaException.
      *
      * @param message a {@link java.lang.String} object.
      */
-    public MqException(String message) {
+    public KafkaException(String message) {
         super(message);
     }
 

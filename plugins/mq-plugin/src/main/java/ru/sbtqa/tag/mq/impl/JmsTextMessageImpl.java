@@ -1,13 +1,13 @@
-package ru.sbtqa.tag.mqimpl;
+package ru.sbtqa.tag.mq.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.mqfactory.MqConfiguration;
-import ru.sbtqa.tag.mqfactory.exception.JmsException;
-import ru.sbtqa.tag.mqfactory.exception.MqException;
-import ru.sbtqa.tag.mqfactory.interfaces.Condition;
-import ru.sbtqa.tag.mqfactory.interfaces.Jms;
-import ru.sbtqa.tag.mqfactory.interfaces.JmsUpdater;
+import ru.sbtqa.tag.mq.factory.MqConfiguration;
+import ru.sbtqa.tag.mq.factory.exception.JmsException;
+import ru.sbtqa.tag.mq.factory.exception.MqException;
+import ru.sbtqa.tag.mq.factory.interfaces.Condition;
+import ru.sbtqa.tag.mq.factory.interfaces.Jms;
+import ru.sbtqa.tag.mq.factory.interfaces.JmsUpdater;
 
 import javax.jms.*;
 import javax.jms.Queue;

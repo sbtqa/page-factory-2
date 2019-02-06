@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.mqfactory.interfaces;
+package ru.sbtqa.tag.mq.factory.interfaces;
 
 
 public interface Condition<T> {

@@ -1,11 +1,11 @@
-package ru.sbtqa.tag.mqfactory;
+package ru.sbtqa.tag.mq.factory;
 
-import ru.sbtqa.tag.mqfactory.error.MqError;
-import ru.sbtqa.tag.mqfactory.interfaces.Jms;
-import ru.sbtqa.tag.mqfactory.interfaces.Kafka;
-import ru.sbtqa.tag.mqfactory.interfaces.Mq;
-import ru.sbtqa.tag.mqimpl.JmsTextMessageImpl;
-import ru.sbtqa.tag.mqimpl.KafkaImpl;
+import ru.sbtqa.tag.mq.factory.error.MqError;
+import ru.sbtqa.tag.mq.factory.interfaces.Jms;
+import ru.sbtqa.tag.mq.factory.interfaces.Kafka;
+import ru.sbtqa.tag.mq.factory.interfaces.Mq;
+import ru.sbtqa.tag.mq.impl.JmsTextMessageImpl;
+import ru.sbtqa.tag.mq.impl.KafkaImpl;
 
 import javax.jms.Connection;
 import java.util.Properties;

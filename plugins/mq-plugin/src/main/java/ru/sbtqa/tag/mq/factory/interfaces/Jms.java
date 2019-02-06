@@ -1,6 +1,6 @@
-package ru.sbtqa.tag.mqfactory.interfaces;
+package ru.sbtqa.tag.mq.factory.interfaces;
 
-import ru.sbtqa.tag.mqfactory.exception.MqException;
+import ru.sbtqa.tag.mq.factory.exception.MqException;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface Jms<T> extends Mq<T> {
      * @param queueName      Queue name
      * @param prepareMessage message for sending
      * @return message ID
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't create session
+     * @throws MqException if can't create session
      */
     String sendRequest(String queueName, JmsUpdater<T> prepareMessage) throws MqException;
 
@@ -23,7 +23,7 @@ public interface Jms<T> extends Mq<T> {
      * @param queueName      Queue name
      * @param prepareMessage message for sending
      * @return message ID
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't create session
+     * @throws MqException if can't create session
      */
     String sendAnswer(String queueName, JmsUpdater<T> prepareMessage) throws MqException;
 
@@ -33,7 +33,7 @@ public interface Jms<T> extends Mq<T> {
      * @param queueName queue name
      * @param messageId message ID
      * @return message related to parameters
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't get message from queue or can't establish browser session
+     * @throws MqException if can't get message from queue or can't establish browser session
      */
     T getMessageById(String queueName, String messageId) throws MqException;
 
@@ -44,7 +44,7 @@ public interface Jms<T> extends Mq<T> {
      * @param paramName  parameter name
      * @param paramValue parameter value
      * @return messages related to parameters
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't get message from queue or can't establish browser session
+     * @throws MqException if can't get message from queue or can't establish browser session
      */
     List<T> getMessagesByParam(String queueName, String paramName, String paramValue) throws MqException;
 
@@ -53,7 +53,7 @@ public interface Jms<T> extends Mq<T> {
      *
      * @param queueName queue name
      * @return all messages in queue as List of object
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't create browse session
+     * @throws MqException if can't create browse session
      */
     List<T> browseAllMessages(String queueName) throws MqException;
 
@@ -72,7 +72,7 @@ public interface Jms<T> extends Mq<T> {
      *
      * @param message message
      * @return ID message as String
-     * @throws ru.sbtqa.tag.mqfactory.exception.MqException if can't get ID message
+     * @throws MqException if can't get ID message
      */
     String getMessageId(T message) throws MqException;
 

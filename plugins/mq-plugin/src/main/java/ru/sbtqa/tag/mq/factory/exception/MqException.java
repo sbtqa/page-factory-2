@@ -1,23 +1,23 @@
-package ru.sbtqa.tag.mqfactory.error;
+package ru.sbtqa.tag.mq.factory.exception;
 
-public class MqError extends Error {
+public class MqException extends Exception {
 
     /**
-     * Constructor for MqError.
+     * Constructor for MqException.
      *
      * @param message a {@link java.lang.String} object.
      * @param e       a {@link java.lang.Throwable} object.
      */
-    public MqError(String message, Throwable e) {
+    public MqException(String message, Throwable e) {
         super(message, e);
     }
 
     /**
-     * Constructor for MqError.
+     * Constructor for MqException.
      *
      * @param message a {@link java.lang.String} object.
      */
-    public MqError(String message) {
+    public MqException(String message) {
         super(message);
     }
 

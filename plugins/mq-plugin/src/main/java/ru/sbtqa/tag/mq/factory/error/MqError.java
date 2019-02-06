@@ -1,23 +1,23 @@
-package ru.sbtqa.tag.mqfactory.exception;
+package ru.sbtqa.tag.mq.factory.error;
 
-public class JmsException extends MqException {
+public class MqError extends Error {
 
     /**
-     * Constructor for JmsException.
+     * Constructor for MqError.
      *
      * @param message a {@link java.lang.String} object.
      * @param e       a {@link java.lang.Throwable} object.
      */
-    public JmsException(String message, Throwable e) {
+    public MqError(String message, Throwable e) {
         super(message, e);
     }
 
     /**
-     * Constructor for WebsphereException.
+     * Constructor for MqError.
      *
      * @param message a {@link java.lang.String} object.
      */
-    public JmsException(String message) {
+    public MqError(String message) {
         super(message);
     }
 

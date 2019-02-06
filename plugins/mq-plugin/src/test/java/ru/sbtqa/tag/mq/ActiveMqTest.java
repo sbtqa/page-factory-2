@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
-import ru.sbtqa.tag.mqfactory.MqFactory;
-import ru.sbtqa.tag.mqfactory.exception.JmsException;
-import ru.sbtqa.tag.mqfactory.exception.MqException;
-import ru.sbtqa.tag.mqfactory.interfaces.Jms;
+import ru.sbtqa.tag.mq.factory.MqFactory;
+import ru.sbtqa.tag.mq.factory.exception.JmsException;
+import ru.sbtqa.tag.mq.factory.exception.MqException;
+import ru.sbtqa.tag.mq.factory.interfaces.Jms;
 
 import javax.jms.JMSException;
 import javax.jms.QueueConnection;

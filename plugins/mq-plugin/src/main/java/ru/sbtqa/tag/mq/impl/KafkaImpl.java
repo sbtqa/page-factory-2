@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.mqimpl;
+package ru.sbtqa.tag.mq.impl;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -9,10 +9,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.mqfactory.MqConfiguration;
-import ru.sbtqa.tag.mqfactory.enumeration.MessagePropertyType;
-import ru.sbtqa.tag.mqfactory.exception.KafkaException;
-import ru.sbtqa.tag.mqfactory.interfaces.Kafka;
+import ru.sbtqa.tag.mq.factory.MqConfiguration;
+import ru.sbtqa.tag.mq.factory.enumeration.MessagePropertyType;
+import ru.sbtqa.tag.mq.factory.exception.KafkaException;
+import ru.sbtqa.tag.mq.factory.interfaces.Kafka;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,8 +1,8 @@
-package ru.sbtqa.tag.mqimpl;
+package ru.sbtqa.tag.mq.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.mqfactory.interfaces.Condition;
+import ru.sbtqa.tag.mq.factory.interfaces.Condition;
 
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
