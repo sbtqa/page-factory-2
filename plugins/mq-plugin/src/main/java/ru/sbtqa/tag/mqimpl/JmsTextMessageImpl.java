@@ -112,7 +112,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
                     String messageId = getMessageId(message);
                     if (messageId != null && !browsedMessages.contains(messageId)) {
                         browsedMessages.add(messageId);
-                        Message receivedMessage = receiveMessage(session, queue, JMS_MESSAGE_ID, messageId, 0);
+                        Message receivedMessage = receiveMessage(session, queue, JMS_MESSAGE_ID, messageId, PROPS.getMqTimeout());
                         if (receivedMessage != null) {
                             messages.add((TextMessage) receivedMessage);
                         }
@@ -261,7 +261,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
                 if (messageId != null) {
                     try {
                         MessageConsumer consumer = session.createConsumer(queue, String.format("%s='%s'", JMS_MESSAGE_ID, messageId));
-                        consumer.receiveNoWait();
+                        consumer.receive(PROPS.getMqTimeout());
                         count++;
                         if (LOG.isDebugEnabled()) {
                             LOG.debug(" --> [#{}] remove message {}", count, messageId);
@@ -283,7 +283,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
         Queue queue = createQueue(session, queueName);
         try {
             MessageConsumer consumer = session.createConsumer(queue, String.format("%s='%s'", JMS_MESSAGE_ID, messageId));
-            Message message = consumer.receiveNoWait();
+            Message message = consumer.receive(PROPS.getMqTimeout());
             if (message != null) {
                 LOG.debug("*** [MQ] Removed message {} from queue {} ***", messageId, queueName);
             }

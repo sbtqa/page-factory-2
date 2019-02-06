@@ -16,6 +16,49 @@
 
   <name>mq-plugin</name>
 
+  <build>
+    <plugins>
+      <!-- Plugins for ActiveMQ  -->
+      <plugin>
+        <groupId>org.apache.activemq.tooling</groupId>
+        <artifactId>activemq-maven-plugin</artifactId>
+        <version>${activemq.version}</version>
+        <configuration>
+          <configUri>xbean:file:plugins/mq-plugin/src/test/resources/config/activemq.xml</configUri>
+          <fork>true</fork>
+          <systemProperties>
+            <property>
+              <name>org.apache.activemq.default.directory.prefix</name>
+              <value>./target/</value>
+            </property>
+          </systemProperties>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-spring</artifactId>
+            <version>${activemq.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-leveldb-store</artifactId>
+            <version>${activemq.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>start-activemq</id>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <phase>process-test-resources</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- End ActiveMQ plugins -->
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
@@ -36,6 +79,25 @@
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka_2.11</artifactId>
       <version>0.11.0.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-all</artifactId>
+      <version>${activemq.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jms</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>

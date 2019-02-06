@@ -59,6 +59,8 @@
     <cucumber.version>2.4.0</cucumber.version>
     <aspectj.version>1.8.13</aspectj.version>
     <aspectj.plugin.version>1.11</aspectj.plugin.version>
+    <spring.version>4.2.4.RELEASE</spring.version>
+    <activemq.version>5.13.0</activemq.version>
     <tag.version.allurehelper>1.4.2</tag.version.allurehelper>
     <tag.version.qautils>1.4.0</tag.version.qautils>
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
