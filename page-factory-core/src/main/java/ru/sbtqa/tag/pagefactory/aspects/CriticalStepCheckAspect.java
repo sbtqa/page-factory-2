@@ -50,15 +50,15 @@ public class CriticalStepCheckAspect {
     public void runStep(ProceedingJoinPoint joinPoint) throws Throwable {
         Object instance = joinPoint.getThis();
         if (instance != null && FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME, true) != null) {
-            Field step = FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME, true);
-            step.setAccessible(true);
-            Object stepObject = step.get(instance);
+            Field stepField = FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME, true);
+            stepField.setAccessible(true);
+            Object step = stepField.get(instance);
 
-            if (!(stepObject instanceof PickleStepCustom)
-                    || ((PickleStepCustom) stepObject).isCritical()) {
+            if (!(step instanceof PickleStepCustom)
+                    || ((PickleStepCustom) step).isCritical()) {
                 joinPoint.proceed();
             } else {
-                PickleStepCustom pickle = (PickleStepCustom) stepObject;
+                PickleStepCustom pickle = (PickleStepCustom) step;
                 try {
                     joinPoint.proceed();
                 } catch (Throwable e) {
@@ -67,9 +67,7 @@ public class CriticalStepCheckAspect {
                     if (!currentTestCase.isPresent()) {
                         throw e;
                     }
-
-                    pickle.setIsFailed(true);
-                    step.set(instance, pickle);
+                    stepField.set(instance, pickle);
                     this.brokenCases.get().add(currentTestCase.get());
                     LOG.warn("Non-critical step failed", e);
 
@@ -81,7 +79,6 @@ public class CriticalStepCheckAspect {
                         ScreenshotUtils screenshot = ScreenshotUtils.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
                         ParamsHelper.addAttachmentToRender(screenshot.take(), "Screenshot", Type.PNG);
                     }
-
                     lifecycle.stopStep();
                 }
             }
@@ -101,7 +98,7 @@ public class CriticalStepCheckAspect {
                 && ((TestCaseFinished) event).result.getStatus() == Result.Type.PASSED
                 && currentTestCase.isPresent()
                 && this.brokenCases.get().contains(currentTestCase.get())
-                ) {
+        ) {
             final Result result = new Result(Result.Type.AMBIGUOUS, ((TestCaseFinished) event).result.getDuration(),
                     new AutotestError("Some non-critical steps are failed"));
 
