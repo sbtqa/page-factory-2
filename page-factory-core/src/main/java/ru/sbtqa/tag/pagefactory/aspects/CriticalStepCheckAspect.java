@@ -1,8 +1,12 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.api.Result;
+import cucumber.api.TestStep;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestCaseFinished;
+import cucumber.api.event.TestStepFinished;
+import cucumber.runner.EventBus;
+import cucumber.runner.PickleTestStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.Attachment;
@@ -10,9 +14,12 @@ import io.qameta.allure.model.Status;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,13 +44,14 @@ public class CriticalStepCheckAspect {
     private static final Logger LOG = LoggerFactory.getLogger(CriticalStepCheckAspect.class);
 
     private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
+    private ThreadLocal<Map<String, Throwable>> brokenTests = ThreadLocal.withInitial(HashMap::new);
 
     @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.runStep(..))")
     public void runStep() {
     }
 
-    @Pointcut("execution(* cucumber.runner.EventBus.send(..))")
-    public void send() {
+    @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..)")
+    public void send(Event event) {
     }
 
     @Around("runStep()")
@@ -58,7 +66,7 @@ public class CriticalStepCheckAspect {
                     || ((PickleStepCustom) step).isCritical()) {
                 joinPoint.proceed();
             } else {
-                PickleStepCustom pickle = (PickleStepCustom) step;
+                PickleStepCustom pickleStep = (PickleStepCustom) step;
                 try {
                     joinPoint.proceed();
                 } catch (Throwable e) {
@@ -67,9 +75,9 @@ public class CriticalStepCheckAspect {
                     if (!currentTestCase.isPresent()) {
                         throw e;
                     }
-                    stepField.set(instance, pickle);
+                    stepField.set(instance, pickleStep);
                     this.brokenCases.get().add(currentTestCase.get());
-                    LOG.warn("Non-critical step failed", e);
+                    this.brokenTests.get().put(pickleStep.getText(), e);
 
                     lifecycle.updateStep(stepResult ->
                             stepResult.withStatus(Status.BROKEN));
@@ -88,28 +96,41 @@ public class CriticalStepCheckAspect {
     }
 
 
-    @Around("send()")
-    public void send(ProceedingJoinPoint joinPoint) throws Throwable {
-        Event event = (Event) joinPoint.getArgs()[0];
+    @Around("send(event)")
+    public void send(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         AllureLifecycle lifecycle = Allure.getLifecycle();
         Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
 
-        if (event instanceof TestCaseFinished
-                && ((TestCaseFinished) event).result.getStatus() == Result.Type.PASSED
-                && currentTestCase.isPresent()
-                && this.brokenCases.get().contains(currentTestCase.get())
-        ) {
-            final Result result = new Result(Result.Type.AMBIGUOUS, ((TestCaseFinished) event).result.getDuration(),
-                    new AutotestError("Some non-critical steps are failed"));
-
-            event = new TestCaseFinished(event.getTimeStamp(),
-                    ((TestCaseFinished) event).testCase, result);
-
-            joinPoint.proceed(new Object[]{event});
-        } else {
+        if (event instanceof TestStepFinished) {
             joinPoint.proceed();
-        }
+            TestStep testStep = ((TestStepFinished) event).testStep;
 
+            if (testStep.getClass().equals(PickleTestStep.class)) {
+                String currentBrokenTest = this.brokenTests.get().keySet().stream()
+                        .filter(brokenTest -> ("? " + brokenTest).equals(testStep.getPickleStep().getText()))
+                        .findFirst().orElse("");
+
+                if (!currentBrokenTest.isEmpty()) {
+                    LOG.warn("Non critical step failed: " + currentBrokenTest, this.brokenTests.get().get(currentBrokenTest));
+                }
+            }
+        } else {
+            if (event instanceof TestCaseFinished
+                    && ((TestCaseFinished) event).result.getStatus() == Result.Type.PASSED
+                    && currentTestCase.isPresent()
+                    && this.brokenCases.get().contains(currentTestCase.get())
+            ) {
+                final Result result = new Result(Result.Type.AMBIGUOUS, ((TestCaseFinished) event).result.getDuration(),
+                        new AutotestError("Some non-critical steps are failed"));
+
+                event = new TestCaseFinished(event.getTimeStamp(),
+                        ((TestCaseFinished) event).testCase, result);
+
+                joinPoint.proceed(new Object[]{event});
+            } else {
+                joinPoint.proceed();
+            }
+        }
     }
 
     @Attachment(value = "{name}", type = "text/html")
