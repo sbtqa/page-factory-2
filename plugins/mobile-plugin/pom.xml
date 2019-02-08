@@ -17,6 +17,10 @@
 
   <name>mobile-plugin</name>
 
+  <properties>
+    <skipTests>false</skipTests>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
@@ -30,7 +34,6 @@
     </dependency>
   </dependencies>
 
-
   <build>
     <plugins>
       <plugin>
@@ -40,7 +43,7 @@
         <configuration>
           <junitArtifactName>junit:junit</junitArtifactName>
           <testFailureIgnore>false</testFailureIgnore>
-          <skipTests>false</skipTests>
+          <skipTests>${skipTests}</skipTests>
           <argLine>
             -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
           </argLine>
