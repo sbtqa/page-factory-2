@@ -7,6 +7,10 @@ import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 public class MobileGenericSteps<T extends MobileGenericSteps<T>> extends CoreGenericSteps<T> {
 
+    public MobileGenericSteps() {
+        MobileSetupSteps.initMobile();
+    }
+
     /**
      * Swipe until text is visible
      *
@@ -14,8 +18,9 @@ public class MobileGenericSteps<T extends MobileGenericSteps<T>> extends CoreGen
      * @param text text on page to swipe to
      * @throws SwipeException if the text is not found or swipe depth is reached
      */
-    public void swipeToTextByDirection(String direction, String text) throws SwipeException {
+    public T swipeToTextByDirection(String direction, String text) throws SwipeException {
         SwipeUtils.swipeToText(DirectionStrategy.valueOf(direction.toUpperCase()), text);
+        return (T) this;
     }
 
     /**
@@ -25,7 +30,8 @@ public class MobileGenericSteps<T extends MobileGenericSteps<T>> extends CoreGen
      * @param text text on page to swipe to
      * @throws SwipeException if the text is not found
      */
-    public void swipeToTextByMatch(String strategy, String text) throws SwipeException {
+    public T swipeToTextByMatch(String strategy, String text) throws SwipeException {
         SwipeUtils.swipeToText(MatchStrategy.valueOf(strategy), text);
+        return (T) this;
     }
 }
