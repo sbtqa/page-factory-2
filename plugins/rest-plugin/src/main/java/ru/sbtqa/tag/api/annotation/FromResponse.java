@@ -13,16 +13,11 @@ import java.lang.annotation.Target;
 public @interface FromResponse {
 
     /**
-     * Search response for this endpoint entry
+     * Search response for this endpoint entry.
+     * Keep it empty if you need to use the previous response (last)
      * @return endpoint entry
      */
     Class endpoint() default void.class;
-
-    /**
-     * Just use response of previous executed endpoint entry
-     * @return true if need to use previous response (last)
-     */
-    boolean previous() default true;
 
     /**
      * If you need get some string from response body, fill it with some xpath (jpath, or smth)
