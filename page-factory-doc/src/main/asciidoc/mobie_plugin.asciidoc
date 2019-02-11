@@ -44,8 +44,3 @@ include::allure.asciidoc[]
 === Вспомогательные методы
 
 include::web_reflection.asciidoc[]
-
-
-
-
-
