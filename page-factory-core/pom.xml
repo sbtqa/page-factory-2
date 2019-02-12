@@ -114,6 +114,10 @@
               <groupId>org.seleniumhq.selenium</groupId>
               <artifactId>selenium-api</artifactId>
             </weaveDependency>
+            <weaveDependency>
+              <groupId>io.cucumber</groupId>
+              <artifactId>cucumber-core</artifactId>
+            </weaveDependency>
           </weaveDependencies>
         </configuration>
         <executions>
