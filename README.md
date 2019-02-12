@@ -1,9 +1,9 @@
-# Page-Factory
+# Page-Factory-2
 [![Build Status](https://travis-ci.org/sbtqa/page-factory-2.svg?branch=master)](https://travis-ci.org/sbtqa/page-factory-2) [![GitHub release](https://img.shields.io/github/release/sbtqa/page-factory-2.svg?style=flat-square)](https://github.com/sbtqa/page-factory-2/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/page-factory-2.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/page-factory-2)
 
 Page-Factory это opensource java framework для автоматизированного тестирования, который позволяет разрабатывать автотесты в [BDD (Behaviour Driven Development)](https://en.wikipedia.org/wiki/Behavior-driven_development) стиле с акцентом на использование паттерна PageFactory. 
 
-### О Page-Factory
+### О Page-Factory-2
 
 Page-Factory позволяет писать автотесты на человекочитаемом языке, тем самым понижая входной порог для разработчиков тестов и повышая их читаемость неподготовленными пользователями. Page-factory использует framework Cucumber-JVM, но, в отличии от чистого использования, в котором довольно большую часть архитектуры занимают [шаги(stepdefs)](https://cucumber.io/docs/reference#step-definitions), здесь акцент сделан на то чтобы избавиться от необходимости писать их самому, или сократить количество самописных шагов(stepdefs) сосредоточившись на описании кода страниц с использованием паттерна [PageObject](https://martinfowler.com/bliki/PageObject.html).  
 В Page-Factory уже реализовано много [стандартных шагов(steps)](https://github.com/sbtqa/docs/wiki/Step-Definitions), которых хватит чтобы начать разрабатывать автоматизированные тесты.  
@@ -21,3 +21,6 @@ Page-Factory кроссплатформенный фреймворк котор�
 
 ### Лицензия 
 Page-Factory выпущен под лицензией Apache 2.0. [Подробности](https://github.com/sbtqa/page-factory/blob/master/LICENSE).
+
+### Big Thanks
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
