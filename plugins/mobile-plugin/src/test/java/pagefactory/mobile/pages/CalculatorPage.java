@@ -6,7 +6,7 @@ import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.mobile.MobilePage;
 
-@PageEntry(title = "Калькулятор")
+@PageEntry(title = "Calc")
 public class CalculatorPage extends MobilePage {
 
     @ElementTitle(value = "1")

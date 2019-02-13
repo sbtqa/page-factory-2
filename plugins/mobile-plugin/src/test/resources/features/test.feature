@@ -1,11 +1,11 @@
-#language: ru
-Функционал: Тестирование калькулятора
+#language: en
+Feature: Calc testing
 
   @test
-  Сценарий: Тестирование калькулятора
-    * пользователь находится на странице "Калькулятор"
-    * пользователь нажимает кнопку "1"
-    * пользователь нажимает кнопку "+"
-    * пользователь нажимает кнопку "2"
-    * пользователь нажимает кнопку "="
-    * пользователь проверяет что в поле "result" значение "3"
+  Scenario: Calc testing
+    * user is on the page "Calc"
+    * user clicks the button "1"
+    * user clicks the button "+"
+    * user clicks the button "2"
+    * user clicks the button "="
+    * user checks in the element "result" value "3"

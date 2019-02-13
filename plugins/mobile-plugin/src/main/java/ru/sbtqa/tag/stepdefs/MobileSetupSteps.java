@@ -8,14 +8,14 @@ import static java.lang.ThreadLocal.withInitial;
 
 public class MobileSetupSteps {
 
-    static final ThreadLocal<MobileDriverService> storage = withInitial(MobileDriverService::new);
+    private static final ThreadLocal<MobileDriverService> storage = withInitial(MobileDriverService::new);
 
     private MobileSetupSteps() {}
 
     public static synchronized void initMobile() {
         PageManager.cachePages();
 
-        if (Environment.isDriverEmpty()) {
+        if (Environment.isDriverEmpty() || !(Environment.getDriverService() instanceof MobileDriverService)) {
             Environment.setDriverService(storage.get());
         }
     }
