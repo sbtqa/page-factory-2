@@ -28,5 +28,4 @@ public class CalculatorPage extends MobilePage {
     @ElementTitle(value = "result")
     @FindBy(id = "com.android.calculator2:id/result")
     protected WebElement result;
-
 }

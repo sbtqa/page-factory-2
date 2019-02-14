@@ -46,5 +46,4 @@ public class MobilePageActions implements PageActions {
             webElement.click();
         }
     }
-
 }

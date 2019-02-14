@@ -19,11 +19,16 @@ public abstract class WebPage implements Page {
 
     public WebPage() {
         PageFactory.initElements((WebDriver) Environment.getDriverService().getDriver(), this);
-        Environment.setPageActions(pageActions);
-        Environment.setPageChecks(pageChecks);
+        applyEnvironment();
     }
 
     public WebPage(FieldDecorator decorator) {
         PageFactory.initElements(decorator, this);
+        applyEnvironment();
+    }
+
+    private void applyEnvironment() {
+        Environment.setPageActions(pageActions);
+        Environment.setPageChecks(pageChecks);
     }
 }

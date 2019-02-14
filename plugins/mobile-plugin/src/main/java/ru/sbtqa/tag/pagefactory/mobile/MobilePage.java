@@ -22,6 +22,5 @@ public abstract class MobilePage implements Page {
         Environment.setPageActions(new MobilePageActions());
         Environment.setPageChecks(new MobilePageChecks());
         Environment.setFindUtils(new FindUtils());
-
     }
 }
