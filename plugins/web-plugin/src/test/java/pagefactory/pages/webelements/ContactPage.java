@@ -7,6 +7,7 @@ import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.web.checks.WebPageChecks;
+import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 @PageEntry(title = "Contact")
@@ -52,6 +53,11 @@ public class ContactPage extends AbstractPage {
     public void errContains(String message) {
         WebPageChecks checks = new WebPageChecks();
         Assert.assertTrue(checks.checkEquality(errorMsg, message, MatchStrategy.CONTAINS));
+    }
+
+    @ActionTitle("failed action")
+    public void fail(){
+        throw new AutotestError("It's error in non-critical action");
     }
 
     @ActionTitle("check that error message not contains")

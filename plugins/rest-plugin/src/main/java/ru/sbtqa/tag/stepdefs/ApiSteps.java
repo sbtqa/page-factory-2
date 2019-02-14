@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.stepdefs;
 
-import static java.lang.ThreadLocal.withInitial;
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.annotation.Validation;
@@ -11,6 +10,8 @@ import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.storage.EndpointBlank;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
+
+import static java.lang.ThreadLocal.withInitial;
 
 /**
  * Basic step definitions, that should be available on every project
@@ -213,7 +214,7 @@ public class ApiSteps extends ApiSetupSteps {
      */
     public ApiSteps addToBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
-        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, "", path, mask, true);
+        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, "", path, mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
@@ -250,7 +251,7 @@ public class ApiSteps extends ApiSetupSteps {
      */
     public ApiSteps addToHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
-        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, false, headerName, "", mask, true);
+        String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, headerName, "", mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);

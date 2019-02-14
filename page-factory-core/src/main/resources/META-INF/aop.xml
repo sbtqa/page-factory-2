@@ -8,6 +8,8 @@
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.Select"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.SetCheckbox"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.CucumberAspect"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.CriticalStepAspect"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.CriticalStepCheckAspect"/>
     </aspects>
     <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
         <include within="ru.sbtqa.tag..*"/>

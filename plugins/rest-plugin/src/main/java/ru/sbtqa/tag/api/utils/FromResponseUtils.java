@@ -8,16 +8,16 @@ public class FromResponseUtils {
 
     private FromResponseUtils() {}
 
-    public static Object getValueFromResponse(Class fromEndpoint, boolean isUsePrevious, String header, String path, String mask, boolean isOptional) {
-        ValidatableResponse response = getResponse(fromEndpoint, isUsePrevious);
+    public static Object getValueFromResponse(Class fromEndpoint, String header, String path, String mask, boolean isOptional) {
+        ValidatableResponse response = getResponse(fromEndpoint);
         Object value = getValue(response, header, path, isOptional);
         value = applyMask(value, mask);
 
         return value;
     }
 
-    private static ValidatableResponse getResponse(Class fromEndpoint, boolean isUsePrevious) {
-        if ((fromEndpoint == void.class || fromEndpoint == null) && isUsePrevious) {
+    private static ValidatableResponse getResponse(Class fromEndpoint) {
+        if (fromEndpoint == void.class || fromEndpoint == null) {
             return ApiEnvironment.getRepository().getLast().getResponse();
         } else {
             return ApiEnvironment.getRepository().get(fromEndpoint).getResponse();
