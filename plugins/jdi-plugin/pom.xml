@@ -14,6 +14,7 @@
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.2.20.v20161216</jetty.version>
     <skipTests>false</skipTests>
+    <jdi.version>1.1.32</jdi.version>
   </properties>
 
   <groupId>ru.sbtqa.tag.pagefactory</groupId>
@@ -32,12 +33,12 @@
     <dependency>
       <groupId>com.epam.jdi</groupId>
       <artifactId>jdi-uitest-core</artifactId>
-      <version>1.0.71</version>
+      <version>${jdi.version}</version>
     </dependency>
     <dependency>
       <groupId>com.epam.jdi</groupId>
       <artifactId>jdi-uitest-web</artifactId>
-      <version>1.0.71</version>
+      <version>${jdi.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.testng</groupId>
