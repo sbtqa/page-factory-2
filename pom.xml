@@ -52,12 +52,12 @@
   </scm>
 
   <properties>
-    <selenium.version>3.12.0</selenium.version>
+    <selenium.version>3.141.59</selenium.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <cucumber.version>2.4.0</cucumber.version>
-    <aspectj.version>1.8.13</aspectj.version>
+    <aspectj.version>1.9.2</aspectj.version>
     <aspectj.plugin.version>1.11</aspectj.plugin.version>
     <spring.version>4.2.4.RELEASE</spring.version>
     <activemq.version>5.13.0</activemq.version>
