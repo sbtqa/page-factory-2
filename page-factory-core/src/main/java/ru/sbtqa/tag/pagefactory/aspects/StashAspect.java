@@ -39,31 +39,30 @@ public class StashAspect {
 
     @Around("transformedArgs(step, xStream)")
     public Object transformedArgs(ProceedingJoinPoint joinPoint, PickleStep step, LocalizedXStreams.LocalizedXStream xStream) throws Throwable {
-        List<gherkin.pickles.Argument> arguments = new ArrayList<>();
+        List<gherkin.pickles.Argument> pickleArguments = new ArrayList<>();
 
         for (gherkin.pickles.Argument argument : step.getArgument()) {
             if (argument.getClass().equals(PickleTable.class)) {
-                arguments.add(replaceDataTable((PickleTable) argument));
+                pickleArguments.add(replaceDataTable((PickleTable) argument));
             } else {
-                arguments.add(argument);
+                pickleArguments.add(argument);
             }
         }
-        FieldUtils.writeField(step, "arguments", arguments, true);
+        FieldUtils.writeField(step, "arguments", pickleArguments, true);
 
-        Object[] result = (Object[]) joinPoint.proceed(new Object[]{step, xStream});
+        Object[] arguments = (Object[]) joinPoint.proceed(new Object[]{step, xStream});
 
-        for (int i = 0; i < result.length; i++) {
-            Object argument = result[i];
-
+        for (int i = 0; i < arguments.length; i++) {
+            Object argument = arguments[i];
             if (argument.getClass().equals(String.class)) {
-                result[i] = replaceDataPlaceholders((String) argument);
+                arguments[i] = replaceDataPlaceholders((String) argument);
             }
         }
 
         Allure.getLifecycle().updateStep((StepResult stepResult) ->
                 stepResult.withName(replaceDataPlaceholders(step.getText())));
 
-        return result;
+        return arguments;
     }
 
     @Around("formatStepText(keyword, stepText, textFormat, argFormat, arguments)")
@@ -96,9 +95,7 @@ public class StashAspect {
             }
             replacedArguments.add(arg);
         }
-        String step = replacedValue.toString();
-
-        return (String) joinPoint.proceed(new Object[]{keyword, step, textFormat, argFormat, replacedArguments});
+        return (String) joinPoint.proceed(new Object[]{keyword, replacedValue.toString(), textFormat, argFormat, replacedArguments});
     }
 
     private PickleTable replaceDataTable(PickleTable argument) throws IllegalAccessException {
@@ -117,11 +114,8 @@ public class StashAspect {
 
         while (stepDataMatcher.find()) {
             String stashKey = stepDataMatcher.group(1);
-            Object stashValue = Stash.getValue(stashKey);
-
-            if (!stashValue.getClass().equals(String.class)) {
-                throw new AutotestError("The value received by the key must be a string. Key: " + stashKey);
-            }
+            String stashValue = Optional.of((String) Stash.getValue(stashKey))
+                    .orElseThrow(() -> new AutotestError("The value received by the key must be a string. Key: " + stashKey));
 
             replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), (String) stashValue);
             stepDataMatcher = stepDataPattern.matcher(replacedValue);

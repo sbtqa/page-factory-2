@@ -125,10 +125,6 @@
               <groupId>io.cucumber</groupId>
               <artifactId>cucumber-core</artifactId>
             </weaveDependency>
-            <weaveDependency>
-              <groupId>io.cucumber</groupId>
-              <artifactId>cucumber-java</artifactId>
-            </weaveDependency>
           </weaveDependencies>
         </configuration>
         <executions>

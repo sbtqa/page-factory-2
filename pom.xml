@@ -65,7 +65,7 @@
     <tag.version.qautils>1.4.0</tag.version.qautils>
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
-    <tag.version.datajack>1.3-SNAPSHOT</tag.version.datajack>
+    <tag.version.datajack>4.0.4</tag.version.datajack>
   </properties>
 
   <modules>
