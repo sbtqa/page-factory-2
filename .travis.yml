@@ -1,6 +1,6 @@
 env:
   global:
-    - appium.url=TEST
+    - appiumurl=TEST
 language: java
 branches:
   only:
