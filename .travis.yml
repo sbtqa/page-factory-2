@@ -1,3 +1,6 @@
+env:
+  global:
+    - SAUCELABS_TOKEN=$SAUCELABS_TOKEN
 language: java
 branches:
   only:
