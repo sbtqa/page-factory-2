@@ -8,6 +8,26 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumUrl();
 
+    @Key("appium.version")
+    @DefaultValue("")
+    String getAppiumVersion();
+
+    @Key("appium.app")
+    @DefaultValue("")
+    String getAppiumApp();
+
+    @Key("appium.app.package")
+    @DefaultValue("")
+    String getAppiumAppPackage();
+
+    @Key("appium.app.activity")
+    @DefaultValue("")
+    String getAppiumAppActivity();
+
+    @Key("appium.device.orientation")
+    @DefaultValue("")
+    String getAppiumDeviceOrientation();
+
     @Key("appium.device.name")
     @DefaultValue("")
     String getAppiumDeviceName();
@@ -15,25 +35,6 @@ public interface MobileConfiguration extends Configuration {
     @Key("appium.device.platform.version")
     @DefaultValue("")
     String getAppiumPlatformVersion();
-
-    @Key("appium.app.package")
-    @DefaultValue("")
-    String getAppiumAppPackage();
-
-
-
-
-    @Key("appium.app")
-    @DefaultValue("")
-    String getAppiumApp();
-
-    @Key("appium.version")
-    @DefaultValue("")
-    String getAppiumVersion();
-
-    @Key("appium.device.orientation")
-    @DefaultValue("")
-    String getAppiumDeviceOrientation();
 
     @Key("appium.browser.name")
     @DefaultValue("")
@@ -43,18 +44,6 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumPlatformName();
 
-    @Key("appium.app.activity")
-    @DefaultValue("")
-    String getAppiumAppActivity();
-
-
-
-
-
-
-
-
-
     @Key("appium.strategies.reset")
     @DefaultValue("")
     String getAppiumResetStrategy();
@@ -62,5 +51,4 @@ public interface MobileConfiguration extends Configuration {
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }
-
 }

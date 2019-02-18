@@ -24,19 +24,16 @@ public class MobileDriverService implements DriverService {
     public void mountDriver() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("app", PROPERTIES.getAppiumApp());
-
-        capabilities.setCapability("deviceName", PROPERTIES.getAppiumDeviceName());
-        capabilities.setCapability("platformVersion", PROPERTIES.getAppiumPlatformVersion());
         capabilities.setCapability("appPackage", PROPERTIES.getAppiumAppPackage());
         capabilities.setCapability("appActivity", PROPERTIES.getAppiumAppActivity());
 
-
-
         capabilities.setCapability("appiumVersion", PROPERTIES.getAppiumVersion());
+
+        capabilities.setCapability("deviceName", PROPERTIES.getAppiumDeviceName());
+        capabilities.setCapability("platformName",PROPERTIES.getAppiumPlatformName());
+        capabilities.setCapability("platformVersion", PROPERTIES.getAppiumPlatformVersion());
         capabilities.setCapability("deviceOrientation", PROPERTIES.getAppiumDeviceOrientation());
         capabilities.setCapability("browserName", PROPERTIES.getAppiumBrowserName());
-        capabilities.setCapability("platformName",PROPERTIES.getAppiumPlatformName());
-
 
         capabilities.setCapability("autoGrantPermissions", "true");
         capabilities.setCapability("unicodeKeyboard", "true");
@@ -46,7 +43,6 @@ public class MobileDriverService implements DriverService {
         } else if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase("fullreset")) {
             capabilities.setCapability("fullReset","true");
         }
-
 
         LOG.info("Capabilities are {}", capabilities);
 
