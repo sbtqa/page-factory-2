@@ -1,14 +1,14 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
+import cucumber.api.event.Event;
+import cucumber.api.event.TestStepStarted;
+import cucumber.runner.PickleTestStep;
 import cucumber.runtime.Argument;
-import cucumber.runtime.formatter.Format;
-import cucumber.runtime.xstream.LocalizedXStreams;
 import gherkin.pickles.PickleCell;
 import gherkin.pickles.PickleRow;
 import gherkin.pickles.PickleStep;
+import gherkin.pickles.PickleString;
 import gherkin.pickles.PickleTable;
-import io.qameta.allure.Allure;
-import io.qameta.allure.model.StepResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,82 +29,68 @@ public class StashAspect {
     private final static String PATH_PARSE_REGEX = "(?:\\#\\{([^\\}]+)\\})";
     private final static String STASH_KEY_FULL_PATH = "#{%s}";
 
-    @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.transformedArgs(..)) && args(step,xStream,..)")
-    public void transformedArgs(PickleStep step, LocalizedXStreams.LocalizedXStream xStream) {
+    @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
+    public static boolean sendStepStart(Event event) {
+        return event instanceof TestStepStarted;
     }
 
-    @Pointcut("execution(* cucumber.runtime.formatter.PrettyFormatter.formatStepText(..)) && args(keyword, stepText, textFormat, argFormat, arguments,..)")
-    public void formatStepText(String keyword, String stepText, Format textFormat, Format argFormat, List<Argument> arguments) {
+    @Around("sendStepStart(event)")
+    public void sendStepStart(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
+        TestStepStarted stepStarted = (TestStepStarted) event;
+        if (stepStarted.testStep instanceof PickleTestStep) {
+            PickleTestStep step = (PickleTestStep) stepStarted.testStep;
+            List<Argument> replacedArguments = new ArrayList<>();
+            String stepText = step.getStepText();
+            int offset = 0;
+
+            Pattern stepDataPattern = Pattern.compile(PATH_PARSE_REGEX);
+            Matcher stepDataMatcher = stepDataPattern.matcher(stepText);
+            StringBuilder replacedValue = new StringBuilder(stepText);
+
+            for (Argument argument : step.getDefinitionArgument()) {
+                Argument arg = argument;
+                if (stepDataPattern.matcher(argument.getVal()).find() && stepDataMatcher.find()) {
+                    String stashValue = getStashValue(stepDataMatcher.group(1));
+                    String stashKeyFullPath = format(STASH_KEY_FULL_PATH, stepDataMatcher.group(1));
+
+                    if (stashKeyFullPath.equals(argument.getVal())) {
+                        arg = new Argument(stepDataMatcher.start(), stashValue);
+                        offset = stashValue.length() - stashKeyFullPath.length();
+                    }
+                    replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
+                    stepDataMatcher = stepDataPattern.matcher(replacedValue);
+                } else {
+                    arg = new Argument(arg.getOffset() + offset, arg.getVal());
+                }
+                replacedArguments.add(arg);
+            }
+            replacePickleArguments(((TestStepStarted) event).testStep.getPickleStep());
+
+            FieldUtils.writeField(FieldUtils.readField(step, "definitionMatch", true),
+                    "arguments", replacedArguments, true);
+            FieldUtils.writeField(step.getPickleStep(), "text", replaceDataPlaceholders(step.getStepText()), true);
+        }
+        joinPoint.proceed(new Object[]{event});
     }
 
-    @Around("transformedArgs(step, xStream)")
-    public Object transformedArgs(ProceedingJoinPoint joinPoint, PickleStep step, LocalizedXStreams.LocalizedXStream xStream) throws Throwable {
-        List<gherkin.pickles.Argument> pickleArguments = new ArrayList<>();
-
+    private void replacePickleArguments(PickleStep step) throws IllegalAccessException {
         for (gherkin.pickles.Argument argument : step.getArgument()) {
             if (argument.getClass().equals(PickleTable.class)) {
-                pickleArguments.add(replaceDataTable((PickleTable) argument));
+                replaceDataTable((PickleTable) argument);
             } else {
-                pickleArguments.add(argument);
-            }
-        }
-        FieldUtils.writeField(step, "arguments", pickleArguments, true);
-
-        Object[] arguments = (Object[]) joinPoint.proceed(new Object[]{step, xStream});
-
-        for (int i = 0; i < arguments.length; i++) {
-            Object argument = arguments[i];
-            if (argument.getClass().equals(String.class)) {
-                arguments[i] = replaceDataPlaceholders((String) argument);
-            }
-        }
-
-        Allure.getLifecycle().updateStep((StepResult stepResult) ->
-                stepResult.withName(replaceDataPlaceholders(step.getText())));
-
-        return arguments;
-    }
-
-    @Around("formatStepText(keyword, stepText, textFormat, argFormat, arguments)")
-    public String formatStepText(ProceedingJoinPoint joinPoint, String keyword, String stepText,
-                                 Format textFormat, Format argFormat, List<Argument> arguments) throws Throwable {
-        int offset = 0;
-        List<Argument> replacedArguments = new ArrayList<>();
-
-        Pattern stepDataPattern = Pattern.compile(PATH_PARSE_REGEX);
-        Matcher stepDataMatcher = stepDataPattern.matcher(stepText);
-        StringBuilder replacedValue = new StringBuilder(stepText);
-
-        for (Argument argument : arguments) {
-            Argument arg = argument;
-            if (stepDataPattern.matcher(argument.getVal()).find() && stepDataMatcher.find()) {
-
-                String stashKey = stepDataMatcher.group(1);
-                String stashValue = Optional.of((String) Stash.getValue(stashKey))
-                        .orElseThrow(() -> new AutotestError("The value received by the key must be a string. Key: " + stashKey));
-
-                if (format(STASH_KEY_FULL_PATH, stashKey).equals(argument.getVal())) {
-                    arg = new Argument(stepDataMatcher.start(), stashValue);
-                    offset = stashValue.length() - format(STASH_KEY_FULL_PATH, stashKey).length();
+                if (argument.getClass().equals(PickleString.class)) {
+                    FieldUtils.writeField(argument, "content", replaceDataPlaceholders(((PickleString) argument).getContent()), true);
                 }
-
-                replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
-                stepDataMatcher = stepDataPattern.matcher(replacedValue);
-            } else {
-                arg = new Argument(arg.getOffset() + offset, arg.getVal());
             }
-            replacedArguments.add(arg);
         }
-        return (String) joinPoint.proceed(new Object[]{keyword, replacedValue.toString(), textFormat, argFormat, replacedArguments});
     }
 
-    private PickleTable replaceDataTable(PickleTable argument) throws IllegalAccessException {
+    private void replaceDataTable(PickleTable argument) throws IllegalAccessException {
         for (PickleRow pickleRow : argument.getRows()) {
             for (PickleCell pickleCell : pickleRow.getCells()) {
                 FieldUtils.writeField(pickleCell, "value", replaceDataPlaceholders(pickleCell.getValue()), true);
             }
         }
-        return argument;
     }
 
     private String replaceDataPlaceholders(String raw) {
@@ -113,13 +99,14 @@ public class StashAspect {
         StringBuilder replacedValue = new StringBuilder(raw);
 
         while (stepDataMatcher.find()) {
-            String stashKey = stepDataMatcher.group(1);
-            String stashValue = Optional.of((String) Stash.getValue(stashKey))
-                    .orElseThrow(() -> new AutotestError("The value received by the key must be a string. Key: " + stashKey));
-
-            replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), (String) stashValue);
+            replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), getStashValue(stepDataMatcher.group(1)));
             stepDataMatcher = stepDataPattern.matcher(replacedValue);
         }
         return replacedValue.toString();
+    }
+
+    private String getStashValue(String stashKey){
+        return Optional.of((String) Stash.getValue(stashKey))
+                .orElseThrow(() -> new AutotestError("The value received by the key must be a string. Key: " + stashKey));
     }
 }
