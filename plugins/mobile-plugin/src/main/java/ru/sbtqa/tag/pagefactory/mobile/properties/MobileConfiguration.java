@@ -12,25 +12,48 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumDeviceName();
 
-    @Key("appium.device.platform")
+    @Key("appium.device.platform.version")
     @DefaultValue("")
-    String getAppiumDevicePlatform();
+    String getAppiumPlatformVersion();
 
     @Key("appium.app.package")
     @DefaultValue("")
     String getAppiumAppPackage();
 
+
+
+
+    @Key("appium.app")
+    @DefaultValue("")
+    String getAppiumApp();
+
+    @Key("appium.version")
+    @DefaultValue("")
+    String getAppiumVersion();
+
+    @Key("appium.device.orientation")
+    @DefaultValue("")
+    String getAppiumDeviceOrientation();
+
+    @Key("appium.browser.name")
+    @DefaultValue("")
+    String getAppiumBrowserName();
+
+    @Key("appium.device.platform.name")
+    @DefaultValue("")
+    String getAppiumPlatformName();
+
     @Key("appium.app.activity")
     @DefaultValue("")
     String getAppiumAppActivity();
 
-    @Key("appium.fill.adb")
-    @DefaultValue("false")
-    boolean isAppiumFillAdb();
 
-    @Key("appium.click.adb")
-    @DefaultValue("false")
-    boolean isAppiumClickAdb();
+
+
+
+
+
+
 
     @Key("appium.strategies.reset")
     @DefaultValue("")

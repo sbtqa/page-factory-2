@@ -23,10 +23,21 @@ public class MobileDriverService implements DriverService {
     @Override
     public void mountDriver() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("app", PROPERTIES.getAppiumApp());
+
         capabilities.setCapability("deviceName", PROPERTIES.getAppiumDeviceName());
-        capabilities.setCapability("platformVersion", PROPERTIES.getAppiumDevicePlatform());
+        capabilities.setCapability("platformVersion", PROPERTIES.getAppiumPlatformVersion());
         capabilities.setCapability("appPackage", PROPERTIES.getAppiumAppPackage());
         capabilities.setCapability("appActivity", PROPERTIES.getAppiumAppActivity());
+
+
+
+        capabilities.setCapability("appiumVersion", PROPERTIES.getAppiumVersion());
+        capabilities.setCapability("deviceOrientation", PROPERTIES.getAppiumDeviceOrientation());
+        capabilities.setCapability("browserName", PROPERTIES.getAppiumBrowserName());
+        capabilities.setCapability("platformName",PROPERTIES.getAppiumPlatformName());
+
+
         capabilities.setCapability("autoGrantPermissions", "true");
         capabilities.setCapability("unicodeKeyboard", "true");
         capabilities.setCapability("resetKeyboard", "true");
