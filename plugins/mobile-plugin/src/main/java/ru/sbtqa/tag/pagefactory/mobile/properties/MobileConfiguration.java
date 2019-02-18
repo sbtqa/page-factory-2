@@ -4,7 +4,7 @@ import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 public interface MobileConfiguration extends Configuration {
 
-    @Key("appiumurl")
+    @Key("appium.url")
     @DefaultValue("")
     String getAppiumUrl();
 
