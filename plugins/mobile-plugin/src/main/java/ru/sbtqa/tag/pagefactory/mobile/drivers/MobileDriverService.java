@@ -22,6 +22,8 @@ public class MobileDriverService implements DriverService {
 
     @Override
     public void mountDriver() {
+        System.out.println("QQQQQQQ=" + System.getenv("SAUCELABS_TOKEN"));
+
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("app", PROPERTIES.getAppiumApp());
         capabilities.setCapability("appPackage", PROPERTIES.getAppiumAppPackage());
