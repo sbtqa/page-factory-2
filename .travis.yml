@@ -1,6 +1,6 @@
 env:
   global:
-    - appiumurl=TEST
+    - appiumurl=https://kosteman:a2ff1c44-2aad-4854-a4c2-0726f4e6f316@ondemand.saucelabs.com:443/wd/hub
 language: java
 branches:
   only:
