@@ -30,11 +30,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag.datajack</groupId>
-      <artifactId>datajack-api</artifactId>
-      <version>${tag.version.datajack}</version>
-    </dependency>
-    <dependency>
       <groupId>ru.sbtqa</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>${tag.version.webdrivermanager}</version>
