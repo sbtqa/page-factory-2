@@ -66,6 +66,7 @@
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
     <tag.version.datajack>4.0.4</tag.version.datajack>
+    <allure.version>2.10.0</allure.version>
   </properties>
 
   <modules>

@@ -27,6 +27,12 @@
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
       <version>6.0.0-BETA5</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
