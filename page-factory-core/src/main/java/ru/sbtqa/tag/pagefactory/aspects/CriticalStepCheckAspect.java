@@ -18,7 +18,9 @@ import java.util.Map;
 import java.util.Optional;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -118,12 +120,8 @@ public class CriticalStepCheckAspect {
         }
     }
 
-    @Around("sendStepFinished(event)")
-    public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
-        AllureLifecycle lifecycle = Allure.getLifecycle();
-        Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
-
-        joinPoint.proceed();
+    @After("sendStepFinished(event)")
+    public void afterSendStepFinished(JoinPoint joinPoint, Event event) {
         TestStep testStep = ((TestStepFinished) event).testStep;
 
         if (testStep.getClass().equals(PickleTestStep.class)) {
@@ -139,8 +137,7 @@ public class CriticalStepCheckAspect {
 
     @Attachment(value = "{name}", type = "text/html")
     private String textAttachment(String name, String throwable) {
-        String errorHTML = "<div style='background-color: #ffc2c2; height: 100%'>" +
+        return "<div style='background-color: #ffc2c2; height: 100%'>" +
                 "<pre style='color:#880b0b'>" + throwable + "</pre></div>";
-        return errorHTML;
     }
 }
