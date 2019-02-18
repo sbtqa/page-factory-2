@@ -1,6 +1,6 @@
 env:
   global:
-    - SAUCELABS_TOKEN=$SAUCELABS_TOKEN
+    - appium.url=$appium.url
 language: java
 branches:
   only:
