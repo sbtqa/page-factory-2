@@ -25,6 +25,9 @@ import ru.sbtqa.tag.pagefactory.{pn};
 
 @PageEntry(title = "Ваша страница")
 public abstract class YourPage extends {pn} {
-    Environment.{envr}(your{sup});
+
+    public YourPage() {
+        Environment.{envr}(your{sup});
+    }
 }
 ----
