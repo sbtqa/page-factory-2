@@ -19,6 +19,9 @@ public interface Configuration extends Config {
     @DefaultValue("false")
     boolean getShared();
 
+    @Key("stash.shared")
+    @DefaultValue("false")
+    boolean getStashShared();
 
     @Key("video.enabled")
     @DefaultValue("false")
