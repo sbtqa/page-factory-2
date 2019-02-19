@@ -82,7 +82,7 @@ public class CriticalStepCheckAspect {
                     this.brokenTests.get().put(pickleStep.getText(), e);
 
                     lifecycle.updateStep(stepResult ->
-                            stepResult.withStatus(Status.BROKEN));
+                            stepResult.setStatus(Status.BROKEN));
                     this.textAttachment(e.getMessage(), ExceptionUtils.getStackTrace(e));
 
                     if (!Environment.isDriverEmpty()) {
