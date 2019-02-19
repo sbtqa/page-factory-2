@@ -139,7 +139,7 @@ public class CriticalStepCheckAspect {
 
     @Attachment(value = "{name}", type = "text/html")
     private String textAttachment(String name, String throwable) {
-        String errorHTML = "<div style='background-color: #ffc2c2; height: 100%'>" +
+        String errorHTML = "<div style='background-color: #ffc2c2; height: auto; display: table'>" +
                 "<pre style='color:#880b0b'>" + throwable + "</pre></div>";
         return errorHTML;
     }
