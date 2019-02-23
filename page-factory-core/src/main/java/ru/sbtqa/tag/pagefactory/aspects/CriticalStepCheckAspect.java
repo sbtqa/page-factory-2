@@ -1,21 +1,15 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.api.Result;
-import cucumber.api.TestStep;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestCaseFinished;
 import cucumber.api.event.TestStepFinished;
 import cucumber.runner.PickleTestStep;
+import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
-import io.qameta.allure.Attachment;
 import io.qameta.allure.model.Status;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import io.qameta.allure.model.StatusDetails;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,13 +18,19 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
-import ru.sbtqa.tag.pagefactory.allure.Type;
-import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.utils.ScreenshotUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static java.lang.String.format;
 
 @Aspect
 public class CriticalStepCheckAspect {
@@ -41,6 +41,7 @@ public class CriticalStepCheckAspect {
 
     private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
     private ThreadLocal<Map<String, Throwable>> brokenTests = ThreadLocal.withInitial(HashMap::new);
+    private ThreadLocal<PickleStep> currentBroken = new ThreadLocal<>();
 
     @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.runStep(..))")
     public void runStep() {
@@ -78,17 +79,15 @@ public class CriticalStepCheckAspect {
                         throw e;
                     }
                     stepField.set(instance, pickleStep);
+                    this.currentBroken.set(pickleStep.step);
                     this.brokenCases.get().add(currentTestCase.get());
                     this.brokenTests.get().put(pickleStep.getText(), e);
 
                     lifecycle.updateStep(stepResult ->
-                            stepResult.setStatus(Status.BROKEN));
-                    this.textAttachment(e.getMessage(), ExceptionUtils.getStackTrace(e));
+                            stepResult.setStatus(Status.FAILED));
 
-                    if (!Environment.isDriverEmpty()) {
-                        ScreenshotUtils screenshot = ScreenshotUtils.valueOf(PROPERTIES.getScreenshotStrategy().toUpperCase());
-                        ParamsHelper.addAttachmentToRender(screenshot.take(), "Screenshot", Type.PNG);
-                    }
+                    ErrorHandler.attachError(e.getMessage(), e);
+                    ErrorHandler.attachScreenshot();
                     lifecycle.stopStep();
                 }
             }
@@ -99,18 +98,14 @@ public class CriticalStepCheckAspect {
 
     @Around("sendCaseFinished(event)")
     public void sendCaseFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
-        AllureLifecycle lifecycle = Allure.getLifecycle();
-        Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
+        TestCaseFinished testCaseFinished = (TestCaseFinished) event;
 
-        if (((TestCaseFinished) event).result.getStatus() == Result.Type.PASSED
-                && currentTestCase.isPresent()
-                && this.brokenCases.get().contains(currentTestCase.get())
-        ) {
-            final Result result = new Result(Result.Type.AMBIGUOUS, ((TestCaseFinished) event).result.getDuration(),
+        if (currentBroken.get() != null && testCaseFinished.result.isOk(true)) {
+            final Result result = new Result(Result.Type.PASSED, ((TestCaseFinished) event).result.getDuration(),
                     new AutotestError("Some non-critical steps are failed"));
 
             event = new TestCaseFinished(event.getTimeStamp(),
-                    ((TestCaseFinished) event).testCase, result);
+                    testCaseFinished.testCase, result);
 
             joinPoint.proceed(new Object[]{event});
         } else {
@@ -120,27 +115,33 @@ public class CriticalStepCheckAspect {
 
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
-        AllureLifecycle lifecycle = Allure.getLifecycle();
-        Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
+        TestStepFinished testStepFinished = (TestStepFinished) event;
+        if (testStepFinished.testStep.isHook() || !testStepFinished.testStep.getPickleStep().equals(currentBroken.get())) {
+            joinPoint.proceed();
+        } else {
+            final Result result = new Result(Result.Type.AMBIGUOUS, ((TestStepFinished) event).result.getDuration(),
+                    new AutotestError(format("Non-critical step '%s' failed", testStepFinished.testStep.getStepText()))
+            );
 
-        joinPoint.proceed();
-        TestStep testStep = ((TestStepFinished) event).testStep;
+            event = new TestStepFinished(event.getTimeStamp(),
+                    ((TestStepFinished) event).testStep, result);
 
-        if (testStep.getClass().equals(PickleTestStep.class)) {
+
+            joinPoint.proceed(new Object[]{event});
+
+            Allure.getLifecycle().updateStep(stepResult -> stepResult.setStatus(Status.FAILED).setStatusDetails(
+                    new StatusDetails().setTrace(ExceptionUtils.getStackTrace(testStepFinished.result.getError()))
+            ));
+        }
+
+        if (testStepFinished.testStep.getClass().equals(PickleTestStep.class)) {
             String currentBrokenTest = this.brokenTests.get().keySet().stream()
-                    .filter(brokenTest -> ("? " + brokenTest).equals(testStep.getPickleStep().getText()))
+                    .filter(brokenTest -> ("? " + brokenTest).equals(testStepFinished.testStep.getPickleStep().getText()))
                     .findFirst().orElse("");
 
             if (!currentBrokenTest.isEmpty()) {
                 LOG.warn("Non critical step failed: " + currentBrokenTest, this.brokenTests.get().get(currentBrokenTest));
             }
         }
-    }
-
-    @Attachment(value = "{name}", type = "text/html")
-    private String textAttachment(String name, String throwable) {
-        String errorHTML = "<div style='background-color: #ffc2c2; height: auto; display: table'>" +
-                "<pre style='color:#880b0b'>" + throwable + "</pre></div>";
-        return errorHTML;
     }
 }

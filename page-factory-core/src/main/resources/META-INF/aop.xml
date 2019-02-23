@@ -3,7 +3,7 @@
     <aspects>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.Click"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.Fill"/>
-        <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.AttachScreenshot"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.ErrorHandlerAspect"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.PressKey"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.Select"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.SetCheckbox"/>

@@ -2,22 +2,18 @@ package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.runtime.Argument;
 import cucumber.runtime.StepDefinition;
-import cucumber.runtime.snippets.FunctionNameGenerator;
 import cucumber.runtime.xstream.LocalizedXStreams;
 import gherkin.pickles.PickleStep;
-
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.optional.ArgumentCustom;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Aspect
 public class CriticalStepAspect {
@@ -45,9 +41,9 @@ public class CriticalStepAspect {
 
         if (stepText.startsWith(NON_CRITICAL)) {
             String replacedSteps = stepText.replaceFirst("\\" + NON_CRITICAL, "");
-            newStep = new PickleStepCustom(replacedSteps, step.getArgument(), step.getLocations(), false);
+            newStep = new PickleStepCustom(step, replacedSteps, false);
         } else {
-            newStep = new PickleStepCustom(stepText, step.getArgument(), step.getLocations(), true);
+            newStep = new PickleStepCustom(step, stepText, true);
         }
         return joinPoint.proceed(new Object[]{featurePath, newStep});
     }
