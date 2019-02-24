@@ -15,6 +15,8 @@ public class Category {
 
     /**
      * Creates Allure report category
+     * <p>
+     * Message regex or Trace regex must be set elsewhere categories page will not been generated
      *
      * @param name (mandatory) category name
      * @param messageRegex (optional) regex pattern to check test error message. Default ".*"

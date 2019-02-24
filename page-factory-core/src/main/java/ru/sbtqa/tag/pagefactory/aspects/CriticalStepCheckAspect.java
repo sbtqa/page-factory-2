@@ -33,8 +33,9 @@ import static java.lang.String.format;
 public class CriticalStepCheckAspect {
     private static final String STEP_FIELD_NAME = "step";
     private static final String NON_CRITICAL_CATEGORY_NAME = "Non-critical failures";
+    private static final String NON_CRITICAL_CATEGORY_MESSAGE = "Some non-critical steps are failed";
     private final Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME,
-            null, null,
+            NON_CRITICAL_CATEGORY_MESSAGE, null,
             Arrays.asList(Status.PASSED.value()));
 
     private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
@@ -98,7 +99,7 @@ public class CriticalStepCheckAspect {
 
         if (currentBroken.get() != null && testCaseFinished.result.isOk(true)) {
             final Result result = new Result(Result.Type.PASSED, ((TestCaseFinished) event).result.getDuration(),
-                    new AutotestError("Some non-critical steps are failed"));
+                    new AutotestError(NON_CRITICAL_CATEGORY_MESSAGE));
 
             event = new TestCaseFinished(event.getTimeStamp(),
                     testCaseFinished.testCase, result);
