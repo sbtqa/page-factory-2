@@ -33,8 +33,9 @@ import static java.lang.String.format;
 public class CriticalStepCheckAspect {
     private static final String STEP_FIELD_NAME = "step";
     private static final String NON_CRITICAL_CATEGORY_NAME = "Non-critical failures";
-    private final Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME, null,
-            Arrays.asList(new String[]{Status.PASSED.value()}));
+    private final Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME,
+            null, null,
+            Arrays.asList(Status.PASSED.value()));
 
     private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
     private ThreadLocal<Map<String, Throwable>> brokenTests = ThreadLocal.withInitial(HashMap::new);
