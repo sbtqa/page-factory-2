@@ -17,6 +17,8 @@ import java.util.List;
 
 public class CategoriesInjector {
     private static final Logger LOG = LoggerFactory.getLogger(CategoriesInjector.class);
+    private static final String NON_CRITICAL_CATEGORY_NAME = "Non-critical failures";
+
     private static boolean isCategoriesUpdated = false;
 
     public static synchronized void inject() {
@@ -40,10 +42,10 @@ public class CategoriesInjector {
             categories.addAll(Arrays.asList(gson.fromJson(reader, Category[].class)));
         }
 
-        if (!categories.stream().anyMatch(category -> category.getName().equals("Non-critical failures"))) {
+        if (!categories.stream().anyMatch(category -> category.getName().equals(NON_CRITICAL_CATEGORY_NAME))) {
             List<String> matchedStatuses = new ArrayList<>();
             matchedStatuses.add(Status.PASSED.value());
-            Category nonCriticalCategory = new Category("Non-critical failures", null, matchedStatuses);
+            Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME, null, matchedStatuses);
 
             categories.add(nonCriticalCategory);
             Category[] categoriesArray = categories.toArray(new Category[categories.size()]);

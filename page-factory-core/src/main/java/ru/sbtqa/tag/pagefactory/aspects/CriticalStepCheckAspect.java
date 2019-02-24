@@ -4,7 +4,6 @@ import cucumber.api.Result;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestCaseFinished;
 import cucumber.api.event.TestStepFinished;
-import cucumber.runner.PickleTestStep;
 import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
@@ -13,11 +12,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
-import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
@@ -31,10 +27,7 @@ import static java.lang.String.format;
 
 @Aspect
 public class CriticalStepCheckAspect {
-
-    private static final Configuration PROPERTIES = Configuration.create();
-    private static final String FIELD_NAME = "step";
-    private static final Logger LOG = LoggerFactory.getLogger(CriticalStepCheckAspect.class);
+    private static final String STEP_FIELD_NAME = "step";
 
     private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
     private ThreadLocal<Map<String, Throwable>> brokenTests = ThreadLocal.withInitial(HashMap::new);
@@ -57,8 +50,8 @@ public class CriticalStepCheckAspect {
     @Around("runStep()")
     public void runStep(ProceedingJoinPoint joinPoint) throws Throwable {
         Object instance = joinPoint.getThis();
-        if (instance != null && FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME, true) != null) {
-            Field stepField = FieldUtils.getDeclaredField(instance.getClass(), FIELD_NAME, true);
+        if (instance != null && FieldUtils.getDeclaredField(instance.getClass(), STEP_FIELD_NAME, true) != null) {
+            Field stepField = FieldUtils.getDeclaredField(instance.getClass(), STEP_FIELD_NAME, true);
             stepField.setAccessible(true);
             Object step = stepField.get(instance);
 
@@ -119,14 +112,7 @@ public class CriticalStepCheckAspect {
             event = new TestStepFinished(event.getTimeStamp(),
                     ((TestStepFinished) event).testStep, result);
 
-
             joinPoint.proceed(new Object[]{event});
-        }
-
-        if (testStepFinished.testStep.getClass().equals(PickleTestStep.class)) {
-            String currentBrokenTest = this.brokenTests.get().keySet().stream()
-                    .filter(brokenTest -> ("? " + brokenTest).equals(testStepFinished.testStep.getPickleStep().getText()))
-                    .findFirst().orElse("");
         }
     }
 }
