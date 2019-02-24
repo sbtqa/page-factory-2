@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.allure.CategoriesInjector;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.find.FindUtils;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
@@ -15,7 +16,8 @@ public class CoreSetupSteps {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    private CoreSetupSteps() {}
+    private CoreSetupSteps() {
+    }
 
     public static void preSetUp() {
         TaskHandler.addTask(new ConnectToLogTask());
@@ -40,5 +42,7 @@ public class CoreSetupSteps {
         if (!Environment.isDriverEmpty() && !PROPERTIES.getShared()) {
             Environment.getDriverService().demountDriver();
         }
+
+        CategoriesInjector.inject();
     }
 }

@@ -8,9 +8,6 @@ import cucumber.runner.PickleTestStep;
 import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
-import io.qameta.allure.model.Status;
-import io.qameta.allure.model.StatusDetails;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -83,12 +80,8 @@ public class CriticalStepCheckAspect {
                     this.brokenCases.get().add(currentTestCase.get());
                     this.brokenTests.get().put(pickleStep.getText(), e);
 
-                    lifecycle.updateStep(stepResult ->
-                            stepResult.setStatus(Status.FAILED));
-
                     ErrorHandler.attachError(e.getMessage(), e);
                     ErrorHandler.attachScreenshot();
-                    lifecycle.stopStep();
                 }
             }
         } else {
@@ -128,20 +121,12 @@ public class CriticalStepCheckAspect {
 
 
             joinPoint.proceed(new Object[]{event});
-
-            Allure.getLifecycle().updateStep(stepResult -> stepResult.setStatus(Status.FAILED).setStatusDetails(
-                    new StatusDetails().setTrace(ExceptionUtils.getStackTrace(testStepFinished.result.getError()))
-            ));
         }
 
         if (testStepFinished.testStep.getClass().equals(PickleTestStep.class)) {
             String currentBrokenTest = this.brokenTests.get().keySet().stream()
                     .filter(brokenTest -> ("? " + brokenTest).equals(testStepFinished.testStep.getPickleStep().getText()))
                     .findFirst().orElse("");
-
-            if (!currentBrokenTest.isEmpty()) {
-                LOG.warn("Non critical step failed: " + currentBrokenTest, this.brokenTests.get().get(currentBrokenTest));
-            }
         }
     }
 }
