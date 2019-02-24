@@ -16,6 +16,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Utility to inject allure categories at runtime.
+ * <p>
+ * It applies the only unique category names. If categories are predefined by user, donn't override it.
+ */
 public class CategoriesInjector {
     private static final Logger LOG = LoggerFactory.getLogger(CategoriesInjector.class);
     private static final List<Category> updatedCategories = Collections.synchronizedList(new ArrayList<>());
@@ -23,6 +28,13 @@ public class CategoriesInjector {
     private CategoriesInjector() {
     }
 
+    /**
+     * Inject categories.
+     * <p>
+     * Don't care about categories duplication, it resolves automatically as fast as it can.
+     *
+     * @param category categories to inject
+     */
     public static void inject(Category... category) {
         synchronized (updatedCategories) {
             List<Category> categoryList = Arrays.stream(category)
