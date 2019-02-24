@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.datajack.Stash;
-import ru.sbtqa.tag.pagefactory.allure.CategoriesInjector;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.find.FindUtils;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
@@ -42,7 +41,5 @@ public class CoreSetupSteps {
         if (!Environment.isDriverEmpty() && !PROPERTIES.getShared()) {
             Environment.getDriverService().demountDriver();
         }
-
-        CategoriesInjector.inject();
     }
 }

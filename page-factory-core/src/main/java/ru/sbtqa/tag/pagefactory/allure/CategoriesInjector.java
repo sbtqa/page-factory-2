@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.pagefactory.allure;
 
 import gherkin.deps.com.google.gson.Gson;
-import io.qameta.allure.model.Status;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,46 +12,52 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CategoriesInjector {
     private static final Logger LOG = LoggerFactory.getLogger(CategoriesInjector.class);
-    private static final String NON_CRITICAL_CATEGORY_NAME = "Non-critical failures";
+    private static final List<Category> updatedCategories = Collections.synchronizedList(new ArrayList<>());
 
-    private static boolean isCategoriesUpdated = false;
+    private CategoriesInjector() {
+    }
 
-    public static synchronized void inject() {
-        if (!isCategoriesUpdated) {
+    public static void inject(Category... category) {
+        synchronized (updatedCategories) {
+            List<Category> categoryList = Arrays.stream(category)
+                    .filter(categoryToUpdate -> !updatedCategories.contains(categoryToUpdate))
+                    .collect(Collectors.toList());
             try {
-                getUserCategories();
-                isCategoriesUpdated = true;
+                applyUserCategories(categoryList);
+                updatedCategories.addAll(categoryList);
             } catch (IOException e) {
                 LOG.warn("Cannot inject categories", e);
             }
         }
     }
 
-    private static synchronized void getUserCategories() throws IOException {
+    private static synchronized void applyUserCategories(List<Category> categories) throws IOException {
         Gson gson = new Gson();
-        List<Category> categories = new ArrayList<>();
+        List<Category> userCategories = new ArrayList<>();
         InputStream in = CategoriesInjector.class.getClassLoader()
                 .getResourceAsStream("categories.json");
         if (in != null) {
             InputStreamReader reader = new InputStreamReader(in);
-            categories.addAll(Arrays.asList(gson.fromJson(reader, Category[].class)));
+            userCategories.addAll(Arrays.asList(gson.fromJson(reader, Category[].class)));
         }
 
-        if (!categories.stream().anyMatch(category -> category.getName().equals(NON_CRITICAL_CATEGORY_NAME))) {
-            List<String> matchedStatuses = new ArrayList<>();
-            matchedStatuses.add(Status.PASSED.value());
-            Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME, null, matchedStatuses);
+        List<Category> injectableCategories = categories.stream()
+                .filter(category -> userCategories.stream()
+                        .noneMatch(userCategory -> userCategory.getName().equals(category.getName())))
+                .collect(Collectors.toList());
+        userCategories.addAll(injectableCategories);
 
-            categories.add(nonCriticalCategory);
-            Category[] categoriesArray = categories.toArray(new Category[categories.size()]);
-            String categoriesJson = gson.toJson(categoriesArray, Category[].class);
-            File categoriesFile = new File(CategoriesInjector.class.getClassLoader()
-                    .getResource("").getPath() + "/categories.json");
-            FileUtils.writeStringToFile(categoriesFile, categoriesJson, Charset.forName("UTF-8"));
-        }
+        Category[] categoriesArray = userCategories.toArray(new Category[]{});
+        String categoriesJson = gson.toJson(categoriesArray, Category[].class);
+        File categoriesFile = new File(CategoriesInjector.class.getClassLoader()
+                .getResource("").getPath() + "/categories.json");
+
+        FileUtils.writeStringToFile(categoriesFile, categoriesJson, Charset.forName("UTF-8"));
     }
 }

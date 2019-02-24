@@ -14,6 +14,20 @@ public class Category {
         this.matchedStatuses = matchedStatuses;
     }
 
+    @Override
+    public int hashCode() {
+        return (Category.class.hashCode() + getName()).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object category) {
+        if (!(category instanceof Category)) {
+            return false;
+        } else {
+            return ((Category) category).getName().equals(getName());
+        }
+    }
+
     public String getName() {
         return name;
     }

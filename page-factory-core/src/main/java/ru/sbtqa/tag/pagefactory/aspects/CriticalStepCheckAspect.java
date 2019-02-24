@@ -7,17 +7,21 @@ import cucumber.api.event.TestStepFinished;
 import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
+import io.qameta.allure.model.Status;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import ru.sbtqa.tag.pagefactory.allure.CategoriesInjector;
+import ru.sbtqa.tag.pagefactory.allure.Category;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +32,9 @@ import static java.lang.String.format;
 @Aspect
 public class CriticalStepCheckAspect {
     private static final String STEP_FIELD_NAME = "step";
+    private static final String NON_CRITICAL_CATEGORY_NAME = "Non-critical failures";
+    private final Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME, null,
+            Arrays.asList(new String[]{Status.PASSED.value()}));
 
     private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
     private ThreadLocal<Map<String, Throwable>> brokenTests = ThreadLocal.withInitial(HashMap::new);
@@ -75,6 +82,8 @@ public class CriticalStepCheckAspect {
 
                     ErrorHandler.attachError(e.getMessage(), e);
                     ErrorHandler.attachScreenshot();
+
+                    CategoriesInjector.inject(nonCriticalCategory);
                 }
             }
         } else {
