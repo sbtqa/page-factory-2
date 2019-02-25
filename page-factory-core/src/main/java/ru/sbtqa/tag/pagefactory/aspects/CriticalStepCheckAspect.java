@@ -25,6 +25,8 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static java.lang.String.format;
+
 @Aspect
 public class CriticalStepCheckAspect {
     private static final String STEP_FIELD_NAME = "step";
@@ -71,11 +73,14 @@ public class CriticalStepCheckAspect {
                     if (!currentTestCase.isPresent()) {
                         throw e;
                     }
-                    stepField.set(instance, pickleStep);
-                    Throwable rootCause = ExceptionUtils.getRootCause(e);
-                    this.currentBroken.set(Pair.of(pickleStep.step, rootCause));
+                    Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    String message = cause.getMessage() == null || cause.getMessage().isEmpty()
+                            ? e.getMessage() : cause.getMessage();
 
-                    ErrorHandler.attachError(e.getMessage(), rootCause);
+                    stepField.set(instance, pickleStep);
+                    this.currentBroken.set(Pair.of(pickleStep.step, cause));
+
+                    ErrorHandler.attachError(message, cause);
                     ErrorHandler.attachScreenshot();
 
                     CategoriesInjector.inject(nonCriticalCategory);
@@ -111,8 +116,7 @@ public class CriticalStepCheckAspect {
         } else {
             final Result result = new Result(Result.Type.AMBIGUOUS,
                     testStepFinished.result.getDuration(),
-                    currentBroken.get().getRight()
-            );
+                    currentBroken.get().getRight());
 
             event = new TestStepFinished(event.getTimeStamp(),
                     ((TestStepFinished) event).testStep, result);
