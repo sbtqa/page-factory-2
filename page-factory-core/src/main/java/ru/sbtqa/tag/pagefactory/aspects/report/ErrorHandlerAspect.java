@@ -13,7 +13,6 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 @Aspect
 public class ErrorHandlerAspect {
 
-
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepFinished(Event event) {
         return event instanceof TestStepFinished;
@@ -29,6 +28,4 @@ public class ErrorHandlerAspect {
         }
         joinPoint.proceed();
     }
-
-
 }
