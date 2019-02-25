@@ -8,9 +8,11 @@ import java.util.List;
 public class PickleStepCustom extends PickleStep {
 
     private Boolean isCritical;
+    public final PickleStep step;
 
-    public PickleStepCustom(String text, List<Argument> arguments, List<PickleLocation> locations, Boolean isCritical) {
-        super(text, arguments, locations);
+    public PickleStepCustom(PickleStep step,String text, Boolean isCritical) {
+        super(text, step.getArgument(), step.getLocations());
+        this.step = step;
         this.isCritical = isCritical;
     }
 

@@ -29,15 +29,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa.tag</groupId>
-      <artifactId>allure-helper</artifactId>
-      <version>${tag.version.allurehelper}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-cucumber2-jvm</artifactId>
+      <version>${allure.version}</version>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
