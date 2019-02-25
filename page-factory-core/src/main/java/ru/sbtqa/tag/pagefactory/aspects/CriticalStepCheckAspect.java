@@ -33,7 +33,7 @@ public class CriticalStepCheckAspect {
             NON_CRITICAL_CATEGORY_MESSAGE, null,
             Arrays.asList(Status.PASSED.value()));
 
-    private ThreadLocal<Pair<PickleStep, Throwable>> currentBroken = new ThreadLocal<>();
+    private ThreadLocal<Pair<PickleStep, Throwable>> currentFailedNonCritical = new ThreadLocal<>();
 
     @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.runStep(..))")
     public void runStep() {
@@ -75,7 +75,7 @@ public class CriticalStepCheckAspect {
                             ? e.getMessage() : cause.getMessage();
 
                     stepField.set(instance, pickleStep);
-                    this.currentBroken.set(Pair.of(pickleStep.step, cause));
+                    this.currentFailedNonCritical.set(Pair.of(pickleStep.step, cause));
 
                     ErrorHandler.attachError(message, cause);
                     ErrorHandler.attachScreenshot();
@@ -92,8 +92,9 @@ public class CriticalStepCheckAspect {
     public void sendCaseFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         TestCaseFinished testCaseFinished = (TestCaseFinished) event;
 
-        if (currentBroken.get() != null && testCaseFinished.result.isOk(true)) {
-            final Result result = new Result(Result.Type.PASSED, ((TestCaseFinished) event).result.getDuration(),
+        if (currentFailedNonCritical.get() != null && testCaseFinished.result.isOk(true)) {
+            currentFailedNonCritical.set(null);
+            final Result result = new Result(Result.Type.PASSED, testCaseFinished.result.getDuration(),
                     new AutotestError(NON_CRITICAL_CATEGORY_MESSAGE));
 
             event = new TestCaseFinished(event.getTimeStamp(),
@@ -108,12 +109,12 @@ public class CriticalStepCheckAspect {
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         TestStepFinished testStepFinished = (TestStepFinished) event;
-        if (testStepFinished.testStep.isHook() || currentBroken.get() == null || !testStepFinished.testStep.getPickleStep().equals(currentBroken.get().getLeft())) {
+        if (testStepFinished.testStep.isHook() || currentFailedNonCritical.get() == null || !testStepFinished.testStep.getPickleStep().equals(currentFailedNonCritical.get().getLeft())) {
             joinPoint.proceed();
         } else {
             final Result result = new Result(Result.Type.AMBIGUOUS,
                     testStepFinished.result.getDuration(),
-                    currentBroken.get().getRight());
+                    currentFailedNonCritical.get().getRight());
 
             event = new TestStepFinished(event.getTimeStamp(),
                     ((TestStepFinished) event).testStep, result);
