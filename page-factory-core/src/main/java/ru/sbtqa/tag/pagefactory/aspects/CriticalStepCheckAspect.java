@@ -8,7 +8,9 @@ import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Status;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,14 +22,8 @@ import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import static java.lang.String.format;
 
 @Aspect
 public class CriticalStepCheckAspect {
@@ -38,9 +34,7 @@ public class CriticalStepCheckAspect {
             NON_CRITICAL_CATEGORY_MESSAGE, null,
             Arrays.asList(Status.PASSED.value()));
 
-    private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
-    private ThreadLocal<Map<String, Throwable>> brokenTests = ThreadLocal.withInitial(HashMap::new);
-    private ThreadLocal<PickleStep> currentBroken = new ThreadLocal<>();
+    private ThreadLocal<Pair<PickleStep, Throwable>> currentBroken = new ThreadLocal<>();
 
     @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.runStep(..))")
     public void runStep() {
@@ -78,11 +72,10 @@ public class CriticalStepCheckAspect {
                         throw e;
                     }
                     stepField.set(instance, pickleStep);
-                    this.currentBroken.set(pickleStep.step);
-                    this.brokenCases.get().add(currentTestCase.get());
-                    this.brokenTests.get().put(pickleStep.getText(), e);
+                    Throwable rootCause = ExceptionUtils.getRootCause(e);
+                    this.currentBroken.set(Pair.of(pickleStep.step, rootCause));
 
-                    ErrorHandler.attachError(e.getMessage(), e);
+                    ErrorHandler.attachError(e.getMessage(), rootCause);
                     ErrorHandler.attachScreenshot();
 
                     CategoriesInjector.inject(nonCriticalCategory);
@@ -113,11 +106,12 @@ public class CriticalStepCheckAspect {
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         TestStepFinished testStepFinished = (TestStepFinished) event;
-        if (testStepFinished.testStep.isHook() || !testStepFinished.testStep.getPickleStep().equals(currentBroken.get())) {
+        if (testStepFinished.testStep.isHook() || currentBroken.get() == null || !testStepFinished.testStep.getPickleStep().equals(currentBroken.get().getLeft())) {
             joinPoint.proceed();
         } else {
-            final Result result = new Result(Result.Type.AMBIGUOUS, ((TestStepFinished) event).result.getDuration(),
-                    new AutotestError(format("Non-critical step '%s' failed", testStepFinished.testStep.getStepText()))
+            final Result result = new Result(Result.Type.AMBIGUOUS,
+                    testStepFinished.result.getDuration(),
+                    currentBroken.get().getRight()
             );
 
             event = new TestStepFinished(event.getTimeStamp(),

@@ -120,6 +120,7 @@
               <artifactId>cucumber-core</artifactId>
             </weaveDependency>
           </weaveDependencies>
+          <XnoInline>true</XnoInline>
         </configuration>
         <executions>
           <execution>
