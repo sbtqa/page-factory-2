@@ -9,7 +9,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Status;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.aspectj.lang.JoinPoint;
+import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
@@ -22,14 +22,8 @@ import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import static java.lang.String.format;
 
 @Aspect
 public class CriticalStepCheckAspect {
@@ -40,9 +34,7 @@ public class CriticalStepCheckAspect {
             NON_CRITICAL_CATEGORY_MESSAGE, null,
             Arrays.asList(Status.PASSED.value()));
 
-    private ThreadLocal<List<String>> brokenCases = ThreadLocal.withInitial(ArrayList::new);
-    private ThreadLocal<Map<String, Throwable>> brokenTests = ThreadLocal.withInitial(HashMap::new);
-    private ThreadLocal<PickleStep> currentBroken = new ThreadLocal<>();
+    private ThreadLocal<Pair<PickleStep, Throwable>> currentFailedNonCritical = new ThreadLocal<>();
 
     @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.runStep(..))")
     public void runStep() {
@@ -79,12 +71,14 @@ public class CriticalStepCheckAspect {
                     if (!currentTestCase.isPresent()) {
                         throw e;
                     }
-                    stepField.set(instance, pickleStep);
-                    this.currentBroken.set(pickleStep.step);
-                    this.brokenCases.get().add(currentTestCase.get());
-                    this.brokenTests.get().put(pickleStep.getText(), e);
+                    Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    String message = cause.getMessage() == null || cause.getMessage().isEmpty()
+                            ? e.getMessage() : cause.getMessage();
 
-                    ErrorHandler.attachError(e.getMessage(), e);
+                    stepField.set(instance, pickleStep);
+                    this.currentFailedNonCritical.set(Pair.of(pickleStep.step, cause));
+
+                    ErrorHandler.attachError(message, cause);
                     ErrorHandler.attachScreenshot();
 
                     CategoriesInjector.inject(nonCriticalCategory);
@@ -99,8 +93,9 @@ public class CriticalStepCheckAspect {
     public void sendCaseFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         TestCaseFinished testCaseFinished = (TestCaseFinished) event;
 
-        if (currentBroken.get() != null && testCaseFinished.result.isOk(true)) {
-            final Result result = new Result(Result.Type.PASSED, ((TestCaseFinished) event).result.getDuration(),
+        if (currentFailedNonCritical.get() != null && testCaseFinished.result.isOk(true)) {
+            currentFailedNonCritical.set(null);
+            final Result result = new Result(Result.Type.PASSED, testCaseFinished.result.getDuration(),
                     new AutotestError(NON_CRITICAL_CATEGORY_MESSAGE));
 
             event = new TestCaseFinished(event.getTimeStamp(),
@@ -115,12 +110,12 @@ public class CriticalStepCheckAspect {
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         TestStepFinished testStepFinished = (TestStepFinished) event;
-        if (testStepFinished.testStep.isHook() || !testStepFinished.testStep.getPickleStep().equals(currentBroken.get())) {
+        if (testStepFinished.testStep.isHook() || currentFailedNonCritical.get() == null || !testStepFinished.testStep.getPickleStep().equals(currentFailedNonCritical.get().getLeft())) {
             joinPoint.proceed();
         } else {
-            final Result result = new Result(Result.Type.AMBIGUOUS, ((TestStepFinished) event).result.getDuration(),
-                    new AutotestError(format("Non-critical step '%s' failed", testStepFinished.testStep.getStepText()))
-            );
+            final Result result = new Result(Result.Type.AMBIGUOUS,
+                    testStepFinished.result.getDuration(),
+                    currentFailedNonCritical.get().getRight());
 
             event = new TestStepFinished(event.getTimeStamp(),
                     ((TestStepFinished) event).testStep, result);
