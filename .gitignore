@@ -14,3 +14,4 @@
 **/.attach_pid*
 .attach_pid*
 ActiveMQData/
+plugins/**/\.allure/
