@@ -21,23 +21,13 @@ fragments.enabled = true
 fragments.path = src/test/resources/fragments
 
 ###################### MOBILE-PLUGIN-ONLY BLOCK
-#parameters for mobile driver create
+#parameters for mobile driver create (see docs for more information)
 appium.url = http://127.0.0.1:4723/wd/hub
+appium.app = sauce-storage: Calculator.apk
+appium.version = 1.9.1
 appium.device.name = Android Emulator
-appium.device.platform = 6.0
+appium.device.orientation = portrait
+appium.device.platform.version = 6.0
 appium.app.package = com.android.settings
 appium.app.activity = .Settings
-
-#optional. Avoid appium and fill fields throw adb
-#(make sure that ADBKeyBoard is installed on android emulator for unicode support).
-#False by default
-appium.fill.adb = false
-#optional. Avoid appium and click on elements throw adb by location. False by default
-appium.click.adb = false
-
-#optional. Setup the reset strategy
-#If specify noreset then will be added a capability {"noReset","true"}
-#If specify fullreset then will be added a capability {"fullReset","true"}
-#If don't specify anything or comment out, the default strategy will be applied
-#For more information please follow http://appium.io/docs/en/writing-running-appium/other/reset-strategies/index.html
 appium.strategies.reset = noreset
