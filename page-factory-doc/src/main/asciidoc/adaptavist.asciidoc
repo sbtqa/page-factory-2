@@ -80,22 +80,84 @@ public class CucumberTest {}
     ....
     
 ----
+==== Сборка результатов тестов
+
+Для сборки отчетов для `Adaptavist` достаточно выполнить 
+
+[source,]
+----
+  mvn clean test
+----
+
+После этого по заданному пути в проекте должен появиться заданный json-файл
+
+====  Синхронизация результатов для `Cucumber`
+
+===== При локальном запуске
+
+{counter:ae}. При локальном запуске выполнить из директории проекта (где лежит target)
+
+[source,]
+----
+ zip output_results.zip target/cucumber/*.json
+----
+
+{counter:ae}. 
+[source,]
+----
+curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtatlas.sigma.sbrf.ru/jira/rest/atm/1.0/automation/execution/cucumber/EFSTAG?autoCreateTestCases=true
+----
+
+вместо EFSTAG имя проекта
 
 
 === Настройка для JUnit
 
-{counter:ad}. 
+{counter:ad}. Добавить в `pom.xml` зависимость:
 
-{counter:ad}. 
+[source,]
+----
+    <dependency>
+      <groupId>com.adaptavist</groupId>
+      <artifactId>tm4j-junit-integration</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
+----
 
-{counter:ad}. 
+{counter:ad}. Добавить в `pom.xml` для плагина `maven-surefire-plugin` listener:
 
+[source,]
+----
+    <properties>
+      <property>
+        <name>listener</name>
+        <value>com.adaptavist.tm4j.junit.ExecutionListener</value>
+      </property>
+    </properties>
+----
 
+{counter:ad}. Закрепить за `JUnit` тестами тесты в `Jira` через `id`:
 
+[source,]
+----
+    @Test 
+    @TestCase(name = "Test Stash") 
+    public void testName() { 
+        ....
+    }
+----
 
+Или имя сценария:
 
-
-
+[source,]
+----
+    @Test 
+    @TestCase(name = "Test Stash") 
+    public void testName() { 
+        ....
+    }
+----
 
 Синхронизация результатов
 
