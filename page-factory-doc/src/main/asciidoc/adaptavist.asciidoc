@@ -1,0 +1,112 @@
+== Adaptavist (Jira Test Manager)
+TAG позволяет использовать Adaptavist. Для этого достаточно сконфигурировать проект и уставноть соответствие между тестами в jira и автотестами проекта.
+
+
+Прежде всего, в `Jira` должна быть заведена тестовая база - кейсы с привязкой к тикетам.
+
+Предположим, что у нас есть задача в проекте `EFSTAG` - `EFSTAG-945`, к которой нужно привязать тестовые сценарии.
+
+В секции `Traceability` заведем тест:
+
+image:images/create_case.png[]
+
+Задаем имя и, при необходимости, другие параметры, сохраняем:
+
+image:images/save.png[]
+
+После этого появиться информация, что тест кейс сохранен с указанием `id` кейса, в нашем случае - `EFSTAG-T4`:
+
+image:images/saved.png[]
+
+Тест кейс появится в задаче:
+
+image:images/saved-issue.png[]
+
+Просмотреть список тестовых сценариев можно следующим образом:
+
+{counter:ab}. Перейти в раздел `Tests`:
+
+image:images/tests.png[]
+
+{counter:ab}. Найти кейс по `id`:
+
+image:images/tests-id.png[]
+
+Подробную информацию о формировании тестовой структуры в jira можно найти в документации link:https://www.adaptavist.com/doco/display/KT/Documentation[Adaptavist]
+
+=== Настройка для Cucumber
+
+{counter:ac}. Дописать в test runner в опцию plugin две строки:
+
+[source,]
+----
+@RunWith(Cucumber.class)
+@CucumberOptions(monochrome = true, 
+        plugin = {"pretty","junit:target/cucumber/result.xml",
+                           "json:target/cucumber/pagefactory.json"},
+        glue = {"ru.sbtqa.tag.stepdefs",  "setting", "pagefactory.stepdefs"},
+        features = {"src/test/resources/features"}
+)
+public class CucumberTest {}
+----
+
+{counter:ac}. Если в вашем проекте в файле `pom.xml` для плагина `maven-surefire-plugin` есть строка запуска, то аналогичным образом нужно добавить в нее две строки:
+
+[source,]
+----
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <argLine>
+            -Dcucumber.options="--plugin junit:target/cucumber/result.xml --plugin json:target/cucumber/pagefactory.json"
+          </argLine>
+        </configuration>
+        
+        ....
+        
+      </plugin>
+----
+
+Теперь, когда `Adaptavist` подключен, необходимо установить соответствие тестового сценария и сценария в `Jira`. Для этого нужно расставить тэги `@TestCaseKey`. В качестве значения тэга указывается `id` кейса. Например:
+
+[source,]
+----
+  @TestCaseKey=EFSTAG-T4
+  Scenario: Test Stash
+    * user checks that the field "first name" is empty
+    
+    ....
+    
+----
+
+
+=== Настройка для JUnit
+
+{counter:ad}. 
+
+{counter:ad}. 
+
+{counter:ad}. 
+
+
+
+
+
+
+
+
+Синхронизация результатов
+
+
+4. При локальном запуске выполнить из директории проекта (где лежит target)
+
+ zip output_results.zip target/cucumber/*.json
+
+5. curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtatlas.sigma.sbrf.ru/jira/rest/atm/1.0/automation/execution/cucumber/EFSTAG?autoCreateTestCases=true
+вместо EFSTAG имя проекта
+
+
+
+
