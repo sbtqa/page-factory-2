@@ -15,7 +15,8 @@ public class CoreSetupSteps {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    private CoreSetupSteps() {}
+    private CoreSetupSteps() {
+    }
 
     public static void preSetUp() {
         TaskHandler.addTask(new ConnectToLogTask());

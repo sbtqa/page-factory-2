@@ -8,13 +8,13 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumUrl();
 
-    @Key("appium.device.name")
+    @Key("appium.version")
     @DefaultValue("")
-    String getAppiumDeviceName();
+    String getAppiumVersion();
 
-    @Key("appium.device.platform")
+    @Key("appium.app")
     @DefaultValue("")
-    String getAppiumDevicePlatform();
+    String getAppiumApp();
 
     @Key("appium.app.package")
     @DefaultValue("")
@@ -24,13 +24,25 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumAppActivity();
 
-    @Key("appium.fill.adb")
-    @DefaultValue("false")
-    boolean isAppiumFillAdb();
+    @Key("appium.device.orientation")
+    @DefaultValue("")
+    String getAppiumDeviceOrientation();
 
-    @Key("appium.click.adb")
-    @DefaultValue("false")
-    boolean isAppiumClickAdb();
+    @Key("appium.device.name")
+    @DefaultValue("")
+    String getAppiumDeviceName();
+
+    @Key("appium.device.platform.version")
+    @DefaultValue("")
+    String getAppiumPlatformVersion();
+
+    @Key("appium.browser.name")
+    @DefaultValue("")
+    String getAppiumBrowserName();
+
+    @Key("appium.device.platform.name")
+    @DefaultValue("")
+    String getAppiumPlatformName();
 
     @Key("appium.strategies.reset")
     @DefaultValue("")
@@ -39,5 +51,4 @@ public interface MobileConfiguration extends Configuration {
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }
-
 }

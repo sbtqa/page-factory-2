@@ -4,7 +4,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import ru.sbtqa.tag.allurehelper.ParamsHelper;
+import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 @Aspect
