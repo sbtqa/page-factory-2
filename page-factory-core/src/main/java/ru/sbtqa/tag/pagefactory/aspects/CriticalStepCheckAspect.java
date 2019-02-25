@@ -8,7 +8,6 @@ import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Status;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,8 +23,6 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Optional;
-
-import static java.lang.String.format;
 
 @Aspect
 public class CriticalStepCheckAspect {
