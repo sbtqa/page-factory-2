@@ -50,6 +50,8 @@ image:images/tests-id.png[]
 public class CucumberTest {}
 ----
 
+TIP: При необходимости можно задать несколько run-файлов, формируя результаты в разные файлы (в нашем случае файл `pagefactory.json`)
+
 {counter:ac}. Если в вашем проекте в файле `pom.xml` для плагина `maven-surefire-plugin` есть строка запуска, то аналогичным образом нужно добавить в нее две строки:
 
 [source,]
@@ -89,27 +91,30 @@ public class CucumberTest {}
   mvn clean test
 ----
 
-После этого по заданному пути в проекте должен появиться заданный json-файл
+После этого по указанному в "plugin" пути должен появиться заданный json-файл. В нашем случае в каталоге `target/cucumber` файл `pagefactory.json`
 
 ====  Синхронизация результатов для `Cucumber`
 
 ===== При локальном запуске
 
-{counter:ae}. При локальном запуске выполнить из директории проекта (где лежит target)
+{counter:ae}. Выполнить из командной строки в директории проекта либо создать вручную zip-архив, положив в него сгенерированные json-файлы
 
 [source,]
 ----
  zip output_results.zip target/cucumber/*.json
 ----
 
-{counter:ae}. 
+{counter:ae}. Выполнить 
 [source,]
 ----
 curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtatlas.sigma.sbrf.ru/jira/rest/atm/1.0/automation/execution/cucumber/EFSTAG?autoCreateTestCases=true
 ----
 
-вместо EFSTAG имя проекта
+При этом:
 
+* Вместо `user` подставить пользователя `Jira`, вместо `password` - пароль пользователя
+* При необходимости изменить `URL` для `Jira`
+* Вместо `EFSTAG` подставить имя проекта
 
 === Настройка для JUnit
 
