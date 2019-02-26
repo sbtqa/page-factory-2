@@ -116,6 +116,8 @@ curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtat
 * При необходимости изменить `URL` для `Jira`
 * Вместо `EFSTAG` подставить имя проекта
 
+===== Результаты в Jira
+
 === Настройка для JUnit
 
 {counter:ad}. Добавить в `pom.xml` зависимость:
@@ -164,15 +166,29 @@ curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtat
     }
 ----
 
+====  Синхронизация результатов для `JUnit`
+
+===== При локальном запуске
+
+{counter:aj}. Выполнить из командной строки в директории проекта либо создать вручную zip-архив, положив в него сгенерированный json-файл - `tm4j_result.json`
+
+[source,]
+----
+ zip output_results.zip tm4j_result.json
+----
+
+{counter:aj}. Выполнить 
+[source,]
+----
+curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtatlas.sigma.sbrf.ru/jira/rest/atm/1.0/automation/execution/EFSTAG?autoCreateTestCases=true
+----
+
+При этом:
+
+* Вместо `user` подставить пользователя `Jira`, вместо `password` - пароль пользователя
+* При необходимости изменить `URL` для `Jira`
+* Вместо `EFSTAG` подставить имя проекта
 Синхронизация результатов
-
-
-4. При локальном запуске выполнить из директории проекта (где лежит target)
-
- zip output_results.zip target/cucumber/*.json
-
-5. curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtatlas.sigma.sbrf.ru/jira/rest/atm/1.0/automation/execution/cucumber/EFSTAG?autoCreateTestCases=true
-вместо EFSTAG имя проекта
 
 
 
