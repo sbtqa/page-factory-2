@@ -18,12 +18,10 @@ before_install:
   --import-ownertrust; fi
 - ./.travis/apk.sh
 install:
-  on:
-    branch: !master
+  if: branch =~ ^master
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
 script:
-  on:
-    branch: !master
+  if: branch =~ ^master
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
 deploy:
 - provider: script
