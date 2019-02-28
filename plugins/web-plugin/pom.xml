@@ -112,7 +112,11 @@
           </execution>
         </executions>
       </plugin>
-
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>2.9</version>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>aspectj-maven-plugin</artifactId>
@@ -149,6 +153,12 @@
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
             -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
           </argLine>
+          <systemProperties>
+            <property>
+              <name>allure.results.directory</name>
+              <value>target/allure-results</value>
+            </property>
+          </systemProperties>
         </configuration>
         <dependencies>
           <dependency>
