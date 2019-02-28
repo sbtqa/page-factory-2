@@ -7,3 +7,10 @@ else
 fi
 
 mvn clean deploy --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=true -Drelease=true -B -U
+
+git clone https://github.com/sbtqa/page-gactory-2-site.git
+mkdir -p page-gactory-2-site/releases/$TRAVIS_TAG
+cp -r page-factory-doc/target/doc/index.html page-factory-doc/target/doc/images/ page-gactory-2-site/releases/$TRAVIS_TAG/
+cd page-factory-site/
+git ci -m "Add doc for ${TRAVIS_TAG} release"
+git push
