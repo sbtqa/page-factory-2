@@ -1,3 +1,4 @@
+set -e
 DOCS_RELEASE_DIR=snapshot
 
 if [ ! -z "$TRAVIS_TAG" ]
