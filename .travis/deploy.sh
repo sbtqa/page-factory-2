@@ -13,6 +13,7 @@ mvn clean deploy --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=t
 
 DOCS_RELEASES_DIR=page-factory-2-site/releases/$DOCS_RELEASE_DIR
 
+rm -rf .git/
 git clone https://github.com/sbtqa/page-factory-2-site.git
 mkdir -p $DOCS_RELEASES_DIR
 rm -rf $DOCS_RELEASES_DIR/*
