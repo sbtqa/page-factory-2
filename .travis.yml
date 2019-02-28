@@ -9,8 +9,6 @@ addons:
     organization: "sbtqasonarkey"
     token:
       secure: $SONAR_TOKEN
-#    github_token:
-#      secure: PSkgsAnkSG50UAnKQjxrZGev9vGqVjzz2XSwWBDMFwwskBOxG3UHtDNsG6T1DjTA6lBvoTI2Y4oEk61lO9gtfoevtyam1Pvc4QYZyhV0HPAnk3E0aDSifnlqIp3k3cocA8HSVAKCxibk6eC450SL/OO7xBZyq9N0aAZwWXq0Mm1PxsvEDcz68YcOZdPoA0a4Gx5HQE8Rn5JmhNiQKXVFm84+hGKT8tzNQjUQIbLnBq0OdK2lg1d+nN+QZ3P1ufaosjnPZ07/BVnmFqvUl7a/BaZCxjM80sZ7qRJpKGowDP9XO9xJcgHIi+ChBV9czuE+8xuJMCffQvlkEdcXKAW3jEohompv3HYfQBgvD0Wj5x4t4s7HP1SpwTFc1LNgEEOJvuwjQS6LiHKdwIR/kAXagT37ZhUrM0Z4NGhjNBpmYDBZQVVIUz3Qpg7Kl+qPZQtXjpr12KDYvUhEEpV1n7plZ/4OcsrMKjRoLMxP0USN3E0GJitNdy1Sdx+wTvO/nlnOIdEzmTUSxRKXWjDXaNBfs9WBvnJMSaxM+7IA2VU5ZIL2qlpO164gp0FNHSS7vxInmA2p65CnMN5yxvDApjmahJu/rQhMMD+hfxEF+F9rULAP7o1SCn1zaX4m0/HJ177BGiGT/6UmEEBHSf/gPXfRQMlLLmQvKTJB3lMlTyiosdg=
 jdk:
 - oraclejdk8
 before_install:
@@ -20,9 +18,14 @@ before_install:
   --import-ownertrust; fi
 - ./.travis/apk.sh
 install:
-- mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true
-  -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
+  branches:
+    except:
+    - master
+  - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
 script:
+  branches:
+    except:
+    - master
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
 deploy:
 - provider: script
