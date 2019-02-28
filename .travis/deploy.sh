@@ -9,7 +9,8 @@ else
     echo "not on a tag -> keep snapshot version in pom.xml"
 fi
 
-mvn clean deploy --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=true -Drelease=true -B -U
+#mvn clean deploy --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=true -Drelease=true -B -U
+mvn clean install --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=true -Drelease=true -B -U
 
 DOCS_RELEASES_DIR=page-factory-2-site/releases/$DOCS_RELEASE_DIR
 
@@ -18,7 +19,7 @@ git clone https://github.com/sbtqa/page-factory-2-site.git
 mkdir -p $DOCS_RELEASES_DIR
 rm -rf $DOCS_RELEASES_DIR/*
 cp -r page-factory-doc/target/doc/index.html page-factory-doc/target/doc/images/ $DOCS_RELEASES_DIR/
-cd page-factory2-site/
+cd $DOCS_RELEASES_DIR
 git add -A
 git commit -m "Add docs for ${DOCS_DIR} release"
 git push
