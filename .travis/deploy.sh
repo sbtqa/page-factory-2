@@ -19,5 +19,5 @@ rm -rf $DOCS_RELEASES_DIR/*
 cp -r page-factory-doc/target/doc/index.html page-factory-doc/target/doc/images/ $DOCS_RELEASES_DIR/
 cd page-factory2-site/
 git add -A
-git ci -m "Add docs for ${DOCS_DIR} release"
+git commit -m "Add docs for ${DOCS_DIR} release"
 git push
