@@ -66,11 +66,6 @@ public class CriticalStepCheckAspect {
                 try {
                     joinPoint.proceed();
                 } catch (Throwable e) {
-                    AllureLifecycle lifecycle = Allure.getLifecycle();
-                    Optional<String> currentTestCase = lifecycle.getCurrentTestCase();
-                    if (!currentTestCase.isPresent()) {
-                        throw e;
-                    }
                     Throwable cause = e.getCause() != null ? e.getCause() : e;
                     String message = cause.getMessage() == null || cause.getMessage().isEmpty()
                             ? e.getMessage() : cause.getMessage();

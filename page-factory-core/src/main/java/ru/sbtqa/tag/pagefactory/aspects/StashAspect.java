@@ -9,6 +9,8 @@ import gherkin.pickles.PickleRow;
 import gherkin.pickles.PickleStep;
 import gherkin.pickles.PickleString;
 import gherkin.pickles.PickleTable;
+import io.qameta.allure.Allure;
+import io.qameta.allure.AllureLifecycle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +21,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.data.DataFactory;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import static java.lang.String.format;
 
@@ -28,6 +33,8 @@ public class StashAspect {
 
     private final static String PATH_PARSE_REGEX = "(?:\\#\\{([^\\}]+)\\})";
     private final static String STASH_KEY_FULL_PATH = "#{%s}";
+
+    private static final Logger LOG = LoggerFactory.getLogger(StashAspect.class);
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepStart(Event event) {
@@ -49,18 +56,25 @@ public class StashAspect {
 
             for (Argument argument : step.getDefinitionArgument()) {
                 Argument arg = argument;
-                if (stepDataPattern.matcher(argument.getVal()).find() && stepDataMatcher.find()) {
-                    String stashValue = getStashValue(stepDataMatcher.group(1));
-                    String stashKeyFullPath = format(STASH_KEY_FULL_PATH, stepDataMatcher.group(1));
+                if ((arg.getVal() != null)) {
+                    if (stepDataPattern.matcher(argument.getVal()).find() && stepDataMatcher.find()) {
+                        String stashKey = stepDataMatcher.group(1);
+                        String stashValue = getStashValue(stashKey);
+                        if (!getStashValue(stashKey).isEmpty()) {
+                            String stashKeyFullPath = format(STASH_KEY_FULL_PATH, stashKey);
 
-                    if (stashKeyFullPath.equals(argument.getVal())) {
-                        arg = new Argument(stepDataMatcher.start(), stashValue);
-                        offset = stashValue.length() - stashKeyFullPath.length();
+                            if (stashKeyFullPath.equals(argument.getVal())) {
+                                arg = new Argument(stepDataMatcher.start(), stashValue);
+                                offset = (stashValue).length() - stashKeyFullPath.length();
+                            }
+                            replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
+                        } else {
+                            break;
+                        }
+                        stepDataMatcher = stepDataPattern.matcher(replacedValue);
+                    } else {
+                        arg = new Argument(arg.getOffset() + offset, arg.getVal());
                     }
-                    replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
-                    stepDataMatcher = stepDataPattern.matcher(replacedValue);
-                } else {
-                    arg = new Argument(arg.getOffset() + offset, arg.getVal());
                 }
                 replacedArguments.add(arg);
             }
@@ -79,7 +93,8 @@ public class StashAspect {
                 replaceDataTable((PickleTable) argument);
             } else {
                 if (argument.getClass().equals(PickleString.class)) {
-                    FieldUtils.writeField(argument, "content", replaceDataPlaceholders(((PickleString) argument).getContent()), true);
+                    String content = replaceDataPlaceholders(((PickleString) argument).getContent());
+                    FieldUtils.writeField(argument, "content", content, true);
                 }
             }
         }
@@ -99,14 +114,27 @@ public class StashAspect {
         StringBuilder replacedValue = new StringBuilder(raw);
 
         while (stepDataMatcher.find()) {
-            replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), getStashValue(stepDataMatcher.group(1)));
+            String stashKey = stepDataMatcher.group(1);
+            String stashValue = getStashValue(stashKey);
+            if(!stashValue.isEmpty()) {
+                replacedValue = replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
+            } else {
+                break;
+            }
             stepDataMatcher = stepDataPattern.matcher(replacedValue);
         }
         return replacedValue.toString();
     }
 
     private String getStashValue(String stashKey){
-        return Optional.of((String) Stash.getValue(stashKey))
-                .orElseThrow(() -> new AutotestError("The value received by the key must be a string. Key: " + stashKey));
+        Object stashValue = Stash.getValue(stashKey);
+        String result = "";
+        if(stashValue != null) {
+            result = Optional.of((String) stashValue)
+                    .orElseThrow(() -> new AutotestError("The value received by the key must be a string. Key: " + stashKey));
+        } else {
+            LOG.info("Stash value not found by key: "+ stashKey);
+        }
+        return result;
     }
 }

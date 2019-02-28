@@ -58,17 +58,19 @@ public class CriticalStepAspect {
             boolean isCritical = ((PickleStepCustom) step).isCritical();
 
             for (Argument argument : arguments) {
-                Argument arg = null;
-                if (argument.getClass().equals(ArgumentCustom.class) && ((ArgumentCustom) argument).isModified()) {
-                    if (isCritical) {
-                        arg = new ArgumentCustom(argument.getOffset() - NON_CRITICAL.length(), argument.getVal(), false);
-                    }
-                } else {
-                    if (!isCritical) {
-                        arg = new ArgumentCustom(argument.getOffset() + NON_CRITICAL.length(), argument.getVal(), true);
+                Argument arg = argument;
+                if (arg.getVal() != null) {
+                    if (argument.getClass().equals(ArgumentCustom.class) && ((ArgumentCustom) argument).isModified()) {
+                        if (isCritical) {
+                            arg = new ArgumentCustom(argument.getOffset() - NON_CRITICAL.length(), argument.getVal(), false);
+                        }
+                    } else {
+                        if (!isCritical) {
+                            arg = new ArgumentCustom(argument.getOffset() + NON_CRITICAL.length(), argument.getVal(), true);
+                        }
                     }
                 }
-                shiftedArguments.add(Optional.ofNullable(arg).orElse(argument));
+                shiftedArguments.add(arg);
             }
             return joinPoint.proceed(new Object[]{shiftedArguments, stepDefinition, featurePath, step, localizedXStreams});
         }
