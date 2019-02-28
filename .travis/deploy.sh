@@ -12,5 +12,6 @@ git clone https://github.com/sbtqa/page-gactory-2-site.git
 mkdir -p page-gactory-2-site/releases/$TRAVIS_TAG
 cp -r page-factory-doc/target/doc/index.html page-factory-doc/target/doc/images/ page-gactory-2-site/releases/$TRAVIS_TAG/
 cd page-factory-site/
+git add -A
 git ci -m "Add doc for ${TRAVIS_TAG} release"
 git push
