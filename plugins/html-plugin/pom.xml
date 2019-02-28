@@ -18,7 +18,7 @@
   <properties>
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.2.20.v20161216</jetty.version>
-    <skipTests>true</skipTests>
+    <skipTests>false</skipTests>
   </properties>
 
   <dependencies>
