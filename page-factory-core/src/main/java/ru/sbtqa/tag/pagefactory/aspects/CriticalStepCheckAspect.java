@@ -1,100 +1,93 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.api.Result;
-import cucumber.api.event.Event;
+import cucumber.api.TestStep;
 import cucumber.api.event.TestCaseFinished;
 import cucumber.api.event.TestStepFinished;
+import cucumber.runtime.Match;
+import cucumber.runtime.StepDefinitionMatch;
 import gherkin.pickles.PickleStep;
-import io.qameta.allure.Allure;
-import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Status;
+import java.util.Arrays;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.allure.CategoriesInjector;
 import ru.sbtqa.tag.pagefactory.allure.Category;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Optional;
-
 @Aspect
 public class CriticalStepCheckAspect {
     private static final String STEP_FIELD_NAME = "step";
     private static final String NON_CRITICAL_CATEGORY_NAME = "Non-critical failures";
     private static final String NON_CRITICAL_CATEGORY_MESSAGE = "Some non-critical steps are failed";
+
+    private static final Logger LOG = LoggerFactory.getLogger(CriticalStepCheckAspect.class);
+
     private final Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME,
             NON_CRITICAL_CATEGORY_MESSAGE, null,
             Arrays.asList(Status.PASSED.value()));
-
-    private ThreadLocal<Pair<PickleStep, Throwable>> currentFailedNonCritical = new ThreadLocal<>();
 
     @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.runStep(..))")
     public void runStep() {
     }
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
-    public static boolean sendStepFinished(Event event) {
-        return event instanceof TestStepFinished;
+    public static boolean sendStepFinished(TestStepFinished event) {
+        return !event.testStep.isHook();
     }
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
-    public static boolean sendCaseFinished(Event event) {
-        return event instanceof TestCaseFinished;
+    public static boolean sendCaseFinished(TestCaseFinished event) {
+        return event.result.isOk(true);
     }
 
     @Around("runStep()")
     public void runStep(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object instance = joinPoint.getThis();
-        if (instance != null && FieldUtils.getDeclaredField(instance.getClass(), STEP_FIELD_NAME, true) != null) {
-            Field stepField = FieldUtils.getDeclaredField(instance.getClass(), STEP_FIELD_NAME, true);
-            stepField.setAccessible(true);
-            Object step = stepField.get(instance);
+        Match match = (Match) joinPoint.getThis();
 
-            if (!(step instanceof PickleStepCustom)
-                    || ((PickleStepCustom) step).isCritical()) {
+        PickleStep step = (PickleStep) FieldUtils.readField(match, STEP_FIELD_NAME, true);
+
+        if (!isCritical(step)) {
+            PickleStepCustom pickleStep = (PickleStepCustom) step;
+            try {
                 joinPoint.proceed();
-            } else {
-                PickleStepCustom pickleStep = (PickleStepCustom) step;
-                try {
-                    joinPoint.proceed();
-                } catch (Throwable e) {
-                    Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    String message = cause.getMessage() == null || cause.getMessage().isEmpty()
-                            ? e.getMessage() : cause.getMessage();
-
-                    stepField.set(instance, pickleStep);
-                    this.currentFailedNonCritical.set(Pair.of(pickleStep.step, cause));
-
-                    ErrorHandler.attachError(message, cause);
-                    ErrorHandler.attachScreenshot();
-
-                    CategoriesInjector.inject(nonCriticalCategory);
-                }
+            } catch (Throwable e) {
+                pickleStep.setError(e);
+                FieldUtils.writeField(match, STEP_FIELD_NAME, pickleStep, true);
+                ErrorHandler.attachError(e);
+                ErrorHandler.attachScreenshot();
+                CategoriesInjector.inject(nonCriticalCategory);
             }
         } else {
             joinPoint.proceed();
         }
     }
 
-    @Around("sendCaseFinished(event)")
-    public void sendCaseFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
-        TestCaseFinished testCaseFinished = (TestCaseFinished) event;
+    private boolean isCritical(PickleStep step) {
+        return !(step instanceof PickleStepCustom)
+                || ((PickleStepCustom) step).isCritical();
+    }
 
-        if (currentFailedNonCritical.get() != null && testCaseFinished.result.isOk(true)) {
-            currentFailedNonCritical.set(null);
-            final Result result = new Result(Result.Type.PASSED, testCaseFinished.result.getDuration(),
+    @Around("sendCaseFinished(event)")
+    public void sendCaseFinished(ProceedingJoinPoint joinPoint, TestCaseFinished event) throws Throwable {
+        boolean hasFailedNonCriticalStep = event.testCase.getTestSteps().stream().filter(testStep -> !testStep.isHook())
+                .map(TestStep::getPickleStep)
+                .filter(pickleStep -> pickleStep instanceof PickleStepCustom)
+                .anyMatch(pickleStep -> ((PickleStepCustom) pickleStep).hasError());
+
+        if (hasFailedNonCriticalStep) {
+            final Result result = new Result(Result.Type.PASSED, event.result.getDuration(),
                     new AutotestError(NON_CRITICAL_CATEGORY_MESSAGE));
 
             event = new TestCaseFinished(event.getTimeStamp(),
-                    testCaseFinished.testCase, result);
+                    event.testCase, result);
 
             joinPoint.proceed(new Object[]{event});
         } else {
@@ -103,19 +96,29 @@ public class CriticalStepCheckAspect {
     }
 
     @Around("sendStepFinished(event)")
-    public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
-        TestStepFinished testStepFinished = (TestStepFinished) event;
-        if (testStepFinished.testStep.isHook() || currentFailedNonCritical.get() == null || !testStepFinished.testStep.getPickleStep().equals(currentFailedNonCritical.get().getLeft())) {
-            joinPoint.proceed();
+    public void sendStepFinished(ProceedingJoinPoint joinPoint, TestStepFinished event) throws Throwable {
+        StepDefinitionMatch definitionMatch = (StepDefinitionMatch) FieldUtils.readField(event.testStep, "definitionMatch", true);
+        PickleStep step = (PickleStep) FieldUtils.readField(definitionMatch, "step", true);
+
+        if (step instanceof PickleStepCustom) {
+            PickleStepCustom pickleStep = (PickleStepCustom) step;
+            if (pickleStep.hasLog()) {
+                LOG.warn(pickleStep.getLog());
+            }
+            if (pickleStep.hasError()) {
+                ((PickleStepCustom) event.testStep.getPickleStep()).setError(((PickleStepCustom) step).getError());
+                final Result result = new Result(Result.Type.AMBIGUOUS,
+                        event.result.getDuration(),
+                        pickleStep.getError());
+
+                event = new TestStepFinished(event.getTimeStamp(),
+                        event.testStep, result);
+                joinPoint.proceed(new Object[]{event});
+            } else {
+                joinPoint.proceed();
+            }
         } else {
-            final Result result = new Result(Result.Type.AMBIGUOUS,
-                    testStepFinished.result.getDuration(),
-                    currentFailedNonCritical.get().getRight());
-
-            event = new TestStepFinished(event.getTimeStamp(),
-                    ((TestStepFinished) event).testStep, result);
-
-            joinPoint.proceed(new Object[]{event});
+            joinPoint.proceed();
         }
     }
 }

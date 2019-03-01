@@ -23,11 +23,17 @@ public class ErrorHandler {
         }
     }
 
-    public static void attachError(String title, Throwable throwable) {
+    public static void attachError(Throwable e) {
+//        Throwable cause = e.getCause() != null ? e.getCause() : e;
+//
+//        String title = cause.getMessage() == null || cause.getMessage().isEmpty()
+//                ? e.getMessage() : cause.getMessage();
+
         String errorHTML = "<div style='background-color: #ffc2c2; height: auto; display: table'>" +
-                "<pre style='color:#880b0b'>" + ExceptionUtils.getStackTrace(throwable) + "</pre></div>";
-        ParamsHelper.addAttachmentToRender(
-                errorHTML.getBytes(),
-                title, Type.HTML);
+                "<pre style='color:#880b0b'>" + ExceptionUtils.getStackTrace(e) + "</pre></div>";
+        ParamsHelper.addAttachmentToRender(errorHTML.getBytes(), e.getMessage(), Type.HTML);
     }
 }
+
+//                    ErrorHandler.attachError(message, cause);
+//                    ErrorHandler.attachScreenshot();
