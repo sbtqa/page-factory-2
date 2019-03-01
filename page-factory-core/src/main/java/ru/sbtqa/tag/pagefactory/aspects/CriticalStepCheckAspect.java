@@ -1,17 +1,19 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.api.Result;
+import cucumber.api.TestCase;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestCaseFinished;
 import cucumber.api.event.TestStepFinished;
 import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
+import io.qameta.allure.internal.AllureStorage;
 import io.qameta.allure.model.Status;
+import io.qameta.allure.model.TestResult;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -23,7 +25,11 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
+
+import static io.qameta.allure.util.ResultsUtils.md5;
 
 @Aspect
 public class CriticalStepCheckAspect {
@@ -101,6 +107,8 @@ public class CriticalStepCheckAspect {
             event = new TestCaseFinished(event.getTimeStamp(),
                     testCaseFinished.testCase, result);
 
+            Allure.getLifecycle().updateTestCase(getCurrentTestCaseUid(testCaseFinished.testCase),
+                    testResult -> testResult.setStatus(Status.PASSED));
             joinPoint.proceed(new Object[]{event});
         } else {
             joinPoint.proceed();
@@ -110,7 +118,8 @@ public class CriticalStepCheckAspect {
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         TestStepFinished testStepFinished = (TestStepFinished) event;
-        if (testStepFinished.testStep.isHook() || currentFailedNonCritical.get() == null || !testStepFinished.testStep.getPickleStep().equals(currentFailedNonCritical.get().getLeft())) {
+        if (testStepFinished.testStep.isHook() || currentFailedNonCritical.get() == null
+                || !testStepFinished.testStep.getPickleStep().equals(currentFailedNonCritical.get().getLeft())) {
             joinPoint.proceed();
         } else {
             final Result result = new Result(Result.Type.AMBIGUOUS,
@@ -122,5 +131,19 @@ public class CriticalStepCheckAspect {
 
             joinPoint.proceed(new Object[]{event});
         }
+    }
+
+    private String getCurrentTestCaseUid(TestCase testCase) throws IllegalAccessException {
+        final String testCaseLocation = testCase.getUri() + ":" + testCase.getLine();
+        String uid = md5(testCaseLocation);
+
+        AllureStorage allureStorage = (AllureStorage) FieldUtils
+                .readDeclaredField(Allure.getLifecycle(), "storage", true);
+        Map<String, Object> storage = (Map<String, Object>) FieldUtils
+                .readDeclaredField(allureStorage, "storage", true);
+        Collection<Object> testResults = storage.values();
+        Optional<Object> testResultOptional = testResults.stream()
+                .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid)).findFirst();
+        return testResultOptional.isPresent() ? ((TestResult) testResultOptional.get()).getUuid() : uid;
     }
 }

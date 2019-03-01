@@ -22,3 +22,7 @@ Feature: Data sources
       | first name          | button name |
       | ${Admin.first name} | send        |
     * ? user checks in the element "first name" value "Alex"
+
+  @non-critical-one-step
+  Scenario: Failed and skipped
+    * ? user is on the page "Non existent page"
