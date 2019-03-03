@@ -1,19 +1,18 @@
 package ru.sbtqa.tag.pagefactory.web.junit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Basic step definitions, that should be available on every project Notations
