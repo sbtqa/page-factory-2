@@ -12,6 +12,8 @@ import java.util.Arrays;
 public class JunitReporter {
 
     public static Object handleStep(ProceedingJoinPoint joinPoint) throws Throwable {
+
+        // FIXME: need to get another way to filter junit only steps cuz getStackTrace is very hard
         boolean isFromCucumber = Arrays.stream(
                 Thread.currentThread().getStackTrace()
         ).anyMatch(stackTraceElement -> stackTraceElement.getClassName().matches("ru\\.sbtqa\\.tag\\.stepdefs\\.[en.|ru.].*"));
