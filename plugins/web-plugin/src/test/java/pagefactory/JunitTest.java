@@ -4,8 +4,8 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
-import ru.sbtqa.tag.stepdefs.WebSteps;
+import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 import setting.JettySettings;
 
 public class JunitTest {
@@ -24,6 +24,10 @@ public class JunitTest {
                 .openPage("Main")
                 .click("Contact")
 
+                .openPage("Contact")
+                .reInitPage()
+                .backPage()
+                .click("Contact")
                 .openPage("Contact")
                 .checkEmpty("first name")
                 .fill("first name", "Alex")

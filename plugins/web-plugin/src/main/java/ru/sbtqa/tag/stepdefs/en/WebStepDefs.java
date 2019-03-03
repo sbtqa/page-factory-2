@@ -5,10 +5,12 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.stepdefs.WebGenericSteps;
-import ru.sbtqa.tag.stepdefs.WebSetupSteps;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 
-public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
+public class WebStepDefs {
+
+    private final WebSteps webSteps = WebSteps.getInstance();
 
     @Before(order = 1)
     public void initWeb() {
@@ -20,122 +22,70 @@ public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
         WebSetupSteps.disposeWeb();
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^copy of the page is being opened in a new tab$")
-    public WebStepDefs openCopyPage() {
-        return super.openCopyPage();
+    public void openCopyPage() {
+        webSteps.openCopyPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user switches to the next tab$")
-    public WebStepDefs switchesToNextTab() {
-        return super.switchesToNextTab();
+    public void switchesToNextTab() {
+        webSteps.switchesToNextTab();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^URL matches \"([^\"]*)\"$")
-    public WebStepDefs urlMatches(String url) {
-        return super.urlMatches(url);
+    public void urlMatches(String url) {
+        webSteps.urlMatches(url);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user closes the current window and returns to \"([^\"]*)\"$")
-    public WebStepDefs closingCurrentWin(String title) {
-        return super.closingCurrentWin(title);
+    public void closingCurrentWin(String title) {
+        webSteps.closingCurrentWin(title);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
+
     @And("^user push back in the browser$")
-    public WebStepDefs backPage() {
-        return super.backPage();
+    public void backPage() {
+        webSteps.backPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user navigates to url \"([^\"]*)\"$")
-    public WebStepDefs goToUrl(String url) {
-        return super.goToUrl(url);
+    public void goToUrl(String url) {
+        webSteps.goToUrl(url);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user refreshes the page$")
-    public WebStepDefs reInitPage() {
-        return super.reInitPage();
+    public void reInitPage() {
+        webSteps.reInitPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user accepts alert with text \"([^\"]*)\"$")
-    public WebStepDefs acceptAlert(String text) throws WaitException {
-        return super.acceptAlert(text);
+    public void acceptAlert(String text) throws WaitException {
+        webSteps.acceptAlert(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user dismisses alert with text \"([^\"]*)\"$")
-    public WebStepDefs dismissAlert(String text) throws WaitException {
-        return super.dismissAlert(text);
+    public void dismissAlert(String text) throws WaitException {
+        webSteps.dismissAlert(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user checks that text \"([^\"]*)\" appears on the page$")
-    public WebStepDefs checkTextAppears(String text) throws WaitException, InterruptedException {
-        return super.checkTextAppears(text);
+    public void checkTextAppears(String text) throws WaitException, InterruptedException {
+        webSteps.checkTextAppears(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user checks that text \"([^\"]*)\" is absent on the page$")
-    public WebStepDefs checkTextIsNotPresent(String text) throws InterruptedException {
-        return super.checkTextIsNotPresent(text);
+    public void checkTextIsNotPresent(String text) throws InterruptedException {
+        webSteps.checkTextIsNotPresent(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user checks that modal window with text \"([^\"]*)\" is appears$")
-    public WebStepDefs checkModalWindowAppears(String text) throws WaitException {
-        return super.checkModalWindowAppears(text);
+    public void checkModalWindowAppears(String text) throws WaitException {
+        webSteps.checkModalWindowAppears(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^user checks that element with text \"([^\"]*)\" is present$")
     @When("^user checks that the text \"([^\"]*)\" is visible$")
-    public WebStepDefs checkElementWithTextIsPresent(String text) {
-        return super.checkElementWithTextIsPresent(text);
+    public void checkElementWithTextIsPresent(String text) {
+        webSteps.checkElementWithTextIsPresent(text);
     }
 }

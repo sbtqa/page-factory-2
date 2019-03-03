@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.web.junit;
 
 import static java.lang.ThreadLocal.withInitial;
 import ru.sbtqa.tag.pagefactory.PageManager;

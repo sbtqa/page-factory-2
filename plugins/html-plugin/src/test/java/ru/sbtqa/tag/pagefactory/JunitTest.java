@@ -4,8 +4,8 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.stepdefs.CoreSetupSteps;
-import ru.sbtqa.tag.stepdefs.HtmlSteps;
+import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
+import ru.sbtqa.tag.pagefactory.html.junit.HtmlSteps;
 import setting.JettySettings;
 
 public class JunitTest {

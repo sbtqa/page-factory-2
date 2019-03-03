@@ -6,10 +6,12 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import cucumber.api.java.ru.И;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.stepdefs.WebGenericSteps;
-import ru.sbtqa.tag.stepdefs.WebSetupSteps;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 
-public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
+public class WebStepDefs {
+
+    private final WebSteps webSteps = WebSteps.getInstance();
 
     @Before(order = 1)
     public void initWeb() {
@@ -21,121 +23,69 @@ public class WebStepDefs extends WebGenericSteps<WebStepDefs> {
         WebSetupSteps.disposeWeb();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @И("^открывается копия страницы в новой вкладке$")
-    public WebStepDefs openCopyPage() {
-        return super.openCopyPage();
+    public void openCopyPage() {
+        webSteps.openCopyPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @И("^(?:пользователь |он )?переключается на соседнюю вкладку$")
-    public WebStepDefs switchesToNextTab() {
-        return super.switchesToNextTab();
+    public void switchesToNextTab() {
+        webSteps.switchesToNextTab();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @И("^URL соответствует \"([^\"]*)\"$")
-    public WebStepDefs urlMatches(String url) {
-        return super.urlMatches(url);
+    public void urlMatches(String url) {
+        webSteps.urlMatches(url);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @И("^(?:пользователь |он )?закрывает текущее окно и возвращается на \"([^\"]*)\"$")
-    public WebStepDefs closingCurrentWin(String title) {
-        return super.closingCurrentWin(title);
+    public void closingCurrentWin(String title) {
+        webSteps.closingCurrentWin(title);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @И("^(?:пользователь |он )?нажимает назад в браузере$")
-    public WebStepDefs backPage() {
-        return super.backPage();
+    public void backPage() {
+        webSteps.backPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @И("^(?:пользователь |он )?(?:переходит на|открывает) url \"([^\"]*)\"$")
-    public WebStepDefs goToUrl(String url) {
-        return super.goToUrl(url);
+    public void goToUrl(String url) {
+        webSteps.goToUrl(url);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @И("^обновляем страницу$")
-    public WebStepDefs reInitPage() {
-        return super.reInitPage();
+    public void reInitPage() {
+        webSteps.reInitPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
-    public WebStepDefs acceptAlert(String text) throws WaitException {
-        return super.acceptAlert(text);
+    public void acceptAlert(String text) throws WaitException {
+        webSteps.acceptAlert(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^(?:пользователь |он )?отклоняет уведомление с текстом \"([^\"]*)\"$")
-    public WebStepDefs dismissAlert(String text) throws WaitException {
-        return super.dismissAlert(text);
+    public void dismissAlert(String text) throws WaitException {
+        webSteps.dismissAlert(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" появляется на странице$")
-    public WebStepDefs checkTextAppears(String text) throws WaitException, InterruptedException {
-        return super.checkTextAppears(text);
+    public void checkTextAppears(String text) throws WaitException, InterruptedException {
+        webSteps.checkTextAppears(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отсутствует на странице$")
-    public WebStepDefs checkTextIsNotPresent(String text) throws InterruptedException {
-        return super.checkTextIsNotPresent(text);
+    public void checkTextIsNotPresent(String text) throws InterruptedException {
+        webSteps.checkTextIsNotPresent(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^(?:пользователь |он )?проверяет что модальное окно с текстом \"([^\"]*)\" появляется$")
-    public WebStepDefs checkModalWindowAppears(String text) throws WaitException {
-        return super.checkModalWindowAppears(text);
+    public void checkModalWindowAppears(String text) throws WaitException {
+        webSteps.checkModalWindowAppears(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     @And("^(?:пользователь |он )?проверяет что элемент с текстом \"([^\"]*)\" существует$")
     @When("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отоброжается$")
-    public WebStepDefs checkElementWithTextIsPresent(String text) {
-        return super.checkElementWithTextIsPresent(text);
+    public void checkElementWithTextIsPresent(String text) {
+        webSteps.checkElementWithTextIsPresent(text);
     }
 }

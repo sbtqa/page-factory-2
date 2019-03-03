@@ -1,11 +1,12 @@
 package ru.sbtqa.tag.stepdefs;
 
 import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
+import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.mobile.utils.SwipeUtils;
 import ru.sbtqa.tag.qautils.strategies.DirectionStrategy;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
-public class MobileGenericSteps<T extends MobileGenericSteps<T>> extends CoreGenericSteps<T> {
+public class MobileSteps<T extends MobileGenericSteps<T>> extends CoreSteps<T> {
 
     public MobileGenericSteps() {
         MobileSetupSteps.initMobile();

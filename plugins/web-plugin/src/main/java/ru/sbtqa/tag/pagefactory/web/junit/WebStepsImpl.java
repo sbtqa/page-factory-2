@@ -1,13 +1,16 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.web.junit;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
+import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
+import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
@@ -36,16 +39,17 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSteps<T> {
+public class WebStepsImpl<T extends WebStepsImpl<T>> extends CoreSteps<T> {
 
-    public WebGenericSteps() {
+    public WebStepsImpl() {
         WebSetupSteps.initWeb();
     }
 
     /**
      * Open a copy for current page in a new browser tab User|he keywords are
      * optional
-     * @return Returns itself 
+     *
+     * @return Returns itself
      */
     public T openCopyPage() {
         String pageUrl = Environment.getDriverService().getDriver().getCurrentUrl();
@@ -57,7 +61,8 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
 
     /**
      * Switch to a neighbour browser tab
-     * @return Returns itself 
+     *
+     * @return Returns itself
      */
     public T switchesToNextTab() {
         String currentTab = Environment.getDriverService().getDriver().getWindowHandle();
@@ -75,7 +80,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Check that current URL matches the inputted one
      *
      * @param url url for comparison
-     * @return Returns itself 
+     * @return Returns itself
      */
     public T urlMatches(String url) {
         Assert.assertEquals("URL is different from the expected: ", url, Environment.getDriverService().getDriver().getCurrentUrl());
@@ -86,7 +91,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Close current browser tab and open a tab with given name
      *
      * @param title title of the page to open
-     * @return Returns itself 
+     * @return Returns itself
      */
     public T closingCurrentWin(String title) {
         Environment.getDriverService().getDriver().close();
@@ -101,7 +106,8 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
 
     /**
      * Return to previous location (via browser "back" button)
-     * @return Returns itself 
+     *
+     * @return Returns itself
      */
     public T backPage() {
         Environment.getDriverService().getDriver().navigate().back();
@@ -112,7 +118,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Go to specified url
      *
      * @param url url to go to
-     * @return Returns itself 
+     * @return Returns itself
      */
     public T goToUrl(String url) {
         Environment.getDriverService().getDriver().get(url);
@@ -121,7 +127,8 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
 
     /**
      * Refresh browser page
-     * @return Returns itself 
+     *
+     * @return Returns itself
      */
     public T reInitPage() {
         Environment.getDriverService().getDriver().navigate().refresh();
@@ -132,7 +139,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Wait for an alert with specified text, and accept it
      *
      * @param text alert message
-     * @return Returns itself 
+     * @return Returns itself
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
@@ -145,7 +152,7 @@ public class WebGenericSteps<T extends WebGenericSteps<T>> extends CoreGenericSt
      * Wait for an alert with specified text, and dismiss it
      *
      * @param text alert message
-     * @return Returns itself 
+     * @return Returns itself
      * @throws WaitException in case if alert didn't appear during default wait
      * timeout
      */
