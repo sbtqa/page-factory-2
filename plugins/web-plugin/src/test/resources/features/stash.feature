@@ -31,9 +31,10 @@ Feature: Stash
   @stash2 @data=$Data{Admin}
   Scenario: Test Stash
     * stores the value "$Data{Admin.first name}" in a variable "TEMPLATE"
+    * stores the value "first name" in a variable "NAME"
     * user checks that the field "first name" is empty
     * user fills the field "first name" with value "#{TEMPLATE}"
-    * user checks in the element "first name" value "Alex"
+    * ? user checks in the element "#{NAME}" value "Alex"
     * user fills the field "first name" with value ""
     * user checks that the field "first name" is empty
     * user fills form
@@ -56,6 +57,7 @@ Feature: Stash
     * stores the value "first name" in a variable "LONG FIRST NAME"
     * user checks that the field "#{NAME}" is empty
     * user fills the field "#{LONG FIRST NAME}" with value "#{TEMPLATE}"
+    * user checks in the element "#{LONG FIRST NAME}" value "Alex"
     * user checks in the element "#{NAME}" value "Alex"
     * user fills the field "#{NAME}" with value ""
     * user fills form

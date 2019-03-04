@@ -15,6 +15,7 @@ Feature: Data sources
       | first name          | button name |
       | ${Admin.first name} | send        |
     * user checks in the element "first name" value "Alex"
+    * ? user checkssdds in the element "first name" value "Alex"
 
   @test-non-critical
   Scenario: Data From Feature Tag 2
