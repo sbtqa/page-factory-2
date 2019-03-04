@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.optional;
 
 import gherkin.pickles.PickleStep;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 public class PickleStepCustom extends PickleStep {
 
@@ -53,5 +54,9 @@ public class PickleStepCustom extends PickleStep {
 
     public boolean hasLog() {
         return this.log != null;
+    }
+
+    public void setText(String text) throws IllegalAccessException {
+        FieldUtils.writeField(this, "text", text, true);
     }
 }

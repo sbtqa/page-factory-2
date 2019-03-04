@@ -4,10 +4,12 @@ import cucumber.api.Result;
 import cucumber.api.Scenario;
 import cucumber.api.TestStep;
 import cucumber.api.event.Event;
+import cucumber.api.event.TestStepFinished;
 import cucumber.api.event.TestStepStarted;
 import cucumber.runner.EventBus;
 import cucumber.runner.PickleTestStep;
 import cucumber.runtime.Argument;
+import cucumber.runtime.StepDefinitionMatch;
 import gherkin.pickles.PickleCell;
 import gherkin.pickles.PickleRow;
 import gherkin.pickles.PickleStep;
@@ -40,8 +42,15 @@ public class StashAspect {
     private final static String STASH_KEY_FULL_PATH = "#{%s}";
     private String message = null;
 
+    private static final Logger LOG = LoggerFactory.getLogger(StashAspect.class);
+
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepStart(TestStepStarted event) {
+        return !event.testStep.isHook();
+    }
+
+    @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
+    public static boolean sendStepFinished(TestStepFinished event) {
         return !event.testStep.isHook();
     }
 
@@ -193,6 +202,17 @@ public class StashAspect {
             step.setLog(message);
         } else {
             step.setError(new AutotestError(message));
+        }
+    }
+
+    @Around("sendStepFinished(event)")
+    public void sendStepFinished(ProceedingJoinPoint joinPoint, TestStepFinished event) throws Throwable {
+        PickleStep step = event.testStep.getPickleStep();
+
+        joinPoint.proceed();
+
+        if (step instanceof PickleStepCustom && ((PickleStepCustom) step).hasLog()) {
+            LOG.warn(((PickleStepCustom) event.testStep.getPickleStep()).getLog());
         }
     }
 }
