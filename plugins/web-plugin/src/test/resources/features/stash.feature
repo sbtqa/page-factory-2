@@ -28,28 +28,6 @@ Feature: Stash
     * user checks that the field "first name" is not empty
     * user checks in the element "first name" value "Alex"
 
-  @stash2 @data=$Data{Admin}
-  Scenario: Test Stash
-    * stores the value "$Data{Admin.first name}" in a variable "TEMPLATE"
-    * stores the value "first name" in a variable "NAME"
-    * user checks that the field "first name" is empty
-    * user fills the field "first name" with value "#{TEMPLATE}"
-    * ? user checks in the element "#{NAME}" value "Alex"
-    * user fills the field "first name" with value ""
-    * user checks that the field "first name" is empty
-    * user fills form
-      | first name | #{TEMPLATfghjjkkkE} |
-    * user checks in the element "first name" value "Alex"
-    * user fills the field "first name" with value ""
-    * user checks that the field "first name" is empty
-    * stores the value "Al" in a variable "PART"
-    * user fills the field "first name"
-    """
-    #{PART}ex
-    """
-    * user checks that the field "first name" is not empty
-    * user checks in the element "first name" value "Alex"
-
   @stash-formatter @data=$Data{Admin}
   Scenario: Test formatter for stash
     * stores the value "$Data{Admin.first name}" in a variable "TEMPLATE"

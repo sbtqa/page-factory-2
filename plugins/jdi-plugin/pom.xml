@@ -13,7 +13,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.2.20.v20161216</jetty.version>
-    <skipTests>true</skipTests>
+    <skipTests>false</skipTests>
     <jdi.version>1.1.32</jdi.version>
   </properties>
 
