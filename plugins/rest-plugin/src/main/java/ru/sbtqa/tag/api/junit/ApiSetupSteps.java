@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.api.junit;
 
 import io.restassured.RestAssured;
 import ru.sbtqa.tag.api.context.EndpointContext;
@@ -13,7 +13,7 @@ public class ApiSetupSteps {
     private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
     private static final ThreadLocal<Boolean> isInitApi = ThreadLocal.withInitial(() -> false);
 
-    public void initApi() {
+    public static void initApi() {
         EndpointContext.clear();
         if (isAlreadyPerformed(isInitApi)) {
             return;
@@ -28,7 +28,7 @@ public class ApiSetupSteps {
         }
     }
 
-    private synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
+    private static synchronized boolean isAlreadyPerformed(ThreadLocal<Boolean> t) {
         if (t.get()) {
             return true;
         } else {

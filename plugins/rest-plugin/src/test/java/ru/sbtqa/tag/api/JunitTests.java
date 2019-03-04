@@ -14,7 +14,7 @@ import ru.sbtqa.tag.api.entries.apirequest.WithParamsPlaceholdersEndpointEntry;
 import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
 import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
-import ru.sbtqa.tag.stepdefs.ApiSteps;
+import ru.sbtqa.tag.api.junit.ApiSteps;
 
 public class JunitTests {
 

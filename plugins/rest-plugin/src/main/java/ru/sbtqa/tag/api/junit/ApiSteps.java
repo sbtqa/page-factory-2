@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.api.junit;
 
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
@@ -31,10 +31,10 @@ import static java.lang.ThreadLocal.withInitial;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class ApiSteps extends ApiSetupSteps {
+public class ApiSteps {
 
     public ApiSteps() {
-        initApi();
+        ApiSetupSteps.initApi();
     }
 
     static final ThreadLocal<ApiSteps> storage = withInitial(ApiSteps::new);

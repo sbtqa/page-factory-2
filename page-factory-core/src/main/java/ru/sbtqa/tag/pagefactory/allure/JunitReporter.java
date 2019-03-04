@@ -6,6 +6,7 @@ import io.qameta.allure.model.StatusDetails;
 import io.qameta.allure.model.StepResult;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import ru.sbtqa.tag.qautils.i18n.I18N;
 
 import java.util.Arrays;
 
@@ -20,8 +21,12 @@ public class JunitReporter {
         if (isFromCucumber) {
             return joinPoint.proceed();
         } else {
-            String stepUid = joinPoint.getSignature().toLongString() + System.currentTimeMillis();
-            Allure.getLifecycle().startStep(stepUid, new StepResult().setName(joinPoint.toString()));
+                String stepUid = joinPoint.getSignature().toLongString() + System.currentTimeMillis();
+                String methodName = joinPoint.getSignature().getName();
+
+                String stepName = I18N.getI18n(joinPoint.getSignature().getDeclaringType()).get(methodName);
+
+                Allure.getLifecycle().startStep(stepUid, new StepResult().setName(stepName));
             try {
                 Object r = joinPoint.proceed();
                 Allure.getLifecycle().updateStep(stepUid, stepResult -> stepResult.setStatus(Status.PASSED));

@@ -2,7 +2,7 @@ package pagefactory.mobile;
 
 import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.stepdefs.MobileSteps;
+import ru.sbtqa.tag.pagefactory.mobile.junit.MobileSteps;
 
 public class JunitTest {
 
