@@ -102,9 +102,6 @@ public class CriticalStepCheckAspect {
 
         if (step instanceof PickleStepCustom) {
             PickleStepCustom pickleStep = (PickleStepCustom) step;
-            if (pickleStep.hasLog()) {
-                LOG.warn(pickleStep.getLog());
-            }
             if (pickleStep.hasError()) {
                 ((PickleStepCustom) event.testStep.getPickleStep()).setError(((PickleStepCustom) step).getError());
                 final Result result = new Result(Result.Type.AMBIGUOUS,
@@ -116,6 +113,9 @@ public class CriticalStepCheckAspect {
                 joinPoint.proceed(new Object[]{event});
             } else {
                 joinPoint.proceed();
+            }
+            if (((PickleStepCustom) event.testStep.getPickleStep()).hasLog()) {
+                LOG.warn(((PickleStepCustom) event.testStep.getPickleStep()).getLog());
             }
         } else {
             joinPoint.proceed();

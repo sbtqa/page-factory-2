@@ -120,16 +120,16 @@ public class StashAspect {
             }
             replacedArguments.add(arg);
         }
-        if (message != null) {
-            saveMessage(step, message);
-            message = null;
-        }
         replacePickleArguments(step);
 
         FieldUtils.writeField(FieldUtils.readField(testStep, "definitionMatch", true),
                 "arguments", replacedArguments, true);
         FieldUtils.writeField(step, "text", replaceDataPlaceholders(step, stepText), true);
 
+        if (message != null) {
+            saveMessage(step, message);
+            message = null;
+        }
         joinPoint.proceed(new Object[]{event});
     }
 
