@@ -23,7 +23,7 @@ public class ErrorHandlerAspect {
         TestStepFinished testStepFinished = (TestStepFinished) event;
         if (testStepFinished.result.getStatus() == Result.Type.FAILED
                 && !Environment.isDriverEmpty()) {
-            ErrorHandler.attachError(testStepFinished.result.getError().getMessage(), testStepFinished.result.getError());
+            ErrorHandler.attachError(testStepFinished.result.getError());
             ErrorHandler.attachScreenshot();
         }
         joinPoint.proceed();
