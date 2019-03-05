@@ -83,7 +83,7 @@ curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtat
 * Вместо `EFSTAG` подставить имя проекта
 
 ===== Jenkins
-Для запуска через `Jenkins` есть специальный плагин. Почитать о нем и увидеть полную инструкцию по работе с ним в картинках можно  link:https://www.adaptavist.com/doco/display/KT/Automated+Testing+Tools[здесь]
+Для запуска через `Jenkins` есть специальный плагин. Почитать о нем и увидеть полную инструкцию по работе с ним в картинках можно  https://www.adaptavist.com/doco/display/KT/Automated+Testing+Tools[здесь^, role="ext-link"]
 
 ===== Результаты в Jira
 После выполнения синхронизации на странице `Tests` появится отметка о результате запуска (на рисунке отмечена [lime]#зеленым#, [red]#красным# отмечен `id` теста)

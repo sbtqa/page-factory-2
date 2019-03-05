@@ -38,7 +38,7 @@ include::rest_steps_en.asciidoc[]
 api.ssl.relaxed = true
 ----
 
-Подробнее об этом можно узнать в документации link::https://github.com/rest-assured/rest-assured/wiki/Usage#ssl[rest-assured]
+Подробнее об этом можно узнать в документации https://github.com/rest-assured/rest-assured/wiki/Usage#ssl[rest-assured^, role="ext-link"]
 
 
 

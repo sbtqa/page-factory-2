@@ -32,7 +32,7 @@ image:images/tests.png[]
 
 image:images/tests-id.png[]
 
-Подробную информацию о формировании тестовой структуры в jira можно найти в документации link:https://www.adaptavist.com/doco/display/KT/Documentation[Adaptavist]
+Подробную информацию о формировании тестовой структуры в jira можно найти в документации https://www.adaptavist.com/doco/display/KT/Documentation[Adaptavist^, role="ext-link"]
 
 include::adaptavist_cucumber.asciidoc[]
 
