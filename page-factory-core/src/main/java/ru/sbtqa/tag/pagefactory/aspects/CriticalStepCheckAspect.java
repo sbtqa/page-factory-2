@@ -18,6 +18,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.allure.CategoriesInjector;
 import ru.sbtqa.tag.pagefactory.allure.Category;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
+import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
@@ -96,8 +97,8 @@ public class CriticalStepCheckAspect {
     private boolean hasFailedNonCriticalStep(TestCase testCase) {
         return testCase.getTestSteps().stream()
                 .filter(testStep -> !testStep.isHook())
-                .map(testStep -> (PickleStepCustom) testStep.getPickleStep())
-                .anyMatch(PickleStepCustom::hasError);
+                .map(this::getDefinitionMatchStep)
+                .anyMatch(this::hasError);
     }
 
     @Around("sendStepFinished(event)")
@@ -108,20 +109,21 @@ public class CriticalStepCheckAspect {
             final Result result = new Result(Result.Type.AMBIGUOUS,
                     event.result.getDuration(), ((PickleStepCustom) step).getError());
             event = new TestStepFinished(event.getTimeStamp(), event.testStep, result);
-
-            joinPoint.proceed(new Object[]{event});
-        } else {
-            joinPoint.proceed();
         }
+        joinPoint.proceed(new Object[]{event});
     }
 
-    private boolean hasError(PickleStep step){
+    private boolean hasError(PickleStep step) {
         return step instanceof PickleStepCustom
                 && ((PickleStepCustom) step).hasError();
     }
 
-    private PickleStep getDefinitionMatchStep(TestStep testStep) throws IllegalAccessException {
-        StepDefinitionMatch definitionMatch = (StepDefinitionMatch) FieldUtils.readField(testStep, DEFINITION_FIELD_NAME, true);
-        return (PickleStep) FieldUtils.readField(definitionMatch, STEP_FIELD_NAME, true);
+    private PickleStep getDefinitionMatchStep(TestStep testStep) {
+        try {
+            StepDefinitionMatch definitionMatch = (StepDefinitionMatch) FieldUtils.readField(testStep, DEFINITION_FIELD_NAME, true);
+            return (PickleStep) FieldUtils.readField(definitionMatch, STEP_FIELD_NAME, true);
+        } catch (IllegalAccessException ex) {
+            throw new ReadFieldError("Error reading the field");
+        }
     }
 }

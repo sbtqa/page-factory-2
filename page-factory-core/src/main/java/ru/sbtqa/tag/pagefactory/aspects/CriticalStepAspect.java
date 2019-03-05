@@ -46,7 +46,8 @@ public class CriticalStepAspect {
             stepText = stepText.replaceFirst("\\" + NON_CRITICAL, "");
             isCritical = false;
         }
-        return joinPoint.proceed(new Object[]{featurePath, new PickleStepCustom(step, stepText, isCritical)});
+        PickleStepCustom pickleStepCustom = new PickleStepCustom(step, stepText, isCritical);
+        return joinPoint.proceed(new Object[]{featurePath, pickleStepCustom});
     }
 
     @Around(value = "argumentOffset(arguments, stepDefinition, featurePath, step, localizedXStreams)",

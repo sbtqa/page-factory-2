@@ -6,6 +6,8 @@ import cucumber.api.event.TestStepFinished;
 import cucumber.api.event.TestStepStarted;
 import cucumber.runner.EventBus;
 import cucumber.runner.PickleTestStep;
+import cucumber.runtime.Match;
+import cucumber.runtime.StepDefinitionMatch;
 import gherkin.pickles.PickleStep;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -54,7 +56,13 @@ public class StashAspect {
     public Object executeStep(ProceedingJoinPoint joinPoint, String language, Scenario scenario, boolean skipSteps) throws Throwable {
         TestStep testStep = (TestStep) joinPoint.getThis();
         if (hasError(testStep)) {
-            throw ((PickleStepCustom) testStep.getPickleStep()).getError();
+            PickleStepCustom pickleStepCustom = (PickleStepCustom) testStep.getPickleStep();
+            Match definitionMatch = (Match) FieldUtils.readField(testStep, "definitionMatch", true);
+            if (definitionMatch.getClass().equals(StepDefinitionMatch.class)) {
+                throw pickleStepCustom.getError();
+            } else {
+                pickleStepCustom.setLog(pickleStepCustom.getError().getMessage());
+            }
         }
         return joinPoint.proceed();
     }
