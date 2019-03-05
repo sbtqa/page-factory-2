@@ -11,6 +11,8 @@ Feature: Stash
   Scenario: Test Stash
     * stores the value "$Data{Admin.first name}" in a variable "TEMPLATE"
     * user checks that the field "first name" is empty
+    # For testing stash and non critical in not defined step
+    # * ? user filsdsdsdsls the field "first name" with value "#{NOT_FOUND}"
     * user fills the field "first name" with value "#{TEMPLATE}"
     * user checks in the element "first name" value "Alex"
     * user fills the field "first name" with value ""
@@ -35,6 +37,7 @@ Feature: Stash
     * stores the value "first name" in a variable "LONG FIRST NAME"
     * user checks that the field "#{NAME}" is empty
     * user fills the field "#{LONG FIRST NAME}" with value "#{TEMPLATE}"
+    * user checks in the element "#{LONG FIRST NAME}" value "Alex"
     * user checks in the element "#{NAME}" value "Alex"
     * user fills the field "#{NAME}" with value ""
     * user fills form

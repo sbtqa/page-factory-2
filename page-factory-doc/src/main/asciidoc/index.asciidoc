@@ -10,3 +10,6 @@ include::web-plugin.asciidoc[Web plugin]
 include::html-plugin.asciidoc[Html plugin]
 include::rest-plugin.asciidoc[Rest plugin]
 include::mq-plugin.asciidoc[MQ plugin]
+
+
+include::adaptavist.asciidoc[]
