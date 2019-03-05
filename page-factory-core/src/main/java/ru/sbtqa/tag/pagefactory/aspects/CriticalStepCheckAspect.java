@@ -138,15 +138,11 @@ public class CriticalStepCheckAspect {
         final String testCaseLocation = testCase.getUri() + ":" + testCase.getLine();
         String uid = md5(testCaseLocation);
 
-        AllureStorage allureStorage = (AllureStorage) getStorage(Allure.getLifecycle());
-        Map<String, Object> storage = (Map<String, Object>) getStorage(allureStorage);
+        AllureStorage allureStorage = (AllureStorage) FieldUtils.readDeclaredField(Allure.getLifecycle(), "storage", true);
+        Map<String, Object> storage = (Map<String, Object>) FieldUtils.readDeclaredField(allureStorage, "storage", true);
         Collection<Object> testResults = storage.values();
         Optional<Object> testResultOptional = testResults.stream()
                 .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid)).findFirst();
         return testResultOptional.isPresent() ? ((TestResult) testResultOptional.get()).getUuid() : uid;
-    }
-    
-    private Object getStorage(Object instance) throws IllegalAccessException {
-        return FieldUtils.readDeclaredField(instance, "storage", true);
     }
 }
