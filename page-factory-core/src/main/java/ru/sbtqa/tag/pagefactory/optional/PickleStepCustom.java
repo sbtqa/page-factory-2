@@ -2,8 +2,11 @@ package ru.sbtqa.tag.pagefactory.optional;
 
 import gherkin.pickles.PickleStep;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
 
 public class PickleStepCustom extends PickleStep {
+
+    public static final String NON_CRITICAL = "? ";
 
     private Boolean isCritical = true;
     private Boolean isSkipped = false;
@@ -12,10 +15,13 @@ public class PickleStepCustom extends PickleStep {
 
     public final PickleStep step;
 
-    public PickleStepCustom(PickleStep step, String text, Boolean isCritical) {
-        super(text, step.getArgument(), step.getLocations());
+    public PickleStepCustom(PickleStep step) {
+        super(step.getText(), step.getArgument(), step.getLocations());
         this.step = step;
-        this.isCritical = isCritical;
+        this.isCritical = !step.getText().startsWith(NON_CRITICAL);
+        if (!this.isCritical) {
+            this.setText(step.getText().replaceFirst("\\" + NON_CRITICAL, ""));
+        }
     }
 
     public PickleStepCustom(PickleStep step, Boolean isSkipped) {
@@ -56,7 +62,11 @@ public class PickleStepCustom extends PickleStep {
         return this.log != null;
     }
 
-    public void setText(String text) throws IllegalAccessException {
-        FieldUtils.writeField(this, "text", text, true);
+    public void setText(String text) {
+        try {
+            FieldUtils.writeField(this, "text", text, true);
+        } catch (IllegalAccessException ex) {
+            throw new ReadFieldError("Error reading the field: text");
+        }
     }
 }

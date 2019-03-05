@@ -65,11 +65,7 @@ public class CriticalStepCheckAspect {
     }
 
     private boolean isCritical(PickleStep step) {
-        if (step instanceof PickleStepCustom) {
-            return ((PickleStepCustom) step).isCritical();
-        } else {
-            return true;
-        }
+        return !(step instanceof PickleStepCustom) || ((PickleStepCustom) step).isCritical();
     }
 
     private void attachError(PickleStepCustom step, Throwable e) {

@@ -8,6 +8,7 @@ import gherkin.pickles.PickleString;
 import gherkin.pickles.PickleTable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -78,11 +79,9 @@ public class StashParser {
         for (gherkin.pickles.Argument argument : currentStep.getArgument()) {
             if (argument.getClass().equals(PickleTable.class)) {
                 replaceDataTable(currentStep, (PickleTable) argument);
-            } else {
-                if (argument.getClass().equals(PickleString.class)) {
-                    String content = replaceDataPlaceholders(currentStep, ((PickleString) argument).getContent());
-                    FieldUtils.writeField(argument, "content", content, true);
-                }
+            } else if (argument.getClass().equals(PickleString.class)) {
+                String content = replaceDataPlaceholders(currentStep, ((PickleString) argument).getContent());
+                FieldUtils.writeField(argument, "content", content, true);
             }
         }
     }
@@ -114,19 +113,12 @@ public class StashParser {
 
     private static String getStashValue(PickleStepCustom currentStep, String stashKey) {
         Object stashValue = Stash.getValue(stashKey);
-        String result = null;
-        String message = null;
-
+        String result = Optional.ofNullable((String) stashValue).orElse(null);
+        String messageTemplate = result == null ? "Stash value not found by key: "
+                : "The value received by the key must be a string. Key: ";
         if (stashValue == null) {
-            message = "Stash value not found by key: " + stashKey;
-        } else {
-            if (stashValue instanceof String) {
-                result = (String) stashValue;
-            } else {
-                message = "The value received by the key must be a string. Key: " + stashKey;
-            }
+            saveMessage(currentStep, messageTemplate + stashKey);
         }
-        saveMessage(currentStep, message);
         return result;
     }
 

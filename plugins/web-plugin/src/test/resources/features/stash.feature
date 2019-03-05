@@ -11,6 +11,7 @@ Feature: Stash
   Scenario: Test Stash
     * stores the value "$Data{Admin.first name}" in a variable "TEMPLATE"
     * user checks that the field "first name" is empty
+#    * ? user filsdsdsdsls the field "first name" with value "#{NOT_FOUND}"
     * user fills the field "first name" with value "#{TEMPLATE}"
     * user checks in the element "first name" value "Alex"
     * user fills the field "first name" with value ""
