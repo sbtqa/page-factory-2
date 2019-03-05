@@ -49,14 +49,13 @@ public class CriticalStepAspect {
 
         List<Argument> shiftedArguments = new ArrayList<>();
         for (Argument argument : arguments) {
-            Argument arg = argument;
-            String argValue = arg.getVal();
+            String argValue = argument.getVal();
 
-            if (isReplaceableArgument(step, arg)) {
+            if (isReplaceableArgument(step, argument)) {
                 int offset = step.getText().indexOf(argValue) + NON_CRITICAL.length();
-                arg = new Argument(offset, argValue);
+                argument = new Argument(offset, argValue);
             }
-            shiftedArguments.add(arg);
+            shiftedArguments.add(argument);
         }
         return joinPoint.proceed(new Object[]{shiftedArguments, stepDefinition, featurePath, step, localizedXStreams});
     }

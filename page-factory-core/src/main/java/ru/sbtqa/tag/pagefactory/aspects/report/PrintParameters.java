@@ -18,7 +18,6 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 
 @Aspect
 public class PrintParameters {
