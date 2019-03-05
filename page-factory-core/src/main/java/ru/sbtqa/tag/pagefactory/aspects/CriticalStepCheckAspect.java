@@ -145,6 +145,7 @@ public class CriticalStepCheckAspect {
                 .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid)).findFirst();
         return testResultOptional.isPresent() ? ((TestResult) testResultOptional.get()).getUuid() : uid;
     }
+    
     private Object getStorage(Object instance) throws IllegalAccessException {
         return FieldUtils.readDeclaredField(instance, "storage", true);
     }
