@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
+import static io.qameta.allure.util.ResultsUtils.md5;
+
 import cucumber.api.Result;
 import cucumber.api.TestCase;
 import cucumber.api.TestStep;
@@ -8,8 +10,14 @@ import cucumber.api.event.TestStepFinished;
 import cucumber.runtime.Match;
 import cucumber.runtime.StepDefinitionMatch;
 import gherkin.pickles.PickleStep;
+import io.qameta.allure.Allure;
+import io.qameta.allure.internal.AllureStorage;
 import io.qameta.allure.model.Status;
+import io.qameta.allure.model.TestResult;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -84,6 +92,9 @@ public class CriticalStepCheckAspect {
                     new AutotestError(NON_CRITICAL_CATEGORY_MESSAGE));
             event = new TestCaseFinished(event.getTimeStamp(), event.testCase, result);
 
+            Allure.getLifecycle().updateTestCase(getCurrentTestCaseUid(event.testCase),
+                    testResult -> testResult.setStatus(Status.PASSED));
+
             joinPoint.proceed(new Object[]{event});
         } else {
             joinPoint.proceed();
@@ -121,5 +132,17 @@ public class CriticalStepCheckAspect {
         } catch (IllegalAccessException ex) {
             throw new ReadFieldError("Error reading the field");
         }
+    }
+
+    private String getCurrentTestCaseUid(TestCase testCase) throws IllegalAccessException {
+        final String testCaseLocation = testCase.getUri() + ":" + testCase.getLine();
+        String uid = md5(testCaseLocation);
+
+        AllureStorage allureStorage = (AllureStorage) FieldUtils.readDeclaredField(Allure.getLifecycle(), "storage", true);
+        Map<String, Object> storage = (Map<String, Object>) FieldUtils.readDeclaredField(allureStorage, "storage", true);
+        Collection<Object> testResults = storage.values();
+        Optional<Object> testResultOptional = testResults.stream()
+                .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid)).findFirst();
+        return testResultOptional.isPresent() ? ((TestResult) testResultOptional.get()).getUuid() : uid;
     }
 }

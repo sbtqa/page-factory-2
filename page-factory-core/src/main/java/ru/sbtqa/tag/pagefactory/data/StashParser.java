@@ -41,9 +41,9 @@ public class StashParser {
 
         for (Argument argument : testStep.getDefinitionArgument()) {
             String argVal = argument.getVal();
-            int argOffset = argument.getOffset();
 
             if (argVal != null) {
+                int argOffset = argument.getOffset();
                 if (stepDataPattern.matcher(argVal).find() && stepDataMatcher.find()) {
                     String stashKey = stepDataMatcher.group(1);
                     String stashValue = StashParser.getStashValue(step, stashKey);
@@ -64,8 +64,10 @@ public class StashParser {
                 } else {
                     argOffset = argument.getOffset() - offset;
                 }
+                replacedArguments.add(new Argument(argOffset, argVal));
+            } else {
+                replacedArguments.add(argument);
             }
-            replacedArguments.add(new Argument(argOffset, argVal));
         }
         FieldUtils.writeField(FieldUtils.readField(testStep, "definitionMatch", true),
                 "arguments", replacedArguments, true);
