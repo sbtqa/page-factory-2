@@ -27,7 +27,7 @@ mvn test -DTagConfigFile=custom-place/config.properties
 
 Пример:
 
-page.package = ru.sbtqa.tag.myproject.pages
+page.package = ru.myproject.pages
 | Не задано
 
 3.1+^.^| **Опциональные**

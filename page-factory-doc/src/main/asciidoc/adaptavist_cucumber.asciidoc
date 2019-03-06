@@ -1,6 +1,6 @@
 === Настройка для Cucumber
 
-{counter:ac}. Дописать в test runner в опцию plugin две строки:
+{counter:ac}. Дописать в test runner в опцию `plugin` две строки:
 
 [source,]
 ----
@@ -8,15 +8,15 @@
 @CucumberOptions(monochrome = true, 
         plugin = {"pretty","junit:target/cucumber/result.xml",
                            "json:target/cucumber/pagefactory.json"},
-        glue = {"ru.sbtqa.tag.stepdefs",  "setting", "pagefactory.stepdefs"},
+        glue = {"tag.stepdefs"},
         features = {"src/test/resources/features"}
 )
 public class CucumberTest {}
 ----
 
-TIP: При необходимости можно задать несколько run-файлов, формируя результаты в разные файлы (в нашем случае файл `pagefactory.json`)
+TIP: При необходимости можно задать несколько run-файлов, формируя результаты в разные файлы (в нашем случае `pagefactory.json`)
 
-{counter:ac}. Если в вашем проекте в файле `pom.xml` для плагина `maven-surefire-plugin` есть строка запуска, то аналогичным образом нужно добавить в нее две строки:
+{counter:ac}. Если в вашем проекте в `pom.xml` для плагина `maven-surefire-plugin` есть строка запуска, то аналогичным образом нужно добавить в нее две строки:
 
 [source,]
 ----
@@ -39,8 +39,8 @@ TIP: При необходимости можно задать нескольк�
 
 [source,]
 ----
-  @TestCaseKey=EFSTAG-T4
-  Scenario: Test Stash
+  @TestCaseKey=TAG-T4
+  Scenario: Test
     * user checks that the field "first name" is empty
     
     ....
@@ -73,14 +73,14 @@ image:images/cucumber.png[]
 {counter:ae}. Выполнить 
 [source,]
 ----
-curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtatlas.sigma.sbrf.ru/jira/rest/atm/1.0/automation/execution/cucumber/EFSTAG?autoCreateTestCases=true
+curl -k --basic --user user:password -F "file=@output_results.zip" https://yourjira.ru/jira/rest/atm/1.0/automation/execution/cucumber/TAG?autoCreateTestCases=true
 ----
 
 При этом:
 
 * Вместо `user` подставить пользователя `Jira`, вместо `password` - пароль пользователя
-* При необходимости изменить `URL` для `Jira`
-* Вместо `EFSTAG` подставить имя проекта
+* Подставить свой `URL` для `Jira`
+* Вместо `TAG` подставить имя проекта
 
 ===== Jenkins
 Для запуска через `Jenkins` есть специальный плагин. Почитать о нем и увидеть полную инструкцию по работе с ним в картинках можно  https://www.adaptavist.com/doco/display/KT/Automated+Testing+Tools[здесь^, role="ext-link"]

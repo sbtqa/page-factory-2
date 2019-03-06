@@ -18,7 +18,7 @@ public class Your{sup} extends {sup} {
 Пример::
 [source, subs="attributes+" ]
 ----
-package ru.sbt.qa.your.project.pages;
+package ru.qa.your.project.pages;
 
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.{pn};
