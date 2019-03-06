@@ -8,7 +8,7 @@
 @CucumberOptions(monochrome = true, 
         plugin = {"pretty","junit:target/cucumber/result.xml",
                            "json:target/cucumber/pagefactory.json"},
-        glue = {"ru.sbtqa.tag.stepdefs", "tag.stepdefs"},ы
+        glue = {"ru.sbtqa.tag.stepdefs", "tag.stepdefs"},
         features = {"src/test/resources/features"}
 )
 public class CucumberTest {}
