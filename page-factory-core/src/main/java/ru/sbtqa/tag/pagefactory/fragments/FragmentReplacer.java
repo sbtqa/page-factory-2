@@ -1,7 +1,9 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import com.google.common.graph.EndpointPair;
+import com.google.common.graph.Graph;
 import com.google.common.graph.MutableGraph;
+import com.google.common.graph.MutableValueGraph;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.Step;
@@ -14,7 +16,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 public class FragmentReplacer {
 
     private List<CucumberFeature> features;
-    private MutableGraph<Object> fragmentsGraph;
+    private MutableValueGraph<Object, String> fragmentsGraph;
     private Map<ScenarioDefinition, String> scenarioLanguageMap;
 
     public FragmentReplacer(List<CucumberFeature> features) throws FragmentException {
