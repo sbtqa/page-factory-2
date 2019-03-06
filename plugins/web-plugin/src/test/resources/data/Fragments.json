@@ -1,0 +1,11 @@
+{
+  "Fragment 1": {
+    "name": "Fragment with other fragment"
+  },
+  "Fragment 2": {
+    "name": "Fragment with other fragment 2"
+  },
+  "Fragment 3": {
+    "name": "Simple fragment"
+  }
+}

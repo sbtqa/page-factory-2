@@ -69,6 +69,10 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getFragmentsPath();
 
+    @Key("data.initial.collection")
+    @DefaultValue("")
+    String getDataInitialCollection();
+
     static <T extends Config> T init(Class<T> configuration) {
         java.util.Properties allProps = Props.getProps();
 

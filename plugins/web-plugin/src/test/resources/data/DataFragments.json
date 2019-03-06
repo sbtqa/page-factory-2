@@ -1,0 +1,18 @@
+{
+  "Admin": {
+    "first name": "Alex",
+    "last name": "Kauffman",
+    "fragment name": "Fragment with other fragment 2"
+  },
+  "Operator": {
+    "first name": "Jessey",
+    "last name": "James",
+    "fragment name": ""
+  },
+  "User": {
+    "first name": "Frank",
+    "last name": "Thompson",
+    "fragment name": ""
+  },
+  "unauthorized fragment name": "Relative data path for fragments"
+}
