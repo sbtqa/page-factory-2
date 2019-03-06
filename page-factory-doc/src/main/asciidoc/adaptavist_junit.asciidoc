@@ -29,8 +29,8 @@
 [source,]
 ----
     @Test 
-    @TestCase(name = "Test Stash") 
-    public void testName() { 
+    @TestCase(key = "TAG-T5") 
+    public void testKey() { 
         ....
     }
 ----
@@ -40,7 +40,7 @@
 [source,]
 ----
     @Test 
-    @TestCase(name = "Test Stash") 
+    @TestCase(name = "JUnit Test") 
     public void testName() { 
         ....
     }
@@ -73,14 +73,14 @@ image:images/junit.png[]
 {counter:aj}. Выполнить 
 [source,]
 ----
-curl -k --basic --user user:password -F "file=@output_results.zip" https://sbtatlas.sigma.sbrf.ru/jira/rest/atm/1.0/automation/execution/EFSTAG?autoCreateTestCases=true
+curl -k --basic --user user:password -F "file=@output_results.zip" https://yourjira.ru/jira/rest/atm/1.0/automation/execution/TAG?autoCreateTestCases=true
 ----
 
 При этом:
 
 * Вместо `user` подставить пользователя `Jira`, вместо `password` - пароль пользователя
-* При необходимости изменить `URL` для `Jira`
-* Вместо `EFSTAG` подставить имя проекта
+* Подставить `URL` для `Jira`
+* Вместо `TAG` - имя проекта
 
 ===== Jenkins
 Для запуска через `Jenkins` есть специальный плагин. Почитать о нем и увидеть полную инструкцию по работе с ним в картинках можно  https://www.adaptavist.com/doco/display/KT/Automated+Testing+Tools[здесь^, role="ext-link"]
