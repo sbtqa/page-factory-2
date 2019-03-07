@@ -1,8 +1,6 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import com.google.common.graph.EndpointPair;
-import com.google.common.graph.Graph;
-import com.google.common.graph.MutableGraph;
 import com.google.common.graph.MutableValueGraph;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.ScenarioDefinition;
@@ -11,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import ru.sbtqa.tag.datajack.exceptions.DataException;
+import ru.sbtqa.tag.pagefactory.data.DataUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 
 public class FragmentReplacer {
@@ -19,7 +19,7 @@ public class FragmentReplacer {
     private MutableValueGraph<Object, String> fragmentsGraph;
     private Map<ScenarioDefinition, String> scenarioLanguageMap;
 
-    public FragmentReplacer(List<CucumberFeature> features) throws FragmentException {
+    public FragmentReplacer(List<CucumberFeature> features) throws FragmentException, DataException {
         this.features = FragmentCacheUtils.cacheFragmentsToFeatures(this.getClass(), features);
         this.scenarioLanguageMap = FragmentCacheUtils.cacheScenarioLanguage(this.features);
         Map<String, ScenarioDefinition> fragmentsMap = FragmentCacheUtils.cacheFragmentsAsMap(this.features);
@@ -33,16 +33,17 @@ public class FragmentReplacer {
      * @throws IllegalAccessException if it was not possible to replace a step with a fragment
      * @throws FragmentException if fragments replacing is in an infinite loop
      */
-    public void replace() throws IllegalAccessException, FragmentException {
+    public void replace() throws IllegalAccessException, FragmentException, DataException {
         while (!fragmentsGraph.edges().isEmpty()) {
             int fragmentsGraphSize = fragmentsGraph.edges().size();
 
             for (EndpointPair edge : new ArrayList<>(fragmentsGraph.edges())) {
                 ScenarioDefinition fragment = (ScenarioDefinition) edge.nodeV();
                 ScenarioDefinition scenario = (ScenarioDefinition) edge.nodeU();
+                String data = fragmentsGraph.edgeValue(edge.nodeU(), edge.nodeV()).get();
 
                 if (isTerminal(fragment)) {
-                    replaceFragmentInScenario(scenario, fragment);
+                    replaceFragmentInScenario(scenario, fragment, data);
                     fragmentsGraph.removeEdge(scenario, fragment);
                 }
             }
@@ -77,13 +78,13 @@ public class FragmentReplacer {
         return true;
     }
 
-    private void replaceFragmentInScenario(ScenarioDefinition scenario, ScenarioDefinition fragment) throws IllegalAccessException {
+    private void replaceFragmentInScenario(ScenarioDefinition scenario, ScenarioDefinition fragment, String data) throws IllegalAccessException, DataException {
         String language = scenarioLanguageMap.get(scenario);
         List<Step> replacementSteps = new ArrayList<>();
 
         for (Step step : scenario.getSteps()) {
             if (FragmentUtils.isStepFragmentRequire(step, language)
-                    && FragmentUtils.getFragmentName(step, language).equals(fragment.getName())) {
+                    && isFragmentNameMatch(fragment.getName(), step, language, data)) {
                 replacementSteps.addAll(replaceStepWithFragment(step, fragment));
             } else {
                 replacementSteps.add(step);
@@ -91,6 +92,16 @@ public class FragmentReplacer {
         }
 
         FieldUtils.writeField(scenario, "steps", replacementSteps, true);
+    }
+
+    private boolean isFragmentNameMatch(String name, Step step, String language, String data) throws DataException {
+        boolean isFragmentNameMatch = FragmentUtils.getFragmentName(step, language).equals(name);
+        if (!isFragmentNameMatch) {
+            String scenarioNameFromData = DataUtils.replaceDataPlaceholders(step.getText(), data);
+            Step stepNew = new Step(step.getLocation(), step.getKeyword(), scenarioNameFromData, step.getArgument());
+            isFragmentNameMatch = FragmentUtils.getFragmentName(stepNew, language).equals(name);
+        }
+        return isFragmentNameMatch;
     }
 
     private List<Step> replaceStepWithFragment(Step stepToReplace, ScenarioDefinition fragment) {

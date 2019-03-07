@@ -7,5 +7,14 @@
   },
   "Fragment 3": {
     "name": "Simple fragment"
+  },
+  "Fragment 4": {
+    "name": "Not found fragment"
+  },
+  "Fragment 5": {
+    "name": "Fragment with other fragment 3"
+  },
+  "Fragment 6": {
+    "name": "Fragment with other fragment 4"
   }
 }

@@ -29,7 +29,7 @@ public class CucumberAspect {
 
         if (DataFactory.getDataProvider() != null) {
             DataParser dataParser = new DataParser();
-            dataParser.replaceDataPlaceholders(cucumberFeatures);
+            dataParser.replace(cucumberFeatures);
         }
         joinPoint.proceed();
     }

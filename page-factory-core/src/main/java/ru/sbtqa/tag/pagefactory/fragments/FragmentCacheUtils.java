@@ -1,36 +1,27 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
-import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.Graphs;
-import com.google.common.graph.MutableGraph;
 import com.google.common.graph.MutableValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
-import gherkin.ast.Background;
 import gherkin.ast.Feature;
 import gherkin.ast.GherkinDocument;
-import gherkin.ast.Scenario;
 import gherkin.ast.ScenarioDefinition;
-import gherkin.ast.ScenarioOutline;
 import gherkin.ast.Step;
 import gherkin.ast.Tag;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
-import ru.sbtqa.tag.datajack.exceptions.FieldNotFoundException;
 import ru.sbtqa.tag.pagefactory.data.DataUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
-import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.reflection.DefaultReflection;
 
@@ -39,11 +30,7 @@ class FragmentCacheUtils {
     private static final Logger LOG = LoggerFactory.getLogger(FragmentCacheUtils.class);
     private static final Configuration PROPERTIES = Configuration.create();
     private static final String FRAGMENT_TAG = "@fragment";
-
-    private static final String PARAMETER_REGEXP = "\"([^\"]*)\"";
     private static final String ERROR_FRAGMENT_NOT_FOUND = "There is no scenario (fragment) with name \"%s\"";
-    private static final String STEP_FIELD_NAME = "text";
-    private static final String DATA_TAG = "@data=";
 
     private FragmentCacheUtils() {
     }
@@ -83,34 +70,33 @@ class FragmentCacheUtils {
 
     static MutableValueGraph<Object, String> cacheFragmentsAsGraph(List<CucumberFeature> features,
                                                                    Map<String, ScenarioDefinition> fragmentsMap,
-                                                                   Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException {
+                                                                   Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException, DataException {
         MutableValueGraph<Object, String> graph = ValueGraphBuilder.directed().allowsSelfLoops(false).build();
 
         for (CucumberFeature cucumberFeature : features) {
-            String featureDataTagValue = DataUtils.formFeatureData(cucumberFeature);
-
+            String featureData = DataUtils.formFeatureData(cucumberFeature);
             GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
             Feature feature = gherkinDocument.getFeature();
+
             List<ScenarioDefinition> scenarioDefinitions = feature.getChildren().stream()
                     .filter(FragmentCacheUtils::isScenario)
                     .collect(Collectors.toList());
 
             for (ScenarioDefinition scenario : scenarioDefinitions) {
-                String scenarioDataTagValue = DataUtils.formScenarioDataTag(scenario, featureDataTagValue);
-                addGraphNode(graph, scenario, scenarioDataTagValue, fragmentsMap, scenarioLanguageMap);
+                String scenarioData = DataUtils.formScenarioDataTag(scenario, featureData);
+                addGraphNode(graph, scenario, scenarioData, fragmentsMap, scenarioLanguageMap);
             }
         }
 
         if (Graphs.hasCycle(graph.asGraph())) {
             LOG.error("Fragments graph contains cycles");
         }
-
         return graph;
     }
 
     private static void addGraphNode(MutableValueGraph graph, ScenarioDefinition scenario, String data,
                                      Map<String, ScenarioDefinition> fragmentsMap,
-                                     Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException {
+                                     Map<ScenarioDefinition, String> scenarioLanguageMap) throws FragmentException, DataException {
         graph.addNode(scenario);
         String language = scenarioLanguageMap.get(scenario);
         List<Step> steps = scenario.getSteps();
@@ -118,59 +104,40 @@ class FragmentCacheUtils {
         for (Step step : steps) {
             if (FragmentUtils.isStepFragmentRequire(step, language)) {
                 String scenarioName = FragmentUtils.getFragmentName(step, language);
-                ScenarioDefinition scenarioAsFragment = fragmentsMap.get(scenarioName);
+                ScenarioDefinition fragment = fragmentsMap.get(scenarioName);
 
-                if (scenarioAsFragment == null) {
-                    if (!DataUtils.isDataParameter(scenarioName)) {
-                        throw new FragmentException(String.format("There is no scenario (fragment) with name \"%s\"", scenarioName));
+                if (fragment == null) {
+                    if (DataUtils.isDataParameter(scenarioName)) {
+                        String fragmentName = getScenarioNameFromData(scenarioName, data);
+                        if (!fragmentName.isEmpty()) {
+                            scenarioName = fragmentName;
+                            fragment = fragmentsMap.get(scenarioName);
+                        }
                     }
 
-                    String scenarioNameFromData = getScenarioNameFromData(step, scenarioName, data);
-
-                    scenarioAsFragment = fragmentsMap.get(scenarioNameFromData);
-
-                    if (scenarioAsFragment == null) {
-                        throw new FragmentException(String.format("There is no scenario (fragment) with name \"%s\"", scenarioNameFromData));
+                    if (fragment == null) {
+                        throw new FragmentException(String.format(ERROR_FRAGMENT_NOT_FOUND, scenarioName));
                     }
                 }
-                graph.putEdgeValue(scenario, scenarioAsFragment, data);
+                graph.putEdgeValue(scenario, fragment, data);
 
-                addGraphNode(graph, scenarioAsFragment, data, fragmentsMap, scenarioLanguageMap);
+                addGraphNode(graph, fragment, data, fragmentsMap, scenarioLanguageMap);
             }
         }
     }
 
-    private static String getScenarioNameFromData(Step step, String scenarioName, String scenarioDataTagValue) throws FragmentException {
-        try {
-            String scenarioNameFromData = DataUtils.replaceDataPlaceholders(scenarioName, scenarioDataTagValue);
-            if (scenarioNameFromData.equals(scenarioName)) {
-                throw new FragmentException(String.format("There is no scenario (fragment) with name \"%s\"", scenarioName));
-            }
-            String replacedStepText = step.getText().replaceFirst(PARAMETER_REGEXP, "\"" + scenarioNameFromData + "\"");
-            FieldUtils.writeField(step, STEP_FIELD_NAME, replacedStepText, true);
-            return scenarioNameFromData;
-        } catch (FieldNotFoundException ex) {
-            return "";
-        } catch (DataException e) {
-            throw new FragmentException("Error data reading");
-        } catch (IllegalAccessException e) {
-            throw new FragmentException(String.format("The field \"%s\" is missing from the class \"%s\"", STEP_FIELD_NAME, step.getClass()));
+    private static String getScenarioNameFromData(String scenarioName, String scenarioDataTagValue) throws FragmentException, DataException {
+        String scenarioNameFromData = DataUtils.replaceDataPlaceholders(scenarioName, scenarioDataTagValue);
+        if (scenarioNameFromData.equals(scenarioName)) {
+            throw new FragmentException(String.format(ERROR_FRAGMENT_NOT_FOUND, scenarioName));
         }
+        return scenarioNameFromData;
     }
-
 
     private static boolean isScenario(ScenarioDefinition scenarioDefinition) {
-        List<Tag> tags;
-        if (scenarioDefinition instanceof Scenario) {
-            tags = ((Scenario) scenarioDefinition).getTags();
-        } else if (scenarioDefinition instanceof ScenarioOutline) {
-            tags = ((ScenarioOutline) scenarioDefinition).getTags();
-        } else {
-            return true;
-        }
-        return tags.stream().noneMatch(tag -> tag.getName().equals("@fragment"));
+        List<Tag> tags = DataUtils.getScenarioTags(scenarioDefinition);
+        return tags.stream().noneMatch(tag -> tag.getName().equals(FRAGMENT_TAG));
     }
-
 
     static Map<ScenarioDefinition, String> cacheScenarioLanguage(List<CucumberFeature> features) {
         Map<ScenarioDefinition, String> scenarioLanguageMap = new HashMap<>();
