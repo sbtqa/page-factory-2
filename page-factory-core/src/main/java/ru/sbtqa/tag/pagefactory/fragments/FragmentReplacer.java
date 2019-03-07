@@ -78,7 +78,7 @@ public class FragmentReplacer {
         return true;
     }
 
-    private void replaceFragmentInScenario(ScenarioDefinition scenario, ScenarioDefinition fragment, String data) throws IllegalAccessException, DataException {
+    private void replaceFragmentInScenario(ScenarioDefinition scenario, ScenarioDefinition fragment, String data) throws IllegalAccessException, DataException, FragmentException {
         String language = scenarioLanguageMap.get(scenario);
         List<Step> replacementSteps = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class FragmentReplacer {
         FieldUtils.writeField(scenario, "steps", replacementSteps, true);
     }
 
-    private boolean isFragmentNameMatch(String name, Step step, String language, String data) throws DataException {
+    private boolean isFragmentNameMatch(String name, Step step, String language, String data) throws DataException, FragmentException {
         boolean isFragmentNameMatch = FragmentUtils.getFragmentName(step, language).equals(name);
         if (!isFragmentNameMatch) {
             String scenarioNameFromData = DataUtils.replaceDataPlaceholders(step.getText(), data);
