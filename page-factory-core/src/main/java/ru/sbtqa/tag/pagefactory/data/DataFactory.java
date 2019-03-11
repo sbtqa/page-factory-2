@@ -3,18 +3,20 @@ package ru.sbtqa.tag.pagefactory.data;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import static java.lang.String.format;
 import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.TestDataProvider;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
-import ru.sbtqa.tag.qautils.properties.Props;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
+
+import static java.lang.String.format;
 
 public class DataFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataFactory.class);
+    private static final Configuration PROPERTIES = Configuration.create();
     private static TestDataProvider testDataProvider;
     private static final String BASE_FQDN = "ru.sbtqa.tag.datajack.providers.";
 
@@ -41,23 +43,25 @@ public class DataFactory {
 
     public static TestDataProvider getDataProvider() throws DataException {
         if (testDataProvider == null) {
-            String initialCollection = Props.get("data.initial.collection");
-            String dataFolder = Props.get("data.folder");
-            String dataType = Props.get("data.type", "stash");
-
+            String initialCollection = PROPERTIES.getDataInitialCollection();
+            String dataFolder = PROPERTIES.getDataFolder();
+            String dataType = PROPERTIES.getDataType();
+            String dataExtension = PROPERTIES.getDataExtension();
+            
+            
             switch (dataType) {
                 case "json":
                     testDataProvider = initProvider(PROVIDERS.JSON_DATA_PROVIDER,
                             dataFolder,
                             initialCollection,
-                            Props.get("data.extension", "json")
+                            (dataExtension.equals("")) ? "json" : dataExtension
                     );
                     break;
                 case "properties":
                     testDataProvider = initProvider(PROVIDERS.PROPERTIES_DATA_PROVIDER,
                             dataFolder,
                             initialCollection,
-                            Props.get("data.extension", "properties")
+                            (dataExtension.equals("")) ? "properties" : dataExtension
                     );
                     break;
                 case "excel":
@@ -67,8 +71,8 @@ public class DataFactory {
                     );
                     break;
                 case "mongo":
-                    MongoClient mongoClient = new MongoClient(new MongoClientURI(Props.get("data.uri")));
-                    DB db = mongoClient.getDB(Props.get("data.db"));
+                    MongoClient mongoClient = new MongoClient(new MongoClientURI(PROPERTIES.getDataUri()));
+                    DB db = mongoClient.getDB(PROPERTIES.getDataDb());
 
                     testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER, db, initialCollection);
                     break;
