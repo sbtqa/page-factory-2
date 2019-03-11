@@ -7,6 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.ru.Тогда;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
+import ru.sbtqa.tag.api.junit.ApiSetupSteps;
 import ru.sbtqa.tag.api.junit.ApiSteps;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 
@@ -19,7 +20,7 @@ public class ApiStepDefs {
 
     @Before
     public void iniApi() {
-        apiSteps.initApi();
+        ApiSetupSteps.initApi();
     }
 
     @And("^(?:пользователь |он )?отправляет запрос$")

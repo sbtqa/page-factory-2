@@ -5,6 +5,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
+import ru.sbtqa.tag.api.junit.ApiSetupSteps;
 import ru.sbtqa.tag.api.junit.ApiSteps;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 
@@ -12,11 +13,11 @@ import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
 public class ApiStepDefs {
 
-    ApiSteps apiSteps = ApiSteps.getInstance();
+    private final ApiSteps apiSteps = ApiSteps.getInstance();
 
     @Before
     public void iniApi() {
-        apiSteps.initApi();
+        ApiSetupSteps.initApi();
     }
 
     @And("^user sends request$")

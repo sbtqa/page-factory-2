@@ -23,6 +23,12 @@ public class JunitReporter {
         } else {
                 String stepUid = joinPoint.getSignature().toLongString() + System.currentTimeMillis();
                 String methodName = joinPoint.getSignature().getName();
+//                System.out.println(methodName);
+//                try {
+//                    System.out.println((String) joinPoint.getArgs()[0]);
+//                } catch (Exception e) {}
+//
+//                System.out.println();
 
                 String stepName = I18N.getI18n(joinPoint.getSignature().getDeclaringType()).get(methodName);
 
