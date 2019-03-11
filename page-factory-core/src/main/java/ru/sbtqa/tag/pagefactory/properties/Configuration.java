@@ -113,6 +113,6 @@ public interface Configuration extends Config {
     }
 
     static Configuration create() {
-        return ConfigFactory.create(Configuration.class, Props.getProps());
+        return Configuration.init(Configuration.class);
     }
 }
