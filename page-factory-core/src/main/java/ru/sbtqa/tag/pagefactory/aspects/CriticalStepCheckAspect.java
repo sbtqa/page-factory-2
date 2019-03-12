@@ -26,8 +26,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.allure.CategoriesInjector;
 import ru.sbtqa.tag.pagefactory.allure.Category;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
+import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 @Aspect
@@ -36,7 +38,7 @@ public class CriticalStepCheckAspect {
     private static final String DEFINITION_FIELD_NAME = "definitionMatch";
 
     private static final String NON_CRITICAL_CATEGORY_NAME = "Non-critical failures";
-    private static final String NON_CRITICAL_CATEGORY_MESSAGE = "Some non-critical steps are failed";
+    private static final String NON_CRITICAL_CATEGORY_MESSAGE = "Some steps ended with non-critical errors";
 
     private final Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME,
             NON_CRITICAL_CATEGORY_MESSAGE, null,
@@ -61,14 +63,14 @@ public class CriticalStepCheckAspect {
         Match match = (Match) joinPoint.getThis();
         PickleStep step = (PickleStep) FieldUtils.readField(match, STEP_FIELD_NAME, true);
 
-        if (!isCritical(step)) {
-            try {
-                joinPoint.proceed();
-            } catch (Throwable e) {
-                attachError((PickleStepCustom) step, e);
-            }
-        } else {
+        try {
             joinPoint.proceed();
+        } catch (Throwable e) {
+            if (!isCritical(step) || e instanceof AllureNonCriticalError) {
+                attachError((PickleStepCustom) step, e);
+            } else {
+                throw e;
+            }
         }
     }
 
