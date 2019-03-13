@@ -8,7 +8,7 @@ Feature: Data sources
     * user is on the page "Contact"
 
   Scenario: Relative path data
-    * user inserts fragment "${unauthorized fragment name}"
+    * user inserts fragment "Relative ${unauthorized fragment name}"
       | first name          | button name |
       | ${Admin.first name} | send        |
     * user checks in the element "first name" value "${Admin.first name}"
