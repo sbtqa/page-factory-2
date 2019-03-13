@@ -29,4 +29,9 @@ public enum Condition {
         }
         throw new CucumberException("Incorrect enum-value in steps: " + name);
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

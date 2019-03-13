@@ -69,6 +69,31 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getFragmentsPath();
 
+
+    @Key("data.initial.collection")
+    @DefaultValue("")
+    String getDataInitialCollection();
+
+    @Key("data.type")
+    @DefaultValue("stash")
+    String getDataType();
+
+    @Key("data.folder")
+    @DefaultValue("")
+    String getDataFolder();
+
+    @Key("data.extension")
+    @DefaultValue("")
+    String getDataExtension();
+
+    @Key("data.uri")
+    @DefaultValue("")
+    String getDataUri();
+
+    @Key("data.db")
+    @DefaultValue("")
+    String getDataDb();
+
     static <T extends Config> T init(Class<T> configuration) {
         java.util.Properties allProps = Props.getProps();
 

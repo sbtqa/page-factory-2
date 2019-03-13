@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aspectj>
     <aspects>
-        <aspect name="ru.sbtqa.tag.pagefactory.api.aspects.JUnitWebStepAspect"/>
+        <aspect name="ru.sbtqa.tag.api.aspects.JUnitApiStepAspect"/>
     </aspects>
-    <weaver options="-Xset:weaveJavaxPackages=true">
+    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
         <include within="ru.sbtqa.tag..*"/>
+        <include within="io.qameta.allure..*"/>
     </weaver>
 </aspectj>
