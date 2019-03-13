@@ -20,53 +20,49 @@ public class JunitReporter {
         if (isFromCucumber) {
             return joinPoint.proceed();
         } else {
-                Object[] args = joinPoint.getArgs();
-                String stepUid = joinPoint.getSignature().toLongString() + Arrays.toString(args) + System.currentTimeMillis();
-                String methodName = joinPoint.getSignature().getName();
-                String methodNameWithArgsCount = methodName + "." + args.length;
+            Object[] args = normalizeArgs(joinPoint.getArgs());
+            String stepUid = joinPoint.getSignature().toLongString() + Arrays.toString(args) + System.currentTimeMillis();
+            String methodName = joinPoint.getSignature().getName();
+            String methodNameWithArgsCount = methodName + "." + args.length;
+            String stepNameI18n = I18N.getI18n(joinPoint.getSignature().getDeclaringType()).get(methodNameWithArgsCount);
+            String stepName = String.format((stepNameI18n.equals(methodNameWithArgsCount) ? methodName : stepNameI18n), args);
 
-                String stepNameI18n = I18N.getI18n(joinPoint.getSignature().getDeclaringType()).get(methodName + "." + args.length);
-
-                String stepName = stepNameI18n.equals(methodNameWithArgsCount) ? methodName : stepNameI18n;
-
-
-                stepName = String.format(stepName, args);
-
-
-
-                Allure.getLifecycle().startStep(stepUid, new StepResult().setName(stepName));
-            System.out.println(stepName);
-
-
+            Allure.getLifecycle().startStep(stepUid, new StepResult().setName(stepName));
             try {
                 Object r = joinPoint.proceed();
                 Allure.getLifecycle().updateStep(stepUid, stepResult -> stepResult.setStatus(Status.PASSED));
-                if (stepName.equals(methodName)) {
-                    addParamAsSubstep(joinPoint);
-                }
                 return r;
             } catch (Throwable t) {
                 Allure.getLifecycle().updateStep(stepUid, stepResult ->
                         stepResult.setStatus(Status.FAILED).setStatusDetails(new StatusDetails().setTrace(ExceptionUtils.getStackTrace(t)).setMessage(t.getMessage())));
-                if (stepName.equals(methodName)) {
-                    addParamAsSubstep(joinPoint);
-                }
                 throw t;
             } finally {
-                System.out.println("STOP!");
+                attachParameters(methodName, args, joinPoint.getSignature().toLongString(), stepName);
                 Allure.getLifecycle().stopStep();
-
-
             }
         }
     }
 
-    private static void addParamAsSubstep(ProceedingJoinPoint joinPoint) {
-        for (Object arg : joinPoint.getArgs()) {
-            System.out.println(arg);
-            Allure.getLifecycle().startStep(joinPoint.getSignature().toLongString() + System.currentTimeMillis(), new StepResult().setName(arg.toString()).setStatus(Status.PASSED));
-            Allure.getLifecycle().stopStep();
-        }
+    private static Object[] normalizeArgs(Object[] args) {
+        return Arrays.stream(args).map(arg -> {
+            if (arg instanceof Object[]) {
+                arg = Arrays.toString((Object[]) arg);
+            }
+            return arg.toString() == null ? "" : arg;
+        }).toArray();
     }
 
+    private static void attachParameters(String methodName, Object[] args, String uid, String stepName) {
+        if (stepName.equals(methodName)) {
+            for (Object arg : args) {
+                if (arg instanceof Object[]) {
+                    arg = Arrays.toString((Object[]) arg);
+                }
+
+                Allure.getLifecycle().startStep(uid + System.currentTimeMillis(),
+                        new StepResult().setName(arg.toString()).setStatus(Status.PASSED));
+                Allure.getLifecycle().stopStep();
+            }
+        }
+    }
 }
