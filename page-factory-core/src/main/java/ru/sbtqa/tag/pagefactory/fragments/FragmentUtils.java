@@ -1,12 +1,11 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import gherkin.ast.Step;
-import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
-import ru.sbtqa.tag.qautils.i18n.I18N;
-
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
+import ru.sbtqa.tag.qautils.i18n.I18N;
 
 class FragmentUtils {
 
