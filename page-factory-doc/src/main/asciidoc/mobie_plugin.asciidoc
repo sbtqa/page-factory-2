@@ -13,7 +13,7 @@ https://github.com/appium/appium/blob/master/docs/en/about-appium/getting-starte
 :plug: mobile-plugin
 :pn: MobilePage
 :st: MobileSteps
-:stg: MobileGenericSteps
+:stg: MobileStepsImpl
 :act: MobilePageActions
 :ref: DefaultReflection
 

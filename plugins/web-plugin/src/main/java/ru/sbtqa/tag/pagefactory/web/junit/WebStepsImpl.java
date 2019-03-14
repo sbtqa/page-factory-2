@@ -34,7 +34,7 @@ import java.util.List;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
- * @param <T> type of steps - any successor {@code WebGenericSteps}
+ * @param <T> type of steps - any successor {@code WebStepsImpl}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */

@@ -94,6 +94,11 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getDataDb();
 
+
+    @Key("junit.lang")
+    @DefaultValue("ru")
+    String getJunitLang();
+
     static <T extends Config> T init(Class<T> configuration) {
         java.util.Properties allProps = Props.getProps();
 
