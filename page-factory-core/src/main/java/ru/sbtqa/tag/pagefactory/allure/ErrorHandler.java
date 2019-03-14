@@ -26,8 +26,12 @@ public class ErrorHandler {
     public static void attachError(String title, Throwable throwable) {
         String errorHTML = "<div style='background-color: #ffc2c2; height: auto; display: table'>" +
                 "<pre style='color:#880b0b'>" + ExceptionUtils.getStackTrace(throwable) + "</pre></div>";
-        ParamsHelper.addAttachmentToRender(
-                errorHTML.getBytes(),
-                title, Type.HTML);
+        ParamsHelper.addAttachmentToRender(errorHTML.getBytes(), title, Type.HTML);
+    }
+
+    public static void attachError(Throwable e) {
+        String errorHTML = "<div style='background-color: #ffc2c2; height: auto; display: table'>" +
+                "<pre style='color:#880b0b'>" + ExceptionUtils.getStackTrace(e) + "</pre></div>";
+        ParamsHelper.addAttachmentToRender(errorHTML.getBytes(), e.getMessage(), Type.HTML);
     }
 }

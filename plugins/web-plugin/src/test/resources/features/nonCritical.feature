@@ -1,6 +1,6 @@
 #language: en
 @data=$Data @test-non-critical
-Feature: Data sources
+Feature: Test non critical
 
   Background:
     * ? user is on the page "Main"
@@ -17,8 +17,12 @@ Feature: Data sources
     * user checks in the element "first name" value "Alex"
 
   @test-non-critical
-  Scenario: Data From Feature Tag 2
+  Scenario: Test non critical in fragments
     * user inserts fragment "fill fragment with non critical"
       | first name          | button name |
       | ${Admin.first name} | send        |
     * ? user checks in the element "first name" value "Alex"
+
+  @non-critical-one-step
+  Scenario: Failed and skipped
+    * ? user is on the page "Non existent page"

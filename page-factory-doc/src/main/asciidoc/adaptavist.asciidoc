@@ -1,0 +1,39 @@
+== Adaptavist (Jira Test Manager)
+TAG позволяет использовать Adaptavist. Для этого достаточно сконфигурировать проект и установить соответствие между тестами в jira и автотестами проекта.
+
+
+Прежде всего, в `Jira` должна быть заведена тестовая база - кейсы с привязкой к тикетам.
+
+Предположим, что у нас есть задача в проекте `TAG` - `TAG-945`, к которой нужно привязать тестовые сценарии.
+
+В секции `Traceability` заведем тест:
+
+image:images/create_case.png[]
+
+Задаем имя и, при необходимости, другие параметры, сохраняем:
+
+image:images/save.png[]
+
+После этого появится информация, что тест кейс сохранен с указанием `id` кейса, в нашем случае - `TAG-T4`:
+
+image:images/saved.png[]
+
+Тест кейс появится в задаче:
+
+image:images/saved-issue.png[]
+
+Просмотреть список тестовых сценариев можно следующим образом:
+
+{counter:ab}. Перейти в раздел `Tests`:
+
+image:images/tests.png[]
+
+{counter:ab}. Найти кейс по `id`:
+
+image:images/tests-id.png[]
+
+Подробную информацию о формировании тестовой структуры в jira можно найти в документации https://www.adaptavist.com/doco/display/KT/Documentation[Adaptavist^, role="ext-link"]
+
+include::adaptavist_cucumber.asciidoc[]
+
+include::adaptavist_junit.asciidoc[]

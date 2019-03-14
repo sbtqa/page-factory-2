@@ -8,7 +8,7 @@
 Пример::
 [source, subs="attributes+" ]
 ----
-package ru.sbt.qa.your.project.pages;
+package ru.your.project.pages;
 
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.{pn};
@@ -26,7 +26,7 @@ public abstract class YourPage extends {pn} {
 Пример::
 [source,]
 ----
-page.package = ru.sbt.qa.your.project.pages
+page.package = ru.your.project.pages
 ----
 
 NOTE: [aqua]#Рекомендуется заводить в проекте базовую страницу, унаследованную от `{pn}`, и уже от нее наследовать все остальные. Это позволит в случае необходимости описать ряд действий на базовой странице проекта.#

@@ -12,7 +12,7 @@
 *__Пример:__*
 [source,]
 ----
-@Endpoint(method = Rest.GET, path = "repos/sbtqa", title = "Запрос")
+@Endpoint(method = Rest.GET, path = "repos/qa", title = "Запрос")
 public class ApiEntry extends EndpointEntry {
 ...
 }
@@ -22,5 +22,5 @@ public class ApiEntry extends EndpointEntry {
 
 [source,]
 ----
-api.endpoint.package = ru.sbtqa.rest
+api.endpoint.package = ru.qa.rest
 ----

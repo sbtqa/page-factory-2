@@ -1,13 +1,13 @@
 set -e
-DOCS_RELEASE_DIR=snapshot
 
 if [ ! -z "$TRAVIS_TAG" ]
 then
     echo "on a tag -> set pom.xml <version> to $TRAVIS_TAG"
-    $DOCS_RELEASE_DIR=$TRAVIS_TAG
+    DOCS_RELEASE_DIR=$TRAVIS_TAG
     mvn --settings $TRAVIS_BUILD_DIR/.travis/settings.xml org.codehaus.mojo:versions-maven-plugin:2.1:set -DskipTests=true -DnewVersion=$TRAVIS_TAG 1>/dev/null 2>/dev/null
 else
     echo "not on a tag -> keep snapshot version in pom.xml"
+    DOCS_RELEASE_DIR=snapshot
 fi
 
 mvn clean deploy --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=true -Drelease=true -B -U

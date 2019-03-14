@@ -1,0 +1,102 @@
+=== Настройка для JUnit
+
+{counter:ad}. Добавить в `pom.xml` зависимость:
+
+[source,]
+----
+    <dependency>
+      <groupId>com.adaptavist</groupId>
+      <artifactId>tm4j-junit-integration</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
+----
+
+{counter:ad}. Добавить в `pom.xml` для плагина `maven-surefire-plugin` listener:
+
+[source,]
+----
+    <properties>
+      <property>
+        <name>listener</name>
+        <value>com.adaptavist.tm4j.junit.ExecutionListener</value>
+      </property>
+    </properties>
+----
+
+{counter:ad}. Закрепить за `JUnit` тестами тесты в `Jira` через `id`:
+
+[source,]
+----
+    @Test 
+    @TestCase(key = "TAG-T5") 
+    public void testKey() { 
+        ....
+    }
+----
+
+Или имя сценария:
+
+[source,]
+----
+    @Test 
+    @TestCase(name = "JUnit Test") 
+    public void testName() { 
+        ....
+    }
+----
+
+==== Сборка результатов тестов
+
+Для сборки отчетов для `Adaptavist` достаточно выполнить 
+
+[source,]
+----
+  mvn clean test
+----
+
+После этого в корне проекта должен появиться json-файл - `tm4j_result.json`.
+
+image:images/junit.png[]
+
+====  Синхронизация результатов для `JUnit`
+
+===== При локальном запуске
+
+{counter:aj}. Выполнить из командной строки в директории проекта либо создать вручную zip-архив, положив в него сгенерированный json-файл - `tm4j_result.json`
+
+[source,]
+----
+ zip output_results.zip tm4j_result.json
+----
+
+{counter:aj}. Выполнить 
+[source,]
+----
+curl -k --basic --user user:password -F "file=@output_results.zip" https://yourjira.ru/jira/rest/atm/1.0/automation/execution/TAG?autoCreateTestCases=true
+----
+
+При этом:
+
+* Вместо `user` подставить пользователя `Jira`, вместо `password` - пароль пользователя
+* Подставить `URL` для `Jira`
+* Вместо `TAG` - имя проекта
+
+===== Jenkins
+Для запуска через `Jenkins` есть специальный плагин. Почитать о нем и увидеть полную инструкцию по работе с ним в картинках можно  https://www.adaptavist.com/doco/display/KT/Automated+Testing+Tools[здесь^, role="ext-link"]
+
+===== Результаты в Jira
+
+После выполнения синхронизации на странице `Tests` появится отметка о результате запуска
+
+image:images/junit-tests.png[]
+
+Внутри теста появится информация о запуске в секции `Execution`:
+
+image:images/junit-exec.png[]
+
+Так же информация о запуске отобразится в задаче, для которой создавался тест кейс:
+
+image:images/junit-issue.png[]
+
+
