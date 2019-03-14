@@ -7,14 +7,14 @@ Feature: Data sources
     * user clicks the button "Contact"
     * user is on the page "Contact"
 
-  Scenario: Relative path data
+  Scenario: Relative path data from feature
     * user inserts fragment "Relative ${unauthorized fragment name}"
       | first name          | button name |
       | ${Admin.first name} | send        |
     * user checks in the element "first name" value "${Admin.first name}"
 
   @data=$Fragments
-  Scenario: Relative path data
+  Scenario: Relative path data from scenario
     * user inserts fragment "${Fragment 1.name}"
       | first name                       | button name |
       | $DataFragments{Admin.first name} | send        |
@@ -28,7 +28,7 @@ Feature: Data sources
     * user checks in the element "first name" value "${first name}"
 
   @data-fragment @data=$Fragments
-  Scenario: recursive example of working with data in fragments
+  Scenario: Several identical fragments
     * user inserts fragment "${Fragment 1.name}"
       | first name                       | button name |
       | $DataFragments{Admin.first name} | send        |
@@ -39,7 +39,7 @@ Feature: Data sources
     * user checks in the element "first name" value "$DataFragments{Operator.first name}"
 
   @data-fragment @data=$Fragments
-  Scenario: recursive example of working with data in fragments
+  Scenario: Several fragments
     * user inserts fragment "${Fragment 1.name}"
       | first name                       | button name |
       | $DataFragments{Admin.first name} | send        |
@@ -50,7 +50,7 @@ Feature: Data sources
     * user checks in the element "first name" value "$DataFragments{Operator.first name}"
 
   @data-fragment @data=$Fragments
-  Scenario: recursive example of working with data in fragments
+  Scenario: Several fragments with relative path
     * user inserts fragment "${Fragment 1.name}"
       | first name                       | button name |
       | $DataFragments{Admin.first name} | send        |
