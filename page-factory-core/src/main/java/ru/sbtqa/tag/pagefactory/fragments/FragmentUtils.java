@@ -1,9 +1,12 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import gherkin.ast.Step;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
@@ -20,12 +23,21 @@ class FragmentUtils {
      * @param language step's language
      * @return name of the scenario (fragment) to substitute
      */
-    static String getFragmentName(Step step, String language) {
-        String regex = getFragmentStepRegex(language);
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(step.getText());
-        matcher.find();
-        return matcher.group(1);
+    static String getFragmentName(Step step, String language) throws FragmentException {
+        Map<String, String> props = getFragmentStepRegex(language);
+        for (Map.Entry<String, String> entry : props.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            if (key.startsWith(FRAGMENT_STEP_REGEX_KEY)) {
+                Pattern pattern = Pattern.compile(value);
+                Matcher matcher = pattern.matcher(step.getText());
+                if (matcher.find()) {
+                    return matcher.group(1);
+                }
+            }
+        }
+        throw new FragmentException("Fragment name not found");
     }
 
     /**
@@ -36,8 +48,17 @@ class FragmentUtils {
      * @return returns true if the step needs to be replaced with a fragment
      */
     static boolean isStepFragmentRequire(Step step, String language) {
-        String regex = getFragmentStepRegex(language);
-        return Pattern.matches(regex, step.getText());
+        Map<String, String> props = getFragmentStepRegex(language);
+
+        for (Map.Entry<String, String> entry : props.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            if (key.startsWith(FRAGMENT_STEP_REGEX_KEY) && Pattern.matches(value, step.getText())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -46,7 +67,7 @@ class FragmentUtils {
      * @param language language of regex
      * @return regex of steps in need of replacement
      */
-    private static String getFragmentStepRegex(String language) {
-        return I18N.getI18n(CoreGenericSteps.class, new Locale(language)).get(FRAGMENT_STEP_REGEX_KEY);
+    private static Map<String, String> getFragmentStepRegex(String language) {
+         return I18N.getI18n(CoreGenericSteps.class, new Locale(language)).toMap();
     }
 }

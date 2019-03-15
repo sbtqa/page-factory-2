@@ -5,6 +5,7 @@ import java.util.List;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.data.DataFactory;
 import ru.sbtqa.tag.pagefactory.data.DataParser;
 import ru.sbtqa.tag.pagefactory.fragments.FragmentReplacer;
@@ -15,11 +16,12 @@ public class CucumberAspect {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    @Around("call(* cucumber.api.junit.Cucumber.addChildren(..))")
-    public void replaceSteps(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Pointcut("call(* cucumber.api.junit.Cucumber.addChildren(..)) && args(cucumberFeatures)")
+    public void addChildren(List<CucumberFeature> cucumberFeatures){
+    }
 
-        List<CucumberFeature> cucumberFeatures = (List<CucumberFeature>) joinPoint.getArgs()[0];
-
+    @Around("addChildren(cucumberFeatures)")
+    public void replaceSteps(ProceedingJoinPoint joinPoint, List<CucumberFeature> cucumberFeatures) throws Throwable {
         if (PROPERTIES.isFragmentsEnabled()) {
             FragmentReplacer fragmentReplacer = new FragmentReplacer(cucumberFeatures);
             fragmentReplacer.replace();
@@ -27,7 +29,7 @@ public class CucumberAspect {
 
         if (DataFactory.getDataProvider() != null) {
             DataParser dataParser = new DataParser();
-            dataParser.replaceDataPlaceholders(cucumberFeatures);
+            dataParser.replace(cucumberFeatures);
         }
         joinPoint.proceed();
     }
