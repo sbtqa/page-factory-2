@@ -12,16 +12,13 @@ public class Fill {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    @Pointcut("execution(* ru.sbtqa.tag.pagefactory.*.fill(..)) && if()")
-    public static boolean isFillReportEnabled() {
+    @Pointcut("execution(* ru.sbtqa.tag.stepdefs.*.*.fill(..)) && args(elementTitle, text,..) && if()")
+    public static boolean isFillReportEnabled(String elementTitle, String text) {
         return PROPERTIES.isFillReportEnabled();
     }
 
-    @After("isFillReportEnabled()")
-    public void reportFill(JoinPoint joinPoint) {
-        String elementTitle = (String) joinPoint.getArgs()[0];
-        String text = (String) joinPoint.getArgs()[1];
-
-        ParamsHelper.addParam("\"%s\" is filled with text \"%s\"", new String[]{elementTitle, text});
+    @After("isFillReportEnabled(elementTitle, text)")
+    public void reportFill(JoinPoint joinPoint, String elementTitle, String text) {
+        ParamsHelper.addParam(elementTitle, text);
     }
 }

@@ -12,15 +12,13 @@ public class SetCheckbox {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    @Pointcut("execution(* ru.sbtqa.tag.pagefactory.*.setCheckbox(..)) && if()")
-    public static boolean isSetCheckboxReportEnabled() {
+    @Pointcut("execution(* ru.sbtqa.tag.stepdefs.*.*.setCheckBox(..)) && args(elementTitle,..) && if()")
+    public static boolean isSetCheckboxReportEnabled(String elementTitle) {
         return PROPERTIES.isSetCheckboxReportEnabled();
     }
 
-    @After("isSetCheckboxReportEnabled()")
-    public void reportClick(JoinPoint joinPoint) {
-        String elementTitle = (String) joinPoint.getArgs()[0];
-
-        ParamsHelper.addParam("'%s is checked'", new String[]{elementTitle});
+    @After("isSetCheckboxReportEnabled(elementTitle)")
+    public void reportClick(JoinPoint joinPoint, String elementTitle) {
+        ParamsHelper.addParam(elementTitle, "true");
     }
 }
