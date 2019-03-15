@@ -12,16 +12,13 @@ public class Select {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    @Pointcut("execution(* ru.sbtqa.tag.pagefactory.*.select(..)) && if()")
-    public static boolean isSelectReportEnabled() {
+    @Pointcut("execution(* ru.sbtqa.tag.stepdefs.*.*.select(..)) && args(elementTitle, option,..) && if()")
+    public static boolean isSelectReportEnabled(String elementTitle, String option) {
         return PROPERTIES.isSelectReportEnabled();
     }
 
-    @After("isSelectReportEnabled()")
-    public void reportClick(JoinPoint joinPoint) {
-        String elementTitle = (String) joinPoint.getArgs()[0];
-        String option = (String) joinPoint.getArgs()[1];
-
-        ParamsHelper.addParam("In the select \"%s\" is selected option \"%s\"", new String[]{elementTitle, option});
+    @After("isSelectReportEnabled(elementTitle, option)")
+    public void reportClick(JoinPoint joinPoint, String elementTitle, String option) {
+        ParamsHelper.addParam(elementTitle, option);
     }
 }

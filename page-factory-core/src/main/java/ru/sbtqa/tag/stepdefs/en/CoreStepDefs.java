@@ -5,6 +5,7 @@ import cucumber.api.Transform;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.java.ru.Когда;
 
@@ -134,9 +135,12 @@ public class CoreStepDefs {
         coreSteps.isElementFocused(element);
     }
 
+
     @And("^(?:user |he )?inserts fragment \"([^\"]*)\"$")
+    @When("^(?:user |he )?performs \"([^\"]*)\"$")
+    @Then("^(?:user |he |)performs \"([^\"]*)\" scenario$")
     public void userInsertsFragment(String fragmentName) throws FragmentException {
-        coreSteps.userInsertsFragment(fragmentName);
+            coreSteps.userInsertsFragment(fragmentName);
     }
 
     @Когда("^(?:user |he )?is waiting for the element to appear \"([^\"]*)\"$")

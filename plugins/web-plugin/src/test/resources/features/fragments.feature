@@ -8,13 +8,13 @@ Feature: Check fragments functional
   Scenario Outline: Check fragments functional
 
     #CHECKS
-    * user inserts fragment "checks fragment"
+    * user performs "checks fragment"
 
     #ACTIONS
     * user (clears all of the fields)
 
     #click
-    * user inserts fragment "click fragment"
+    * user performs "click fragment" scenario
 
     #fill
     * user inserts fragment "fill fragment"
