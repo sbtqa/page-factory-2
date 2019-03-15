@@ -1,8 +1,8 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.web.junit;
 
 import static java.lang.ThreadLocal.withInitial;
 
-public class WebSteps extends WebGenericSteps<WebSteps> {
+public class WebSteps extends WebStepsImpl<WebSteps> {
 
     static final ThreadLocal<WebSteps> storage = withInitial(WebSteps::new);
 

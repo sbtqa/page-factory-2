@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.api.junit;
 
 import java.util.Map;
 import ru.sbtqa.tag.api.annotation.ParameterType;
@@ -10,8 +10,6 @@ import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.storage.EndpointBlank;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
-
-import static java.lang.ThreadLocal.withInitial;
 
 /**
  * Basic step definitions, that should be available on every project
@@ -31,26 +29,20 @@ import static java.lang.ThreadLocal.withInitial;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class ApiSteps extends ApiSetupSteps {
+public class ApiStepsImpl<T extends ApiStepsImpl<T>> {
 
-    public ApiSteps() {
-        initApi();
-    }
-
-    static final ThreadLocal<ApiSteps> storage = withInitial(ApiSteps::new);
-
-    public static ApiSteps getInstance() {
-        return storage.get();
+    public ApiStepsImpl() {
+        ApiSetupSteps.initApi();
     }
 
     /**
      * Execute the last endpoint (request) in {@link BlankStorage} with no
      * parameters.
      */
-    public ApiSteps send() {
+    public T send() {
         String endpoint = ApiEnvironment.getBlankStorage().getLast().getTitle();
         EndpointManager.getEndpoint(endpoint).send();
-        return this;
+        return (T) this;
     }
 
     /**
@@ -58,9 +50,9 @@ public class ApiSteps extends ApiSetupSteps {
      *
      * @param endpoint class of the endpoint annotation to execute
      */
-    public ApiSteps send(Class endpoint) {
+    public T send(Class endpoint) {
         EndpointManager.getEndpoint(endpoint).send();
-        return this;
+        return (T) this;
     }
 
     /**
@@ -68,9 +60,9 @@ public class ApiSteps extends ApiSetupSteps {
      *
      * @param endpoint name value of the endpoint annotation to execute
      */
-    public ApiSteps send(String endpoint) {
+    public T send(String endpoint) {
         EndpointManager.getEndpoint(endpoint).send();
-        return this;
+        return (T) this;
     }
 
     /**
@@ -80,9 +72,9 @@ public class ApiSteps extends ApiSetupSteps {
      * @param endpoint name value of the endpoint annotation to execute
      * @param data table of parameters
      */
-    public ApiSteps send(String endpoint, Map<String, String> data) {
+    public T send(String endpoint, Map<String, String> data) {
         EndpointManager.getEndpoint(endpoint).send(data);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -92,9 +84,9 @@ public class ApiSteps extends ApiSetupSteps {
      * @param endpoint class of the endpoint annotation to execute
      * @param data table of parameters
      */
-    public ApiSteps send(Class endpoint, Map<String, String> data) {
+    public T send(Class endpoint, Map<String, String> data) {
         EndpointManager.getEndpoint(endpoint).send(data);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -135,14 +127,14 @@ public class ApiSteps extends ApiSetupSteps {
      *
      * @param title endpoint title
      */
-    public ApiSteps fill(String title) {
+    public T fill(String title) {
         ApiEnvironment.getBlankStorage().add(new EndpointBlank(title));
-        return this;
+        return (T) this;
     }
 
-    public ApiSteps fill(Class endpoint) {
+    public T fill(Class endpoint) {
         ApiEnvironment.getBlankStorage().add(new EndpointBlank(endpoint));
-        return this;
+        return (T) this;
     }
 
     /**
@@ -153,7 +145,7 @@ public class ApiSteps extends ApiSetupSteps {
      * @param value with this value the parameter will be added to endpoint
      * blank
      */
-    public ApiSteps add(String parameterType, String name, String value) {
+    public T add(String parameterType, String name, String value) {
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         return add(type, name, value);
     }
@@ -166,9 +158,9 @@ public class ApiSteps extends ApiSetupSteps {
      * @param value with this value the parameter will be added to endpoint
      * blank
      */
-    public ApiSteps add(ParameterType type, String name, String value) {
+    public T add(ParameterType type, String name, String value) {
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, name, value);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -177,11 +169,11 @@ public class ApiSteps extends ApiSetupSteps {
      * @param type {@link ParameterType} of parameters
      * @param data parameters name-value pairs
      */
-    public ApiSteps add(ParameterType type, Map<String, String> data) {
+    public T add(ParameterType type, Map<String, String> data) {
         for (Map.Entry<String, String> dataTableRow : data.entrySet()) {
             ApiEnvironment.getBlankStorage().getLast().addParameter(type, dataTableRow.getKey(), dataTableRow.getValue());
         }
-        return this;
+        return (T) this;
     }
 
     /**
@@ -195,9 +187,9 @@ public class ApiSteps extends ApiSetupSteps {
      * @param fromEndpointTitle get response with this title
      * @param path get value from body by this path
      */
-    public ApiSteps addToBody(String parameterType, String parameterName, String fromEndpointTitle, String path) {
+    public T addToBody(String parameterType, String parameterName, String fromEndpointTitle, String path) {
         addToBody(parameterType, parameterName, fromEndpointTitle, path, "");
-        return this;
+        return (T) this;
     }
 
     /**
@@ -212,13 +204,13 @@ public class ApiSteps extends ApiSetupSteps {
      * @param path get value from body by this path
      * @param mask apply mask on this value
      */
-    public ApiSteps addToBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
+    public T addToBody(String parameterType, String parameterName, String fromEndpointTitle, String path, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
         String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, "", path, mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -232,9 +224,9 @@ public class ApiSteps extends ApiSetupSteps {
      * @param fromEndpointTitle get response with this title
      * @param headerName get value from header with this name
      */
-    public ApiSteps addToHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName) {
+    public T addToHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName) {
         addToBody(parameterType, parameterName, fromEndpointTitle, headerName, "");
-        return this;
+        return (T) this;
     }
 
     /**
@@ -249,12 +241,13 @@ public class ApiSteps extends ApiSetupSteps {
      * @param headerName get value from header with this name
      * @param mask apply mask on this value
      */
-    public ApiSteps addToHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
+    public T addToHeader(String parameterType, String parameterName, String fromEndpointTitle, String headerName, String mask) {
         Class fromEndpoint = ApiEnvironment.getRepository().get(fromEndpointTitle);
         String value = (String) FromResponseUtils.getValueFromResponse(fromEndpoint, headerName, "", mask, true);
 
         ParameterType type = ParameterType.valueOf(parameterType.toUpperCase());
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, parameterName, value);
-        return this;
+        return (T) this;
     }
+
 }

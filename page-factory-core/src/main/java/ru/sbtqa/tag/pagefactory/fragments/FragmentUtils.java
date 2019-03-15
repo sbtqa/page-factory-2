@@ -1,14 +1,13 @@
 package ru.sbtqa.tag.pagefactory.fragments;
 
 import gherkin.ast.Step;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
+import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.qautils.i18n.I18N;
-import ru.sbtqa.tag.stepdefs.CoreGenericSteps;
 
 class FragmentUtils {
 
@@ -68,6 +67,6 @@ class FragmentUtils {
      * @return regex of steps in need of replacement
      */
     private static Map<String, String> getFragmentStepRegex(String language) {
-         return I18N.getI18n(CoreGenericSteps.class, new Locale(language)).toMap();
+         return I18N.getI18n(CoreSteps.class, new Locale(language)).toMap();
     }
 }

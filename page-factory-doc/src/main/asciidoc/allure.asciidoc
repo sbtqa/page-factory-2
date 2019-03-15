@@ -31,3 +31,47 @@
 После выполнения тестов в папке allure-results/ будут созданы json файлы с результатами прохождения тестов - для каждого теста отдельный файл. В отчетах можно в том числе найти скриншоты (в момент падения теста) и ссылки на видео (если велась запись).
 
 Просмотреть результаты в виде страницы-отчета можно https://docs.qameta.io/allure/#_reporting[одним из способов^, role="ext-link"]
+
+==== Отчеты и Fluent API
+Для того чтобы отчеты содержали шаги, которые вы используете в тестах без `cucumber`, необходимо следующее:
+
+{counter:a}. Добавить `allure` зависимость в проект
+[source,]
+----
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit4</artifactId>
+      <version>2.10.0</version>
+      <scope>test</scope>
+    </dependency>
+----
+
+{counter:a}. Добавить `listener` в конфигурацию `maven-surefire-plugin`
+[source,]
+----
+<properties>
+  <property>
+    <name>listener</name>
+    <value>io.qameta.allure.junit4.AllureJunit4</value>
+  </property>
+</properties>
+----
+
+{counter:a}. В случае, если требуется английская локализация фреймворк-шагов, то добавить в `application.properties`
+[source,]
+----
+   junit.lang = en
+----
+TIP: По умолчанию язык русский
+
+{counter:a}. Свои методы следует аннотировать `@Step`
+
+Пример:
+[source,java]
+----
+    @Step("Мой тестовый метод \"{parameter}\"")
+    public T yourMethod(String parameter) {
+        ...
+        return (T) this;
+    }
+----

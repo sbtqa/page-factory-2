@@ -20,7 +20,7 @@ WARNING: Каждый метод вашего класса с шгами дол�
 Пример класса::
 [source,  subs="attributes+"]
 ----
-public class YourGenericSteps<T extends YourGenericSteps<T>> extends {stg}<T> {
+public class YourStepsImpl<T extends YourStepsImpl<T>> extends {stg}<T> {
     public T yourMethod() {
         ...
         return (T) this;
@@ -31,7 +31,7 @@ public class YourGenericSteps<T extends YourGenericSteps<T>> extends {stg}<T> {
 Далее на основе этого класса нужно создать строго типизированный класс, который позволит до комплияции понимать, с каким контекстом происходит взаимодействие в текущий  момент. Сделать это можно следующим образом:
 [source,]
 ----
-public class YourSteps extends YourGenericSteps<YourSteps> {
+public class YourSteps extends YourStepsImpl<YourSteps> {
      private static YourSteps instance;
      
      public static YourSteps getInstance() {

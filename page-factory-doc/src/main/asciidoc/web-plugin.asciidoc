@@ -4,7 +4,7 @@
 :plug: web-plugin
 :pn: WebPage
 :st: WebSteps
-:stg: WebGenericSteps
+:stg: WebStepsImpl
 :act: WebPageActions
 :ref: DefaultReflection
 

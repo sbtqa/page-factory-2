@@ -1,8 +1,8 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.mobile.junit;
 
 import static java.lang.ThreadLocal.withInitial;
 
-public class MobileSteps extends MobileGenericSteps<MobileSteps> {
+public class MobileSteps extends MobileStepsImpl<MobileSteps> {
 
     static final ThreadLocal<MobileSteps> storage = withInitial(MobileSteps::new);
 

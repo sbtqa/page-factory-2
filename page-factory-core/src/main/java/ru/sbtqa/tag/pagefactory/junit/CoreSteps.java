@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.junit;
 
 import cucumber.api.DataTable;
 import static java.lang.String.format;
@@ -38,16 +38,16 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
- * @param <T> type of steps - any successor {@code CoreGenericSteps}
+ * @param <T> type of steps - any successor {@code CoreStepsImpl}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
+public class CoreSteps<T extends CoreSteps<T>> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CoreGenericSteps.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoreSteps.class);
     private static final Configuration PROPERTIES = Configuration.create();
 
-    public CoreGenericSteps() {
+    public CoreSteps() {
         CoreSetupSteps.preSetUp();
         CoreSetupSteps.setUp();
     }
