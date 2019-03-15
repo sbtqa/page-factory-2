@@ -16,12 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
+
+import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_REGEX;
 
 public class DataParser {
 
-    public void replace(List<CucumberFeature> cucumberFeatures) throws DataException, IllegalAccessException {
+    private static final Configuration PROPERTIES = Configuration.create();
+
+    private String featureDataTagValue;
+    private String currentScenarioDataTagValue;
+
+    public void replaceDataPlaceholders(List<CucumberFeature> cucumberFeatures) throws DataException, IllegalAccessException {
+
         for (CucumberFeature cucumberFeature : cucumberFeatures) {
-            String featureData = DataUtils.formFeatureData(cucumberFeature);
+            featureDataTagValue = "$" + PROPERTIES.getDataInitialCollection();
+            GherkinDocument gherkinDocument = cucumberFeature.getGherkinFeature();
+            Feature feature = gherkinDocument.getFeature();
 
             List<ScenarioDefinition> featureChildren = DataUtils.getScenarioDefinitions(cucumberFeature);
 

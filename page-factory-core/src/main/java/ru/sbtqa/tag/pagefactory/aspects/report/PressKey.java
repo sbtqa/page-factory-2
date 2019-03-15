@@ -12,15 +12,13 @@ public class PressKey {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    @Pointcut("execution(* ru.sbtqa.tag.pagefactory.*.pressKey(..)) && if()")
-    public static boolean isPressKeyReportEnabled() {
+    @Pointcut("execution(* ru.sbtqa.tag.stepdefs.*.*.pressKey(..)) && args(keyName,..) && if()")
+    public static boolean isPressKeyReportEnabled(String keyName) {
         return PROPERTIES.isPressKeyReportEnabled();
     }
 
-    @After("isPressKeyReportEnabled()")
-    public void reportClick(JoinPoint joinPoint) {
-        String keyName = (String) joinPoint.getArgs()[0];
-
-        ParamsHelper.addParam("\"%s\" is pressed", new String[]{keyName});
+    @After("isPressKeyReportEnabled(keyName)")
+    public void reportClick(JoinPoint joinPoint, String keyName) {
+        ParamsHelper.addParam("Key pressed", keyName);
     }
 }

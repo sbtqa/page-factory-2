@@ -12,15 +12,13 @@ public class Click {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    @Pointcut("execution(* ru.sbtqa.tag.pagefactory.*.click(..)) && if()")
-    public static boolean isClickReportEnabled() {
+    @Pointcut("execution(* ru.sbtqa.tag.stepdefs.*.*.click(..)) && args(elementTitle,..) && if()")
+    public static boolean isClickReportEnabled(String elementTitle) {
         return PROPERTIES.isClickReportEnabled();
     }
 
-    @After("isClickReportEnabled()")
-    public void reportClick(JoinPoint joinPoint) {
-        String elementTitle = (String) joinPoint.getArgs()[0];
-
-        ParamsHelper.addParam("\"%s\" is clicked", new String[]{elementTitle});
+    @After("isClickReportEnabled(elementTitle)")
+    public void reportClick(JoinPoint joinPoint, String elementTitle) {
+        ParamsHelper.addParam("Button pressed", elementTitle);
     }
 }
