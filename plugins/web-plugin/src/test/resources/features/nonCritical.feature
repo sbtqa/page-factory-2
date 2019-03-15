@@ -24,5 +24,9 @@ Feature: Test non critical
     * ? user checks in the element "first name" value "Alex"
 
   @non-critical-one-step
-  Scenario: Failed and skipped
+  Scenario: Failed non-critical test at the end of scenario
     * ? user is on the page "Non existent page"
+
+  @non-critical-user-error
+  Scenario: Check processing noncritical user error
+    * test non critical user error

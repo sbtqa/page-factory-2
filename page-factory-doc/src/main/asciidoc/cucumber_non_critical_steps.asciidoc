@@ -21,4 +21,22 @@
 
 Посмотреть, какие сценарии содержат некритичные ошибки можно на вкладке `Categories` отчета в категории `Non-critical failures`
 
-image::images/non_critical.png[]
+image::images/non-critical.png[]
+
+==== Некритичные пользовательские ошибки
+Если возникает ситуация, когда в шаге или глагольном выражении в зависимости от ситуации ошибка может быть как критичной так и не критичной, то можно для второй ситуации использовать `AllureNonCriticalError`. Например:
+[source, ]
+----
+    @Given("^check string \"([^\"]*)\"$")
+    public void checkString(String str) {
+        if (str.isEmpty()) {
+            throw new AllureNonCriticalError("String is empty!");
+        } else {
+            Assert.assertEquals("Strings are not equal", "expected", str);
+        }
+    }
+----
+
+Обработка некритичной ошибки происходит аналогично работе с некритиными шагами
+
+image::images/non-critical-error.png[]
