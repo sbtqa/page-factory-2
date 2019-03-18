@@ -5,7 +5,7 @@
   <parent>
     <groupId>ru.sbtqa.tag</groupId>
     <artifactId>page-factory-2</artifactId>
-    <version>11.0-SNAPSHOT</version>
+    <version>12.0-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
 
