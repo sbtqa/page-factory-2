@@ -42,6 +42,7 @@ public class ApiStepsImpl<T extends ApiStepsImpl<T>> {
     public T send() {
         String endpoint = ApiEnvironment.getBlankStorage().getLast().getTitle();
         EndpointManager.getEndpoint(endpoint).send();
+        ApiEnvironment.getBlankStorage().removeLast();
         return (T) this;
     }
 
