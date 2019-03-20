@@ -33,4 +33,12 @@ public class BlankStorage {
             throw new RestPluginException("The blank repository is empty");
         }
     }
+
+    public void removeLast() {
+        if (!blanks.isEmpty()) {
+            blanks.remove(blanks.size() - 1);
+        } else {
+            throw new RestPluginException("The blank repository is empty");
+        }
+    }
 }
