@@ -2,6 +2,7 @@ package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.runtime.model.CucumberFeature;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,6 +23,11 @@ public class CucumberAspect {
 
     @Around("addChildren(cucumberFeatures)")
     public void replaceSteps(ProceedingJoinPoint joinPoint, List<CucumberFeature> cucumberFeatures) throws Throwable {
+        // filter out empty files
+        cucumberFeatures = cucumberFeatures.stream()
+                .filter(cucumberFeature -> cucumberFeature.getGherkinFeature().getFeature() != null)
+                .collect(Collectors.toList());
+
         if (PROPERTIES.isFragmentsEnabled()) {
             FragmentReplacer fragmentReplacer = new FragmentReplacer(cucumberFeatures);
             fragmentReplacer.replace();
