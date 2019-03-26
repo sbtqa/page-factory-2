@@ -6,10 +6,12 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -53,7 +55,7 @@ public class DefaultReflection implements Reflection {
         List<Method> methods = getDeclaredMethods(context.getClass());
         for (Method method : methods) {
             if (isRequiredAction(method, title)
-                    && method.getParameterCount() == param.length) {
+                    && isArgumentsIdentical(method, param)) {
                 try {
                     method.setAccessible(true);
                     method.invoke(context, param);
@@ -65,7 +67,26 @@ public class DefaultReflection implements Reflection {
             }
         }
 
-        throw new NoSuchActionError("There is no '" + title + "' method with '" + param.length + "' parameter(s) on '" + context.getClass());
+        throw new NoSuchActionError("There is no '" + title + "' method with parameters ['"
+                + Arrays.stream(param).map(s -> s.getClass().toString()).collect(Collectors.joining(", "))
+                + "'] on page '" + context.getClass() + "'");
+    }
+
+    private boolean isArgumentsIdentical(Method method, Object... parameters) {
+        if (method.getParameterCount() != parameters.length) {
+            return false;
+        } else if (method.getParameterCount() == 0) {
+            return true;
+        } else {
+            int index = 0;
+            for (Parameter parameter : method.getParameters()) {
+                if (!parameter.getType().isInstance(parameters[index])) {
+                    return false;
+                }
+                index++;
+            }
+            return true;
+        }
     }
 
     @Override
