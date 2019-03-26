@@ -72,18 +72,16 @@ public class DefaultReflection implements Reflection {
                 + "'] on page '" + context.getClass() + "'");
     }
 
-    private boolean isArgumentsIdentical(Method method, Object... parameters) {
-        if (method.getParameterCount() != parameters.length) {
+    private boolean isArgumentsIdentical(Method method, Object... actionParameters) {
+        Parameter[] methodParameters = method.getParameters();
+        if (methodParameters.length != actionParameters.length) {
             return false;
-        } else if (method.getParameterCount() == 0) {
-            return true;
         } else {
-            int index = 0;
-            for (Parameter parameter : method.getParameters()) {
-                if (!parameter.getType().getName().equals(parameters[index].getClass().getName())) {
+            for (int index = 0; index < methodParameters.length; index++) {
+                if (!methodParameters[index].getType().getName()
+                        .equals(actionParameters[index].getClass().getName())) {
                     return false;
                 }
-                index++;
             }
             return true;
         }
