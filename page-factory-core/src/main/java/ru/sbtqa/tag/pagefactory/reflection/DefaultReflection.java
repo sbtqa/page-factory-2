@@ -52,19 +52,20 @@ public class DefaultReflection implements Reflection {
     public void executeMethodByTitle(Object context, String title, Object... param) throws NoSuchMethodException {
         List<Method> methods = getDeclaredMethods(context.getClass());
         for (Method method : methods) {
-            if (isRequiredAction(method, title)) {
+            if (isRequiredAction(method, title)
+                    && method.getParameterCount() == param.length) {
                 try {
                     method.setAccessible(true);
                     method.invoke(context, param);
                     return;
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " 
+                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on "
                             + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e));
                 }
             }
         }
 
-        throw new NoSuchActionError("There is no '" + title + "' method on '" + context.getClass());
+        throw new NoSuchActionError("There is no '" + title + "' method with '" + param.length + "' parameter(s) on '" + context.getClass());
     }
 
     @Override
