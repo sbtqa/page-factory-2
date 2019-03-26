@@ -80,7 +80,7 @@ public class DefaultReflection implements Reflection {
         } else {
             int index = 0;
             for (Parameter parameter : method.getParameters()) {
-                if (!parameter.getType().isInstance(parameters[index])) {
+                if (!parameter.getType().getName().equals(parameters[index].getClass().getName())) {
                     return false;
                 }
                 index++;
