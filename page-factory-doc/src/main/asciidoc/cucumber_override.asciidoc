@@ -12,7 +12,7 @@
 
 [source,  subs="attributes+"]
 ----
-public class YourGenericSteps<T extends YourGenericSteps<T>> extends {stg}<T> {
+public class YourStepsImpl<T extends YourStepsImpl<T>> extends {stg}<T> {
     @Override
     public T click(String elementTitle) throws PageException {
         ...

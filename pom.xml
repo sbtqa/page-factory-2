@@ -4,7 +4,7 @@
 
   <groupId>ru.sbtqa.tag</groupId>
   <artifactId>page-factory-2</artifactId>
-  <version>11.0-SNAPSHOT</version>
+  <version>12.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>page-factory-2</name>
@@ -62,10 +62,10 @@
     <spring.version>4.2.4.RELEASE</spring.version>
     <activemq.version>5.13.0</activemq.version>
     <surefire.version>2.22.1</surefire.version>
-    <tag.version.qautils>1.4.0</tag.version.qautils>
+    <tag.version.qautils>1.5.0</tag.version.qautils>
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
-    <tag.version.datajack>4.0.4</tag.version.datajack>
+    <tag.version.datajack>4.1.0</tag.version.datajack>
     <allure.version>2.10.0</allure.version>
   </properties>
 

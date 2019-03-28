@@ -12,6 +12,7 @@
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.CriticalStepCheckAspect"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.StashAspect"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.PrintParameters"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.JUnitCoreStepAspect"/>
     </aspects>
     <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
         <include within="ru.sbtqa.tag..*"/>

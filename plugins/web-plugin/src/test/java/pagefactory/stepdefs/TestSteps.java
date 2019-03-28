@@ -3,17 +3,24 @@ package pagefactory.stepdefs;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import java.util.Map;
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-import ru.sbtqa.tag.stepdefs.WebSteps;
+
+import java.util.Map;
 
 public class TestSteps {
 
     @Given("^failed step$")
     public void fail() {
         throw new AutotestError("It's error");
+    }
+
+    @Given("^test non critical user error$")
+    public void fail_non_critical() {
+        throw new AllureNonCriticalError("It's non critical error");
     }
 
     @Given("^stores the value \"([^\"]*)\" in a variable \"([^\"]*)\"$")

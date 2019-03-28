@@ -1,12 +1,12 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.junit;
 
 import cucumber.api.DataTable;
-import static java.lang.String.format;
 import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
@@ -17,6 +17,8 @@ import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+
+import static java.lang.String.format;
 
 /**
  * Basic step definitions, that should be available on every project Notations
@@ -38,16 +40,16 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
- * @param <T> type of steps - any successor {@code CoreGenericSteps}
+ * @param <T> type of steps - any successor {@code CoreStepsImpl}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
+public class CoreSteps<T extends CoreSteps<T>> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CoreGenericSteps.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoreSteps.class);
     private static final Configuration PROPERTIES = Configuration.create();
 
-    public CoreGenericSteps() {
+    public CoreSteps() {
         CoreSetupSteps.preSetUp();
         CoreSetupSteps.setUp();
     }
@@ -308,6 +310,10 @@ public class CoreGenericSteps<T extends CoreGenericSteps<T>> {
     }
     
     private <E> E getElement(String elementTitle) throws PageException {
+        Page currentPage = PageContext.getCurrentPage();
+        if (currentPage == null) {
+            throw new PageException("Current page is undefined. Please execute \"open page\" step first");
+        }
         return Environment.getFindUtils().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
     }
 

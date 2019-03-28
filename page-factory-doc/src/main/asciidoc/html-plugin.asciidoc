@@ -4,7 +4,7 @@
 :plug: html-plugin
 :pn: HTMLPage
 :st: HtmlSteps
-:stg: HtmlGenericSteps
+:stg: HtmlStepsImpl
 :act: HtmlPageActions
 :ref: HtmlReflection
 

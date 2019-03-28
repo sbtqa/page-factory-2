@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.junit;
 
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.environment.Environment;

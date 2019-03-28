@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.mobile.junit;
 
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.environment.Environment;

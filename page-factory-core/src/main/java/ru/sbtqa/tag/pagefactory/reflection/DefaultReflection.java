@@ -6,10 +6,12 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -52,19 +54,37 @@ public class DefaultReflection implements Reflection {
     public void executeMethodByTitle(Object context, String title, Object... param) throws NoSuchMethodException {
         List<Method> methods = getDeclaredMethods(context.getClass());
         for (Method method : methods) {
-            if (isRequiredAction(method, title)) {
+            if (isRequiredAction(method, title)
+                    && isArgumentsIdentical(method, param)) {
                 try {
                     method.setAccessible(true);
                     method.invoke(context, param);
                     return;
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on " 
+                    throw new FactoryRuntimeException("Error while executing action '" + title + "' on "
                             + method.getDeclaringClass().getSimpleName() + " . See the caused exception below", ExceptionUtils.getRootCause(e));
                 }
             }
         }
 
-        throw new NoSuchActionError("There is no '" + title + "' method on '" + context.getClass());
+        throw new NoSuchActionError("There is no '" + title + "' method with parameters ['"
+                + Arrays.stream(param).map(s -> s.getClass().toString()).collect(Collectors.joining(", "))
+                + "'] on page '" + context.getClass() + "'");
+    }
+
+    private boolean isArgumentsIdentical(Method method, Object... actionParameters) {
+        Parameter[] methodParameters = method.getParameters();
+        if (methodParameters.length != actionParameters.length) {
+            return false;
+        } else {
+            for (int index = 0; index < methodParameters.length; index++) {
+                if (!methodParameters[index].getType().getName()
+                        .equals(actionParameters[index].getClass().getName())) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     @Override

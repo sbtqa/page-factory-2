@@ -5,7 +5,7 @@
   <parent>
     <groupId>ru.sbtqa.tag</groupId>
     <artifactId>page-factory-2</artifactId>
-    <version>11.0-SNAPSHOT</version>
+    <version>12.0-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
 
@@ -58,6 +58,12 @@
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-jmx</artifactId>
       <version>${jetty.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit4</artifactId>
+      <version>2.10.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -120,6 +126,12 @@
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
             -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
           </argLine>
+          <properties>
+            <property>
+              <name>listener</name>
+              <value>io.qameta.allure.junit4.AllureJunit4</value>
+            </property>
+          </properties>
           <classpathDependencyExcludes>
             <classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>
           </classpathDependencyExcludes>

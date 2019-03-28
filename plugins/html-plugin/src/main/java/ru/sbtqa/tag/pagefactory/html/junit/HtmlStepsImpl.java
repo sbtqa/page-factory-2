@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.stepdefs;
+package ru.sbtqa.tag.pagefactory.html.junit;
 
 import cucumber.api.DataTable;
 import java.util.List;
@@ -8,6 +8,7 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
+import ru.sbtqa.tag.pagefactory.web.junit.WebStepsImpl;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import ru.yandex.qatools.htmlelements.element.*;
 
@@ -31,7 +32,7 @@ import ru.yandex.qatools.htmlelements.element.*;
  * To pass a list as parameter, use flattened table as follows: | value 1 | }
  * value 2 |
  *
- * @param <T> type of steps - any successor {@code HtmlGenericSteps}
+ * @param <T> type of steps - any successor {@code HtmlStepsImpl}
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  *
@@ -39,9 +40,9 @@ import ru.yandex.qatools.htmlelements.element.*;
  * Step Definitions for html-plugin.
  * Common action with pages describes by html-elements.
  */
-public class HtmlGenericSteps<T extends HtmlGenericSteps<T>> extends WebGenericSteps<T> {
+public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> {
 
-    public HtmlGenericSteps() {
+    public HtmlStepsImpl() {
         HtmlSetupSteps.initHtml();
     }
 

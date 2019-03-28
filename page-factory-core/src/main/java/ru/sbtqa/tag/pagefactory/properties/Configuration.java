@@ -2,6 +2,8 @@ package ru.sbtqa.tag.pagefactory.properties;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigFactory;
 import ru.sbtqa.tag.qautils.properties.Props;
@@ -94,8 +96,30 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getDataDb();
 
+
+    @Key("junit.lang")
+    @DefaultValue("ru")
+    String getJunitLang();
+
+
+    @Key("db.${name}.url")
+    String getDbUrl();
+
+    static Configuration create() {
+        return create(new HashMap());
+    }
+
+    static Configuration create(Map properties) {
+        return Configuration.init(Configuration.class, properties);
+    }
+
     static <T extends Config> T init(Class<T> configuration) {
+        return init(configuration, new HashMap());
+    }
+
+    static <T extends Config> T init(Class<T> configuration, Map properties) {
         java.util.Properties allProps = Props.getProps();
+        allProps.putAll(properties);
 
         Arrays.asList(configuration.getMethods()).stream()
                 .forEach((Method method) -> {
@@ -110,9 +134,5 @@ public interface Configuration extends Config {
         allProps.putAll(System.getProperties());
 
         return ConfigFactory.create(configuration, allProps);
-    }
-
-    static Configuration create() {
-        return Configuration.init(Configuration.class);
     }
 }
