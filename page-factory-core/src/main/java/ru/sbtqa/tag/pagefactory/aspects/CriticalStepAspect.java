@@ -38,7 +38,12 @@ public class CriticalStepAspect {
 
     @Around(value = "addSignOfCritically(featurePath, step)")
     public Object addSignOfCritically(ProceedingJoinPoint joinPoint, String featurePath, PickleStep step) throws Throwable {
-        PickleStepCustom pickleStepCustom = new PickleStepCustom(step);
+        PickleStepCustom pickleStepCustom;
+        if (!(step instanceof PickleStepCustom)){
+            pickleStepCustom = new PickleStepCustom(step);
+        } else {
+            pickleStepCustom = (PickleStepCustom) step;
+        }
         return joinPoint.proceed(new Object[]{featurePath, pickleStepCustom});
     }
 

@@ -154,7 +154,7 @@ public class HtmlFindUtils extends FindUtils {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException
      * Error get element by field
      */
-    public <T extends WebElement> List<T> findList(T context, String name) throws ElementDescriptionException {
+    public <T extends WebElement, E extends WebElement> List<E> findList(T context, String name) throws ElementDescriptionException {
         ComplexElement element = new ComplexElement(context, name, false);
         Field field;
 
@@ -176,7 +176,7 @@ public class HtmlFindUtils extends FindUtils {
             throw new IncorrectElementTypeError(format("The element was found, "
                     + "but it is not a list. The search was performed along the way: %s", name));
         }
-        return (List<T>) getElementByField(element, field);
+        return (List<E>) getElementByField(element, field);
     }
 
     private Object getElementByField(ComplexElement element, Field field) throws ElementDescriptionException {

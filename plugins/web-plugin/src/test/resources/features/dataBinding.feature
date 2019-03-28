@@ -27,3 +27,15 @@ Feature: Data sources
     * user checks that the field "first name" is not empty
     * user checks in the element "first name" value "Alex"
     * user checks in the element "first name" that the value is not equal "$Data{Operator.first name}"
+
+  @data=$Data @test_for_viktor
+  Scenario Outline: Register new user
+    * user fills the field "${<role>.field}" "Alex"
+    * user performs "fill fragment"
+      | first name           | button name |
+      | ${<role>.first name} | send        |
+    * user fills the field "${<role>.id}" "Alex"
+
+    Examples:
+      | role  |
+      | Admin |

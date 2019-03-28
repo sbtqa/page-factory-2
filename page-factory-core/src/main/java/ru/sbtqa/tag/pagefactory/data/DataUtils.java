@@ -61,6 +61,11 @@ public class DataUtils {
         return scenarioDataTagValue == null ? featureDataTag : scenarioDataTagValue;
     }
 
+    public static String formScenarioDataTag(ScenarioDefinition scenarioDefinition) {
+        List<Tag> currentScenarioTags = DataUtils.getScenarioTags(scenarioDefinition);
+        return DataUtils.parseDataTags(currentScenarioTags);
+    }
+
     private static String parseDataTags(List<Tag> tags) {
         Optional<Tag> dataTag = tags.stream()
                 .filter(predicate -> predicate.getName().startsWith(DATA_TAG))
