@@ -20,19 +20,17 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.datajack.exceptions.DataException;
 //import ru.sbtqa.tag.pagefactory.data.DataFactory;
-//import ru.sbtqa.tag.pagefactory.data.DataParser;
-import ru.sbtqa.tag.pagefactory.data.DataFactory;
-import ru.sbtqa.tag.pagefactory.data.DataParser;
-import ru.sbtqa.tag.pagefactory.data.StashParser;
+//import ru.sbtqa.tag.pagefactory.data.DataReplacer;
+import ru.sbtqa.tag.pagefactory.data.DataReplacer;
+import ru.sbtqa.tag.pagefactory.data.DataUtils;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 @Aspect
-public class StashAspect {
+public class DataAspect {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StashAspect.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DataAspect.class);
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepStart(TestStepStarted event) {
@@ -64,7 +62,7 @@ public class StashAspect {
 
         if (!tags.isEmpty()) {
             String dataTagName = tags.get(tags.size() - 1).getName();
-            String data = dataTagName.substring(dataTagName.lastIndexOf("=") + 1);
+            String data = DataUtils.getDataTagValue(dataTagName);
 
             event.testCase.getTestSteps().stream()
                     .filter(testStep -> !testStep.isHook())
@@ -128,11 +126,8 @@ public class StashAspect {
     @Around("sendStepStart(event)")
     public void sendStepStart(ProceedingJoinPoint joinPoint, TestStepStarted event) throws Throwable {
         PickleTestStep testStep = (PickleTestStep) event.testStep;
-        StashParser.replaceStep(testStep);
-        if (DataFactory.getDataProvider() != null) {
-//            DataParser dataParser = new DataParser();
-            DataParser.replaceStep(testStep);
-        }
+        DataReplacer dataParser = new DataReplacer();
+        dataParser.replace(testStep);
         joinPoint.proceed(new Object[]{event});
     }
 

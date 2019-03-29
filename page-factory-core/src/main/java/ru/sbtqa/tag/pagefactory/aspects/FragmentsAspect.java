@@ -11,7 +11,7 @@ import ru.sbtqa.tag.pagefactory.fragments.FragmentReplacer;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 @Aspect
-public class CucumberAspect {
+public class FragmentsAspect {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
