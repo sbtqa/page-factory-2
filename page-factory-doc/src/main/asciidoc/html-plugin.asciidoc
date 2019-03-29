@@ -36,6 +36,8 @@ include::html_actions_in_block.asciidoc[]
 
 include::html_steps.asciidoc[]
 
+include::cucumber_non_critical_steps.asciidoc[]
+
 include::cucumber_doc.asciidoc[]
 
 include::web_properties.asciidoc[]
