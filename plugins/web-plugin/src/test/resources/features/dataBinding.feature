@@ -30,8 +30,6 @@ Feature: Data sources
 
   @data=$Data @stash-and-data-outline
   Scenario Outline: Test Stash and data in scenario outline
-    # For testing stash and non critical in not defined step
-#    * ? user filsdsdsdsls the field "first name" with value "${NOT_FOUND}"
     * user fills the field "first name" with value "$Data{<role>.<field>} <prefix>"
     * user checks in the element "first name" value "Alex <prefix>"
     * user fills the field "first name" with value ""
@@ -60,7 +58,6 @@ Feature: Data sources
     * user performs "fill fragment"
       | first name               | button name |
       | $Data{<role>.first name} | send        |
-    * user fills the field "${<role>.id}" "Alex"
 
     Examples:
       | role  | field      | role and field   | full path           | prefix |
@@ -68,8 +65,6 @@ Feature: Data sources
 
   @stash-and-data @data=$Data{Admin}
   Scenario: Test Stash and data in scenario
-    # For testing stash and non critical in not defined step
-#    * ? user filsdsdsdsls the field "first name" with value "${NOT_FOUND}"
     * user fills the field "first name" with value "$Data{Admin.first name} Plesk"
     * user checks in the element "first name" value "Alex Plesk"
     * user fills the field "first name" with value ""
