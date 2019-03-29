@@ -20,12 +20,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import ru.sbtqa.tag.pagefactory.data.DataFactory;
-//import ru.sbtqa.tag.pagefactory.data.DataReplacer;
 import ru.sbtqa.tag.pagefactory.data.DataReplacer;
 import ru.sbtqa.tag.pagefactory.data.DataUtils;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
-import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 @Aspect
 public class DataAspect {
@@ -57,49 +54,41 @@ public class DataAspect {
     @Around("sendCaseStart(event)")
     public Object run(ProceedingJoinPoint joinPoint, TestCaseStarted event) throws Throwable {
         List<PickleTag> tags = event.testCase.getTags().stream()
-                .filter(pickleTag -> pickleTag.getName().startsWith("@data="))
+                .filter(pickleTag -> pickleTag.getName().startsWith(DataUtils.DATA_TAG))
                 .collect(Collectors.toList());
 
         if (!tags.isEmpty()) {
             String dataTagName = tags.get(tags.size() - 1).getName();
             String data = DataUtils.getDataTagValue(dataTagName);
 
-            event.testCase.getTestSteps().stream()
-                    .filter(testStep -> !testStep.isHook())
-                    .forEach(testStep -> {
-                        try {
-                            PickleStep step = testStep.getPickleStep();
-                            PickleStepCustom stepCustom;
-                            if (step instanceof PickleStepCustom) {
-                                stepCustom = (PickleStepCustom) step;
-                                stepCustom.setData(data);
-                            } else {
-                                stepCustom = new PickleStepCustom(testStep.getPickleStep(), data);
-                            }
-                            FieldUtils.writeField(testStep, "step", stepCustom, true);
-                        } catch (IllegalAccessException e) {
-                            throw new AutotestError("Don't write new step");
-                        }
-                    });
+            for (TestStep step : event.testCase.getTestSteps()) {
+                if (!step.isHook()) {
+                    PickleStepCustom stepCustom = changePickleStep(step.getPickleStep());
+                    stepCustom.setData(data);
+                    writePickleStep(step, stepCustom);
+                }
+            }
         }
         return joinPoint.proceed();
+    }
+
+    private void writePickleStep(TestStep step, PickleStepCustom pickleStep) throws IllegalAccessException {
+        FieldUtils.writeField(step, "step", pickleStep, true);
     }
 
     @Around("run(bus,language,scenario,skipSteps)")
     public Object run(ProceedingJoinPoint joinPoint, EventBus bus, String language, Scenario scenario, boolean skipSteps) throws Throwable {
         TestStep testStep = (TestStep) joinPoint.getThis();
         if (!testStep.isHook()) {
-            PickleStep step = testStep.getPickleStep();
-            PickleStepCustom stepCustom;
-            if (step instanceof PickleStepCustom) {
-                stepCustom = (PickleStepCustom) step;
-                stepCustom.setSkipped(skipSteps);
-            } else {
-                stepCustom = new PickleStepCustom(testStep.getPickleStep(), skipSteps);
-            }
-            FieldUtils.writeField(testStep, "step", stepCustom, true);
+            PickleStepCustom stepCustom = changePickleStep(testStep.getPickleStep());
+            stepCustom.setSkipped(skipSteps);
+            writePickleStep(testStep, stepCustom);
         }
         return joinPoint.proceed();
+    }
+
+    private PickleStepCustom changePickleStep(PickleStep step) {
+        return step instanceof PickleStepCustom ? (PickleStepCustom) step : new PickleStepCustom(step);
     }
 
     @Around("executeStep(language,scenario,skipSteps)")

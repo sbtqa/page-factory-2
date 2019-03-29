@@ -14,27 +14,9 @@ public class PickleStepCustom extends PickleStep {
     private Throwable error = null;
     private String log = null;
 
-    public final PickleStep step;
-
     public PickleStepCustom(PickleStep step) {
         super(step.getText(), step.getArgument(), step.getLocations());
-        this.step = step;
         this.setCritical(!step.getText().startsWith(NON_CRITICAL));
-        if (!this.isCritical) {
-            this.setText(step.getText().replaceFirst("\\" + NON_CRITICAL, ""));
-        }
-    }
-
-    public PickleStepCustom(PickleStep step, String data) {
-        super(step.getText(), step.getArgument(), step.getLocations());
-        this.step = step;
-        this.setData(data);
-    }
-
-    public PickleStepCustom(PickleStep step, Boolean isSkipped) {
-        super(step.getText(), step.getArgument(), step.getLocations());
-        this.step = step;
-        this.setSkipped(isSkipped);
     }
 
     public boolean isCritical() {
@@ -86,7 +68,13 @@ public class PickleStepCustom extends PickleStep {
     }
 
     public void setCritical(Boolean critical) {
-        isCritical = critical;
+        this.isCritical = critical;
+    }
+
+    public void replaceNonCriticalText() {
+        if (!this.isCritical) {
+            this.setText(this.getText().replaceFirst("\\" + NON_CRITICAL, ""));
+        }
     }
 
     public void setSkipped(Boolean skipped) {

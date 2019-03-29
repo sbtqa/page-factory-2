@@ -19,7 +19,7 @@ import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_RE
 public class DataUtils {
 
     private static final Configuration PROPERTIES = Configuration.create();
-    private static final String DATA_TAG = "@data=";
+    public static final String DATA_TAG = "@data=";
     private static final String COLLECTION_SIGNATURE = "$";
 
     public static boolean isDataParameter(String dataParameter) {

@@ -22,60 +22,29 @@ public class DataReplacer {
     private static final String COLLECTION_SIGNATURE = "$";
     private final static String STASH_PARSE_REGEX = "(?:\\#\\{([^\\}]+)\\})";
 
-    public String replaceDataPlaceholders(String raw, String currentScenarioData) throws DataException {
-        Pattern stepDataPattern = Pattern.compile(PATH_PARSE_REGEX);
-        Matcher stepDataMatcher = stepDataPattern.matcher(raw);
-        StringBuilder replacedStep = new StringBuilder(raw);
-
-        while (stepDataMatcher.find()) {
-            String collection = stepDataMatcher.group(1);
-            String value = stepDataMatcher.group(2);
-
-            if (collection == null) {
-                DataUtils.parseDataTagValue(currentScenarioData);
-            }
-
-            String builtPath = COLLECTION_SIGNATURE + (collection == null ? "" : collection) + value;
-            String parsedValue = DataFactory.getDataProvider().getByPath(builtPath).getValue();
-            replacedStep.replace(stepDataMatcher.start(), stepDataMatcher.end(), parsedValue);
-            stepDataMatcher = stepDataPattern.matcher(replacedStep);
+    /**
+     * Replaces step data (from stash or data files)
+     *
+     * @param testStep step
+     * @throws IllegalAccessException in case of a field write error
+     * @throws DataException in case of a data parse error
+     */
+    public void replace(PickleTestStep testStep) throws IllegalAccessException, DataException {
+        if (DataFactory.getDataProvider() != null) {
+            replace(testStep, false);
         }
-        return replacedStep.toString();
+        replace(testStep, true);
     }
 
-    private String replaceStashPlaceholders(String replaceableValue) {
-        Pattern stepDataPattern = Pattern.compile(STASH_PARSE_REGEX);
-        Matcher stepDataMatcher = stepDataPattern.matcher(replaceableValue);
-        StringBuilder replacedValue = new StringBuilder(replaceableValue);
-
-        while (stepDataMatcher.find()) {
-            String stashValue = Stash.getValue(stepDataMatcher.group(1));
-            replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
-            stepDataMatcher = stepDataPattern.matcher(replacedValue);
-        }
-        return replacedValue.toString();
+    private void replace(PickleTestStep testStep, boolean isStash) throws IllegalAccessException {
+        PickleStepCustom step = (PickleStepCustom) testStep.getPickleStep();
+        replacePickleArguments(step, isStash);
+        replaceStepArguments(testStep, isStash);
+        replaceStepText(step, isStash);
     }
 
     private void replaceStepText(PickleStepCustom currentStep, boolean isStash) {
         currentStep.setText(replaceData(currentStep, currentStep.getText(), isStash));
-    }
-
-    private String replaceData(PickleStepCustom currentStep, String row, boolean isStash) {
-        String replacedText = row;
-        if (isStash) {
-            try {
-                replacedText = replaceStashPlaceholders(row);
-            } catch (StashKeyNotFoundException ex) {
-                saveMessage(currentStep, ex);
-            }
-        } else {
-            try {
-                replacedText = replaceDataPlaceholders(row, currentStep.getData());
-            } catch (DataException ex) {
-                saveMessage(currentStep, ex);
-            }
-        }
-        return replacedText;
     }
 
     private void replacePickleArguments(PickleStepCustom currentStep, boolean isStash) throws IllegalAccessException {
@@ -95,21 +64,6 @@ public class DataReplacer {
                 FieldUtils.writeField(pickleCell, "value", replaceData(currentStep, pickleCell.getValue(), isStash), true);
             }
         }
-    }
-
-    private void replace(PickleTestStep testStep, boolean isStash) throws IllegalAccessException {
-        PickleStepCustom step = (PickleStepCustom) testStep.getPickleStep();
-        replaceStepArguments(testStep, isStash);
-        replacePickleArguments(step, isStash);
-        replaceStepText(step, isStash);
-    }
-
-
-    public void replace(PickleTestStep testStep) throws IllegalAccessException, DataException {
-        if (DataFactory.getDataProvider() != null) {
-            replace(testStep, false);
-        }
-        replace(testStep, true);
     }
 
     private void replaceStepArguments(PickleTestStep testStep, boolean isStash) throws IllegalAccessException {
@@ -150,14 +104,64 @@ public class DataReplacer {
                 "arguments", replacedArguments, true);
     }
 
-    private void saveMessage(PickleStepCustom currentStep, Throwable message) {
-        if (message != null) {
-            if (currentStep.isSkipped()) {
-                currentStep.setLog(message.getMessage());
-            } else {
-                currentStep.setError(message);
-            }
+    private String replaceData(PickleStepCustom currentStep, String raw, boolean isStash) {
+        String replacedText = raw;
+        try {
+            replacedText = isStash ? replaceStashPlaceholders(raw)
+                    : replaceDataPlaceholders(raw, currentStep.getData());
+        } catch (StashKeyNotFoundException | DataException ex) {
+            saveMessage(currentStep, ex);
         }
+        return replacedText;
     }
 
+    /**
+     * Substitutes data from files into a string
+     *
+     * @param raw replaceable string
+     * @param currentScenarioData scenario data path
+     * @return replaced string
+     * @throws DataException in case of a field write error
+     */
+    public String replaceDataPlaceholders(String raw, String currentScenarioData) throws DataException {
+        Pattern stepDataPattern = Pattern.compile(PATH_PARSE_REGEX);
+        Matcher stepDataMatcher = stepDataPattern.matcher(raw);
+        StringBuilder replacedStep = new StringBuilder(raw);
+
+        while (stepDataMatcher.find()) {
+            String collection = stepDataMatcher.group(1);
+            String value = stepDataMatcher.group(2);
+
+            if (collection == null) {
+                DataUtils.parseDataTagValue(currentScenarioData);
+            }
+
+            String builtPath = COLLECTION_SIGNATURE + (collection == null ? "" : collection) + value;
+            String parsedValue = DataFactory.getDataProvider().getByPath(builtPath).getValue();
+            replacedStep.replace(stepDataMatcher.start(), stepDataMatcher.end(), parsedValue);
+            stepDataMatcher = stepDataPattern.matcher(replacedStep);
+        }
+        return replacedStep.toString();
+    }
+
+    private String replaceStashPlaceholders(String replaceableValue) {
+        Pattern stepDataPattern = Pattern.compile(STASH_PARSE_REGEX);
+        Matcher stepDataMatcher = stepDataPattern.matcher(replaceableValue);
+        StringBuilder replacedValue = new StringBuilder(replaceableValue);
+
+        while (stepDataMatcher.find()) {
+            String stashValue = Stash.getValue(stepDataMatcher.group(1));
+            replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
+            stepDataMatcher = stepDataPattern.matcher(replacedValue);
+        }
+        return replacedValue.toString();
+    }
+
+    private void saveMessage(PickleStepCustom currentStep, Throwable message) {
+        if (currentStep.isSkipped()) {
+            currentStep.setLog(message.getMessage());
+        } else {
+            currentStep.setError(message);
+        }
+    }
 }
