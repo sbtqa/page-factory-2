@@ -10,32 +10,21 @@ public class PickleStepCustom extends PickleStep {
 
     private Boolean isCritical = true;
     private Boolean isSkipped = false;
+    private String data;
     private Throwable error = null;
     private String log = null;
 
-    public final PickleStep step;
-
     public PickleStepCustom(PickleStep step) {
         super(step.getText(), step.getArgument(), step.getLocations());
-        this.step = step;
-        this.isCritical = !step.getText().startsWith(NON_CRITICAL);
-        if (!this.isCritical) {
-            this.setText(step.getText().replaceFirst("\\" + NON_CRITICAL, ""));
-        }
-    }
-
-    public PickleStepCustom(PickleStep step, Boolean isSkipped) {
-        super(step.getText(), step.getArgument(), step.getLocations());
-        this.step = step;
-        this.isSkipped = isSkipped;
+        this.setCritical(!step.getText().startsWith(NON_CRITICAL));
     }
 
     public boolean isCritical() {
-        return isCritical;
+        return this.isCritical;
     }
 
     public boolean isSkipped() {
-        return isSkipped;
+        return this.isSkipped;
     }
 
     public Throwable getError() {
@@ -68,5 +57,27 @@ public class PickleStepCustom extends PickleStep {
         } catch (IllegalAccessException ex) {
             throw new ReadFieldError("Error reading the field: text");
         }
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void setCritical(Boolean critical) {
+        this.isCritical = critical;
+    }
+
+    public void replaceNonCriticalText() {
+        if (!this.isCritical) {
+            this.setText(this.getText().replaceFirst("\\" + NON_CRITICAL, ""));
+        }
+    }
+
+    public void setSkipped(Boolean skipped) {
+        isSkipped = skipped;
     }
 }

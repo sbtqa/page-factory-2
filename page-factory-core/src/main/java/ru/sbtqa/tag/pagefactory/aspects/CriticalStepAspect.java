@@ -1,15 +1,10 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
 import static ru.sbtqa.tag.pagefactory.optional.PickleStepCustom.NON_CRITICAL;
-import cucumber.api.Scenario;
-import cucumber.api.TestStep;
-import cucumber.api.event.TestStepStarted;
-import cucumber.runner.EventBus;
 import cucumber.runtime.Argument;
 import cucumber.runtime.StepDefinition;
 import cucumber.runtime.xstream.LocalizedXStreams;
 import gherkin.pickles.PickleStep;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,7 +33,8 @@ public class CriticalStepAspect {
 
     @Around(value = "addSignOfCritically(featurePath, step)")
     public Object addSignOfCritically(ProceedingJoinPoint joinPoint, String featurePath, PickleStep step) throws Throwable {
-        PickleStepCustom pickleStepCustom = new PickleStepCustom(step);
+        PickleStepCustom pickleStepCustom = step instanceof PickleStepCustom ? (PickleStepCustom) step : new PickleStepCustom(step);
+        pickleStepCustom.replaceNonCriticalText();
         return joinPoint.proceed(new Object[]{featurePath, pickleStepCustom});
     }
 

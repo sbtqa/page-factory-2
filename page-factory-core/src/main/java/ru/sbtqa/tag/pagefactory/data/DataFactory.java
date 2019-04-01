@@ -41,7 +41,7 @@ public class DataFactory {
     private DataFactory() {
     }
 
-    public static TestDataProvider getDataProvider() throws DataException {
+    static TestDataProvider getDataProvider() throws DataException {
         if (testDataProvider == null) {
             String initialCollection = PROPERTIES.getDataInitialCollection();
             String dataFolder = PROPERTIES.getDataFolder();
@@ -86,17 +86,14 @@ public class DataFactory {
         return testDataProvider;
     }
 
-    public static void updateCollection(TestDataProvider newObject) {
+    static void updateCollection(TestDataProvider newObject) {
         testDataProvider = newObject;
     }
 
     private static TestDataProvider initProvider(PROVIDERS provider, Object... args) throws DataException {
         try {
-            Class<? extends TestDataProvider> providerClass =
-                    (Class<? extends TestDataProvider>) DataFactory.class.getClassLoader()
-                            .loadClass(BASE_FQDN + provider.value);
-
-            return ConstructorUtils.invokeConstructor(providerClass, args);
+            Class<?> providerClass = DataFactory.class.getClassLoader().loadClass(BASE_FQDN + provider.value);
+            return (TestDataProvider) ConstructorUtils.invokeConstructor(providerClass, args);
         } catch (ClassNotFoundException e) {
             throw new DataException(format("Could not find data provider %s in classpath. " +
                     "Make sure you're added required maven dependency", provider.getName()));

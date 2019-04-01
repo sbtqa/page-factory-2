@@ -209,6 +209,21 @@ public class ElementUtils {
     }
 
     /**
+     * Finds an element by its text value
+     *
+     * @param <T> type of element passed - any successor {@code WebElement}
+     * @param elements elements list
+     * @param text the text value of the element
+     * @return Returns the element of the specified type and with the given text
+     * value
+     */
+    public static <T extends WebElement> List<T> getElementsByText(List<T> elements, String text) {
+        return elements.stream()
+                .filter(element -> text.equals(element.getText()))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Returns a list element by index
      *
      * @param <T> type of element passed - any successor {@code WebElement}

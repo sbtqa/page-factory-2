@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
+import ru.sbtqa.tag.pagefactory.data.DataReplacer;
 import ru.sbtqa.tag.pagefactory.data.DataUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
@@ -127,7 +128,7 @@ class FragmentCacheUtils {
     }
 
     private static String getScenarioNameFromData(String scenarioName, String scenarioDataTagValue) throws FragmentException, DataException {
-        String scenarioNameFromData = DataUtils.replaceDataPlaceholders(scenarioName, scenarioDataTagValue);
+        String scenarioNameFromData = new DataReplacer().replaceDataPlaceholders(scenarioName, scenarioDataTagValue);
         if (scenarioNameFromData.equals(scenarioName)) {
             throw new FragmentException(String.format(ERROR_FRAGMENT_NOT_FOUND, scenarioName));
         }

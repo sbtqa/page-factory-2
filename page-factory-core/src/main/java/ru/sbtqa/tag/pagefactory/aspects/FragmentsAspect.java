@@ -7,13 +7,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import ru.sbtqa.tag.pagefactory.data.DataFactory;
-import ru.sbtqa.tag.pagefactory.data.DataParser;
 import ru.sbtqa.tag.pagefactory.fragments.FragmentReplacer;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 @Aspect
-public class CucumberAspect {
+public class FragmentsAspect {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
@@ -31,11 +29,6 @@ public class CucumberAspect {
         if (PROPERTIES.isFragmentsEnabled()) {
             FragmentReplacer fragmentReplacer = new FragmentReplacer(cucumberFeatures);
             fragmentReplacer.replace();
-        }
-
-        if (DataFactory.getDataProvider() != null) {
-            DataParser dataParser = new DataParser();
-            dataParser.replace(cucumberFeatures);
         }
         joinPoint.proceed();
     }

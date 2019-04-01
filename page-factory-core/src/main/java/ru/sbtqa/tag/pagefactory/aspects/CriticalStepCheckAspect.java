@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
 import static io.qameta.allure.util.ResultsUtils.md5;
+import static org.apache.commons.lang3.reflect.FieldUtils.readDeclaredField;
 
 import cucumber.api.Result;
 import cucumber.api.TestCase;
@@ -140,8 +141,8 @@ public class CriticalStepCheckAspect {
         final String testCaseLocation = testCase.getUri() + ":" + testCase.getLine();
         String uid = md5(testCaseLocation);
 
-        AllureStorage allureStorage = (AllureStorage) FieldUtils.readDeclaredField(Allure.getLifecycle(), "storage", true);
-        Map<String, Object> storage = (Map<String, Object>) FieldUtils.readDeclaredField(allureStorage, "storage", true);
+        AllureStorage allureStorage = (AllureStorage) readDeclaredField(Allure.getLifecycle(), "storage", true);
+        Map<String, Object> storage = (Map<String, Object>) readDeclaredField(allureStorage, "storage", true);
         Collection<Object> testResults = storage.values();
         Optional<Object> testResultOptional = testResults.stream()
                 .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid)).findFirst();

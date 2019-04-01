@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
+import ru.sbtqa.tag.pagefactory.data.DataReplacer;
 import ru.sbtqa.tag.pagefactory.data.DataUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 
@@ -97,7 +98,7 @@ public class FragmentReplacer {
     private boolean isFragmentNameMatch(String name, Step step, String language, String data) throws DataException, FragmentException {
         boolean isFragmentNameMatch = FragmentUtils.getFragmentName(step, language).equals(name);
         if (!isFragmentNameMatch) {
-            String scenarioNameFromData = DataUtils.replaceDataPlaceholders(step.getText(), data);
+            String scenarioNameFromData = new DataReplacer().replaceDataPlaceholders(step.getText(), data);
             Step stepNew = new Step(step.getLocation(), step.getKeyword(), scenarioNameFromData, step.getArgument());
             isFragmentNameMatch = FragmentUtils.getFragmentName(stepNew, language).equals(name);
         }

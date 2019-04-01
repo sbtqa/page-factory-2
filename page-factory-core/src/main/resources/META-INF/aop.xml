@@ -7,10 +7,10 @@
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.PressKey"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.Select"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.SetCheckbox"/>
-        <aspect name="ru.sbtqa.tag.pagefactory.aspects.CucumberAspect"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.FragmentsAspect"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.CriticalStepAspect"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.CriticalStepCheckAspect"/>
-        <aspect name="ru.sbtqa.tag.pagefactory.aspects.StashAspect"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.DataAspect"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.PrintParameters"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.JUnitCoreStepAspect"/>
     </aspects>
