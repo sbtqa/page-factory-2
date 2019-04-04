@@ -91,11 +91,11 @@ public abstract class EndpointEntry {
                 throw new UnsupportedOperationException("Request method " + method + " is not supported");
         }
 
-        ApiEnvironment.getRepository().add(this.getClass(), new ApiPair(request, response.then().log().all()));
+        ApiEnvironment.getRepository().add(this.getClass(), new ApiPair(request, response.then().log().all(true)));
     }
 
     private RequestSpecification buildRequest() {
-        RequestSpecification request = given().log().all();
+        RequestSpecification request = given().log().all(true);
 
         request.queryParams(getQueryParameters());
         request.headers(getHeaders());
