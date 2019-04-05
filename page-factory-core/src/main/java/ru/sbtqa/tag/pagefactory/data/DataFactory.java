@@ -3,11 +3,14 @@ package ru.sbtqa.tag.pagefactory.data;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+
 import java.lang.reflect.InvocationTargetException;
+
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.TestDataProvider;
+import ru.sbtqa.tag.datajack.callback.GeneratorCallback;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
@@ -47,8 +50,8 @@ public class DataFactory {
             String dataFolder = PROPERTIES.getDataFolder();
             String dataType = PROPERTIES.getDataType();
             String dataExtension = PROPERTIES.getDataExtension();
-            
-            
+
+
             switch (dataType) {
                 case "json":
                     testDataProvider = initProvider(PROVIDERS.JSON_DATA_PROVIDER,
@@ -81,6 +84,16 @@ public class DataFactory {
                     break;
                 default:
                     throw new DataException(format("Data provider %s isn't supported", dataType));
+            }
+        }
+        if (!PROPERTIES.getGeneratorsClass().isEmpty()) {
+            String className = PROPERTIES.getGeneratorsClass();
+            try {
+                testDataProvider.applyGenerator((Class<? extends GeneratorCallback>) Class.forName(className));
+            } catch (ClassNotFoundException e) {
+                throw new ClassCastException(format("Could not find generators class: %s", className));
+            } catch (ClassCastException ex) {
+                throw new ClassCastException(format("Class %s doesn't extend %s", className, GeneratorCallback.class.getName()));
             }
         }
         return testDataProvider;
