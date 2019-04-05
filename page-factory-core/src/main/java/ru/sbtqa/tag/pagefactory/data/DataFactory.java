@@ -89,7 +89,7 @@ public class DataFactory {
         if (!PROPERTIES.getGeneratorsClass().isEmpty()) {
             String className = PROPERTIES.getGeneratorsClass();
             try {
-                testDataProvider.applyGenerator((Class<? extends GeneratorCallback>) Class.forName(className));
+                testDataProvider.applyGenerator((Class<? extends GeneratorCallback>) DataFactory.class.getClassLoader().loadClass(className));
             } catch (ClassNotFoundException e) {
                 throw new ClassCastException(format("Could not find generators class: %s", className));
             } catch (ClassCastException ex) {
