@@ -78,8 +78,8 @@ public class DefaultReflection implements Reflection {
             return false;
         } else {
             for (int index = 0; index < methodParameters.length; index++) {
-                if (!methodParameters[index].getType().getName()
-                        .equals(actionParameters[index].getClass().getName())) {
+                if (!methodParameters[index].getType()
+                        .isAssignableFrom(actionParameters[index].getClass())) {
                     return false;
                 }
             }

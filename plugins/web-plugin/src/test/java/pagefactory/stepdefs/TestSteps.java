@@ -3,7 +3,12 @@ package pagefactory.stepdefs;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
@@ -12,6 +17,8 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 import java.util.Map;
 
 public class TestSteps {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TestSteps.class);
 
     @Given("^failed step$")
     public void fail() {
@@ -42,5 +49,15 @@ public class TestSteps {
         for (Map.Entry entry : map.entrySet()) {
             WebSteps.getInstance().fill(entry.getKey().toString(), entry.getValue().toString());
         }
+    }
+
+    @Then("^check action list parameters \\((.*?)\\)$")
+    public void checkAction(String action, List<String> list) throws NoSuchMethodException {
+        Environment.getReflection().executeMethodByTitle(PageContext.getCurrentPage(), action, list);
+    }
+
+    @Then("^check step list parameters$")
+    public void checkStep(List<String> elementName) {
+        LOG.info("Check is correct!");
     }
 }
