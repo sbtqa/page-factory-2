@@ -1,8 +1,11 @@
 package pagefactory.pages.webelements;
 
+import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
@@ -12,6 +15,8 @@ import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
 
 @PageEntry(title = "Contact")
 public class ContactPage extends AbstractPage {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ContactPage.class);
     
     @FindBy(xpath = "//input[@name='first_name']")
     @ElementTitle(value = "first name")
@@ -75,5 +80,10 @@ public class ContactPage extends AbstractPage {
     @ActionTitle("checks checkbox")
     public void checksCheckbox(String isChecked) {
         Assert.assertEquals(Boolean.valueOf(isChecked), checkBox.isSelected());
+    }
+
+    @ActionTitle("action")
+    public void act(List<String> list) {
+        LOG.info("Check is correct!");
     }
 }
