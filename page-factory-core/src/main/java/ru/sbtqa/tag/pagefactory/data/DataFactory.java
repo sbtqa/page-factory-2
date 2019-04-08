@@ -91,7 +91,7 @@ public class DataFactory {
             try {
                 testDataProvider.applyGenerator((Class<? extends GeneratorCallback>) DataFactory.class.getClassLoader().loadClass(className));
             } catch (ClassNotFoundException e) {
-                throw new ClassCastException(format("Could not find generators class: %s", className));
+                throw new DataException(format("Could not find generators class at classpath: %s", className));
             } catch (ClassCastException ex) {
                 throw new ClassCastException(format("Class %s doesn't extend %s", className, GeneratorCallback.class.getName()));
             }
