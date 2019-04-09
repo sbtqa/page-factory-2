@@ -1,7 +1,8 @@
 package ru.sbtqa.tag.pagefactory.web.checks;
 
+import static ru.sbtqa.tag.pagefactory.web.utils.ElementUtils.getWebElementValue;
+
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.strategies.MatchStrategy;
@@ -10,9 +11,6 @@ public class WebPageChecks implements PageChecks {
 
     private static final String WHITESPACES = "\\s+";
     private static final String EMPTY_STRING = "";
-    private static final String INPUT = "input";
-    private static final String VALUE = "value";
-    private static final String SELECT = "select";
 
     @Override
     public boolean checkEquality(Object element, String text) {
@@ -29,18 +27,6 @@ public class WebPageChecks implements PageChecks {
             return text.replaceAll(WHITESPACES, EMPTY_STRING).equals(value.replaceAll(WHITESPACES, EMPTY_STRING));
         } else {
             return value.replaceAll(WHITESPACES, EMPTY_STRING).contains(text.replaceAll(WHITESPACES, EMPTY_STRING));
-        }
-    }
-
-    private String getWebElementValue(WebElement webElement) {
-        switch (webElement.getTagName()) {
-            case INPUT:
-                return webElement.getAttribute(VALUE);
-            case SELECT:
-                Select select = new Select(webElement);
-                return select.getFirstSelectedOption().getText();
-            default:
-                return webElement.getText();
         }
     }
 

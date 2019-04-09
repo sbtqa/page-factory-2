@@ -4,10 +4,15 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.Page;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
+import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
@@ -213,6 +218,13 @@ public class WebStepsImpl<T extends WebStepsImpl<T>> extends CoreSteps<T> {
      */
     public T checkElementWithTextIsPresent(String text) {
         WebWait.visibility(By.xpath("//*[contains(text(), '" + text + "')]"), "Text \"" + text + "\" is not present");
+        return (T) this;
+    }
+
+    public T putElementValueInStash(String elementName, String variableName) throws PageException {
+        Page currentPage = PageContext.getCurrentPage();
+        WebElement element = Environment.getFindUtils().getElementByTitle(currentPage, elementName);
+        Stash.put(variableName, ElementUtils.getWebElementValue(element));
         return (T) this;
     }
 }
