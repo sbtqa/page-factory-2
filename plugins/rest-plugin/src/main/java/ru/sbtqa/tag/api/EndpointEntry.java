@@ -11,6 +11,10 @@ import static ru.sbtqa.tag.api.annotation.ParameterType.BODY;
 import static ru.sbtqa.tag.api.annotation.ParameterType.COOKIE;
 import static ru.sbtqa.tag.api.annotation.ParameterType.HEADER;
 import static ru.sbtqa.tag.api.annotation.ParameterType.QUERY;
+
+import ru.sbtqa.tag.api.annotation.FromResponse;
+import ru.sbtqa.tag.api.annotation.Query;
+import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
@@ -25,7 +29,7 @@ import ru.sbtqa.tag.api.utils.TemplateUtils;
  * It symbolizes the request for an api endpoint. You need to extends your entries from this class
  * and annotate with {@link Endpoint}
  */
-public abstract class EndpointEntry {
+public class EndpointEntry {
 
     private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
 
@@ -45,6 +49,8 @@ public abstract class EndpointEntry {
 
         reflection = new EndpointEntryReflection(this);
         blankStorage = ApiEnvironment.getBlankStorage();
+        reflection.applyAnnotations(FromResponse.class);
+        reflection.applyAnnotations(Query.class);
     }
 
     public void send(Map<String, String> data) {
@@ -60,7 +66,7 @@ public abstract class EndpointEntry {
     }
 
     public void send() {
-        reflection.applyAnnotations();
+        reflection.applyAnnotations(Stashed.class);
         String url = PathUtils.unite( PROPERTIES.getBaseURI(), path);
 
         RequestSpecification request = buildRequest();

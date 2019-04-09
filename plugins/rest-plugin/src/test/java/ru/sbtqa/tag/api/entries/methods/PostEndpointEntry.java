@@ -15,7 +15,7 @@ import ru.sbtqa.tag.api.utils.Default;
 public class PostEndpointEntry extends EndpointEntry {
 
     @Header(name = CONTENT_TYPE)
-    private String header = JSON_UTF_8.toString();
+    private String header;
 
     @Body(name = "id")
     private int id = Default.ID;
@@ -24,7 +24,13 @@ public class PostEndpointEntry extends EndpointEntry {
     private String name = Default.NAME;
 
     @Body(name = "email")
-    private String email = Default.EMAIL;
+    private String email;
+
+    public PostEndpointEntry() {
+        super();
+        email = Default.EMAIL;
+        header = JSON_UTF_8.toString();
+    }
 
     @Validation(title = "result")
     public void validate() {
