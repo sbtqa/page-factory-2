@@ -16,7 +16,12 @@ public class RequestEndpointEntry extends EndpointEntry {
     private String param = Default.QUERY_PARAMETER_VALUE_1;
 
     @Header(name = Default.HEADER_PARAMETER_NAME_1)
-    private String header = Default.HEADER_PARAMETER_VALUE_1;
+    private String header;
+
+    public RequestEndpointEntry(){
+        super();
+        header = Default.HEADER_PARAMETER_VALUE_1;
+    }
 
     @Validation(title = "result")
     public void validate() {

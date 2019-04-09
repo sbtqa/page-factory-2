@@ -4,6 +4,7 @@ import static java.lang.String.format;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class EndpointEntryReflection {
     private List<Field> fields;
     private Map<String, Method> validations = new HashMap<>();
 
-    public EndpointEntryReflection(EndpointEntry endpoint) {
+    EndpointEntryReflection(EndpointEntry endpoint) {
         this.endpoint = endpoint;
         this.entryTitle = endpoint.getClass().getAnnotation(Endpoint.class).title();
         this.fields = FieldUtilsExt.getDeclaredFieldsWithInheritance(endpoint.getClass());
@@ -61,15 +62,13 @@ public class EndpointEntryReflection {
         }
     }
 
-    /**
-     * Apply all belongs annotations to fields in endpoint entry
-     */
-    public void applyAnnotations() {
+    void applyAnnotations(Class<? extends Annotation> annotationType) {
+        ApplicatorHandler<Applicator> applicators = new ApplicatorHandler<>();
         for (Field field : fields) {
-            field.setAccessible(true);
+            Object annotation = Arrays.stream(field.getAnnotationsByType(annotationType))
+                    .findAny().orElse(null);
 
-            ApplicatorHandler<Applicator> applicators = new ApplicatorHandler<>();
-            for (Annotation annotation : field.getAnnotations()) {
+            if(annotation != null) {
                 if (annotation instanceof FromResponse) {
                     applicators.add(new FromResponseApplicator(endpoint, field));
                 } else if (annotation instanceof Stashed) {
@@ -78,9 +77,8 @@ public class EndpointEntryReflection {
                     applicators.add(new QueryApplicator(endpoint, field));
                 }
             }
-
-            applicators.apply();
         }
+        applicators.apply();
     }
 
     /**
@@ -90,7 +88,7 @@ public class EndpointEntryReflection {
      * @param name parameter annotation name
      * @param value value to set
      */
-    public void setParameterValueByTitle(String name, String value) {
+    void setParameterValueByTitle(String name, String value) {
         for (Field field : fields) {
             for (Annotation annotation : field.getAnnotations()) {
                 if ((annotation instanceof Body && ((Body) annotation).name().equals(name)
@@ -114,7 +112,7 @@ public class EndpointEntryReflection {
      * @param name placeholder
      * @param value replace placeholder to this value
      */
-    public void replacePlaceholdersInParameterValue(String name, String value) {
+    void replacePlaceholdersInParameterValue(String name, String value) {
         for (Field field : fields) {
             for (Annotation annotation : field.getAnnotations()) {
                 Object fieldValue = get(endpoint, field);
@@ -169,7 +167,7 @@ public class EndpointEntryReflection {
      * @return name-field map
      */
 
-    public Map<String, Object> getParameters(ParameterType type) {
+    Map<String, Object> getParameters(ParameterType type) {
         Map<String, Object> parameters = new HashMap<>();
 
         for (Field field : fields) {
