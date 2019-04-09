@@ -105,6 +105,10 @@ public interface Configuration extends Config {
     @Key("db.${name}.url")
     String getDbUrl();
 
+    @Key("generators.class")
+    @DefaultValue("")
+    String getGeneratorsClass();
+
     static Configuration create() {
         return create(new HashMap());
     }
