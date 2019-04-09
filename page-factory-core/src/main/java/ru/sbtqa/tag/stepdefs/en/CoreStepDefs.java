@@ -135,7 +135,6 @@ public class CoreStepDefs {
         coreSteps.isElementFocused(element);
     }
 
-
     @And("^(?:user |he )?inserts fragment \"([^\"]*)\"$")
     @When("^(?:user |he )?performs \"([^\"]*)\"$")
     @Then("^(?:user |he |)performs \"([^\"]*)\" scenario$")

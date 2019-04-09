@@ -126,6 +126,11 @@ public class CoreStepDefs {
         coreSteps.checkEmpty(elementTitle);
     }
 
+    @И("^элемент \"([^\"]*)\" в фокусе")
+    public void isElementFocused(String element) {
+        coreSteps.isElementFocused(element);
+    }
+
     @И("^(?:пользователь |он )?вставляет фрагмент \"([^\"]*)\"$")
     @Когда("^(?:пользователь |он |)выполняет сценарий \"([^\"]*)\"$")
     @Тогда("^(?:пользователь |он |)выполняет \"([^\"]*)\"$")
