@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.api.annotation.applicators;
 
 import java.lang.reflect.Field;
+
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
@@ -18,9 +19,9 @@ public class QueryApplicator extends DefaultApplicator implements Applicator {
     public void apply() {
         String path = endpoint.getPath();
         String placeholder = field.getAnnotation(Query.class).name();
-
-        if (path.contains(placeholder)) {
-            String replacedPath = PlaceholderUtils.replacePlaceholder(path, placeholder, get(field));
+        Object fieldValue = get(field);
+        if (path.contains(placeholder) && fieldValue != null) {
+            String replacedPath = PlaceholderUtils.replacePlaceholder(path, placeholder, fieldValue);
             endpoint.setPath(replacedPath);
             set(field, null);
         }

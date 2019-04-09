@@ -66,6 +66,8 @@ public class EndpointEntry {
     }
 
     public void send() {
+        reflection.applyAnnotations(FromResponse.class);
+        reflection.applyAnnotations(Query.class);
         reflection.applyAnnotations(Stashed.class);
         String url = PathUtils.unite( PROPERTIES.getBaseURI(), path);
 
