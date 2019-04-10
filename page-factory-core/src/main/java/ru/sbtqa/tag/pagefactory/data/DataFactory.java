@@ -44,7 +44,7 @@ public class DataFactory {
     private DataFactory() {
     }
 
-    static TestDataProvider getDataProvider() throws DataException {
+    public static TestDataProvider getDataProvider() throws DataException {
         if (testDataProvider == null) {
             String initialCollection = PROPERTIES.getDataInitialCollection();
             String dataFolder = PROPERTIES.getDataFolder();
@@ -99,7 +99,7 @@ public class DataFactory {
         return testDataProvider;
     }
 
-    static void updateCollection(TestDataProvider newObject) {
+    public static void updateCollection(TestDataProvider newObject) {
         testDataProvider = newObject;
     }
 
