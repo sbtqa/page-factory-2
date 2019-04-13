@@ -36,7 +36,7 @@ public class GherkinSerializer {
      * @param cucumberFeatures unaligned features
      * @return reserealized features
      */
-    public List<CucumberFeature> getSource(List<CucumberFeature> cucumberFeatures) {
+    public List<CucumberFeature> reserializeFeatures(List<CucumberFeature> cucumberFeatures) {
         List<CucumberFeature> features = new ArrayList<>();
 
         FeatureBuilder featureBuilder = new FeatureBuilder(features);

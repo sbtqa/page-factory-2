@@ -42,7 +42,7 @@ public class FragmentsAspect {
             fragmentReplacer.replace();
 
             // reserealize and align all features
-            cucumberFeatures = new GherkinSerializer().getSource(cucumberFeatures);
+            cucumberFeatures = new GherkinSerializer().reserializeFeatures(cucumberFeatures);
 
             runtimeOptions.getPlugins(); // to create the formatter objects
             bus.send(new TestRunStarted(bus.getTime()));
