@@ -5,6 +5,7 @@ import cucumber.runtime.io.Resource;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.ast.Background;
 import gherkin.ast.DataTable;
+import gherkin.ast.DocString;
 import gherkin.ast.Examples;
 import gherkin.ast.Feature;
 import gherkin.ast.Scenario;
@@ -12,6 +13,7 @@ import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.ScenarioOutline;
 import gherkin.ast.Step;
 import gherkin.ast.TableCell;
+import gherkin.ast.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,9 @@ import java.util.stream.Collectors;
 
 public class GherkinSerializer {
 
-    private final String NL = "\n";
-    private final String TAB = "\t";
-    private final String SPACE = " ";
+    private static final String NL = "\n";
+    private static final String TAB = "\t";
+    private static final String SPACE = " ";
     private StringBuilder builder;
 
     public GherkinSerializer() {
@@ -35,7 +37,8 @@ public class GherkinSerializer {
      * @param cucumberFeatures unaligned features
      * @return reserealized features
      */
-    public List<CucumberFeature> normalizeSources(List<CucumberFeature> cucumberFeatures) {
+    public List<CucumberFeature> getSource(List<CucumberFeature> cucumberFeatures) {
+        builder = new StringBuilder();
         List<CucumberFeature> features = new ArrayList<>();
 
         FeatureBuilder featureBuilder = new FeatureBuilder(features);
@@ -61,45 +64,35 @@ public class GherkinSerializer {
     }
 
     private void buildScenario(StringBuilder sb, ScenarioDefinition scenarioDefinition) {
-        if (scenarioDefinition instanceof Scenario) {
-            Scenario scenario = (Scenario) scenarioDefinition;
-            if (!scenario.getTags().isEmpty()) {
-                tab(1);
-                scenario.getTags().forEach(tag -> builder.append(tag.getName()).append(SPACE));
-                nl(1);
-            }
-            tab(1);
-            builder.append(scenario.getKeyword()).append(":").append(SPACE).append(scenario.getName());
+        buildScenarioTags(scenarioDefinition);
+
+        tab(1);
+        builder.append(scenarioDefinition.getKeyword()).append(":").append(SPACE).append(scenarioDefinition.getName());
+        nl(1);
+
+        if (scenarioDefinition.getDescription() != null) {
             nl(1);
-            if (scenario.getDescription() != null) {
-                tab(2);
-                builder.append(scenario.getDescription());
-            }
-            scenario.getSteps().forEach(step -> buildStep(step));
-        } else if (scenarioDefinition instanceof ScenarioOutline) {
-            ScenarioOutline scenario = (ScenarioOutline) scenarioDefinition;
-            if (!scenario.getTags().isEmpty()) {
+            tab(2);
+            builder.append(scenarioDefinition.getDescription());
+            nl(2);
+        }
+
+        scenarioDefinition.getSteps().forEach(this::buildStep);
+
+        if (scenarioDefinition instanceof ScenarioOutline) {
+            ((ScenarioOutline) scenarioDefinition)
+                    .getExamples().forEach(this::buildExamples);
+        }
+    }
+
+    private void buildScenarioTags(ScenarioDefinition scenarioDefinition) {
+        if (!(scenarioDefinition instanceof Background)) {
+            List<Tag> tags = ((Scenario) scenarioDefinition).getTags();
+            if (!tags.isEmpty()) {
                 tab(1);
-                scenario.getTags().forEach(tag -> builder.append(tag.getName()).append(SPACE));
+                tags.forEach(tag -> builder.append(tag.getName()).append(SPACE));
                 nl(1);
             }
-            tab(1);
-            builder.append(scenario.getKeyword()).append(":").append(SPACE).append(scenario.getName());
-            nl(1);
-            if (scenario.getDescription() != null) {
-                nl(1);
-                tab(2);
-                builder.append(scenario.getDescription());
-                nl(2);
-            }
-            scenario.getSteps().forEach(step -> buildStep(step));
-            scenario.getExamples().forEach(examples -> buildExamples(examples));
-        } else if (scenarioDefinition instanceof Background) {
-            Background scenario = (Background) scenarioDefinition;
-            tab(1);
-            builder.append(scenario.getKeyword()).append(":");
-            builder.append("\n");
-            scenario.getSteps().forEach(step -> buildStep(step));
         }
     }
 
@@ -109,16 +102,16 @@ public class GherkinSerializer {
         builder.append(examples.getKeyword()).append(":");
         nl(1);
         List<String> header = examples.getTableHeader().getCells().stream()
-                .map(tableCell -> tableCell.getValue()).collect(Collectors.toList());
+                .map(TableCell::getValue).collect(Collectors.toList());
         tab(2);
         space(2);
-        builder.append("|").append(String.join("|", header) + "|");
+        builder.append("|").append(String.join("|", header)).append("|");
         nl(1);
         examples.getTableBody().forEach(row -> {
             List<String> cells = row.getCells().stream().map(TableCell::getValue).collect(Collectors.toList());
             tab(2);
             space(2);
-            builder.append("|").append(String.join("|", cells) + "|");
+            builder.append("|").append(String.join("|", cells)).append("|");
             nl(1);
         });
 
@@ -139,8 +132,11 @@ public class GherkinSerializer {
                     builder.append("|").append(String.join("|", collect));
                     nl(1);
                 });
-            } else {
-                // TODO: support pystring
+            } else if (step.getArgument() instanceof DocString) {
+                DocString docString = (DocString) step.getArgument();
+                space(2);
+                builder.append(docString.getContent());
+                nl(1);
             }
 
         } else {

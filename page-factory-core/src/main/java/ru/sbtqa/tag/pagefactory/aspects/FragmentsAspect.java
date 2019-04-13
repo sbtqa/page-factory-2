@@ -2,34 +2,19 @@ package ru.sbtqa.tag.pagefactory.aspects;
 
 import cucumber.api.event.TestRunStarted;
 import cucumber.runner.EventBus;
-import cucumber.runtime.FeatureBuilder;
 import cucumber.runtime.RuntimeOptions;
-import cucumber.runtime.io.FileResource;
-import cucumber.runtime.io.Resource;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import gherkin.ast.Background;
-import gherkin.ast.DataTable;
-import gherkin.ast.Examples;
-import gherkin.ast.Feature;
-import gherkin.ast.Scenario;
-import gherkin.ast.ScenarioDefinition;
-import gherkin.ast.ScenarioOutline;
-import gherkin.ast.Step;
-import gherkin.ast.TableCell;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.fragments.FragmentReplacer;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-import ru.sbtqa.tag.pagefactory.utils.GherkinResource;
 import ru.sbtqa.tag.pagefactory.utils.GherkinSerializer;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static cucumber.runtime.model.CucumberFeature.load;
 
@@ -57,7 +42,7 @@ public class FragmentsAspect {
             fragmentReplacer.replace();
 
             // reserealize and align all features
-            cucumberFeatures = new GherkinSerializer().normalizeSources(cucumberFeatures);
+            cucumberFeatures = new GherkinSerializer().getSource(cucumberFeatures);
 
             runtimeOptions.getPlugins(); // to create the formatter objects
             bus.send(new TestRunStarted(bus.getTime()));
