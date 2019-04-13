@@ -37,11 +37,11 @@ public class GherkinSerializer {
      * @return reserealized features
      */
     public List<CucumberFeature> getSource(List<CucumberFeature> cucumberFeatures) {
-        builder = new StringBuilder();
         List<CucumberFeature> features = new ArrayList<>();
 
         FeatureBuilder featureBuilder = new FeatureBuilder(features);
         cucumberFeatures.forEach(cucumberFeature -> {
+            builder = new StringBuilder();
             Feature feature = cucumberFeature.getGherkinFeature().getFeature();
             builder.append("#language: " + feature.getLanguage());
             nl(1);
@@ -158,7 +158,7 @@ public class GherkinSerializer {
     }
 
     private void tab(int count) {
-        appendTimes(SPACE, count*2);
+        appendTimes(SPACE, count * 2);
     }
 
     private void appendTimes(String source, int times) {

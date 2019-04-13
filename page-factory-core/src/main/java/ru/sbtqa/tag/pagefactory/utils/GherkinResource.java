@@ -5,6 +5,7 @@ import cucumber.runtime.io.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 /**
  * This class realizes virtual resource by given string source without reading it from filesystem
@@ -15,7 +16,7 @@ public class GherkinResource implements Resource {
     private final String path;
 
     public GherkinResource(String source, String path) {
-        this.source = new ByteArrayInputStream(source.getBytes());
+        this.source = new ByteArrayInputStream(source.getBytes(Charset.defaultCharset()));
         this.path = path;
     }
 
