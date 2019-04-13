@@ -3,7 +3,6 @@ package ru.sbtqa.tag.pagefactory.utils;
 import cucumber.runtime.FeatureBuilder;
 import cucumber.runtime.io.Resource;
 import cucumber.runtime.model.CucumberFeature;
-import gherkin.ast.Background;
 import gherkin.ast.DataTable;
 import gherkin.ast.DocString;
 import gherkin.ast.Examples;
@@ -13,6 +12,7 @@ import gherkin.ast.ScenarioDefinition;
 import gherkin.ast.ScenarioOutline;
 import gherkin.ast.Step;
 import gherkin.ast.TableCell;
+import gherkin.ast.TableRow;
 import gherkin.ast.Tag;
 
 import java.util.ArrayList;
@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class GherkinSerializer {
 
     private static final String NL = "\n";
-    private static final String TAB = "\t";
     private static final String SPACE = " ";
     private StringBuilder builder;
 
@@ -43,21 +42,21 @@ public class GherkinSerializer {
 
         FeatureBuilder featureBuilder = new FeatureBuilder(features);
         cucumberFeatures.forEach(cucumberFeature -> {
-            StringBuilder source = new StringBuilder();
             Feature feature = cucumberFeature.getGherkinFeature().getFeature();
-            source.append("#language: " + feature.getLanguage());
+            builder.append("#language: " + feature.getLanguage());
             nl(1);
-            feature.getTags().forEach(tag -> source.append(tag.getName()).append(SPACE));
+            feature.getTags().forEach(tag -> builder.append(tag.getName()).append(SPACE));
             nl(1);
-            source.append(feature.getKeyword()).append(":").append(SPACE).append(feature.getName());
+            builder.append(feature.getKeyword()).append(":").append(SPACE).append(feature.getName());
             nl(1);
             if (feature.getDescription() != null) {
                 tab(1);
-                source.append(feature.getDescription());
-                nl(2);
+                builder.append(feature.getDescription());
+                nl(1);
             }
-            feature.getChildren().forEach(scenarioDefinition -> buildScenario(source, scenarioDefinition));
-            Resource gherkinResource = new GherkinResource(source.toString(), cucumberFeature.getUri());
+            nl(1);
+            feature.getChildren().forEach(scenarioDefinition -> buildScenario(builder, scenarioDefinition));
+            Resource gherkinResource = new GherkinResource(builder.toString(), cucumberFeature.getUri());
             featureBuilder.parse(gherkinResource);
         });
         return features;
@@ -83,16 +82,20 @@ public class GherkinSerializer {
             ((ScenarioOutline) scenarioDefinition)
                     .getExamples().forEach(this::buildExamples);
         }
+        nl(1);
     }
 
     private void buildScenarioTags(ScenarioDefinition scenarioDefinition) {
-        if (!(scenarioDefinition instanceof Background)) {
-            List<Tag> tags = ((Scenario) scenarioDefinition).getTags();
-            if (!tags.isEmpty()) {
-                tab(1);
-                tags.forEach(tag -> builder.append(tag.getName()).append(SPACE));
-                nl(1);
-            }
+        List<Tag> tags = new ArrayList<>();
+        if (scenarioDefinition instanceof Scenario) {
+            tags = ((Scenario) scenarioDefinition).getTags();
+        } else if (scenarioDefinition instanceof ScenarioOutline) {
+            tags = ((ScenarioOutline) scenarioDefinition).getTags();
+        }
+        if (!tags.isEmpty()) {
+            tab(1);
+            tags.forEach(tag -> builder.append(tag.getName()).append(SPACE));
+            nl(1);
         }
     }
 
@@ -107,14 +110,7 @@ public class GherkinSerializer {
         space(2);
         builder.append("|").append(String.join("|", header)).append("|");
         nl(1);
-        examples.getTableBody().forEach(row -> {
-            List<String> cells = row.getCells().stream().map(TableCell::getValue).collect(Collectors.toList());
-            tab(2);
-            space(2);
-            builder.append("|").append(String.join("|", cells)).append("|");
-            nl(1);
-        });
-
+        examples.getTableBody().forEach(this::buildTableRow);
     }
 
     private void buildStep(Step step) {
@@ -124,24 +120,32 @@ public class GherkinSerializer {
             nl(1);
             if (step.getArgument() instanceof DataTable) {
                 DataTable table = (DataTable) step.getArgument();
-                table.getRows().forEach(tableRow -> {
-                    List<String> collect = tableRow.getCells().stream()
-                            .map(TableCell::getValue).collect(Collectors.toList());
-                    tab(2);
-                    space(2);
-                    builder.append("|").append(String.join("|", collect));
-                    nl(1);
-                });
+                table.getRows().forEach(this::buildTableRow);
             } else if (step.getArgument() instanceof DocString) {
+                tab(2);
+                builder.append("\"\"\"");
+                nl(1);
                 DocString docString = (DocString) step.getArgument();
-                space(2);
+                tab(2);
                 builder.append(docString.getContent());
+                nl(1);
+                tab(2);
+                builder.append("\"\"\"");
                 nl(1);
             }
 
         } else {
             builder.append("\n");
         }
+    }
+
+    private void buildTableRow(TableRow tableRow) {
+        List<String> collect = tableRow.getCells().stream()
+                .map(TableCell::getValue).collect(Collectors.toList());
+        tab(2);
+        space(2);
+        builder.append("|").append(String.join("|", collect)).append("|");
+        nl(1);
     }
 
 
@@ -154,7 +158,7 @@ public class GherkinSerializer {
     }
 
     private void tab(int count) {
-        appendTimes(TAB, count);
+        appendTimes(SPACE, count*2);
     }
 
     private void appendTimes(String source, int times) {
