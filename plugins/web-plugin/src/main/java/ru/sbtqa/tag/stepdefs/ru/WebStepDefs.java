@@ -91,7 +91,7 @@ public class WebStepDefs {
         webSteps.checkElementWithTextIsPresent(text);
     }
 
-    @Когда("^запоминает значение поля \"([^\"]*)\" в переменную \"([^\"]*)\"$")
+    @Когда("^(?:пользователь |он )?запоминает значение поля \"([^\"]*)\" в переменную \"([^\"]*)\"$")
     public void putElementValueInStash(String elementName, String variableName) throws PageException {
         webSteps.putElementValueInStash(elementName, variableName);
     }

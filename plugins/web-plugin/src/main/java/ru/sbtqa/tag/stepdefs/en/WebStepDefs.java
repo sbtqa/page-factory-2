@@ -91,7 +91,7 @@ public class WebStepDefs {
         webSteps.checkElementWithTextIsPresent(text);
     }
 
-    @Когда("^stores the value of the field \"([^\"]*)\" in the variable \"([^\"]*)\"$")
+    @Когда("^user stores the value of the field \"([^\"]*)\" in the variable \"([^\"]*)\"$")
     public void putElementValueInStash(String elementName, String variableName) throws PageException {
         webSteps.putElementValueInStash(elementName, variableName);
     }

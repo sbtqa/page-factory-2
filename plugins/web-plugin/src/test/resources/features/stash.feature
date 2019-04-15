@@ -46,7 +46,7 @@ Feature: Stash
   @stores-from-field
   Scenario: Check stores element value from the field
     * user fills the field "first name" with value "Alex"
-    * stores the value of the field "first name" in the variable "NAME"
+    * user stores the value of the field "first name" in the variable "NAME"
     * user fills the field "first name" with value ""
     * user checks that the field "first name" is empty
     * user fills the field "first name" with value "#{NAME}"
