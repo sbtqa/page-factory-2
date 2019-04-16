@@ -5,6 +5,8 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.Когда;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
 import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
@@ -87,5 +89,10 @@ public class WebStepDefs {
     @When("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отоброжается$")
     public void checkElementWithTextIsPresent(String text) {
         webSteps.checkElementWithTextIsPresent(text);
+    }
+
+    @Когда("^(?:пользователь |он )?запоминает значение поля \"([^\"]*)\" в переменную \"([^\"]*)\"$")
+    public void putElementValueInStash(String elementName, String variableName) throws PageException {
+        webSteps.putElementValueInStash(elementName, variableName);
     }
 }

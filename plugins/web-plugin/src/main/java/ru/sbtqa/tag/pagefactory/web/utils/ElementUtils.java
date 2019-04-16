@@ -11,11 +11,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 
 public class ElementUtils {
+
+    private static final String INPUT = "input";
+    private static final String VALUE = "value";
+    private static final String SELECT = "select";
 
     private ElementUtils() {
     }
@@ -292,5 +297,17 @@ public class ElementUtils {
     public static <T extends WebElement> String getTextByElementXpath(T currentContext, String xpath) {
         List<WebElement> elements = currentContext.findElements(By.xpath(xpath));
         return elements.isEmpty() ? "" : elements.get(0).getText();
+    }
+
+    public static String getWebElementValue(WebElement webElement) {
+        switch (webElement.getTagName()) {
+            case INPUT:
+                return webElement.getAttribute(VALUE);
+            case SELECT:
+                Select select = new Select(webElement);
+                return select.getFirstSelectedOption().getText();
+            default:
+                return webElement.getText();
+        }
     }
 }
