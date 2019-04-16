@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api;
 
-import static java.lang.String.format;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -26,10 +25,12 @@ import ru.sbtqa.tag.api.annotation.applicators.QueryApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
+import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
+
+import static java.lang.String.format;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.get;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.invoke;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.set;
-import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 /**
  * The assistant class for {@link EndpointEntry}.
@@ -171,9 +172,9 @@ public class EndpointEntryReflection {
         Map<String, Object> parameters = new HashMap<>();
 
         for (Field field : fields) {
-            if (get(endpoint, field) == null) {
-                continue;
-            }
+//            if (get(endpoint, field) == null) {
+//                continue;
+//            }
 
             for (Annotation annotation : field.getAnnotations()) {
                 switch (type) {

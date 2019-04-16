@@ -22,6 +22,8 @@ public class PlaceholderUtils {
             string = replacePlaceholder(string, parameter.getKey(), parameter.getValue());
         }
 
+        System.out.println(string);
+
         return string;
     }
 
