@@ -75,12 +75,12 @@ public class PlaceholderUtils {
             if (newValue.equals("null")) {
                 placeholder = QUOTE + "?" + placeholder + QUOTE + "?";
                 value = "null";
-            } else if (newValue.equals("\"null\"")) {
+            } else if (newValue.equals(QUOTE + "null" + QUOTE)) {
                 placeholder = QUOTE + "?" + placeholder + QUOTE + "?";
-                value = "\"null\"";
-            } else if (newValue.equals("\"\"")){
+                value = QUOTE + "null" + QUOTE;
+            } else if (newValue.equals(QUOTE + QUOTE)){
                 placeholder = QUOTE + "?" + placeholder + QUOTE + "?";
-                value = "\"\"";
+                value = QUOTE + QUOTE;
             }
         } else {
             placeholder = QUOTE + placeholder + QUOTE;
