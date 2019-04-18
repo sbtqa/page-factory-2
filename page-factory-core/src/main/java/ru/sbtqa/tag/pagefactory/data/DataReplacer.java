@@ -86,11 +86,11 @@ public class DataReplacer {
                 if (stepDataPattern.matcher(argVal).find() && stepDataMatcher.find()) {
                     String data = replaceData(step, argVal, isStash);
 
+                    argOffset = argument.getOffset() - offset;
                     offset = argVal.length() - data.length();
-                    argOffset = stepDataMatcher.start();
                     argVal = data;
 
-                    replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), data);
+                    replacedValue.replace(argOffset, argOffset + argVal.length(), data);
                     stepDataMatcher = stepDataPattern.matcher(replacedValue);
                 } else {
                     argOffset = argument.getOffset() - offset;
