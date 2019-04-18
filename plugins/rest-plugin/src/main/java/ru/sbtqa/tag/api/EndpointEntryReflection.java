@@ -9,15 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.annotation.Body;
-import ru.sbtqa.tag.api.annotation.Cookie;
-import ru.sbtqa.tag.api.annotation.Endpoint;
-import ru.sbtqa.tag.api.annotation.FromResponse;
-import ru.sbtqa.tag.api.annotation.Header;
-import ru.sbtqa.tag.api.annotation.ParameterType;
-import ru.sbtqa.tag.api.annotation.Query;
-import ru.sbtqa.tag.api.annotation.Stashed;
-import ru.sbtqa.tag.api.annotation.Validation;
+import ru.sbtqa.tag.api.annotation.*;
 import ru.sbtqa.tag.api.annotation.applicators.Applicator;
 import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
@@ -172,10 +164,6 @@ public class EndpointEntryReflection {
         Map<String, Object> parameters = new HashMap<>();
 
         for (Field field : fields) {
-//            if (get(endpoint, field) == null) {
-//                continue;
-//            }
-
             for (Annotation annotation : field.getAnnotations()) {
                 switch (type) {
                     case QUERY:

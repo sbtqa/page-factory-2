@@ -147,7 +147,11 @@ public class EndpointEntry {
 
     public String getBody() {
         String body = TemplateUtils.loadFromResources(this.getClass(), template, PROPERTIES.getTemplateEncoding());
-        return PlaceholderUtils.replacePlaceholders(body, getParameters());
+        if(template.endsWith(".json")) {
+            return PlaceholderUtils.replaceJsonTemplatePlaceholders(body, getParameters());
+        } else {
+            return PlaceholderUtils.replaceTemplatePlaceholders(body, getParameters());
+        }
     }
 
     public Map<String, Object> getForm() {
