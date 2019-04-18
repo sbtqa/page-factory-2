@@ -16,7 +16,7 @@ public class PlaceholderUtils {
     /**
      * Replace placeholders in string on parameters
      *
-     * @param string     replace placeholders in this string
+     * @param string replace placeholders in this string
      * @param parameters replace these parameters
      * @return string with replaced placeholders
      */
@@ -31,7 +31,7 @@ public class PlaceholderUtils {
     /**
      * Replace Json template placeholders in string on parameters
      *
-     * @param jsonString     replace placeholders in this json string
+     * @param jsonString replace placeholders in this json string
      * @param parameters replace these parameters
      * @return json string with replaced placeholders
      */
@@ -62,8 +62,8 @@ public class PlaceholderUtils {
     /**
      * Replace placeholder in string on value
      *
-     * @param string   replace placeholders in this string
-     * @param name     placeholder body (without start and finish marks)
+     * @param string replace placeholders in this string
+     * @param name placeholder body (without start and finish marks)
      * @param newValue replace placeholder on this mark
      * @return string with replaced placeholder
      */
