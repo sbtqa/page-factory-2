@@ -8,7 +8,7 @@ import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsEndpointEntry;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsPlaceholdersEndpointEntry;
 import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
-import ru.sbtqa.tag.api.entries.methods.PostEndpointEntry;
+import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.junit.ApiSteps;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 
@@ -30,7 +30,7 @@ public class JunitTests {
     @Test
     public void simpleGetTest() {
         ApiSteps.getInstance().send("get with json").validate("default client");
-        ApiSteps.getInstance().send(PostEndpointEntry.class).validate();
+        ApiSteps.getInstance().send(GetEndpointEntry.class).validate();
     }
 
     @Test
