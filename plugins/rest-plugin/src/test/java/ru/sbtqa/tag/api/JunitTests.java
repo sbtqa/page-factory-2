@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.api;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -13,6 +11,9 @@ import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
 import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
 import ru.sbtqa.tag.api.junit.ApiSteps;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.MediaType.JSON_UTF_8;

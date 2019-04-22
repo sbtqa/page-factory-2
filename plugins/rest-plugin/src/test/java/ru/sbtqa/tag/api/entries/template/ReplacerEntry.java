@@ -15,13 +15,13 @@ public class ReplacerEntry extends EndpointEntry {
     private String header = "application/json";
 
     @Body(name = "day1")
-    private String day1 = "false";
+    private String day1 = null;
 
     @Body(name = "day11")
     private String day11 = "true";
 
     @Body(name = "day12")
-    private String day12 = "true";
+    private String day12;
 
     @Body(name = "day13")
     private String day13 = "true";
@@ -30,7 +30,7 @@ public class ReplacerEntry extends EndpointEntry {
     private String day14 = "true";
 
     @Body(name = "day15")
-    private String day15 = "true";
+    private String day15;
 
     @Validation(title = "works correctly")
     public void validate() {

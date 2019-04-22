@@ -14,8 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
 import ru.sbtqa.tag.api.dto.Client;
-import ru.sbtqa.tag.api.dto.Days;
 import ru.sbtqa.tag.api.dto.SimpleResult;
 import ru.sbtqa.tag.api.utils.Default;
 import ru.sbtqa.tag.api.utils.TestDataUtils;
@@ -175,10 +177,15 @@ public class ClientJsonEndpoint {
     @POST
     @Path("replace")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response replace(Days days) {
+    public Response replace(String days) {
+
+        BasicDBObject expected = (BasicDBObject) JSON.parse("{ \"day1\" :  null  , \"day11\" : \"null\" , " +
+                "\"day13\" : \"true\" , \"day14\" : \"true\" , \"day15\" : \"\"}");
+
+        BasicDBObject actual = (BasicDBObject) JSON.parse(days);
 
         SimpleResult result = new SimpleResult();
-        result.setResult(String.valueOf(days.isDay11() && days.isDay12() && days.isDay13() && days.isDay14() && days.isDay15()));
+        result.setResult(String.valueOf(expected.equals(actual)));
 
         return Response.ok(result)
                 .build();

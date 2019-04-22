@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api;
 
-import static java.lang.String.format;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,15 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.api.annotation.Body;
-import ru.sbtqa.tag.api.annotation.Cookie;
-import ru.sbtqa.tag.api.annotation.Endpoint;
-import ru.sbtqa.tag.api.annotation.FromResponse;
-import ru.sbtqa.tag.api.annotation.Header;
-import ru.sbtqa.tag.api.annotation.ParameterType;
-import ru.sbtqa.tag.api.annotation.Query;
-import ru.sbtqa.tag.api.annotation.Stashed;
-import ru.sbtqa.tag.api.annotation.Validation;
+import ru.sbtqa.tag.api.annotation.*;
 import ru.sbtqa.tag.api.annotation.applicators.Applicator;
 import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
 import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
@@ -26,10 +17,12 @@ import ru.sbtqa.tag.api.annotation.applicators.QueryApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
+import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
+
+import static java.lang.String.format;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.get;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.invoke;
 import static ru.sbtqa.tag.api.utils.ReflectionUtils.set;
-import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 /**
  * The assistant class for {@link EndpointEntry}.
@@ -171,10 +164,6 @@ public class EndpointEntryReflection {
         Map<String, Object> parameters = new HashMap<>();
 
         for (Field field : fields) {
-            if (get(endpoint, field) == null) {
-                continue;
-            }
-
             for (Annotation annotation : field.getAnnotations()) {
                 switch (type) {
                     case QUERY:

@@ -1,8 +1,5 @@
 package ru.sbtqa.tag.api.entries.methods;
 
-import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
-import static com.google.common.net.MediaType.JSON_UTF_8;
-import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.Rest;
 import ru.sbtqa.tag.api.annotation.Body;
@@ -10,6 +7,10 @@ import ru.sbtqa.tag.api.annotation.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
+
+import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
+import static com.google.common.net.MediaType.JSON_UTF_8;
+import static org.hamcrest.Matchers.equalTo;
 
 @Endpoint(method = Rest.POST, path = "client/post", title = "post with json", template = "templates/Client.json")
 public class PostEndpointEntry extends EndpointEntry {
@@ -21,7 +22,7 @@ public class PostEndpointEntry extends EndpointEntry {
     private int id = Default.ID;
 
     @Body(name = "name")
-    private String name = Default.NAME;
+    private String name = "";
 
     @Body(name = "email")
     private String email;

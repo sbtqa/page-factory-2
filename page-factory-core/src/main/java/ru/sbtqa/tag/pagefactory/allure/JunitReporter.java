@@ -74,7 +74,7 @@ public class JunitReporter {
             }
 
             // In case of CONDITION.POSITIVE arg is null and we need at as empty String
-            return arg.toString() == null ? "" : arg;
+            return arg == null ? "" : arg;
         }).toArray();
     }
 
