@@ -14,8 +14,4 @@
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.PrintParameters"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.JUnitCoreStepAspect"/>
     </aspects>
-    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
-        <include within="ru.sbtqa.tag..*"/>
-        <include within="io.qameta.allure..*"/>
-    </weaver>
 </aspectj>
