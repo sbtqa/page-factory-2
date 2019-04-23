@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory;
 
 import com.google.common.reflect.ClassPath;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -10,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,8 +67,8 @@ public class PageManager {
      * @throws PageInitializationException if failed to execute corresponding
      * page constructor
      */
-    public static Page getPage(Class<? extends Page> pageClass) throws PageInitializationException {
-        Page page = bootstrapPage(pageClass);
+    public static <T extends Page> T getPage(Class<T> pageClass) throws PageInitializationException {
+        T page = bootstrapPage(pageClass);
         if (page == null) {
             throw new AutotestError("Page object '" + pageClass + "' is not registered");
         }
@@ -87,13 +87,10 @@ public class PageManager {
      * @throws PageInitializationException if failed to execute corresponding
      * page constructor
      */
-    private static Page bootstrapPage(Class<?> page) throws PageInitializationException {
+    private static <T extends Page> T bootstrapPage(Class<T> page) throws PageInitializationException {
         if (page != null) {
             try {
-                @SuppressWarnings("unchecked")
-                Constructor<Page> constructor = ((Constructor<Page>) page.getConstructor());
-                constructor.setAccessible(true);
-                return constructor.newInstance();
+                return ConstructorUtils.invokeConstructor(page);
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new PageInitializationException("Failed to initialize page '" + page + "'", e);
             }
