@@ -31,4 +31,9 @@ public abstract class WebPage implements Page {
         Environment.setPageActions(pageActions);
         Environment.setPageChecks(pageChecks);
     }
+
+    @Override
+    public String toString() {
+        return getTitle();
+    }
 }

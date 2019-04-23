@@ -69,6 +69,17 @@ public class CoreSteps<T extends CoreSteps<T>> {
     }
 
     /**
+     * Initialize a page with corresponding class
+     *
+     * @param pageClass class of the page to initialize
+     * @return Returns page instance
+     * @throws PageInitializationException if page initialization failed
+     */
+    public <O extends Page> O openPage(Class<O> pageClass) throws PageInitializationException {
+       return PageManager.getPage(pageClass);
+    }
+
+    /**
      * Execute action with no parameters User|he keywords are optional
      *
      * @param action title of the action to execute
