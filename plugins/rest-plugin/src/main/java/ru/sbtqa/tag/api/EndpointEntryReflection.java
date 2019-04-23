@@ -164,26 +164,28 @@ public class EndpointEntryReflection {
         Map<String, Object> parameters = new HashMap<>();
 
         for (Field field : fields) {
+            final Object parameter = get(endpoint, field);
+
             for (Annotation annotation : field.getAnnotations()) {
                 switch (type) {
                     case QUERY:
-                        if (annotation instanceof Query) {
-                            parameters.put(((Query) annotation).name(), get(endpoint, field));
+                        if (annotation instanceof Query && parameter != null) {
+                            parameters.put(((Query) annotation).name(), parameter);
                         }
                         break;
                     case HEADER:
-                        if (annotation instanceof Header) {
-                            parameters.put(((Header) annotation).name(), get(endpoint, field));
+                        if (annotation instanceof Header && parameter != null) {
+                            parameters.put(((Header) annotation).name(), parameter);
                         }
                         break;
                     case BODY:
                         if (annotation instanceof Body) {
-                            parameters.put(((Body) annotation).name(), get(endpoint, field));
+                            parameters.put(((Body) annotation).name(), parameter);
                         }
                         break;
                     case COOKIE:
-                        if (annotation instanceof Cookie) {
-                            parameters.put(((Cookie) annotation).name(), get(endpoint, field));
+                        if (annotation instanceof Cookie && parameter != null) {
+                            parameters.put(((Cookie) annotation).name(), parameter);
                         }
                         break;
                     default:
