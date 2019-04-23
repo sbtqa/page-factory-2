@@ -2,8 +2,8 @@ package ru.sbtqa.tag.api.entries.apirequest;
 
 import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.Rest;
-import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.pagefactory.Rest;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;

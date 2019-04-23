@@ -6,7 +6,9 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
-import ru.sbtqa.tag.api.annotation.Endpoint;
+
+import ru.sbtqa.tag.pagefactory.ApiEndpoint;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import static ru.sbtqa.tag.api.annotation.ParameterType.BODY;
 import static ru.sbtqa.tag.api.annotation.ParameterType.COOKIE;
 import static ru.sbtqa.tag.api.annotation.ParameterType.HEADER;
@@ -22,6 +24,7 @@ import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.utils.PathUtils;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
+import ru.sbtqa.tag.pagefactory.Rest;
 
 /**
  * An endpoint request (ala Page Object).
@@ -29,7 +32,7 @@ import ru.sbtqa.tag.api.utils.TemplateUtils;
  * It symbolizes the request for an api endpoint. You need to extends your entries from this class
  * and annotate with {@link Endpoint}
  */
-public class EndpointEntry {
+public class EndpointEntry implements ApiEndpoint {
 
     private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
 

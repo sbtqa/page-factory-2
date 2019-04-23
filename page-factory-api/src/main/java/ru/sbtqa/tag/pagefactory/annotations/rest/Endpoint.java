@@ -1,13 +1,13 @@
-package ru.sbtqa.tag.api.annotation;
+package ru.sbtqa.tag.pagefactory.annotations.rest;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import ru.sbtqa.tag.api.Rest;
+import ru.sbtqa.tag.pagefactory.Rest;
 
 /**
- * Annotate class that is the inheritor of {@link ru.sbtqa.tag.api.EndpointEntry}
+ * Annotate class that is the inheritor of  ru.sbtqa.tag.api.EndpointEntry
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

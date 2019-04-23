@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class ApiRepository implements Repository {

@@ -4,10 +4,16 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StatusDetails;
 import io.qameta.allure.model.StepResult;
+
 import java.util.Arrays;
 import java.util.Locale;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import ru.sbtqa.tag.pagefactory.ApiEndpoint;
+import ru.sbtqa.tag.pagefactory.Page;
+import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.qautils.i18n.I18N;
 
@@ -19,7 +25,8 @@ public class JunitReporter {
         // FIXME: need to get another way to filter junit only steps cuz getStackTrace is very hard
         boolean isFromCucumber = Arrays.stream(
                 Thread.currentThread().getStackTrace()
-        ).anyMatch(stackTraceElement -> stackTraceElement.getClassName().matches("ru\\.sbtqa\\.tag\\.stepdefs\\.[en.|ru.].*"));
+        ).anyMatch(stackTraceElement -> stackTraceElement.getClassName()
+                .matches("ru\\.sbtqa\\.tag\\.stepdefs\\.[en.|ru.].*"));
 
         if (isFromCucumber) {
             return joinPoint.proceed();
@@ -71,6 +78,14 @@ public class JunitReporter {
             // In case of (action) we have args as Object... and it is array. We need it as String
             if (arg instanceof Object[]) {
                 arg = Arrays.toString((Object[]) arg);
+            } else if (arg instanceof Class<?>) {
+                if (((Class) arg).isAssignableFrom(Page.class)) {
+                    arg = ((Class<Page>) arg).getAnnotation(PageEntry.class).title();
+                } else if (((Class) arg).isAssignableFrom(ApiEndpoint.class)) {
+                    arg = ((Class<Page>) arg).getAnnotation(Endpoint.class).title();
+                } else {
+                    arg = ((Class) arg).getSimpleName();
+                }
             }
 
             // In case of CONDITION.POSITIVE arg is null and we need at as empty String
