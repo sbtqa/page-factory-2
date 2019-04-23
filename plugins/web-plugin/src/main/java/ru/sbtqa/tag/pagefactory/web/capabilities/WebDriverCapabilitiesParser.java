@@ -2,6 +2,7 @@ package ru.sbtqa.tag.pagefactory.web.capabilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,13 +26,22 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
 
     @Override
     public DesiredCapabilities parse() {
-        Set<String> properties = Props.getProps().stringPropertyNames();
+        Set<String> properties = new HashSet<>();
+        properties.addAll(Props.getProps().stringPropertyNames());
+        properties.addAll(System.getenv().keySet());
+        properties.addAll(System.getProperties().stringPropertyNames());
         List<String> capabilitiesWithPrefix = getCapabilitiesWithPrefix(properties, CAPABILITY_WITH_PREFIX_REGEX);
 
         for (String capabilityWithPrefix : capabilitiesWithPrefix) {
 
             String capabilityName = cutPrefix(capabilityWithPrefix);
             String capabilityValue = Props.get(capabilityWithPrefix);
+            if (System.getenv(capabilityWithPrefix) != null){
+                capabilityValue = System.getenv(capabilityWithPrefix);
+            }
+            if (System.getProperty(capabilityWithPrefix) != null) {
+                capabilityValue = System.getProperty(capabilityWithPrefix);
+            }
 
             if (BrowserName.CHROME.equals(WebEnvironment.getBrowserName())) {
                 cacheChromeOptions(capabilityName, capabilityValue);
