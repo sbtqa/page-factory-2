@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory;
 
 import com.google.common.reflect.ClassPath;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
@@ -143,17 +145,20 @@ public class PageManager {
     }
 
     private static Set<Class<?>> getAllClasses() {
-        Set<Class<?>> allClasses = new HashSet();
+        Set<Class<?>> allClasses = new HashSet<>();
 
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try {
-            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(PROPERTIES.getPagesPackage())) {
-                allClasses.add(info.load());
+        if (PROPERTIES.getPagesPackage() != null) {
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            try {
+                for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(PROPERTIES.getPagesPackage())) {
+                    allClasses.add(info.load());
+                }
+            } catch (IOException ex) {
+                LOG.warn("Failed to shape class info set", ex);
             }
-        } catch (IOException ex) {
-            LOG.warn("Failed to shape class info set", ex);
+        } else {
+            LOG.warn("page.package property is not set");
         }
-
         return allClasses;
     }
 }
