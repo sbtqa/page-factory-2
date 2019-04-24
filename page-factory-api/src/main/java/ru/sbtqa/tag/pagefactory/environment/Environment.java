@@ -58,7 +58,7 @@ public class Environment {
     }
 
     @SuppressWarnings("unchecked")
-    public static  <T extends Find> T  getFindUtils() {
+    public static <T extends Find> T getFindUtils() {
         return (T) findUtils.get();
     }
 

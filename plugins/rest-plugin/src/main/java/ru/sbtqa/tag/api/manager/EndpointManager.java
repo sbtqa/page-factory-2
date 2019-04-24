@@ -9,7 +9,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;

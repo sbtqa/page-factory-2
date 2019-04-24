@@ -17,6 +17,7 @@ import ru.sbtqa.tag.api.annotation.applicators.QueryApplicator;
 import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 
 import static java.lang.String.format;

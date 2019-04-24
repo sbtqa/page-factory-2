@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api;
+package ru.sbtqa.tag.pagefactory;
 
 public enum Rest {
     POST,

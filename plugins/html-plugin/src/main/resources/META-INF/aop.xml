@@ -3,7 +3,4 @@
     <aspects>
         <aspect name="ru.sbtqa.tag.pagefactory.html.aspects.JUnitHtmlStepAspect"/>
     </aspects>
-    <weaver options="-Xset:weaveJavaxPackages=true">
-        <include within="ru.sbtqa.tag..*"/>
-    </weaver>
 </aspectj>

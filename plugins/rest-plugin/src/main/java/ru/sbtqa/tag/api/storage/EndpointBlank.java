@@ -2,7 +2,7 @@ package ru.sbtqa.tag.api.storage;
 
 import java.util.HashMap;
 import java.util.Map;
-import ru.sbtqa.tag.api.annotation.Endpoint;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 
 /**

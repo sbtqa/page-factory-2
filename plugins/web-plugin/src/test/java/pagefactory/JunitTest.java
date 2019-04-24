@@ -3,7 +3,9 @@ package pagefactory;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import pagefactory.pages.webelements.MainPage;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 import setting.JettySettings;
@@ -61,6 +63,14 @@ public class JunitTest {
                 .acceptAlert("Alert text")
                 .click("alert")
                 .dismissAlert("Alert text");
+    }
+
+    @Test
+    public void objetedTest() throws PageInitializationException {
+        WebSteps.getInstance()
+                .openPage(MainPage.class)
+                .pageStep()
+                .pageStep2();
     }
 
     @After
