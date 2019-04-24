@@ -82,7 +82,7 @@ public class JunitReporter {
                 if (((Class) arg).isAssignableFrom(Page.class)) {
                     arg = ((Class<Page>) arg).getAnnotation(PageEntry.class).title();
                 } else if (((Class) arg).isAssignableFrom(ApiEndpoint.class)) {
-                    arg = ((Class<Page>) arg).getAnnotation(Endpoint.class).title();
+                    arg = ((Class<ApiEndpoint>) arg).getAnnotation(Endpoint.class).title();
                 } else {
                     arg = ((Class) arg).getSimpleName();
                 }

@@ -75,7 +75,7 @@ public class CoreSteps<T extends CoreSteps<T>> {
      * @return Returns page instance
      * @throws PageInitializationException if page initialization failed
      */
-    public <O extends Page> O openPage(Class<O> pageClass) throws PageInitializationException {
+    public <E extends Page> E openPage(Class<E> pageClass) throws PageInitializationException {
        return PageManager.getPage(pageClass);
     }
 
