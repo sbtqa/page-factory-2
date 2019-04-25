@@ -27,10 +27,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.allure.CategoriesInjector;
 import ru.sbtqa.tag.pagefactory.allure.Category;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
-import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 @Aspect
@@ -82,7 +82,9 @@ public class CriticalStepCheckAspect {
     private void attachError(PickleStepCustom step, Throwable e) {
         step.setError(e);
         ErrorHandler.attachError(e);
-        ErrorHandler.attachScreenshot();
+        if (!Environment.isDriverEmpty()) {
+            ErrorHandler.attachScreenshot();
+        }
         CategoriesInjector.inject(nonCriticalCategory);
     }
 
