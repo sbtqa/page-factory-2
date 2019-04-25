@@ -143,7 +143,9 @@ public class GherkinSerializer {
 
     private void buildTableRow(TableRow tableRow) {
         List<String> collect = tableRow.getCells().stream()
-                .map(TableCell::getValue).collect(Collectors.toList());
+                .map(tableCell -> tableCell.getValue()
+                        .replaceAll("\\|", "\\\\|"))
+                .collect(Collectors.toList());
         tab(2);
         space(2);
         builder.append("|").append(String.join("|", collect)).append("|");
