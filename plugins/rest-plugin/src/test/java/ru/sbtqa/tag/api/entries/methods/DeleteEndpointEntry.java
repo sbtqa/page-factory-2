@@ -1,18 +1,18 @@
 package ru.sbtqa.tag.api.entries.methods;
 
-import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.pagefactory.Rest;
-import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;
-import ru.sbtqa.tag.api.utils.Default;
+import ru.sbtqa.tag.pagefactory.Rest;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 
-@Endpoint(method = Rest.DELETE, path = "client/delete", title = "delete test")
+import static org.hamcrest.Matchers.equalTo;
+
+@Endpoint(method = Rest.DELETE, path = "client/delete-client", title = "delete test")
 public class DeleteEndpointEntry extends EndpointEntry {
 
-    @Query(name = Default.QUERY_PARAMETER_NAME_1)
-    private String queryParameter = Default.QUERY_PARAMETER_VALUE_1;
+    @Query(name = "client")
+    private String queryParameter;
 
     @Validation(title = "result")
     public void validate() {

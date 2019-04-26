@@ -75,7 +75,7 @@ public class PlaceholderUtils {
         String value = String.valueOf(newValue);
         String[] nullables = new String[]{"null", QUOTE + "null" + QUOTE, QUOTE + QUOTE};
 
-        String placeholder = PLACEHOLDER_START + name + PLACEHOLDER_FINISH;
+        String placeholder = createPlaceholder(name);
         if (!(newValue instanceof String)) {
             placeholder = QUOTE + placeholder + QUOTE;
         } else if (Arrays.asList(nullables).contains(newValue)) {
@@ -83,5 +83,9 @@ public class PlaceholderUtils {
         }
 
         return string.replaceAll(placeholder, value);
+    }
+
+    public static String createPlaceholder(String placeholderName) {
+        return PLACEHOLDER_START + placeholderName + PLACEHOLDER_FINISH;
     }
 }
