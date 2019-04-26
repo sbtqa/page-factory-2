@@ -24,5 +24,6 @@ Feature: Api action test
 
   @delete
   Scenario: delete
-    * user sends request for "delete test"
+    * user sends request for "delete test" with parameters
+      | client | query-parameter-value-1 |
     * system returns "result"

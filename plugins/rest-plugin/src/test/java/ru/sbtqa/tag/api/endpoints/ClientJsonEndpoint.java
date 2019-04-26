@@ -96,10 +96,10 @@ public class ClientJsonEndpoint {
     }
 
     @DELETE
-    @Path("delete")
+    @Path("delete-client")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(
-            @QueryParam(Default.QUERY_PARAMETER_NAME_1) String param) {
+            @QueryParam("client") String param) {
 
         SimpleResult result = new SimpleResult();
         result.setResult(param);
