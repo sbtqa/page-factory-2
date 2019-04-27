@@ -12,6 +12,12 @@ Feature: Datatable test
       | header-parameter-name-1 | header-parameter-value-1 |
 
 
+    @datatable-placeholder
+      Scenario: Placeholder replacement
+      * user sends request for "placeholder api request" with parameters
+      |client|get-with-params|
+      * system returns "result"
+
   @datatable-placeholders
   Scenario Outline: Header and param with placeholder params
     * user sends request for "api request with params test placeholders" with parameters
