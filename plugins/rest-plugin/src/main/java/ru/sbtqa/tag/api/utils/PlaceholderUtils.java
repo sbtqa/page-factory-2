@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 public class PlaceholderUtils {
 
-    private static final String PLACEHOLDER_START = "${";
-    private static final String PLACEHOLDER_FINISH = "}";
     private static final String QUOTE = "\"";
 
     private PlaceholderUtils() {
@@ -75,7 +75,7 @@ public class PlaceholderUtils {
         String value = String.valueOf(newValue);
         String[] nullables = new String[]{"null", QUOTE + "null" + QUOTE, QUOTE + QUOTE};
 
-        String placeholder = createPlaceholder(name);
+        String placeholder = createPlaceholderRegex(name);
         if (!(newValue instanceof String)) {
             placeholder = QUOTE + placeholder + QUOTE;
         } else if (Arrays.asList(nullables).contains(newValue)) {
@@ -86,6 +86,10 @@ public class PlaceholderUtils {
     }
 
     public static String createPlaceholder(String placeholderName) {
-        return PLACEHOLDER_START + placeholderName + PLACEHOLDER_FINISH;
+        return format("${%s}", placeholderName);
+    }
+
+    private static String createPlaceholderRegex(String value) {
+        return format("\\$\\{%s\\}", value);
     }
 }
