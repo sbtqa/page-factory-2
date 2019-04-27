@@ -3,6 +3,7 @@ package ru.sbtqa.tag.api.utils;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -75,7 +76,7 @@ public class PlaceholderUtils {
         String value = String.valueOf(newValue);
         String[] nullables = new String[]{"null", QUOTE + "null" + QUOTE, QUOTE + QUOTE};
 
-        String placeholder = createPlaceholderRegex(name);
+        String placeholder = Pattern.quote(createPlaceholder(name));
         if (!(newValue instanceof String)) {
             placeholder = QUOTE + placeholder + QUOTE;
         } else if (Arrays.asList(nullables).contains(newValue)) {
@@ -87,9 +88,5 @@ public class PlaceholderUtils {
 
     public static String createPlaceholder(String placeholderName) {
         return format("${%s}", placeholderName);
-    }
-
-    private static String createPlaceholderRegex(String value) {
-        return format("\\$\\{%s\\}", value);
     }
 }

@@ -17,11 +17,12 @@ public class QueryApplicator extends DefaultApplicator implements Applicator {
     @Override
     public void apply() {
         String path = endpoint.getPath();
-        String placeholder = PlaceholderUtils.createPlaceholder(field.getAnnotation(Query.class).name());
+        String name = field.getAnnotation(Query.class).name();
+        String placeholder = PlaceholderUtils.createPlaceholder(name);
         Object fieldValue = get(field);
 
         if (path.contains(placeholder) && fieldValue != null) {
-            String replacedPath = PlaceholderUtils.replacePlaceholder(path, placeholder, fieldValue);
+            String replacedPath = PlaceholderUtils.replacePlaceholder(path, name, fieldValue);
             endpoint.setPath(replacedPath);
             set(field, null);
         }
