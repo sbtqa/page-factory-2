@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public class PlaceholderUtils {
 
-    private static final String PLACEHOLDER_START = "\\$\\{";
-    private static final String PLACEHOLDER_FINISH = "\\}";
+    private static final String PLACEHOLDER_START = "${";
+    private static final String PLACEHOLDER_FINISH = "}";
     private static final String QUOTE = "\"";
 
     private PlaceholderUtils() {
