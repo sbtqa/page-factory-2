@@ -31,7 +31,7 @@ public class WindowHandles {
      * @throws WaitException in case if new window handle didn't find
      */
     public static String findNewWindowHandle(Set<String> existingHandles, int timeout) throws WaitException, InterruptedException {
-        long timeoutTime = System.currentTimeMillis() + timeout;
+        long timeoutTime = System.currentTimeMillis() + timeout * 1000;
 
         while (timeoutTime > System.currentTimeMillis()) {
             Set<String> currentHandles = Environment.getDriverService().getDriver().getWindowHandles();
@@ -47,6 +47,6 @@ public class WindowHandles {
             Thread.sleep(1000);
         }
 
-        throw new WaitException("Timed out after '" + timeout + "' milliseconds waiting for new modal window");
+        throw new WaitException("Timed out after '" + timeout + "' seconds waiting for new modal window");
     }
 }
