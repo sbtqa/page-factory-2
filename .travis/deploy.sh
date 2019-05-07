@@ -20,6 +20,7 @@ mkdir -p $DOCS_RELEASES_DIR
 rm -rf $DOCS_RELEASES_DIR/*
 cp -r page-factory-doc/target/doc/index.html page-factory-doc/target/doc/images/ $DOCS_RELEASES_DIR/
 cd $DOCS_RELEASES_DIR
+ls -tp|tail -n +8| xargs -I {} rm -rf -- {}
 git add -A
 git commit -m "$(printf "Add docs for $DOCS_RELEASE_DIR release\n")"
 git push
