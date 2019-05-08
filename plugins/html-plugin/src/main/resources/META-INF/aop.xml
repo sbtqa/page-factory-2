@@ -3,4 +3,8 @@
     <aspects>
         <aspect name="ru.sbtqa.tag.pagefactory.html.aspects.JUnitHtmlStepAspect"/>
     </aspects>
+    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
+        <include within="ru.sbtqa.tag..*"/>
+        <include within="io.qameta.allure.aspects.*"/>
+    </weaver>
 </aspectj>

@@ -7,4 +7,8 @@
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.ScrollToElement"/>
         <aspect name="ru.sbtqa.tag.pagefactory.web.aspects.JUnitWebStepAspect"/>
     </aspects>
+    <weaver options="-Xset:weaveJavaxPackages=true -Xset:weaveJavaPackages=true">
+        <include within="ru.sbtqa.tag..*"/>
+        <include within="io.qameta.allure.aspects.*"/>
+    </weaver>
 </aspectj>
