@@ -92,7 +92,7 @@ public class HtmlFindUtils extends FindUtils {
      * @param wait to wait for the element to appear or not
      * @return Returns an element from a page by name or path
      */
-    public <T extends WebElement> T find(T context, String name, boolean wait) {
+    public <T extends WebElement, E extends WebElement> T find(E context, String name, boolean wait) {
         ComplexElement element = findAndCheckComplexElement(context, name, wait);
         return (T) element.getElement();
     }
