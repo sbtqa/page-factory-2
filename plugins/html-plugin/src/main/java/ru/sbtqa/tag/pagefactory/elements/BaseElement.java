@@ -18,13 +18,13 @@ public class BaseElement extends TypifiedElement {
     }
 
     /**
-     * Ищет элемент вунтри контента
+     * Looks for element from content
      *
-     * @param <T> тип элемента
-     * @param elementName имя элемента внутри {@code ElementTitle}. Может быть
-     * задано в виде пути до элемента, относительно контента
+     * @param <T> element type
+     * @param elementName element name inside {@code ElementTitle}.
+     * May be specified as the path to the item, relative to the content
      *
-     * @return Возвращает найденный элемент
+     * @return Returns the found element
      */
     public <T extends TypifiedElement> T getElement(String elementName) {
         return (T) ((HtmlFindUtils) Environment.getFindUtils()).find(this, elementName, true);
