@@ -180,7 +180,7 @@ public class ElementUtils {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledError If
      * element is disabled
      */
-    public static <T extends WebElement> void clickOnElemenByText(List<T> elements, String text) throws ElementNotFoundException {
+    public static <T extends WebElement> void clickOnElemenByText(List<T> elements, String text) {
         T element = getElementByText(elements, text);
         if (!element.isEnabled()) {
             throw new ElementDisabledError(format("Element with text '%s' is disabled.", text));
@@ -212,7 +212,7 @@ public class ElementUtils {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException If
      * no such element is found in the list
      */
-    public static <T extends WebElement> T getElementByText(List<T> elements, String text) throws ElementNotFoundException {
+    public static <T extends WebElement> T getElementByText(List<T> elements, String text) {
         T element = getElementByTextWithEmptyResult(elements, text);
         if (element == null) {
             throw new ElementNotFoundException(format("Element with text \"%s\" not found.", text));

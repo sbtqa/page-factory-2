@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class ComplexElement<T extends WebElement> {
 
-    public static final String ELEMENT_SEPARATOR = "->";
+    static final String ELEMENT_SEPARATOR = "->";
     private T element;
     private int currentPosition = 0;
     private final List<String> elementPath;
@@ -45,7 +45,7 @@ public class ComplexElement<T extends WebElement> {
     public List<String> getElementPath() {
         return elementPath;
     }
-    
+
     public String getCurrentName() {
         return elementPath.get(currentPosition);
     }
@@ -53,7 +53,7 @@ public class ComplexElement<T extends WebElement> {
     public String getFullElementPath() {
         return fullElementPath;
     }
-    
+
     public boolean isPresent(){
         return isPresent;
     }

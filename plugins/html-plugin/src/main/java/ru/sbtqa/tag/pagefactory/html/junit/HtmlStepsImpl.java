@@ -43,6 +43,7 @@ import ru.yandex.qatools.htmlelements.element.*;
 public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> {
 
     private AccordionSteps accordionSteps;
+    private ControlSteps controlSteps;
 
     public HtmlStepsImpl() {
         HtmlSetupSteps.initHtml();
@@ -50,6 +51,10 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> {
 
     public AccordionSteps accordionSteps() {
         return accordionSteps == null ? new AccordionSteps() : accordionSteps;
+    }
+
+    public ControlSteps controlSteps() {
+        return controlSteps == null ? new ControlSteps() : controlSteps;
     }
 
     /**

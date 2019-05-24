@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.pagefactory.exceptions;
 
-public class ElementNotFoundException extends PageException {
+public class ElementNotFoundException extends RuntimeException {
 
     /**
      * 
