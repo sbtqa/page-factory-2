@@ -96,6 +96,10 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getDataDb();
 
+    @Key("data.arrayDelimiter")
+    @DefaultValue(",")
+    String getDataArrayDelimiter();
+
 
     @Key("junit.lang")
     @DefaultValue("ru")
