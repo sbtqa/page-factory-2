@@ -5,6 +5,8 @@ import static java.lang.String.format;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.hamcrest.core.StringContains;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
@@ -13,14 +15,19 @@ import org.openqa.selenium.interactions.Actions;
 
 import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
+import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
 
 public class ElementUtils {
 
     private static final String INPUT = "input";
     private static final String VALUE = "value";
     private static final String SELECT = "select";
+    private static final String NEWLINE = "\n";
+    private static final String EQUALS_TEXT_ERROR = "Text does not equal expected";
+    private static final String CONTAINS_TEXT_ERROR = "The text does not contain a fragment";
 
     private ElementUtils() {
     }
@@ -308,6 +315,48 @@ public class ElementUtils {
                 return select.getFirstSelectedOption().getText();
             default:
                 return webElement.getText();
+        }
+    }
+
+    /**
+     * Checks the text:
+     * <ul>
+     * <li> If {@code SearchStrategy.EQUALS} then checks that the two text values ​​are equal
+     * <li> If {@code SearchStrategy.CONTAINS} then checks that the first text value contains the second
+     * </ul>
+     *
+     * Result:
+     * <ul>
+     * <li> If the two values ​​are equal, the check is successful
+     * <li> If equal without paragraphs, then noncritical error when comparing
+     * </ul>
+     *
+     * Similarly:
+     *
+     * <ul>
+     * <li> If one value contains another, the check is successful
+     * <li> If it contains no paragraphs, then an uncritical error when comparing
+     * </ul>
+     * @param actual actual text
+     * @param expected expected text
+     * @param strategy search strategy (equals or contains)
+     */
+    public static void checkText(String actual, String expected, SearchStrategy strategy) {
+        String actualValue = actual.trim();
+        String expectedValue = expected.trim();
+
+        if (!actualValue.equals(expected)) {
+            if (actualValue.contains(NEWLINE) || expected.contains(NEWLINE)) {
+                actualValue = actualValue.replace(NEWLINE, "");
+                expectedValue = expectedValue.replace(NEWLINE, "");
+
+                if (strategy.equals(SearchStrategy.EQUALS)) {
+                    Assert.assertEquals(EQUALS_TEXT_ERROR, actualValue, expectedValue);
+                } else {
+                    Assert.assertThat(CONTAINS_TEXT_ERROR, actualValue, StringContains.containsString(expectedValue));
+                }
+                throw new AllureNonCriticalError("Text verification was successful without paragraphs");
+            }
         }
     }
 }

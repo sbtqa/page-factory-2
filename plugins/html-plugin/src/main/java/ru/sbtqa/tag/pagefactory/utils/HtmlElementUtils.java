@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
+import java.util.List;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
@@ -12,6 +14,8 @@ import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory
 import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isTypifiedElement;
 
 public class HtmlElementUtils {
+
+    private static final String TEXT_XPATH = ".//*[text()]";
 
     private HtmlElementUtils() {
     }
@@ -49,5 +53,59 @@ public class HtmlElementUtils {
         CustomHtmlElementDecorator decorator = new CustomHtmlElementDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver()));
         PageFactory.initElements(decorator, PageContext.getCurrentPage());
         return customElement;
+    }
+
+    /**
+     * Gets a text value for elements that contain several text elements
+     * <p>
+     * If the element has no nested elements with text, its text value will be received.
+     * If the element has no text, an empty string will be returned
+     * <p>
+     * If there are several elements with text inside, then their values ​​will be merged into a
+     * string separated by a space
+     *
+     * @param <T> type of item received
+     * @param element the element by which to get the text
+     * @return Returns the text value of an element
+     */
+    public static <T extends WebElement> String getTextOfComplexElement(T element) {
+        return getTextOfComplexElement(element, " ");
+    }
+
+    /**
+     * Gets a text value for elements that contain several text elements
+     * <p>
+     * If the element has no nested elements with text, its text value will be received.
+     * If the element has no text, an empty string will be returned
+     * <p>
+     * If there are several elements with text inside, then their values ​​will be merged into a
+     * string through the specified separator
+     *
+     * @param <T> type of item received
+     * @param element the element by which to get the text
+     * @param separator separator
+     * @return Returns the text value of an element
+     */
+    public static <T extends WebElement> String getTextOfComplexElement(T element, String separator) {
+        WebElement webElement = getWebElement(element);
+        List<WebElement> textElements = webElement.findElements(By.xpath(TEXT_XPATH));
+
+        StringBuilder value = new StringBuilder();
+        String elementText = webElement.getText();
+
+        if (textElements.isEmpty()) {
+            value.append(elementText);
+        } else {
+            for (WebElement textElement : textElements) {
+                value.append(textElement.getText()).append(separator);
+            }
+        }
+
+        // TODO A temporary solution for elements containing tagged overtones inside the text button.
+        //  For them, the standard getText () does not work and the logic for obtaining a complex element does not work.
+        if (elementText.length() - value.toString().length() >= 0) {
+            value = new StringBuilder(elementText);
+        }
+        return value.toString().trim();
     }
 }
