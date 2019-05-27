@@ -38,6 +38,10 @@ public abstract class TableAbstract extends TypifiedElement {
 
     private static final Logger LOG = LoggerFactory.getLogger(TableAbstract.class);
 
+    public TableAbstract(WebElement wrappedElement) {
+        super(wrappedElement);
+    }
+
     public abstract String getColumnsXpath();
 
     public abstract String getRowsXpath();
@@ -50,10 +54,6 @@ public abstract class TableAbstract extends TypifiedElement {
 
     public String getGroupXpathTemplate() {
         throw new UnsupportedOperationException("No path to group in table");
-    }
-
-    public TableAbstract(WebElement wrappedElement) {
-        super(wrappedElement);
     }
 
     /**

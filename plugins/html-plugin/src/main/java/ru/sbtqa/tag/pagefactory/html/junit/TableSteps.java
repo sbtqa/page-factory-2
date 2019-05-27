@@ -27,13 +27,13 @@ public class TableSteps implements Steps {
     /**
      * Selects the first row of the table in order
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @return Returns itself
      */
-    public TableSteps selectRow(ClickVariation doubleClick, String tableName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRow(ClickVariation clickVariation, String tableName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(0, isDouble);
         return this;
     }
@@ -41,14 +41,14 @@ public class TableSteps implements Steps {
     /**
      * Selects the first in order of the group row
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param groupName group name
      * @return Returns itself
      */
-    public TableSteps selectRowInGroup(ClickVariation doubleClick, String tableName, String groupName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String groupName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, 0, isDouble);
         return this;
     }
@@ -56,14 +56,14 @@ public class TableSteps implements Steps {
     /**
      * Selects a row of a table by its index
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param rowIndex row index
      * @param tableName table name
      * @return Returns itself
      */
-    public TableSteps selectRowByNumber(ClickVariation doubleClick, String rowIndex, String tableName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowByNumber(ClickVariation clickVariation, String rowIndex, String tableName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(Integer.parseInt(rowIndex) - 1, isDouble);
         return this;
     }
@@ -71,15 +71,15 @@ public class TableSteps implements Steps {
     /**
      * Selects a row of a group by its index
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param rowIndex row index
      * @param tableName table name
      * @param groupName group name
      * @return Returns itself
      */
-    public TableSteps selectRowByNumberInGroup(ClickVariation doubleClick, String rowIndex, String tableName, String groupName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowByNumberInGroup(ClickVariation clickVariation, String rowIndex, String tableName, String groupName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(rowIndex) - 1, isDouble);
         return this;
     }
@@ -87,15 +87,15 @@ public class TableSteps implements Steps {
     /**
      * Selects the row in the table by the cell text in the column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param cellText cell text
      * @param columnName column name
      * @return Returns itself
      */
-    public TableSteps selectRow(ClickVariation doubleClick, String tableName, String cellText, String columnName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRow(ClickVariation clickVariation, String tableName, String cellText, String columnName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(columnName, cellText, 1, isDouble);
         return this;
     }
@@ -103,7 +103,7 @@ public class TableSteps implements Steps {
     /**
      * Selects the row in the group by the cell text in the column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param gropName
@@ -111,8 +111,8 @@ public class TableSteps implements Steps {
      * @param columnName column name
      * @return Returns itself
      */
-    public TableSteps selectRowInGroup(ClickVariation doubleClick, String tableName, String gropName, String cellText, String columnName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String gropName, String cellText, String columnName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(gropName, columnName, cellText, 1, isDouble);
         return this;
     }
@@ -120,7 +120,7 @@ public class TableSteps implements Steps {
     /**
      * Selects the row in the table by the cell text in the column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param cellText cell text
@@ -128,8 +128,8 @@ public class TableSteps implements Steps {
      * @param serialNumber sequence number for selection of matches found (1, 2, 3 ...)
      * @return Returns itself
      */
-    public TableSteps selectRow(ClickVariation doubleClick, String tableName, String cellText, String columnName, int serialNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRow(ClickVariation clickVariation, String tableName, String cellText, String columnName, int serialNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(columnName, cellText, serialNumber, isDouble);
         return this;
     }
@@ -137,7 +137,7 @@ public class TableSteps implements Steps {
     /**
      * Selects the row in the table by the cell text in the column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param groupName group name
@@ -146,8 +146,8 @@ public class TableSteps implements Steps {
      * @param serialNumber sequence number for selection of matches found (1, 2, 3 ...)
      * @return Returns itself
      */
-    public TableSteps selectRowInGroup(ClickVariation doubleClick, String tableName, String groupName, String cellText, String columnName, int serialNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String groupName, String cellText, String columnName, int serialNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, columnName, cellText, serialNumber, isDouble);
         return this;
     }
@@ -155,7 +155,7 @@ public class TableSteps implements Steps {
     /**
      * Selects a row in a table by element value in a column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param columnName column name
@@ -163,8 +163,8 @@ public class TableSteps implements Steps {
      * @param elementValue element value
      * @return Returns itself
      */
-    public TableSteps selectRowByElement(ClickVariation doubleClick, String tableName, String columnName, String elementName, String elementValue) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowByElement(ClickVariation clickVariation, String tableName, String columnName, String elementName, String elementValue) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowByElement(columnName, elementName, elementValue, 1, isDouble);
         return this;
     }
@@ -172,7 +172,7 @@ public class TableSteps implements Steps {
     /**
      * Selects a row in a table by element value in a column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param columnName column name
@@ -181,8 +181,8 @@ public class TableSteps implements Steps {
      * @param serialNumber sequence number for selection of matches found (1, 2, 3 ...)
      * @return Returns itself
      */
-    public TableSteps selectRowByElement(ClickVariation doubleClick, String tableName, String columnName, String elementName, String elementValue, int serialNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowByElement(ClickVariation clickVariation, String tableName, String columnName, String elementName, String elementValue, int serialNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowByElement(columnName, elementName, elementValue, serialNumber, isDouble);
         return this;
     }
@@ -210,7 +210,7 @@ public class TableSteps implements Steps {
      * @param stashKey Stash key
      * @return Returns itself
      */
-    public TableSteps saveRowNumberViaColumnIndex(String tableName, String cellText, String columnNumber, String stashKey) {
+    public TableSteps saveRowNumberByIndex(String tableName, String cellText, String columnNumber, String stashKey) {
         getTable(tableName).saveRowNumber(Integer.parseInt(columnNumber) - 1, cellText, stashKey, 1);
         return this;
     }
@@ -226,7 +226,7 @@ public class TableSteps implements Steps {
      * @param columnNumber column ordinal (1, 2, 3...)
      * @return Returns itself
      */
-    public TableSteps clickButtonViaColumnIndex(String buttonName, String tableName, String columnWithButtonNumber, String cellText, String columnNumber) {
+    public TableSteps clickButtonByIndex(String buttonName, String tableName, String columnWithButtonNumber, String cellText, String columnNumber) {
         getTable(tableName).clickButton(Integer.parseInt(columnNumber) - 1, cellText, buttonName, Integer.parseInt(columnWithButtonNumber) - 1);
         return this;
     }
@@ -240,7 +240,7 @@ public class TableSteps implements Steps {
      * @param rowNumber row number
      * @return Returns itself
      */
-    public TableSteps clickButtonViaIndexes(String buttonName, String tableName, String columnNumber, String rowNumber) {
+    public TableSteps clickButtonByIndexes(String buttonName, String tableName, String columnNumber, String rowNumber) {
         getTable(tableName).clickButton(Integer.parseInt(columnNumber) - 1, Integer.parseInt(rowNumber) - 1, buttonName);
         return this;
     }
@@ -253,7 +253,7 @@ public class TableSteps implements Steps {
      * @param rowNumber row number
      * @return Returns itself
      */
-    public TableSteps clickButtonViaColumnIndex(String tableName, String columnNumber, String rowNumber) {
+    public TableSteps clickButtonByIndex(String tableName, String columnNumber, String rowNumber) {
         getTable(tableName).clickButton(Integer.parseInt(columnNumber) - 1, Integer.parseInt(rowNumber) - 1);
         return this;
     }
@@ -268,7 +268,7 @@ public class TableSteps implements Steps {
      * @param columnNumber column ordinal (1, 2, 3...)
      * @return Returns itself
      */
-    public TableSteps clickButtonViaColumnIndex(String tableName, String columnWithButtonNumber, String cellText, String columnNumber) {
+    public TableSteps clickButtonByIndex(String tableName, String columnWithButtonNumber, String cellText, String columnNumber) {
         getTable(tableName).clickButton(Integer.parseInt(columnNumber) - 1, cellText, Integer.parseInt(columnWithButtonNumber) - 1);
         return this;
     }
@@ -298,7 +298,7 @@ public class TableSteps implements Steps {
      * @param rowNumber row number
      * @return Returns itself
      */
-    public TableSteps clickButtonViaRowIndex(String buttonName, String tableName, String columnName, String rowNumber) {
+    public TableSteps clickButtonByRowIndex(String buttonName, String tableName, String columnName, String rowNumber) {
         getTable(tableName).clickButton(columnName, Integer.parseInt(rowNumber) - 1, buttonName);
         return this;
     }
@@ -334,15 +334,15 @@ public class TableSteps implements Steps {
     /**
      * Selects a row by text in a column with the specified index
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param cellText cell text
      * @param columnNumber column ordinal (1, 2, 3...)
      * @return Returns itself
      */
-    public TableSteps selectRowInColumn(ClickVariation doubleClick, String tableName, String cellText, String columnNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInColumn(ClickVariation clickVariation, String tableName, String cellText, String columnNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(Integer.parseInt(columnNumber) - 1, cellText, 1, isDouble);
         return this;
     }
@@ -350,7 +350,7 @@ public class TableSteps implements Steps {
     /**
      * Selects a row in a group by text in a column with the specified index
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param groupName group name
@@ -358,8 +358,8 @@ public class TableSteps implements Steps {
      * @param columnNumber column ordinal (1, 2, 3...)
      * @return Returns itself
      */
-    public TableSteps selectRowInColumnInGroup(ClickVariation doubleClick, String tableName, String groupName, String cellText, String columnNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInColumnInGroup(ClickVariation clickVariation, String tableName, String groupName, String cellText, String columnNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(columnNumber) - 1, cellText, 1, isDouble);
         return this;
     }
@@ -367,7 +367,7 @@ public class TableSteps implements Steps {
     /**
      * Selects a row by text in a column with the specified index
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param cellText cell text
@@ -375,8 +375,8 @@ public class TableSteps implements Steps {
      * @param serialNumber sequence number for selection of matches found (1, 2, 3 ...)
      * @return Returns itself
      */
-    public TableSteps selectRowInColumnByNumber(ClickVariation doubleClick, String tableName, String cellText, String columnNumber, int serialNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInColumnByNumber(ClickVariation clickVariation, String tableName, String cellText, String columnNumber, int serialNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(Integer.parseInt(columnNumber) - 1, cellText, serialNumber, isDouble);
         return this;
     }
@@ -384,7 +384,7 @@ public class TableSteps implements Steps {
     /**
      * Selects a row in a group by text in a column with the specified index
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param groupName group name
@@ -393,8 +393,8 @@ public class TableSteps implements Steps {
      * @param serialNumber sequence number for selection of matches found (1, 2, 3 ...)
      * @return Returns itself
      */
-    public TableSteps selectRowInColumnByNumberInGroup(ClickVariation doubleClick, String tableName, String groupName, String cellText, String columnNumber, int serialNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInColumnByNumberInGroup(ClickVariation clickVariation, String tableName, String groupName, String cellText, String columnNumber, int serialNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(columnNumber) - 1, cellText, serialNumber, isDouble);
         return this;
     }
@@ -402,14 +402,14 @@ public class TableSteps implements Steps {
     /**
      * Selects a row by text in any column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param cellText cell text
      * @param tableName table name
      * @return Returns itself
      */
-    public TableSteps selectRow(ClickVariation doubleClick, String cellText, String tableName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRow(ClickVariation clickVariation, String cellText, String tableName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(cellText, 1, isDouble);
         return this;
     }
@@ -417,15 +417,15 @@ public class TableSteps implements Steps {
     /**
      * Selects a row in a group by text in any column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param cellText cell text
      * @param tableName table name
      * @param groupName group name
      * @return Returns itself
      */
-    public TableSteps selectRowInGroup(ClickVariation doubleClick, String cellText, String tableName, String groupName) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInGroup(ClickVariation clickVariation, String cellText, String tableName, String groupName) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, cellText, 1, isDouble);
         return this;
     }
@@ -433,15 +433,15 @@ public class TableSteps implements Steps {
     /**
      * Selects a row by text in any column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param cellText cell text
      * @param tableName table name
      * @param serialNumber sequence number for selection of matches found (1, 2, 3 ...)
      * @return Returns itself
      */
-    public TableSteps selectRow(ClickVariation doubleClick, String cellText, String tableName, int serialNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRow(ClickVariation clickVariation, String cellText, String tableName, int serialNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(cellText, serialNumber, isDouble);
         return this;
     }
@@ -449,7 +449,7 @@ public class TableSteps implements Steps {
     /**
      * Selects a row in a group by text in any column
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param cellText cell text
      * @param tableName table name
@@ -457,8 +457,8 @@ public class TableSteps implements Steps {
      * @param serialNumber sequence number for selection of matches found (1, 2, 3 ...)
      * @return Returns itself
      */
-    public TableSteps selectRowInGroup(ClickVariation doubleClick, String cellText, String tableName, String groupName, int serialNumber) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRowInGroup(ClickVariation clickVariation, String cellText, String tableName, String groupName, int serialNumber) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, cellText, serialNumber, isDouble);
         return this;
     }
@@ -466,14 +466,14 @@ public class TableSteps implements Steps {
     /**
      * Selects the line that matches the expected line, regardless of the order of the elements
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param data unordered list of line elements
      * @return Returns itself
      */
-    public TableSteps selectRow(ClickVariation doubleClick, String tableName, List data) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRow(ClickVariation clickVariation, String tableName, List data) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRow(data, isDouble);
         return this;
     }
@@ -481,15 +481,15 @@ public class TableSteps implements Steps {
     /**
      * Selects the row in the group that matches the expected row, regardless of the order of the elements
      *
-     * @param doubleClick {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
+     * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
      * @param groupName group name
      * @param data unordered list of line elements
      * @return Returns itself
      */
-    public TableSteps selectRow(ClickVariation doubleClick, String tableName, String groupName, List data) {
-        boolean isDouble = doubleClick.equals(ClickVariation.DOUBLE_CLICK);
+    public TableSteps selectRow(ClickVariation clickVariation, String tableName, String groupName, List data) {
+        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
         getTable(tableName).selectRowInGroup(groupName, data, isDouble);
         return this;
     }
@@ -502,36 +502,7 @@ public class TableSteps implements Steps {
      * @param cellText cell text
      * @return Returns itself
      */
-    public TableSteps tableHasText(String tableName, String columnName, String cellText) {
-        Assert.assertTrue(format(COLUMN_TEXT_NOT_FOUND_TEMPLATE, cellText, columnName, tableName),
-                getTable(tableName).hasText(columnName, cellText, SearchStrategy.CONTAINS));
-        return this;
-    }
-
-    /**
-     * Checks for text in a column in a group
-     *
-     * @param tableName table name
-     * @param groupName group name
-     * @param columnName column name
-     * @param cellText cell text
-     * @return Returns itself
-     */
-    public TableSteps tableHasTextInGroup(String tableName, String groupName, String columnName, String cellText) {
-        Assert.assertTrue(format(COLUMN_TEXT_NOT_FOUND_IN_GROUP_TEMPLATE, cellText, columnName, tableName, groupName),
-                getTable(tableName).hasTextInGroup(groupName, columnName, cellText, SearchStrategy.CONTAINS));
-        return this;
-    }
-
-    /**
-     * Checks for text in a column
-     *
-     * @param tableName table name
-     * @param columnName column name
-     * @param cellText cell text
-     * @return Returns itself
-     */
-    public TableSteps tableContainsText(String tableName, String columnName, String cellText) {
+    public TableSteps hasText(String tableName, String columnName, String cellText) {
         Assert.assertTrue(format(COLUMN_TEXT_NOT_FOUND_TEMPLATE, cellText, columnName, tableName),
                 getTable(tableName).hasText(columnName, cellText, SearchStrategy.EQUALS));
         return this;
@@ -546,36 +517,38 @@ public class TableSteps implements Steps {
      * @param cellText cell text
      * @return Returns itself
      */
-    public TableSteps tableContainsTextInGroup(String tableName, String groupName, String columnName, String cellText) {
+    public TableSteps hasTextInGroup(String tableName, String groupName, String columnName, String cellText) {
         Assert.assertTrue(format(COLUMN_TEXT_NOT_FOUND_IN_GROUP_TEMPLATE, cellText, columnName, tableName, groupName),
                 getTable(tableName).hasTextInGroup(groupName, columnName, cellText, SearchStrategy.EQUALS));
         return this;
     }
 
     /**
-     * Checks for text in a table
+     * Checks for text in a column
      *
      * @param tableName table name
+     * @param columnName column name
      * @param cellText cell text
      * @return Returns itself
      */
-    public TableSteps tableCellHasText(String tableName, String cellText) {
-        Assert.assertTrue(format(TEXT_NOT_FOUND_TEMPLATE, cellText, tableName),
-                getTable(tableName).hasText(cellText, SearchStrategy.CONTAINS));
+    public TableSteps containsText(String tableName, String columnName, String cellText) {
+        Assert.assertTrue(format(COLUMN_TEXT_NOT_FOUND_TEMPLATE, cellText, columnName, tableName),
+                getTable(tableName).hasText(columnName, cellText, SearchStrategy.CONTAINS));
         return this;
     }
 
     /**
-     * Checks for the presence of text in a table in a group
+     * Checks for text in a column in a group
      *
      * @param tableName table name
      * @param groupName group name
+     * @param columnName column name
      * @param cellText cell text
      * @return Returns itself
      */
-    public TableSteps tableCellHasTextInGroup(String tableName, String groupName, String cellText) {
-        Assert.assertTrue(format(TEXT_NOT_FOUND_IN_GROUP_TEMPLATE, cellText, tableName, groupName),
-                getTable(tableName).hasTextInGroup(groupName, cellText, SearchStrategy.CONTAINS));
+    public TableSteps containsTextInGroup(String tableName, String groupName, String columnName, String cellText) {
+        Assert.assertTrue(format(COLUMN_TEXT_NOT_FOUND_IN_GROUP_TEMPLATE, cellText, columnName, tableName, groupName),
+                getTable(tableName).hasTextInGroup(groupName, columnName, cellText, SearchStrategy.CONTAINS));
         return this;
     }
 
@@ -586,7 +559,7 @@ public class TableSteps implements Steps {
      * @param cellText cell text
      * @return Returns itself
      */
-    public TableSteps tableCellContainsText(String tableName, String cellText) {
+    public TableSteps hasText(String tableName, String cellText) {
         Assert.assertTrue(format(TEXT_NOT_FOUND_TEMPLATE, cellText, tableName),
                 getTable(tableName).hasText(cellText, SearchStrategy.EQUALS));
         return this;
@@ -600,9 +573,36 @@ public class TableSteps implements Steps {
      * @param cellText cell text
      * @return Returns itself
      */
-    public TableSteps tableCellContainsTextInGroup(String tableName, String groupName, String cellText) {
+    public TableSteps hasTextInGroup(String tableName, String groupName, String cellText) {
         Assert.assertTrue(format(TEXT_NOT_FOUND_IN_GROUP_TEMPLATE, cellText, tableName, groupName),
                 getTable(tableName).hasTextInGroup(groupName, cellText, SearchStrategy.EQUALS));
+        return this;
+    }
+
+    /**
+     * Checks for text in a table
+     *
+     * @param tableName table name
+     * @param cellText cell text
+     * @return Returns itself
+     */
+    public TableSteps containsText(String tableName, String cellText) {
+        Assert.assertTrue(format(TEXT_NOT_FOUND_TEMPLATE, cellText, tableName),
+                getTable(tableName).hasText(cellText, SearchStrategy.CONTAINS));
+        return this;
+    }
+
+    /**
+     * Checks for the presence of text in a table in a group
+     *
+     * @param tableName table name
+     * @param groupName group name
+     * @param cellText cell text
+     * @return Returns itself
+     */
+    public TableSteps containsTextInGroup(String tableName, String groupName, String cellText) {
+        Assert.assertTrue(format(TEXT_NOT_FOUND_IN_GROUP_TEMPLATE, cellText, tableName, groupName),
+                getTable(tableName).hasTextInGroup(groupName, cellText, SearchStrategy.CONTAINS));
         return this;
     }
 
@@ -618,7 +618,7 @@ public class TableSteps implements Steps {
      * | Column 2 | cell text |
      * @return Returns itself
      */
-    public TableSteps checkTableRow(String tableName, String cellText, String columnName, DataTable data) {
+    public TableSteps checkRow(String tableName, String cellText, String columnName, DataTable data) {
         Map<String, String> dataMap = data.asMap(String.class, String.class);
         getTable(tableName).checkRow(columnName, cellText, dataMap);
         return this;
@@ -637,7 +637,7 @@ public class TableSteps implements Steps {
      * | Column 2 | cell text |
      * @return Returns itself
      */
-    public TableSteps checkTableRowInGroup(String tableName, String groupName, String cellText, String columnName, DataTable data) {
+    public TableSteps checkRowInGroup(String tableName, String groupName, String cellText, String columnName, DataTable data) {
         Map<String, String> dataMap = data.asMap(String.class, String.class);
         getTable(tableName).checkRowInGroup(groupName, columnName, cellText, dataMap);
         return this;
@@ -655,7 +655,7 @@ public class TableSteps implements Steps {
      * | 2 | cell text |
      * @return Returns itself
      */
-    public TableSteps checkTableRowViaColumnIndexes(String tableName, String cellText, String columnNumber, DataTable data) {
+    public TableSteps checkRowByIndex(String tableName, String cellText, String columnNumber, DataTable data) {
         Map<Integer, String> dataMap = data.asMap(Integer.class, String.class);
         getTable(tableName).checkRow(Integer.parseInt(columnNumber), cellText, dataMap);
         return this;
@@ -674,7 +674,7 @@ public class TableSteps implements Steps {
      * | 2 | cell text |
      * @return Returns itself
      */
-    public TableSteps checkTableRowViaColumnIndexesInGroup(String tableName, String groupName, String cellText, String columnNumber, DataTable data) {
+    public TableSteps checkRowByIndexInGroup(String tableName, String groupName, String cellText, String columnNumber, DataTable data) {
         Map<Integer, String> dataMap = data.asMap(Integer.class, String.class);
         getTable(tableName).checkRowInGroup(groupName, Integer.parseInt(columnNumber), cellText, dataMap);
         return this;
