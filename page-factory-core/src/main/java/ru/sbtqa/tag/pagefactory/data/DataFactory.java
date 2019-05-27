@@ -64,7 +64,8 @@ public class DataFactory {
                     testDataProvider = initProvider(PROVIDERS.PROPERTIES_DATA_PROVIDER,
                             dataFolder,
                             initialCollection,
-                            (dataExtension.equals("")) ? "properties" : dataExtension
+                            (dataExtension.equals("")) ? "properties" : dataExtension,
+                            PROPERTIES.getDataArrayDelimiter()
                     );
                     break;
                 case "excel":
