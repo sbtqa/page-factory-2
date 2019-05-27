@@ -44,6 +44,7 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> {
 
     private AccordionSteps accordionSteps;
     private ControlSteps controlSteps;
+    private TableSteps tableSteps;
 
     public HtmlStepsImpl() {
         HtmlSetupSteps.initHtml();
@@ -55,6 +56,10 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> {
 
     public ControlSteps controlSteps() {
         return controlSteps == null ? new ControlSteps() : controlSteps;
+    }
+
+    public TableSteps tableSteps() {
+        return tableSteps == null ? new TableSteps() : tableSteps;
     }
 
     /**
