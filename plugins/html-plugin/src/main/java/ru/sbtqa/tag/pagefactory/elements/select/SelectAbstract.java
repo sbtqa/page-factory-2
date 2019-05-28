@@ -44,7 +44,7 @@ public abstract class SelectAbstract extends TypifiedElement implements Select {
     }
 
     /**
-     * Closes dropdown (press ESK)
+     * Closes dropdown (press ESC)
      */
     public void close() {
         Actions actions = new Actions((WebDriver) Environment.getDriverService().getDriver());

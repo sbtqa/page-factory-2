@@ -190,7 +190,7 @@ public class HtmlFindUtils extends FindUtils {
      */
     public <T extends WebElement, E extends WebElement> List<E> findList(T context, String name) throws ElementDescriptionException {
         try {
-            ComplexElement element;// = new ComplexElement<>(context, name, false);
+            ComplexElement element;
             Field field;
 
             if (name.contains(ELEMENT_SEPARATOR)) {
@@ -455,8 +455,8 @@ public class HtmlFindUtils extends FindUtils {
             String dir = types.substring(0, types.lastIndexOf("/"));
             String name = types.substring(types.lastIndexOf("/")).replace(".json", "");
             TestDataProvider dataObject = new JsonDataProvider(dir, name);
-            for (String p : dataObject.getKeySet()) {
-                elements.put(p, Class.forName(dataObject.get(p).getValue()));
+            for (String typeAttribute : dataObject.getKeySet()) {
+                elements.put(typeAttribute, Class.forName(dataObject.get(typeAttribute).getValue()));
             }
         } catch (DataException | ClassNotFoundException ex) {
             throw new AutotestError("Error while generating element search types.", ex);
