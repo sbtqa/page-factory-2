@@ -6,15 +6,18 @@ import gherkin.pickles.PickleCell;
 import gherkin.pickles.PickleRow;
 import gherkin.pickles.PickleString;
 import gherkin.pickles.PickleTable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.datajack.exceptions.StashKeyNotFoundException;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+
 import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_REGEX;
 
 public class DataReplacer {
@@ -27,7 +30,7 @@ public class DataReplacer {
      *
      * @param testStep step
      * @throws IllegalAccessException in case of a field write error
-     * @throws DataException in case of a data parse error
+     * @throws DataException          in case of a data parse error
      */
     public void replace(PickleTestStep testStep) throws IllegalAccessException, DataException {
         if (DataFactory.getDataProvider() != null) {
@@ -90,7 +93,8 @@ public class DataReplacer {
                     offset = argVal.length() - data.length();
                     argVal = data;
 
-                    replacedValue.replace(argOffset, argOffset + argVal.length(), data);
+                    replacedValue.delete(argument.getOffset(), argument.getOffset() + argument.getVal().length())
+                            .insert(argOffset, data);
                     stepDataMatcher = stepDataPattern.matcher(replacedValue);
                 } else {
                     argOffset = argument.getOffset() - offset;
@@ -118,7 +122,7 @@ public class DataReplacer {
     /**
      * Substitutes data from files into a string
      *
-     * @param raw replaceable string
+     * @param raw                 replaceable string
      * @param currentScenarioData scenario data path
      * @return replaced string
      * @throws DataException in case of a field write error
