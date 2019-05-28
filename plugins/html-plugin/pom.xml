@@ -66,6 +66,11 @@
       <version>2.10.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>ru.sbtqa.tag.datajack.providers</groupId>
+      <artifactId>json-provider</artifactId>
+      <version>${tag.version.datajack}</version>
+    </dependency>
   </dependencies>
 
   <build>
