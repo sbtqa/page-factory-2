@@ -3,7 +3,7 @@ package ru.sbtqa.tag.pagefactory.elements.radiogroup;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.openqa.selenium.WebElement;
-import ru.sbtqa.tag.pagefactory.elements.SelectValue;
+import ru.sbtqa.tag.pagefactory.elements.select.SelectValue;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;

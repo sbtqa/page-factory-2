@@ -22,8 +22,6 @@ public class HtmlReflection extends DefaultReflection {
         try {
             HtmlElement block = ((HtmlFindUtils) Environment.getFindUtils()).find(blockPath, HtmlElement.class);
             executeMethodByTitle(block, actionTitle, parameters);
-        } catch (NoSuchMethodException ex) {
-            throw new NoSuchActionError(format("Action '%s' not found in block '%s'", actionTitle, blockPath), ex);
         } catch (ElementSearchError ex) {
             throw new ElementSearchError(format("Block not found by path '%s'", blockPath), ex);
         }

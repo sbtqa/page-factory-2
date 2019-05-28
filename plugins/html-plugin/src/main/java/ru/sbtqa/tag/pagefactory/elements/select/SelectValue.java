@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.elements;
+package ru.sbtqa.tag.pagefactory.elements.select;
 
 import org.openqa.selenium.WebElement;
 

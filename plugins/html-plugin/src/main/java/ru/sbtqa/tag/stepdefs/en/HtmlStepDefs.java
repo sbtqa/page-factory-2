@@ -1,11 +1,20 @@
 package ru.sbtqa.tag.stepdefs.en;
 
 import cucumber.api.DataTable;
+import cucumber.api.Transform;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
+import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.Когда;
+import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.html.junit.HtmlSetupSteps;
 import ru.sbtqa.tag.pagefactory.html.junit.HtmlSteps;
+import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
+import ru.sbtqa.tag.pagefactory.transformer.PresenceTransformer;
+import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.transformer.enums.Presence;
 
 public class HtmlStepDefs {
 
@@ -39,5 +48,94 @@ public class HtmlStepDefs {
     @And("^user in list \"([^\"]*)\" finds the value element \"([^\"]*)\"$")
     public void find(String listTitle, String value) throws PageException {
         htmlSteps.find(listTitle, value);
+    }
+
+    @Когда("^user clears the field \"([^\"]*)\"$")
+    public void clearField(String fieldName) {
+        htmlSteps.clearField(fieldName);
+    }
+
+    @Когда("^user fills the form$")
+    @И("^user marks controls$")
+    public void fillForm(DataTable dataTable) {
+        htmlSteps.fillForm(dataTable);
+    }
+
+    @Когда("^element \"([^\"]*)\" necessarily (is|not) present on the page$")
+    public void elementAlwaysPresent(String elementName, @Transform(PresenceTransformer.class) Presence present) {
+        htmlSteps.elementAlwaysPresent(present, elementName);
+    }
+
+    @Когда("^elements necessarily (is|not) present on the page$")
+    public void elementsAlwaysPresent(@Transform(PresenceTransformer.class) Presence present, List<String> elementNames) {
+        htmlSteps.elementsAlwaysPresent(present, elementNames);
+    }
+
+    @Когда("^elements is (not )?editable$")
+    public void elementsPresentAndDisabled(@Transform(ConditionTransformer.class) Condition condition, List<String> elementNames) {
+        htmlSteps.elementsPresentAndDisabled(condition, elementNames);
+    }
+
+    @Когда("^element \"([^\"]*)\" is (not )?editable$")
+    public void elementPresentAndDisabled(String elementName, @Transform(ConditionTransformer.class) Condition condition ) {
+        htmlSteps.elementPresentAndDisabled(elementName, condition );
+    }
+
+    @Когда("^button \"([^\"]*)\" is (not )?selected$")
+    public void elementsPresentAndSelected(String elementName, @Transform(ConditionTransformer.class) Condition condition) {
+        htmlSteps.elementsPresentAndSelected(condition, elementName);
+    }
+
+    @Когда("^stores the value of the element \"([^\"]*)\" in the variable \"([^\"]*)\"$")
+    public void putInStash(String elementName, String variableName) {
+        htmlSteps.putInStash(elementName, variableName);
+    }
+
+    @Когда("^hovers over an element \"([^\"]*)\"$")
+    public void moveToElement(String elementName) {
+        htmlSteps.moveToElement(elementName);
+    }
+
+    @Когда("^list of text values is displayed:?$")
+    public void checkTextList(List<String> textList) {
+        htmlSteps.checkTextList(textList);
+    }
+
+    @И("^text is displayed$")
+    @Когда("^text is displayed \"([^\"]*)\"$")
+    public void checkText(String expectedText) {
+        htmlSteps.checkText(expectedText);
+    }
+
+    @Когда("^open page \"([^\"]*)\" and wait for element \"([^\"]*)\"$")
+    public void openPage(String pageName, String elementName) throws PageInitializationException {
+        htmlSteps.openPage(pageName, elementName);
+    }
+
+    @Когда("^checks form$")
+    public void checkForm(DataTable dataTable) {
+        htmlSteps.checkForm(dataTable);
+    }
+
+    @И("^text of the element \"([^\"]*)\" contains a fragment$")
+    @Когда("^text of the element \"([^\"]*)\" contains a fragment \"([^\"]*)\"$")
+    public void checkElementText(String elementName, String expectedText) {
+        htmlSteps.checkElementText(elementName, expectedText);
+    }
+
+    @И("^text of the element \"([^\"]*)\" is strictly equal$")
+    @Когда("^text of the element \"([^\"]*)\" is strictly equal \"([^\"]*)\"$")
+    public void checkTextEquals(String elementName, String expectedText) {
+        htmlSteps.checkTextEquals(elementName, expectedText);
+    }
+
+    @Когда("^text of the element \"([^\"]*)\" matches the mask \"([^\"]*)\"$")
+    public void checkInputMask(String elementName, String mask) {
+        htmlSteps.checkInputMask(elementName, mask);
+    }
+
+    @Когда("^user clicks on the overlapped element \"([^\"]*)\"$")
+    public void clickByOverlapElement(String elementName) {
+        htmlSteps.clickByOverlapElement(elementName);
     }
 }

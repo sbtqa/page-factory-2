@@ -51,7 +51,7 @@ public class DefaultReflection implements Reflection {
     }
 
     @Override
-    public void executeMethodByTitle(Object context, String title, Object... param) throws NoSuchMethodException {
+    public void executeMethodByTitle(Object context, String title, Object... param) {
         List<Method> methods = getDeclaredMethods(context.getClass());
         for (Method method : methods) {
             if (isRequiredAction(method, title)
