@@ -17,12 +17,12 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exception.ElementSearchError;
 import ru.sbtqa.tag.pagefactory.exception.IncorrectElementTypeError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
+import ru.sbtqa.tag.pagefactory.html.properties.HtmlConfiguration;
 import ru.sbtqa.tag.pagefactory.utils.HtmlElementUtils;
 import ru.sbtqa.tag.pagefactory.utils.PageUtils;
 import ru.sbtqa.tag.pagefactory.utils.TestIdUtils;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-import ru.sbtqa.tag.qautils.properties.Props;
 import ru.sbtqa.tag.qautils.reflect.FieldUtilsExt;
 import static java.lang.String.format;
 import static ru.sbtqa.tag.pagefactory.find.ComplexElement.ELEMENT_SEPARATOR;
@@ -32,6 +32,8 @@ import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isHtmlElemen
 import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.isTypifiedElement;
 
 public class HtmlFindUtils extends FindUtils {
+
+    private static final HtmlConfiguration PROPERTIES = HtmlConfiguration.create();
 
     @Override
     public <T> T getElementByTitle(Page page, String title) {
@@ -105,12 +107,12 @@ public class HtmlFindUtils extends FindUtils {
      * @return Returns an element from a page by name or path
      */
     public <T extends WebElement, E extends WebElement> T find(E context, String name, boolean wait) {
-        ComplexElement element;
+        ComplexElement<E> element;
         try {
             element = findAndCheckComplexElement(context, name, wait);
         } catch (ElementSearchError e) {
-            if (Boolean.valueOf(Props.get("use.test.id", "false"))) {
-                element = new ComplexElement(context, name, wait);
+            if (PROPERTIES.getUseTestId()) {
+                element = new ComplexElement<>(context, name, wait);
 
                 findByTestId(element);
 
@@ -120,7 +122,7 @@ public class HtmlFindUtils extends FindUtils {
                 if (!isTypifiedElement(currentElement.getClass())) {
                     Class type = findType(currentElement);
                     if (isTypifiedElement(type)) {
-                        element.setElement(createElementWithCustomType(type, currentElement));
+                        element.setElement((E) createElementWithCustomType(type, currentElement));
                     }
                 }
             } else {
@@ -130,8 +132,8 @@ public class HtmlFindUtils extends FindUtils {
         return (T) element.getElement();
     }
 
-    protected <T extends WebElement> ComplexElement findAndCheckComplexElement(T context, String name, boolean wait) {
-        ComplexElement element = findComplexElement(context, name, wait);
+    private <T extends WebElement> ComplexElement findAndCheckComplexElement(T context, String name, boolean wait) {
+        ComplexElement<T> element = findComplexElement(context, name, wait);
 
         if (element.getElement() == null) {
             if (!(wait || element.isPresent())) {
@@ -188,17 +190,18 @@ public class HtmlFindUtils extends FindUtils {
      */
     public <T extends WebElement, E extends WebElement> List<E> findList(T context, String name) throws ElementDescriptionException {
         try {
-            ComplexElement element = new ComplexElement(context, name, false);
+            ComplexElement element;// = new ComplexElement<>(context, name, false);
             Field field;
 
             if (name.contains(ELEMENT_SEPARATOR)) {
                 int lastSeparatorIndex = name.lastIndexOf(ELEMENT_SEPARATOR);
 
                 element = findComplexElement(context, name.substring(0, lastSeparatorIndex), false);
-                String listName = name.substring(lastSeparatorIndex + ELEMENT_SEPARATOR.length(), name.length());
+                String listName = name.substring(lastSeparatorIndex + ELEMENT_SEPARATOR.length());
 
                 field = getField(element.getElement(), listName);
             } else {
+                element = new ComplexElement<>(context, name, false);
                 field = getField(context, name);
             }
             if (field == null) {
@@ -222,7 +225,7 @@ public class HtmlFindUtils extends FindUtils {
     }
 
     private <T extends WebElement> ComplexElement findComplexElement(T context, String name, boolean wait) {
-        ComplexElement element = new ComplexElement(context, name, wait);
+        ComplexElement<T> element = new ComplexElement<>(context, name, wait);
         try {
             for (; element.getCurrentPosition() < element.getElementPath().size();
                  element.setCurrentPosition(element.getCurrentPosition() + 1)) {
@@ -243,19 +246,19 @@ public class HtmlFindUtils extends FindUtils {
 
     protected String formErrorMessage(ComplexElement element) {
         StringBuilder errorMessage = new StringBuilder();
-        String currenElementName = "\"" + element.getCurrentName() + "\"";
+        String currentElementName = "\"" + element.getCurrentName() + "\"";
 
         if (element.getElementPath().size() > 1) {
-            if (currenElementName.chars().allMatch(Character::isDigit)) {
+            if (currentElementName.chars().allMatch(Character::isDigit)) {
                 String prevElement = element.getElementPath().get(element.getCurrentPosition() - 1).toString();
-                String elementOfListNotFound = format("with number '%s' not found in list: %s", currenElementName, prevElement);
+                String elementOfListNotFound = format("with number '%s' not found in list: %s", currentElementName, prevElement);
                 errorMessage.append(elementOfListNotFound);
             } else {
-                errorMessage.append(currenElementName);
+                errorMessage.append(currentElementName);
             }
             errorMessage.append(". The search was performed by path: ").append(element.getFullElementPath());
         } else {
-            errorMessage.append(currenElementName);
+            errorMessage.append(currentElementName);
         }
         return errorMessage.toString();
     }
@@ -319,7 +322,7 @@ public class HtmlFindUtils extends FindUtils {
                 return element;
             }
         } else {
-            if (Boolean.valueOf(Props.get("use.test.id", "false"))) {
+            if (PROPERTIES.getUseTestId()) {
                 if (instanceType.isInterface() || Modifier.isAbstract(instanceType.getModifiers())) {
                     instanceType = findType(getWebElement(element));
                 }
@@ -434,7 +437,7 @@ public class HtmlFindUtils extends FindUtils {
     }
 
     private void currentPageMatchesWebPage(ComplexElement element) {
-        if (Boolean.valueOf(Props.get("verify.page.before.action", "false"))) {
+        if (PROPERTIES.getVerifyPageBeforeAction()) {
             LOG.info("The page will be checked for the element: {}", formErrorMessage(element));
             PageUtils.verifyPageByDataTestId();
         }
@@ -448,7 +451,7 @@ public class HtmlFindUtils extends FindUtils {
     public Map<String, Class> getElementTypesMap() {
         Map<String, Class> elements = new HashMap<>();
         try {
-            String types = Props.get("ui.types", "src/test/resources/type/types.json");
+            String types = PROPERTIES.geUiTypes();
             String dir = types.substring(0, types.lastIndexOf("/"));
             String name = types.substring(types.lastIndexOf("/")).replace(".json", "");
             TestDataProvider dataObject = new JsonDataProvider(dir, name);

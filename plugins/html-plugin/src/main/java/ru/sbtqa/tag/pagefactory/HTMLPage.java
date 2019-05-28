@@ -14,10 +14,10 @@ import ru.sbtqa.tag.pagefactory.find.Find;
 import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
 import ru.sbtqa.tag.pagefactory.html.actions.HtmlPageActions;
 import ru.sbtqa.tag.pagefactory.html.loader.decorators.CustomHtmlElementDecorator;
+import ru.sbtqa.tag.pagefactory.html.properties.HtmlConfiguration;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.pagefactory.reflection.Reflection;
 import ru.sbtqa.tag.pagefactory.utils.PageUtils;
-import ru.sbtqa.tag.qautils.properties.Props;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
 /**
@@ -30,11 +30,12 @@ public abstract class HTMLPage extends WebPage {
     private static PageActions pageActions = new HtmlPageActions();
     private static Reflection reflection = new HtmlReflection();
     private static Find find = new HtmlFindUtils();
+    private static final HtmlConfiguration PROPERTIES = HtmlConfiguration.create();
 
     public HTMLPage() {
         super(new CustomHtmlElementDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())));
         applyEnvironment();
-        if (Boolean.valueOf(Props.get("verify.page", "false"))) {
+        if (PROPERTIES.getVerifyPage()) {
             PageUtils.verifyPageByDataTestId();
         }
     }
@@ -42,7 +43,7 @@ public abstract class HTMLPage extends WebPage {
     public HTMLPage(FieldDecorator decorator) {
         super(decorator);
         applyEnvironment();
-        if (Boolean.valueOf(Props.get("verify.page", "false"))) {
+        if (PROPERTIES.getVerifyPage()) {
             PageUtils.verifyPageByDataTestId();
         }
     }
