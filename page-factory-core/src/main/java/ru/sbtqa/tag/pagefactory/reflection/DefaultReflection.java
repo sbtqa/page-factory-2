@@ -78,7 +78,7 @@ public class DefaultReflection implements Reflection {
             return false;
         } else {
             for (int index = 0; index < methodParameters.length; index++) {
-                if (!methodParameters[index].getType()
+                if (actionParameters[index] != null && !methodParameters[index].getType()
                         .isAssignableFrom(actionParameters[index].getClass())) {
                     return false;
                 }
