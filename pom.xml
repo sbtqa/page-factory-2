@@ -65,7 +65,7 @@
     <tag.version.qautils>1.5.0</tag.version.qautils>
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
-    <tag.version.datajack>5.0.1</tag.version.datajack>
+    <tag.version.datajack>5.0.2</tag.version.datajack>
     <allure.version>2.10.0</allure.version>
   </properties>
 
