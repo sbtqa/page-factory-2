@@ -122,9 +122,7 @@ public class TestIdUtils {
     }
 
     private static String parseDataTestId(String testId, TestIdType testIdType) throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        md5.update(testId.getBytes());
-        String dataTestId = DatatypeConverter.printHexBinary(md5.digest()).toLowerCase();
+        String dataTestId = MD5.hash(testId);
         return format("@data-test-id='%sId_%s'", testIdType.toString().toLowerCase(), dataTestId);
     }
 }

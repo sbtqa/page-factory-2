@@ -4,10 +4,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StatusDetails;
 import io.qameta.allure.model.StepResult;
-
-import java.util.Arrays;
-import java.util.Locale;
-
+import io.qameta.allure.model.TestResult;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import ru.sbtqa.tag.pagefactory.ApiEndpoint;
@@ -15,7 +12,12 @@ import ru.sbtqa.tag.pagefactory.Page;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
 import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
+import ru.sbtqa.tag.pagefactory.utils.MD5;
 import ru.sbtqa.tag.qautils.i18n.I18N;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Locale;
 
 public class JunitReporter {
 
@@ -31,6 +33,13 @@ public class JunitReporter {
         if (isFromCucumber) {
             return joinPoint.proceed();
         } else {
+            boolean isTestCaseStarted = Allure.getLifecycle().getCurrentTestCase().isPresent();
+            if (!isTestCaseStarted) {
+                String testCaseId = MD5.hash(joinPoint.getSignature().toShortString());
+                String testResultUid = MD5.hash(joinPoint.toLongString());
+                Allure.getLifecycle().scheduleTestCase(new TestResult().setTestCaseId(testCaseId).setUuid(testResultUid));
+                Allure.getLifecycle().startTestCase(testResultUid);
+            }
             Object[] args = normalizeArgs(joinPoint.getArgs());
             String methodName = joinPoint.getSignature().getName();
             // I18n contains template for steps as <methodName><dot><argsCount>. For example: fill.2
@@ -41,7 +50,7 @@ public class JunitReporter {
             // if step has i18n template - substitute args to it
             String stepName = String.format((stepNameI18n.equals(methodNameWithArgsCount) ? methodName : stepNameI18n), args);
             Allure.getLifecycle().startStep(stepUid, new StepResult().setName(stepName));
-
+            System.out.println("\t * " + stepName);
             try {
                 Object r = joinPoint.proceed();
                 Allure.getLifecycle().updateStep(stepUid, stepResult -> stepResult.setStatus(Status.PASSED));
@@ -52,7 +61,7 @@ public class JunitReporter {
                 throw t;
             } finally {
                 attachParameters(methodName, args, createUid(joinPoint), stepName);
-                Allure.getLifecycle().stopStep();
+                Allure.getLifecycle().stopStep(stepUid);
             }
         }
     }
@@ -66,10 +75,10 @@ public class JunitReporter {
         return i18n.get(method);
     }
 
-    private static String createUid(ProceedingJoinPoint joinPoint) {
-        return joinPoint.getSignature().toLongString()
+    private static String createUid(ProceedingJoinPoint joinPoint) throws NoSuchAlgorithmException {
+        return MD5.hash(joinPoint.getSignature().toLongString()
                 + Arrays.toString(normalizeArgs(joinPoint.getArgs()))
-                + System.currentTimeMillis();
+                + System.currentTimeMillis());
     }
 
     private static Object[] normalizeArgs(Object[] args) {
