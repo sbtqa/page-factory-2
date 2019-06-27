@@ -90,7 +90,7 @@ public class DataReplacer {
                     String data = replaceData(step, argVal, isStash);
 
                     argOffset = argument.getOffset() - offset;
-                    offset = argVal.length() - data.length();
+                    offset = offset + argVal.length() - data.length();
                     argVal = data;
 
                     replacedValue.delete(argOffset, argOffset + argument.getVal().length())
