@@ -93,7 +93,7 @@ public class DataReplacer {
                     offset = argVal.length() - data.length();
                     argVal = data;
 
-                    replacedValue.delete(argument.getOffset(), argument.getOffset() + argument.getVal().length())
+                    replacedValue.delete(argOffset, argOffset + argument.getVal().length())
                             .insert(argOffset, data);
                     stepDataMatcher = stepDataPattern.matcher(replacedValue);
                 } else {

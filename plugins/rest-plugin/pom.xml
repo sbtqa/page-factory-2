@@ -35,6 +35,12 @@
 
     <!--TESTS-->
     <dependency>
+      <groupId>ru.sbtqa.tag.datajack.providers</groupId>
+      <artifactId>json-provider</artifactId>
+      <version>${tag.version.datajack}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
       <version>9.4.9.v20180320</version>
