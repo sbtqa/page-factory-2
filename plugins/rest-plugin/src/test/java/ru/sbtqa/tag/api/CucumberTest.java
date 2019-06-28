@@ -10,7 +10,7 @@ import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        glue = {"ru.sbtqa.tag.stepdefs"},
+        glue = {"ru.sbtqa.tag.stepdefs", "ru.sbtqa.tag.api.steps"},
         features = {"src/test/resources/features"},
         plugin = {"pretty"}
 )
