@@ -61,7 +61,7 @@ public class EndpointBlank {
     }
 
     private void addCookie(String name, String value) {
-        headers.put(name, value);
+        cookies.put(name, value);
     }
 
     public Map<String, Object> getQueries() {
