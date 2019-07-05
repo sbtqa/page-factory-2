@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.mobile.properties;
 
+import ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 public interface MobileConfiguration extends Configuration {
@@ -25,7 +26,7 @@ public interface MobileConfiguration extends Configuration {
     String getAppiumAppActivity();
 
     @Key("appium.device.orientation")
-    @DefaultValue("")
+    @DefaultValue("portrait")
     String getAppiumDeviceOrientation();
 
     @Key("appium.device.name")
@@ -41,12 +42,40 @@ public interface MobileConfiguration extends Configuration {
     String getAppiumBrowserName();
 
     @Key("appium.device.platform.name")
-    @DefaultValue("")
-    String getAppiumPlatformName();
+    @DefaultValue("IOS")
+    PlatformName getAppiumPlatformName();
 
     @Key("appium.strategies.reset")
     @DefaultValue("")
     String getAppiumResetStrategy();
+
+    @Key("appium.permissions")
+    @DefaultValue("")
+    String getAppiumPermissions();
+
+    @Key("appium.automation.name")
+    @DefaultValue("")
+    String getAppiumAutomationName();
+
+    @Key("appium.permissions.autogrant")
+    @DefaultValue("")
+    String getAppiumAutoGrantPermissions();
+
+    @Key("appium.keyboard.unicode")
+    @DefaultValue("")
+    String getAppiumKeyboardUnicode();
+
+    @Key("appium.keyboard.reset")
+    @DefaultValue("")
+    String getAppiumKeyboardReset();
+
+    @Key("appium.udid")
+    @DefaultValue("")
+    String getAppiumUdid();
+
+    @Key("appium.bundleid")
+    @DefaultValue("")
+    String getAppiumBundleId();
 
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
