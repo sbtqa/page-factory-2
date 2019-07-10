@@ -8,16 +8,16 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.java.ru.Когда;
-
-import java.util.List;
-
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
+import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
 import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
+
+import java.util.List;
 
 public class CoreStepDefs {
 
@@ -202,5 +202,15 @@ public class CoreStepDefs {
     @Когда("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" to become clickable$")
     public void waitClickability(int timeout, String elementName) throws PageException {
         coreSteps.waitClickability(timeout, elementName);
+    }
+
+    @And("^user accepts alert with text \"([^\"]*)\"$")
+    public void acceptAlert(String text) throws WaitException {
+        coreSteps.acceptAlert(text);
+    }
+
+    @And("^user dismisses alert with text \"([^\"]*)\"$")
+    public void dismissAlert(String text) throws WaitException {
+        coreSteps.dismissAlert(text);
     }
 }

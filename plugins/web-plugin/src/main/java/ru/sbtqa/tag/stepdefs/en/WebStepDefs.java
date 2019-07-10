@@ -60,15 +60,6 @@ public class WebStepDefs {
         webSteps.reInitPage();
     }
 
-    @And("^user accepts alert with text \"([^\"]*)\"$")
-    public void acceptAlert(String text) throws WaitException {
-        webSteps.acceptAlert(text);
-    }
-
-    @And("^user dismisses alert with text \"([^\"]*)\"$")
-    public void dismissAlert(String text) throws WaitException {
-        webSteps.dismissAlert(text);
-    }
 
     @And("^user checks that text \"([^\"]*)\" appears on the page$")
     public void checkTextAppears(String text) throws WaitException, InterruptedException {

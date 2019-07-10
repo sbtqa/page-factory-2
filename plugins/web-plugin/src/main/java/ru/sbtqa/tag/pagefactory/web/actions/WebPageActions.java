@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.web.support.Alert;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 
 public class WebPageActions implements PageActions {
@@ -70,15 +69,5 @@ public class WebPageActions implements PageActions {
         if (webElement.isSelected() != state) {
             webElement.click();
         }
-    }
-
-    public void acceptAlert() {
-        Alert alert = new Alert();
-        alert.accept();
-    }
-
-    public void dismissAlert() {
-        Alert alert = new Alert();
-        alert.dismiss();
     }
 }

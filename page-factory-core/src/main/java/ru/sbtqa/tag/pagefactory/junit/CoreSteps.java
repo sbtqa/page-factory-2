@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.pagefactory.junit;
 
 import cucumber.api.DataTable;
-import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -13,10 +12,14 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.utils.Alert;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+
+import java.util.List;
 
 import static java.lang.String.format;
 
@@ -413,6 +416,42 @@ public class CoreSteps<T extends CoreSteps<T>> {
         WebElement element = getElement(elementName);
         String message = format("The element '%s' didn't become clickable within %s seconds", elementName, timeout);
         Wait.clickable(element, message, timeout);
+        return (T) this;
+    }
+
+    /**
+     * Wait for an alert with specified text, and accept it
+     *
+     * @param text alert message
+     * @return Returns itself
+     * @throws WaitException in case if alert didn't appear during default wait
+     * timeout
+     */
+    public T acceptAlert(String text) throws WaitException {
+        Alert alert = new Alert();
+        if (alert.checkValue(text)) {
+            alert.accept();
+        } else {
+            LOG.error("Alert with text {} wasn't found", text);
+        }
+        return (T) this;
+    }
+
+    /**
+     * Wait for an alert with specified text, and dismiss it
+     *
+     * @param text alert message
+     * @return Returns itself
+     * @throws WaitException in case if alert didn't appear during default wait
+     * timeout
+     */
+    public T dismissAlert(String text) throws WaitException {
+        Alert alert = new Alert();
+        if (alert.checkValue(text)) {
+            alert.accept();
+        } else {
+            LOG.error("Alert with text {} wasn't found", text);
+        }
         return (T) this;
     }
 }
