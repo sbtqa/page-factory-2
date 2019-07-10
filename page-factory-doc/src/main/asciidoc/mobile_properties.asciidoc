@@ -26,7 +26,7 @@ include::common_properties.asciidoc[]
 | Имя мобильного устройства или эмулятора
 
 | appium.device.platform.name
-| Имя мобильной платформы (android, ios (в данный момент не поддерживается), FirefoxOS (в данный момент не поддерживается))
+| Имя мобильной платформы ANDROID или IOS (регистр важен). По-умолчанию IOS
 
 | appium.device.platform.version
 | Версия мобильной платформы (например 4.4)
