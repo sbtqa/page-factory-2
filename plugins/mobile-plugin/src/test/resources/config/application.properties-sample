@@ -31,3 +31,4 @@ appium.device.platform.version = 6.0
 appium.app.package = com.android.settings
 appium.app.activity = .Settings
 appium.strategies.reset = noreset
+appium.platform.name = ANDROID
