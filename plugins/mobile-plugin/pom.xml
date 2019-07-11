@@ -31,6 +31,17 @@
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
       <version>7.0.0</version>
+      <exclusions>
+      <exclusion>
+        <groupId>cglib</groupId>
+        <artifactId>cglib</artifactId>
+      </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>3.2.5</version>
     </dependency>
   </dependencies>
 

@@ -60,16 +60,6 @@ public class WebStepDefs {
         webSteps.reInitPage();
     }
 
-    @And("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
-    public void acceptAlert(String text) throws WaitException {
-        webSteps.acceptAlert(text);
-    }
-
-    @And("^(?:пользователь |он )?отклоняет уведомление с текстом \"([^\"]*)\"$")
-    public void dismissAlert(String text) throws WaitException {
-        webSteps.dismissAlert(text);
-    }
-
     @And("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" появляется на странице$")
     public void checkTextAppears(String text) throws WaitException, InterruptedException {
         webSteps.checkTextAppears(text);

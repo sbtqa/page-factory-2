@@ -1,16 +1,18 @@
-package ru.sbtqa.tag.pagefactory.web.support;
+package ru.sbtqa.tag.pagefactory.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
-import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 public class Alert {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
-    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
+    private static final Logger LOG = LoggerFactory.getLogger(Alert.class);
+    private static final Configuration PROPERTIES = Configuration.create();
+
+    private static final String WHITESPACES = "\\s+";
+    private static final String EMPTY_STRING = "";
 
     private org.openqa.selenium.Alert alert;
 
@@ -50,7 +52,8 @@ public class Alert {
     }
 
     public boolean checkValue(String expectedValue) {
-         return expectedValue.equals(alert.getText());
+         return expectedValue.replaceAll(WHITESPACES, EMPTY_STRING)
+                 .equals(alert.getText().replaceAll(WHITESPACES, EMPTY_STRING));
     }
 
     public void accept() {

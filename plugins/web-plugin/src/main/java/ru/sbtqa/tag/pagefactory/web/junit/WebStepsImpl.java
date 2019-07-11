@@ -11,7 +11,6 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
-import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
@@ -136,32 +135,6 @@ public class WebStepsImpl<T extends WebStepsImpl<T>> extends CoreSteps<T> {
      */
     public T reInitPage() {
         Environment.getDriverService().getDriver().navigate().refresh();
-        return (T) this;
-    }
-
-    /**
-     * Wait for an alert with specified text, and accept it
-     *
-     * @param text alert message
-     * @return Returns itself
-     * @throws WaitException in case if alert didn't appear during default wait
-     * timeout
-     */
-    public T acceptAlert(String text) throws WaitException {
-        ((WebPageActions) Environment.getPageActions()).acceptAlert();
-        return (T) this;
-    }
-
-    /**
-     * Wait for an alert with specified text, and dismiss it
-     *
-     * @param text alert message
-     * @return Returns itself
-     * @throws WaitException in case if alert didn't appear during default wait
-     * timeout
-     */
-    public T dismissAlert(String text) throws WaitException {
-        ((WebPageActions) Environment.getPageActions()).dismissAlert();
         return (T) this;
     }
 

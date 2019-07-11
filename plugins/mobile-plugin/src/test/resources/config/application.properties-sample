@@ -27,6 +27,7 @@ appium.app = sauce-storage: Calculator.apk
 appium.version = 1.9.1
 appium.device.name = Android Emulator
 appium.device.orientation = portrait
+appium.device.platform.name = ANDROID
 appium.device.platform.version = 6.0
 appium.app.package = com.android.settings
 appium.app.activity = .Settings

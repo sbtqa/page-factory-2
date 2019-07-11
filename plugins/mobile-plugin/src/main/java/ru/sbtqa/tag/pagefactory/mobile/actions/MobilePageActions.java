@@ -8,15 +8,25 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
+
+import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
 
 public class MobilePageActions implements PageActions {
+
+    private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
 
     @Override
     public void fill(Object element, String text) {
         WebElement webElement = (WebElement) element;
         webElement.click();
-        AppiumDriver driver = Environment.getDriverService().getDriver();
-        driver.getKeyboard().sendKeys(text);
+
+        if (PROPERTIES.getAppiumPlatformName() == IOS) {
+            webElement.sendKeys(text);
+        } else {
+            AppiumDriver driver = Environment.getDriverService().getDriver();
+            driver.getKeyboard().sendKeys(text);
+        }
     }
 
     @Override
