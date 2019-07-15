@@ -110,7 +110,8 @@ public class CoreStepDefs {
         coreSteps.setCheckBox(elementTitle);
     }
 
-    @And("^user checks in the element \"([^\"]*)\" value \"([^\"]*)\"$")
+    @When("^user checks in the element \"([^\"]*)\" value \"([^\"]*)\"$")
+    @And("^user checks in the element \"([^\"]*)\" value$")
     public void checkValueIsEqual(String elementTitle, String text) throws PageException {
         coreSteps.checkValueIsEqual(elementTitle, text);
     }
