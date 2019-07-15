@@ -10,7 +10,7 @@ import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
-import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
+import ru.sbtqa.tag.pagefactory.junit.CoreStepsImpl;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import ru.sbtqa.tag.pagefactory.web.utils.WebWait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
@@ -42,7 +42,7 @@ import java.util.List;
  * @see <a href="https://cucumber.io/docs/reference#step-definitions">Cucumber
  * documentation</a>
  */
-public class WebStepsImpl<T extends WebStepsImpl<T>> extends CoreSteps<T> {
+public class WebStepsImpl<T extends WebStepsImpl<T>> extends CoreStepsImpl<T> {
 
     public WebStepsImpl() {
         WebSetupSteps.initWeb();
