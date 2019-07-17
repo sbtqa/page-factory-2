@@ -3,6 +3,7 @@ package ru.sbtqa.tag.pagefactory.mobile.drivers;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
@@ -35,6 +36,8 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, PROPERTIES.getAppiumBrowserName());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, PROPERTIES.getAppiumAutomationName());
         capabilities.setCapability(MobileCapabilityType.UDID, PROPERTIES.getAppiumUdid());
+
+        capabilities.setCapability(IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, PROPERTIES.getAppiumAlertsAutoAccept());
 
         capabilities.setCapability("bundleId", PROPERTIES.getAppiumBundleId());
         capabilities.setCapability("appPackage", PROPERTIES.getAppiumAppPackage());

@@ -77,6 +77,10 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumBundleId();
 
+    @Key("appium.alerts.autoaccept")
+    @DefaultValue("")
+    String getAppiumAlertsAutoAccept();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }
