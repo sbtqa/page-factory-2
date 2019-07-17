@@ -51,7 +51,7 @@ public class MobileDriverService implements DriverService {
             capabilities.setCapability(MobileCapabilityType.FULL_RESET,true);
         }
 
-        LOG.info("Capabilities are {}", capabilities);
+        LOG.info(String.valueOf(capabilities));
 
         URL url;
         try {
@@ -61,8 +61,6 @@ public class MobileDriverService implements DriverService {
         }
 
         mobileDriver = PROPERTIES.getAppiumPlatformName() == IOS ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
-
-        LOG.info("Mobile driver created {}", mobileDriver);
 
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
     }

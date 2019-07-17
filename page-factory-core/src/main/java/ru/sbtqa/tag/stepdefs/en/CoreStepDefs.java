@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CoreStepDefs {
 
-    private final CoreSteps coreSteps = new CoreSteps();
+    private final CoreSteps coreSteps = CoreSteps.getInstance();
 
     @Before(order = 0)
     public void preSetUp() {
@@ -110,7 +110,8 @@ public class CoreStepDefs {
         coreSteps.setCheckBox(elementTitle);
     }
 
-    @And("^user checks in the element \"([^\"]*)\" value \"([^\"]*)\"$")
+    @When("^user checks in the element \"([^\"]*)\" value \"([^\"]*)\"$")
+    @And("^user checks in the element \"([^\"]*)\" value$")
     public void checkValueIsEqual(String elementTitle, String text) throws PageException {
         coreSteps.checkValueIsEqual(elementTitle, text);
     }
@@ -118,6 +119,16 @@ public class CoreStepDefs {
     @And("^user checks in the element \"([^\"]*)\" that the value is not equal \"([^\"]*)\"$")
     public void checkValueIsNotEqual(String elementTitle, String text) throws PageException {
         coreSteps.checkValueIsNotEqual(elementTitle, text);
+    }
+
+    @And("^user checks value in \"([^\"]*)\" contains \"([^\"]*)\"$")
+    public void checkValueContains(String elementTitle, String text) throws PageException {
+        coreSteps.checkValueContains(elementTitle, text);
+    }
+
+    @And("^user checks value in \"([^\"]*)\" not contains \"([^\"]*)\"$")
+    public void checkValueNotContains(String elementTitle, String text) throws PageException {
+        coreSteps.checkValueNotContains(elementTitle, text);
     }
 
     @And("^user checks that the field \"([^\"]*)\" is not empty$")
