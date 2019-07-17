@@ -6,17 +6,16 @@ import gherkin.pickles.PickleCell;
 import gherkin.pickles.PickleRow;
 import gherkin.pickles.PickleString;
 import gherkin.pickles.PickleTable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.datajack.exceptions.StashKeyNotFoundException;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_REGEX;
 
@@ -136,7 +135,7 @@ public class DataReplacer {
             String collection = stepDataMatcher.group(1);
             String value = stepDataMatcher.group(2);
 
-            if (collection == null) {
+            if (collection == null && currentScenarioData != null) {
                 DataUtils.parseDataTagValue(currentScenarioData);
             }
 
