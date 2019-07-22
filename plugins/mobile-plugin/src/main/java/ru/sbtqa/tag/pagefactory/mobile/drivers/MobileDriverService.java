@@ -74,7 +74,7 @@ public class MobileDriverService implements DriverService {
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
 
         if (jobName != null) {
-            System.out.println(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", mobileDriver.getSessionId(), jobName);
+            System.out.println(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", mobileDriver.getSessionId(), jobName));
         }
     }
 
