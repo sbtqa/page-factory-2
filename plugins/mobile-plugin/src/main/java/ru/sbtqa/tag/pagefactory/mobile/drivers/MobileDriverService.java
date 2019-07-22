@@ -15,6 +15,7 @@ import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static java.lang.String.format;
 import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
 
 public class MobileDriverService implements DriverService {
@@ -39,6 +40,11 @@ public class MobileDriverService implements DriverService {
 
         capabilities.setCapability(IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, PROPERTIES.getAppiumAlertsAutoAccept());
 
+        String jobName = System.getenv("JOB_NAME");
+        String buildNumber = System.getenv("BUILD_NUMBER");
+        if (jobName != null && buildNumber != null) {
+            capabilities.setCapability("build", format("%1$s__%2$s", jobName, buildNumber));
+        }
         capabilities.setCapability("bundleId", PROPERTIES.getAppiumBundleId());
         capabilities.setCapability("appPackage", PROPERTIES.getAppiumAppPackage());
         capabilities.setCapability("appActivity", PROPERTIES.getAppiumAppActivity());
@@ -66,6 +72,10 @@ public class MobileDriverService implements DriverService {
         mobileDriver = PROPERTIES.getAppiumPlatformName() == IOS ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
 
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
+
+        if (jobName != null) {
+            System.out.println(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", mobileDriver.getSessionId(), jobName));
+        }
     }
 
     @Override
