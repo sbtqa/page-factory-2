@@ -95,8 +95,9 @@ public class EndpointEntryReflection {
                 }
             }
         }
-
-        LOG.debug("There is no \"{}\" parameter in \"{}\" endpoint", name, entryTitle);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("There is no \"{}\" parameter in \"{}\" endpoint", name, entryTitle);
+        }
     }
 
     /**
@@ -119,8 +120,9 @@ public class EndpointEntryReflection {
                 }
             }
         }
-
-        LOG.debug("There is no \"{}\" parameter in \"{}\" endpoint", name, entryTitle);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("There is no \"{}\" parameter in \"{}\" endpoint", name, entryTitle);
+        }
     }
 
     /**

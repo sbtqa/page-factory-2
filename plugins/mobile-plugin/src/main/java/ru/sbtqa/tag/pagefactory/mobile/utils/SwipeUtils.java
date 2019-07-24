@@ -120,7 +120,9 @@ public class SwipeUtils {
 
         int x = location.getX();
         int y = location.getY();
-        LOG.debug("Swipe parameters: location {}, dimension {}, direction {}, time {}", location, size, direction, time);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Swipe parameters: location {}, dimension {}, direction {}, time {}", location, size, direction, time);
+        }
         new TouchAction(appiumDriver)
                 .press(PointOption.point(x + startx, y + starty))
                 .waitAction()

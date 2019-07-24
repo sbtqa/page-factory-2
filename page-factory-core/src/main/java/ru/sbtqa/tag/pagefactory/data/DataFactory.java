@@ -81,7 +81,9 @@ public class DataFactory {
                     testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER, db, initialCollection);
                     break;
                 case "stash":
-                    LOG.debug("Data provider isnt't set. Leaving all placeholders as is.");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Data provider isnt't set. Leaving all placeholders as is.");
+                    }
                     break;
                 default:
                     throw new DataException(format("Data provider %s isn't supported", dataType));

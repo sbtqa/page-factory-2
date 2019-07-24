@@ -58,7 +58,9 @@ public abstract class HTMLPage extends WebPage {
         try {
             return element.isDisplayed();
         } catch (NoSuchElementException e) {
-            LOG.debug("The element not found", e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("The element not found", e);
+            }
             return false;
         }
     }

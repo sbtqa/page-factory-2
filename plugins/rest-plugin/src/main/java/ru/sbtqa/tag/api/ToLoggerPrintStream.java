@@ -68,7 +68,9 @@ public class ToLoggerPrintStream {
                     }
 
                     // LOGGING
-                    myLog.debug(dispatch);
+                    if (myLog.isDebugEnabled()) {
+                        myLog.debug(dispatch);
+                    }
                     myStringBuilder = new StringBuilder();
                 }
             };

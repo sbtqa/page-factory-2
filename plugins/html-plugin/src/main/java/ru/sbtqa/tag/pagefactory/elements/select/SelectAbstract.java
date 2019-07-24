@@ -60,7 +60,9 @@ public abstract class SelectAbstract extends TypifiedElement implements Select {
         try {
             return getSelectedOption().getText();
         } catch (NoSuchElementException ex) {
-            LOG.debug("No value selected. Will return the value of placeholder.", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("No value selected. Will return the value of placeholder.", ex);
+            }
             return getPlaceholder().getText();
         }
     }

@@ -33,7 +33,9 @@ public class Alert {
             try {
                 return Environment.getDriverService().getDriver().switchTo().alert();
             } catch (Exception e) {
-                LOG.debug("Alert has not appeared yet", e);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Alert has not appeared yet", e);
+                }
             }
 
             sleep(1);

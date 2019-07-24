@@ -44,7 +44,9 @@ public class DefaultReflection implements Reflection {
                     return entry.getValue();
                 }
             } catch (java.util.NoSuchElementException | StaleElementReferenceException | ElementDescriptionException ex) {
-                LOG.debug("Failed to get element '" + element + "' title", ex);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Failed to get element '" + element + "' title", ex);
+                }
             }
         }
         return element.toString();
@@ -163,7 +165,9 @@ public class DefaultReflection implements Reflection {
                 try {
                     method.invoke(page, params);
                 } catch (InvocationTargetException | IllegalArgumentException | IllegalAccessException e) {
-                    LOG.debug("Failed to invoke method {}", method, e);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Failed to invoke method {}", method, e);
+                    }
                     throw new FactoryRuntimeException("Failed to invoke method", e);
                 }
                 return;

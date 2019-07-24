@@ -31,9 +31,13 @@ public class WebWait extends Wait {
                 }
                 Thread.sleep(1000);
             } catch (Exception | AssertionError e) {
-                LOG.debug("WebPage does not become to ready state", e);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("WebPage does not become to ready state", e);
+                }
                 Environment.getDriverService().getDriver().navigate().refresh();
-                LOG.debug("WebPage refreshed");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("WebPage refreshed");
+                }
                 if ((stopRecursion.length == 0) || !stopRecursion[0]) {
                     waitForPageToLoad(true);
                 }

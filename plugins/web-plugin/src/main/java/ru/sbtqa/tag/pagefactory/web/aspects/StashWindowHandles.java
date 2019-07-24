@@ -23,7 +23,9 @@ public class StashWindowHandles {
         try {
             Stash.put("beforeClickHandles", Environment.getDriverService().getDriver().getWindowHandles());
         } catch (UnsupportedCommandException e) {
-            LOG.debug("Failed to stash window handles", e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Failed to stash window handles", e);
+            }
         }
     }
 

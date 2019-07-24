@@ -34,7 +34,9 @@ public class KillProcessesTask implements Task {
                 Runtime.getRuntime().exec("killall " + task.trim());
             }
         } catch (IOException e) {
-            LOG.debug("Failed to kill " + task, e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Failed to kill " + task, e);
+            }
         }
     }
 }

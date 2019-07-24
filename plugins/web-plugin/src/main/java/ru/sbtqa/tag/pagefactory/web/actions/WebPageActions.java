@@ -31,7 +31,9 @@ public class WebPageActions implements PageActions {
         try {
             webElement.clear();
         } catch (InvalidElementStateException | NullPointerException e) {
-            LOG.debug("Failed to clear web element {}", webElement, e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Failed to clear web element {}", webElement, e);
+            }
         }
     }
 

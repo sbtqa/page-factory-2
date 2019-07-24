@@ -55,7 +55,9 @@ public class Highlight {
             JavascriptExecutor js = Environment.getDriverService().getDriver();
             js.executeScript("arguments[0].style.border='" + originalStyle + "'", webElement);
         } catch (Exception e) {
-            LOG.debug("Something went wrong with element highlight", e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Something went wrong with element highlight", e);
+            }
         }
     }
 }

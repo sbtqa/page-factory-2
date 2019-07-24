@@ -284,7 +284,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
         try {
             MessageConsumer consumer = session.createConsumer(queue, String.format("%s='%s'", JMS_MESSAGE_ID, messageId));
             Message message = consumer.receive(PROPS.getMqTimeout());
-            if (message != null) {
+            if (LOG.isDebugEnabled() && message != null) {
                 LOG.debug("*** [MQ] Removed message {} from queue {} ***", messageId, queueName);
             }
         } catch (JMSException e) {

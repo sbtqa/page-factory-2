@@ -431,7 +431,9 @@ public class HtmlFindUtils extends FindUtils {
                 currentElement.setElement(null);
             }
         } else {
-            LOG.debug("Element with index {} was received.", index);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Element with index {} was received.", index);
+            }
             currentElement.setElement(list.get(index));
         }
     }

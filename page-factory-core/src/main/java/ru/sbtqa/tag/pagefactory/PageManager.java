@@ -110,7 +110,9 @@ public class PageManager {
                 try {
                     pageTitle = (String) FieldUtils.readStaticField(page, "title", true);
                 } catch (IllegalArgumentException | IllegalAccessException ex) {
-                    LOG.debug("Failed to read {} because it is not page object", title, ex);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Failed to read {} because it is not page object", title, ex);
+                    }
                 }
             }
             if (pageTitle != null && pageTitle.equals(title)) {
