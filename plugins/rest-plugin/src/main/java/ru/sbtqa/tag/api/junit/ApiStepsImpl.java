@@ -127,11 +127,11 @@ public class ApiStepsImpl<T extends ApiStepsImpl<T>> {
 
     /**
      * Execute a validation rule annotated by {@link Validation} on current
-     * endpoint with parameters from given {@link Map}
+     * endpoint with parameters from given {@link DataTable}
      *
      * @param rule name of the validation rule (name value of the
      * {@link Validation} annotation)
-     * @param data map of parameters
+     * @param data datatable with parameters
      * @throws RestPluginException if there is an error while validation rule
      * executing
      */
