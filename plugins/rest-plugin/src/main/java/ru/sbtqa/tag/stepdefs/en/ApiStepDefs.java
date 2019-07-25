@@ -4,7 +4,6 @@ import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import ru.sbtqa.tag.api.annotation.ParameterType;
-import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.junit.ApiSetupSteps;
 import ru.sbtqa.tag.api.junit.ApiSteps;
 import ru.sbtqa.tag.api.storage.BlankStorage;
@@ -47,7 +46,7 @@ public class ApiStepDefs {
 
     @And("^system returns \"([^\"]*)\" with parameters:?$")
     public void validate(String rule, DataTable dataTable) {
-        EndpointContext.getCurrentEndpoint().validate(rule, dataTable);
+        apiSteps.validate(rule, dataTable);
     }
 
     @And("^user fill the request \"([^\"]*)\"$")

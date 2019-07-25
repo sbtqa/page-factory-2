@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.api.junit;
 
-import java.util.Map;
+import cucumber.api.DataTable;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.context.EndpointContext;
@@ -10,6 +10,8 @@ import ru.sbtqa.tag.api.manager.EndpointManager;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.storage.EndpointBlank;
 import ru.sbtqa.tag.api.utils.FromResponseUtils;
+
+import java.util.Map;
 
 /**
  * Basic step definitions, that should be available on every project
@@ -120,6 +122,20 @@ public class ApiStepsImpl<T extends ApiStepsImpl<T>> {
      * executing
      */
     public void validate(String rule, Map<String, String> data) {
+        EndpointContext.getCurrentEndpoint().validate(rule, data);
+    }
+
+    /**
+     * Execute a validation rule annotated by {@link Validation} on current
+     * endpoint with parameters from given {@link DataTable}
+     *
+     * @param rule name of the validation rule (name value of the
+     * {@link Validation} annotation)
+     * @param data datatable with parameters
+     * @throws RestPluginException if there is an error while validation rule
+     * executing
+     */
+    public void validate(String rule, DataTable data) {
         EndpointContext.getCurrentEndpoint().validate(rule, data);
     }
 
