@@ -57,12 +57,12 @@ public class JunitTest {
                 .checkValueIsEqual("state", "Novosibirsk")
 
                 .setCheckBox("checkbox")
-                .action("checks checkbox", "true")
+                .action("checks checkbox", "true");
 
-                .click("alert")
-                .acceptAlert("Alert text")
-                .click("alert")
-                .dismissAlert("Alert text");
+//                .click("alert")
+//                .acceptAlert("Alert text")
+//                .click("alert")
+//                .dismissAlert("Alert text");
     }
 
     @Test

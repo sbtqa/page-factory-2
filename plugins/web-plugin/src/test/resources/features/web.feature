@@ -43,7 +43,8 @@ Feature: Check web elements functional + ActionTitles mechanism
     * user (checks checkbox) "true"
 
     #alert
-    * user clicks the button "alert"
-    * user accepts alert with text "Alert text"
-    * user clicks the button "alert"
-    * user dismisses alert with text "Alert text"
+  # FIXME
+#    * user clicks the button "alert"
+#    * user accepts alert with text "Alert text"
+#    * user clicks the button "alert"
+#    * user dismisses alert with text "Alert text"
