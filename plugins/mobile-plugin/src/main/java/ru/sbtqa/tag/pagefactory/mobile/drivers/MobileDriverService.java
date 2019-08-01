@@ -37,6 +37,7 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, PROPERTIES.getAppiumBrowserName());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, PROPERTIES.getAppiumAutomationName());
         capabilities.setCapability(MobileCapabilityType.UDID, PROPERTIES.getAppiumUdid());
+        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, PROPERTIES.getNewCommandTimeout());
 
         capabilities.setCapability(IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, PROPERTIES.getAppiumAlertsAutoAccept());
 
