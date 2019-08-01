@@ -81,6 +81,10 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumAlertsAutoAccept();
 
+    @Key("appium.timeout")
+    @DefaultValue("60")
+    String getNewCommandTimeout();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }
