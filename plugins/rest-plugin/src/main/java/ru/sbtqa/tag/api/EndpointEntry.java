@@ -1,19 +1,10 @@
 package ru.sbtqa.tag.api;
 
-import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
-
-import ru.sbtqa.tag.pagefactory.ApiEndpoint;
-import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
-import static ru.sbtqa.tag.api.annotation.ParameterType.BODY;
-import static ru.sbtqa.tag.api.annotation.ParameterType.COOKIE;
-import static ru.sbtqa.tag.api.annotation.ParameterType.HEADER;
-import static ru.sbtqa.tag.api.annotation.ParameterType.QUERY;
-
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Stashed;
@@ -23,8 +14,13 @@ import ru.sbtqa.tag.api.repository.ApiPair;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
+import ru.sbtqa.tag.pagefactory.ApiEndpoint;
 import ru.sbtqa.tag.pagefactory.Rest;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.pagefactory.utils.PathUtils;
+
+import static io.restassured.RestAssured.given;
+import static ru.sbtqa.tag.api.annotation.ParameterType.*;
 
 /**
  * An endpoint request (ala Page Object).

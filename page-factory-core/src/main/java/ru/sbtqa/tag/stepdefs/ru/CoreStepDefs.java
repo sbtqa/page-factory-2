@@ -4,10 +4,10 @@ import cucumber.api.DataTable;
 import cucumber.api.Transform;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
+import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
@@ -16,8 +16,6 @@ import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
 import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-
-import java.util.List;
 
 public class CoreStepDefs {
 
@@ -214,17 +212,17 @@ public class CoreStepDefs {
         coreSteps.waitClickability(timeout, elementName);
     }
 
-    @And("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
+    @Когда("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
     public void acceptAlert(String text) throws WaitException {
         coreSteps.acceptAlert(text);
     }
 
-    @And("^(?:пользователь |он )?отклоняет уведомление с текстом \"([^\"]*)\"$")
+    @Когда("^(?:пользователь |он )?отклоняет уведомление с текстом \"([^\"]*)\"$")
     public void dismissAlert(String text) throws WaitException {
         coreSteps.dismissAlert(text);
     }
 
-    @And("^(?:пользователь |он )?очищает поле$")
+    @Когда("^(?:пользователь |он )?очищает поле$")
     public void clearField(String elementTitle) throws PageException {
         coreSteps.clearField(elementTitle);
     }

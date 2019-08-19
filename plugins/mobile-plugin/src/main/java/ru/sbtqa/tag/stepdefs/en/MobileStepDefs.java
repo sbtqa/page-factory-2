@@ -2,6 +2,7 @@ package ru.sbtqa.tag.stepdefs.en;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.SwipeException;
 import ru.sbtqa.tag.pagefactory.mobile.junit.MobileSetupSteps;
 import ru.sbtqa.tag.pagefactory.mobile.junit.MobileSteps;
@@ -23,5 +24,15 @@ public class MobileStepDefs {
     @And("^user swipes with match strategy \"(.*?)\" to the text \"(.*?)\"$")
     public void swipeToTextByMatch(String strategy, String text) throws SwipeException {
         mobileSteps.swipeToTextByMatch(strategy, text);
+    }
+
+    @And("^user press on \"([^\"]*)\"$")
+    public void pressOn(String elementTitle) throws PageException {
+        mobileSteps.press(elementTitle);
+    }
+
+    @And("^user tap on \"(.*?)\"$")
+    public void tapOn(String elementTitle) throws PageException {
+        mobileSteps.tap(elementTitle);
     }
 }
