@@ -77,10 +77,6 @@ public class MobileDriverService implements DriverService {
 
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
 
-        if (jobName != null) {
-            LOG.info(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", mobileDriver.getSessionId(), jobName));
-        }
-
         if (PROPERTIES.getAppiumVideoEnabled()) {
             appiumVideoRecorder = new AppiumVideoRecorder();
             appiumVideoRecorder.startRecord();
