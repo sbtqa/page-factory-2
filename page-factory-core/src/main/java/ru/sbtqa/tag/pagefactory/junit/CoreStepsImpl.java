@@ -501,6 +501,4 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
         element.clear();
         return (T) this;
     }
-
-
 }

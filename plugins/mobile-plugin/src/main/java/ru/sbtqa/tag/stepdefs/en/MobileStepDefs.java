@@ -26,12 +26,12 @@ public class MobileStepDefs {
         mobileSteps.swipeToTextByMatch(strategy, text);
     }
 
-    @And("^user press on \"([^\"]*)\"$")
+    @And("^user presses on \"([^\"]*)\"$")
     public void pressOn(String elementTitle) throws PageException {
         mobileSteps.press(elementTitle);
     }
 
-    @And("^user tap on \"(.*?)\"$")
+    @And("^user taps on \"(.*?)\"$")
     public void tapOn(String elementTitle) throws PageException {
         mobileSteps.tap(elementTitle);
     }
