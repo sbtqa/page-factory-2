@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
+import ru.sbtqa.tag.pagefactory.utils.Wait;
 
 import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
 
@@ -32,6 +33,7 @@ public class MobilePageActions implements PageActions {
     @Override
     public void click(Object element) {
         WebElement webElement = (WebElement) element;
+        Wait.clickable(webElement, "Element " + webElement + " doesn't become clickable");
         webElement.click();
     }
 

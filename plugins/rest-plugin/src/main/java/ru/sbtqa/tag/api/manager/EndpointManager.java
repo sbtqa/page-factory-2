@@ -44,11 +44,7 @@ public class EndpointManager {
     }
 
     public static EndpointEntry getEndpoint(Class endpointClass) {
-        if (null == EndpointContext.getCurrentEndpoint() || !EndpointContext.getCurrentEndpoint().getClass().equals(endpointClass)) {
-            return getEndpointFromCache(endpointClass);
-        }
-
-        return EndpointContext.getCurrentEndpoint();
+        return getEndpointFromCache(endpointClass);
     }
 
     private static EndpointEntry getEndpointFromCache(Class endpointClass) {

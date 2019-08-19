@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.api.utils;
+package ru.sbtqa.tag.pagefactory.utils;
 
 public class PathUtils {
 

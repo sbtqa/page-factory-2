@@ -8,9 +8,12 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
+import ru.sbtqa.tag.pagefactory.allure.Type;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
+import ru.sbtqa.tag.pagefactory.mobile.utils.AppiumVideoRecorder;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,6 +28,7 @@ public class MobileDriverService implements DriverService {
 
     private AppiumDriver mobileDriver;
     private String deviceUdId;
+    private AppiumVideoRecorder appiumVideoRecorder;
 
     @Override
     public void mountDriver() {
@@ -56,9 +60,9 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("connectHardwareKeyboard", false);
 
         if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase(MobileCapabilityType.NO_RESET)) {
-            capabilities.setCapability(MobileCapabilityType.NO_RESET,true);
+            capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
         } else if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase(MobileCapabilityType.FULL_RESET)) {
-            capabilities.setCapability(MobileCapabilityType.FULL_RESET,true);
+            capabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
         }
 
         LOG.info(String.valueOf(capabilities));
@@ -69,13 +73,17 @@ public class MobileDriverService implements DriverService {
         } catch (MalformedURLException e) {
             throw new FactoryRuntimeException("Could not parse appium url. Check 'appium.url' property", e);
         }
-
         mobileDriver = PROPERTIES.getAppiumPlatformName() == IOS ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
 
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
 
         if (jobName != null) {
-            System.out.println(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", mobileDriver.getSessionId(), jobName));
+            LOG.info(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", mobileDriver.getSessionId(), jobName));
+        }
+
+        if (PROPERTIES.getAppiumVideoEnabled()) {
+            appiumVideoRecorder = new AppiumVideoRecorder();
+            appiumVideoRecorder.startRecord();
         }
     }
 
@@ -83,6 +91,11 @@ public class MobileDriverService implements DriverService {
     public void demountDriver() {
         if (isDriverEmpty()) {
             return;
+        }
+
+        if (PROPERTIES.getAppiumVideoEnabled() && appiumVideoRecorder.isRecording()) {
+            byte[] video = appiumVideoRecorder.stopRecord();
+            ParamsHelper.addAttachmentToRender(video, "video", Type.VIDEO);
         }
 
         try {
@@ -104,7 +117,7 @@ public class MobileDriverService implements DriverService {
     public String getDeviceUDID() {
         return deviceUdId;
     }
-    
+
     public void setMobileDriver(AppiumDriver aMobileDriver) {
         mobileDriver = aMobileDriver;
     }
@@ -112,5 +125,9 @@ public class MobileDriverService implements DriverService {
     @Override
     public boolean isDriverEmpty() {
         return mobileDriver == null;
+    }
+
+    public AppiumVideoRecorder getAppiumVideoRecorder() {
+        return appiumVideoRecorder;
     }
 }
