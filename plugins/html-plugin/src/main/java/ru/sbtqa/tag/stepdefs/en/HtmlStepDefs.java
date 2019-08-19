@@ -50,11 +50,6 @@ public class HtmlStepDefs {
         htmlSteps.find(listTitle, value);
     }
 
-    @Когда("^user clears the field \"([^\"]*)\"$")
-    public void clearField(String fieldName) {
-        htmlSteps.clearField(fieldName);
-    }
-
     @Когда("^user fills the form$")
     @И("^user marks controls$")
     public void fillForm(DataTable dataTable) {

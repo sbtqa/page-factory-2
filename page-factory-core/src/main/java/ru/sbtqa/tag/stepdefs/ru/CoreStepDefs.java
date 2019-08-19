@@ -223,4 +223,9 @@ public class CoreStepDefs {
     public void dismissAlert(String text) throws WaitException {
         coreSteps.dismissAlert(text);
     }
+
+    @And("^(?:пользователь |он )?очищает поле$")
+    public void clearField(String elementTitle) throws PageException {
+        coreSteps.clearField(elementTitle);
+    }
 }

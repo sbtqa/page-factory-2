@@ -488,4 +488,19 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
         }
         return (T) this;
     }
+
+    /**
+     * Clear element
+     *
+     * @param elementTitle title of the element to clear
+     * @return Returns itself
+     * timeout
+     */
+    public T clearField(String elementTitle) throws WaitException, PageException {
+        WebElement element = getElement(elementTitle);
+        element.clear();
+        return (T) this;
+    }
+
+
 }

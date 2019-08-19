@@ -49,11 +49,6 @@ public class HtmlStepDefs {
         htmlSteps.find(listTitle, value);
     }
 
-    @Когда("^(?:пользователь |он )?очищает поле \"([^\"]*)\"$")
-    public void clearField(String fieldName) {
-        htmlSteps.clearField(fieldName);
-    }
-
     @Когда("^(?:пользователь |он )?заполняет форму$")
     @И("^(?:пользователь |он )?отмечает признаки$")
     public void fillForm(DataTable dataTable) {
