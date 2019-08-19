@@ -32,3 +32,10 @@ appium.device.platform.version = 6.0
 appium.app.package = com.android.settings
 appium.app.activity = .Settings
 appium.strategies.reset = noreset
+
+appium.video.enabled = true
+appium.video.folder = target
+appium.video.name = ui-test
+appium.video.extension = mp4
+appium.video.type = h264
+appium.video.scale = 1920:1080

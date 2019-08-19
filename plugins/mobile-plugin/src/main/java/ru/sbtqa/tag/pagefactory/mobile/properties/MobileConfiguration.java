@@ -85,6 +85,30 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("60")
     String getNewCommandTimeout();
 
+    @Key("appium.video.enabled")
+    @DefaultValue("false")
+    boolean getAppiumVideoEnabled();
+
+    @Key("appium.video.folder")
+    @DefaultValue("target")
+    String getAppiumVideoFolder();
+
+    @Key("appium.video.name")
+    @DefaultValue("mobiletest")
+    String getAppiumVideoName();
+
+    @Key("appium.video.extension")
+    @DefaultValue("mp4")
+    String getAppiumVideoExtension();
+
+    @Key("appium.video.type")
+    @DefaultValue("h264")
+    String getAppiumVideoType();
+
+    @Key("appium.video.scale")
+    @DefaultValue("1920:1080")
+    String getAppiumVideoScale();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }
