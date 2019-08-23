@@ -2,7 +2,6 @@ package ru.sbtqa.tag.pagefactory.web.drivers;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.EdgeDriverManager;
-import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,7 +13,6 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
@@ -87,8 +85,7 @@ public class WebDriverService implements DriverService {
                 WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.getName());
                 setWebDriver(new ChromeDriver(capabilities));
             } else if (browserName.equals(BrowserName.INTERNET_EXPLORER)) {
-                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), BrowserName.IE.getName());
-                setWebDriver(new InternetExplorerDriver(capabilities));
+                setWebDriver(new CreatedInternetExplorerDriver(capabilities).get());
             } else if (browserName.equals(BrowserName.EDGE)) {
                 WebDriverManagerConfigurator.configureDriver(EdgeDriverManager.getInstance(), BrowserName.EDGE.getName());
                 setWebDriver(new EdgeDriver(capabilities));
