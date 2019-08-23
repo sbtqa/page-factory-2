@@ -1,22 +1,35 @@
 package ru.sbtqa.tag.pagefactory.web.drivers;
 
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.EdgeDriverManager;
+import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
+import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
+import ru.sbtqa.tag.pagefactory.web.capabilities.SelenoidCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
+import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
@@ -66,18 +79,21 @@ public class WebDriverService implements DriverService {
 
         String webDriverUrl = PROPERTIES.getWebDriverUrl();
         if (!webDriverUrl.isEmpty()) {
-            setWebDriver(new CreatedRemoteWebDriver(webDriverUrl, capabilities).get());
+            setWebDriver(createRemoteWebDriver(webDriverUrl, capabilities));
         } else {
             if (browserName.equals(BrowserName.FIREFOX)) {
-                setWebDriver(new CreatedFirefoxDriver(capabilities).get());
+                setWebDriver(new FirefoxDriver(capabilities));
             } else if (browserName.equals(BrowserName.SAFARI)) {
-                setWebDriver(new CreatedSafariDriver(capabilities).get());
+                setWebDriver(new SafariDriver(capabilities));
             } else if (browserName.equals(BrowserName.CHROME)) {
-                setWebDriver(new CreatedChromeDriver(capabilities).get());
+                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.getName());
+                setWebDriver(new ChromeDriver(capabilities));
             } else if (browserName.equals(BrowserName.INTERNET_EXPLORER)) {
-                setWebDriver(new CreatedInternetExplorerDriver(capabilities).get());
+                WebDriverManagerConfigurator.configureDriver(InternetExplorerDriverManager.getInstance(), BrowserName.IE.getName());
+                setWebDriver(new InternetExplorerDriver(capabilities));
             } else if (browserName.equals(BrowserName.EDGE)) {
-                setWebDriver(new CreatedEdgeDriver(capabilities).get());
+                WebDriverManagerConfigurator.configureDriver(EdgeDriverManager.getInstance(), BrowserName.EDGE.getName());
+                setWebDriver(new EdgeDriver(capabilities));
             } else {
                 throw new UnsupportedBrowserException("'" + browserName + "' is not supported yet");
             }
@@ -86,6 +102,14 @@ public class WebDriverService implements DriverService {
         webDriver.manage().timeouts().pageLoadTimeout(PROPERTIES.getTimeout(), TimeUnit.SECONDS);
         setBrowserSize();
         webDriver.get(PROPERTIES.getStartingUrl());
+    }
+
+    private WebDriver createRemoteWebDriver(String webDriverUrl, DesiredCapabilities capabilities) throws MalformedURLException {
+        URL remoteUrl = new URL(webDriverUrl);
+        capabilities.merge(new SelenoidCapabilitiesParser().parse());
+        RemoteWebDriver remoteWebDriver = new RemoteWebDriver(remoteUrl, capabilities);
+        remoteWebDriver.setFileDetector(new LocalFileDetector());
+        return remoteWebDriver;
     }
 
     private void setBrowserSize() {
@@ -98,6 +122,7 @@ public class WebDriverService implements DriverService {
             webDriver.manage().window().setSize(new Dimension(width, height));
         }
     }
+
 
     @Override
     public void demountDriver() {
