@@ -82,8 +82,7 @@ public class WebDriverService implements DriverService {
             } else if (browserName.equals(BrowserName.SAFARI)) {
                 setWebDriver(new CreatedSafariDriver(capabilities).get());
             } else if (browserName.equals(BrowserName.CHROME)) {
-                WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.getName());
-                setWebDriver(new ChromeDriver(capabilities));
+                setWebDriver(new CreatedChromeDriver(capabilities).get());
             } else if (browserName.equals(BrowserName.INTERNET_EXPLORER)) {
                 setWebDriver(new CreatedInternetExplorerDriver(capabilities).get());
             } else if (browserName.equals(BrowserName.EDGE)) {
