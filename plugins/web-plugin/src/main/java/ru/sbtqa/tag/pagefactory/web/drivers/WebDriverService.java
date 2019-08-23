@@ -20,7 +20,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
-import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
@@ -83,7 +82,7 @@ public class WebDriverService implements DriverService {
             if (browserName.equals(BrowserName.FIREFOX)) {
                 setWebDriver(new CreatedFirefoxDriver(capabilities).get());
             } else if (browserName.equals(BrowserName.SAFARI)) {
-                setWebDriver(new SafariDriver(capabilities));
+                setWebDriver(new CreatedSafariDriver(capabilities).get());
             } else if (browserName.equals(BrowserName.CHROME)) {
                 WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.getName());
                 setWebDriver(new ChromeDriver(capabilities));
