@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.pagefactory.web.drivers;
 
-import io.github.bonigarcia.wdm.ChromeDriverManager;
-import io.github.bonigarcia.wdm.EdgeDriverManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,8 +9,6 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
@@ -25,7 +21,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
 import ru.sbtqa.tag.pagefactory.web.capabilities.SelenoidCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
-import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
