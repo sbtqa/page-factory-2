@@ -87,8 +87,7 @@ public class WebDriverService implements DriverService {
             } else if (browserName.equals(BrowserName.INTERNET_EXPLORER)) {
                 setWebDriver(new CreatedInternetExplorerDriver(capabilities).get());
             } else if (browserName.equals(BrowserName.EDGE)) {
-                WebDriverManagerConfigurator.configureDriver(EdgeDriverManager.getInstance(), BrowserName.EDGE.getName());
-                setWebDriver(new EdgeDriver(capabilities));
+                setWebDriver(new CreatedEdgeDriver(capabilities).get());
             } else {
                 throw new UnsupportedBrowserException("'" + browserName + "' is not supported yet");
             }
