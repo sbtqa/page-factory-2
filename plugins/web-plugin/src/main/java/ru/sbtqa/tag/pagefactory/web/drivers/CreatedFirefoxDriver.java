@@ -12,8 +12,7 @@ public class CreatedFirefoxDriver implements Supplier<WebDriver> {
     private final FirefoxOptions options;
 
     public CreatedFirefoxDriver(final DesiredCapabilities capabilities) {
-        options = new FirefoxOptions();
-        options.merge(capabilities);
+        options = new FirefoxOptions().merge(capabilities);
     }
 
     @Override

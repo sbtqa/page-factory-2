@@ -15,8 +15,7 @@ public class CreatedChromeDriver implements Supplier<WebDriver> {
     private final ChromeOptions options;
 
     public CreatedChromeDriver(final DesiredCapabilities capabilities) {
-        options = new ChromeOptions();
-        options.merge(capabilities);
+        options = new ChromeOptions().merge(capabilities);
     }
 
     @Override

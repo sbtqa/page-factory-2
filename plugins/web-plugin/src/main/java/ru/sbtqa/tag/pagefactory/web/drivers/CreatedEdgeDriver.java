@@ -15,8 +15,7 @@ public class CreatedEdgeDriver implements Supplier<WebDriver> {
     private final EdgeOptions options;
 
     public CreatedEdgeDriver(final DesiredCapabilities capabilities) {
-        options = new EdgeOptions();
-        options.merge(capabilities);
+        options = new EdgeOptions().merge(capabilities);
     }
 
     @Override

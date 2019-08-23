@@ -12,8 +12,7 @@ public class CreatedSafariDriver implements Supplier<WebDriver> {
     private final SafariOptions options;
 
     public CreatedSafariDriver(final DesiredCapabilities capabilities) {
-        options = new SafariOptions();
-        options.merge(capabilities);
+        options = new SafariOptions().merge(capabilities);
     }
 
     @Override
