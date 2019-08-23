@@ -2,21 +2,20 @@ package ru.sbtqa.tag.pagefactory.web.drivers;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.function.Supplier;
 
 public class CreatedFirefoxDriver implements Supplier<WebDriver> {
 
-    private final FirefoxOptions options;
+    private final DesiredCapabilities capabilities;
 
     public CreatedFirefoxDriver(final DesiredCapabilities capabilities) {
-        options = new FirefoxOptions().merge(capabilities);
+        this.capabilities = capabilities;
     }
 
     @Override
     public WebDriver get() {
-        return new FirefoxDriver(options);
+        return new FirefoxDriver(capabilities);
     }
 }
