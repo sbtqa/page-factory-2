@@ -32,20 +32,21 @@ public class EndpointBlank {
     }
 
     public void addParameter(ParameterType type, String name, String value) {
-        switch (type) {
-            case QUERY:
-                addQuery(name, value);
-                break;
-            case HEADER:
-                addHeader(name, value);
-                break;
-            case BODY:
-                addBodyParameter(name, value);
-                break;
-            case COOKIE:
-                addCookie(name, value);
-                break;
-        }
+        if (value != null && !value.equals(""))
+            switch (type) {
+                case QUERY:
+                    addQuery(name, value);
+                    break;
+                case HEADER:
+                    addHeader(name, value);
+                    break;
+                case BODY:
+                    addBodyParameter(name, value);
+                    break;
+                case COOKIE:
+                    addCookie(name, value);
+                    break;
+            }
     }
 
     public Map<String, Object> getHeaders() {
