@@ -43,6 +43,11 @@ public class CoreStepDefs {
         coreSteps.openPage(title);
     }
 
+    @And("^(?:user |he )?(?:is on the page|page is being opened|master tab is being opened) \"([^\"]*)\" with data$")
+    public void openPage(String title, DataTable dataTable) throws PageInitializationException {
+        coreSteps.openPage(title, dataTable);
+    }
+
     @And("^user \\(([^)]*)\\)$")
     public void action(String action) throws NoSuchMethodException {
         coreSteps.action(action);

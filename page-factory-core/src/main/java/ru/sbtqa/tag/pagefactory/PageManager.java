@@ -44,11 +44,12 @@ public class PageManager {
      * {@link PageContext#getCurrentPage()} for further use
      *
      * @param title a page title
+     * @param parameters array of parameters for constructor
      * @return the page instance
      * @throws PageInitializationException if failed to execute corresponding
      * page constructor
      */
-    public static Page getPage(String title) throws PageInitializationException {
+    public static Page getPage(String title, Object... parameters) throws PageInitializationException {
         if (null == PageContext.getCurrentPage()
                 || !PageContext.getCurrentPageTitle().equals(title)
                 || Environment.getDriverService().isDriverEmpty()) {
@@ -56,7 +57,7 @@ public class PageManager {
             if (pageClass == null) {
                 throw new AutotestError("Page object with title '" + title + "' is not registered");
             }
-            getPage(pageClass);
+            getPage(pageClass, parameters);
         }
         return PageContext.getCurrentPage();
     }
@@ -65,12 +66,13 @@ public class PageManager {
      * Get Page by class
      *
      * @param pageClass a page class
+     * @param parameters array of parameters for constructor
      * @return the page object
      * @throws PageInitializationException if failed to execute corresponding
      * page constructor
      */
-    public static <T extends Page> T getPage(Class<T> pageClass) throws PageInitializationException {
-        T page = bootstrapPage(pageClass);
+    public static <T extends Page> T getPage(Class<T> pageClass, Object... parameters) throws PageInitializationException {
+        T page = bootstrapPage(pageClass, parameters);
         if (page == null) {
             throw new AutotestError("Page object '" + pageClass + "' is not registered");
         }
@@ -89,10 +91,10 @@ public class PageManager {
      * @throws PageInitializationException if failed to execute corresponding
      * page constructor
      */
-    private static <T extends Page> T bootstrapPage(Class<T> page) throws PageInitializationException {
+    private static <T extends Page> T bootstrapPage(Class<T> page, Object... parameters) throws PageInitializationException {
         if (page != null) {
             try {
-                return ConstructorUtils.invokeConstructor(page);
+                return ConstructorUtils.invokeConstructor(page, parameters);
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new PageInitializationException("Failed to initialize page '" + page + "'", e);
             }
