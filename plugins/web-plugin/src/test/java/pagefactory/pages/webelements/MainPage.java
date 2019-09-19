@@ -3,8 +3,11 @@ package pagefactory.pages.webelements;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import ru.sbtqa.tag.pagefactory.annotations.ActionTitle;
 import ru.sbtqa.tag.pagefactory.annotations.ElementTitle;
 import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.exceptions.PageException;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 
 @PageEntry(title = "Main")
 public class MainPage extends AbstractPage {
@@ -27,5 +30,18 @@ public class MainPage extends AbstractPage {
     public MainPage pageStep2() {
         System.out.println(licenseText.getText());
         return this;
+    }
+
+    private String nextPage;
+
+    public MainPage() {}
+
+    public MainPage(String nextPage) {
+        this.nextPage = nextPage;
+    }
+
+    @ActionTitle("go to next page")
+    public void GoToNextPage() throws PageException {
+        WebSteps.getInstance().click(nextPage);
     }
 }

@@ -41,6 +41,11 @@ public class CoreStepDefs {
         coreSteps.openPage(title);
     }
 
+    @И("^(?:пользователь |он )?(?:находится на странице|открывается страница|открывается вкладка мастера) \"([^\"]*)\" with data$")
+    public void openPage(String title, DataTable dataTable) throws PageInitializationException {
+        coreSteps.openPage(title, dataTable);
+    }
+
     @И("^(?:пользователь |он )?\\(([^)]*)\\)$")
     public void action(String action) throws NoSuchMethodException {
         coreSteps.action(action);

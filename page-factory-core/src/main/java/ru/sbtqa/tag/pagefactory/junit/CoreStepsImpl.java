@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.junit;
 
 import cucumber.api.DataTable;
+import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -18,8 +19,6 @@ import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
 import ru.sbtqa.tag.pagefactory.utils.Alert;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
-
-import java.util.List;
 
 import static java.lang.String.format;
 
@@ -59,15 +58,22 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
 
     /**
      * Initialize a page with corresponding title (defined via
-     * {@link ru.sbtqa.tag.pagefactory.annotations.PageEntry} annotation)
+     * {@link ru.sbtqa.tag.pagefactory.annotations.PageEntry} annotation) and
+     * create page with parameters
      * User|he keywords are optional
      *
      * @param title of the page to initialize
+     * @param dataTable table of parameters
      * @return Returns itself
      * @throws PageInitializationException if page initialization failed
      */
-    public T openPage(String title) throws PageInitializationException {
-        PageManager.getPage(title);
+    public T openPage(String title, DataTable... dataTable) throws PageInitializationException {
+        if (dataTable.length > 0) {
+            PageManager.getPage(title, dataTable[0].asList(String.class).toArray());
+        } else {
+            PageManager.getPage(title);
+        }
+
         return (T) this;
     }
 

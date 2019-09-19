@@ -3,8 +3,9 @@ Feature: Check web elements functional + ActionTitles mechanism
 
   @web
   Scenario: Check web elements functional + ActionTitles mechanism
-    * user is on the page "Main"
-    * user clicks the button "Contact"
+    * user is on the page "Main" with data
+      | Contact   |
+    * user (go to next page)
     * user is on the page "Contact"
 
     #CHECKS
