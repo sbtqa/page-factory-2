@@ -109,6 +109,10 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("1920:1080")
     String getAppiumVideoScale();
 
+    @Key("appium.video.timeLimit")
+    @DefaultValue("180")
+    long getAppiumTimeLimit();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }

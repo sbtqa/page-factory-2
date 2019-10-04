@@ -3,6 +3,7 @@ package ru.sbtqa.tag.pagefactory.mobile.utils;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
+import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
@@ -38,6 +39,7 @@ public class AppiumVideoRecorder {
         IOSStartScreenRecordingOptions startOptions = new IOSStartScreenRecordingOptions()
                 .withVideoType(PROPERTIES.getAppiumVideoType())
                 .withVideoScale(PROPERTIES.getAppiumVideoScale())
+                .withTimeLimit(Duration.ofSeconds(PROPERTIES.getAppiumTimeLimit()))
                 .withVideoQuality(VideoQuality.HIGH);
 
         ((IOSDriver) Environment.getDriverService().getDriver()).startRecordingScreen(startOptions);
