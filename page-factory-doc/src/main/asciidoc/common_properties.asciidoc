@@ -1,11 +1,17 @@
 ==== Конфигурационный файл
 
-Конфигурационный файл по умолчанию должен быть расположен по пути '/src/test/resources/application.properties'. +
-Но этот путь можно переопределить, передав местоположение через системную переменную 'TagConfigFile':
-
+Конфигурационный файл по умолчанию должен быть расположен по пути '/src/test/resources/config/application.properties'.  +
+Но этот путь можно переопределить, передав путь до файла через системную переменную 'TagConfigFileFolder', таким образом что директория находится в папке с ресурсами (/src/test/resources). По умолчанию это папка config в ресурсах.
+Пример:
 [source,]
 ----
-mvn test -DTagConfigFile=custom-place/config.properties
+mvn test -DTagConfigFileFolder=custom-place
+----
+Также можно переопределить наименование самого конфига, передав название через системную переменную 'TagConfigFile'. По умолчанию это файл с наименованием application.
+Пример:
+[source,]
+----
+mvn test -DTagConfigFile=config.properties
 ----
 
 Так же можно задавать отдельные свойства через переменные окружения, либо через java system properties.
