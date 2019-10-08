@@ -1,11 +1,12 @@
 package ru.sbtqa.tag.pagefactory.web.junit;
 
-import static java.lang.ThreadLocal.withInitial;
 import ru.sbtqa.tag.pagefactory.PageManager;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 import ru.sbtqa.tag.pagefactory.web.drivers.WebDriverService;
 import ru.sbtqa.tag.pagefactory.web.tasks.KillAlertTask;
+
+import static java.lang.ThreadLocal.withInitial;
 
 public class WebSetupSteps {
 
@@ -17,7 +18,7 @@ public class WebSetupSteps {
     public static synchronized void initWeb() {
         PageManager.cachePages();
 
-        if (Environment.isDriverEmpty()) {
+        if (Environment.isDriverEmpty() || !(Environment.getDriverService() instanceof WebDriverService)) {
             Environment.setDriverService(storage.get());
         }
     }

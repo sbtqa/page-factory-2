@@ -8,6 +8,7 @@ import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.actions.WebPageActions;
 import ru.sbtqa.tag.pagefactory.web.checks.WebPageChecks;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
 
 /**
  * Inherit your web page objects from this class
@@ -18,6 +19,8 @@ public abstract class WebPage implements Page {
     private static PageChecks pageChecks = new WebPageChecks();
 
     public WebPage() {
+        WebSetupSteps.initWeb();
+
         PageFactory.initElements((WebDriver) Environment.getDriverService().getDriver(), this);
         applyEnvironment();
     }
