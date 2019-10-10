@@ -113,6 +113,14 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("180")
     long getAppiumTimeLimit();
 
+    @Key("appium.xcodeOrgId")
+    @DefaultValue("")
+    String getAppiumXcodeOrgId();
+
+    @Key("appium.xcodeSigningId")
+    @DefaultValue("")
+    String getAppiumXcodeSigningId();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }

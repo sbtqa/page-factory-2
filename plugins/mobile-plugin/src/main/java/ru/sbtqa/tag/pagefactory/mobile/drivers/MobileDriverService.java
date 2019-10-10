@@ -58,6 +58,8 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("unicodeKeyboard", PROPERTIES.getAppiumKeyboardUnicode());
         capabilities.setCapability("resetKeyboard", PROPERTIES.getAppiumKeyboardReset());
         capabilities.setCapability("connectHardwareKeyboard", false);
+        capabilities.setCapability("xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
+        capabilities.setCapability("xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
 
         if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase(MobileCapabilityType.NO_RESET)) {
             capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
