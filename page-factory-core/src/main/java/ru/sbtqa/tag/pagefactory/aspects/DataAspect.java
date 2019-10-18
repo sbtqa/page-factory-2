@@ -123,7 +123,13 @@ public class DataAspect {
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, TestStepFinished event) throws Throwable {
         PickleStep step = event.testStep.getPickleStep();
-        joinPoint.proceed();
+
+        try {
+            joinPoint.proceed();
+        } catch (Exception e) {
+            LOG.warn("Failed to send finished step event", e);
+        }
+
         if (((PickleStepCustom) step).hasLog()) {
             LOG.warn(((PickleStepCustom) event.testStep.getPickleStep()).getLog());
         }
