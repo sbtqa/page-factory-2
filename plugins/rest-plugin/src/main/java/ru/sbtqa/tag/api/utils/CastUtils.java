@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.api.utils;
 
-import cucumber.api.DataTable;
-
+import io.cucumber.datatable.DataTable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

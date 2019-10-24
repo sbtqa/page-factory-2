@@ -1,12 +1,12 @@
 package ru.sbtqa.tag.pagefactory.transformer.enums;
 
-import cucumber.deps.com.thoughtworks.xstream.annotations.XStreamConverter;
+//import cucumber.deps.com.thoughtworks.xstream.annotations.XStreamConverter;
 import cucumber.runtime.CucumberException;
-import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
+//import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
 
-@XStreamConverter(ConditionTransformer.class)
+//@XStreamConverter(ConditionTransformer.class)
 public enum Condition {
-    
+
     NEGATIVE("не"),
     POSITIVE(null);
 

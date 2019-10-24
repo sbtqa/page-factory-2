@@ -1,10 +1,10 @@
 package ru.sbtqa.tag.pagefactory.optional;
 
+import cucumber.api.PickleStepTestStep;
 import gherkin.pickles.PickleStep;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
+import java.util.List;
 
-public class PickleStepCustom extends PickleStep {
+public class PickleStepCustom implements PickleStepTestStep, CriticalTestStep {
 
     public static final String NON_CRITICAL = "? ";
 
@@ -14,70 +14,112 @@ public class PickleStepCustom extends PickleStep {
     private Throwable error = null;
     private String log = null;
 
-    public PickleStepCustom(PickleStep step) {
-        super(step.getText(), step.getArgument(), step.getLocations());
-        this.setCritical(!step.getText().startsWith(NON_CRITICAL));
+    PickleStepTestStep pickleStepTestStep;
+
+    public PickleStepCustom(PickleStepTestStep pickleStepTestStep) {
+        this.pickleStepTestStep = pickleStepTestStep;
+        this.isCritical = pickleStepTestStep.getPickleStep().getText().startsWith(NON_CRITICAL);
+//        super(step.getText(), step.getArgument(), step.getLocations());
+//        this.setCritical(!step.getText().startsWith(NON_CRITICAL));
     }
 
     public boolean isCritical() {
-        return this.isCritical;
+        return isCritical;
     }
 
-    public boolean isSkipped() {
-        return this.isSkipped;
+//    public boolean isSkipped() {
+//        return this.isSkipped;
+//    }
+//
+//    public Throwable getError() {
+//        return error;
+//    }
+//
+//    public void setError(Throwable error) {
+//        this.error = error;
+//    }
+//
+//    public boolean hasError() {
+//        return this.error != null;
+//    }
+//
+//    public String getLog() {
+//        return log;
+//    }
+//
+//    public void setLog(String log) {
+//        this.log = log;
+//    }
+//
+//    public boolean hasLog() {
+//        return this.log != null;
+//    }
+//
+//    public void setText(String text) {
+//        try {
+//            FieldUtils.writeField(this, "text", text, true);
+//        } catch (IllegalAccessException ex) {
+//            throw new ReadFieldError("Error reading the field: text");
+//        }
+//    }
+//
+//    public String getData() {
+//        return data;
+//    }
+//
+//    public void setData(String data) {
+//        this.data = data;
+//    }
+//
+
+//
+//    public void replaceNonCriticalText() {
+//        if (!this.isCritical) {
+//            this.setText(this.getText().replaceFirst("\\" + NON_CRITICAL, ""));
+//        }
+//    }
+//
+//    public void setSkipped(Boolean skipped) {
+//        isSkipped = skipped;
+//    }
+
+    @Override
+    public PickleStep getPickleStep() {
+        return pickleStepTestStep.getPickleStep();
     }
 
-    public Throwable getError() {
-        return error;
+    @Override
+    public String getStepLocation() {
+        return pickleStepTestStep.getStepLocation();
     }
 
-    public void setError(Throwable error) {
-        this.error = error;
+    @Override
+    public int getStepLine() {
+        return pickleStepTestStep.getStepLine();
     }
 
-    public boolean hasError() {
-        return this.error != null;
+    @Override
+    public String getStepText() {
+        return pickleStepTestStep.getStepText();
     }
 
-    public String getLog() {
-        return log;
+    @Override
+    public List<cucumber.api.Argument> getDefinitionArgument() {
+        return pickleStepTestStep.getDefinitionArgument();
     }
 
-    public void setLog(String log) {
-        this.log = log;
+    @Override
+    public List<gherkin.pickles.Argument> getStepArgument() {
+        return pickleStepTestStep.getStepArgument();
     }
 
-    public boolean hasLog() {
-        return this.log != null;
+    @Override
+    public String getPattern() {
+        return pickleStepTestStep.getPattern();
     }
 
-    public void setText(String text) {
-        try {
-            FieldUtils.writeField(this, "text", text, true);
-        } catch (IllegalAccessException ex) {
-            throw new ReadFieldError("Error reading the field: text");
-        }
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public void setCritical(Boolean critical) {
-        this.isCritical = critical;
-    }
-
-    public void replaceNonCriticalText() {
-        if (!this.isCritical) {
-            this.setText(this.getText().replaceFirst("\\" + NON_CRITICAL, ""));
-        }
-    }
-
-    public void setSkipped(Boolean skipped) {
-        isSkipped = skipped;
+    @Override
+    public String getCodeLocation() {
+        return pickleStepTestStep.getCodeLocation();
     }
 }

@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.api.entries.apirequest;
 
-import cucumber.api.DataTable;
+import io.cucumber.datatable.DataTable;
 import java.util.Map;
 import static org.hamcrest.Matchers.equalTo;
 import ru.sbtqa.tag.api.EndpointEntry;

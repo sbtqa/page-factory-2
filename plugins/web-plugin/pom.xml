@@ -93,7 +93,7 @@
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-junit4</artifactId>
-      <version>2.10.0</version>
+      <version>2.13.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -152,14 +152,14 @@
         <configuration>
           <argLine>
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-             -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
+<!--             -Dcucumber.options="&#45;&#45;plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm &#45;&#45;plugin pretty"-->
           </argLine>
-          <properties>
-            <property>
-              <name>listener</name>
-              <value>io.qameta.allure.junit4.AllureJunit4</value>
-            </property>
-          </properties>
+<!--          <properties>-->
+<!--            <property>-->
+<!--              <name>listener</name>-->
+<!--              <value>io.qameta.allure.junit4.AllureJunit4</value>-->
+<!--            </property>-->
+<!--          </properties>-->
         </configuration>
         <dependencies>
           <dependency>

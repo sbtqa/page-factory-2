@@ -1,7 +1,8 @@
 package ru.sbtqa.tag.pagefactory.data;
 
-import cucumber.runner.PickleTestStep;
-import cucumber.runtime.Argument;
+import cucumber.api.Argument;
+import cucumber.api.PickleStepTestStep;
+import cucumber.runtime.DefinitionArgument;
 import gherkin.pickles.PickleCell;
 import gherkin.pickles.PickleRow;
 import gherkin.pickles.PickleString;
@@ -31,14 +32,14 @@ public class DataReplacer {
      * @throws IllegalAccessException in case of a field write error
      * @throws DataException          in case of a data parse error
      */
-    public void replace(PickleTestStep testStep) throws IllegalAccessException, DataException {
+    public void replace(PickleStepTestStep testStep) throws IllegalAccessException, DataException {
         if (DataFactory.getDataProvider() != null) {
             replace(testStep, false);
         }
         replace(testStep, true);
     }
 
-    private void replace(PickleTestStep testStep, boolean isStash) throws IllegalAccessException {
+    private void replace(PickleStepTestStep testStep, boolean isStash) throws IllegalAccessException {
         PickleStepCustom step = (PickleStepCustom) testStep.getPickleStep();
         replacePickleArguments(step, isStash);
         replaceStepArguments(testStep, isStash);
@@ -68,7 +69,7 @@ public class DataReplacer {
         }
     }
 
-    private void replaceStepArguments(PickleTestStep testStep, boolean isStash) throws IllegalAccessException {
+    private void replaceStepArguments(PickleStepTestStep testStep, boolean isStash) throws IllegalAccessException {
         PickleStepCustom step = (PickleStepCustom) testStep.getPickleStep();
         String stepText = step.getText();
         List<Argument> replacedArguments = new ArrayList<>();
@@ -81,24 +82,26 @@ public class DataReplacer {
         StringBuilder replacedValue = new StringBuilder(stepText);
 
         for (Argument argument : testStep.getDefinitionArgument()) {
-            String argVal = argument.getVal();
+            String argVal = argument.getValue();
 
             if (argVal != null) {
                 int argOffset;
                 if (stepDataPattern.matcher(argVal).find() && stepDataMatcher.find()) {
                     String data = replaceData(step, argVal, isStash);
 
-                    argOffset = argument.getOffset() - offset;
+                    // FIXME getOffset == getStart ??
+                    argOffset = argument.getStart() - offset;
                     offset = offset + argVal.length() - data.length();
                     argVal = data;
 
-                    replacedValue.delete(argOffset, argOffset + argument.getVal().length())
+                    replacedValue.delete(argOffset, argOffset + argument.getValue().length())
                             .insert(argOffset, data);
                     stepDataMatcher = stepDataPattern.matcher(replacedValue);
                 } else {
-                    argOffset = argument.getOffset() - offset;
+                    argOffset = argument.getStart() - offset;
                 }
-                replacedArguments.add(new Argument(argOffset, argVal));
+                // FIXME
+//                replacedArguments.add(new DefinitionArgument(argOffset, argVal));
             } else {
                 replacedArguments.add(argument);
             }

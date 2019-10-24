@@ -3,7 +3,6 @@ package ru.sbtqa.tag.pagefactory.aspects.report;
 import cucumber.api.TestStep;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestStepFinished;
-import cucumber.runner.PickleTestStep;
 import gherkin.pickles.Argument;
 import gherkin.pickles.PickleCell;
 import gherkin.pickles.PickleRow;
@@ -33,13 +32,15 @@ public class PrintParameters {
     public void beforeSendStepFinished(JoinPoint joinPoint, Event event) {
         TestStep testStep = ((TestStepFinished) event).testStep;
 
-        if (testStep.getClass().equals(PickleTestStep.class)) {
-            this.testArguments.set(testStep.getStepArgument());
-            addAllureArguments();
-        }
+        // FIXME
+//        if (testStep.getClass().equals(PickleStepTestStep.class)) {
+//            this.testArguments.set(testStep.getStepArgument());
+//            addAllureArguments();
+//        }
     }
 
-    @After("execution(* cucumber.runtime.formatter.PrettyFormatter.printStep(..))")
+    // FIXME
+//    @After("execution(* cucumber.runtime.formatter.PrettyFormatter.printStep(..))")
     public void printStep(JoinPoint joinPoint) {
         for (Argument argument : this.testArguments.get()) {
             if (argument instanceof PickleString) {

@@ -1,11 +1,12 @@
 package ru.sbtqa.tag.pagefactory.transformer.enums;//package ru.sbt.qa.platform.ui.core.enums;
 
-import cucumber.deps.com.thoughtworks.xstream.annotations.XStreamConverter;
+// FIXME
+//import cucumber.deps.com.thoughtworks.xstream.annotations.XStreamConverter;
 import cucumber.runtime.CucumberException;
-import ru.sbtqa.tag.pagefactory.transformer.SearchTransformer;
+//import ru.sbtqa.tag.pagefactory.transformer.SearchTransformer;
 import static java.lang.String.format;
 
-@XStreamConverter(SearchTransformer.class)
+//@XStreamConverter(SearchTransformer.class)
 public enum SearchStrategy {
     EQUALS(null),
     CONTAINS("по частичному совпадению с");

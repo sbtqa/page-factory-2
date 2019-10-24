@@ -56,7 +56,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <cucumber.version>2.4.0</cucumber.version>
+    <cucumber.version>4.3.1</cucumber.version>
     <aspectj.version>1.9.2</aspectj.version>
     <aspectj.plugin.version>1.11</aspectj.plugin.version>
     <spring.version>4.2.4.RELEASE</spring.version>
@@ -66,7 +66,7 @@
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
     <tag.version.datajack>5.0.2</tag.version.datajack>
-    <allure.version>2.10.0</allure.version>
+    <allure.version>2.13.0</allure.version>
   </properties>
 
   <modules>
@@ -74,11 +74,11 @@
     <module>page-factory-core</module>
     <module>tests/test-web-app</module>
     <module>plugins/web-plugin</module>
-    <module>plugins/jdi-plugin</module>
-    <module>plugins/html-plugin</module>
+<!--    <module>plugins/jdi-plugin</module>-->
+<!--    <module>plugins/html-plugin</module>-->
     <module>plugins/mobile-plugin</module>
     <module>plugins/rest-plugin</module>
-    <module>plugins/mq-plugin</module>
+<!--    <module>plugins/mq-plugin</module>-->
   </modules>
 
   <distributionManagement>
