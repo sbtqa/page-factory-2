@@ -6,5 +6,5 @@ public interface CriticalTestStep {
      * TODO
      * @return
      */
-    boolean isCritical();
+    boolean isNonCritical();
 }

@@ -2,7 +2,6 @@ package ru.sbtqa.tag.api;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import org.slf4j.Logger;
 import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.allure.Type;

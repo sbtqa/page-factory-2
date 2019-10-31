@@ -1,5 +1,5 @@
 #language: en
-Feature: Check web elements functional + ActionTitles mechanism
+Feature: Base functionality
 
   @web
   Scenario: Check web elements functional + ActionTitles mechanism
@@ -9,7 +9,7 @@ Feature: Check web elements functional + ActionTitles mechanism
     * user is on the page "Contact"
 
     #CHECKS
-    * user checks that the field "first nam" is empty
+    * user checks that the field "first name" is empty
     * user fills the field "first name" with value "Alex"
     * user checks that the field "first name" is not empty
     * user checks in the element "first name" value "Alex"

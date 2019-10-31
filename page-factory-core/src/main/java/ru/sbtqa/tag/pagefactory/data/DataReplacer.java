@@ -104,17 +104,31 @@ public class DataReplacer {
         Pattern stepDataPattern = Pattern.compile(pattern);
         Matcher stepDataMatcher = stepDataPattern.matcher(stepText);
 
+        int offset = 0;
         for (Argument argument : testStep.getDefinitionArgument()) {
             String argVal = argument.getValue();
 
-            if (argVal != null
-                    && stepDataPattern.matcher(argVal).find()
-                    && stepDataMatcher.find()) {
+            if (argVal != null) {
                 String data = replaceData(step, argVal, isStash);
-                FieldUtils.writeField(FieldUtils.readField(argument, "group", true),
-                        "end", argument.getStart() + data.length(), true);
-                FieldUtils.writeField(FieldUtils.readField(argument, "group", true),
-                        "value", data, true);
+                boolean isReplaceNeededParameter = stepDataPattern.matcher(argVal).find() && stepDataMatcher.find();
+                Object group = FieldUtils.readField(argument, "group", true);
+                if (isReplaceNeededParameter && offset == 0) {
+                    // this is first replace-needed parameter
+                    offset = data.length() - argVal.length();
+                    FieldUtils.writeField(group, "value", data, true);
+                    FieldUtils.writeField(group, "end", argument.getEnd() + offset, true);
+                } else if (isReplaceNeededParameter) {
+                    // this is not first replace-needed parameter
+                    FieldUtils.writeField(group, "value", data, true);
+                    FieldUtils.writeField(group, "start", argument.getStart() + offset, true);
+                    int thisOffset = data.length() - argVal.length();
+                    FieldUtils.writeField(group, "end", argument.getEnd() + offset + thisOffset, true);
+                    offset += thisOffset;
+                } else if (offset != 0) {
+                    // this is ordinary parameter
+                    FieldUtils.writeField(group, "start", argument.getStart() + offset, true);
+                    FieldUtils.writeField(group, "end", argument.getEnd() + offset, true);
+                }
             }
         }
     }

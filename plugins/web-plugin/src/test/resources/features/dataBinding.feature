@@ -76,7 +76,7 @@ Feature: Data sources
     * user checks that the field "first name" is empty
     * stores the value "Al" in a variable "PART"
     * user fills the field "first name"
-    """
-    #{PART}ex ${first name} Plesk
-    """
+      """
+      #{PART}ex ${first name} Plesk
+      """
     * user checks in the element "first name" value "Alex Alex Plesk"

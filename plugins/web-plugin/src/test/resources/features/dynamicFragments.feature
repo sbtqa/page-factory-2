@@ -1,6 +1,6 @@
 #language: en
 @dynamic @data=$DataFragments
-Feature: Data sources
+Feature: Dynamic fragments
 
   Background:
     * user is on the page "Main"

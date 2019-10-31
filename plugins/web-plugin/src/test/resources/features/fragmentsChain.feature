@@ -1,5 +1,6 @@
 #language: en
-Feature: Check fragments functional
+@fragments
+Feature: Chain Fragments
 
   @chain
   Scenario: chain

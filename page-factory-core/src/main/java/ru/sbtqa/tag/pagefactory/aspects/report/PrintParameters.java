@@ -1,13 +1,10 @@
 package ru.sbtqa.tag.pagefactory.aspects.report;
 
+import cucumber.api.PickleStepTestStep;
 import cucumber.api.TestStep;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestStepFinished;
-import gherkin.pickles.Argument;
-import gherkin.pickles.PickleCell;
-import gherkin.pickles.PickleRow;
-import gherkin.pickles.PickleString;
-import gherkin.pickles.PickleTable;
+import gherkin.pickles.*;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import java.util.ArrayList;
@@ -31,22 +28,22 @@ public class PrintParameters {
     @Before("sendStepFinished(event)")
     public void beforeSendStepFinished(JoinPoint joinPoint, Event event) {
         TestStep testStep = ((TestStepFinished) event).testStep;
-
-        // FIXME
-//        if (testStep.getClass().equals(PickleStepTestStep.class)) {
-//            this.testArguments.set(testStep.getStepArgument());
-//            addAllureArguments();
-//        }
+        if (testStep instanceof PickleStepTestStep) {
+            this.testArguments.set(((PickleStepTestStep) testStep).getStepArgument());
+            addAllureArguments();
+        }
     }
 
-    // FIXME
-//    @After("execution(* cucumber.runtime.formatter.PrettyFormatter.printStep(..))")
+    @After("execution(* cucumber.runtime.formatter.PrettyFormatter.printStep(..))")
     public void printStep(JoinPoint joinPoint) {
-        for (Argument argument : this.testArguments.get()) {
-            if (argument instanceof PickleString) {
-                printPickleString((PickleString) argument);
-            } else {
-                printPickleTable((PickleTable) argument);
+        if (joinPoint.getArgs().length > 0
+                && joinPoint.getArgs()[0] instanceof PickleStepTestStep) {
+            for (Argument argument : ((PickleStepTestStep) joinPoint.getArgs()[0]).getPickleStep().getArgument()) {
+                if (argument instanceof PickleString) {
+                    printPickleString((PickleString) argument);
+                } else {
+                    printPickleTable((PickleTable) argument);
+                }
             }
         }
     }
@@ -55,6 +52,7 @@ public class PrintParameters {
         Argument pickleString = this.testArguments.get().stream()
                 .filter(argument -> argument instanceof PickleString).findFirst().orElse(null);
 
+        // FIXME
         if (pickleString != null) {
             Allure.getLifecycle().updateStep(stepResult ->
                     stepResult.withAttachments());
@@ -64,9 +62,9 @@ public class PrintParameters {
 
     private void printPickleString(PickleString pickleString) {
         if (pickleString != null) {
-            System.out.println("\"\"\"");
-            System.out.println(pickleString.getContent());
-            System.out.println("\"\"\"");
+            System.out.println("      \"\"\"");
+            System.out.println("      " + pickleString.getContent());
+            System.out.println("      \"\"\"");
         }
     }
 

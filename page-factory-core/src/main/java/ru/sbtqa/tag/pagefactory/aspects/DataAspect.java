@@ -65,7 +65,7 @@ public class DataAspect {
 
                     stepCustom.setDataTag(data);
 
-                    replacePickleStepWithPickleStepTag(pickleStepTestStep, stepCustom);
+                    replaceByPickleStepTag(pickleStepTestStep, stepCustom);
                 }
             }
         }
@@ -82,7 +82,7 @@ public class DataAspect {
 
             stepCustom.setSkipped(skipSteps);
 
-            replacePickleStepWithPickleStepTag(pickleStepTestStep, stepCustom);
+            replaceByPickleStepTag(pickleStepTestStep, stepCustom);
         }
 
         return joinPoint.proceed();
@@ -93,7 +93,7 @@ public class DataAspect {
         return pickleStep instanceof PickleStepCustom ? (PickleStepCustom) pickleStep : new PickleStepCustom(pickleStep);
     }
 
-    private void replacePickleStepWithPickleStepTag(PickleStepTestStep pickleStepTestStep, PickleStepCustom stepCustom) throws IllegalAccessException {
+    private void replaceByPickleStepTag(PickleStepTestStep pickleStepTestStep, PickleStepCustom stepCustom) throws IllegalAccessException {
         FieldUtils.writeField(pickleStepTestStep, "step", stepCustom, true);
     }
 
@@ -138,7 +138,7 @@ public class DataAspect {
         }
 
         if (((PickleStepCustom) step).hasLog()) {
-            LOG.warn(((PickleStepCustom) event.testStep).getLog());
+            LOG.warn(((PickleStepCustom) (((PickleStepTestStep) event.testStep).getPickleStep())).getLog());
         }
     }
 }

@@ -8,19 +8,20 @@ public class PickleStepCustom extends PickleStep implements CriticalTestStep {
 
     public static final String NON_CRITICAL = "? ";
 
-    private Boolean isCritical = true;
-    private Boolean isSkipped = false;
+    private boolean isNonCritical;
+    private boolean isSkipped = false;
     private String dataTag;
     private Throwable error = null;
     private String log = null;
 
     public PickleStepCustom(PickleStep pickleStep) {
         super(pickleStep.getText(), pickleStep.getArgument(), pickleStep.getLocations());
-        this.isCritical = pickleStep.getText().startsWith(NON_CRITICAL);
+        this.isNonCritical = pickleStep.getText().startsWith(NON_CRITICAL);
     }
 
-    public boolean isCritical() {
-        return isCritical;
+    @Override
+    public boolean isNonCritical() {
+        return isNonCritical;
     }
 
     public boolean isSkipped() {
@@ -67,15 +68,12 @@ public class PickleStepCustom extends PickleStep implements CriticalTestStep {
         this.dataTag = dataTag;
     }
 
+    public void removeNonCriticalSign() {
+        if (isNonCritical) {
+            this.setText(this.getText().replaceFirst("\\" + NON_CRITICAL, ""));
+        }
+    }
 
-
-//
-//    public void replaceNonCriticalText() {
-//        if (!this.isCritical) {
-//            this.setText(this.getText().replaceFirst("\\" + NON_CRITICAL, ""));
-//        }
-//    }
-//
     public void setSkipped(Boolean skipped) {
         isSkipped = skipped;
     }
