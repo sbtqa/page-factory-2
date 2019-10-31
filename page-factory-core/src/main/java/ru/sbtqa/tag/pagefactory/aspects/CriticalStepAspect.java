@@ -10,9 +10,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
 
-import static ru.sbtqa.tag.pagefactory.optional.PickleStepCustom.NON_CRITICAL;
+import static ru.sbtqa.tag.pagefactory.optional.PickleStepTag.NON_CRITICAL;
 
 @Aspect
 public class CriticalStepAspect {
@@ -33,9 +33,9 @@ public class CriticalStepAspect {
 
     @Around(value = "removeNonCriticalSign(featurePath, step)")
     public Object removeNonCriticalSign(ProceedingJoinPoint joinPoint, String featurePath, PickleStep step) throws Throwable {
-        PickleStepCustom pickleStepCustom = step instanceof PickleStepCustom ? (PickleStepCustom) step : new PickleStepCustom(step);
-        pickleStepCustom.removeNonCriticalSign();
-        return joinPoint.proceed(new Object[]{featurePath, pickleStepCustom});
+        PickleStepTag pickleStepTag = step instanceof PickleStepTag ? (PickleStepTag) step : new PickleStepTag(step);
+        pickleStepTag.removeNonCriticalSign();
+        return joinPoint.proceed(new Object[]{featurePath, pickleStepTag});
     }
 
     @Around(value = "argumentOffset(arguments, stepDefinition, featurePath, step)",
@@ -57,7 +57,7 @@ public class CriticalStepAspect {
 
     private boolean hasReplaceableArgument(PickleStep step, Argument argument) {
         return argument.getValue() != null
-                && step instanceof PickleStepCustom && ((PickleStepCustom) step).isNonCritical();
+                && step instanceof PickleStepTag && ((PickleStepTag) step).isNonCritical();
     }
 
     @Around("getSnippet(step)")

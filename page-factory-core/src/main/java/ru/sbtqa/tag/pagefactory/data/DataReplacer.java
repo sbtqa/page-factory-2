@@ -16,7 +16,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.datajack.exceptions.StashKeyNotFoundException;
-import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
 
 import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_REGEX;
 
@@ -40,23 +40,23 @@ public class DataReplacer {
     }
 
     private void replace(PickleStepTestStep testStep, boolean isStash) throws IllegalAccessException {
-        PickleStepCustom step = (PickleStepCustom) (testStep.getPickleStep());
+        PickleStepTag step = (PickleStepTag) (testStep.getPickleStep());
         replacePickleArguments(testStep, isStash);
         replaceStepArguments(testStep, isStash);
         replaceStepText(step, isStash);
     }
 
-    private void replaceStepText(PickleStepCustom currentStep, boolean isStash) {
+    private void replaceStepText(PickleStepTag currentStep, boolean isStash) {
         currentStep.setText(replaceData(currentStep, currentStep.getText(), isStash));
     }
 
     private void replacePickleArguments(PickleStepTestStep currentStep, boolean isStash) throws IllegalAccessException {
-        PickleStepCustom pickleStepCustom = (PickleStepCustom) currentStep.getPickleStep();
+        PickleStepTag pickleStepTag = (PickleStepTag) currentStep.getPickleStep();
         for (gherkin.pickles.Argument argument : currentStep.getPickleStep().getArgument()) {
             if (argument.getClass().equals(PickleTable.class)) {
-                replacePickleTable(pickleStepCustom, (PickleTable) argument, isStash);
+                replacePickleTable(pickleStepTag, (PickleTable) argument, isStash);
             } else if (argument.getClass().equals(PickleString.class)) {
-                String content = replaceData(pickleStepCustom, ((PickleString) argument).getContent(), isStash);
+                String content = replaceData(pickleStepTag, ((PickleString) argument).getContent(), isStash);
                 FieldUtils.writeField(argument, "content", content, true);
             }
         }
@@ -68,14 +68,14 @@ public class DataReplacer {
                     List<List<String>> newDefinitionMatchArgument = replaceDataTable(definitionMatchArgument, currentStep, isStash);
                     FieldUtils.writeField(definitionMatchArgument, "argument", newDefinitionMatchArgument, true);
                 } else if (definitionMatchArgument instanceof DocStringArgument) {
-                    String newDefinitionMatchArgument = replaceData((PickleStepCustom) currentStep.getPickleStep(), ((DocStringArgument) definitionMatchArgument).getValue().toString(), isStash);
+                    String newDefinitionMatchArgument = replaceData((PickleStepTag) currentStep.getPickleStep(), ((DocStringArgument) definitionMatchArgument).getValue().toString(), isStash);
                     FieldUtils.writeField(definitionMatchArgument, "argument", newDefinitionMatchArgument, true);
                 }
             }
         }
     }
 
-    private void replacePickleTable(PickleStepCustom currentStep, PickleTable argument, boolean isStash) throws IllegalAccessException {
+    private void replacePickleTable(PickleStepTag currentStep, PickleTable argument, boolean isStash) throws IllegalAccessException {
         for (PickleRow pickleRow : argument.getRows()) {
             for (PickleCell pickleCell : pickleRow.getCells()) {
                 FieldUtils.writeField(pickleCell, "value", replaceData(currentStep, pickleCell.getValue(), isStash), true);
@@ -88,7 +88,7 @@ public class DataReplacer {
 
         for (List<String> row : arguments) {
             for (String cell : row) {
-                row.set(row.indexOf(cell), replaceData((PickleStepCustom) currentStep.getPickleStep(), cell, isStash));
+                row.set(row.indexOf(cell), replaceData((PickleStepTag) currentStep.getPickleStep(), cell, isStash));
             }
             arguments.set(arguments.indexOf(row), row);
         }
@@ -97,7 +97,7 @@ public class DataReplacer {
     }
 
     private void replaceStepArguments(PickleStepTestStep testStep, boolean isStash) throws IllegalAccessException {
-        PickleStepCustom step = (PickleStepCustom) testStep.getPickleStep();
+        PickleStepTag step = (PickleStepTag) testStep.getPickleStep();
         String stepText = step.getText();
 
         String pattern = isStash ? STASH_PARSE_REGEX : PATH_PARSE_REGEX;
@@ -133,7 +133,7 @@ public class DataReplacer {
         }
     }
 
-    private String replaceData(PickleStepCustom currentStep, String raw, boolean isStash) {
+    private String replaceData(PickleStepTag currentStep, String raw, boolean isStash) {
         String replacedText = raw;
         try {
             replacedText = isStash ? replaceStashPlaceholders(raw)
@@ -186,7 +186,7 @@ public class DataReplacer {
         return replacedValue.toString();
     }
 
-    private void saveMessage(PickleStepCustom currentStep, Throwable message) {
+    private void saveMessage(PickleStepTag currentStep, Throwable message) {
         if (currentStep.isSkipped()) {
             currentStep.setLog(message.getMessage());
         } else {

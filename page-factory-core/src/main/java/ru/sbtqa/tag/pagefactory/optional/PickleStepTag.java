@@ -4,7 +4,7 @@ import gherkin.pickles.PickleStep;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
 
-public class PickleStepCustom extends PickleStep implements CriticalTestStep {
+public class PickleStepTag extends PickleStep implements CriticalTestStep {
 
     public static final String NON_CRITICAL = "? ";
 
@@ -14,7 +14,7 @@ public class PickleStepCustom extends PickleStep implements CriticalTestStep {
     private Throwable error = null;
     private String log = null;
 
-    public PickleStepCustom(PickleStep pickleStep) {
+    public PickleStepTag(PickleStep pickleStep) {
         super(pickleStep.getText(), pickleStep.getArgument(), pickleStep.getLocations());
         this.isNonCritical = pickleStep.getText().startsWith(NON_CRITICAL);
     }

@@ -27,7 +27,7 @@ import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
-import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import static io.qameta.allure.util.ResultsUtils.md5;
@@ -78,15 +78,15 @@ public class CriticalStepCheckAspect {
         }
     }
 
-    private PickleStepCustom getPickleStepTag(PickleStep pickleStep) {
-        return pickleStep instanceof PickleStepCustom ? (PickleStepCustom) pickleStep : new PickleStepCustom(pickleStep);
+    private PickleStepTag getPickleStepTag(PickleStep pickleStep) {
+        return pickleStep instanceof PickleStepTag ? (PickleStepTag) pickleStep : new PickleStepTag(pickleStep);
     }
 
     private boolean isNonCritical(PickleStep step) {
-        return step instanceof PickleStepCustom && ((PickleStepCustom) step).isNonCritical();
+        return step instanceof PickleStepTag && ((PickleStepTag) step).isNonCritical();
     }
 
-    private void attachError(PickleStepCustom step, Throwable e) {
+    private void attachError(PickleStepTag step, Throwable e) {
         step.setError(e);
         ErrorHandler.attachError(e);
         if (!Environment.isDriverEmpty()) {
@@ -99,7 +99,6 @@ public class CriticalStepCheckAspect {
     public void sendCaseFinished(ProceedingJoinPoint joinPoint, TestCaseFinished event) throws Throwable {
         boolean hasFailedNonCriticalStep = hasFailedNonCriticalStep(event.testCase);
 
-        // FIXME
         if (hasFailedNonCriticalStep) {
             final Result result = new Result(Result.Type.PASSED, event.result.getDuration(),
                     new AutotestError(NON_CRITICAL_CATEGORY_MESSAGE));
@@ -112,8 +111,6 @@ public class CriticalStepCheckAspect {
         } else {
             joinPoint.proceed();
         }
-
-        joinPoint.proceed();
     }
 
     private boolean hasFailedNonCriticalStep(TestCase testCase) {
@@ -129,15 +126,15 @@ public class CriticalStepCheckAspect {
 
         if (hasError(step)) {
             final Result result = new Result(Result.Type.AMBIGUOUS,
-                    event.result.getDuration(), ((PickleStepCustom) step).getError());
+                    event.result.getDuration(), ((PickleStepTag) step).getError());
             event = new TestStepFinished(event.getTimeStamp(), event.getTimeStampMillis(), event.getTestCase(), event.testStep, result);
         }
         joinPoint.proceed(new Object[]{event});
     }
 
     private boolean hasError(PickleStep step) {
-        return step instanceof PickleStepCustom
-                && ((PickleStepCustom) step).hasError();
+        return step instanceof PickleStepTag
+                && ((PickleStepTag) step).hasError();
     }
 
     private PickleStep getDefinitionMatchStep(TestStep testStep) {

@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.data.DataReplacer;
 import ru.sbtqa.tag.pagefactory.data.DataUtils;
-import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
 
 @Aspect
 public class DataAspect {
@@ -61,7 +61,7 @@ public class DataAspect {
             for (TestStep testStep : event.testCase.getTestSteps()) {
                 if (!(testStep instanceof HookTestStep)) {
                     PickleStepTestStep pickleStepTestStep = (PickleStepTestStep) testStep;
-                    PickleStepCustom stepCustom = getPickleStepTag(pickleStepTestStep);
+                    PickleStepTag stepCustom = getPickleStepTag(pickleStepTestStep);
 
                     stepCustom.setDataTag(data);
 
@@ -78,7 +78,7 @@ public class DataAspect {
         TestStep testStep = (TestStep) joinPoint.getThis();
         if (!(testStep instanceof HookTestStep)) {
             PickleStepTestStep pickleStepTestStep = (PickleStepTestStep) testStep;
-            PickleStepCustom stepCustom = getPickleStepTag(pickleStepTestStep);
+            PickleStepTag stepCustom = getPickleStepTag(pickleStepTestStep);
 
             stepCustom.setSkipped(skipSteps);
 
@@ -88,12 +88,12 @@ public class DataAspect {
         return joinPoint.proceed();
     }
 
-    private PickleStepCustom getPickleStepTag(PickleStepTestStep pickleStepTestStep) {
+    private PickleStepTag getPickleStepTag(PickleStepTestStep pickleStepTestStep) {
         PickleStep pickleStep = pickleStepTestStep.getPickleStep();
-        return pickleStep instanceof PickleStepCustom ? (PickleStepCustom) pickleStep : new PickleStepCustom(pickleStep);
+        return pickleStep instanceof PickleStepTag ? (PickleStepTag) pickleStep : new PickleStepTag(pickleStep);
     }
 
-    private void replaceByPickleStepTag(PickleStepTestStep pickleStepTestStep, PickleStepCustom stepCustom) throws IllegalAccessException {
+    private void replaceByPickleStepTag(PickleStepTestStep pickleStepTestStep, PickleStepTag stepCustom) throws IllegalAccessException {
         FieldUtils.writeField(pickleStepTestStep, "step", stepCustom, true);
     }
 
@@ -102,12 +102,12 @@ public class DataAspect {
         TestStep testStep = (TestStep) joinPoint.getThis();
         if (!(testStep instanceof HookTestStep)
                 && testStep instanceof PickleStepTestStep
-                && ((PickleStepCustom) ((PickleStepTestStep) testStep).getPickleStep()).hasError()) {
-            PickleStepCustom pickleStepCustom = (PickleStepCustom) ((PickleStepTestStep) testStep).getPickleStep();
+                && ((PickleStepTag) ((PickleStepTestStep) testStep).getPickleStep()).hasError()) {
+            PickleStepTag pickleStepTag = (PickleStepTag) ((PickleStepTestStep) testStep).getPickleStep();
             if (FieldUtils.readField(testStep, "definitionMatch", true) instanceof StepDefinitionMatch) {
-                throw pickleStepCustom.getError();
+                throw pickleStepTag.getError();
             } else {
-                pickleStepCustom.setLog(pickleStepCustom.getError().getMessage());
+                pickleStepTag.setLog(pickleStepTag.getError().getMessage());
             }
         }
         return joinPoint.proceed();
@@ -115,8 +115,8 @@ public class DataAspect {
 
     private boolean hasError(TestStep testStep) {
         return !(testStep instanceof HookTestStep)
-                && ((PickleStepTestStep) testStep).getPickleStep() instanceof PickleStepCustom
-                && ((PickleStepCustom) testStep).hasError();
+                && ((PickleStepTestStep) testStep).getPickleStep() instanceof PickleStepTag
+                && ((PickleStepTag) testStep).hasError();
     }
 
     @Around("sendStepStart(event)")
@@ -137,8 +137,8 @@ public class DataAspect {
             LOG.warn("Failed to send finished step event", e);
         }
 
-        if (((PickleStepCustom) step).hasLog()) {
-            LOG.warn(((PickleStepCustom) (((PickleStepTestStep) event.testStep).getPickleStep())).getLog());
+        if (((PickleStepTag) step).hasLog()) {
+            LOG.warn(((PickleStepTag) (((PickleStepTestStep) event.testStep).getPickleStep())).getLog());
         }
     }
 }
