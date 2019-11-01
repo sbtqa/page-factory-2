@@ -2,7 +2,7 @@ package ru.sbtqa.tag.pagefactory.html.junit;
 
 import org.junit.Assert;
 import ru.sbtqa.tag.pagefactory.elements.select.SelectAbstract;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
 import static java.lang.ThreadLocal.withInitial;
 
 public class SelectSteps implements Steps {

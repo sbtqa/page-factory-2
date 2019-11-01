@@ -74,7 +74,7 @@
     <module>page-factory-core</module>
     <module>tests/test-web-app</module>
     <module>plugins/web-plugin</module>
-<!--    <module>plugins/html-plugin</module>-->
+    <module>plugins/html-plugin</module>
     <module>plugins/mobile-plugin</module>
     <module>plugins/rest-plugin</module>
 <!--    <module>plugins/mq-plugin</module>-->

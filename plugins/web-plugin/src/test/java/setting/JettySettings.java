@@ -1,7 +1,6 @@
 package setting;
 
 import cucumber.api.java.Before;
-import static java.lang.Runtime.getRuntime;
 import java.lang.management.ManagementFactory;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
@@ -9,12 +8,14 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.Runtime.getRuntime;
+
 public class JettySettings {
 
     private static final Logger LOG = LoggerFactory.getLogger(JettySettings.class);
 
     private final String WAR_PATH = getClass().getClassLoader().getResource("test-web-app.war").getFile();
-    private static final int PORT = 8181;
+    private static int PORT = 8181;
 
     private static boolean dunit = true;
 
@@ -34,6 +35,8 @@ public class JettySettings {
             }));
 
             // start jetty
+//            Random r = new Random( System.currentTimeMillis());
+//            server = new Server(((1 + r.nextInt(2)) * 10000 + r.nextInt(10000)));
             server = new Server(PORT);
 
             MBeanContainer mbContainer = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());

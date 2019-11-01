@@ -1,71 +1,69 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
-import cucumber.api.DataTable;
-import cucumber.api.Transform;
 import cucumber.api.java.ru.Когда;
+import io.cucumber.datatable.DataTable;
 import java.util.List;
 import ru.sbtqa.tag.pagefactory.html.junit.TableSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ClickVariationTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.ClickVariation;
+import ru.sbtqa.tag.pagefactory.transformer.ClickVariation;
 
 public class TableStepDefs {
 
     private final TableSteps tableSteps = TableSteps.getInstance();
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?первую по-порядку строку таблицы \"([^\"]*)\"$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName) {
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) первую по-порядку строку таблицы \"([^\"]*)\"$")
+    public void selectRow(ClickVariation clickVariation, String tableName) {
         tableSteps.selectRow(clickVariation, tableName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?первую по-порядку строку таблицы \"([^\"]*)\" в группе \"([^\"]*)\"$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName, String groupName) {
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) первую по-порядку строку таблицы \"([^\"]*)\" в группе \"([^\"]*)\"$")
+    public void selectRowInGroup(ClickVariation clickVariation, String tableName, String groupName) {
         tableSteps.selectRowInGroup(clickVariation, tableName, groupName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку с номером \"([^\"]*)\" в таблице \"([^\"]*)\"$")
-    public void selectRowByNumber(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String rowIndex, String tableName) {
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку с номером \"([^\"]*)\" в таблице \"([^\"]*)\"$")
+    public void selectRowByNumber(ClickVariation clickVariation, String rowIndex, String tableName) {
         tableSteps.selectRowByNumber(clickVariation, rowIndex, tableName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку с номером \"([^\"]*)\" в таблице \"([^\"]*)\" в группе \"([^\"]*)\"$")
-    public void selectRowByNumberInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку с номером \"([^\"]*)\" в таблице \"([^\"]*)\" в группе \"([^\"]*)\"$")
+    public void selectRowByNumberInGroup(ClickVariation clickVariation,
                                          String rowIndex, String tableName, String groupName) {
         tableSteps.selectRowByNumberInGroup(clickVariation, rowIndex, tableName, groupName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\"$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\"$")
+    public void selectRow(ClickVariation clickVariation,
                           String tableName, String cellText, String columnName) {
         tableSteps.selectRow(clickVariation, tableName, cellText, columnName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\"$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\"$")
+    public void selectRowInGroup(ClickVariation clickVariation,
                                  String tableName, String gropName, String cellText, String columnName) {
         tableSteps.selectRowInGroup(clickVariation, tableName, gropName, cellText, columnName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\" (\\d+) по-порядку$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\" (\\d+) по-порядку$")
+    public void selectRow(ClickVariation clickVariation,
                           String tableName, String cellText, String columnName, int serialNumber) {
         tableSteps.selectRow(clickVariation, tableName, cellText, columnName, serialNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\" (\\d+) по-порядку$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\" (\\d+) по-порядку$")
+    public void selectRowInGroup(ClickVariation clickVariation,
                                  String tableName, String groupName, String cellText, String columnName, int serialNumber) {
         tableSteps.selectRowInGroup(clickVariation, tableName, groupName, cellText, columnName, serialNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку в таблице \"([^\"]*)\" в столбце \"([^\"]*)\" по элементу \"([^\"]*)\" со значением \"([^\"]*)\"$")
-    public void selectRowByElement(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку в таблице \"([^\"]*)\" в столбце \"([^\"]*)\" по элементу \"([^\"]*)\" со значением \"([^\"]*)\"$")
+    public void selectRowByElement(ClickVariation clickVariation,
                                    String tableName, String columnName, String elementName, String elementValue) {
         tableSteps.selectRowByElement(clickVariation, tableName, columnName, elementName, elementValue);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку в таблице \"([^\"]*)\" " +
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку в таблице \"([^\"]*)\" " +
             "в столбце \"([^\"]*)\" по элементу \"([^\"]*)\" со значением \"([^\"]*)\" (\\d+) по-порядку$")
-    public void selectRowByElement(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    public void selectRowByElement(ClickVariation clickVariation,
                                    String tableName, String columnName, String elementName, String elementValue, int serialNumber) {
         tableSteps.selectRowByElement(clickVariation, tableName, columnName, elementName, elementValue, serialNumber);
     }
@@ -120,62 +118,62 @@ public class TableStepDefs {
         tableSteps.clickButton(tableName, columnWithButtonName, cellText, columnName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце с номером \"([^\"]*)\"$")
-    public void selectRowInColumn(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце с номером \"([^\"]*)\"$")
+    public void selectRowInColumn(ClickVariation clickVariation,
                                   String tableName, String cellText, String columnNumber) {
         tableSteps.selectRowInColumn(clickVariation, tableName, cellText, columnNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце с номером \"([^\"]*)\"$")
-    public void selectRowInColumnInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце с номером \"([^\"]*)\"$")
+    public void selectRowInColumnInGroup(ClickVariation clickVariation,
                                          String tableName, String groupName, String cellText, String columnNumber) {
         tableSteps.selectRowInColumnInGroup(clickVariation, tableName, groupName, cellText, columnNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" строку " +
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" строку " +
             "со значением \"([^\"]*)\" в столбце с номером \"([^\"]*)\" (\\d+) по-порядку$")
-    public void selectRowInColumnByNumber(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    public void selectRowInColumnByNumber(ClickVariation clickVariation,
                                           String tableName, String cellText, String columnNumber, int serialNumber) {
         tableSteps.selectRowInColumnByNumber(clickVariation, tableName, cellText, columnNumber, serialNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку " +
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку " +
             "со значением \"([^\"]*)\" в столбце с номером \"([^\"]*)\" (\\d+) по-порядку$")
-    public void selectRowInColumnByNumberInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    public void selectRowInColumnByNumberInGroup(ClickVariation clickVariation,
                                                  String tableName, String groupName, String cellText, String columnNumber, int serialNumber) {
         tableSteps.selectRowInColumnByNumberInGroup(clickVariation, tableName, groupName, cellText, columnNumber, serialNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\"$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String cellText, String tableName) {
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\"$")
+    public void selectRow(ClickVariation clickVariation, String cellText, String tableName) {
         tableSteps.selectRow(clickVariation, cellText, tableName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\" в группе \"([^\"]*)\"$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String cellText, String tableName, String groupName) {
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\" в группе \"([^\"]*)\"$")
+    public void selectRowInGroup(ClickVariation clickVariation, String cellText, String tableName, String groupName) {
         tableSteps.selectRowInGroup(clickVariation, cellText, tableName, groupName);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\" (\\d+) по-порядку$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\" (\\d+) по-порядку$")
+    public void selectRow(ClickVariation clickVariation,
                           String cellText, String tableName, int serialNumber) {
         tableSteps.selectRow(clickVariation, cellText, tableName, serialNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\" в группе \"([^\"]*)\" (\\d+) по-порядку$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) строку с текстом в любой ячейке \"([^\"]*)\" в таблице \"([^\"]*)\" в группе \"([^\"]*)\" (\\d+) по-порядку$")
+    public void selectRowInGroup(ClickVariation clickVariation,
                                  String cellText, String tableName, String groupName, int serialNumber) {
         tableSteps.selectRowInGroup(clickVariation, cellText, tableName, groupName, serialNumber);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" строку со значениями$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName, DataTable data) {
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" строку со значениями$")
+    public void selectRow(ClickVariation clickVariation, String tableName, DataTable data) {
         List<String> row = data.asList(String.class);
         tableSteps.selectRow(clickVariation, tableName, row);
     }
 
-    @Когда("^(?:пользователь |он )?выбирает (двойным кликом )?в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значениями$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName, String groupName, DataTable data) {
+    @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значениями$")
+    public void selectRow(ClickVariation clickVariation, String tableName, String groupName, DataTable data) {
         List<String> row = data.asList(String.class);
         tableSteps.selectRow(clickVariation, tableName, groupName, row);
     }

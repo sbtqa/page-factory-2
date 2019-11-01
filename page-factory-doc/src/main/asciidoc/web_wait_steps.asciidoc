@@ -67,8 +67,8 @@ T waitChangeAttribute(int timeout, String attribute, String elementName, String 
 Сигнатура метода::
 [source,]
 ----
-T waitAttributeContains(String attribute, String elementName, Condition negation, String partAttributeValue)
-T waitAttributeContains(int timeout, String attribute, String elementName, Condition negation, String partAttributeValue)
+T waitAttributeContains(String attribute, String elementName, Condition condition, String partAttributeValue)
+T waitAttributeContains(int timeout, String attribute, String elementName, Condition condition, String partAttributeValue)
 ----
 
 ===== Ожидание появления или исчезновения текстового фрагмента в элементе
@@ -87,8 +87,8 @@ T waitAttributeContains(int timeout, String attribute, String elementName, Condi
 Сигнатура метода::
 [source,]
 ----
-T waitElementContainsText(String elementName, Condition negation, String text)
-T waitElementContainsText(int timeout, String elementName, Condition negation, String text)
+T waitElementContainsText(String elementName, Condition condition, String text)
+T waitElementContainsText(int timeout, String elementName, Condition condition, String text)
 ----
 
 ===== Ожидание кликабельности элемента

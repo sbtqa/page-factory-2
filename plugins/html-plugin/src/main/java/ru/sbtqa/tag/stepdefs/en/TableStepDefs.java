@@ -1,70 +1,68 @@
 package ru.sbtqa.tag.stepdefs.en;
 
-import cucumber.api.DataTable;
-import cucumber.api.Transform;
 import cucumber.api.java.en.When;
+import io.cucumber.datatable.DataTable;
 import java.util.List;
 import ru.sbtqa.tag.pagefactory.html.junit.TableSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ClickVariationTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.ClickVariation;
+import ru.sbtqa.tag.pagefactory.transformer.ClickVariation;
 
 public class TableStepDefs {
 
     private final TableSteps tableSteps = TableSteps.getInstance();
 
-    @When("^user selects (double-click )?the first row of the table \"([^\"]*)\"$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName) {
+    @When("^user selects (single-click|double-click) the first row of the table \"([^\"]*)\"$")
+    public void selectRow(ClickVariation clickVariation, String tableName) {
         tableSteps.selectRow(clickVariation, tableName);
     }
 
-    @When("^user selects (double-click )?the first row of the table \"([^\"]*)\" in group \"([^\"]*)\"$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName, String groupName) {
+    @When("^user selects (single-click|double-click) the first row of the table \"([^\"]*)\" in group \"([^\"]*)\"$")
+    public void selectRowInGroup(ClickVariation clickVariation, String tableName, String groupName) {
         tableSteps.selectRowInGroup(clickVariation, tableName, groupName);
     }
 
-    @When("^user selects (double-click )?row number \"([^\"]*)\" in the table \"([^\"]*)\"$")
-    public void selectRowByNumber(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String rowIndex, String tableName) {
+    @When("^user selects (single-click|double-click) row number \"([^\"]*)\" in the table \"([^\"]*)\"$")
+    public void selectRowByNumber(ClickVariation clickVariation, String rowIndex, String tableName) {
         tableSteps.selectRowByNumber(clickVariation, rowIndex, tableName);
     }
 
-    @When("^user selects (double-click )?row number \"([^\"]*)\" in the table \"([^\"]*)\" in group \"([^\"]*)\"$")
-    public void selectRowByNumberInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) row number \"([^\"]*)\" in the table \"([^\"]*)\" in group \"([^\"]*)\"$")
+    public void selectRowByNumberInGroup(ClickVariation clickVariation,
                                                    String rowIndex, String tableName, String groupName) {
         tableSteps.selectRowByNumberInGroup(clickVariation, rowIndex, tableName, groupName);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\"$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\"$")
+    public void selectRow(ClickVariation clickVariation,
                                     String tableName, String cellText, String columnName) {
         tableSteps.selectRow(clickVariation, tableName, cellText, columnName);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" in group \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\"$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" in group \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\"$")
+    public void selectRowInGroup(ClickVariation clickVariation,
                                            String tableName, String gropName, String cellText, String columnName) {
         tableSteps.selectRowInGroup(clickVariation, tableName, gropName, cellText, columnName);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\" (\\d+) in order$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\" (\\d+) in order$")
+    public void selectRow(ClickVariation clickVariation,
                                     String tableName, String cellText, String columnName, int serialNumber) {
         tableSteps.selectRow(clickVariation, tableName, cellText, columnName, serialNumber);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" in group \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\" (\\d+) in order$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" in group \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\" (\\d+) in order$")
+    public void selectRowInGroup(ClickVariation clickVariation,
                                            String tableName, String groupName, String cellText, String columnName, int serialNumber) {
         tableSteps.selectRowInGroup(clickVariation, tableName, groupName, cellText, columnName, serialNumber);
     }
 
-    @When("^user selects (double-click )?row in the table \"([^\"]*)\" in the column \"([^\"]*)\" by element \"([^\"]*)\" with value \"([^\"]*)\"$")
-    public void selectRowByElement(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) row in the table \"([^\"]*)\" in the column \"([^\"]*)\" by element \"([^\"]*)\" with value \"([^\"]*)\"$")
+    public void selectRowByElement(ClickVariation clickVariation,
                                              String tableName, String columnName, String elementName, String elementValue) {
         tableSteps.selectRowByElement(clickVariation, tableName, columnName, elementName, elementValue);
     }
 
-    @When("^user selects (double-click )?row in the table \"([^\"]*)\" in the column \"([^\"]*)\" by element \"([^\"]*)\" with value \"([^\"]*)\" (\\d+) in order$")
-    public void selectRowByElement(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) row in the table \"([^\"]*)\" in the column \"([^\"]*)\" by element \"([^\"]*)\" with value \"([^\"]*)\" (\\d+) in order$")
+    public void selectRowByElement(ClickVariation clickVariation,
                                              String tableName, String columnName, String elementName, String elementValue, int serialNumber) {
         tableSteps.selectRowByElement(clickVariation, tableName, columnName, elementName, elementValue, serialNumber);
     }
@@ -119,61 +117,61 @@ public class TableStepDefs {
         tableSteps.clickButton(tableName, columnWithButtonName, cellText, columnName);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" row with the value \"([^\"]*)\" in the column with number \"([^\"]*)\"$")
-    public void selectRowInColumn(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" row with the value \"([^\"]*)\" in the column with number \"([^\"]*)\"$")
+    public void selectRowInColumn(ClickVariation clickVariation,
                                             String tableName, String cellText, String columnNumber) {
         tableSteps.selectRowInColumn(clickVariation, tableName, cellText, columnNumber);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" in group \"([^\"]*)\" row with the value \"([^\"]*)\" in the column with number \"([^\"]*)\"$")
-    public void selectRowInColumnInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" in group \"([^\"]*)\" row with the value \"([^\"]*)\" in the column with number \"([^\"]*)\"$")
+    public void selectRowInColumnInGroup(ClickVariation clickVariation,
                                                    String tableName, String groupName, String cellText, String columnNumber) {
         tableSteps.selectRowInColumnInGroup(clickVariation, tableName, groupName, cellText, columnNumber);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" row with value \"([^\"]*)\" in the column with number \"([^\"]*)\" (\\d+) in order$")
-    public void selectRowInColumnByNumber(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" row with value \"([^\"]*)\" in the column with number \"([^\"]*)\" (\\d+) in order$")
+    public void selectRowInColumnByNumber(ClickVariation clickVariation,
                                                     String tableName, String cellText, String columnNumber, int serialNumber) {
         tableSteps.selectRowInColumnByNumber(clickVariation, tableName, cellText, columnNumber, serialNumber);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" in group \"([^\"]*)\" row " +
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" in group \"([^\"]*)\" row " +
             "with value \"([^\"]*)\" in the column with number \"([^\"]*)\" (\\d+) in order$")
-    public void selectRowInColumnByNumberInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    public void selectRowInColumnByNumberInGroup(ClickVariation clickVariation,
                                                            String tableName, String groupName, String cellText, String columnNumber, int serialNumber) {
         tableSteps.selectRowInColumnByNumberInGroup(clickVariation, tableName, groupName, cellText, columnNumber, serialNumber);
     }
 
-    @When("^user selects (double-click )?row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\"$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String cellText, String tableName) {
+    @When("^user selects (single-click|double-click) row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\"$")
+    public void selectRow(ClickVariation clickVariation, String cellText, String tableName) {
         tableSteps.selectRow(clickVariation, cellText, tableName);
     }
 
-    @When("^user selects (double-click )?row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\" in group \"([^\"]*)\"$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String cellText, String tableName, String groupName) {
+    @When("^user selects (single-click|double-click) row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\" in group \"([^\"]*)\"$")
+    public void selectRowInGroup(ClickVariation clickVariation, String cellText, String tableName, String groupName) {
         tableSteps.selectRowInGroup(clickVariation, cellText, tableName, groupName);
     }
 
-    @When("^user selects (double-click )?row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\" (\\d+) in order$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\" (\\d+) in order$")
+    public void selectRow(ClickVariation clickVariation,
                                     String cellText, String tableName, int serialNumber) {
         tableSteps.selectRow(clickVariation, cellText, tableName, serialNumber);
     }
 
-    @When("^user selects (double-click )?row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\" in group \"([^\"]*)\" (\\d+) in order$")
-    public void selectRowInGroup(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation,
+    @When("^user selects (single-click|double-click) row by text in any cell \"([^\"]*)\" in the table \"([^\"]*)\" in group \"([^\"]*)\" (\\d+) in order$")
+    public void selectRowInGroup(ClickVariation clickVariation,
                                            String cellText, String tableName, String groupName, int serialNumber) {
         tableSteps.selectRowInGroup(clickVariation, cellText, tableName, groupName, serialNumber);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" row with values$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName, DataTable data) {
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" row with values$")
+    public void selectRow(ClickVariation clickVariation, String tableName, DataTable data) {
         List<String> row = data.asList(String.class);
         tableSteps.selectRow(clickVariation, tableName, row);
     }
 
-    @When("^user selects (double-click )?in the table \"([^\"]*)\" in group \"([^\"]*)\" row with values$")
-    public void selectRow(@Transform(ClickVariationTransformer.class) ClickVariation clickVariation, String tableName, String groupName, DataTable data) {
+    @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" in group \"([^\"]*)\" row with values$")
+    public void selectRow(ClickVariation clickVariation, String tableName, String groupName, DataTable data) {
         List<String> row = data.asList(String.class);
         tableSteps.selectRow(clickVariation, tableName, groupName, row);
     }

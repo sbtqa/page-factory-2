@@ -63,7 +63,7 @@
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-junit4</artifactId>
-      <version>2.10.0</version>
+      <version>2.13.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -129,7 +129,7 @@
           <skipTests>${skipTests}</skipTests>
           <argLine>
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-            -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
+            -Dcucumber.options="--plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin pretty"
           </argLine>
           <properties>
             <property>
@@ -137,6 +137,9 @@
               <value>io.qameta.allure.junit4.AllureJunit4</value>
             </property>
           </properties>
+          <systemPropertyVariables>
+            <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+          </systemPropertyVariables>
           <classpathDependencyExcludes>
             <classpathDependencyExclude>javax.servlet:servlet-api</classpathDependencyExclude>
           </classpathDependencyExcludes>
@@ -148,6 +151,14 @@
             <version>${aspectj.version}</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>2.10.0</version>
+        <configuration>
+          <resultsDirectory>allure-results</resultsDirectory>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -1,14 +1,14 @@
 package ru.sbtqa.tag.pagefactory.html.junit;
 
-import static java.lang.String.format;
-
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.elements.radiogroup.RadioGroupAbstract;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
+
+import static java.lang.String.format;
 import static java.lang.ThreadLocal.withInitial;
 
 public class ControlSteps implements Steps {
@@ -43,15 +43,14 @@ public class ControlSteps implements Steps {
      * Checks whether a control is marked
      *
      * @param flagName control name
-     * @param negation if {@code Condition.POSITIVE} checks that a control is selected,
+     * @param condition if {@code Condition.POSITIVE} checks that a control is selected,
      * if (@code Condition.NEGATIVE) checks that a control is not selected
      * @return Returns itself
      */
-    public ControlSteps isSelected(String flagName, Condition negation) {
-        boolean isPositive = negation.equals(Condition.POSITIVE);
+    public ControlSteps isSelected(String flagName, ContainCondition condition) {
         WebElement element = getFindUtils().find(flagName);
         boolean isSelected = element.isSelected();
-        Assert.assertEquals("The element " + (isSelected ? "not " : "") + "checked: " + flagName, isPositive, element.isSelected());
+        Assert.assertEquals("The element " + (isSelected ? "not " : "") + "checked: " + flagName, condition.isPositive(), element.isSelected());
         return this;
     }
 
@@ -78,17 +77,16 @@ public class ControlSteps implements Steps {
      * Checks value for selectivity
      *
      * @param groupName control name
-     * @param negation if {@code Condition.POSITIVE} checks that the value is selected,
+     * @param condition if {@code Condition.POSITIVE} checks that the value is selected,
      * if (@code Condition.NEGATIVE) checks that the value is not selected
      * @param value radio group value to be checked
      * @return Returns itself
      */
-    public ControlSteps isRadiobuttonSelected(String groupName, Condition negation, String value) {
-        boolean isPositive = negation.equals(Condition.POSITIVE);
+    public ControlSteps isRadiobuttonSelected(String groupName, ContainCondition condition, String value) {
         RadioGroupAbstract element = getFindUtils().find(groupName, RadioGroupAbstract.class);
         boolean check = element.getSelectedValue().equals(value);
         Assert.assertEquals("The element of radio group \"" + groupName + "\" "
-                + (check ? "not " : "") + " checked: " + value, isPositive, check);
+                + (check ? "not " : "") + " checked: " + value, condition.isPositive(), check);
         return this;
     }
 

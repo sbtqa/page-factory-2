@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.pagefactory.html.junit;
 
 import ru.sbtqa.tag.pagefactory.elements.panel.Panel;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import static java.lang.ThreadLocal.withInitial;
 

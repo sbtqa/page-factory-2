@@ -13,7 +13,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 
 //import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
 //import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
@@ -188,22 +188,22 @@ public class CoreStepDefs {
     }
 
     @And("^(?:user |he )?is waiting for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" should (not contain|contain) \"([^\"]*)\"$")
-    public void waitAttributeContains(String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
+    public void waitAttributeContains(String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
         coreSteps.waitAttributeContains(attribute, elementName, condition, partAttributeValue);
     }
 
     @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" should (not contain|contain) \"([^\"]*)\"$")
-    public void waitAttributeContains(int timeout, String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
+    public void waitAttributeContains(int timeout, String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
         coreSteps.waitAttributeContains(timeout, attribute, elementName, condition, partAttributeValue);
     }
 
     @And("^(?:user |he )?is waiting for the element \"([^\"]*)\" to (not contain|contain) text \"([^\"]*)\"$")
-    public void waitElementContainsText(String elementName, Condition condition, String text) throws PageException {
+    public void waitElementContainsText(String elementName, ContainCondition condition, String text) throws PageException {
         coreSteps.waitElementContainsText(elementName, condition, text);
     }
 
     @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" to (not contain|contain) text \"([^\"]*)\"$")
-    public void waitElementContainsText(int timeout, String elementName, Condition condition, String text) throws PageException {
+    public void waitElementContainsText(int timeout, String elementName, ContainCondition condition, String text) throws PageException {
         coreSteps.waitElementContainsText(timeout, elementName, condition, text);
     }
 

@@ -13,7 +13,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 
 public class CoreStepDefs {
 
@@ -184,22 +184,22 @@ public class CoreStepDefs {
     }
 
     @Когда("^(?:пользователь |он )?ожидает что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
-    public void waitAttributeContains(String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
+    public void waitAttributeContains(String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
         coreSteps.waitAttributeContains(attribute, elementName, condition, partAttributeValue);
     }
 
     @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
-    public void waitAttributeContains(int timeout, String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
+    public void waitAttributeContains(int timeout, String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
         coreSteps.waitAttributeContains(timeout, attribute, elementName, condition, partAttributeValue);
     }
 
     @Когда("^(?:пользователь |он )?ожидает что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
-    public void waitElementContainsText(String elementName, Condition condition, String text) throws PageException {
+    public void waitElementContainsText(String elementName, ContainCondition condition, String text) throws PageException {
         coreSteps.waitElementContainsText(elementName, condition, text);
     }
 
     @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
-    public void waitElementContainsText(int timeout, String elementName, Condition condition, String text) throws PageException {
+    public void waitElementContainsText(int timeout, String elementName, ContainCondition condition, String text) throws PageException {
         coreSteps.waitElementContainsText(timeout, elementName, condition, text);
     }
 

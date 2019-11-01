@@ -20,10 +20,11 @@ import ru.sbtqa.tag.pagefactory.exception.TableRowNotFoundError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDescriptionException;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
 import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
+
 import static java.lang.String.format;
 
 public abstract class TableAbstract extends TypifiedElement {
