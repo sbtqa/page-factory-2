@@ -37,9 +37,6 @@ public class GherkinSerializer {
      * @return reserealized features
      */
     public List<CucumberFeature> reserializeFeatures(List<CucumberFeature> cucumberFeatures) {
-        List<CucumberFeature> features = new ArrayList<>();
-
-        // FIXME
         FeatureBuilder featureBuilder = new FeatureBuilder();
         cucumberFeatures.forEach(cucumberFeature -> {
             builder = new StringBuilder();

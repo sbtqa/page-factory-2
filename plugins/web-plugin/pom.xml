@@ -154,12 +154,17 @@
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
             -Dcucumber.options="--plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin pretty"
           </argLine>
+          <systemPropertyVariables>
+            <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+          </systemPropertyVariables>
           <properties>
             <property>
               <name>listener</name>
               <value>io.qameta.allure.junit4.AllureJunit4</value>
             </property>
           </properties>
+<!--          <parallel>methods</parallel>-->
+<!--          <useUnlimitedThreads>true</useUnlimitedThreads>-->
         </configuration>
         <dependencies>
           <dependency>
@@ -205,6 +210,23 @@
           </execution>
         </executions>
       </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-failsafe-plugin</artifactId>-->
+<!--        <version>2.22.0</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <goals>-->
+<!--              <goal>integration-test</goal>-->
+<!--              <goal>verify</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <parallel>methods</parallel>-->
+<!--              <useUnlimitedThreads>true</useUnlimitedThreads>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
     </plugins>
 
   </build>

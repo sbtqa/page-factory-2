@@ -52,7 +52,6 @@ public class PrintParameters {
         Argument pickleString = this.testArguments.get().stream()
                 .filter(argument -> argument instanceof PickleString).findFirst().orElse(null);
 
-        // FIXME
         if (pickleString != null) {
             Allure.getLifecycle().updateStep(stepResult ->
                     stepResult.withAttachments());

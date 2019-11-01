@@ -13,6 +13,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
+import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
 
 public class CoreStepDefs {
 
@@ -182,28 +183,25 @@ public class CoreStepDefs {
         coreSteps.waitChangeAttribute(timeout, attribute, elementName, attributeValue);
     }
 
-    // FIXME The concept of a Transform is no longer available  https://makandracards.com/makandra/72371-cucumber_factory-how-to-keep-using-cucumber-2-transforms-in-cucumber-3
-//    @Когда("^(?:пользователь |он )?ожидает что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
-//    public void waitAttributeContains(String attribute, String elementName,
-//                                      @Transform(ConditionTransformer.class) Condition negation, String partAttributeValue) throws PageException {
-//        coreSteps.waitAttributeContains(attribute, elementName, negation, partAttributeValue);
-//    }
-//
-//    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
-//    public void waitAttributeContains(int timeout, String attribute, String elementName,
-//                                      @Transform(ConditionTransformer.class) Condition negation, String partAttributeValue) throws PageException {
-//        coreSteps.waitAttributeContains(timeout, attribute, elementName, negation, partAttributeValue);
-//    }
-//
-//    @Когда("^(?:пользователь |он )?ожидает что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
-//    public void waitElementContainsText(String elementName, @Transform(ConditionTransformer.class) Condition negation, String text) throws PageException {
-//        coreSteps.waitElementContainsText(elementName, negation, text);
-//    }
-//
-//    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
-//    public void waitElementContainsText(int timeout, String elementName, @Transform(ConditionTransformer.class) Condition negation, String text) throws PageException {
-//        coreSteps.waitElementContainsText(timeout, elementName, negation, text);
-//    }
+    @Когда("^(?:пользователь |он )?ожидает что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
+    public void waitAttributeContains(String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
+        coreSteps.waitAttributeContains(attribute, elementName, condition, partAttributeValue);
+    }
+
+    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
+    public void waitAttributeContains(int timeout, String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
+        coreSteps.waitAttributeContains(timeout, attribute, elementName, condition, partAttributeValue);
+    }
+
+    @Когда("^(?:пользователь |он )?ожидает что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
+    public void waitElementContainsText(String elementName, Condition condition, String text) throws PageException {
+        coreSteps.waitElementContainsText(elementName, condition, text);
+    }
+
+    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
+    public void waitElementContainsText(int timeout, String elementName, Condition condition, String text) throws PageException {
+        coreSteps.waitElementContainsText(timeout, elementName, condition, text);
+    }
 
     @Когда("^(?:пользователь |он )?ожидает что элемент \"([^\"]*)\" станет кликабельным$")
     public void waitClickability(String elementName) throws PageException {

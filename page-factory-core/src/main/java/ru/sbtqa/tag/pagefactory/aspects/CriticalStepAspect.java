@@ -67,11 +67,8 @@ public class CriticalStepAspect {
 
         for (String joinPointResult : joinPointResults) {
             if (stepText.contains("\"")) {
-                String replaceableTextRegExp = "\\\\\\\\\\" + stepText.substring(0, stepText.indexOf("\""));
-                String replaced = stepText.replaceFirst("\\" + NON_CRITICAL, "");
-                replaced = replaced.substring(0, replaced.indexOf("\""));
-
-                joinPointResults.set(joinPointResults.indexOf(joinPointResult), joinPointResult.replaceFirst(replaceableTextRegExp, replaced));
+                String replaceableTextRegExp = "\\(\"(\\s)*\\?(\\s)*";
+                joinPointResults.set(joinPointResults.indexOf(joinPointResult), joinPointResult.replaceFirst(replaceableTextRegExp, "(\""));
             }
         }
 

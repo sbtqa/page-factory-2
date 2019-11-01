@@ -19,7 +19,6 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
-//import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
 import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
 import ru.sbtqa.tag.pagefactory.utils.Alert;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
@@ -434,19 +433,17 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
         return (T) this;
     }
     
-    public T waitAttributeContains(String attribute, String elementName, Condition negation, String partAttributeValue) throws PageException {
-        waitAttributeContains(PROPERTIES.getTimeout(), attribute, elementName, negation, partAttributeValue);
+    public T waitAttributeContains(String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
+        waitAttributeContains(PROPERTIES.getTimeout(), attribute, elementName, condition, partAttributeValue);
         return (T) this;
     }
     
-    public T waitAttributeContains(int timeout, String attribute, String elementName, Condition negation, String partAttributeValue) throws PageException {
-        boolean isPositive = negation.equals(Condition.POSITIVE);
-
+    public T waitAttributeContains(int timeout, String attribute, String elementName, Condition condition, String partAttributeValue) throws PageException {
         WebElement element = getElement(elementName);
-        String message = format("After waiting, attribute '%s' of the element '%s' is " + (isPositive ? "not " : "")
+        String message = format("After waiting, attribute '%s' of the element '%s' is " + (condition.isPositive() ? "not " : "")
                 + "contains value '%s'. Attribute value: %s", attribute, elementName, partAttributeValue, element.getAttribute(attribute));
 
-        if (isPositive) {
+        if (condition.isPositive()) {
             Wait.attributeContains(element, attribute, partAttributeValue, message, timeout);
         } else {
             Wait.attributeNotContains(element, attribute, partAttributeValue, message, timeout);
@@ -454,18 +451,17 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
         return (T) this;
     }
 
-    public T waitElementContainsText(String elementName, Condition negation, String text) throws PageException {
-        waitElementContainsText(PROPERTIES.getTimeout(), elementName, negation, text);
+    public T waitElementContainsText(String elementName, Condition condition, String text) throws PageException {
+        waitElementContainsText(PROPERTIES.getTimeout(), elementName, condition, text);
         return (T) this;
     }
 
-    public T waitElementContainsText(int timeout, String elementName, Condition negation, String text) throws PageException {
-        boolean isPositive = negation.equals(Condition.POSITIVE);
+    public T waitElementContainsText(int timeout, String elementName, Condition condition, String text) throws PageException {
         WebElement element = getElement(elementName);
-        String message = format("After waiting, text of the element '%s' is " + (isPositive ? "not " : "") 
+        String message = format("After waiting, text of the element '%s' is " + (condition.isPositive() ? "not " : "")
                 + "contains value '%s'. Text of the element: %s", elementName, text, element.getText());
 
-        if (isPositive) {
+        if (condition.isPositive()) {
             Wait.textContains(element, text, message, timeout);
         } else {
             Wait.textNotContains(element, text, message, timeout);

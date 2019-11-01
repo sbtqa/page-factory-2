@@ -1,37 +1,22 @@
 package ru.sbtqa.tag.pagefactory.transformer.enums;
 
-//import cucumber.deps.com.thoughtworks.xstream.annotations.XStreamConverter;
-import cucumber.runtime.CucumberException;
-//import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-//@XStreamConverter(ConditionTransformer.class)
-public enum Condition {
+public class Condition {
 
-    NEGATIVE("не"),
-    POSITIVE(null);
-
-    private final String name;
+    private String name;
+    private Set<String> negations = new HashSet<>(Arrays.asList("not contain", "не должно", "не должен"));
 
     Condition(String name) {
-        this.name = name;
+        this.name = name.trim().toLowerCase();
     }
 
-    public String getValue() {
-        return name;
-    }
-
-    public static Condition fromString(String name) {
+    public boolean isPositive() {
         if (name == null) {
-            return Condition.POSITIVE;
+            return true;
         }
-        if ("not".equalsIgnoreCase(name.trim()) || Condition.NEGATIVE.getValue().equalsIgnoreCase(name.trim())) {
-            return Condition.NEGATIVE;
-        }
-        throw new CucumberException("Incorrect enum-value in steps: " + name);
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
+        return negations.stream().noneMatch(negation -> negation.equals(name));
     }
 }
