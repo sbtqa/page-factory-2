@@ -1,8 +1,11 @@
 package ru.sbtqa.tag.api.utils;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.datatable.DataTableTypeRegistry;
+import io.cucumber.datatable.DataTableTypeRegistryTableConverter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,6 @@ public class CastUtils {
                 .map(row -> Arrays.asList(row.getKey(), row.getValue()))
                 .collect(Collectors.toList());
 
-        return DataTable.create(data);
+        return DataTable.create(data, new DataTableTypeRegistryTableConverter(new DataTableTypeRegistry(Locale.ENGLISH)));
     }
 }

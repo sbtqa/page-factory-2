@@ -13,5 +13,6 @@
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.DataAspect"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.report.PrintParameters"/>
         <aspect name="ru.sbtqa.tag.pagefactory.aspects.JUnitCoreStepAspect"/>
+        <aspect name="ru.sbtqa.tag.pagefactory.aspects.UpdateGlueAspect"/>
     </aspects>
 </aspectj>

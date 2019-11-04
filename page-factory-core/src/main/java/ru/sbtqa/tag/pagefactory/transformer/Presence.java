@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class Presence extends Condition {
 
-    Presence(String name) {
+    public Presence(String name) {
         this.name = name;
         this.conditions = new HashSet<>(Arrays.asList("not", "от", "не отображается", "не отображаются"));
     }

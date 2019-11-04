@@ -138,7 +138,7 @@ public class DataAspect {
         }
 
         if (((PickleStepTag) step).hasLog()) {
-            LOG.warn(((PickleStepTag) (((PickleStepTestStep) event.testStep).getPickleStep())).getLog());
+            LOG.debug(((PickleStepTag) (((PickleStepTestStep) event.testStep).getPickleStep())).getLog());
         }
     }
 }

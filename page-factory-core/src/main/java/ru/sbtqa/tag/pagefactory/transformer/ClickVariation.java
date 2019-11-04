@@ -5,9 +5,9 @@ import java.util.HashSet;
 
 public class ClickVariation extends Condition {
 
-    ClickVariation(String name) {
+    public ClickVariation(String name) {
         this.name = name;
-        this.conditions = new HashSet<>(Arrays.asList("not contain", "двойным кликом"));
+        this.conditions = new HashSet<>(Arrays.asList("double-click", "двойным кликом"));
     }
 
     public boolean isDoubleClick() {

@@ -5,9 +5,9 @@ import java.util.Set;
 public abstract class Condition {
 
     protected String name;
-    protected Set<String> conditions;
+    Set<String> conditions;
 
-    public boolean isConditionMatch() {
+    boolean isConditionMatch() {
         if (name == null) {
             return true;
         }
