@@ -36,9 +36,12 @@ public class PrintParameters {
 
     @After("execution(* cucumber.runtime.formatter.PrettyFormatter.printStep(..))")
     public void printStep(JoinPoint joinPoint) {
-        if (joinPoint.getArgs().length > 0
-                && joinPoint.getArgs()[0] instanceof PickleStepTestStep) {
-            for (Argument argument : ((PickleStepTestStep) joinPoint.getArgs()[0]).getPickleStep().getArgument()) {
+        PickleStepTestStep step = joinPoint.getArgs().length > 0
+                && joinPoint.getArgs()[0] instanceof PickleStepTestStep
+                ? (PickleStepTestStep) joinPoint.getArgs()[0] : null;
+
+        if (step != null) {
+            for (Argument argument : step.getPickleStep().getArgument()) {
                 if (argument instanceof PickleString) {
                     printPickleString((PickleString) argument);
                 } else {
