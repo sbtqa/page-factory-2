@@ -15,7 +15,7 @@ public class JettySettings {
     private static final Logger LOG = LoggerFactory.getLogger(JettySettings.class);
 
     private final String WAR_PATH = getClass().getClassLoader().getResource("test-web-app.war").getFile();
-    private static int PORT = 8181;
+    private static final int PORT = 8181;
 
     private static boolean dunit = true;
 
@@ -34,9 +34,6 @@ public class JettySettings {
                 }
             }));
 
-            // start jetty
-//            Random r = new Random( System.currentTimeMillis());
-//            server = new Server(((1 + r.nextInt(2)) * 10000 + r.nextInt(10000)));
             server = new Server(PORT);
 
             MBeanContainer mbContainer = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());

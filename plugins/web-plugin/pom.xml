@@ -163,8 +163,6 @@
               <value>io.qameta.allure.junit4.AllureJunit4</value>
             </property>
           </properties>
-<!--          <parallel>methods</parallel>-->
-<!--          <useUnlimitedThreads>true</useUnlimitedThreads>-->
         </configuration>
         <dependencies>
           <dependency>
@@ -210,23 +208,6 @@
           </execution>
         </executions>
       </plugin>
-<!--      <plugin>-->
-<!--        <groupId>org.apache.maven.plugins</groupId>-->
-<!--        <artifactId>maven-failsafe-plugin</artifactId>-->
-<!--        <version>2.22.0</version>-->
-<!--        <executions>-->
-<!--          <execution>-->
-<!--            <goals>-->
-<!--              <goal>integration-test</goal>-->
-<!--              <goal>verify</goal>-->
-<!--            </goals>-->
-<!--            <configuration>-->
-<!--              <parallel>methods</parallel>-->
-<!--              <useUnlimitedThreads>true</useUnlimitedThreads>-->
-<!--            </configuration>-->
-<!--          </execution>-->
-<!--        </executions>-->
-<!--      </plugin>-->
     </plugins>
 
   </build>

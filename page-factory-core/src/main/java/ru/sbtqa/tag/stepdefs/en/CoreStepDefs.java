@@ -15,9 +15,6 @@ import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 
-//import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
-//import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-
 public class CoreStepDefs {
 
     private final CoreSteps coreSteps = CoreSteps.getInstance();

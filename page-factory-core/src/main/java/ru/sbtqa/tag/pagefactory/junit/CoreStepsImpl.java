@@ -1,10 +1,6 @@
 package ru.sbtqa.tag.pagefactory.junit;
 
-import com.github.difflib.algorithm.DiffException;
-import com.github.difflib.text.DiffRow;
-import com.github.difflib.text.DiffRowGenerator;
 import io.cucumber.datatable.DataTable;
-import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -21,6 +17,7 @@ import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 import ru.sbtqa.tag.pagefactory.utils.Alert;
+import ru.sbtqa.tag.pagefactory.utils.DiffUtils;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
@@ -257,30 +254,9 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
     public <E> T checkValueIsEqual(String elementTitle, String text) throws PageException {
         E element = getElement(elementTitle);
         if (!Environment.getPageChecks().checkEquality(element, text)) {
-            throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'\n" + diff(text, ((WebElement) element).getText()));
+            throw new AutotestError("'" + elementTitle + "' value is not equal with '" + text + "'\n" + DiffUtils.diff(text, ((WebElement) element).getText()));
         }
         return (T) this;
-    }
-
-    // TODO move to utils
-    public static String diff(String string1, String string2) {
-        DiffRowGenerator generator = DiffRowGenerator.create()
-                .showInlineDiffs(true)
-                .mergeOriginalRevised(true)
-                .oldTag(f -> "|")
-                .newTag(f -> "|")
-                .build();
-
-        List<DiffRow> rows = null;
-        try {
-            rows = generator.generateDiffRows(
-                    Arrays.asList(string1),
-                    Arrays.asList(string2));
-        } catch (DiffException e) {
-            e.printStackTrace();
-        }
-
-        return rows.get(0).getOldLine();
     }
 
     /**
