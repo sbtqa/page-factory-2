@@ -1,23 +1,19 @@
 package ru.sbtqa.tag.stepdefs.en;
 
-import cucumber.api.DataTable;
-import cucumber.api.Transform;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.api.java.ru.Когда;
+import io.cucumber.datatable.DataTable;
+import java.util.List;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-
-import java.util.List;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 
 public class CoreStepDefs {
 
@@ -38,7 +34,7 @@ public class CoreStepDefs {
         CoreSetupSteps.tearDown();
     }
 
-    @And("^(?:user |he )?(?:is on the page|page is being opened|master tab is being opened) \"([^\"]*)\"$")
+    @And("(?:user |he )?(?:is on the page|page is being opened|master tab is being opened) \"([^\"]*)\"$")
     public void openPage(String title) throws PageInitializationException {
         coreSteps.openPage(title);
     }
@@ -158,64 +154,62 @@ public class CoreStepDefs {
             coreSteps.userInsertsFragment(fragmentName);
     }
 
-    @Когда("^(?:user |he )?is waiting for the element to appear \"([^\"]*)\"$")
+    @And("^(?:user |he )?is waiting for the element to appear \"([^\"]*)\"$")
     public void appearElement(String elementName) throws PageException {
         coreSteps.appearElement(elementName);
     }
 
-    @Когда("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element to appear \"([^\"]*)\"$")
+    @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element to appear \"([^\"]*)\"$")
     public void appearElement(int timeout, String elementName) throws PageException {
         coreSteps.appearElement(timeout, elementName);
     }
 
-    @Когда("^(?:user |he )?is waiting for the element to disappear \"([^\"]*)\"$")
+    @And("^(?:user |he )?is waiting for the element to disappear \"([^\"]*)\"$")
     public void waitInvisibility(String elementName) throws PageException {
         coreSteps.waitInvisibility(elementName);
     }
 
-    @Когда("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element to disappear \"([^\"]*)\"$")
+    @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element to disappear \"([^\"]*)\"$")
     public void waitInvisibility(int timeout, String elementName) throws PageException {
         coreSteps.waitInvisibility(timeout, elementName);
     }
 
-    @Когда("^(?:user |he )?is waiting for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" to become \"([^\"]*)\"$")
+    @And("^(?:user |he )?is waiting for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" to become \"([^\"]*)\"$")
     public void waitChangeAttribute(String attribute, String elementName, String attributeValue) throws PageException {
         coreSteps.waitChangeAttribute(attribute, elementName, attributeValue);
     }
 
-    @Когда("^(?:user |he )?is waiting (\\d+) second(?:s)? for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" to become \"([^\"]*)\"$")
+    @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" to become \"([^\"]*)\"$")
     public void waitChangeAttribute(int timeout, String attribute, String elementName, String attributeValue) throws PageException {
         coreSteps.waitChangeAttribute(timeout, attribute, elementName, attributeValue);
     }
 
-    @Когда("^(?:user |he )?is waiting for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" should (not )?contain \"([^\"]*)\"$")
-    public void waitAttributeContains(String attribute, String elementName,
-                                      @Transform(ConditionTransformer.class) Condition negation, String partAttributeValue) throws PageException {
-        coreSteps.waitAttributeContains(attribute, elementName, negation, partAttributeValue);
+    @And("^(?:user |he )?is waiting for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" should (not contain|contain) \"([^\"]*)\"$")
+    public void waitAttributeContains(String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
+        coreSteps.waitAttributeContains(attribute, elementName, condition, partAttributeValue);
     }
 
-    @Когда("^(?:user |he )?is waiting (\\d+) second(?:s)? for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" should (not )?contain \"([^\"]*)\"$")
-    public void waitAttributeContains(int timeout, String attribute, String elementName,
-                                      @Transform(ConditionTransformer.class) Condition negation, String partAttributeValue) throws PageException {
-        coreSteps.waitAttributeContains(timeout, attribute, elementName, negation, partAttributeValue);
+    @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the value of the \"([^\"]*)\" attribute of the element \"([^\"]*)\" should (not contain|contain) \"([^\"]*)\"$")
+    public void waitAttributeContains(int timeout, String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
+        coreSteps.waitAttributeContains(timeout, attribute, elementName, condition, partAttributeValue);
     }
 
-    @Когда("^(?:user |he )?is waiting for the element \"([^\"]*)\" to (not )?contain text \"([^\"]*)\"$")
-    public void waitElementContainsText(String elementName, @Transform(ConditionTransformer.class) Condition negation, String text) throws PageException {
-        coreSteps.waitElementContainsText(elementName, negation, text);
+    @And("^(?:user |he )?is waiting for the element \"([^\"]*)\" to (not contain|contain) text \"([^\"]*)\"$")
+    public void waitElementContainsText(String elementName, ContainCondition condition, String text) throws PageException {
+        coreSteps.waitElementContainsText(elementName, condition, text);
     }
 
-    @Когда("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" to (not )?contain text \"([^\"]*)\"$")
-    public void waitElementContainsText(int timeout, String elementName, @Transform(ConditionTransformer.class) Condition negation, String text) throws PageException {
-        coreSteps.waitElementContainsText(timeout, elementName, negation, text);
+    @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" to (not contain|contain) text \"([^\"]*)\"$")
+    public void waitElementContainsText(int timeout, String elementName, ContainCondition condition, String text) throws PageException {
+        coreSteps.waitElementContainsText(timeout, elementName, condition, text);
     }
 
-    @Когда("^(?:user |he )?is waiting for the element \"([^\"]*)\" to become clickable$")
+    @And("^(?:user |he )?is waiting for the element \"([^\"]*)\" to become clickable$")
     public void waitClickability(String elementName) throws PageException {
         coreSteps.waitClickability(elementName);
     }
 
-    @Когда("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" to become clickable$")
+    @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" to become clickable$")
     public void waitClickability(int timeout, String elementName) throws PageException {
         coreSteps.waitClickability(timeout, elementName);
     }

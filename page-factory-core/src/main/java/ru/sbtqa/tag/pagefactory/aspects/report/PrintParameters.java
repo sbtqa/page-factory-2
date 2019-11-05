@@ -1,14 +1,10 @@
 package ru.sbtqa.tag.pagefactory.aspects.report;
 
+import cucumber.api.PickleStepTestStep;
 import cucumber.api.TestStep;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestStepFinished;
-import cucumber.runner.PickleTestStep;
-import gherkin.pickles.Argument;
-import gherkin.pickles.PickleCell;
-import gherkin.pickles.PickleRow;
-import gherkin.pickles.PickleString;
-import gherkin.pickles.PickleTable;
+import gherkin.pickles.*;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import java.util.ArrayList;
@@ -32,20 +28,25 @@ public class PrintParameters {
     @Before("sendStepFinished(event)")
     public void beforeSendStepFinished(JoinPoint joinPoint, Event event) {
         TestStep testStep = ((TestStepFinished) event).testStep;
-
-        if (testStep.getClass().equals(PickleTestStep.class)) {
-            this.testArguments.set(testStep.getStepArgument());
+        if (testStep instanceof PickleStepTestStep) {
+            this.testArguments.set(((PickleStepTestStep) testStep).getStepArgument());
             addAllureArguments();
         }
     }
 
     @After("execution(* cucumber.runtime.formatter.PrettyFormatter.printStep(..))")
     public void printStep(JoinPoint joinPoint) {
-        for (Argument argument : this.testArguments.get()) {
-            if (argument instanceof PickleString) {
-                printPickleString((PickleString) argument);
-            } else {
-                printPickleTable((PickleTable) argument);
+        PickleStepTestStep step = joinPoint.getArgs().length > 0
+                && joinPoint.getArgs()[0] instanceof PickleStepTestStep
+                ? (PickleStepTestStep) joinPoint.getArgs()[0] : null;
+
+        if (step != null) {
+            for (Argument argument : step.getPickleStep().getArgument()) {
+                if (argument instanceof PickleString) {
+                    printPickleString((PickleString) argument);
+                } else {
+                    printPickleTable((PickleTable) argument);
+                }
             }
         }
     }
@@ -63,9 +64,9 @@ public class PrintParameters {
 
     private void printPickleString(PickleString pickleString) {
         if (pickleString != null) {
-            System.out.println("\"\"\"");
-            System.out.println(pickleString.getContent());
-            System.out.println("\"\"\"");
+            System.out.println("      \"\"\"");
+            System.out.println("      " + pickleString.getContent());
+            System.out.println("      \"\"\"");
         }
     }
 

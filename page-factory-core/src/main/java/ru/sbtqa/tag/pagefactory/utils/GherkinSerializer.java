@@ -1,8 +1,8 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
-import cucumber.runtime.FeatureBuilder;
 import cucumber.runtime.io.Resource;
 import cucumber.runtime.model.CucumberFeature;
+import cucumber.runtime.model.FeatureBuilder;
 import gherkin.ast.DataTable;
 import gherkin.ast.DocString;
 import gherkin.ast.Examples;
@@ -37,9 +37,7 @@ public class GherkinSerializer {
      * @return reserealized features
      */
     public List<CucumberFeature> reserializeFeatures(List<CucumberFeature> cucumberFeatures) {
-        List<CucumberFeature> features = new ArrayList<>();
-
-        FeatureBuilder featureBuilder = new FeatureBuilder(features);
+        FeatureBuilder featureBuilder = new FeatureBuilder();
         cucumberFeatures.forEach(cucumberFeature -> {
             builder = new StringBuilder();
             Feature feature = cucumberFeature.getGherkinFeature().getFeature();
@@ -61,7 +59,7 @@ public class GherkinSerializer {
             Resource gherkinResource = new GherkinResource(builder.toString(), cucumberFeature.getUri());
             featureBuilder.parse(gherkinResource);
         });
-        return features;
+        return featureBuilder.build();
     }
 
     private void buildScenario(StringBuilder sb, ScenarioDefinition scenarioDefinition) {

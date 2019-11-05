@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.api.junit;
 
-import cucumber.api.DataTable;
+import io.cucumber.datatable.DataTable;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.context.EndpointContext;
@@ -17,12 +17,12 @@ import java.util.Map;
  * Basic step definitions, that should be available on every project
  *
  * <p>
- * To pass a Cucumber {@link cucumber.api.DataTable} as a parameter to method,
+ * To pass a Cucumber {@link DataTable} as a parameter to method,
  * supply a table in the following format after a step ini feature:
  * <p>
  * | name 1| name 2 | | value 1 | value 2 |
  * <p>
- * This table will be converted to a {@link cucumber.api.DataTable} object.
+ * This table will be converted to a {@link DataTable} object.
  * First line is not enforced to be a name.
  * <p>
  * To pass a list as parameter, use flattened table as follows: | value 1 | }

@@ -1,6 +1,6 @@
 #language: en
 @data=$Data @test-non-critical
-Feature: Test non critical
+Feature: Non critical
 
   Background:
     * ? user is on the page "Main"

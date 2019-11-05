@@ -1,10 +1,10 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
-import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.bg.И;
 import cucumber.api.java.en.And;
 import cucumber.api.java.ru.Тогда;
+import io.cucumber.datatable.DataTable;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.context.EndpointContext;
 import ru.sbtqa.tag.api.junit.ApiSetupSteps;

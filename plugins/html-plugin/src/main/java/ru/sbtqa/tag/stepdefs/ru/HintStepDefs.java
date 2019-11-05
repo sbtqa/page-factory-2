@@ -1,11 +1,9 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
-import cucumber.api.Transform;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import ru.sbtqa.tag.pagefactory.html.junit.HintSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 
 public class HintStepDefs {
 
@@ -34,7 +32,7 @@ public class HintStepDefs {
     }
 
     @Когда("^(?:пользователь |он )?проверяет что подсказка \"([^\"]*)\" (не )?отображается$")
-    public void isOpen(String hintName, @Transform(ConditionTransformer.class) Condition negation) {
-        hintSteps.isOpen(negation, hintName);
+    public void isOpen(String hintName, ContainCondition condition) {
+        hintSteps.isOpen(condition, hintName);
     }
 }

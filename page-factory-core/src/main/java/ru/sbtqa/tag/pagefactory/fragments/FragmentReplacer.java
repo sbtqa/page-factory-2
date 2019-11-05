@@ -60,11 +60,11 @@ public class FragmentReplacer {
      *
      * a -> b
      * |
-     * -> c
+     *  -> c
      * |
      * d -> e -> f
      *
-     * nodes 'a' and 'd' is terminal
+     * nodes 'a' and 'd' are terminal
      *
      * @param node
      * @return

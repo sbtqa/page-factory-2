@@ -1,13 +1,10 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
-import cucumber.api.Scenario;
-import cucumber.api.TestStep;
+import cucumber.api.*;
 import cucumber.api.event.TestCaseStarted;
 import cucumber.api.event.TestStepFinished;
 import cucumber.api.event.TestStepStarted;
 import cucumber.runner.EventBus;
-import cucumber.runner.PickleTestStep;
-import cucumber.runtime.Match;
 import cucumber.runtime.StepDefinitionMatch;
 import gherkin.pickles.PickleStep;
 import gherkin.pickles.PickleTag;
@@ -22,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.data.DataReplacer;
 import ru.sbtqa.tag.pagefactory.data.DataUtils;
-import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
 
 @Aspect
 public class DataAspect {
@@ -31,7 +28,7 @@ public class DataAspect {
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepStart(TestStepStarted event) {
-        return !event.testStep.isHook();
+        return !(event.testStep instanceof HookTestStep);
     }
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..)")
@@ -40,15 +37,15 @@ public class DataAspect {
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepFinished(TestStepFinished event) {
-        return !event.testStep.isHook();
+        return !(event.testStep instanceof HookTestStep);
     }
 
-    @Pointcut("execution(* cucumber.api.TestStep.run(..)) && args(bus,language,scenario,skipSteps,..)")
-    public void run(EventBus bus, String language, Scenario scenario, boolean skipSteps) {
+    @Pointcut("execution(* cucumber.runner.TestStep.run(..)) && args(testCase,bus,scenario,skipSteps,..)")
+    public void run(TestCase testCase, EventBus bus, cucumber.api.Scenario scenario, boolean skipSteps) {
     }
 
-    @Pointcut("execution(* cucumber.api.TestStep.executeStep(..)) && args(language,scenario,skipSteps,..)")
-    public void executeStep(String language, Scenario scenario, boolean skipSteps) {
+    @Pointcut("execution(* cucumber.runner.TestStep.executeStep(..)) && args(scenario,skipSteps,..)")
+    public void executeStep(Scenario scenario, boolean skipSteps) {
     }
 
     @Around("sendCaseStart(event)")
@@ -61,60 +58,70 @@ public class DataAspect {
             String dataTagName = tags.get(tags.size() - 1).getName();
             String data = DataUtils.getDataTagValue(dataTagName);
 
-            for (TestStep step : event.testCase.getTestSteps()) {
-                if (!step.isHook()) {
-                    PickleStepCustom stepCustom = changePickleStep(step.getPickleStep());
-                    stepCustom.setData(data);
-                    writePickleStep(step, stepCustom);
+            for (TestStep testStep : event.testCase.getTestSteps()) {
+                if (!(testStep instanceof HookTestStep)) {
+                    PickleStepTestStep pickleStepTestStep = (PickleStepTestStep) testStep;
+                    PickleStepTag stepCustom = getPickleStepTag(pickleStepTestStep);
+
+                    stepCustom.setDataTag(data);
+
+                    replaceByPickleStepTag(pickleStepTestStep, stepCustom);
                 }
             }
         }
+
         return joinPoint.proceed();
     }
 
-    private void writePickleStep(TestStep step, PickleStepCustom pickleStep) throws IllegalAccessException {
-        FieldUtils.writeField(step, "step", pickleStep, true);
-    }
-
-    @Around("run(bus,language,scenario,skipSteps)")
-    public Object run(ProceedingJoinPoint joinPoint, EventBus bus, String language, Scenario scenario, boolean skipSteps) throws Throwable {
+    @Around("run(testCase,bus,scenario,skipSteps)")
+    public Object run(ProceedingJoinPoint joinPoint, TestCase testCase, EventBus bus, cucumber.api.Scenario scenario, boolean skipSteps) throws Throwable {
         TestStep testStep = (TestStep) joinPoint.getThis();
-        if (!testStep.isHook()) {
-            PickleStepCustom stepCustom = changePickleStep(testStep.getPickleStep());
+        if (!(testStep instanceof HookTestStep)) {
+            PickleStepTestStep pickleStepTestStep = (PickleStepTestStep) testStep;
+            PickleStepTag stepCustom = getPickleStepTag(pickleStepTestStep);
+
             stepCustom.setSkipped(skipSteps);
-            writePickleStep(testStep, stepCustom);
+
+            replaceByPickleStepTag(pickleStepTestStep, stepCustom);
         }
+
         return joinPoint.proceed();
     }
 
-    private PickleStepCustom changePickleStep(PickleStep step) {
-        return step instanceof PickleStepCustom ? (PickleStepCustom) step : new PickleStepCustom(step);
+    private PickleStepTag getPickleStepTag(PickleStepTestStep pickleStepTestStep) {
+        PickleStep pickleStep = pickleStepTestStep.getPickleStep();
+        return pickleStep instanceof PickleStepTag ? (PickleStepTag) pickleStep : new PickleStepTag(pickleStep);
     }
 
-    @Around("executeStep(language,scenario,skipSteps)")
-    public Object executeStep(ProceedingJoinPoint joinPoint, String language, Scenario scenario, boolean skipSteps) throws Throwable {
+    private void replaceByPickleStepTag(PickleStepTestStep pickleStepTestStep, PickleStepTag stepCustom) throws IllegalAccessException {
+        FieldUtils.writeField(pickleStepTestStep, "step", stepCustom, true);
+    }
+
+    @Around("executeStep(scenario,skipSteps)")
+    public Object executeStep(ProceedingJoinPoint joinPoint, Scenario scenario, boolean skipSteps) throws Throwable {
         TestStep testStep = (TestStep) joinPoint.getThis();
-        if (hasError(testStep)) {
-            PickleStepCustom pickleStepCustom = (PickleStepCustom) testStep.getPickleStep();
-            Match definitionMatch = (Match) FieldUtils.readField(testStep, "definitionMatch", true);
-            if (definitionMatch.getClass().equals(StepDefinitionMatch.class)) {
-                throw pickleStepCustom.getError();
+        if (!(testStep instanceof HookTestStep)
+                && testStep instanceof PickleStepTestStep
+                && ((PickleStepTag) ((PickleStepTestStep) testStep).getPickleStep()).hasError()) {
+            PickleStepTag pickleStepTag = (PickleStepTag) ((PickleStepTestStep) testStep).getPickleStep();
+            if (FieldUtils.readField(testStep, "definitionMatch", true) instanceof StepDefinitionMatch) {
+                throw pickleStepTag.getError();
             } else {
-                pickleStepCustom.setLog(pickleStepCustom.getError().getMessage());
+                pickleStepTag.setLog(pickleStepTag.getError().getMessage());
             }
         }
         return joinPoint.proceed();
     }
 
     private boolean hasError(TestStep testStep) {
-        return !testStep.isHook()
-                && testStep.getPickleStep() instanceof PickleStepCustom
-                && ((PickleStepCustom) testStep.getPickleStep()).hasError();
+        return !(testStep instanceof HookTestStep)
+                && ((PickleStepTestStep) testStep).getPickleStep() instanceof PickleStepTag
+                && ((PickleStepTag) testStep).hasError();
     }
 
     @Around("sendStepStart(event)")
     public void sendStepStart(ProceedingJoinPoint joinPoint, TestStepStarted event) throws Throwable {
-        PickleTestStep testStep = (PickleTestStep) event.testStep;
+        PickleStepTestStep testStep = (PickleStepTestStep) event.testStep;
         DataReplacer dataParser = new DataReplacer();
         dataParser.replace(testStep);
         joinPoint.proceed(new Object[]{event});
@@ -122,7 +129,7 @@ public class DataAspect {
 
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, TestStepFinished event) throws Throwable {
-        PickleStep step = event.testStep.getPickleStep();
+        PickleStep step = ((PickleStepTestStep) event.testStep).getPickleStep();
 
         try {
             joinPoint.proceed();
@@ -130,8 +137,9 @@ public class DataAspect {
             LOG.warn("Failed to send finished step event", e);
         }
 
-        if (((PickleStepCustom) step).hasLog()) {
-            LOG.warn(((PickleStepCustom) event.testStep.getPickleStep()).getLog());
+        if (((PickleStepTag) step).hasLog()) {
+            LOG.debug(((PickleStepTag) (((PickleStepTestStep) event.testStep).getPickleStep())).getLog());
         }
     }
 }
+

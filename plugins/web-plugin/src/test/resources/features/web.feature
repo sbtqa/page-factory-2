@@ -1,5 +1,5 @@
 #language: en
-Feature: Check web elements functional + ActionTitles mechanism
+Feature: Base functionality
 
   @web
   Scenario: Check web elements functional + ActionTitles mechanism

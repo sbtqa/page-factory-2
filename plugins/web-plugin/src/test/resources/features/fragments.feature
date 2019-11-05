@@ -1,5 +1,6 @@
 #language: en
-Feature: Check fragments functional
+@fragments
+Feature: Fragments
 
   Background:
     * user inserts fragment "go to contact page"

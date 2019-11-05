@@ -1,14 +1,11 @@
 package ru.sbtqa.tag.pagefactory.aspects;
 
-import static io.qameta.allure.util.ResultsUtils.md5;
-import static org.apache.commons.lang3.reflect.FieldUtils.readDeclaredField;
-
+import cucumber.api.HookTestStep;
 import cucumber.api.Result;
 import cucumber.api.TestCase;
 import cucumber.api.TestStep;
 import cucumber.api.event.TestCaseFinished;
 import cucumber.api.event.TestStepFinished;
-import cucumber.runtime.Match;
 import cucumber.runtime.StepDefinitionMatch;
 import gherkin.pickles.PickleStep;
 import io.qameta.allure.Allure;
@@ -30,8 +27,11 @@ import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
-import ru.sbtqa.tag.pagefactory.optional.PickleStepCustom;
+import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+
+import static io.qameta.allure.util.ResultsUtils.md5;
+import static org.apache.commons.lang3.reflect.FieldUtils.readDeclaredField;
 
 @Aspect
 public class CriticalStepCheckAspect {
@@ -51,7 +51,7 @@ public class CriticalStepCheckAspect {
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepFinished(TestStepFinished event) {
-        return !event.testStep.isHook();
+        return !(event.testStep instanceof HookTestStep);
     }
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
@@ -61,25 +61,32 @@ public class CriticalStepCheckAspect {
 
     @Around("runStep()")
     public void runStep(ProceedingJoinPoint joinPoint) throws Throwable {
-        Match match = (Match) joinPoint.getThis();
-        PickleStep step = (PickleStep) FieldUtils.readField(match, STEP_FIELD_NAME, true);
-
         try {
             joinPoint.proceed();
         } catch (Throwable e) {
-            if (!isCritical(step) || e instanceof AllureNonCriticalError) {
-                attachError((PickleStepCustom) step, e);
+            StepDefinitionMatch match = (StepDefinitionMatch) joinPoint.getThis();
+            if (FieldUtils.getField(match.getClass(), STEP_FIELD_NAME, true) != null) {
+                PickleStep step = (PickleStep) FieldUtils.readField(match, STEP_FIELD_NAME, true);
+                if (isNonCritical(step) || e instanceof AllureNonCriticalError) {
+                    attachError(getPickleStepTag(step), e);
+                } else {
+                    throw e;
+                }
             } else {
                 throw e;
             }
         }
     }
 
-    private boolean isCritical(PickleStep step) {
-        return !(step instanceof PickleStepCustom) || ((PickleStepCustom) step).isCritical();
+    private PickleStepTag getPickleStepTag(PickleStep pickleStep) {
+        return pickleStep instanceof PickleStepTag ? (PickleStepTag) pickleStep : new PickleStepTag(pickleStep);
     }
 
-    private void attachError(PickleStepCustom step, Throwable e) {
+    private boolean isNonCritical(PickleStep step) {
+        return step instanceof PickleStepTag && ((PickleStepTag) step).isNonCritical();
+    }
+
+    private void attachError(PickleStepTag step, Throwable e) {
         step.setError(e);
         ErrorHandler.attachError(e);
         if (!Environment.isDriverEmpty()) {
@@ -108,7 +115,7 @@ public class CriticalStepCheckAspect {
 
     private boolean hasFailedNonCriticalStep(TestCase testCase) {
         return testCase.getTestSteps().stream()
-                .filter(testStep -> !testStep.isHook())
+                .filter(testStep -> !(testStep instanceof HookTestStep))
                 .map(this::getDefinitionMatchStep)
                 .anyMatch(this::hasError);
     }
@@ -119,15 +126,15 @@ public class CriticalStepCheckAspect {
 
         if (hasError(step)) {
             final Result result = new Result(Result.Type.AMBIGUOUS,
-                    event.result.getDuration(), ((PickleStepCustom) step).getError());
-            event = new TestStepFinished(event.getTimeStamp(), event.testStep, result);
+                    event.result.getDuration(), ((PickleStepTag) step).getError());
+            event = new TestStepFinished(event.getTimeStamp(), event.getTimeStampMillis(), event.getTestCase(), event.testStep, result);
         }
         joinPoint.proceed(new Object[]{event});
     }
 
     private boolean hasError(PickleStep step) {
-        return step instanceof PickleStepCustom
-                && ((PickleStepCustom) step).hasError();
+        return step instanceof PickleStepTag
+                && ((PickleStepTag) step).hasError();
     }
 
     private PickleStep getDefinitionMatchStep(TestStep testStep) {

@@ -1,13 +1,11 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
-import cucumber.api.DataTable;
-import cucumber.api.Transform;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
+import io.cucumber.datatable.DataTable;
 import ru.sbtqa.tag.pagefactory.html.junit.AccordionSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
 
 public class AccordionStepDefs {
 
@@ -24,7 +22,7 @@ public class AccordionStepDefs {
     }
 
     @Когда("^содержимое аккордеона \"([^\"]*)\" (не )?отображается$")
-    public void checkAccordionOpened(String accordionName, @Transform(ConditionTransformer.class) Condition condition) {
+    public void checkAccordionOpened(String accordionName, ContainCondition condition) {
         accordionSteps.checkAccordionOpened(condition, accordionName);
     }
 

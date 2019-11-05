@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.pagefactory.html.junit;
 
-import cucumber.api.DataTable;
+import io.cucumber.datatable.DataTable;
 import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
@@ -21,9 +21,9 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Presence;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
+import ru.sbtqa.tag.pagefactory.transformer.Presence;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.pagefactory.web.junit.WebStepsImpl;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
@@ -32,6 +32,7 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextInput;
+
 import static ru.sbtqa.tag.pagefactory.utils.HtmlElementUtils.getWebElement;
 
 /**
@@ -199,8 +200,7 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> i
 
     public T elementAlwaysPresent(Presence present, String elementName) {
         boolean isPresent = getCurrentPage().isElementPresent(elementName);
-        boolean flag = present.equals(Presence.POSITIVE);
-        Assert.assertEquals((!flag ? "Element is present: " : ERROR_ELEMENT_NOT_FOUND) + elementName, flag, isPresent);
+        Assert.assertEquals((!present.isPresent() ? "Element is present: " : ERROR_ELEMENT_NOT_FOUND) + elementName, present.isPresent(), isPresent);
         return (T) this;
     }
 
@@ -212,27 +212,24 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> i
         return (T) this;
     }
 
-    public T elementsPresentAndDisabled(Condition condition, List<String> elementNames) {
+    public T elementsPresentAndDisabled(ContainCondition condition, List<String> elementNames) {
         boolean result;
-        boolean isPositive = condition.equals(Condition.POSITIVE);
         for (String element : elementNames) {
             result = getElement(element).isEnabled();
-            Assert.assertEquals("Field is " + (isPositive ? "" : "not ") + "editable.", isPositive, result);
+            Assert.assertEquals("Field is " + (condition.isPositive() ? "" : "not ") + "editable.", condition.isPositive(), result);
         }
         return (T) this;
     }
 
-    public T elementPresentAndDisabled(String elementName, Condition negation) {
-        boolean isPositive = negation.equals(Condition.POSITIVE);
-        Assert.assertEquals("Field is " + (isPositive ? "" : "not ") + "editable",
-                isPositive, getElement(elementName).isEnabled());
+    public T elementPresentAndDisabled(String elementName, ContainCondition condition) {
+        Assert.assertEquals("Field is " + (condition.isPositive() ? "" : "not ") + "editable",
+                condition.isPositive(), getElement(elementName).isEnabled());
         return (T) this;
     }
 
-    public T elementsPresentAndSelected(Condition condition, String elementName) {
-        boolean isPositive = condition.equals(Condition.POSITIVE);
+    public T elementsPresentAndSelected(ContainCondition condition, String elementName) {
         boolean result = getFindUtils().find(elementName, Button.class).isSelected();
-        Assert.assertEquals("Button is " + (isPositive ? "" : "not ") + "selected", isPositive, result);
+        Assert.assertEquals("Button is " + (condition.isPositive() ? "" : "not ") + "selected", condition.isPositive(), result);
         return (T) this;
     }
 
