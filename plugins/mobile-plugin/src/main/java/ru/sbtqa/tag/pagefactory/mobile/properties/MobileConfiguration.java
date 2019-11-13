@@ -50,7 +50,6 @@ public interface MobileConfiguration extends Configuration {
     String getAppiumResetStrategy();
 
     @Key("appium.permissions")
-    @DefaultValue("")
     String getAppiumPermissions();
 
     @Key("appium.automation.name")
