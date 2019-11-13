@@ -1,0 +1,113 @@
+== Mobile plugin
+
+=== Параллельный запуск тестов на симуляторах
+Будет описан метод при использовании Selenium Grid.
+
+==== Скачать и запустить selenium-server-standalone
+Скачать здесь
+[source,]
+----
+https://www.seleniumhq.org/download/
+----
+
+Запустить
+[source,]
+----
+java -jar selenium-server-standalone-3.141.59.jar -role hub
+----
+
+==== Отконфигурировать и запустить по экземпляру appium на каждый симулятор
+Будет приведен пример для двух симуляторов.
+
+Запуск первого экземпляра appium
+[source,]
+----
+appium -p 4723 --nodeconfig <path_to_config_file>/node-config-4723.json --default-capabilities <path_to_capability_file>/node-capabilities-4723.json
+----
+node-config-4723.json
+[source,]
+----
+{
+  "capabilities": [
+    {
+      "maxInstances": 1,
+      "platformName": "ios"
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle": 2000,
+    "timeout": 30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://<хост_где_будет_открыт_экземпляр_аппиума>:4723/wd/hub",
+    "host": "<хост_где_будет_открыт_экземпляр_аппиума>",
+    "port": 4723,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": 4444,
+    "hubHost": "<хост_где_открыт_selenium-standalone>",
+    "hubProtocol": "http"
+  }
+}
+----
+node-capabilities-4723.json
+[source,]
+----
+{
+  "deviceName": "11 Pro 13.0",
+  "platformVersion": "13.0",
+  "wdaLocalPort": 8100
+}
+----
+
+Запуск второго экземпляра appium
+[source,]
+----
+appium -p 4724 --nodeconfig <path_to_config_file>/node-config-4724.json --default-capabilities <path_to_capability_file>/node-capabilities-4724.json
+----
+node-config-4724.json
+[source,]
+----
+{
+  "capabilities": [
+    {
+      "maxInstances": 1,
+      "platformName": "ios"
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle": 2000,
+    "timeout": 30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://<хост_где_будет_открыт_экземпляр_аппиума>:4724/wd/hub",
+    "host": "<хост_где_будет_открыт_экземпляр_аппиума>",
+    "port": 4724,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": 4444,
+    "hubHost": "<хост_где_открыт_selenium-standalone>",
+    "hubProtocol": "http"
+  }
+}
+----
+node-capabilities-4724.json
+[source,]
+----
+{
+  "deviceName": "iPhone Xs",
+  "platformVersion": "12.1",
+  "wdaLocalPort": 8101
+}
+----
+
+==== Внести правки в application.properties
+В качестве appium.url указать адрес на котором открыт selenium-standalone.
+
+Удалить параметры
+[source,]
+----
+appium.device.name = ...
+appium.device.platform.name = ...
+appium.device.platform.version = ...
+----
