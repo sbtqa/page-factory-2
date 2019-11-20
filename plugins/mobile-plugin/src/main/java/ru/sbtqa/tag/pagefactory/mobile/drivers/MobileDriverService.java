@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.allure.Type;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 import ru.sbtqa.tag.pagefactory.mobile.utils.AppiumVideoRecorder;
@@ -73,7 +74,7 @@ public class MobileDriverService implements DriverService {
         deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
 
         if (PROPERTIES.getAppiumVideoEnabled()) {
-            appiumVideoRecorder = new AppiumVideoRecorder();
+            appiumVideoRecorder = new AppiumVideoRecorder(Environment.getScenario());
             appiumVideoRecorder.startRecord();
         }
     }

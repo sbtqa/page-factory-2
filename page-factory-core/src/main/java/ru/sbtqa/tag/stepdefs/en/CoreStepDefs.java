@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.stepdefs.en;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -7,6 +8,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.cucumber.datatable.DataTable;
 import java.util.List;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
@@ -25,7 +27,8 @@ public class CoreStepDefs {
     }
 
     @Before(order = 99999)
-    public void setUp() {
+    public void setUp(Scenario sceanrio) {
+        Environment.setScenario(sceanrio);
         CoreSetupSteps.setUp();
     }
 

@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.mobile.utils;
 
+import cucumber.api.Scenario;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
@@ -26,8 +27,8 @@ public class AppiumVideoRecorder {
     private String videoFileName;
     private boolean isRecording = false;
 
-    public AppiumVideoRecorder() {
-        videoFileName = format(VIDEO_FILENAME_TEMPLATE, new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss").format(new Date()));
+    public AppiumVideoRecorder(Scenario scenario) {
+        videoFileName = scenario.getName() + "-" + format(VIDEO_FILENAME_TEMPLATE, new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss").format(new Date()));
     }
 
     public void startRecord() {

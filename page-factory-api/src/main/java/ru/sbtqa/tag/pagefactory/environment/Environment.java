@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.environment;
 
+import cucumber.api.Scenario;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.checks.PageChecks;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
@@ -16,6 +17,7 @@ public class Environment {
     private static ThreadLocal<PageChecks> pageChecks = new ThreadLocal<>();
     private static ThreadLocal<Reflection> reflection = new ThreadLocal<>();
     private static ThreadLocal<Find> findUtils = new ThreadLocal<>();
+    private static ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 
     public static void setDriverService(DriverService driverService) {
         Environment.driverService.set(driverService);
@@ -64,5 +66,13 @@ public class Environment {
 
     public static void setFindUtils(Find findUtils) {
         Environment.findUtils.set(findUtils);
+    }
+
+    public static Scenario getScenario() {
+        return scenario.get();
+    }
+
+    public static void setScenario(Scenario scenario) {
+        Environment.scenario.set(scenario);
     }
 }
