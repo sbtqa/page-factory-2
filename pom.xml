@@ -81,14 +81,14 @@
   </modules>
 
   <distributionManagement>
-    <repository>
-      <id>myMavenRepo.write</id>
-      <url>https://mymavenrepo.com/repo/HPOdgGxRazRinaiJVSv6/</url>
-    </repository>
     <snapshotRepository>
-      <id>myMavenRepo.write</id>
-      <url>https://mymavenrepo.com/repo/HPOdgGxRazRinaiJVSv6/</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
   <dependencies>
