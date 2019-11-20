@@ -111,3 +111,16 @@ appium.device.name = ...
 appium.device.platform.name = ...
 appium.device.platform.version = ...
 ----
+
+==== Внести правки в pom.xml
+Добавить в surefire plugin следующую конфигурацию
+[source,]
+----
+<configuration>
+    <parallel>methods</parallel>
+    <threadCount>4</threadCount>
+</configuration>
+----
+
+Более подробную информацию можно найти по ссылке
+https://cucumber.io/docs/guides/parallel-execution/#junit
