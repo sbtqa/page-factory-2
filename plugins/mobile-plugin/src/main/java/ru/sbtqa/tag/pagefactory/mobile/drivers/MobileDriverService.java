@@ -80,9 +80,9 @@ public class MobileDriverService implements DriverService {
             return;
         }
 
-        if (PROPERTIES.getAppiumVideoEnabled() && getAppiumVideoRecorder().isRecording()) {
-            byte[] video = getAppiumVideoRecorder().stopRecord();
-            ParamsHelper.addAttachmentToRender(video, getAppiumVideoRecorder().getVideoFileName(), Type.VIDEO);
+        if (PROPERTIES.getAppiumVideoEnabled() && appiumVideoRecorder.isRecording()) {
+            byte[] video = appiumVideoRecorder.stopRecord();
+            ParamsHelper.addAttachmentToRender(video, appiumVideoRecorder.getVideoFileName(), Type.VIDEO);
         }
 
         try {
