@@ -22,13 +22,13 @@ public class AppiumVideoRecorder {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppiumVideoRecorder.class);
     private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
-    private static final String VIDEO_FILENAME_TEMPLATE = PROPERTIES.getAppiumVideoName() + "%s." + PROPERTIES.getAppiumVideoExtension();
+    private static final String VIDEO_FILENAME_TEMPLATE = "%s." + PROPERTIES.getAppiumVideoExtension();
 
     private String videoFileName;
     private boolean isRecording = false;
 
     public AppiumVideoRecorder(Scenario scenario) {
-        String scenarioName = scenario != null ? scenario.getName().replace(" ", "_") : "mobile_test";
+        String scenarioName = scenario != null ? scenario.getName().replace(" ", "_") : PROPERTIES.getAppiumVideoName();
         videoFileName = scenarioName + "-" + format(VIDEO_FILENAME_TEMPLATE, new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss").format(new Date()));
     }
 
