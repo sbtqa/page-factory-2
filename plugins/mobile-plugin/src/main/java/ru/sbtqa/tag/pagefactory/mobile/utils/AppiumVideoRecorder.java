@@ -1,9 +1,9 @@
 package ru.sbtqa.tag.pagefactory.mobile.utils;
 
+import cucumber.api.Scenario;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
-import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
@@ -12,6 +12,7 @@ import ru.sbtqa.tag.pagefactory.utils.PathUtils;
 
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
 
@@ -21,13 +22,14 @@ public class AppiumVideoRecorder {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppiumVideoRecorder.class);
     private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
-    private static final String VIDEO_FILENAME_TEMPLATE = PROPERTIES.getAppiumVideoName() + "%s." + PROPERTIES.getAppiumVideoExtension();
+    private static final String VIDEO_FILENAME_TEMPLATE = "%s." + PROPERTIES.getAppiumVideoExtension();
 
     private String videoFileName;
     private boolean isRecording = false;
 
-    public AppiumVideoRecorder() {
-        videoFileName = format(VIDEO_FILENAME_TEMPLATE, new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss").format(new Date()));
+    public AppiumVideoRecorder(Scenario scenario) {
+        String scenarioName = scenario != null ? scenario.getName().replace(" ", "_") : PROPERTIES.getAppiumVideoName();
+        videoFileName = scenarioName + "-" + format(VIDEO_FILENAME_TEMPLATE, new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss").format(new Date()));
     }
 
     public void startRecord() {

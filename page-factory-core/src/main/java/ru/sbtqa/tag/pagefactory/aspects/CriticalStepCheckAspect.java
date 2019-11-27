@@ -12,10 +12,6 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.internal.AllureStorage;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.TestResult;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -29,6 +25,12 @@ import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.ReadFieldError;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Map;
 
 import static io.qameta.allure.util.ResultsUtils.md5;
 import static org.apache.commons.lang3.reflect.FieldUtils.readDeclaredField;
@@ -154,7 +156,9 @@ public class CriticalStepCheckAspect {
         Map<String, Object> storage = (Map<String, Object>) readDeclaredField(allureStorage, "storage", true);
         Collection<Object> testResults = storage.values();
         Optional<Object> testResultOptional = testResults.stream()
-                .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid)).findFirst();
+                .filter(Objects::nonNull)
+                .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid))
+                .findFirst();
         return testResultOptional.isPresent() ? ((TestResult) testResultOptional.get()).getUuid() : uid;
     }
 }

@@ -45,9 +45,13 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("IOS")
     PlatformName getAppiumPlatformName();
 
-    @Key("appium.strategies.reset")
+    @Key("appium.fullReset")
     @DefaultValue("")
-    String getAppiumResetStrategy();
+    String getAppiumFullReset();
+
+    @Key("appium.noReset")
+    @DefaultValue("")
+    String getAppiumNoReset();
 
     @Key("appium.permissions")
     String getAppiumPermissions();

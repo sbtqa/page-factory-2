@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.pagefactory.junit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.find.FindUtils;
@@ -14,6 +16,7 @@ import ru.sbtqa.tag.pagefactory.tasks.TaskHandler;
 public class CoreSetupSteps {
 
     private static final Configuration PROPERTIES = Configuration.create();
+    private static final Logger LOG = LoggerFactory.getLogger(CoreSetupSteps.class);
 
     private CoreSetupSteps() {
     }
@@ -27,6 +30,9 @@ public class CoreSetupSteps {
         Environment.setFindUtils(new FindUtils());
         if (!PROPERTIES.getStashShared()) {
             Stash.clear();
+        }
+        if (Environment.getScenario() != null) {
+            LOG.info("Scenario with name \"{}\" is starting", Environment.getScenario().getName());
         }
     }
 

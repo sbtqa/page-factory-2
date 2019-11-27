@@ -5,17 +5,19 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import java.net.MalformedURLException;
-import java.net.URL;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.allure.Type;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
 import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 import ru.sbtqa.tag.pagefactory.mobile.utils.AppiumVideoRecorder;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
 
@@ -25,7 +27,6 @@ public class MobileDriverService implements DriverService {
     private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
 
     private AppiumDriver mobileDriver;
-    private String deviceUdId;
     private AppiumVideoRecorder appiumVideoRecorder;
 
     @Override
@@ -40,6 +41,8 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, PROPERTIES.getAppiumAutomationName());
         capabilities.setCapability(MobileCapabilityType.UDID, PROPERTIES.getAppiumUdid());
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, PROPERTIES.getNewCommandTimeout());
+        capabilities.setCapability(MobileCapabilityType.FULL_RESET, PROPERTIES.getAppiumFullReset());
+        capabilities.setCapability(MobileCapabilityType.NO_RESET, PROPERTIES.getAppiumNoReset());
 
         capabilities.setCapability(IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, PROPERTIES.getAppiumAlertsAutoAccept());
 
@@ -54,12 +57,6 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
         capabilities.setCapability("xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
 
-        if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase(MobileCapabilityType.NO_RESET)) {
-            capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
-        } else if (PROPERTIES.getAppiumResetStrategy().equalsIgnoreCase(MobileCapabilityType.FULL_RESET)) {
-            capabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
-        }
-
         LOG.info(String.valueOf(capabilities));
 
         URL url;
@@ -68,12 +65,11 @@ public class MobileDriverService implements DriverService {
         } catch (MalformedURLException e) {
             throw new FactoryRuntimeException("Could not parse appium url. Check 'appium.url' property", e);
         }
+
         mobileDriver = PROPERTIES.getAppiumPlatformName() == IOS ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
 
-        deviceUdId = (String) mobileDriver.getSessionDetails().get("deviceUDID");
-
         if (PROPERTIES.getAppiumVideoEnabled()) {
-            appiumVideoRecorder = new AppiumVideoRecorder();
+            appiumVideoRecorder = new AppiumVideoRecorder(Environment.getScenario());
             appiumVideoRecorder.startRecord();
         }
     }
@@ -86,7 +82,7 @@ public class MobileDriverService implements DriverService {
 
         if (PROPERTIES.getAppiumVideoEnabled() && appiumVideoRecorder.isRecording()) {
             byte[] video = appiumVideoRecorder.stopRecord();
-            ParamsHelper.addAttachmentToRender(video, "video", Type.VIDEO);
+            ParamsHelper.addAttachmentToRender(video, appiumVideoRecorder.getVideoFileName(), Type.VIDEO);
         }
 
         try {
@@ -103,10 +99,6 @@ public class MobileDriverService implements DriverService {
         }
 
         return mobileDriver;
-    }
-
-    public String getDeviceUDID() {
-        return deviceUdId;
     }
 
     public void setMobileDriver(AppiumDriver aMobileDriver) {
