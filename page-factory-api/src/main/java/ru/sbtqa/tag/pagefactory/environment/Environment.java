@@ -12,7 +12,7 @@ import ru.sbtqa.tag.pagefactory.reflection.Reflection;
  */
 public class Environment {
 
-    private static InheritableThreadLocal<DriverService> driverService = new InheritableThreadLocal<>();
+    private static ThreadLocal<DriverService> driverService = new ThreadLocal<>();
     private static ThreadLocal<PageActions> pageActions = new ThreadLocal<>();
     private static ThreadLocal<PageChecks> pageChecks = new ThreadLocal<>();
     private static ThreadLocal<Reflection> reflection = new ThreadLocal<>();

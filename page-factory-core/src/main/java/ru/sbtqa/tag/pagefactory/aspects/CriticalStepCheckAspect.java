@@ -154,7 +154,9 @@ public class CriticalStepCheckAspect {
         Map<String, Object> storage = (Map<String, Object>) readDeclaredField(allureStorage, "storage", true);
         Collection<Object> testResults = storage.values();
         Optional<Object> testResultOptional = testResults.stream()
-                .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid)).findFirst();
+                .filter(Objects::nonNull)
+                .filter(o -> o instanceof TestResult && ((TestResult) o).getHistoryId().equals(uid))
+                .findFirst();
         return testResultOptional.isPresent() ? ((TestResult) testResultOptional.get()).getUuid() : uid;
     }
 }

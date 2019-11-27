@@ -27,8 +27,8 @@ public class CoreStepDefs {
     }
 
     @Before(order = 99999)
-    public void setUp(Scenario sceanrio) {
-        Environment.setScenario(sceanrio);
+    public void setUp(Scenario scenario) {
+        Environment.setScenario(scenario);
         CoreSetupSteps.setUp();
     }
 
