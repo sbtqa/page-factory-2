@@ -23,10 +23,12 @@ public class ErrorHandlerAspect {
     @Around("sendStepFinished(event)")
     public void sendStepFinished(ProceedingJoinPoint joinPoint, Event event) throws Throwable {
         TestStepFinished testStepFinished = (TestStepFinished) event;
+
         if (testStepFinished.result.getStatus() == Result.Type.FAILED
                 && !Environment.isDriverEmpty()
                 && !isAttached) {
             ErrorHandler.attachError(testStepFinished.result.getError());
+            System.out.println("    " + testStepFinished.result.getError());
             ErrorHandler.attachScreenshot();
             isAttached = true;
         }
