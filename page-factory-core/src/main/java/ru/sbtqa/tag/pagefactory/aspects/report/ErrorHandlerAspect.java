@@ -13,7 +13,7 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 @Aspect
 public class ErrorHandlerAspect {
 
-    private boolean isAttached = false;
+    private ThreadLocal<Boolean> isAttached = ThreadLocal.withInitial(() -> false);
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepFinished(Event event) {
@@ -26,11 +26,11 @@ public class ErrorHandlerAspect {
 
         if (testStepFinished.result.getStatus() == Result.Type.FAILED
                 && !Environment.isDriverEmpty()
-                && !isAttached) {
+                && !isAttached.get()) {
             ErrorHandler.attachError(testStepFinished.result.getError());
             System.out.println("    " + testStepFinished.result.getError());
             ErrorHandler.attachScreenshot();
-            isAttached = true;
+            isAttached.set(true);
         }
         joinPoint.proceed();
     }
