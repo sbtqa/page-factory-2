@@ -3,6 +3,7 @@ package ru.sbtqa.tag.pagefactory.aspects.report;
 import cucumber.api.Result;
 import cucumber.api.event.Event;
 import cucumber.api.event.TestStepFinished;
+import io.qameta.allure.Allure;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,7 +14,7 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 @Aspect
 public class ErrorHandlerAspect {
 
-    private ThreadLocal<Boolean> isAttached = ThreadLocal.withInitial(() -> false);
+    private ThreadLocal<String> stepText = ThreadLocal.withInitial(() -> "");
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepFinished(Event event) {
@@ -26,11 +27,11 @@ public class ErrorHandlerAspect {
 
         if (testStepFinished.result.getStatus() == Result.Type.FAILED
                 && !Environment.isDriverEmpty()
-                && !isAttached.get()) {
+                && !stepText.get().equals(Allure.getLifecycle().getCurrentTestCaseOrStep().toString())) {
+            stepText.set(Allure.getLifecycle().getCurrentTestCaseOrStep().toString());
             ErrorHandler.attachError(testStepFinished.result.getError());
             System.out.println("    " + testStepFinished.result.getError());
             ErrorHandler.attachScreenshot();
-            isAttached.set(true);
         }
         joinPoint.proceed();
     }
