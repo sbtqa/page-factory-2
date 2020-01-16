@@ -3,6 +3,7 @@ package ru.sbtqa.tag.pagefactory.junit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.Stash;
+import ru.sbtqa.tag.pagefactory.context.PageContext;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.find.FindUtils;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
@@ -43,6 +44,8 @@ public class CoreSetupSteps {
     public static void tearDown() {
         TaskHandler.addTask(new StopVideoTask());
         TaskHandler.handleTasks();
+
+        PageContext.clearPageContext();
 
         if (!Environment.isDriverEmpty() && !PROPERTIES.getShared()) {
             Environment.getDriverService().demountDriver();
