@@ -227,7 +227,7 @@ public class CoreStepDefs {
         coreSteps.dismissAlert(text);
     }
 
-    @Когда("^(?:пользователь |он )?очищает поле$")
+    @Когда("^(?:пользователь |он )?очищает поле \"([^\"]*)\"$")
     public void clearField(String elementTitle) throws PageException {
         coreSteps.clearField(elementTitle);
     }
