@@ -116,6 +116,10 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("180")
     long getAppiumTimeLimit();
 
+    @Key("appium.video.quality")
+    @DefaultValue("MEDIUM")
+    String getAppiumVideoQuality();
+
     @Key("appium.xcodeOrgId")
     @DefaultValue("")
     String getAppiumXcodeOrgId();
