@@ -347,14 +347,13 @@ public class ElementUtils {
             if (actualValue.contains(NEWLINE) || expected.contains(NEWLINE)) {
                 actualValue = actualValue.replace(NEWLINE, "");
                 expectedValue = expectedValue.replace(NEWLINE, "");
-
-                if (strategy.equals(SearchStrategy.EQUALS)) {
-                    Assert.assertEquals(EQUALS_TEXT_ERROR, actualValue, expectedValue);
-                } else {
-                    Assert.assertThat(CONTAINS_TEXT_ERROR, actualValue, StringContains.containsString(expectedValue));
-                }
-                throw new AllureNonCriticalError("Text verification was successful without paragraphs");
             }
+            if (strategy.equals(SearchStrategy.EQUALS)) {
+                Assert.assertEquals(EQUALS_TEXT_ERROR, actualValue, expectedValue);
+            } else {
+                Assert.assertThat(CONTAINS_TEXT_ERROR, actualValue, StringContains.containsString(expectedValue));
+            }
+            throw new AllureNonCriticalError("Text verification was successful without paragraphs");
         }
     }
 }
