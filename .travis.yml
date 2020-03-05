@@ -21,6 +21,7 @@ before_install:
   --import-ownertrust; fi
 - ./.travis/apk.sh
 install:
+  - google-chrome --version
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
 #script:
 #  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
