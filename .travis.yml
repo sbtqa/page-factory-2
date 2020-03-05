@@ -4,12 +4,14 @@ branches:
   only:
   - master
   - "/^[0-9]+\\.[0-9]+(\\.[0-9])?+(-.*)?$/"
-addons:
-  chrome: stable
-  sonarcloud:
-    organization: "sbtqasonarkey"
-    token:
-      secure: $SONAR_TOKEN
+
+# https://community.sonarsource.com/t/not-authorized-using-travis-since-1st-of-march/21114
+#addons:
+#  chrome: stable
+#  sonarcloud:
+#    organization: "sbtqasonarkey"
+#    token:
+#      secure: $SONAR_TOKEN
 jdk:
 - oraclejdk8
 before_install:
@@ -20,8 +22,8 @@ before_install:
 - ./.travis/apk.sh
 install:
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
-script:
-  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
+#script:
+#  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
 deploy:
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
