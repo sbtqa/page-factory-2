@@ -1,19 +1,16 @@
 language: java
 dist: trusty
-addons:
-  chrome: stable
 branches:
   only:
   - master
   - "/^[0-9]+\\.[0-9]+(\\.[0-9])?+(-.*)?$/"
 
-# https://community.sonarsource.com/t/not-authorized-using-travis-since-1st-of-march/21114
-#addons:
-#  chrome: stable
-#  sonarcloud:
-#    organization: "sbtqasonarkey"
-#    token:
-#      secure: $SONAR_TOKEN
+addons:
+  chrome: stable
+  sonarcloud:
+    organization: "sbtqasonarkey"
+    token:
+      secure: Oo6uO4y/PI5ltwoA2OI+TQr25ToxXiEtOdUm12XW9wr1MtNpD83KUPaJ2YCu1Fd2VhO1GKUO4LvEjS6jZbvd1IbNf7iXHkztRNLU4+CozqIN2Det52wBmw9LvYAqNC/VaYSXQRPuh90SpkCus5QHhA3YoL1j7fMZi7KpZKizFHT/9at9RQmsO5/oqVVsQdtnRWGetFmMLsbYOnoGzwEtv6io3mYYIlYvBotzp9wCNIqqpZYl5DRNbCHqc9DgAAMPyFzC3kW4IV94QC6PKs5h3WL7FIpqcxidL8gBp8APRrdsRThsHQCnv1jAz5VhkJ/GY+oSOdIrUIkwT6wnBEfwZR+crwxaO60g4ZXgVwleWgZQsAvp6mHBNw3CcX6KeqIVkZ+onlJdDPUus0gxqN9I9EXO2CEf3QFNVn6aSmaky1VyxFbvemTFUi6QwRrLQC80HzfHH2nVTCT5oMGwXC4zQOXywOZ3otuebvpUtFyuBnmTncHTsXuu/R88QEZxySvEI8nLN/8KMMQvtZEnjtokdOHbkD9Dt3hWDVty6UAkUulyT9mEdr/iL3Du3SETBA5Ib9M07O5mAtBo7n/Q8YimR5bIENrg7qIwC49SW4GNwRT+N9q6mABZLzFTc2p78vro61fuRAjEecneOL/qokwBJVFxafV3KwRkQIxj9A74KuM=
 jdk:
 - oraclejdk8
 before_install:
@@ -22,12 +19,11 @@ before_install:
 - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE
   --import-ownertrust; fi
 - ./.travis/apk.sh
-# travis install google-chrome 62 but there are only chromedriver 61
 install:
-  - google-chrome --product-version
-  - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
-#script:
-#  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
+  - google-chrome --version
+  - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
+script:
+  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
 deploy:
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
