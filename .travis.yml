@@ -22,7 +22,7 @@ before_install:
 - ./.travis/apk.sh
 # travis install google-chrome 62 but there are only chromedriver 61
 install:
-  - google-chrome --version
+  - google-chrome --product-version
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
 #script:
 #  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
