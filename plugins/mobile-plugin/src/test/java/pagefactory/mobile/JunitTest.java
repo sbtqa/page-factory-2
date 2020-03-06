@@ -1,9 +1,11 @@
 package pagefactory.mobile;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.mobile.junit.MobileSteps;
 
+@Ignore
 public class JunitTest {
 
     @Test
