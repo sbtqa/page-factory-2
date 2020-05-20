@@ -181,7 +181,7 @@ public class DataReplacer {
         while (stepDataMatcher.find()) {
             String key = stepDataMatcher.group(1);
             if (Stash.getValue(key) instanceof String) {
-                String stashValue = Stash.getValue(stepDataMatcher.group(1));
+                String stashValue = Stash.getValue(key);
                 replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
                 stepDataMatcher = stepDataPattern.matcher(replacedValue);
             }
