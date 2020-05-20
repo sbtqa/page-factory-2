@@ -179,9 +179,12 @@ public class DataReplacer {
         StringBuilder replacedValue = new StringBuilder(replaceableValue);
 
         while (stepDataMatcher.find()) {
-            String stashValue = Stash.getValue(stepDataMatcher.group(1));
-            replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
-            stepDataMatcher = stepDataPattern.matcher(replacedValue);
+            String key = stepDataMatcher.group(1);
+            if (Stash.getValue(key) instanceof String) {
+                String stashValue = Stash.getValue(stepDataMatcher.group(1));
+                replacedValue.replace(stepDataMatcher.start(), stepDataMatcher.end(), stashValue);
+                stepDataMatcher = stepDataPattern.matcher(replacedValue);
+            }
         }
         return replacedValue.toString();
     }
