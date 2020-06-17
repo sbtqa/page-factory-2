@@ -27,11 +27,12 @@ public class ReflectionUtils {
 
     public static void set(EndpointEntry endpoint, Field field, Object value) {
         try {
-            field.setAccessible(true);
             Method setter = getSetter(endpoint, field);
             if (setter != null) {
+                setter.setAccessible(true);
                 setter.invoke(endpoint, value);
             } else {
+                field.setAccessible(true);
                 field.set(endpoint, value);
             }
         } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
