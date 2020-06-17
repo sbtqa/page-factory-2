@@ -1,12 +1,15 @@
 package ru.sbtqa.tag.api.utils;
 
-import static java.lang.String.format;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import org.apache.commons.lang3.StringUtils;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import static java.lang.String.format;
 
 public class ReflectionUtils {
 
@@ -25,9 +28,22 @@ public class ReflectionUtils {
     public static void set(EndpointEntry endpoint, Field field, Object value) {
         try {
             field.setAccessible(true);
-            field.set(endpoint, value);
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            Method setter = getSetter(endpoint, field);
+            if (setter != null) {
+                setter.invoke(endpoint, value);
+            } else {
+                field.set(endpoint, value);
+            }
+        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             throw new RestPluginException(format("Body with name \"%s\" is not available", field.getName()), ex);
+        }
+    }
+
+    private static Method getSetter(EndpointEntry endpoint, Field field) {
+        try {
+            return endpoint.getClass().getMethod("set" + StringUtils.capitalize(field.getName()), field.getType());
+        } catch (NoSuchMethodException e) {
+            return null;
         }
     }
 

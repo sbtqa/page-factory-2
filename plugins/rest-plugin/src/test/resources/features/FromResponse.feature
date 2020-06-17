@@ -6,3 +6,6 @@ Feature: From response annotation test
     * user sends request for "from response first"
     * user sends request for "from response second"
     * system returns "result"
+    * user sends request for "from response with setter"
+    * system returns "result"
+
