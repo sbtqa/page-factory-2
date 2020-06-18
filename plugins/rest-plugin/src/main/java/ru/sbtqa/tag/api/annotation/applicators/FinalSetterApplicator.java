@@ -13,7 +13,6 @@ import static java.lang.String.format;
 /**
  * Applicator for {@link FinalSetter} annotation
  */
-
 @Order(value = 200)
 public class FinalSetterApplicator  extends DefaultApplicator implements Applicator {
 
@@ -29,12 +28,12 @@ public class FinalSetterApplicator  extends DefaultApplicator implements Applica
 
     @Override
     protected void set(Field field, Object value) {
-        Method finalSetter = getFinalSetterOrNull(endpoint, field, value);
+        Method finalSetter = getFinalSetter(endpoint, field, value);
         ReflectionUtils.invoke(finalSetter, endpoint, value);
 
     }
 
-    private Method getFinalSetterOrNull(EndpointEntry endpoint, Field field, Object value) {
+    private Method getFinalSetter(EndpointEntry endpoint, Field field, Object value) {
         FinalSetter finalSetter = field.getAnnotation(FinalSetter.class);
             try {
                 Method setter = endpoint.getClass().getMethod(finalSetter.method(), value.getClass());
