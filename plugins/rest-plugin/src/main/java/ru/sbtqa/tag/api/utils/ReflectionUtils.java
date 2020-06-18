@@ -7,6 +7,7 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import static java.lang.String.format;
 
@@ -50,7 +51,7 @@ public class ReflectionUtils {
                 throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
             } else throw new RestPluginException(format(
                 "Problem with invoking method \"%s\" of class \"%s\" with \"%s\" type parameter",
-                method.getName(), endpoint.getClass(), params[0]));
+                method.getName(), endpoint.getClass(), Arrays.toString(method.getParameterTypes())));
         }
     }
 }
