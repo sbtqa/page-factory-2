@@ -3,6 +3,7 @@ package ru.sbtqa.tag.api.entries.fromresponse;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.api.annotation.FinalSetter;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
@@ -14,19 +15,21 @@ public class FromResponseWithSetterEntry extends EndpointEntry {
 
 
     @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, path = "email")
+    @FinalSetter(method = "makeEmailUpperCase")
     private String emailFromSpecifiedRequest;
 
 
     @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, header = Default.HEADER_PARAMETER_NAME_1)
+    @FinalSetter(method = "addPrefixForHeader")
     private String firstHeaderValue;
 
     final String headerPrefix = "headerPrefix";
 
-    public void setEmailFromSpecifiedRequest(String emailFromSpecifiedRequest) {
+    public void makeEmailUpperCase(String emailFromSpecifiedRequest) {
         this.emailFromSpecifiedRequest = StringUtils.upperCase(emailFromSpecifiedRequest);
     }
 
-    public void setFirstHeaderValue(String firstHeaderValue) {
+    public void addPrefixForHeader(String firstHeaderValue) {
         this.firstHeaderValue = headerPrefix + firstHeaderValue;
     }
 

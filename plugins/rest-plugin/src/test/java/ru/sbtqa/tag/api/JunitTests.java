@@ -7,6 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.api.annotation.ParameterType;
+import ru.sbtqa.tag.api.entries.apirequest.ApiRequestWithFinalSetter;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsEndpointEntry;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsPlaceholdersEndpointEntry;
 import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
@@ -81,6 +82,20 @@ public class JunitTests {
                 .add(ParameterType.BODY, "id", "11223344")
                 .add(ParameterType.BODY, bodies)
                 .send().validate();
+    }
+
+    @Test
+    public void finalSetterTest() {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("query-parameter-name-1", "query-parameter-value-1");
+        parameters.put("header-parameter-name-1", "header-parameter-value-1");
+
+        ApiSteps.getInstance().send(ApiRequestWithFinalSetter.class, parameters);
+
+        parameters.replace("query-parameter-name-1","query-parameter-value-1".toUpperCase());
+        parameters.replace("header-parameter-name-1", ApiRequestWithFinalSetter.HEADER_PREFIX+"header-parameter-value-1");
+
+        ApiSteps.getInstance().validate("result with final set values", parameters);
     }
 
     @AfterClass

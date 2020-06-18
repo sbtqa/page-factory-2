@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.api.utils;
 
-import org.apache.commons.lang3.StringUtils;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.exception.RestPluginException;
@@ -26,41 +25,32 @@ public class ReflectionUtils {
     }
 
     public static void set(EndpointEntry endpoint, Field field, Object value) {
-        try {
-            Method setter = getSetter(endpoint, field);
-            if (setter != null) {
-                setter.setAccessible(true);
-                setter.invoke(endpoint, value);
-            } else {
+            try {
                 field.setAccessible(true);
                 field.set(endpoint, value);
+            } catch (IllegalAccessException ex) {
+                throw new RestPluginException(format("Body with name \"%s\" is not available", field.getName()), ex);
             }
-        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
-            throw new RestPluginException(format("Body with name \"%s\" is not available", field.getName()), ex);
         }
-    }
 
-    private static Method getSetter(EndpointEntry endpoint, Field field) {
-        try {
-            return endpoint.getClass().getMethod("set" + StringUtils.capitalize(field.getName()), field.getType());
-        } catch (NoSuchMethodException e) {
-            return null;
-        }
-    }
 
     public static void invoke(Method method, EndpointEntry endpoint, Object... params) {
         try {
             method.invoke(endpoint, params);
         } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-            String ruleTitle = method.getAnnotation(Validation.class).title();
-            Throwable directThrowable = e;
-            if (directThrowable.getCause() != null) {
-                directThrowable = e.getCause();
+            if (method.getAnnotation(Validation.class) != null) {
+                String ruleTitle = method.getAnnotation(Validation.class).title();
+                Throwable directThrowable = e;
                 if (directThrowable.getCause() != null) {
-                    directThrowable = directThrowable.getCause();
+                    directThrowable = e.getCause();
+                    if (directThrowable.getCause() != null) {
+                        directThrowable = directThrowable.getCause();
+                    }
                 }
-            }
-            throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
+                throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
+            } else throw new RestPluginException(format(
+                "Problem with invoking method \"%s\" of class \"%s\" with \"%s\" type parameter",
+                method.getName(), endpoint.getClass(), params[0]));
         }
     }
 }
