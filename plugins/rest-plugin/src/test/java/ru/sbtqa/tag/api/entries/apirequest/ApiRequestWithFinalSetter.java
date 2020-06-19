@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.equalTo;
 @Endpoint(method = Rest.GET, path = "client/get-with-params", title = "api request with final setter test")
 public class ApiRequestWithFinalSetter extends EndpointEntry {
 
+    public static final String HEADER_PREFIX = "Basic: ";
+
     @Query(name = Default.QUERY_PARAMETER_NAME_1)
     @FinalSetter(method = "makeUpperCase")
     private String param;
@@ -31,9 +33,6 @@ public class ApiRequestWithFinalSetter extends EndpointEntry {
     public void makeUpperCase(String newValue) {
         this.param = newValue.toUpperCase();
     }
-
-    public static final String HEADER_PREFIX = "Basic: ";
-
 
     @Validation(title = "result with final set values")
     public void validate(Map<String, String> data) {

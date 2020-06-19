@@ -3,7 +3,6 @@ package ru.sbtqa.tag.api.utils;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.exception.RestPluginException;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,14 +25,13 @@ public class ReflectionUtils {
     }
 
     public static void set(EndpointEntry endpoint, Field field, Object value) {
-            try {
-                field.setAccessible(true);
-                field.set(endpoint, value);
-            } catch (IllegalAccessException ex) {
-                throw new RestPluginException(format("Body with name \"%s\" is not available", field.getName()), ex);
-            }
+        try {
+            field.setAccessible(true);
+            field.set(endpoint, value);
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            throw new RestPluginException(format("Body with name \"%s\" is not available", field.getName()), ex);
         }
-
+    }
 
     public static void invoke(Method method, EndpointEntry endpoint, Object... params) {
         try {

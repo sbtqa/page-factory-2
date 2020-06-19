@@ -13,29 +13,27 @@ import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 @Endpoint(method = Rest.GET, path = "client/get", title = "from response with setter")
 public class FromResponseWithSetterEntry extends EndpointEntry {
 
+    public static final String HEADER_PREFIX = "headerPrefix";
 
     @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, path = "email")
     @FinalSetter(method = "makeEmailUpperCase")
     private String emailFromSpecifiedRequest;
 
-
     @FromResponse(endpoint = FromResponseFirstEndpointEntry.class, header = Default.HEADER_PARAMETER_NAME_1)
     @FinalSetter(method = "addPrefixForHeader")
     private String firstHeaderValue;
-
-    final String headerPrefix = "headerPrefix";
 
     public void makeEmailUpperCase(String emailFromSpecifiedRequest) {
         this.emailFromSpecifiedRequest = StringUtils.upperCase(emailFromSpecifiedRequest);
     }
 
     public void addPrefixForHeader(String firstHeaderValue) {
-        this.firstHeaderValue = headerPrefix + firstHeaderValue;
+        this.firstHeaderValue = HEADER_PREFIX + firstHeaderValue;
     }
 
     @Validation(title = "result")
     public void validate() {
         Assert.assertEquals(Default.EMAIL.toUpperCase(), emailFromSpecifiedRequest);
-        Assert.assertEquals(headerPrefix + Default.HEADER_PARAMETER_VALUE_1, firstHeaderValue);
+        Assert.assertEquals(HEADER_PREFIX + Default.HEADER_PARAMETER_VALUE_1, firstHeaderValue);
     }
 }

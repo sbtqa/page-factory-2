@@ -8,4 +8,3 @@ Feature: From response annotation test
     * system returns "result"
     * user sends request for "from response with setter"
     * system returns "result"
-

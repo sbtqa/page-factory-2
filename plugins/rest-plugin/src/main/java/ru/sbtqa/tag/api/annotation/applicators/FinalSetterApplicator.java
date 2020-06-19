@@ -30,7 +30,6 @@ public class FinalSetterApplicator  extends DefaultApplicator implements Applica
     protected void set(Field field, Object value) {
         Method finalSetter = getFinalSetter(endpoint, field, value);
         ReflectionUtils.invoke(finalSetter, endpoint, value);
-
     }
 
     private Method getFinalSetter(EndpointEntry endpoint, Field field, Object value) {
