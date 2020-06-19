@@ -7,6 +7,8 @@ import ru.sbtqa.tag.api.utils.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Objects;
 
 import static java.lang.String.format;
 
@@ -34,16 +36,15 @@ public class FinalSetterApplicator  extends DefaultApplicator implements Applica
 
     private Method getFinalSetter(EndpointEntry endpoint, Field field, Object value) {
         FinalSetter finalSetter = field.getAnnotation(FinalSetter.class);
-            try {
-                Method setter = endpoint.getClass().getMethod(finalSetter.method(), value.getClass());
-                setter.setAccessible(true);
-                return setter;
-            } catch (NoSuchMethodException ex) {
-                throw new RestPluginException(format(
-                    "Final setter method \"%s\" with \"%s\" type parameter is not found",
-                    finalSetter.method(), value.getClass()), ex);
-            }
-        }
+        Method setter = Arrays.stream(endpoint.getClass().getMethods())
+            .filter(method -> Objects.equals(method.getName(), finalSetter.method()))
+            .findFirst()
+            .orElseThrow(() -> new RestPluginException(format(
+                "Final setter method \"%s\" is not found",
+                finalSetter.method())));
+        setter.setAccessible(true);
+        return setter;
     }
+}
 
 

@@ -23,11 +23,13 @@ public class ApiRequestWithFinalSetter extends EndpointEntry {
     private String param;
 
     @Header(name = Default.HEADER_PARAMETER_NAME_1)
-    @FinalSetter(method = "addPrefixForHeader")
-    private String header;
+    @FinalSetter(method = "doSmthWithNull")
+    private String header = null;
 
-    public void addPrefixForHeader(String newValue) {
-        this.header = HEADER_PREFIX + newValue;
+    public void doSmthWithNull(String expectedNull) {
+        if (expectedNull == null) {
+            this.header = "replace null string";
+        }
     }
 
     public void makeUpperCase(String newValue) {

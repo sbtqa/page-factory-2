@@ -88,12 +88,12 @@ public class JunitTests {
     public void finalSetterTest() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("query-parameter-name-1", "query-parameter-value-1");
-        parameters.put("header-parameter-name-1", "header-parameter-value-1");
+        parameters.put("header-parameter-name-1", null);
 
         ApiSteps.getInstance().send(ApiRequestWithFinalSetter.class, parameters);
 
         parameters.replace("query-parameter-name-1","query-parameter-value-1".toUpperCase());
-        parameters.replace("header-parameter-name-1", ApiRequestWithFinalSetter.HEADER_PREFIX+"header-parameter-value-1");
+        parameters.replace("header-parameter-name-1", "replace null string");
 
         ApiSteps.getInstance().validate("result with final set values", parameters);
     }
