@@ -49,7 +49,7 @@ public class CoreSetupSteps {
             Environment.clearDriverService();
         }
 
-        PageManager.clearPageManeger();
+        PageManager.clearPageManager();
         Environment.clearEnvironment();
     }
 }

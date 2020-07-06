@@ -159,7 +159,7 @@ public class PageManager {
         return allClasses;
     }
 
-    public static void clearPageManeger() {
+    public static void clearPageManager() {
         PAGES_REPOSITORY.remove();
     }
 }
