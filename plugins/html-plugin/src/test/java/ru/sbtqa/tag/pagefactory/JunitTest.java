@@ -1,11 +1,14 @@
 package ru.sbtqa.tag.pagefactory;
 
-import org.junit.After;
+import cucumber.api.java.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
-import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
+import ru.sbtqa.tag.pagefactory.html.junit.HtmlSetupSteps;
 import ru.sbtqa.tag.pagefactory.html.junit.HtmlSteps;
+import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
 import setting.JettySettings;
 
 public class JunitTest {
@@ -15,6 +18,14 @@ public class JunitTest {
     @BeforeClass
     public static void before() throws Exception {
         server.startJetty();
+    }
+
+    @Before
+    public void setup() {
+        CoreSetupSteps.preSetUp();
+        WebSetupSteps.initWeb();
+        HtmlSetupSteps.initHtml();
+        CoreSetupSteps.setUp();
     }
 
     @Test
@@ -41,7 +52,9 @@ public class JunitTest {
     }
 
     @After
-    public void after() {
+    public void dispose() {
+        WebSetupSteps.disposeWeb();
+        HtmlSetupSteps.tearDown();
         CoreSetupSteps.tearDown();
     }
 }

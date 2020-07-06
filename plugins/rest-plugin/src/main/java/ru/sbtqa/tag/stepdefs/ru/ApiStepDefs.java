@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.bg.И;
 import cucumber.api.java.en.And;
@@ -21,6 +22,11 @@ public class ApiStepDefs {
     @Before
     public void iniApi() {
         ApiSetupSteps.initApi();
+    }
+
+    @After
+    public void tearDown() {
+        ApiSetupSteps.tearDown();
     }
 
     @And("^(?:пользователь |он )?отправляет запрос$")

@@ -28,7 +28,7 @@ public class PageContext {
     }
 
     public static void clearPageContext() {
-        PageContext.currentPage.set(null);
-        PageContext.currentPageTitle.set(null);
+        PageContext.currentPage.remove();
+        PageContext.currentPageTitle.remove();
     }
 }

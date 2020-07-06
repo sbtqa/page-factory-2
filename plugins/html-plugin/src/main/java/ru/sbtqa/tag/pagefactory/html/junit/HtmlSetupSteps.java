@@ -14,4 +14,8 @@ public class HtmlSetupSteps {
             Environment.setDriverService(storage.get());
         }
     }
+
+    public static void tearDown() {
+        storage.remove();
+    }
 }

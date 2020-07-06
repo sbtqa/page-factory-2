@@ -24,4 +24,9 @@ public class ApiEnvironment extends Environment {
     public static void setBlankStorage(BlankStorage blankStorage) {
         ApiEnvironment.blankStorage.set(blankStorage);
     }
+
+    public static void clear() {
+        repository.remove();
+        blankStorage.remove();
+    }
 }
