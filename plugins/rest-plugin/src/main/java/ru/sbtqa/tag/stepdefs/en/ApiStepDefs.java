@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.stepdefs.en;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import io.cucumber.datatable.DataTable;
@@ -17,6 +18,11 @@ public class ApiStepDefs {
     @Before
     public void iniApi() {
         ApiSetupSteps.initApi();
+    }
+
+    @After
+    public void tearDown() {
+        ApiSetupSteps.tearDown();
     }
 
     @And("^user sends request$")

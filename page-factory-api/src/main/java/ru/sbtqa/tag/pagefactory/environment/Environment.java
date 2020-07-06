@@ -75,4 +75,16 @@ public class Environment {
     public static void setScenario(Scenario scenario) {
         Environment.scenario.set(scenario);
     }
+
+    public static void clearEnvironment() {
+        Environment.pageActions.remove();
+        Environment.pageChecks.remove();
+        Environment.reflection.remove();
+        Environment.findUtils.remove();
+        Environment.scenario.remove();
+    }
+
+    public static void clearDriverService() {
+        Environment.driverService.remove();
+    }
 }

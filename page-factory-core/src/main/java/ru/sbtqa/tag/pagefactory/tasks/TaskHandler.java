@@ -18,6 +18,6 @@ public class TaskHandler {
         for (Task task : tasks.get()) {
             task.handle();
         }
-        tasks.get().clear();
+        tasks.remove();
     }
 }

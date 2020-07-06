@@ -18,7 +18,6 @@ public class ApiSetupSteps {
     private static final ThreadLocal<Boolean> isInitApi = ThreadLocal.withInitial(() -> false);
 
     public static void initApi() {
-        EndpointContext.clear();
         if (isAlreadyPerformed(isInitApi)) {
             return;
         }
@@ -44,4 +43,7 @@ public class ApiSetupSteps {
         }
     }
 
+    public static void tearDown() {
+        EndpointContext.clear();
+    }
 }

@@ -28,7 +28,7 @@ public class EndpointContext {
     }
 
     public static void clear() {
-        EndpointContext.currentEndpoint.set(null);
-        EndpointContext.setCurrentEndpointTitle(null);
+        EndpointContext.currentEndpoint.remove();
+        EndpointContext.currentEndpointTitle.remove();
     }
 }
