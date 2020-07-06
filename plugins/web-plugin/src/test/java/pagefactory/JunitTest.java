@@ -1,10 +1,14 @@
 package pagefactory;
 
+import cucumber.api.java.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pagefactory.pages.webelements.MainPage;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
+import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
+import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
 import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 import setting.JettySettings;
 
@@ -15,6 +19,13 @@ public class JunitTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         server.startJetty();
+    }
+
+    @Before
+    public void setup() {
+        CoreSetupSteps.preSetUp();
+        WebSetupSteps.initWeb();
+        CoreSetupSteps.setUp();
     }
 
     @Test
@@ -69,5 +80,11 @@ public class JunitTest {
                 .openPage(MainPage.class)
                 .pageStep()
                 .pageStep2();
+    }
+
+    @After
+    public void dispose() {
+        WebSetupSteps.disposeWeb();
+        CoreSetupSteps.tearDown();
     }
 }
