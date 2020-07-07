@@ -11,7 +11,7 @@ addons:
     organization: "sbtqasonarkey"
     token: $SONAR_TOKEN
 jdk:
-- openjdk8
+- oraclejdk8
 before_install:
 - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE
   --import; fi
