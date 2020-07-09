@@ -88,6 +88,10 @@ tasks.to.kill = iexplorer,chrome
 | aspects.report.select.enabled 
 | Определяет, добавлять ли параметры выбора из выпадающих списков в отчет + 
 | `true`
+
+| aspects.report.error.source.enabled
+| Определяет, добавлять ли page source страницы на который был тест, когда произошла ошибка +
+| `false`
 |====================
 
 ==== Конфигурирование записи видео
