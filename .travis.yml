@@ -12,6 +12,7 @@ addons:
     token: $SONAR_TOKEN
 jdk:
 - openjdk8
+- openjdk11
 before_install:
 - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE
   --import; fi

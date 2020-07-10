@@ -1,7 +1,8 @@
 package ru.sbtqa.tag.api.utils;
 
 import java.net.URI;
-import javax.ws.rs.core.UriBuilder;
+
+import jakarta.ws.rs.core.UriBuilder;
 import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;

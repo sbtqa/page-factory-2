@@ -58,7 +58,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <cucumber.version>4.3.1</cucumber.version>
     <aspectj.version>1.9.2</aspectj.version>
-    <aspectj.plugin.version>1.11</aspectj.plugin.version>
+    <aspectj.plugin.version>1.12.6</aspectj.plugin.version>
     <spring.version>4.2.4.RELEASE</spring.version>
     <activemq.version>5.13.0</activemq.version>
     <surefire.version>2.22.1</surefire.version>
