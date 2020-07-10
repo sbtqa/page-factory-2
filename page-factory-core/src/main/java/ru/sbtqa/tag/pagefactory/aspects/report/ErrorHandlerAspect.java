@@ -9,10 +9,15 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
+import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
+import ru.sbtqa.tag.pagefactory.allure.Type;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 @Aspect
 public class ErrorHandlerAspect {
+
+    private static final Configuration PROPERTIES = Configuration.create();
 
     private ThreadLocal<String> stepText = ThreadLocal.withInitial(() -> "");
 
@@ -32,6 +37,9 @@ public class ErrorHandlerAspect {
             ErrorHandler.attachError(testStepFinished.result.getError());
             System.out.println("    " + testStepFinished.result.getError());
             ErrorHandler.attachScreenshot();
+            if (PROPERTIES.isReportXmlAttachEnabled()) {
+                ParamsHelper.addAttachmentToRender(Environment.getDriverService().getDriver().getPageSource().getBytes(), "Page source", Type.XML);
+            }
         }
         joinPoint.proceed();
     }
