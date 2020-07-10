@@ -90,7 +90,7 @@ tasks.to.kill = iexplorer,chrome
 | `true`
 
 | aspects.report.error.source.enabled
-| Определяет, добавлять ли page source страницы на который был тест, когда произошла ошибка +
+| Определяет, добавлять ли page source страницы на которой произошла ошибка во время теста +
 | `false`
 |====================
 
