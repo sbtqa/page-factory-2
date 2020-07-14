@@ -1,6 +1,8 @@
 package ru.sbtqa.tag.pagefactory.mobile.utils;
 
 import cucumber.api.Scenario;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
@@ -38,14 +40,26 @@ public class AppiumVideoRecorder {
             return;
         }
 
-        IOSStartScreenRecordingOptions startOptions = new IOSStartScreenRecordingOptions()
-                .withVideoType(PROPERTIES.getAppiumVideoType())
-                .withVideoScale(PROPERTIES.getAppiumVideoScale())
-                .withTimeLimit(Duration.ofSeconds(PROPERTIES.getAppiumTimeLimit()))
-                .withVideoQuality(VideoQuality.valueOf(PROPERTIES.getAppiumVideoQuality()))
-                .enableForcedRestart();
+        if (PROPERTIES.getAppiumPlatformName() == PlatformName.IOS) {
+            IOSStartScreenRecordingOptions startOptions = new IOSStartScreenRecordingOptions()
+                    .withVideoType(PROPERTIES.getAppiumVideoType())
+                    .withVideoScale(PROPERTIES.getAppiumVideoScale())
+                    .withTimeLimit(Duration.ofSeconds(PROPERTIES.getAppiumTimeLimit()))
+                    .withVideoQuality(VideoQuality.valueOf(PROPERTIES.getAppiumVideoQuality()))
+                    .enableForcedRestart();
+            ((IOSDriver) Environment.getDriverService().getDriver()).startRecordingScreen(startOptions);
+        } else {
+            AndroidStartScreenRecordingOptions startOptions = new AndroidStartScreenRecordingOptions()
+                    .withBitRate(PROPERTIES.getAppiumVideoBitRate())
+                    .withVideoSize(PROPERTIES.getAppiumVideoSize())
+                    .withTimeLimit(Duration.ofSeconds(PROPERTIES.getAppiumTimeLimit()))
+                    .enableForcedRestart();
+            if (PROPERTIES.getAppiumVideoBugReport()) {
+                startOptions.enableBugReport();
+            }
+            ((AndroidDriver) Environment.getDriverService().getDriver()).startRecordingScreen(startOptions);
+        }
 
-        ((IOSDriver) Environment.getDriverService().getDriver()).startRecordingScreen(startOptions);
         isRecording = true;
     }
 
@@ -56,7 +70,9 @@ public class AppiumVideoRecorder {
         }
 
         // get Base64 encoded video content
-        String encodedString = ((IOSDriver) Environment.getDriverService().getDriver()).stopRecordingScreen();
+        String encodedString = PROPERTIES.getAppiumPlatformName() == PlatformName.IOS
+                ? ((IOSDriver) Environment.getDriverService().getDriver()).stopRecordingScreen()
+                : ((AndroidDriver) Environment.getDriverService().getDriver()).stopRecordingScreen();
 
         // convert to byte array
         byte[] decodedBytes = Base64.getDecoder().decode(encodedString.getBytes());
