@@ -217,6 +217,16 @@ public class CoreStepDefs {
         coreSteps.waitClickability(timeout, elementName);
     }
 
+    @Когда("^(?:пользователь |он )?ожидает что элемент \"([^\"]*)\" исчезнет со страницы$")
+    public void waitAbsence(String elementName) throws PageException {
+        coreSteps.waitAbsence(elementName);
+    }
+
+    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" исчезнет со страницы$")
+    public void waitAbsence(int timeout, String elementName) throws PageException {
+        coreSteps.waitAbsence(timeout, elementName);
+    }
+
     @Когда("^(?:пользователь |он )?принимает уведомление с текстом \"([^\"]*)\"$")
     public void acceptAlert(String text) throws WaitException {
         coreSteps.acceptAlert(text);

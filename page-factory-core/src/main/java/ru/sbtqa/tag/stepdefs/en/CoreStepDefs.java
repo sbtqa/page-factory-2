@@ -7,7 +7,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.cucumber.datatable.DataTable;
-import java.util.List;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
@@ -16,6 +15,8 @@ import ru.sbtqa.tag.pagefactory.exceptions.WaitException;
 import ru.sbtqa.tag.pagefactory.junit.CoreSetupSteps;
 import ru.sbtqa.tag.pagefactory.junit.CoreSteps;
 import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
+
+import java.util.List;
 
 public class CoreStepDefs {
 
@@ -215,6 +216,16 @@ public class CoreStepDefs {
     @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" to become clickable$")
     public void waitClickability(int timeout, String elementName) throws PageException {
         coreSteps.waitClickability(timeout, elementName);
+    }
+
+    @And("^(?:user |he )?is waiting for the element \"([^\"]*)\" no longer exists$")
+    public void waitAbsence(String elementName) throws PageException {
+        coreSteps.waitAbsence(elementName);
+    }
+
+    @And("^(?:user |he )?is waiting (\\d+) second(?:s)? for the element \"([^\"]*)\" no longer exists$")
+    public void waitAbsence(int timeout, String elementName) throws PageException {
+        coreSteps.waitAbsence(timeout, elementName);
     }
 
     @And("^user accepts alert with text \"([^\"]*)\"$")
