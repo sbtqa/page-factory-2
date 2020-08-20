@@ -466,7 +466,7 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
     public T waitAbsence(int timeout, String elementName) throws PageException {
         WebElement element = getElement(elementName);
         String message = format("The element '%s' exists on page after '%s' seconds", elementName, timeout);
-        Wait.(element, message, timeout);
+        Wait.absence(element, message, timeout);
         return (T) this;
     }
 
