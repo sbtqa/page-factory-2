@@ -222,7 +222,7 @@ public class CoreStepDefs {
         coreSteps.waitAbsence(elementName);
     }
 
-    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" исчезнет со страницы$")
+    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" исчезнет$")
     public void waitAbsence(int timeout, String elementName) throws PageException {
         coreSteps.waitAbsence(timeout, elementName);
     }
