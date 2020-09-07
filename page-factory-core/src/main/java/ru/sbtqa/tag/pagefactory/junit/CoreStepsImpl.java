@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.pagefactory.junit;
 
 import io.cucumber.datatable.DataTable;
-import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -20,6 +19,8 @@ import ru.sbtqa.tag.pagefactory.utils.Alert;
 import ru.sbtqa.tag.pagefactory.utils.DiffUtils;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
+
+import java.util.List;
 
 import static java.lang.String.format;
 
@@ -454,6 +455,18 @@ public class CoreStepsImpl<T extends CoreStepsImpl<T>> {
         WebElement element = getElement(elementName);
         String message = format("The element '%s' didn't become clickable within %s seconds", elementName, timeout);
         Wait.clickable(element, message, timeout);
+        return (T) this;
+    }
+
+    public T waitAbsence(String elementName) throws PageException {
+        waitAbsence(PROPERTIES.getTimeout(), elementName);
+        return (T) this;
+    }
+
+    public T waitAbsence(int timeout, String elementName) throws PageException {
+        WebElement element = getElement(elementName);
+        String message = format("The element '%s' exists on page after '%s' seconds", elementName, timeout);
+        Wait.absence(element, message, timeout);
         return (T) this;
     }
 
