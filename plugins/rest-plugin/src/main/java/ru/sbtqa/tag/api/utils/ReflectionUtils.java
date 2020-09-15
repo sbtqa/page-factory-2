@@ -35,17 +35,6 @@ public class ReflectionUtils {
 
     public static Object invoke(Method method, EndpointEntry endpoint, Object... params) {
         try {
-//            if (params.length > 0) {
-//                params = Arrays.stream(params)
-//                        .map(param -> {
-//                            if (param == null) {
-//                                param = new String[]{};
-//                            }
-//                            return param;
-//                        })
-//                        .toArray();
-//            }
-//            params = new String[]{};
             return method.invoke(endpoint, params);
         } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
             if (method.getAnnotation(Validation.class) != null) {
