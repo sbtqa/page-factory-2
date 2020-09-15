@@ -3,6 +3,7 @@ package ru.sbtqa.tag.api.annotation.applicators;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Mutator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+import ru.sbtqa.tag.api.utils.EmptyClass;
 import ru.sbtqa.tag.api.utils.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -16,33 +17,30 @@ import static java.lang.String.format;
  * Applicator for {@link Mutator} annotation
  */
 @Order(value = 200)
-public class FinalSetterApplicator  extends DefaultApplicator implements Applicator {
+public class MutatorApplicator extends DefaultApplicator implements Applicator {
 
-    public FinalSetterApplicator(EndpointEntry entry, Field field) {
+    public MutatorApplicator(EndpointEntry entry, Field field) {
         super(entry, field);
     }
 
     @Override
     public void apply() {
         Object fieldValue = get(field);
-        set(field, fieldValue);
+        Method mutator = getMutator(endpoint, field);
+        set(field, ReflectionUtils.invoke(mutator, endpoint, fieldValue));
     }
 
-    @Override
-    protected void set(Field field, Object value) {
-        Method finalSetter = getFinalSetter(endpoint, field, value);
-        ReflectionUtils.invoke(finalSetter, endpoint, value);
-    }
-
-    private Method getFinalSetter(EndpointEntry endpoint, Field field, Object value) {
+    private Method getMutator(EndpointEntry endpoint, Field field) {
         Mutator mutator = field.getAnnotation(Mutator.class);
-        Method setter = Arrays.stream(endpoint.getClass().getMethods())
+        Class container = mutator.clazz() == EmptyClass.class ? endpoint.getClass() : mutator.clazz();
+        Method setter = Arrays.stream(container.getMethods())
             .filter(method -> Objects.equals(method.getName(), mutator.method()))
             .findFirst()
             .orElseThrow(() -> new RestPluginException(format(
-                "Final setter method \"%s\" is not found",
+                "Mutator method \"%s\" is not found",
                 mutator.method())));
         setter.setAccessible(true);
+
         return setter;
     }
 }

@@ -6,6 +6,7 @@ import ru.sbtqa.tag.api.annotation.Mutator;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.utils.Default;
+import ru.sbtqa.tag.api.utils.DefaultMutators;
 import ru.sbtqa.tag.pagefactory.Rest;
 import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 
@@ -17,7 +18,7 @@ public class ApiRequestWithMutator extends EndpointEntry {
     private static final String NOT_NULL_STRING = "not null string";
 
     @Query(name = Default.QUERY_PARAMETER_NAME_1)
-    @Mutator(method = "toUpperCase")
+    @Mutator(clazz = DefaultMutators.class, method = "toUpperCase")
     private String param = "lowercaseparam";
 
     @Header(name = Default.HEADER_PARAMETER_NAME_1)
@@ -26,10 +27,6 @@ public class ApiRequestWithMutator extends EndpointEntry {
 
     public String doSmthWithNull(String value) {
         return value == null ? NOT_NULL_STRING : value;
-    }
-
-    public String toUpperCase(String value) {
-        return value.toUpperCase();
     }
 
     @Validation(title = "result with mutated values")
