@@ -25,6 +25,8 @@ include::rest_send.asciidoc[]
 
 include::rest_entries_param.asciidoc[]
 
+include::rest_entries_param_modificators.asciidoc[]
+
 include::rest_verify.asciidoc[]
 
 include::rest_build_request.asciidoc[]

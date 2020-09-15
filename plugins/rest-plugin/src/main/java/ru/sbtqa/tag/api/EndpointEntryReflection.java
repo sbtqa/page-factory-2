@@ -65,8 +65,8 @@ public class EndpointEntryReflection {
                     applicators.add(new StashedApplicator(endpoint, field));
                 } else if (annotation instanceof Query) {
                     applicators.add(new QueryApplicator(endpoint, field));
-                } else if (annotation instanceof FinalSetter){
-                    applicators.add(new FinalSetterApplicator(endpoint, field));
+                } else if (annotation instanceof Mutator){
+                    applicators.add(new MutatorApplicator(endpoint, field));
                 }
             }
         }

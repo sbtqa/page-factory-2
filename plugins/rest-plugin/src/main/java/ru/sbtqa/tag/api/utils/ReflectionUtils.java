@@ -33,9 +33,20 @@ public class ReflectionUtils {
         }
     }
 
-    public static void invoke(Method method, EndpointEntry endpoint, Object... params) {
+    public static Object invoke(Method method, EndpointEntry endpoint, Object... params) {
         try {
-            method.invoke(endpoint, params);
+//            if (params.length > 0) {
+//                params = Arrays.stream(params)
+//                        .map(param -> {
+//                            if (param == null) {
+//                                param = new String[]{};
+//                            }
+//                            return param;
+//                        })
+//                        .toArray();
+//            }
+//            params = new String[]{};
+            return method.invoke(endpoint, params);
         } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
             if (method.getAnnotation(Validation.class) != null) {
                 String ruleTitle = method.getAnnotation(Validation.class).title();
@@ -49,7 +60,7 @@ public class ReflectionUtils {
                 throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
             } else throw new RestPluginException(format(
                 "Problem with invoking method \"%s\" of class \"%s\" with \"%s\" type parameter",
-                method.getName(), endpoint.getClass(), Arrays.toString(method.getParameterTypes())));
+                method.getName(), endpoint.getClass(), Arrays.toString(method.getParameterTypes())), e);
         }
     }
 }

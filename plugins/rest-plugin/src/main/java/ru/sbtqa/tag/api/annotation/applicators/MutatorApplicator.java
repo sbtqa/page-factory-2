@@ -1,7 +1,7 @@
 package ru.sbtqa.tag.api.annotation.applicators;
 
 import ru.sbtqa.tag.api.EndpointEntry;
-import ru.sbtqa.tag.api.annotation.FinalSetter;
+import ru.sbtqa.tag.api.annotation.Mutator;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.utils.ReflectionUtils;
 
@@ -13,7 +13,7 @@ import java.util.Objects;
 import static java.lang.String.format;
 
 /**
- * Applicator for {@link FinalSetter} annotation
+ * Applicator for {@link Mutator} annotation
  */
 @Order(value = 200)
 public class FinalSetterApplicator  extends DefaultApplicator implements Applicator {
@@ -35,13 +35,13 @@ public class FinalSetterApplicator  extends DefaultApplicator implements Applica
     }
 
     private Method getFinalSetter(EndpointEntry endpoint, Field field, Object value) {
-        FinalSetter finalSetter = field.getAnnotation(FinalSetter.class);
+        Mutator mutator = field.getAnnotation(Mutator.class);
         Method setter = Arrays.stream(endpoint.getClass().getMethods())
-            .filter(method -> Objects.equals(method.getName(), finalSetter.method()))
+            .filter(method -> Objects.equals(method.getName(), mutator.method()))
             .findFirst()
             .orElseThrow(() -> new RestPluginException(format(
                 "Final setter method \"%s\" is not found",
-                finalSetter.method())));
+                mutator.method())));
         setter.setAccessible(true);
         return setter;
     }
