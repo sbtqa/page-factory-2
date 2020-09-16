@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.MediaType.JSON_UTF_8;
+import static ru.sbtqa.tag.api.utils.CastUtils.toDataTable;
 
 public class JunitTests {
 
@@ -94,9 +95,9 @@ public class JunitTests {
         ApiSteps.getInstance().send(ApiRequestWithMutator.class, parameters);
 
         parameters.replace("query-parameter-name-1","query-parameter-value-1".toUpperCase());
-        parameters.replace("header-parameter-name-1", "replace null string");
+        parameters.replace("header-parameter-name-1", "not null string");
 
-        ApiSteps.getInstance().validate("result with mutated values", parameters);
+        ApiSteps.getInstance().validate("result with mutated values", toDataTable(parameters));
     }
 
     @AfterClass

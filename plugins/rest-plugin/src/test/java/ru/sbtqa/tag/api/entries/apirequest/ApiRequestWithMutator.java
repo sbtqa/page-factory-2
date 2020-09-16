@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api.entries.apirequest;
 
+import io.cucumber.datatable.DataTable;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Header;
 import ru.sbtqa.tag.api.annotation.Mutator;
@@ -10,7 +11,10 @@ import ru.sbtqa.tag.api.utils.DefaultMutators;
 import ru.sbtqa.tag.pagefactory.Rest;
 import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 
+import java.util.Map;
+
 import static org.hamcrest.core.IsEqual.equalTo;
+import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
 @Endpoint(method = Rest.GET, path = "client/get-with-params", title = "api request with mutator test")
 public class ApiRequestWithMutator extends EndpointEntry {
@@ -30,7 +34,8 @@ public class ApiRequestWithMutator extends EndpointEntry {
     }
 
     @Validation(title = "result with mutated values")
-    public void validate() {
-        getResponse().body("result", equalTo("LOWERCASEPARAM" + NOT_NULL_STRING));
+    public void validate(DataTable parametersTable) {
+        Map<String, String> parameters = toMap(parametersTable);
+        getResponse().body("result", equalTo(parameters.get("query-parameter-name-1") + parameters.get("header-parameter-name-1")));
     }
 }
