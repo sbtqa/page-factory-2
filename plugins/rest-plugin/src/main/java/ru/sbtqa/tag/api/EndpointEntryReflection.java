@@ -10,11 +10,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.annotation.*;
-import ru.sbtqa.tag.api.annotation.applicators.Applicator;
-import ru.sbtqa.tag.api.annotation.applicators.ApplicatorHandler;
-import ru.sbtqa.tag.api.annotation.applicators.FromResponseApplicator;
-import ru.sbtqa.tag.api.annotation.applicators.QueryApplicator;
-import ru.sbtqa.tag.api.annotation.applicators.StashedApplicator;
+import ru.sbtqa.tag.api.annotation.applicators.*;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
 import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
@@ -69,6 +65,8 @@ public class EndpointEntryReflection {
                     applicators.add(new StashedApplicator(endpoint, field));
                 } else if (annotation instanceof Query) {
                     applicators.add(new QueryApplicator(endpoint, field));
+                } else if (annotation instanceof Mutator){
+                    applicators.add(new MutatorApplicator(endpoint, field));
                 }
             }
         }

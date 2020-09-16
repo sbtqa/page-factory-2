@@ -1,12 +1,14 @@
 package ru.sbtqa.tag.api.utils;
 
-import static java.lang.String.format;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.exception.RestPluginException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
+import static java.lang.String.format;
 
 public class ReflectionUtils {
 
@@ -31,19 +33,23 @@ public class ReflectionUtils {
         }
     }
 
-    public static void invoke(Method method, EndpointEntry endpoint, Object... params) {
+    public static Object invoke(Method method, EndpointEntry endpoint, Object... params) {
         try {
-            method.invoke(endpoint, params);
+            return method.invoke(endpoint, params);
         } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-            String ruleTitle = method.getAnnotation(Validation.class).title();
-            Throwable directThrowable = e;
-            if (directThrowable.getCause() != null) {
-                directThrowable = e.getCause();
+            if (method.getAnnotation(Validation.class) != null) {
+                String ruleTitle = method.getAnnotation(Validation.class).title();
+                Throwable directThrowable = e;
                 if (directThrowable.getCause() != null) {
-                    directThrowable = directThrowable.getCause();
+                    directThrowable = e.getCause();
+                    if (directThrowable.getCause() != null) {
+                        directThrowable = directThrowable.getCause();
+                    }
                 }
-            }
-            throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
+                throw new RestPluginException(format("Failed to execute validation rule \"%s\" in \"%s\" endpoint entry", ruleTitle, endpoint.getTitle()), directThrowable);
+            } else throw new RestPluginException(format(
+                "Problem with invoking method \"%s\" of class \"%s\" with \"%s\" type parameter",
+                method.getName(), endpoint.getClass(), Arrays.toString(method.getParameterTypes())), e);
         }
     }
 }

@@ -5,7 +5,9 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
+import ru.sbtqa.tag.api.annotation.FinalSetter;
 import ru.sbtqa.tag.api.annotation.FromResponse;
+import ru.sbtqa.tag.api.annotation.Mutator;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
@@ -68,6 +70,7 @@ public class EndpointEntry implements ApiEndpoint {
         reflection.applyAnnotations(FromResponse.class);
         reflection.applyAnnotations(Query.class);
         reflection.applyAnnotations(Stashed.class);
+        reflection.applyAnnotations(Mutator.class);
         String url = PathUtils.unite( PROPERTIES.getBaseURI(), path);
 
         RequestSpecification request = buildRequest();
