@@ -96,7 +96,7 @@ public class JunitTests {
         parameters.replace("query-parameter-name-1","query-parameter-value-1".toUpperCase());
         parameters.replace("header-parameter-name-1", "replace null string");
 
-        ApiSteps.getInstance().validate("result with final set values", parameters);
+        ApiSteps.getInstance().validate("result with mutated values", parameters);
     }
 
     @AfterClass
