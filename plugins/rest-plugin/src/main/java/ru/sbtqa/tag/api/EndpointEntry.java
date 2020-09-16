@@ -5,7 +5,6 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
-import ru.sbtqa.tag.api.annotation.FinalSetter;
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Mutator;
 import ru.sbtqa.tag.api.annotation.Query;
