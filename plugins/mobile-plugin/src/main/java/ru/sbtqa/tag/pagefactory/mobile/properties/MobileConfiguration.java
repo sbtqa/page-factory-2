@@ -120,6 +120,10 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("MEDIUM")
     String getAppiumVideoQuality();
 
+    @Key("appium.video.fps")
+    @DefaultValue("10")
+    int getAppiumVideoFps();
+
     @Key("appium.xcodeOrgId")
     @DefaultValue("")
     String getAppiumXcodeOrgId();
