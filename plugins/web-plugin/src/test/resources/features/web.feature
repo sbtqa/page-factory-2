@@ -42,6 +42,9 @@ Feature: Base functionality
     #checkbox
     * user selects the checkbox "checkbox"
     * user (checks checkbox) "true"
+    
+    * user clicks the button "hide"
+    * user is waiting for the element "textarea" no longer exists
 
     #alert
   # FIXME

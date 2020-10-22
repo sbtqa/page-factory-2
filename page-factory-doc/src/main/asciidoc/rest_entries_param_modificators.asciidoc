@@ -1,0 +1,49 @@
+==== Модификаторы параметров
+Модификаторы представляют из себя аннотации, которые помогают изменить параметры перед отправкой запроса
+
+===== @Mutator
+
+По отношению к полю будет применен метод, указанный в method, после применения остальных модификаторов.
+
+[source,]
+----
+{
+    @Header(name = "Header name")
+    @Mutator(method = "toUpperCase")
+    private String header = "header_value";
+
+
+    public String toUpperCase(String value) {
+        return value.toUpperCase();
+    }
+}
+----
+
+К полю `header` будет применен метод `toUpperCase`, в результате чего поле `header` получит значение `HEADER_VALUE`, затем
+будет произведена сборка и отправка запроса.
+
+WARNING: [red]#Метод, являющийся мутатором, обязательно должен иметь один параметр типа `String` в сигнатуре, в него будет передано текущее
+значение мутируемого поля#
+
+В `clazz` можно указать, где искать `method`. Если `clazz` не указан, то мутатор будет искаться в текущем `Endpoint`
+
+[source,]
+----
+{
+    @Header(name = "Header name")
+    @Mutator(clazz = DefaultMutators.class, method = "toUpperCase")
+    private String header = "header_value";
+}
+----
+[source,]
+----
+public class DefaultMutators {
+
+    public static String toUpperCase(String value) {
+        return value.toUpperCase();
+    }
+}
+----
+
+WARNING: [red]#В случае если указан `clazz`, метод указанный в `method` должен быть `static`, иначе возникнет ошибка
+`java.lang.IllegalArgumentException: object is not an instance of declaring class`#

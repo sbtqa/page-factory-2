@@ -46,6 +46,7 @@ public class AppiumVideoRecorder {
                     .withVideoScale(PROPERTIES.getAppiumVideoScale())
                     .withTimeLimit(Duration.ofSeconds(PROPERTIES.getAppiumTimeLimit()))
                     .withVideoQuality(VideoQuality.valueOf(PROPERTIES.getAppiumVideoQuality()))
+                    .withFps(PROPERTIES.getAppiumVideoFps())
                     .enableForcedRestart();
             ((IOSDriver) Environment.getDriverService().getDriver()).startRecordingScreen(startOptions);
         } else {

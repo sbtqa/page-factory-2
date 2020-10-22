@@ -1,8 +1,5 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
-import static java.lang.String.format;
-import java.util.ArrayList;
-import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -10,6 +7,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.String.format;
 
 public class Wait {
 
@@ -606,6 +608,27 @@ public class Wait {
      */
     public static void clickable(WebElement element, String message, int timeout) {
         wait(ExpectedConditions.elementToBeClickable(element), message, timeout);
+    }
+
+    /**
+     * Wait until element absence
+     *
+     * @param element element
+     * @param message message in case the element appears after waiting
+     */
+    public static void absence(WebElement element, String message) {
+        absence(element, message, PROPERTIES.getTimeout());
+    }
+
+    /**
+     * Wait until element absence
+     *
+     * @param element element
+     * @param message message in case the element appears after waiting
+     * @param timeout condition timeout in seconds
+     */
+    public static void absence(WebElement element, String message, int timeout) {
+        wait(Conditions.absenceOfElementLocated(element), message, timeout);
     }
 
     /**
