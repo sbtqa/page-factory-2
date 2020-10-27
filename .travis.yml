@@ -1,17 +1,18 @@
 language: java
-dist: trusty
+dist: xenial
 branches:
   only:
   - master
   - "/^[0-9]+\\.[0-9]+(\\.[0-9])?+(-.*)?$/"
+
 addons:
   chrome: stable
   sonarcloud:
     organization: "sbtqasonarkey"
-    token:
-      secure: $SONAR_TOKEN
+    token: $SONAR_TOKEN
 jdk:
-- oraclejdk8
+- openjdk8
+- openjdk11
 before_install:
 - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE
   --import; fi
@@ -19,6 +20,7 @@ before_install:
   --import-ownertrust; fi
 - ./.travis/apk.sh
 install:
+  - google-chrome --version
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
 script:
   - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
@@ -29,11 +31,11 @@ deploy:
   on:
     repo: sbtqa/page-factory-2
     branch: master
-    jdk: oraclejdk8
+    jdk: openjdk8
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
   skip_cleanup: true
   on:
     repo: sbtqa/page-factory-2
     tags: true
-    jdk: oraclejdk8
+    jdk: openjdk8

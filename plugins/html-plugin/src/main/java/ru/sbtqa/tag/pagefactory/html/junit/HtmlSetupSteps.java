@@ -10,8 +10,12 @@ public class HtmlSetupSteps {
     private static final ThreadLocal<WebDriverService> storage = withInitial(WebDriverService::new);
 
     public static void initHtml() {
-        if (Environment.isDriverEmpty()) {
+        if (Environment.isDriverEmpty() || !(Environment.getDriverService() instanceof WebDriverService)) {
             Environment.setDriverService(storage.get());
         }
+    }
+
+    public static void tearDown() {
+        storage.remove();
     }
 }

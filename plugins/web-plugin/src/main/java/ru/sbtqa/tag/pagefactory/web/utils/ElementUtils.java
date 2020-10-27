@@ -1,24 +1,22 @@
 package ru.sbtqa.tag.pagefactory.web.utils;
 
-import static java.lang.String.format;
-
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.hamcrest.core.StringContains;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
 import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.AllureNonCriticalError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledError;
 import ru.sbtqa.tag.pagefactory.exceptions.ElementNotFoundException;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
+
+import static java.lang.String.format;
 
 public class ElementUtils {
 
@@ -349,14 +347,13 @@ public class ElementUtils {
             if (actualValue.contains(NEWLINE) || expected.contains(NEWLINE)) {
                 actualValue = actualValue.replace(NEWLINE, "");
                 expectedValue = expectedValue.replace(NEWLINE, "");
-
-                if (strategy.equals(SearchStrategy.EQUALS)) {
-                    Assert.assertEquals(EQUALS_TEXT_ERROR, actualValue, expectedValue);
-                } else {
-                    Assert.assertThat(CONTAINS_TEXT_ERROR, actualValue, StringContains.containsString(expectedValue));
-                }
-                throw new AllureNonCriticalError("Text verification was successful without paragraphs");
             }
+            if (strategy.equals(SearchStrategy.EQUALS)) {
+                Assert.assertEquals(EQUALS_TEXT_ERROR, actualValue, expectedValue);
+            } else {
+                Assert.assertThat(CONTAINS_TEXT_ERROR, actualValue, StringContains.containsString(expectedValue));
+            }
+            throw new AllureNonCriticalError("Text verification was successful without paragraphs");
         }
     }
 }

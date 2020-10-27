@@ -1,5 +1,5 @@
 #language: en
-Feature: Check web elements functional + ActionTitles mechanism
+Feature: Base functionality
 
   @web
   Scenario: Check web elements functional + ActionTitles mechanism
@@ -42,6 +42,9 @@ Feature: Check web elements functional + ActionTitles mechanism
     #checkbox
     * user selects the checkbox "checkbox"
     * user (checks checkbox) "true"
+    
+    * user clicks the button "hide"
+    * user is waiting for the element "textarea" no longer exists
 
     #alert
   # FIXME

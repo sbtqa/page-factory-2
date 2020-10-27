@@ -1,14 +1,12 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import javax.xml.bind.DatatypeConverter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exception.ElementSearchError;
-import ru.sbtqa.tag.pagefactory.transformer.enums.TestIdType;
+import ru.sbtqa.tag.pagefactory.transformer.TestIdType;
 import static java.lang.String.format;
 
 public class TestIdUtils {

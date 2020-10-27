@@ -2,8 +2,8 @@ package ru.sbtqa.tag.pagefactory.html.junit;
 
 import org.junit.Assert;
 import ru.sbtqa.tag.pagefactory.elements.hint.Hint;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import static java.lang.ThreadLocal.withInitial;
 
@@ -37,10 +37,9 @@ public class HintSteps implements Steps {
         return this;
     }
 
-    public HintSteps isOpen(Condition negation, String hintName) {
-        boolean isPositive = negation.equals(Condition.POSITIVE);
+    public HintSteps isOpen(ContainCondition condition, String hintName) {
         boolean isOpenActual = getFindUtils().find(hintName, Hint.class).isOpen();
-        Assert.assertEquals("Hint is " + (isPositive ? "" : "not ") + "displayed", isPositive, isOpenActual);
+        Assert.assertEquals("Hint is " + (condition.isPositive() ? "" : "not ") + "displayed", condition.isPositive(), isOpenActual);
         return this;
     }
 }

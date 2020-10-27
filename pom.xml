@@ -4,7 +4,7 @@
 
   <groupId>ru.sbtqa.tag</groupId>
   <artifactId>page-factory-2</artifactId>
-  <version>15.0-SNAPSHOT</version>
+  <version>16.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>page-factory-2</name>
@@ -56,17 +56,17 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <cucumber.version>2.4.0</cucumber.version>
+    <cucumber.version>4.3.1</cucumber.version>
     <aspectj.version>1.9.2</aspectj.version>
-    <aspectj.plugin.version>1.11</aspectj.plugin.version>
+    <aspectj.plugin.version>1.12.6</aspectj.plugin.version>
     <spring.version>4.2.4.RELEASE</spring.version>
     <activemq.version>5.13.0</activemq.version>
     <surefire.version>2.22.1</surefire.version>
-    <tag.version.qautils>1.6.0</tag.version.qautils>
+    <tag.version.qautils>1.7.1</tag.version.qautils>
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
     <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
-    <tag.version.datajack>5.0.2</tag.version.datajack>
-    <allure.version>2.10.0</allure.version>
+    <tag.version.datajack>5.1.2</tag.version.datajack>
+    <allure.version>2.13.0</allure.version>
   </properties>
 
   <modules>
@@ -74,7 +74,6 @@
     <module>page-factory-core</module>
     <module>tests/test-web-app</module>
     <module>plugins/web-plugin</module>
-    <module>plugins/jdi-plugin</module>
     <module>plugins/html-plugin</module>
     <module>plugins/mobile-plugin</module>
     <module>plugins/rest-plugin</module>
@@ -96,7 +95,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.1</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -119,7 +118,6 @@
         <module>page-factory-core</module>
         <module>tests/test-web-app</module>
         <module>plugins/web-plugin</module>
-        <module>plugins/jdi-plugin</module>
         <module>plugins/html-plugin</module>
         <module>plugins/mobile-plugin</module>
         <module>plugins/rest-plugin</module>

@@ -19,4 +19,8 @@ public class MobileSetupSteps {
             Environment.setDriverService(storage.get());
         }
     }
+
+    public static void tearDown() {
+        storage.remove();
+    }
 }

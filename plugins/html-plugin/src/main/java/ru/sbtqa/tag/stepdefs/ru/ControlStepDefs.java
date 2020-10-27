@@ -1,11 +1,9 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
-import cucumber.api.Transform;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import ru.sbtqa.tag.pagefactory.html.junit.ControlSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
 
 public class ControlStepDefs {
 
@@ -17,8 +15,8 @@ public class ControlStepDefs {
     }
 
     @Когда("^признак \"([^\"]*)\" (не )?отмечен$")
-    public void isSelected(String flagName, @Transform(ConditionTransformer.class) Condition negation) {
-        controlSteps.isSelected(flagName, negation);
+    public void isSelected(String flagName, ContainCondition condition) {
+        controlSteps.isSelected(flagName, condition);
     }
 
     @Когда("^(?:пользователь |он )?отмечает признак \"([^\"]*)\" по значению \"([^\"]*)\"$")
@@ -27,8 +25,8 @@ public class ControlStepDefs {
     }
 
     @И("^в радио группе \"([^\"]*)\" (не )?отмечено значение \"([^\"]*)\"$")
-    public void isRadiobuttonSelected(String groupName, @Transform(ConditionTransformer.class) Condition negation, String value) {
-        controlSteps.isRadiobuttonSelected(groupName, negation, value);
+    public void isRadiobuttonSelected(String groupName, ContainCondition condition, String value) {
+        controlSteps.isRadiobuttonSelected(groupName, condition, value);
     }
 
     @И("^в радио группе \"([^\"]*)\" не выбрано ни одно значение$")

@@ -62,6 +62,10 @@ public interface Configuration extends Config {
     @DefaultValue("true")
     boolean isSelectReportEnabled();
 
+    @Key("aspects.report.error.source.enabled")
+    @DefaultValue("false")
+    boolean isReportXmlAttachEnabled();
+
 
     @Key("fragments.enabled")
     @DefaultValue("true")

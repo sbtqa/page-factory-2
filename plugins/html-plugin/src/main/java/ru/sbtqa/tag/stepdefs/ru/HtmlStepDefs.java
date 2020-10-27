@@ -1,19 +1,18 @@
 package ru.sbtqa.tag.stepdefs.ru;
 
-import cucumber.api.DataTable;
-import cucumber.api.Transform;
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
-import java.util.List;
+import io.cucumber.datatable.DataTable;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
 import ru.sbtqa.tag.pagefactory.html.junit.HtmlSetupSteps;
 import ru.sbtqa.tag.pagefactory.html.junit.HtmlSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.PresenceTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Presence;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
+import ru.sbtqa.tag.pagefactory.transformer.Presence;
+
+import java.util.List;
 
 public class HtmlStepDefs {
 
@@ -22,6 +21,11 @@ public class HtmlStepDefs {
     @Before(order = 2)
     public void initHtml() {
         HtmlSetupSteps.initHtml();
+    }
+
+    @After(order = 2)
+    public void tearDown() {
+        HtmlSetupSteps.tearDown();
     }
     
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\)$")
@@ -57,30 +61,30 @@ public class HtmlStepDefs {
 
     @Когда("^элемент обязательно (при|от)сутствует на странице \"([^\"]*)\"$")
     @И("^(присутствует|не отображается) элемент \"([^\"]*)\"$")
-    public void elementAlwaysPresent(@Transform(PresenceTransformer.class) Presence present, String elementName) {
+    public void elementAlwaysPresent(Presence present, String elementName) {
         htmlSteps.elementAlwaysPresent(present, elementName);
     }
 
     @Когда("^элементы обязательно (при|от)сутствуют на странице$")
     @И("^(присутствуют|не отображаются) элементы$")
-    public void elementsAlwaysPresent(@Transform(PresenceTransformer.class) Presence present, List<String> elementNames) {
+    public void elementsAlwaysPresent(Presence present, List<String> elementNames) {
         htmlSteps.elementsAlwaysPresent(present, elementNames);
     }
 
     @Когда("^элементы (не)?доступны для редактирования$")
     @И("^присутствуют (не)?активные элементы$")
-    public void elementsPresentAndDisabled(@Transform(ConditionTransformer.class) Condition condition, List<String> elementNames) {
+    public void elementsPresentAndDisabled(ContainCondition condition, List<String> elementNames) {
         htmlSteps.elementsPresentAndDisabled(condition, elementNames);
     }
 
     @Когда("^элемент \"([^\"]*)\" (не)?доступен для редактирования$")
     @И("^элемент \"([^\"]*)\" (не)?активен$")
-    public void elementPresentAndDisabled(String elementName, @Transform(ConditionTransformer.class) Condition negation) {
-        htmlSteps.elementPresentAndDisabled(elementName, negation);
+    public void elementPresentAndDisabled(String elementName, ContainCondition condition) {
+        htmlSteps.elementPresentAndDisabled(elementName, condition);
     }
 
     @Когда("^(не )?выбрана кнопка \"([^\"]*)\"$")
-    public void elementsPresentAndSelected(@Transform(ConditionTransformer.class) Condition condition, String elementName) {
+    public void elementsPresentAndSelected(ContainCondition condition, String elementName) {
         htmlSteps.elementsPresentAndSelected(condition, elementName);
     }
 

@@ -1,13 +1,11 @@
 package ru.sbtqa.tag.stepdefs.en;
 
-import cucumber.api.DataTable;
-import cucumber.api.Transform;
 import cucumber.api.java.en.When;
 import cucumber.api.java.ru.И;
+import io.cucumber.datatable.DataTable;
 import ru.sbtqa.tag.pagefactory.html.junit.AccordionSteps;
-import ru.sbtqa.tag.pagefactory.transformer.ConditionTransformer;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
 
 public class AccordionStepDefs {
 
@@ -24,7 +22,7 @@ public class AccordionStepDefs {
     }
 
     @When("^accordion is (not )?opened \"([^\"]*)\"$")
-    public void checkAccordionOpened(@Transform(ConditionTransformer.class) Condition condition, String accordionName) {
+    public void checkAccordionOpened(ContainCondition condition, String accordionName) {
         accordionSteps.checkAccordionOpened(condition, accordionName);
     }
 

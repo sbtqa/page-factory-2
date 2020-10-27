@@ -6,11 +6,9 @@ import com.google.common.graph.ValueGraphBuilder;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
-import gherkin.ast.Feature;
-import gherkin.ast.GherkinDocument;
-import gherkin.ast.ScenarioDefinition;
-import gherkin.ast.Step;
-import gherkin.ast.Tag;
+import cucumber.runtime.model.FeatureLoader;
+import gherkin.ast.*;
+import io.cucumber.core.model.FeaturePath;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +40,8 @@ class FragmentCacheUtils {
         } else {
             ClassLoader classLoader = clazz.getClassLoader();
             ResourceLoader resourceLoader = new MultiLoader(classLoader);
-            List<CucumberFeature> fragmentsRaw = CucumberFeature.load(resourceLoader, Collections.singletonList(PROPERTIES.getFragmentsPath()));
+            List<CucumberFeature> fragmentsRaw = new FeatureLoader(resourceLoader).load(Collections.singletonList(FeaturePath.parse(PROPERTIES.getFragmentsPath())));
+
             return Stream.concat(features.stream(), fragmentsRaw.stream()).collect(Collectors.toList());
         }
     }

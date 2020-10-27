@@ -1,12 +1,13 @@
 package ru.sbtqa.tag.pagefactory.html.junit;
 
-import cucumber.api.DataTable;
+import io.cucumber.datatable.DataTable;
 import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
 import ru.sbtqa.tag.pagefactory.elements.table.TableAbstract;
-import ru.sbtqa.tag.pagefactory.transformer.enums.ClickVariation;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.ClickVariation;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
+
 import static java.lang.String.format;
 import static java.lang.ThreadLocal.withInitial;
 
@@ -33,8 +34,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRow(ClickVariation clickVariation, String tableName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(0, isDouble);
+        getTable(tableName).selectRow(0, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -48,8 +48,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String groupName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, 0, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, 0, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -63,8 +62,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowByNumber(ClickVariation clickVariation, String rowIndex, String tableName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(Integer.parseInt(rowIndex) - 1, isDouble);
+        getTable(tableName).selectRow(Integer.parseInt(rowIndex) - 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -79,8 +77,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowByNumberInGroup(ClickVariation clickVariation, String rowIndex, String tableName, String groupName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(rowIndex) - 1, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(rowIndex) - 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -95,8 +92,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRow(ClickVariation clickVariation, String tableName, String cellText, String columnName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(columnName, cellText, 1, isDouble);
+        getTable(tableName).selectRow(columnName, cellText, 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -112,8 +108,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String gropName, String cellText, String columnName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(gropName, columnName, cellText, 1, isDouble);
+        getTable(tableName).selectRowInGroup(gropName, columnName, cellText, 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -129,8 +124,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRow(ClickVariation clickVariation, String tableName, String cellText, String columnName, int serialNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(columnName, cellText, serialNumber, isDouble);
+        getTable(tableName).selectRow(columnName, cellText, serialNumber, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -147,8 +141,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String groupName, String cellText, String columnName, int serialNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, columnName, cellText, serialNumber, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, columnName, cellText, serialNumber, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -164,8 +157,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowByElement(ClickVariation clickVariation, String tableName, String columnName, String elementName, String elementValue) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowByElement(columnName, elementName, elementValue, 1, isDouble);
+        getTable(tableName).selectRowByElement(columnName, elementName, elementValue, 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -182,8 +174,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowByElement(ClickVariation clickVariation, String tableName, String columnName, String elementName, String elementValue, int serialNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowByElement(columnName, elementName, elementValue, serialNumber, isDouble);
+        getTable(tableName).selectRowByElement(columnName, elementName, elementValue, serialNumber, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -342,8 +333,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInColumn(ClickVariation clickVariation, String tableName, String cellText, String columnNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(Integer.parseInt(columnNumber) - 1, cellText, 1, isDouble);
+        getTable(tableName).selectRow(Integer.parseInt(columnNumber) - 1, cellText, 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -359,8 +349,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInColumnInGroup(ClickVariation clickVariation, String tableName, String groupName, String cellText, String columnNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(columnNumber) - 1, cellText, 1, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(columnNumber) - 1, cellText, 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -376,8 +365,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInColumnByNumber(ClickVariation clickVariation, String tableName, String cellText, String columnNumber, int serialNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(Integer.parseInt(columnNumber) - 1, cellText, serialNumber, isDouble);
+        getTable(tableName).selectRow(Integer.parseInt(columnNumber) - 1, cellText, serialNumber, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -394,8 +382,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInColumnByNumberInGroup(ClickVariation clickVariation, String tableName, String groupName, String cellText, String columnNumber, int serialNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(columnNumber) - 1, cellText, serialNumber, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, Integer.parseInt(columnNumber) - 1, cellText, serialNumber, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -409,8 +396,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRow(ClickVariation clickVariation, String cellText, String tableName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(cellText, 1, isDouble);
+        getTable(tableName).selectRow(cellText, 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -425,8 +411,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInGroup(ClickVariation clickVariation, String cellText, String tableName, String groupName) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, cellText, 1, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, cellText, 1, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -441,8 +426,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRow(ClickVariation clickVariation, String cellText, String tableName, int serialNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(cellText, serialNumber, isDouble);
+        getTable(tableName).selectRow(cellText, serialNumber, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -458,8 +442,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRowInGroup(ClickVariation clickVariation, String cellText, String tableName, String groupName, int serialNumber) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, cellText, serialNumber, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, cellText, serialNumber, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -473,8 +456,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRow(ClickVariation clickVariation, String tableName, List data) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRow(data, isDouble);
+        getTable(tableName).selectRow(data, clickVariation.isDoubleClick());
         return this;
     }
 
@@ -489,8 +471,7 @@ public class TableSteps implements Steps {
      * @return Returns itself
      */
     public TableSteps selectRow(ClickVariation clickVariation, String tableName, String groupName, List data) {
-        boolean isDouble = clickVariation.equals(ClickVariation.DOUBLE_CLICK);
-        getTable(tableName).selectRowInGroup(groupName, data, isDouble);
+        getTable(tableName).selectRowInGroup(groupName, data, clickVariation.isDoubleClick());
         return this;
     }
 

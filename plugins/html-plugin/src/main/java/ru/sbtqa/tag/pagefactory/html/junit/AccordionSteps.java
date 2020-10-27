@@ -1,15 +1,15 @@
 package ru.sbtqa.tag.pagefactory.html.junit;
 
-import static ru.sbtqa.tag.pagefactory.web.utils.ElementUtils.checkText;
-
-import cucumber.api.DataTable;
+import io.cucumber.datatable.DataTable;
 import java.util.Map;
 import org.junit.Assert;
 import ru.sbtqa.tag.pagefactory.elements.BaseElement;
 import ru.sbtqa.tag.pagefactory.elements.accordion.Accordion;
-import ru.sbtqa.tag.pagefactory.transformer.enums.Condition;
-import ru.sbtqa.tag.pagefactory.transformer.enums.SearchStrategy;
+import ru.sbtqa.tag.pagefactory.transformer.ContainCondition;
+import ru.sbtqa.tag.pagefactory.transformer.SearchStrategy;
+
 import static java.lang.ThreadLocal.withInitial;
+import static ru.sbtqa.tag.pagefactory.web.utils.ElementUtils.checkText;
 
 public class AccordionSteps implements Steps {
 
@@ -49,10 +49,9 @@ public class AccordionSteps implements Steps {
      * @param accordionName accordion name
      * @return Returns itself
      */
-    public AccordionSteps checkAccordionOpened(Condition condition, String accordionName) {
-        boolean isPositive = condition.equals(Condition.POSITIVE);
+    public AccordionSteps checkAccordionOpened(ContainCondition condition, String accordionName) {
         boolean isOpen = getElement(accordionName).isOpen();
-        Assert.assertEquals("Accordion is " + (isPositive ? "not " : "") + "open", isPositive, isOpen);
+        Assert.assertEquals("Accordion is " + (condition.isPositive() ? "not " : "") + "open", condition.isPositive(), isOpen);
         return this;
     }
 

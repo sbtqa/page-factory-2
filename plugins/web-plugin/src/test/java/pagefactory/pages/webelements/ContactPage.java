@@ -41,6 +41,10 @@ public class ContactPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='check']")
     @ElementTitle(value = "checkbox")
     private WebElement checkBox;
+
+    @FindBy(xpath = "//textarea[@name='description-area']")
+    @ElementTitle(value = "textarea")
+    private WebElement area;
     
     @FindBy(xpath = "//button[@type='submit']")
     @ElementTitle(value = "send")
@@ -49,6 +53,10 @@ public class ContactPage extends AbstractPage {
     @FindBy(xpath = "//button[@id='alert']")
     @ElementTitle(value = "alert")
     private WebElement alertButton;
+
+    @FindBy(xpath = "//button[@id='hide']")
+    @ElementTitle(value = "hide")
+    private WebElement hideButton;
 
     @FindBy(xpath = "//*[@id='error_message']")
     @ElementTitle(value = "error msg")

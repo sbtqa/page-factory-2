@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.sbtqa.tag.api.annotation.ParameterType;
+import ru.sbtqa.tag.api.entries.apirequest.ApiRequestWithMutator;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsEndpointEntry;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsPlaceholdersEndpointEntry;
 import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.MediaType.JSON_UTF_8;
+import static ru.sbtqa.tag.api.utils.CastUtils.toDataTable;
 
 public class JunitTests {
 
@@ -82,6 +84,20 @@ public class JunitTests {
                 .add(ParameterType.BODY, "id", "11223344")
                 .add(ParameterType.BODY, bodies)
                 .send().validate();
+    }
+
+    @Test
+    public void mutatorTest() {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("query-parameter-name-1", "query-parameter-value-1");
+        parameters.put("header-parameter-name-1", null);
+
+        ApiSteps.getInstance().send(ApiRequestWithMutator.class, parameters);
+
+        parameters.replace("query-parameter-name-1","query-parameter-value-1".toUpperCase());
+        parameters.replace("header-parameter-name-1", "not null string");
+
+        ApiSteps.getInstance().validate("result with mutated values", toDataTable(parameters));
     }
 
     @AfterClass

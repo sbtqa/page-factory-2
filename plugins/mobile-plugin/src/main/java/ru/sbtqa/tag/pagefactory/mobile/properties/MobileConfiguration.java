@@ -45,12 +45,15 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("IOS")
     PlatformName getAppiumPlatformName();
 
-    @Key("appium.strategies.reset")
+    @Key("appium.fullReset")
     @DefaultValue("")
-    String getAppiumResetStrategy();
+    String getAppiumFullReset();
+
+    @Key("appium.noReset")
+    @DefaultValue("")
+    String getAppiumNoReset();
 
     @Key("appium.permissions")
-    @DefaultValue("")
     String getAppiumPermissions();
 
     @Key("appium.automation.name")
@@ -108,6 +111,26 @@ public interface MobileConfiguration extends Configuration {
     @Key("appium.video.scale")
     @DefaultValue("1920:1080")
     String getAppiumVideoScale();
+
+    @Key("appium.video.timeLimit")
+    @DefaultValue("180")
+    long getAppiumTimeLimit();
+
+    @Key("appium.video.quality")
+    @DefaultValue("MEDIUM")
+    String getAppiumVideoQuality();
+
+    @Key("appium.video.fps")
+    @DefaultValue("10")
+    int getAppiumVideoFps();
+
+    @Key("appium.xcodeOrgId")
+    @DefaultValue("")
+    String getAppiumXcodeOrgId();
+
+    @Key("appium.xcodeSigningId")
+    @DefaultValue("")
+    String getAppiumXcodeSigningId();
 
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);

@@ -1,13 +1,9 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
-import javax.xml.bind.DatatypeConverter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class MD5 {
-    public static String hash(String data) throws NoSuchAlgorithmException {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(data.getBytes());
-            return DatatypeConverter.printHexBinary(md5.digest()).toLowerCase();
+    public static String hash(String data) {
+            return DigestUtils.md5Hex(data).toLowerCase();
     }
 }
