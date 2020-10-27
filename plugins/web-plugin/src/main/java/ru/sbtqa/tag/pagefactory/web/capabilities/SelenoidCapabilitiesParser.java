@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
 
@@ -30,7 +31,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("videoName", PROPERTIES.getSelenoidVideoName(), VIDEONAME_FORMAT);
         setCapability("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
         setCapability("videoFrameRate", PROPERTIES.getSelenoidVideoFrameRate());
-        setCapability("name", PROPERTIES.getSelenoidNameOfTests());
+        setCapability("name", PROPERTIES.getSelenoidNameOfTests().trim().isEmpty() ? Environment.getScenario().getName() : PROPERTIES.getSelenoidNameOfTests());
         setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
         setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
