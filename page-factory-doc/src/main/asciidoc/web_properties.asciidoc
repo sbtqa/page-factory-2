@@ -149,7 +149,7 @@ selenoid.video.name = my-cool-video.mp4
 | Количество кадров в секунду
 |selenoid.video.frameRate = 24
 |selenoid.nameOfTests
-| Имя теста, по умолчанию наименование берется из названия сценария
+| Имя теста, по умолчанию наименование берется из названия сценария (для cucumber сценария)
 |selenoid.nameOfTests = myCoolTestName
 |selenoid.timeZone
 | Таймзона

@@ -31,7 +31,13 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("videoName", PROPERTIES.getSelenoidVideoName(), VIDEONAME_FORMAT);
         setCapability("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
         setCapability("videoFrameRate", PROPERTIES.getSelenoidVideoFrameRate());
-        setCapability("name", PROPERTIES.getSelenoidNameOfTests().trim().isEmpty() ? Environment.getScenario().getName() : PROPERTIES.getSelenoidNameOfTests());
+        String selenoidName;
+        if (PROPERTIES.getSelenoidNameOfTests().trim().isEmpty() && Environment.getScenario() != null) {
+            selenoidName = Environment.getScenario().getName();
+        } else {
+            selenoidName = PROPERTIES.getSelenoidNameOfTests();
+        }
+        setCapability("name", selenoidName);
         setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
         setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
