@@ -124,6 +124,18 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("10")
     int getAppiumVideoFps();
 
+    @Key("appium.video.bitrate")
+    @DefaultValue("200000000")
+    int getAppiumVideoBitRate();
+
+    @Key("appium.video.videoSize")
+    @DefaultValue("1280x720")
+    String getAppiumVideoSize();
+
+    @Key("appium.video.bugReport")
+    @DefaultValue("false")
+    boolean getAppiumVideoBugReport();
+
     @Key("appium.xcodeOrgId")
     @DefaultValue("")
     String getAppiumXcodeOrgId();
