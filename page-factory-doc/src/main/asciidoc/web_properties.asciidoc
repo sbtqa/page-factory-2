@@ -135,7 +135,7 @@ http://proxy.com:8080
 |selenoid.enableVNC = true
 |selenoid.screenResolution
 | Разрешение экрана
-selenoid.screenResolution = 1280x1024x24
+|selenoid.screenResolution = 1280x1024x24
 |selenoid.enableVideo
 | Включение/выключение записи видео
 |selenoid.enableVideo = true
@@ -149,7 +149,7 @@ selenoid.video.name = my-cool-video.mp4
 | Количество кадров в секунду
 |selenoid.video.frameRate = 24
 |selenoid.nameOfTests
-| Имя теста
+| Имя теста, по умолчанию наименование берется из названия сценария (для cucumber сценария)
 |selenoid.nameOfTests = myCoolTestName
 |selenoid.timeZone
 | Таймзона
