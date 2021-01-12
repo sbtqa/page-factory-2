@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.pagefactory.mobile.junit;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.IOSTouchAction;
 import io.appium.java_client.touch.offset.PointOption;
@@ -72,9 +73,20 @@ public class MobileStepsImpl<T extends MobileStepsImpl<T>> extends CoreStepsImpl
      * @param elementTitle title of the element
      */
     public T tap(String elementTitle) throws PageException {
+        MobileElement element = Environment.getFindUtils().getElementByTitle(PageContext.getCurrentPage(), elementTitle);
+        tap(element);
+        return (T) this;
+    }
+
+    /**
+     * User press on the element
+     *
+     * @param element element
+     */
+    public T tap(MobileElement element) {
         new IOSTouchAction(Environment.getDriverService().getDriver())
                 .press(iosPressOptions()
-                        .withElement(element(Environment.getFindUtils().getElementByTitle(PageContext.getCurrentPage(), elementTitle)))
+                        .withElement(element(element))
                         .withPressure(1))
                 .waitAction(waitOptions(ofMillis(100)))
                 .release()
