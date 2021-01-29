@@ -33,7 +33,7 @@ public class MobilePageActions implements PageActions {
     @Override
     public void click(Object element) {
         WebElement webElement = (WebElement) element;
-        Wait.clickable(webElement, "Element is not clickable");
+        Wait.visibility(webElement, "Element is not clickable");
         webElement.click();
     }
 
