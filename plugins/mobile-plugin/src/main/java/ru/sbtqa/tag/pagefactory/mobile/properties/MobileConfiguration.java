@@ -144,6 +144,14 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("")
     String getAppiumXcodeSigningId();
 
+    @Key("appium.useJSONSource")
+    @DefaultValue("false")
+    String getAppiumUseJSONSource();
+
+    @Key("appium.simpleIsVisibleCheck")
+    @DefaultValue("false")
+    String getAppiumSimpleIsVisibleCheck();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }
