@@ -11,6 +11,7 @@ addons:
     organization: "sbtqasonarkey"
     token: $SONAR_TOKEN
 jdk:
+- openjdk8
 - openjdk11
 before_install:
 - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE
@@ -21,8 +22,8 @@ before_install:
 install:
   - google-chrome --version
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
-script:
-  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
+#script:
+#  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
 deploy:
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
@@ -30,11 +31,11 @@ deploy:
   on:
     repo: sbtqa/page-factory-2
     branch: master
-    jdk: openjdk11
+    jdk: openjdk8
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
   skip_cleanup: true
   on:
     repo: sbtqa/page-factory-2
     tags: true
-    jdk: openjdk11
+    jdk: openjdk8
