@@ -152,6 +152,10 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("false")
     String getAppiumSimpleIsVisibleCheck();
 
+    @Key("appium.showIOSLog")
+    @DefaultValue("false")
+    String getAppiumShowIOSLog();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }

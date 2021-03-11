@@ -56,6 +56,7 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("connectHardwareKeyboard", false);
         capabilities.setCapability("xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
         capabilities.setCapability("xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
+        capabilities.setCapability("showIOSLog", PROPERTIES.getAppiumShowIOSLog());
         capabilities.setCapability("appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
         capabilities.setCapability("appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
 
