@@ -30,11 +30,11 @@ deploy:
   on:
     repo: sbtqa/page-factory-2
     branch: master
-    jdk: openjdk8
+    jdk: openjdk11
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
   skip_cleanup: true
   on:
     repo: sbtqa/page-factory-2
     tags: true
-    jdk: openjdk8
+    jdk: openjdk11
