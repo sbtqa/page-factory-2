@@ -17,7 +17,7 @@ include::common_properties.asciidoc[]
 | Абсолютный локальный путь или удаленный URL-адрес к файлу .apk (Android) или файлу .apks (комплект приложений Android) или к файлу .zip, содержащему один из них. Appium попытается сначала установить этот файл приложения на соответствующее устройство. Обратите внимание, что эта возможность не требуется для Android, если вы указываете функции appPackage и appActivity. Несовместимо с 'appium.browser.name'.
 
 | appium.app.package
-| Java-пакет Android запускаемого приложения
+| Android-only. Java-пакет запускаемого приложения
 
 | appium.app.activity
 | Имя activity, которое нужно запускать
@@ -41,7 +41,7 @@ include::common_properties.asciidoc[]
 | Если будет указано 'noreset', то будет активирована стратетия noReset. Если 'fullreset', то fullReset стратегия, в остальных случаях - стратегия по-умолчанию.
 
 | appium.permissions
-| только для симуляторов iOS с applesimutils. Детали https://github.com/appium/appium-xcuitest-driver/blob/master/README.md[здесь]
+| iOS-only с applesimutils. Детали https://github.com/appium/appium-xcuitest-driver/blob/master/README.md[здесь]
 
 | appium.automation.name
 | Движок автоматизации. Appium по-умолчанию
@@ -83,7 +83,7 @@ include::common_properties.asciidoc[]
 | Тип видеокодека, по-умолчанию h264
 
 | appium.video.scale
-| Разрешение, по-умолчанию 1920:1080. iOS only
+| iOS-only. Разрешение, по-умолчанию 1920:1080.
 
 | appium.video.timeLimit
 | Лимит длительности видео в секундах, по-умолчанию 180
@@ -98,14 +98,14 @@ include::common_properties.asciidoc[]
 | Битрейт, по-умолчанию 200000000
 
 | appium.video.videoSize
-| Размер видео, по-умолчанию 1280x720. Android only
+| Android-only. Размер видео, по-умолчанию 1280x720.
 
 | appium.video.bugReport
-| Android only. Показывает дополнительную информацию на видео (boolean), по-умолчанию false
+| Android-only. Показывает дополнительную информацию на видео (boolean), по-умолчанию false
 
 | appium.xcodeOrgId
-| iOS only, идентификатор организации в Xcode
+| iOS-only. Идентификатор организации в Xcode
 
 | appium.xcodeSigningId
-| iOS only, идентификатор подписи кода в Xcode
+| iOS only. Идентификатор подписи кода в Xcode
 |====================
