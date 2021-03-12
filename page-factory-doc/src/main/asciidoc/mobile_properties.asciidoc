@@ -17,26 +17,95 @@ include::common_properties.asciidoc[]
 | Абсолютный локальный путь или удаленный URL-адрес к файлу .apk (Android) или файлу .apks (комплект приложений Android) или к файлу .zip, содержащему один из них. Appium попытается сначала установить этот файл приложения на соответствующее устройство. Обратите внимание, что эта возможность не требуется для Android, если вы указываете функции appPackage и appActivity. Несовместимо с 'appium.browser.name'.
 
 | appium.app.package
-| Java-пакет Android запускаемого приложения
+| Android-only. Java-пакет запускаемого приложения
 
 | appium.app.activity
 | Имя activity, которое нужно запускать
 
+| appium.device.orientation
+| Ориентация устройства. Актуально только для эмуляторов
+
 | appium.device.name
 | Имя мобильного устройства или эмулятора
-
-| appium.device.platform.name
-| Имя мобильной платформы ANDROID или IOS (регистр важен). По-умолчанию IOS
 
 | appium.device.platform.version
 | Версия мобильной платформы (например 4.4)
 
-| appium.device.orientation
-| Ориентация устройства. Актуально только для эмуляторов
-
 | appium.browser.name
 | Имя мобильного веб-браузера. Должно быть пустой строкой, если тестируется приложение.
 
+| appium.device.platform.name
+| Имя мобильной платформы ANDROID или IOS (регистр важен). По-умолчанию IOS
+
 | appium.strategies.reset
 | Если будет указано 'noreset', то будет активирована стратетия noReset. Если 'fullreset', то fullReset стратегия, в остальных случаях - стратегия по-умолчанию.
+
+| appium.permissions
+| iOS-only с applesimutils. Детали https://github.com/appium/appium-xcuitest-driver/blob/master/README.md[здесь]
+
+| appium.automation.name
+| Движок автоматизации. Appium по-умолчанию
+
+| appium.permissions.autogrant
+| Давать ли доступ или нет (boolean), по-умолчанию false
+
+| appium.keyboard.unicode
+| Включить ввод Unicode (boolean), по-умолчанию false
+
+| appium.keyboard.reset
+| Сбрасывать ли клавиатуру после ввода (boolean), по-умолчанию false
+
+| appium.udid
+| Уникальный идентификатор физического устройства, например 1ae203187fc012g
+
+| appium.bundleid
+| Идентификатор пакета приложения
+
+| appium.alerts.autoaccept
+| Принимать ли алерты (boolean), по-умолчанию false
+
+| appium.timeout
+| Тайм-аут в секундах, по-умолчанию 60
+
+| appium.video.enabled
+| Вести ли запись видео (boolean), по-умолчанию false
+
+| appium.video.folder
+| Директория для сохранения видео, по-умолчанию target
+
+| appium.video.name
+| Название видеофайла, по-умолчанию mobiletest
+
+| appium.video.extension
+| Расширение видеофайла, по-умолчанию mp4
+
+| appium.video.type
+| Тип видеокодека, по-умолчанию h264
+
+| appium.video.scale
+| iOS-only. Разрешение, по-умолчанию 1920:1080.
+
+| appium.video.timeLimit
+| Лимит длительности видео в секундах, по-умолчанию 180
+
+| appium.video.quality
+| Качество видео. Доступные значения: LOW, MEDIUM, HIGH, PHOTO. По-умолчанию MEDIUM
+
+| appium.video.fps
+| Количество кадров в секунду, по-умолчанию 10
+
+| appium.video.bitrate
+| Битрейт, по-умолчанию 200000000
+
+| appium.video.videoSize
+| Android-only. Размер видео, по-умолчанию 1280x720.
+
+| appium.video.bugReport
+| Android-only. Показывает дополнительную информацию на видео (boolean), по-умолчанию false
+
+| appium.xcodeOrgId
+| iOS-only. Идентификатор организации в Xcode
+
+| appium.xcodeSigningId
+| iOS only. Идентификатор подписи кода в Xcode
 |====================
