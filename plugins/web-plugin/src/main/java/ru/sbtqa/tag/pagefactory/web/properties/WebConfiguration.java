@@ -58,59 +58,6 @@ public interface WebConfiguration extends Configuration {
     String getProxy();
 
 
-    @Key("selenoid.browserVersion")
-    @DefaultValue("")
-    String getSelenoidBrowserVersion();
-
-    @Key("selenoid.enableVNC")
-    @DefaultValue("false")
-    boolean getSelenoidEnableVNC();
-
-    @Key("selenoid.screenResolution")
-    @DefaultValue("")
-    String getSelenoidScreenResolution();
-
-    @Key("selenoid.enableVideo")
-    @DefaultValue("false")
-    boolean getSelenoidEnableVideo();
-
-    @Key("selenoid.video.name")
-    @DefaultValue("")
-    String getSelenoidVideoName();
-
-    @Key("selenoid.video.screenSize")
-    @DefaultValue("")
-    String getSelenoidVideoScreenSize();
-
-    @Key("selenoid.video.frameRate")
-    @DefaultValue("")
-    String getSelenoidVideoFrameRate();
-
-    @Key("selenoid.nameOfTests")
-    @DefaultValue("")
-    String getSelenoidNameOfTests();
-
-    @Key("selenoid.timeZone")
-    @DefaultValue("")
-    String getSelenoidTimeZone();
-
-    @Key("selenoid.hostEntries")
-    @DefaultValue("")
-    String getSelenoidHostEntries();
-
-    @Key("selenoid.applicationContainers")
-    @DefaultValue("")
-    String getSelenoidApplicationContainers();
-
-    @Key("selenoid.containerLables")
-    @DefaultValue("")
-    String getSelenoidContainerLables();
-
-    @Key("selenoid.sessionTimeout")
-    @DefaultValue("")
-    String getSelenoidSessionTimeout();
-
-
     @Key("aspects.highlight.enabled")
     @DefaultValue("false")
     boolean isHighlightEnabled();

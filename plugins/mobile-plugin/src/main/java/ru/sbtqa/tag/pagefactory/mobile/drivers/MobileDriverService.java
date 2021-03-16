@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.allure.Type;
+import ru.sbtqa.tag.pagefactory.capabilities.SelenoidCapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.drivers.DriverService;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.exceptions.FactoryRuntimeException;
@@ -59,6 +60,8 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("showIOSLog", PROPERTIES.getAppiumShowIOSLog());
         capabilities.setCapability("appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
         capabilities.setCapability("appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
+
+        capabilities.merge(new SelenoidCapabilitiesParser().parse());
 
         LOG.info(String.valueOf(capabilities));
 

@@ -1,29 +1,27 @@
-package ru.sbtqa.tag.pagefactory.web.capabilities;
+package ru.sbtqa.tag.pagefactory.capabilities;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
-import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
+import ru.sbtqa.tag.pagefactory.properties.Configuration;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 public class SelenoidCapabilitiesParser implements CapabilitiesParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
-    private static final WebConfiguration PROPERTIES = WebConfiguration.create();
+    private static final Configuration PROPERTIES = Configuration.create();
     private static final String VIDEONAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy'_'hh:mm:ss").format(new Date()) + '_' + UUID.randomUUID().toString() + "_%s";
 
-    private final DesiredCapabilities capabilities = new DesiredCapabilities();
+    private DesiredCapabilities capabilities = new DesiredCapabilities();
 
     @Override
     public DesiredCapabilities parse() {
-        setVersion(PROPERTIES.getSelenoidBrowserVersion());
+        setVersion(PROPERTIES.getSelenoidVersion());
         
         setCapability("enableVNC", PROPERTIES.getSelenoidEnableVNC());
         setCapability("screenResolution", PROPERTIES.getSelenoidScreenResolution());
@@ -43,8 +41,6 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
         setCapability("labels", PROPERTIES.getSelenoidContainerLables());
         setCapability("sessionTimeout", PROPERTIES.getSelenoidSessionTimeout());
-
-        setBrowserDefaultCapabilities();
 
         return capabilities;
     }
@@ -69,34 +65,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         if (!capabilityValue.isEmpty()) {
             capabilities.setVersion(capabilityValue);
         } else {
-            LOG.info("Capability \"browserVersion\" for Selenoid isn't set. Using default capability.");
+            LOG.info("Capability \"version\" for Selenoid isn't set. Using default capability.");
         }
-    }
-
-    private void setBrowserDefaultCapabilities() {
-        switch (WebEnvironment.getBrowserName()) {
-            case OPERA:
-                handleOpera();
-                break;
-            case IE:
-                handleIe();
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void handleOpera() {
-        Map<String, String> operaOptions = new HashMap<>();
-        operaOptions.put("binary", "/usr/bin/opera");
-
-        capabilities.setCapability("operaOptions", operaOptions);
-    }
-
-    private void handleIe() {
-        capabilities.setCapability("ie.usePerProcessProxy", true);
-        capabilities.setCapability("ie.browserCommandLineSwitches", "-private");
-        capabilities.setCapability("ie.ensureCleanSession", true);
-        capabilities.setCapability("requireWindowFocus", false);
     }
 }

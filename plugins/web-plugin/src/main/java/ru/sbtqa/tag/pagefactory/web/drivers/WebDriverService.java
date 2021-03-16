@@ -1,29 +1,26 @@
 package ru.sbtqa.tag.pagefactory.web.drivers;
 
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Proxy;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.pagefactory.drivers.DriverService;
+import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
+import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.web.capabilities.WebSelenoidCapabilitiesParser;
+import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
+import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
+import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
+import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Proxy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.UnreachableBrowserException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.pagefactory.drivers.DriverService;
-import ru.sbtqa.tag.pagefactory.exceptions.UnsupportedBrowserException;
-import ru.sbtqa.tag.pagefactory.web.capabilities.SelenoidCapabilitiesParser;
-import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
-import ru.sbtqa.tag.pagefactory.web.configure.ProxyConfigurator;
-import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
-import ru.sbtqa.tag.pagefactory.web.properties.WebConfiguration;
-import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 
 public class WebDriverService implements DriverService {
 
@@ -94,7 +91,7 @@ public class WebDriverService implements DriverService {
 
     private WebDriver createRemoteWebDriver(String webDriverUrl, DesiredCapabilities capabilities) throws MalformedURLException {
         URL remoteUrl = new URL(webDriverUrl);
-        capabilities.merge(new SelenoidCapabilitiesParser().parse());
+        capabilities.merge(new WebSelenoidCapabilitiesParser().parse());
         RemoteWebDriver remoteWebDriver = new RemoteWebDriver(remoteUrl, capabilities);
         remoteWebDriver.setFileDetector(new LocalFileDetector());
         return remoteWebDriver;
