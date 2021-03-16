@@ -109,3 +109,45 @@ include::common_properties.asciidoc[]
 | appium.xcodeSigningId
 | iOS only. Идентификатор подписи кода в Xcode
 |====================
+
+==== Параметры работы с Selenoid/Moon
+[width="100%",options="header"]
+|====================
+^.^| Параметр ^.^| Описание ^.^| Пример
+|selenoid.version
+| Версия андроида
+|selenoid.version = 8.1
+|selenoid.enableVNC
+| Включение/выключение доступа по VNC
+|selenoid.enableVNC = true
+|selenoid.screenResolution
+| Разрешение экрана
+|selenoid.screenResolution = 1280x1024x24
+|selenoid.enableVideo
+| Включение/выключение записи видео
+|selenoid.enableVideo = true
+|selenoid.video.name
+| Имя видеофайла
+selenoid.video.name = my-cool-video.mp4
+|selenoid.video.screenSize
+| Разрешение видео
+|selenoid.video.screenSize = 1024x768
+|selenoid.video.frameRate
+| Количество кадров в секунду
+|selenoid.video.frameRate = 24
+|selenoid.nameOfTests
+| Имя теста, по умолчанию наименование берется из названия сценария (для cucumber сценария)
+|selenoid.nameOfTests = myCoolTestName
+|selenoid.timeZone
+| Таймзона
+|selenoid.timeZone = Europe/Moscow
+|selenoid.hostEntries
+| Список передаваемых хостов
+|selenoid.hostEntries = example.com:192.168.0.1,test.com:192.168.0.2
+|selenoid.applicationContainers
+| Контейнеры
+|selenoid.applicationContainers = spring-application-main:my-cool-app,spring-application-gateway
+|selenoid.containerLables
+| Метки для быстрого поиска на дашборде
+|selenoid.containerLables = environment:testing,build-number:14353
+|====================

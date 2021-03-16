@@ -127,9 +127,9 @@ http://proxy.com:8080
 [width="100%",options="header"]
 |====================
 ^.^| Параметр ^.^| Описание ^.^| Пример
-|selenoid.browserVersion
+|selenoid.version
 | Версия браузера
-|selenoid.browserVersion = 58.0
+|selenoid.version = 58.0
 |selenoid.enableVNC
 | Включение/выключение доступа по VNC
 |selenoid.enableVNC = true
