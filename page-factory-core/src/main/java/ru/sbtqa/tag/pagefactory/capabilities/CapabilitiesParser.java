@@ -1,4 +1,4 @@
-package ru.sbtqa.tag.pagefactory.web.capabilities;
+package ru.sbtqa.tag.pagefactory.capabilities;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 

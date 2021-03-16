@@ -91,7 +91,7 @@ webdriver.*.capability.marionette = false
 webdriver.*.capability.unexpectedAlertBehaviour = ignore
 
 #selenoid
-selenoid.browserVersion = 58.0
+selenoid.version = 58.0
 selenoid.enableVNC = true
 selenoid.screenResolution = 1280x1024x24
 selenoid.enableVideo = true

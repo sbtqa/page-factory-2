@@ -1,18 +1,15 @@
 package ru.sbtqa.tag.pagefactory.web.capabilities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import ru.sbtqa.tag.pagefactory.capabilities.CapabilitiesParser;
 import ru.sbtqa.tag.pagefactory.web.environment.WebEnvironment;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
 import ru.sbtqa.tag.qautils.properties.Props;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WebDriverCapabilitiesParser implements CapabilitiesParser {
 
