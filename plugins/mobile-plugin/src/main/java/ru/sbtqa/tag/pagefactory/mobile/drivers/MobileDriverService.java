@@ -20,6 +20,7 @@ import ru.sbtqa.tag.pagefactory.mobile.utils.AppiumVideoRecorder;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.ANDROID;
 import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
 
 public class MobileDriverService implements DriverService {
@@ -60,8 +61,13 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("showIOSLog", PROPERTIES.getAppiumShowIOSLog());
         capabilities.setCapability("appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
         capabilities.setCapability("appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
+        capabilities.setCapability("appium:useNewWDA", PROPERTIES.getAppiumUseNewWDA());
+        capabilities.setCapability("appium:usePrebuiltWDA", PROPERTIES.getAppiumUsePrebuiltWDA());
+        capabilities.setCapability("appium:derivedDataPath", PROPERTIES.getAppiumDerivedDataPath());
 
-        capabilities.merge(new SelenoidCapabilitiesParser().parse());
+        if (PROPERTIES.getAppiumPlatformName() == ANDROID) {
+            capabilities.merge(new SelenoidCapabilitiesParser().parse());
+        }
 
         LOG.info(String.valueOf(capabilities));
 
