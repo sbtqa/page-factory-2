@@ -156,6 +156,18 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("false")
     String getAppiumShowIOSLog();
 
+    @Key("appium.useNewWDA")
+    @DefaultValue("false")
+    String getAppiumUseNewWDA();
+
+    @Key("appium.derivedDataPath")
+    @DefaultValue("")
+    String getAppiumDerivedDataPath();
+
+    @Key("appium.usePrebuiltWDA")
+    @DefaultValue("false")
+    String getAppiumUsePrebuiltWDA();
+
     static MobileConfiguration create() {
         return Configuration.init(MobileConfiguration.class);
     }
