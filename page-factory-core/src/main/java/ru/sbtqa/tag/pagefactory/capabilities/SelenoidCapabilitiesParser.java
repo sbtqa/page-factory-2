@@ -24,6 +24,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setVersion(PROPERTIES.getSelenoidVersion());
         
         setCapability("enableVNC", PROPERTIES.getSelenoidEnableVNC());
+        setCapability("enableLog", PROPERTIES.getSelenoidEnableLog());
         setCapability("screenResolution", PROPERTIES.getSelenoidScreenResolution());
         setCapability("enableVideo", PROPERTIES.getSelenoidEnableVideo());
         setCapability("videoName", PROPERTIES.getSelenoidVideoName(), VIDEONAME_FORMAT);
