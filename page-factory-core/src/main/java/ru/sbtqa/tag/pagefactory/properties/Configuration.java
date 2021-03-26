@@ -63,6 +63,10 @@ public interface Configuration extends Config {
     @DefaultValue("false")
     boolean getSelenoidEnableLog();
 
+    @Key("selenoid.logName")
+    @DefaultValue("")
+    String getSelenoidLogName();
+
     @Key("selenoid.video.name")
     @DefaultValue("")
     String getSelenoidVideoName();

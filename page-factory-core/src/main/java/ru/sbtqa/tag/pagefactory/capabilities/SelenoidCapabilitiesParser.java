@@ -15,28 +15,27 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
     private static final Configuration PROPERTIES = Configuration.create();
-    private static final String VIDEONAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy'_'hh:mm:ss").format(new Date()) + '_' + UUID.randomUUID().toString() + "_%s";
+    private static final String UNIQUENAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss").format(new Date()) + "_" + UUID.randomUUID().toString() + "_%s";
 
     private DesiredCapabilities capabilities = new DesiredCapabilities();
 
     @Override
     public DesiredCapabilities parse() {
+        String name = getProperty(PROPERTIES.getSelenoidNameOfTests());
+        String logName = getProperty(PROPERTIES.getSelenoidLogName()) + ".log";
+        String videoName = getProperty(PROPERTIES.getSelenoidVideoName()) + ".mp4";
+
         setVersion(PROPERTIES.getSelenoidVersion());
         
         setCapability("enableVNC", PROPERTIES.getSelenoidEnableVNC());
         setCapability("enableLog", PROPERTIES.getSelenoidEnableLog());
         setCapability("screenResolution", PROPERTIES.getSelenoidScreenResolution());
         setCapability("enableVideo", PROPERTIES.getSelenoidEnableVideo());
-        setCapability("videoName", PROPERTIES.getSelenoidVideoName(), VIDEONAME_FORMAT);
         setCapability("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
         setCapability("videoFrameRate", PROPERTIES.getSelenoidVideoFrameRate());
-        String selenoidName;
-        if (PROPERTIES.getSelenoidNameOfTests().trim().isEmpty() && Environment.getScenario() != null) {
-            selenoidName = Environment.getScenario().getName();
-        } else {
-            selenoidName = PROPERTIES.getSelenoidNameOfTests();
-        }
-        setCapability("name", selenoidName);
+        setCapability("name", name);
+        setCapability("logName", logName, UNIQUENAME_FORMAT);
+        setCapability("videoName", videoName, UNIQUENAME_FORMAT);
         setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
         setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
@@ -44,6 +43,10 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("sessionTimeout", PROPERTIES.getSelenoidSessionTimeout());
 
         return capabilities;
+    }
+
+    private String getProperty(String property) {
+        return property.trim().isEmpty() && Environment.getScenario() != null ? Environment.getScenario().getName() : property;
     }
 
     private void setCapability(String capabilityName, String capabilityValue, String format) {
