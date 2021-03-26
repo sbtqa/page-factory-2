@@ -15,7 +15,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
     private static final Configuration PROPERTIES = Configuration.create();
-    private static final String VIDEONAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy'_'hh:mm:ss").format(new Date()) + '_' + UUID.randomUUID().toString() + "_%s";
+    private static final String VIDEONAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss").format(new Date()) + "_" + UUID.randomUUID().toString() + "_%s";
 
     private DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -27,16 +27,14 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("enableLog", PROPERTIES.getSelenoidEnableLog());
         setCapability("screenResolution", PROPERTIES.getSelenoidScreenResolution());
         setCapability("enableVideo", PROPERTIES.getSelenoidEnableVideo());
-        setCapability("videoName", PROPERTIES.getSelenoidVideoName(), VIDEONAME_FORMAT);
         setCapability("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
         setCapability("videoFrameRate", PROPERTIES.getSelenoidVideoFrameRate());
-        String selenoidName;
-        if (PROPERTIES.getSelenoidNameOfTests().trim().isEmpty() && Environment.getScenario() != null) {
-            selenoidName = Environment.getScenario().getName();
-        } else {
-            selenoidName = PROPERTIES.getSelenoidNameOfTests();
-        }
-        setCapability("name", selenoidName);
+        String name = getProperty(PROPERTIES.getSelenoidNameOfTests());
+        setCapability("name", name);
+        String logName = getProperty(PROPERTIES.getSelenoidLogName());
+        setCapability("logName", logName + ".log", VIDEONAME_FORMAT);
+        String videoName = getProperty(PROPERTIES.getSelenoidVideoName());
+        setCapability("videoName", videoName + ".mp4", VIDEONAME_FORMAT);
         setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
         setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
@@ -44,6 +42,14 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("sessionTimeout", PROPERTIES.getSelenoidSessionTimeout());
 
         return capabilities;
+    }
+
+    private String getProperty(String property) {
+        if (property.trim().isEmpty() && Environment.getScenario() != null) {
+            return Environment.getScenario().getName();
+        } else {
+            return property;
+        }
     }
 
     private void setCapability(String capabilityName, String capabilityValue, String format) {
