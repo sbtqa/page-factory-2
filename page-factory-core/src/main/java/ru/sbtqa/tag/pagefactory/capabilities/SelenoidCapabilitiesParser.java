@@ -21,12 +21,18 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
 
     @Override
     public DesiredCapabilities parse() {
+        String version = PROPERTIES.getSelenoidVersion();
+        if (version.isEmpty()) {
+            return capabilities;
+        }
+
+        setVersion(version);
+
         String name = getProperty(PROPERTIES.getSelenoidNameOfTests());
         String logName = getProperty(PROPERTIES.getSelenoidLogName()) + ".log";
         String videoName = getProperty(PROPERTIES.getSelenoidVideoName()) + ".mp4";
 
-        setVersion(PROPERTIES.getSelenoidVersion());
-        
+
         setCapability("enableVNC", PROPERTIES.getSelenoidEnableVNC());
         setCapability("enableLog", PROPERTIES.getSelenoidEnableLog());
         setCapability("screenResolution", PROPERTIES.getSelenoidScreenResolution());
