@@ -45,8 +45,9 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
         setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
-        setCapability("labels", PROPERTIES.getSelenoidContainerLables());
+        setCapability("labels", PROPERTIES.getSelenoidContainerLabels());
         setCapability("sessionTimeout", PROPERTIES.getSelenoidSessionTimeout());
+        setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
 
         return capabilities;
     }

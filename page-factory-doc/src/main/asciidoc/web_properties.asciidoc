@@ -8,7 +8,7 @@ include::common_properties.asciidoc[]
 |====================
 ^.^| Параметр ^.^| Описание ^.^| Значение по умолчанию
 3.1+^.^| **Обязательные**
-| webdriver.browser.name 
+| webdriver.browser.name
 | Имя браузера, в котором нужно запустить автотесты. Возможные значения: `Chrome`, `IE`, `Firefox`, `Safari`
 | Не задано
 
@@ -18,7 +18,7 @@ include::common_properties.asciidoc[]
 
 3.1+^.^| **Опциональные**
 
-| webdriver.browser.version 
+| webdriver.browser.version
 | Версия браузера, для которой нужен драйвер. Если указан этот параметр, то будет выполнена попытка автоматически найти соответствующую браузеру версию драйвера
 | Не задано
 
@@ -36,8 +36,8 @@ webdriver.browser.size = 1920x1080
 | Не задано
 
 | webdriver.browser.ie.killOnDispose
-| Только для Windows. + 
-Возможные значения: true или false. + 
+| Только для Windows. +
+Возможные значения: true или false. +
 Параметр используется для того, чтобы указать, убивать ли принудительно браузер IE после выполнения тестов или нет
 | `false`
 
@@ -66,17 +66,17 @@ webdriver.browser.path = src/test/resources/webdrivers/chromedriver.exe
 | Не задано
 
 | webdriver.url
-| Если вы используете RemoteDriver, укажите путь до него в данном параметре. 
+| Если вы используете RemoteDriver, укажите путь до него в данном параметре.
 
-Пример: 
+Пример:
 
 http://127.0.0.1:4444/wd/hub
 | Не задано
 
 | webdriver.proxy
-| Добавьте этот параметр, если нужно указать прокси сервер. 
+| Добавьте этот параметр, если нужно указать прокси сервер.
 
-Пример: 
+Пример:
 
 http://proxy.com:8080
 | Не задано
@@ -95,13 +95,13 @@ http://proxy.com:8080
 | aspects.click.actions.enabled
 | Определяет, делать ли клик через `org.openqa.selenium.interactions.Actions` или нет
 
-Возможные значения: `true`, `false` + 
+Возможные значения: `true`, `false` +
 | `false`
 
 | aspects.scroll.to.element.enabled
 | Определяет, пролистывать до элемента или нет
 
-Возможные значения: `true`, `false` 
+Возможные значения: `true`, `false`
 | `false`
 |====================
 
@@ -160,7 +160,7 @@ selenoid.video.name = my-cool-video.mp4
 |selenoid.applicationContainers
 | Контейнеры
 |selenoid.applicationContainers = spring-application-main:my-cool-app,spring-application-gateway
-|selenoid.containerLables
+|selenoid.containerLabels
 | Метки для быстрого поиска на дашборде
-|selenoid.containerLables = environment:testing,build-number:14353
+|selenoid.containerLabels = environment:testing,build-number:14353
 |====================
