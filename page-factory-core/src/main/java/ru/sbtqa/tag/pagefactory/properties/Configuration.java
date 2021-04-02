@@ -95,13 +95,17 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getSelenoidApplicationContainers();
 
-    @Key("selenoid.containerLables")
+    @Key("selenoid.containerLabels")
     @DefaultValue("")
-    String getSelenoidContainerLables();
+    String getSelenoidContainerLabels();
 
     @Key("selenoid.sessionTimeout")
     @DefaultValue("")
     String getSelenoidSessionTimeout();
+
+    @Key("selenoid.timeZone")
+    @DefaultValue("")
+    String getSelenoidTimezone();
 
 
     @Key("aspects.report.fill.enabled")

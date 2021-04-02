@@ -147,7 +147,7 @@ selenoid.video.name = my-cool-video.mp4
 |selenoid.applicationContainers
 | Контейнеры
 |selenoid.applicationContainers = spring-application-main:my-cool-app,spring-application-gateway
-|selenoid.containerLables
+|selenoid.containerLabels
 | Метки для быстрого поиска на дашборде
-|selenoid.containerLables = environment:testing,build-number:14353
+|selenoid.containerLabels = environment:testing,build-number:14353
 |====================
