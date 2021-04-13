@@ -15,7 +15,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
     private static final Configuration PROPERTIES = Configuration.create();
-    private static final String UNIQUENAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss").format(new Date()) + "_" + UUID.randomUUID().toString() + "_%s";
+    private static final String UNIQUE_NAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss").format(new Date()) + "_" + "_%s_" + UUID.randomUUID().toString();
 
     private DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -40,8 +40,8 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         setCapability("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
         setCapability("videoFrameRate", PROPERTIES.getSelenoidVideoFrameRate());
         setCapability("name", name);
-        setCapability("logName", logName, UNIQUENAME_FORMAT);
-        setCapability("videoName", videoName, UNIQUENAME_FORMAT);
+        setCapability("logName", logName, UNIQUE_NAME_FORMAT);
+        setCapability("videoName", videoName, UNIQUE_NAME_FORMAT);
         setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
         setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
         setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
