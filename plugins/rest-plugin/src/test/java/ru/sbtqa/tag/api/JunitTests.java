@@ -81,7 +81,7 @@ public class JunitTests {
                 .add(ParameterType.HEADER, headers)
                 .add(ParameterType.QUERY, "query-parameter-name-1", "query-parameter-value-1")
                 .add(ParameterType.QUERY, queries)
-                .add(ParameterType.BODY, "id", "11223344")
+                .add(ParameterType.BODY, "id", 11223344)
                 .add(ParameterType.BODY, bodies)
                 .send().validate();
     }

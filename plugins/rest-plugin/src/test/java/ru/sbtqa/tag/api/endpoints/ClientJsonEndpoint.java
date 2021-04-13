@@ -22,6 +22,10 @@ import ru.sbtqa.tag.api.dto.SimpleResult;
 import ru.sbtqa.tag.api.utils.Default;
 import ru.sbtqa.tag.api.utils.TestDataUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+
 @Path("/client")
 public class ClientJsonEndpoint {
 
@@ -179,15 +183,21 @@ public class ClientJsonEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response replace(String days) {
 
-        BasicDBObject expected = (BasicDBObject) JSON.parse("{ \"day1\" :  null  , \"day11\" : \"null\" , " +
-                "\"day13\" : \"true\" , \"day14\" : \"true\" , \"day15\" : \"\"}");
+        BasicDBObject expected = (BasicDBObject) JSON.parse("" +
+                "{\n" +
+                "  \"day1\": false,\n" +
+                "  \"day11\": false,\n" +
+                "  \"day12\": false,\n" +
+                "  \"day13\": true,\n" +
+                "  \"day14\": true,\n" +
+                "  \"day15\": false\n" +
+                "}");
 
         BasicDBObject actual = (BasicDBObject) JSON.parse(days);
 
-        SimpleResult result = new SimpleResult();
-        result.setResult(String.valueOf(expected.equals(actual)));
+        BasicDBObject result = new BasicDBObject();
+        result.put("result", expected.equals(actual));
 
-        return Response.ok(result)
-                .build();
+        return Response.ok(result.toJson()).build();
     }
 }
