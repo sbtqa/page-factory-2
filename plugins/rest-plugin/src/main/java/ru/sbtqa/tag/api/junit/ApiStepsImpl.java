@@ -175,7 +175,7 @@ public class ApiStepsImpl<T extends ApiStepsImpl<T>> {
      * @param value with this value the parameter will be added to endpoint
      * blank
      */
-    public T add(ParameterType type, String name, String value) {
+    public T add(ParameterType type, String name, Object value) {
         ApiEnvironment.getBlankStorage().getLast().addParameter(type, name, value);
         return (T) this;
     }

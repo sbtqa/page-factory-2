@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api.utils;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.api.annotation.Validation;
 import ru.sbtqa.tag.api.exception.RestPluginException;
@@ -26,8 +27,9 @@ public class ReflectionUtils {
 
     public static void set(EndpointEntry endpoint, Field field, Object value) {
         try {
+            Object convertedValue = ConvertUtils.convert(value, field.getType());
             field.setAccessible(true);
-            field.set(endpoint, value);
+            field.set(endpoint, convertedValue);
         } catch (IllegalArgumentException | IllegalAccessException ex) {
             throw new RestPluginException(format("Body with name \"%s\" is not available", field.getName()), ex);
         }

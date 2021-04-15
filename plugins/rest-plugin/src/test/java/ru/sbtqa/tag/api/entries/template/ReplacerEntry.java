@@ -15,25 +15,25 @@ public class ReplacerEntry extends EndpointEntry {
     private String header = "application/json";
 
     @Body(name = "day1")
-    private String day1 = null;
+    private Boolean day1 = null;
 
     @Body(name = "day11")
-    private String day11 = "true";
+    private boolean day11 = true;
 
     @Body(name = "day12")
-    private String day12;
+    private boolean day12;
 
     @Body(name = "day13")
-    private String day13 = "true";
+    private boolean day13 = true;
 
     @Body(name = "day14")
-    private String day14 = "true";
+    private boolean day14 = true;
 
     @Body(name = "day15")
-    private String day15;
+    private boolean day15 = true;
 
     @Validation(title = "works correctly")
     public void validate() {
-        getResponse().body("result", equalTo("true"));
+        getResponse().body("result", equalTo(true));
     }
 }

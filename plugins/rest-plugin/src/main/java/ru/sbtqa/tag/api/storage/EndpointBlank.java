@@ -1,9 +1,10 @@
 package ru.sbtqa.tag.api.storage;
 
+import ru.sbtqa.tag.api.annotation.ParameterType;
+import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
+
 import java.util.HashMap;
 import java.util.Map;
-import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
-import ru.sbtqa.tag.api.annotation.ParameterType;
 
 /**
  * The blank of the request.
@@ -31,7 +32,9 @@ public class EndpointBlank {
         return title;
     }
 
-    public void addParameter(ParameterType type, String name, String value) {
+    public void addParameter(ParameterType type, String name, Object valueObj) {
+        String value = String.valueOf(valueObj);
+
         if (value != null && !value.equals(""))
             switch (type) {
                 case QUERY:
