@@ -59,8 +59,7 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
         capabilities.setCapability("xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
         capabilities.setCapability("showIOSLog", PROPERTIES.getAppiumShowIOSLog());
-        capabilities.setCapability("waitForIdleTimeout", PROPERTIES.getWaitForIdleTimeout());
-        capabilities.setCapability("disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
+        capabilities.setCapability("appium:disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
         capabilities.setCapability("appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
         capabilities.setCapability("appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
         capabilities.setCapability("appium:useNewWDA", PROPERTIES.getAppiumUseNewWDA());

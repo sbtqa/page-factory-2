@@ -108,6 +108,9 @@ include::common_properties.asciidoc[]
 
 | appium.xcodeSigningId
 | iOS only. Идентификатор подписи кода в Xcode
+
+| appium.disableWindowAnimation
+| Android only. Следует ли отключать анимацию окон при запуске, по умолчанию false
 |====================
 
 ==== Параметры работы с Selenoid/Moon

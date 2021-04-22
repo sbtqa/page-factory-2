@@ -103,10 +103,6 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getSelenoidSessionTimeout();
 
-    @Key("selenoid.timeZone")
-    @DefaultValue("")
-    String getSelenoidTimezone();
-
 
     @Key("aspects.report.fill.enabled")
     @DefaultValue("true")

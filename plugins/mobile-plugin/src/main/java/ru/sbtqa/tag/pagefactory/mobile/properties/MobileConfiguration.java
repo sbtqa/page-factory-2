@@ -156,10 +156,6 @@ public interface MobileConfiguration extends Configuration {
     @DefaultValue("false")
     String getAppiumShowIOSLog();
 
-    @Key("appium.waitForIdleTimeout")
-    @DefaultValue("")
-    String getWaitForIdleTimeout();
-
     @Key("appium.disableWindowAnimation")
     @DefaultValue("false")
     boolean getDisableWindowAnimation();
