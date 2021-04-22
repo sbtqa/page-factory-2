@@ -108,6 +108,12 @@ include::common_properties.asciidoc[]
 
 | appium.xcodeSigningId
 | iOS only. Идентификатор подписи кода в Xcode
+
+| appium.disableWindowAnimation
+| Android only. Следует ли отключать анимацию окон при запуске, по умолчанию false
+
+| appium.waitForIdleTimeout
+| Android only. Тайм-аут, используемый для ожидания перехода пользовательского интерфейса в состояние ожидания, по умолчанию 10000
 |====================
 
 ==== Параметры работы с Selenoid/Moon

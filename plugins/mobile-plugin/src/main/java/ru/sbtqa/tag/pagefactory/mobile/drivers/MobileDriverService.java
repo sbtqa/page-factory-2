@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.mobile.drivers;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.Setting;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
@@ -59,8 +60,7 @@ public class MobileDriverService implements DriverService {
         capabilities.setCapability("xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
         capabilities.setCapability("xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
         capabilities.setCapability("showIOSLog", PROPERTIES.getAppiumShowIOSLog());
-        capabilities.setCapability("waitForIdleTimeout", PROPERTIES.getWaitForIdleTimeout());
-        capabilities.setCapability("disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
+        capabilities.setCapability("appium:disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
         capabilities.setCapability("appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
         capabilities.setCapability("appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
         capabilities.setCapability("appium:useNewWDA", PROPERTIES.getAppiumUseNewWDA());
@@ -81,6 +81,10 @@ public class MobileDriverService implements DriverService {
         }
 
         mobileDriver = PROPERTIES.getAppiumPlatformName() == IOS ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
+
+        if (PROPERTIES.getAppiumPlatformName() == ANDROID) {
+            ((AndroidDriver) mobileDriver).setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, PROPERTIES.getWaitForIdleTimeout());
+        }
 
         if (PROPERTIES.getAppiumVideoEnabled()) {
             appiumVideoRecorder = new AppiumVideoRecorder(Environment.getScenario());
