@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.mobile.drivers;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.Setting;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
@@ -80,6 +81,10 @@ public class MobileDriverService implements DriverService {
         }
 
         mobileDriver = PROPERTIES.getAppiumPlatformName() == IOS ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
+
+        if (PROPERTIES.getAppiumPlatformName() == ANDROID) {
+            ((AndroidDriver) mobileDriver).setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, PROPERTIES.getWaitForIdleTimeout());
+        }
 
         if (PROPERTIES.getAppiumVideoEnabled()) {
             appiumVideoRecorder = new AppiumVideoRecorder(Environment.getScenario());
