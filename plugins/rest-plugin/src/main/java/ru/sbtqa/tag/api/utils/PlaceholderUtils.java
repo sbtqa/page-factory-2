@@ -1,7 +1,8 @@
 package ru.sbtqa.tag.api.utils;
 
-import ru.sbtqa.tag.api.BodyArray;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.api.EndpointEntry;
+import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -28,9 +29,14 @@ public class PlaceholderUtils {
      */
     public static String replaceTemplatePlaceholders(EndpointEntry entry, String string, Map<String, Object> parameters) {
         for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
-            try {
-                string = replacePlaceholder(string, entry.getClass().getDeclaredField(parameter.getKey()), parameter.getKey(), parameter.getValue());
-            } catch (NoSuchFieldException e) {
+            if (isFieldExists(entry, parameter.getKey())) {
+                try {
+                    string = replacePlaceholder(string, entry.getClass()
+                            .getDeclaredField(parameter.getKey()), parameter.getKey(), parameter.getValue());
+                } catch (NoSuchFieldException e) {
+                    throw new AutotestError("This error should never appear", e);
+                }
+            } else {
                 string = replacePlaceholder(string, null, parameter.getKey(), parameter.getValue());
             }
         }
@@ -50,10 +56,15 @@ public class PlaceholderUtils {
                 .filter(stringObjectEntry -> stringObjectEntry.getValue() != null)
                 .collect(Collectors.toSet());
         for (Map.Entry<String, Object> parameter : mandatoryValues) {
-            try {
-                Field declaredField = entry.getClass().getDeclaredField(parameter.getKey());
+            if (isFieldExists(entry, parameter.getKey())) {
+                Field declaredField = null;
+                try {
+                    declaredField = entry.getClass().getDeclaredField(parameter.getKey());
+                } catch (NoSuchFieldException e) {
+                    throw new AutotestError("This error should never appear", e);
+                }
                 jsonString = replacePlaceholder(jsonString, declaredField, parameter.getKey(), parameter.getValue());
-            } catch (NoSuchFieldException e) {
+            } else {
                 jsonString = replacePlaceholder(jsonString, null, parameter.getKey(), parameter.getValue());
             }
 
@@ -62,6 +73,10 @@ public class PlaceholderUtils {
         return removeOptionals(jsonString, parameters);
     }
 
+    private static boolean isFieldExists(EndpointEntry entry, String fieldName) {
+        return Arrays.stream(FieldUtils.getAllFields(entry.getClass()))
+                .anyMatch(field -> field.getName().equals(fieldName));
+    }
 
     private static String removeOptionals(String jsonString, Map<String, Object> parameters) {
         Set<Map.Entry<String, Object>> optionals = parameters.entrySet().stream()
