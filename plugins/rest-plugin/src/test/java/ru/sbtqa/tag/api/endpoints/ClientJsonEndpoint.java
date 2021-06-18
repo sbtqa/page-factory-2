@@ -1,5 +1,7 @@
 package ru.sbtqa.tag.api.endpoints;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.DELETE;
@@ -14,17 +16,10 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
 import ru.sbtqa.tag.api.dto.Client;
 import ru.sbtqa.tag.api.dto.SimpleResult;
 import ru.sbtqa.tag.api.utils.Default;
 import ru.sbtqa.tag.api.utils.TestDataUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.Charset;
 
 @Path("/client")
 public class ClientJsonEndpoint {
@@ -199,5 +194,15 @@ public class ClientJsonEndpoint {
         result.put("result", expected.equals(actual));
 
         return Response.ok(result.toJson()).build();
+    }
+
+    @POST
+    @Path("typed-arrays")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response typedArrays(String request) {
+        SimpleResult result = new SimpleResult();
+        BasicDBObject response = (BasicDBObject) JSON.parse(request);
+        result.setResult(response.toJson());
+        return Response.ok(result).build();
     }
 }

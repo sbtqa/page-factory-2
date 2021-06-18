@@ -22,7 +22,7 @@ public class QueryApplicator extends DefaultApplicator implements Applicator {
         Object fieldValue = get(field);
 
         if (path.contains(placeholder) && fieldValue != null) {
-            String replacedPath = PlaceholderUtils.replacePlaceholder(path, name, fieldValue);
+            String replacedPath = PlaceholderUtils.replacePlaceholder(path, field, name, fieldValue);
             endpoint.setPath(replacedPath);
             set(field, null);
         }

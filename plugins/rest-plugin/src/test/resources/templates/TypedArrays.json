@@ -1,0 +1,12 @@
+{
+  "channel": "test-channel",
+  "requestId": "1",
+  "requisites": [
+    {
+      "path": "home",
+      "valuesString": "${valuesString}",
+      "valuesInt": "${valuesInt}",
+      "valuesBoolean": "${valuesBoolean}"
+    }
+  ]
+}

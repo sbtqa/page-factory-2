@@ -10,6 +10,7 @@ import ru.sbtqa.tag.api.entries.apirequest.WithParamsEndpointEntry;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsPlaceholdersEndpointEntry;
 import ru.sbtqa.tag.api.entries.fromfeature.FirstRequestFromFeatureEntry;
 import ru.sbtqa.tag.api.entries.methods.GetEndpointEntry;
+import ru.sbtqa.tag.api.entries.template.TypedArraysEntry;
 import ru.sbtqa.tag.api.junit.ApiSteps;
 import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 
@@ -63,7 +64,7 @@ public class JunitTests {
     }
 
     @Test
-    public void FillOnTheFlyTest() {
+    public void fillOnTheFlyTest() {
         Map<String, String> headers = new HashMap<>();
         headers.put("header-parameter-name-1", "header-parameter-value-1");
         headers.put("header-parameter-name-2", "header-parameter-value-2");
@@ -94,10 +95,20 @@ public class JunitTests {
 
         ApiSteps.getInstance().send(ApiRequestWithMutator.class, parameters);
 
-        parameters.replace("query-parameter-name-1","query-parameter-value-1".toUpperCase());
+        parameters.replace("query-parameter-name-1", "query-parameter-value-1".toUpperCase());
         parameters.replace("header-parameter-name-1", "not null string");
 
         ApiSteps.getInstance().validate("result with mutated values", toDataTable(parameters));
+    }
+
+    @Test
+    public void typedArrayTest() {
+        ApiSteps.getInstance().fill(TypedArraysEntry.class)
+                .add(ParameterType.HEADER, CONTENT_TYPE, JSON_UTF_8.toString())
+                .add(ParameterType.BODY, "valuesString", new BodyArray<String>("\"should be quoted\", \\,one, two, three, four", String.class))
+                .add(ParameterType.BODY, "valuesInt", new BodyArray<Integer>("1, 2, 3, 4, 5", Integer.class))
+                .add(ParameterType.BODY, "valuesBoolean", new BodyArray<Boolean>("true, false, true, true, true", Boolean.class))
+                .send().validate("result");
     }
 
     @AfterClass

@@ -1,5 +1,9 @@
 package ru.sbtqa.tag.api.utils;
 
+import ru.sbtqa.tag.api.BodyArray;
+import ru.sbtqa.tag.api.EndpointEntry;
+
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -18,13 +22,17 @@ public class PlaceholderUtils {
     /**
      * Replace placeholders in string on parameters
      *
-     * @param string     replace placeholders in this string
+     * @param string replace placeholders in this string
      * @param parameters replace these parameters
      * @return string with replaced placeholders
      */
-    public static String replaceTemplatePlaceholders(String string, Map<String, Object> parameters) {
+    public static String replaceTemplatePlaceholders(EndpointEntry entry, String string, Map<String, Object> parameters) {
         for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
-            string = replacePlaceholder(string, parameter.getKey(), parameter.getValue());
+            try {
+                string = replacePlaceholder(string, entry.getClass().getDeclaredField(parameter.getKey()), parameter.getKey(), parameter.getValue());
+            } catch (NoSuchFieldException e) {
+                string = replacePlaceholder(string, null, parameter.getKey(), parameter.getValue());
+            }
         }
 
         return string;
@@ -37,13 +45,18 @@ public class PlaceholderUtils {
      * @param parameters replace these parameters
      * @return json string with replaced placeholders
      */
-    public static String replaceJsonTemplatePlaceholders(String jsonString, Map<String, Object> parameters) {
-
+    public static String replaceJsonTemplatePlaceholders(EndpointEntry entry, String jsonString, Map<String, Object> parameters) {
         Set<Map.Entry<String, Object>> mandatoryValues = parameters.entrySet().stream()
                 .filter(stringObjectEntry -> stringObjectEntry.getValue() != null)
                 .collect(Collectors.toSet());
         for (Map.Entry<String, Object> parameter : mandatoryValues) {
-            jsonString = replacePlaceholder(jsonString, parameter.getKey(), parameter.getValue());
+            try {
+                Field declaredField = entry.getClass().getDeclaredField(parameter.getKey());
+                jsonString = replacePlaceholder(jsonString, declaredField, parameter.getKey(), parameter.getValue());
+            } catch (NoSuchFieldException e) {
+                jsonString = replacePlaceholder(jsonString, null, parameter.getKey(), parameter.getValue());
+            }
+
         }
 
         return removeOptionals(jsonString, parameters);
@@ -67,17 +80,18 @@ public class PlaceholderUtils {
     /**
      * Replace placeholder in string on value
      *
-     * @param string   replace placeholders in this string
-     * @param name     placeholder body (without start and finish marks)
+     * @param string replace placeholders in this string
+     * @param declaredField endpoint field to validate type
+     * @param name placeholder body (without start and finish marks)
      * @param newValue replace placeholder on this mark
      * @return string with replaced placeholder
      */
-    public static String replacePlaceholder(String string, String name, Object newValue) {
+    public static String replacePlaceholder(String string, Field declaredField, String name, Object newValue) {
         String value = String.valueOf(newValue);
         String[] nullables = new String[]{"null", QUOTE + "null" + QUOTE, QUOTE + QUOTE};
 
         String placeholder = Pattern.quote(createPlaceholder(name));
-        if (!(newValue instanceof String)) {
+        if (!(newValue instanceof String) || (declaredField != null && declaredField.getType() == BodyArray.class)) {
             placeholder = QUOTE + placeholder + QUOTE;
         } else if (Arrays.asList(nullables).contains(newValue)) {
             placeholder = QUOTE + "?" + placeholder + QUOTE + "?";

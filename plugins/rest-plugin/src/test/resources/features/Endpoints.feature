@@ -12,6 +12,14 @@ Feature: Api action test
     * user sends request for "post with json"
     * system returns "result"
 
+  @typed-arrays
+  Scenario: Typed Arrays
+    * user sends request for "typed arrays" with parameters
+      | valuesString  | "should be quoted", \,one, two, three, four         |
+      | valuesInt     | 1, 2, 3, 4, 5                                       |
+      | valuesBoolean | true, false, true, true, true                       |
+    * system returns "result"
+
   @put
   Scenario: put
     * user sends request for "put test"
