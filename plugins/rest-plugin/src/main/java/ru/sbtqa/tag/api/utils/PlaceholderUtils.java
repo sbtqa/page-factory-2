@@ -17,8 +17,7 @@ public class PlaceholderUtils {
 
     private static final String QUOTE = "\"";
 
-    private PlaceholderUtils() {
-    }
+    private PlaceholderUtils() {}
 
     /**
      * Replace placeholders in string on parameters
