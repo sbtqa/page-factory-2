@@ -40,10 +40,16 @@ public class ReplacerEntry extends EndpointEntry {
 
     @Body(name = "number")
     private String bodyNumber = "79236666666";
+
+    @Body(name = "array")
+    private BodyArray<String> = new BodyArray<>("[hello, world, string\\, with\\, commas]")
 }
 ----
 
 При этом подстановка в шаблон будет выполнена по соответствию параметра `name` аннотации `@Body` и значения, обозначенного через `${}`
+
+BodyArray используется для параметризации массивов. Элементы массива приводятся в одному типу.
+Если надо в строковом типе поставить запятую, то она экранируется обратным слешем.
 
 WARNING: Путь до расположения шаблонов указывается относительно каталога тестовых ресурсов `src/test/resources`
 
