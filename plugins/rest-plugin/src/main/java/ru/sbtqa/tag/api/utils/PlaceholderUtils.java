@@ -91,7 +91,7 @@ public class PlaceholderUtils {
         String[] nullables = new String[]{"null", QUOTE + "null" + QUOTE, QUOTE + QUOTE};
 
         String placeholder = Pattern.quote(createPlaceholder(name));
-        if (!(newValue instanceof String) || (declaredField != null && declaredField.getType() == BodyArray.class)) {
+        if (!(newValue instanceof String) || (declaredField != null && declaredField.getType() != String.class)) {
             placeholder = QUOTE + placeholder + QUOTE;
         } else if (Arrays.asList(nullables).contains(newValue)) {
             placeholder = QUOTE + "?" + placeholder + QUOTE + "?";
