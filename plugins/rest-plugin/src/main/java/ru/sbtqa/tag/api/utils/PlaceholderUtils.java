@@ -29,15 +29,18 @@ public class PlaceholderUtils {
      */
     public static String replaceTemplatePlaceholders(EndpointEntry entry, String string, Map<String, Object> parameters) {
         for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
-            if (isFieldExists(entry, parameter.getKey())) {
+            String parameterName = parameter.getKey();
+            Object parameterValue = parameter.getValue();
+
+            if (isFieldExists(entry, parameterName)) {
                 try {
                     string = replacePlaceholder(string, entry.getClass()
-                            .getDeclaredField(parameter.getKey()), parameter.getKey(), parameter.getValue());
+                            .getDeclaredField(parameterName), parameterName, parameterValue);
                 } catch (NoSuchFieldException e) {
                     throw new AutotestError("This error should never appear", e);
                 }
             } else {
-                string = replacePlaceholder(string, null, parameter.getKey(), parameter.getValue());
+                string = replacePlaceholder(string, null, parameterName, parameterValue);
             }
         }
 
@@ -56,16 +59,19 @@ public class PlaceholderUtils {
                 .filter(stringObjectEntry -> stringObjectEntry.getValue() != null)
                 .collect(Collectors.toSet());
         for (Map.Entry<String, Object> parameter : mandatoryValues) {
-            if (isFieldExists(entry, parameter.getKey())) {
+            String parameterName = parameter.getKey();
+            Object parameterValue = parameter.getValue();
+
+            if (isFieldExists(entry, parameterName)) {
                 Field declaredField = null;
                 try {
-                    declaredField = entry.getClass().getDeclaredField(parameter.getKey());
+                    declaredField = entry.getClass().getDeclaredField(parameterName);
                 } catch (NoSuchFieldException e) {
                     throw new AutotestError("This error should never appear", e);
                 }
-                jsonString = replacePlaceholder(jsonString, declaredField, parameter.getKey(), parameter.getValue());
+                jsonString = replacePlaceholder(jsonString, declaredField, parameterName, parameterValue);
             } else {
-                jsonString = replacePlaceholder(jsonString, null, parameter.getKey(), parameter.getValue());
+                jsonString = replacePlaceholder(jsonString, null, parameterName, parameterValue);
             }
 
         }
