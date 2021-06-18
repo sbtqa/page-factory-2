@@ -52,6 +52,10 @@ public class EndpointEntryReflection {
         }
     }
 
+    public EndpointEntry getEndpoint() {
+        return this.endpoint;
+    }
+
     void applyAnnotations(Class<? extends Annotation> annotationType) {
         ApplicatorHandler<Applicator> applicators = new ApplicatorHandler<>();
         for (Field field : fields) {
@@ -113,7 +117,7 @@ public class EndpointEntryReflection {
                         || annotation instanceof Header
                         || annotation instanceof Cookie)
                         && fieldValue instanceof String) {
-                    set(endpoint, field, PlaceholderUtils.replacePlaceholder((String) fieldValue, name, value) );
+                    set(endpoint, field, PlaceholderUtils.replacePlaceholder((String) fieldValue,field, name, value));
                 }
             }
         }

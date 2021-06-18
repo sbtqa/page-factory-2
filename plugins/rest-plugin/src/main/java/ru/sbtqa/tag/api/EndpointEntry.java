@@ -149,9 +149,9 @@ public class EndpointEntry implements ApiEndpoint {
     public String getBody() {
         String body = TemplateUtils.loadFromResources(this.getClass(), template, PROPERTIES.getTemplateEncoding());
         if(template.endsWith(".json")) {
-            return PlaceholderUtils.replaceJsonTemplatePlaceholders(body, getParameters());
+            return PlaceholderUtils.replaceJsonTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
         } else {
-            return PlaceholderUtils.replaceTemplatePlaceholders(body, getParameters());
+            return PlaceholderUtils.replaceTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
         }
     }
 
