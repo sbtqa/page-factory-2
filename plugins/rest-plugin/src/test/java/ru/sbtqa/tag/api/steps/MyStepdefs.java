@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.api.steps;
 
 import cucumber.api.java.en.And;
-import cucumber.api.java.en.When;
 import org.junit.Assert;
 
 import static java.lang.String.format;

@@ -11,14 +11,13 @@ import java.util.Map;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.pagefactory.data.DataReplacer;
-import ru.sbtqa.tag.pagefactory.data.DataUtils;
 import ru.sbtqa.tag.pagefactory.exceptions.FragmentException;
 
 public class FragmentReplacer {
 
-    private List<CucumberFeature> features;
-    private MutableValueGraph<Object, String> fragmentsGraph;
-    private Map<ScenarioDefinition, String> scenarioLanguageMap;
+    private final List<CucumberFeature> features;
+    private final MutableValueGraph<Object, String> fragmentsGraph;
+    private final Map<ScenarioDefinition, String> scenarioLanguageMap;
 
     public FragmentReplacer(List<CucumberFeature> features) throws FragmentException, DataException {
         this.features = FragmentCacheUtils.cacheFragmentsToFeatures(this.getClass(), features);

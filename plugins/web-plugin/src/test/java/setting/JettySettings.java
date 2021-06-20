@@ -2,6 +2,8 @@ package setting;
 
 import cucumber.api.java.Before;
 import java.lang.management.ManagementFactory;
+import java.util.Objects;
+
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -14,7 +16,7 @@ public class JettySettings {
 
     private static final Logger LOG = LoggerFactory.getLogger(JettySettings.class);
 
-    private final String WAR_PATH = getClass().getClassLoader().getResource("test-web-app.war").getFile();
+    private final String WAR_PATH = Objects.requireNonNull(getClass().getClassLoader().getResource("test-web-app.war")).getFile();
     private static final int PORT = 8181;
 
     private static boolean dunit = true;

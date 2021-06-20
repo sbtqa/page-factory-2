@@ -4,8 +4,8 @@ import ru.sbtqa.tag.pagefactory.Page;
 
 public class PageContext {
 
-    static ThreadLocal<String> currentPageTitle = new ThreadLocal<>();
-    static ThreadLocal<Page> currentPage = new ThreadLocal<>();
+    static final ThreadLocal<String> currentPageTitle = new ThreadLocal<>();
+    static final ThreadLocal<Page> currentPage = new ThreadLocal<>();
 
     private PageContext() {
     }

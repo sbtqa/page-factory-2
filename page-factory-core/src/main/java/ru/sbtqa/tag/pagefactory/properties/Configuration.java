@@ -195,7 +195,7 @@ public interface Configuration extends Config {
         java.util.Properties allProps = Props.getProps();
         allProps.putAll(properties);
 
-        Arrays.asList(configuration.getMethods()).stream()
+        Arrays
                 .forEach((Method method) -> {
                     if (method.isAnnotationPresent(Key.class)) {
                         String annotationValue = method.getAnnotation(Key.class).value();

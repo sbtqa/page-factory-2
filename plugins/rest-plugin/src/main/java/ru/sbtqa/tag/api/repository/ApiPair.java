@@ -5,8 +5,8 @@ import io.restassured.specification.RequestSpecification;
 
 public class ApiPair {
 
-    private RequestSpecification request;
-    private ValidatableResponse response;
+    private final RequestSpecification request;
+    private final ValidatableResponse response;
 
     public ApiPair(RequestSpecification request, ValidatableResponse response) {
         this.request = request;

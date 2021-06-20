@@ -10,8 +10,8 @@ import java.util.Map;
 
 class StepReplacer {
 
-    private Step step;
-    private List<Step> replacedSteps = new ArrayList<>();
+    private final Step step;
+    private final List<Step> replacedSteps = new ArrayList<>();
 
     StepReplacer(Step step) {
         this.step = step;

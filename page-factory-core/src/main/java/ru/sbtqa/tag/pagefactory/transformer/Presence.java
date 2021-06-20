@@ -11,6 +11,6 @@ public class Presence extends Condition {
     }
 
     public boolean isPresent() {
-        return !super.isConditionMatch();
+        return super.isConditionMatch();
     }
 }

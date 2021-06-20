@@ -11,6 +11,6 @@ public class ClickVariation extends Condition {
     }
 
     public boolean isDoubleClick() {
-        return super.isConditionMatch();
+        return !super.isConditionMatch();
     }
 }

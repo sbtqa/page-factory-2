@@ -27,7 +27,7 @@ public class SwipeUtils {
     private static final double INDENT_LEFT = 0.30;
     private static final double INDENT_RIGHT = 0.70;
 
-    private static AppiumDriver appiumDriver = Environment.getDriverService().getDriver();
+    private static final AppiumDriver appiumDriver = Environment.getDriverService().getDriver();
 
     private SwipeUtils() {
     }

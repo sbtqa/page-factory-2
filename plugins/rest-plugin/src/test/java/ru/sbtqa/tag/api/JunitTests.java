@@ -105,9 +105,9 @@ public class JunitTests {
     public void typedArrayTest() {
         ApiSteps.getInstance().fill(TypedArraysEntry.class)
                 .add(ParameterType.HEADER, CONTENT_TYPE, JSON_UTF_8.toString())
-                .add(ParameterType.BODY, "valuesString", new BodyArray<String>("\"should be quoted\", \\,one, two, three, four", String.class))
-                .add(ParameterType.BODY, "valuesInt", new BodyArray<Integer>("1, 2, 3, 4, 5", Integer.class))
-                .add(ParameterType.BODY, "valuesBoolean", new BodyArray<Boolean>("true, false, true, true, true", Boolean.class))
+                .add(ParameterType.BODY, "valuesString", new BodyArray<>("\"should be quoted\", \\,one, two, three, four", String.class))
+                .add(ParameterType.BODY, "valuesInt", new BodyArray<>("1, 2, 3, 4, 5", Integer.class))
+                .add(ParameterType.BODY, "valuesBoolean", new BodyArray<>("true, false, true, true, true", Boolean.class))
                 .send().validate("result");
     }
 

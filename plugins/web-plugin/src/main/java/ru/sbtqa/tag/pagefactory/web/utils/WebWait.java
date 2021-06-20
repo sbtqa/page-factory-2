@@ -23,7 +23,7 @@ public class WebWait extends Wait {
      * @throws WaitException in case if page didn't load
      */
     public static void waitForPageToLoad(boolean... stopRecursion) throws WaitException {
-        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
+        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000L;
         while (timeoutTime > System.currentTimeMillis()) {
             try {
                 if ("complete".equals(((JavascriptExecutor) Environment.getDriverService().getDriver()).executeScript("return document.readyState"))) {
@@ -51,7 +51,7 @@ public class WebWait extends Wait {
      * @throws WaitException in case if text didn't load in the page source
      */
     public static void waitForTextPresenceInPageSource(String text, boolean shouldTextBePresent) throws WaitException, InterruptedException {
-        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000;
+        long timeoutTime = System.currentTimeMillis() + PROPERTIES.getTimeout() * 1000L;
         Wait.presence(By.tagName("body"), "Element \"body\" did not appear after timeout");
         while (timeoutTime > System.currentTimeMillis()) {
             WebElement body = Environment.getDriverService().getDriver().findElement(By.tagName("body"));

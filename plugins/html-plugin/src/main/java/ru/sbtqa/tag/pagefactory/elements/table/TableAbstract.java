@@ -354,7 +354,7 @@ public abstract class TableAbstract extends TypifiedElement {
 
         try {
             WebElement cell = ElementUtils.getElementByIndex(cells, serialNumber - 1);
-            if (!isSimpleCell(cell)) {
+            if (isSimpleCell(cell)) {
                 LOG.warn("Cell text is complex. A match was found among one of the cell elements");
             }
             click(cell, doubleClick);
@@ -576,7 +576,7 @@ public abstract class TableAbstract extends TypifiedElement {
 
         try {
             WebElement cell = ElementUtils.getElementByIndex(cells, 0);
-            if (!isSimpleCell(cell)) {
+            if (isSimpleCell(cell)) {
                 LOG.warn("Cell text is complex. A match was found among one of the cell elements");
             }
             return cell;

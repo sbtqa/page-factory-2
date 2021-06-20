@@ -17,10 +17,10 @@ public class PlaceholderRequestEndpointEntry extends EndpointEntry {
     private String client;
 
     @Query(name = Default.QUERY_PARAMETER_NAME_1)
-    private String param = Default.QUERY_PARAMETER_VALUE_1;
+    private final String param = Default.QUERY_PARAMETER_VALUE_1;
 
     @Header(name = Default.HEADER_PARAMETER_NAME_1)
-    private String header;
+    private final String header;
 
     public PlaceholderRequestEndpointEntry(){
         super();

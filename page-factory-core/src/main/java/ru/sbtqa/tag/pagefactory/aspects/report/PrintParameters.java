@@ -18,7 +18,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class PrintParameters {
 
-    private ThreadLocal<List<Argument>> testArguments = ThreadLocal.withInitial(ArrayList::new);
+    private final ThreadLocal<List<Argument>> testArguments = ThreadLocal.withInitial(ArrayList::new);
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepFinished(Event event) {
@@ -53,11 +53,11 @@ public class PrintParameters {
 
     private void addAllureArguments() {
         Argument pickleString = this.testArguments.get().stream()
-                .filter(argument -> argument instanceof PickleString).findFirst().orElse(null);
+                .filter(PickleString.class::isInstance).findFirst().orElse(null);
 
         if (pickleString != null) {
             Allure.getLifecycle().updateStep(stepResult ->
-                    stepResult.withAttachments());
+                    stepResult.setAttachments(new ArrayList<>()));
             this.textAttachment(((PickleString) pickleString).getContent());
         }
     }

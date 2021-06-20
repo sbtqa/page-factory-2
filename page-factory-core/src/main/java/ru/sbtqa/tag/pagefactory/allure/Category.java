@@ -8,10 +8,10 @@ import java.util.List;
  */
 public class Category {
 
-    private String name;
-    private String messageRegex;
-    private String traceRegex;
-    private List<String> matchedStatuses;
+    private final String name;
+    private final String messageRegex;
+    private final String traceRegex;
+    private final List<String> matchedStatuses;
 
     /**
      * Creates Allure report category

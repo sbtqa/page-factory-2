@@ -15,9 +15,9 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
     private static final Logger LOG = LoggerFactory.getLogger(SelenoidCapabilitiesParser.class);
 
     private static final Configuration PROPERTIES = Configuration.create();
-    private static final String UNIQUE_NAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss").format(new Date()) + "_%s_" + UUID.randomUUID().toString();
+    private static final String UNIQUE_NAME_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss").format(new Date()) + "_%s_" + UUID.randomUUID();
 
-    private DesiredCapabilities capabilities = new DesiredCapabilities();
+    private final DesiredCapabilities capabilities = new DesiredCapabilities();
 
     @Override
     public DesiredCapabilities parse() {

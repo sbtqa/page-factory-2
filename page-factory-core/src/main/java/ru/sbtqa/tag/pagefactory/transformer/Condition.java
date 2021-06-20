@@ -9,8 +9,8 @@ public abstract class Condition {
 
     boolean isConditionMatch() {
         if (name == null) {
-            return true;
+            return false;
         }
-        return conditions.stream().anyMatch(negation -> negation.equals(name));
+        return conditions.stream().noneMatch(negation -> negation.equals(name));
     }
 }

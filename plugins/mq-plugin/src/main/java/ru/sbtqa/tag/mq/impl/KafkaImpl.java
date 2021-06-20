@@ -24,8 +24,8 @@ public class KafkaImpl implements Kafka<ConsumerRecord> {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaImpl.class);
     private static final MqConfiguration PROPS = MqConfiguration.create();
 
-    private Properties producerProperties;
-    private Properties consumerProperties;
+    private final Properties producerProperties;
+    private final Properties consumerProperties;
 
     public KafkaImpl(Properties producerProperties, Properties consumerProperties) {
         this.producerProperties = producerProperties;
@@ -33,7 +33,7 @@ public class KafkaImpl implements Kafka<ConsumerRecord> {
     }
 
     @Override
-    public String sendRequest(String topicName, String requestMsg) throws KafkaException {
+    public String sendRequest(String topicName, String requestMsg) {
         Producer<String, String> producer = new KafkaProducer<>(producerProperties);
         producer.send(new ProducerRecord<>(topicName, requestMsg));
         producer.close();
@@ -48,7 +48,7 @@ public class KafkaImpl implements Kafka<ConsumerRecord> {
     }
 
     @Override
-    public ConsumerRecord<String, String> getAnswer(String queueName) throws KafkaException {
+    public ConsumerRecord<String, String> getAnswer(String queueName) {
         return getLastMessagesInPartition(queueName, 0, 0).iterator().next();
     }
 
@@ -84,12 +84,12 @@ public class KafkaImpl implements Kafka<ConsumerRecord> {
     }
 
     @Override
-    public String getMessageText(ConsumerRecord message) throws KafkaException {
+    public String getMessageText(ConsumerRecord message) {
         return message.value().toString();
     }
 
     @Override
-    public String getMessageProperty(ConsumerRecord message, String property) throws KafkaException {
+    public String getMessageProperty(ConsumerRecord message, String property) {
         try {
             MessagePropertyType type = MessagePropertyType.get(property);
             switch (type) {

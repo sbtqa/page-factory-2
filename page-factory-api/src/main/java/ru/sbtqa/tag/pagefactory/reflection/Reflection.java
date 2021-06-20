@@ -35,10 +35,8 @@ public interface Reflection {
      * @param context context on which the method is executing: page or block
      * @param title title of the method to call
      * @param param parameters that will be passed to method
-     * @throws java.lang.NoSuchMethodException if required method couldn't be
-     * found
      */
-    void executeMethodByTitle(Object context, String title, Object... param) throws NoSuchMethodException;
+    void executeMethodByTitle(Object context, String title, Object... param);
 
     /**
      * Return a list of methods declared tin the given class and its super
@@ -106,7 +104,6 @@ public interface Reflection {
      * @throws ElementDescriptionException in case if field does not belong
      * to the object, or element could not be cast to specified type
      */
-    @SuppressWarnings("unchecked")
     <T> T getElementByField(Object parentObject, Field field) throws ElementDescriptionException;
 
     /**

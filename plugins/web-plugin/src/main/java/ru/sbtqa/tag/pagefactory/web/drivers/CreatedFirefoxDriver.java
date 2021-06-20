@@ -2,6 +2,7 @@ package ru.sbtqa.tag.pagefactory.web.drivers;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.function.Supplier;
@@ -16,6 +17,6 @@ public class CreatedFirefoxDriver implements Supplier<WebDriver> {
 
     @Override
     public WebDriver get() {
-        return new FirefoxDriver(capabilities);
+        return new FirefoxDriver(new FirefoxOptions().merge(capabilities));
     }
 }

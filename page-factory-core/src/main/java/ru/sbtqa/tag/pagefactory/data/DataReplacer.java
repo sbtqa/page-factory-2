@@ -23,7 +23,7 @@ import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_RE
 public class DataReplacer {
 
     private static final String COLLECTION_SIGNATURE = "$";
-    private final static String STASH_PARSE_REGEX = "(?:\\#\\{([^\\}]+)\\})";
+    private final static String STASH_PARSE_REGEX = "(?:#\\{([^}]+)})";
 
     /**
      * Replaces step data (from stash or data files)

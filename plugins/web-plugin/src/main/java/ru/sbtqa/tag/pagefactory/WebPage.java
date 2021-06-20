@@ -15,8 +15,8 @@ import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
  */
 public abstract class WebPage implements Page {
 
-    private static PageActions pageActions = new WebPageActions();
-    private static PageChecks pageChecks = new WebPageChecks();
+    private static final PageActions pageActions = new WebPageActions();
+    private static final PageChecks pageChecks = new WebPageChecks();
 
     public WebPage() {
         WebSetupSteps.initWeb();

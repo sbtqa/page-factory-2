@@ -14,10 +14,10 @@ import ru.sbtqa.tag.datajack.Stash;
 public class StashedEndpointEntry extends EndpointEntry {
 
     @Stashed(by = By.NAME)
-    private String stashByName = Default.STASHED_PARAMETER_VALUE_1;
+    private final String stashByName = Default.STASHED_PARAMETER_VALUE_1;
 
     @Stashed(by = By.TITLE, title = Default.STASHED_PARAMETER_NAME_2)
-    private String stashByTitle = Default.STASHED_PARAMETER_VALUE_2;
+    private final String stashByTitle = Default.STASHED_PARAMETER_VALUE_2;
 
     @Validation(title = "stash")
     public void validate() {

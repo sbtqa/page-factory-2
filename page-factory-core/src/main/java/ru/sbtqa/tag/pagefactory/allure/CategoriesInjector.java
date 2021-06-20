@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -67,9 +69,9 @@ public class CategoriesInjector {
 
         Category[] categoriesArray = userCategories.toArray(new Category[]{});
         String categoriesJson = gson.toJson(categoriesArray, Category[].class);
-        File categoriesFile = new File(CategoriesInjector.class.getClassLoader()
-                .getResource("").getPath() + "/categories.json");
+        File categoriesFile = new File(Objects.requireNonNull(CategoriesInjector.class.getClassLoader()
+                .getResource("")).getPath() + "/categories.json");
 
-        FileUtils.writeStringToFile(categoriesFile, categoriesJson, Charset.forName("UTF-8"));
+        FileUtils.writeStringToFile(categoriesFile, categoriesJson, StandardCharsets.UTF_8);
     }
 }

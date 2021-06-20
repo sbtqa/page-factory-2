@@ -13,7 +13,7 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
  */
 public class ApplicatorHandler<T extends Applicator> {
 
-    private List<T> applicators = new ArrayList<>();
+    private final List<T> applicators = new ArrayList<>();
 
     /**
      * Add applicator to queue

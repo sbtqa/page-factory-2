@@ -23,11 +23,11 @@ public class ApiRequestWithMutator extends EndpointEntry {
 
     @Query(name = Default.QUERY_PARAMETER_NAME_1)
     @Mutator(clazz = DefaultMutators.class, method = "toUpperCase")
-    private String param = "lowercaseparam";
+    private final String param = "lowercaseparam";
 
     @Header(name = Default.HEADER_PARAMETER_NAME_1)
     @Mutator(method = "doSmthWithNull")
-    private String header = null;
+    private final String header = null;
 
     public String doSmthWithNull(String value) {
         return value == null ? NOT_NULL_STRING : value;

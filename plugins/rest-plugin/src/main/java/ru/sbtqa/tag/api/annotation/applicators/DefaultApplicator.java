@@ -6,8 +6,8 @@ import ru.sbtqa.tag.api.utils.ReflectionUtils;
 
 public abstract class DefaultApplicator implements Applicator {
 
-    EndpointEntry endpoint;
-    Field field;
+    final EndpointEntry endpoint;
+    final Field field;
 
     public DefaultApplicator(EndpointEntry endpoint, Field field) {
         this.endpoint = endpoint;

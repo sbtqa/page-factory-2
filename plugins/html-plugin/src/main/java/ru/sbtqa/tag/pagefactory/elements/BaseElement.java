@@ -27,6 +27,6 @@ public class BaseElement extends TypifiedElement {
      * @return Returns the found element
      */
     public <T extends TypifiedElement> T getElement(String elementName) {
-        return (T) ((HtmlFindUtils) Environment.getFindUtils()).find(this, elementName, true);
+        return ((HtmlFindUtils) Environment.getFindUtils()).find(this, elementName, true);
     }
 }

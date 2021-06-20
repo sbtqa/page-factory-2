@@ -110,10 +110,8 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> i
      * @param block path or name of the block
      * @param action title of the action to execute
      * @return Returns itself
-     * @throws NoSuchMethodException if corresponding method doesn't exist in
-     * specified block
      */
-    public T actionInBlock(String block, String action) throws NoSuchMethodException {
+    public T actionInBlock(String block, String action) {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action);
         return (T) this;
     }
@@ -126,10 +124,8 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> i
      * @param action title of the action to execute
      * @param dataTable table of parameters
      * @return Returns itself
-     * @throws NoSuchMethodException if corresponding method doesn't exist in
-     * specified block
      */
-    public T actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
+    public T actionInBlock(String block, String action, DataTable dataTable) {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action, dataTable);
         return (T) this;
     }
@@ -142,10 +138,8 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> i
      * @param action title of the action to execute
      * @param param parameter
      * @return Returns itself
-     * @throws NoSuchMethodException if corresponding method doesn't exist in
-     * specified block
      */
-    public T actionInBlock(String block, String action, String... param) throws NoSuchMethodException {
+    public T actionInBlock(String block, String action, String... param) {
         ((HtmlReflection) Environment.getReflection()).executeMethodByTitleInBlock(block, action, param);
         return (T) this;
     }
@@ -206,9 +200,7 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> i
 
     public T elementsAlwaysPresent(Presence present, List<String> elementNames) {
         Assert.assertFalse(ERROR_LIST_EMPTY, elementNames.isEmpty());
-        elementNames.forEach((element) -> {
-            elementAlwaysPresent(present, element);
-        });
+        elementNames.forEach((element) -> elementAlwaysPresent(present, element));
         return (T) this;
     }
 

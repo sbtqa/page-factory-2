@@ -12,7 +12,7 @@ import ru.sbtqa.tag.api.utils.Default;
 public class CookieEntry extends EndpointEntry {
 
     @Cookie(name = Default.COOKIE_NAME)
-    private String cookie = Default.COOKIE_VALUE;
+    private final String cookie = Default.COOKIE_VALUE;
 
     @Validation(title = "result")
     public void validate() {

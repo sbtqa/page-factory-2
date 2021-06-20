@@ -9,7 +9,7 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
 
 public class ApiRepository implements Repository {
 
-    private Map<Class<? extends EndpointEntry>, ApiPair> pairs = new LinkedHashMap<>();
+    private final Map<Class<? extends EndpointEntry>, ApiPair> pairs = new LinkedHashMap<>();
 
     public void add(Class<? extends EndpointEntry> endpoint, ApiPair pair) {
         pairs.put(endpoint, pair);

@@ -27,7 +27,7 @@ public class ToLoggerPrintStream {
     /**
      * Logger for this class
      */
-    private Logger myLog;
+    private final Logger myLog;
     private PrintStream myPrintStream;
 
     /**

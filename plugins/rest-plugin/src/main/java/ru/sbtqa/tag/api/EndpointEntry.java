@@ -33,12 +33,12 @@ public class EndpointEntry implements ApiEndpoint {
 
     private static final ApiConfiguration PROPERTIES = ApiConfiguration.create();
 
-    private EndpointEntryReflection reflection;
-    private BlankStorage blankStorage;
-    private Rest method;
+    private final EndpointEntryReflection reflection;
+    private final BlankStorage blankStorage;
+    private final Rest method;
     private String path;
-    private String template;
-    private String title;
+    private final String template;
+    private final String title;
 
     public EndpointEntry() {
         Endpoint endpoint = this.getClass().getAnnotation(Endpoint.class);

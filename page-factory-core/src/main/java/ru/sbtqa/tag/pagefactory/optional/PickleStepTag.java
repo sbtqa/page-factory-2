@@ -8,7 +8,7 @@ public class PickleStepTag extends PickleStep implements NonCritical {
 
     public static final String NON_CRITICAL = "? ";
 
-    private boolean isNonCritical;
+    private final boolean isNonCritical;
     private boolean isSkipped = false;
     private String dataTag;
     private Throwable error = null;

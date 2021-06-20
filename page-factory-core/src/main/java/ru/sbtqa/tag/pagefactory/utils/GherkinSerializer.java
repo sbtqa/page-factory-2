@@ -41,7 +41,7 @@ public class GherkinSerializer {
         cucumberFeatures.forEach(cucumberFeature -> {
             builder = new StringBuilder();
             Feature feature = cucumberFeature.getGherkinFeature().getFeature();
-            builder.append("#language: " + feature.getLanguage());
+            builder.append("#language: ").append(feature.getLanguage());
             nl(1);
             if (!feature.getTags().isEmpty()) {
                 feature.getTags().forEach(tag -> builder.append(tag.getName()).append(SPACE));
