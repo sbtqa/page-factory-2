@@ -178,7 +178,7 @@ public class ElementUtils {
      * @throws ru.sbtqa.tag.pagefactory.exceptions.ElementDisabledError If
      * element is disabled
      */
-    public static <T extends WebElement> void clickOnElemenByText(List<T> elements, String text) {
+    public static <T extends WebElement> void clickOnElementByText(List<T> elements, String text) {
         T element = getElementByText(elements, text);
         if (!element.isEnabled()) {
             throw new ElementDisabledError(format("Element with text '%s' is disabled.", text));

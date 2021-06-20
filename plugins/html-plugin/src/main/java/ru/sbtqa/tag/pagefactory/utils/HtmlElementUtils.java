@@ -25,7 +25,7 @@ public class HtmlElementUtils {
      * {@code WebElement}, то вернет его. Если наследник
      * {@code TypifiedElement}, то {@code WrappedElement}
      *
-     * @param <T> тип переданного элемента - любой наследниик {@code WebElement}
+     * @param <T> тип переданного элемента - любой наследник {@code WebElement}
      * @param element элемент, по которому нужно получить элемент типа
      * {@code WebElement}
      * @return преобразованный к {@code WebElement} элемент

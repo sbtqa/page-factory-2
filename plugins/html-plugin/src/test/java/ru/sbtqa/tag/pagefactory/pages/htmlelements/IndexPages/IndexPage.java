@@ -40,7 +40,7 @@ public class IndexPage extends HTMLPage {
     public void openedPage(String page) throws ElementDescriptionException, ElementNotFoundException{
         HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
         List<Link> links = htmlFindUtils.findList(null,"menu with list elements->toolbar");
-        String attributClass = ElementUtils.getElementByText(links, page).findElement(By.xpath("./..")).getAttribute("class");
-        Assert.assertEquals("The path to element was compiled incorrectly.", "active", attributClass);
+        String attributeClass = ElementUtils.getElementByText(links, page).findElement(By.xpath("./..")).getAttribute("class");
+        Assert.assertEquals("The path to element was compiled incorrectly.", "active", attributeClass);
     }
 }

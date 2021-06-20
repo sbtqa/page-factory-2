@@ -19,11 +19,11 @@ public class Highlight {
     private static final Logger LOG = LoggerFactory.getLogger(WebWait.class);
 
     @Pointcut("call(* org.openqa.selenium.WebElement.click()) && if()")
-    public static boolean isHighlighEnabled() {
+    public static boolean isHighlightEnabled() {
         return PROPERTIES.isHighlightEnabled();
     }
 
-    @Around("isHighlighEnabled()")
+    @Around("isHighlightEnabled()")
     public void highlight(ProceedingJoinPoint joinPoint) throws Throwable {
         WebElement webElement = (WebElement) joinPoint.getTarget();
         String originalStyle = getElementBorderStyle(webElement);

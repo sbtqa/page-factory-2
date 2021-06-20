@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * Utility to inject allure categories at runtime.
  * <p>
- * It applies the only unique category names. If categories are predefined by user, donn't override it.
+ * It applies the only unique category names. If categories are predefined by user, don't override it.
  */
 public class CategoriesInjector {
     private static final Logger LOG = LoggerFactory.getLogger(CategoriesInjector.class);

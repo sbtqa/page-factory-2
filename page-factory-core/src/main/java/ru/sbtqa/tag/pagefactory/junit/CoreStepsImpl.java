@@ -29,7 +29,7 @@ import static java.lang.String.format;
  * used in this class: Page - a class that extends {@link Page} and has
  * {@link ru.sbtqa.tag.pagefactory.annotations.ElementTitle} annotation Action -
  * a method with {@link ru.sbtqa.tag.pagefactory.annotations.ActionTitle}
- * annotation in page object List - list of objects's with
+ * annotation in page object List - list of objects with
  * {@link ru.sbtqa.tag.pagefactory.annotations.ElementTitle} annotation on page
  * object
  * <p>

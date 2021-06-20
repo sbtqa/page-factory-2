@@ -39,8 +39,8 @@ public class TableStepDefs {
 
     @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" in group \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\"$")
     public void selectRowInGroup(ClickVariation clickVariation,
-                                           String tableName, String gropName, String cellText, String columnName) {
-        tableSteps.selectRowInGroup(clickVariation, tableName, gropName, cellText, columnName);
+                                           String tableName, String groupName, String cellText, String columnName) {
+        tableSteps.selectRowInGroup(clickVariation, tableName, groupName, cellText, columnName);
     }
 
     @When("^user selects (single-click|double-click) in the table \"([^\"]*)\" row with the value \"([^\"]*)\" in the column \"([^\"]*)\" (\\d+) in order$")

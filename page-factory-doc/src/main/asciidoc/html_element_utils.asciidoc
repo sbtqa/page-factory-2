@@ -23,7 +23,7 @@
 |====================
 | *Метод* | *Описание*
 | static <T extends WebElement> WebElement getWebElement(T element) 
-| Возвращает элеммент типа `WebElement` из типизированного элемента
+| Возвращает элемент типа `WebElement` из типизированного элемента
 
 Если элемент уже имеет тип `WebElement`, то вернет его
 
