@@ -3,7 +3,6 @@ package ru.sbtqa.tag.pagefactory.web.drivers;
 import io.github.bonigarcia.wdm.EdgeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
@@ -21,6 +20,6 @@ public class CreatedEdgeDriver implements Supplier<WebDriver> {
     @Override
     public WebDriver get() {
         WebDriverManagerConfigurator.configureDriver(EdgeDriverManager.getInstance(), BrowserName.EDGE.getName());
-        return new EdgeDriver(new EdgeOptions().merge(capabilities));
+        return new EdgeDriver(capabilities);
     }
 }

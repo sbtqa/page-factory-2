@@ -3,7 +3,6 @@ package ru.sbtqa.tag.pagefactory.web.drivers;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.sbtqa.tag.pagefactory.web.configure.WebDriverManagerConfigurator;
 import ru.sbtqa.tag.pagefactory.web.support.BrowserName;
