@@ -1,0 +1,12 @@
+=== Quick start
+
+Firstly include a dependency to your project with latest stable release version
+
+[source, xml, subs="attributes+"]
+----
+    <dependency>
+      <groupId>ru.sbtqa.tag.pagefactory</groupId>
+      <artifactId>{plug}</artifactId>
+      <version>latest stable version</version>
+    </dependency>
+----

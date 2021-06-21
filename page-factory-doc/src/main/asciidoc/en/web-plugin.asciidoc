@@ -1,0 +1,52 @@
+== Web plugin
+Plugin for web-applications testing, based on `selenium` & `cucumber`
+
+:plug: web-plugin
+:pn: WebPage
+:st: WebSteps
+:stg: WebStepsImpl
+:act: WebPageActions
+:ref: DefaultReflection
+
+include::web_how_to_start.asciidoc[]
+
+//include::web_pages.asciidoc[]
+//
+//include::web_elements.asciidoc[]
+
+=== Element search
+
+To search for a web element:
+
+[source, ]
+----
+((FindUtils) Environment.getFindUtils()).getElementByTitle("Имя элемента");
+----
+
+=== Methods for web-elements
+
+//include::web_element_utils.asciidoc[]
+
+=== Steps & Actions
+
+Elements in scenarios can be handled two ways: in step definitions and actions
+
+//include::web_steps.asciidoc[]
+//
+//include::web_actions.asciidoc[]
+//
+//include::cucumber_non_critical_steps.asciidoc[]
+//
+//include::cucumber_doc.asciidoc[]
+//
+//include::web_properties.asciidoc[]
+
+include::allure.asciidoc[]
+
+=== Additional methods
+
+//include::web_reflection.asciidoc[]
+//
+//include::web_methods.asciidoc[]
+//
+//include::web_alert.asciidoc[]
