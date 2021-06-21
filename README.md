@@ -2,7 +2,7 @@
 
 # 🚩🚩🚩 WE ARE LOOKING DOCUMENTATION CONTRIBUTOR FOR ENGLISH TRANSLATION! CONTACT US VIA viktor.sidochenko@gmail.com🚩🚩🚩
 
-[![Build Status](https://travis-ci.org/sbtqa/page-factory-2.svg?branch=master)](https://travis-ci.org/sbtqa/page-factory-2) [![GitHub release](https://img.shields.io/github/release/sbtqa/page-factory-2.svg?style=flat-square)](https://github.com/sbtqa/page-factory-2/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/page-factory-2.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/page-factory-2)
+[![Build Status](https://travis-ci.com/sbtqa/page-factory-2.svg?branch=master)](https://travis-ci.com/sbtqa/page-factory-2) [![GitHub release](https://img.shields.io/github/release/sbtqa/page-factory-2.svg?style=flat-square)](https://github.com/sbtqa/page-factory-2/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/page-factory-2.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/page-factory-2)
 
 ## Telegram: https://t.me/tag_support
 
@@ -28,6 +28,8 @@ Page-Factory-2 это opensource java framework для автоматизиро�
 Page-Factory-2 выпущен под лицензией Apache 2.0. [Подробности](https://github.com/sbtqa/page-factory-2/blob/master/LICENSE).
 
 ### Big Thanks
-Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com) 🔥
 
-[Jetbrains](https://www.jetbrains.com/?from=page-factory-2) for the most awesome Java IDE ever <3
+[Travis-ci](https://travis-ci.com) for cloud CI/CD resources 🚀
+
+[Jetbrains](https://www.jetbrains.com/?from=page-factory-2) for the most awesome Java IDE ever ❤️
