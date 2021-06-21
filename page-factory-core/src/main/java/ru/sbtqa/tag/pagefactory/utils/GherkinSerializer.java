@@ -30,8 +30,8 @@ public class GherkinSerializer {
     }
 
     /**
-     * As soon as fragments are inserted, all features structure will unaligned by its file locationss.
-     * So we need to realign it by reserializing featues sources.
+     * As soon as fragments are inserted, all features structure will unaligned by its file locations.
+     * So we need to realign it by reserializing features sources.
      *
      * @param cucumberFeatures unaligned features
      * @return reserealized features

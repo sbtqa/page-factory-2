@@ -4,17 +4,17 @@
 
   <groupId>ru.sbtqa.tag</groupId>
   <artifactId>page-factory-2</artifactId>
-  <version>16.0-SNAPSHOT</version>
+  <version>17.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>page-factory-2</name>
-  <url>http://github.com/sbtqa/page-factory</url>
+  <url>https://github.com/sbtqa/page-factory</url>
   <description>page-factory-2 description</description>
 
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
 
@@ -23,25 +23,25 @@
       <name>Viktor Sidochenko</name>
       <email>viktor.sidochenko@gmail.com</email>
       <organization>sbtqa</organization>
-      <organizationUrl>http://github.com/sbtqa</organizationUrl>
+      <organizationUrl>https://github.com/sbtqa</organizationUrl>
     </developer>
     <developer>
       <name>Konstantin Maltsev</name>
       <email>mkypers@gmail.com</email>
       <organization>sbtqa</organization>
-      <organizationUrl>http://github.com/sbtqa</organizationUrl>
+      <organizationUrl>https://github.com/sbtqa</organizationUrl>
     </developer>
     <developer>
       <name>Alexander Anikeev</name>
       <email>iamanikeev@gmail.com</email>
       <organization>sbtqa</organization>
-      <organizationUrl>http://github.com/sbtqa</organizationUrl>
+      <organizationUrl>https://github.com/sbtqa</organizationUrl>
     </developer>
     <developer>
       <name>Ivan Varivoda</name>
       <email>varivoda_ivan@mail.ru</email>
       <organization>sbtqa</organization>
-      <organizationUrl>http://github.com/sbtqa</organizationUrl>
+      <organizationUrl>https://github.com/sbtqa</organizationUrl>
     </developer>
   </developers>
 
