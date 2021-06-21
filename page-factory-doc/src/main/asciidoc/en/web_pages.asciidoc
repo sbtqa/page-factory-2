@@ -1,0 +1,34 @@
+=== Описание страниц
+При описании страниц нужно придерживаться паттерна `PageObject`
+`PageObject` pattern should be followed while describing your pages.
+
+*__Page__* is a class with user UI description and actions belonging to the page
+
+To use plugin features each page in your project should extend `{pn}` and be named using `@PageEntry` annotation
+
+Example::
+[source, java, subs="attributes+" ]
+----
+package ru.your.project.pages;
+
+import ru.sbtqa.tag.pagefactory.annotations.PageEntry;
+import ru.sbtqa.tag.pagefactory.{pn};
+
+@PageEntry(title = "Ваша страница")
+public abstract class YourPage extends {pn} {
+
+}
+----
+Page could be accessed from test scenario by name in `@PageEntry` annotation.
+
+Path to the root package containing Pages should be set up in configuration file (application.properties) as a `page.package` param.
+
+Пример::
+[source, bash]
+----
+page.package = ru.your.project.pages
+----
+
+NOTE: [aqua]#We recommend to make your own project Base page extending `{pn}` and allow other pages in project extend it. It allows you to define common actions on your base page.#
+
+include::web_page_manager.asciidoc[]

@@ -1,0 +1,22 @@
+==== Page methods
+
+Methods could be accessed through `PageManager` class
+
+[width="100%",options="header"]
+|====================
+^.^| Method ^.^| Description
+| static Map<Class<? extends Page>, Map<Field, String>> getPageRepository()
+| Get page repository (bundle: page & number of page fields with names)
+
+| static Page getPage(String title)
+| Get page by title (`@PageEntry` annotation `title`)
+
+| static Page getPage(Class<? extends Page> page)
+| Get page by class name
+
+| static Page changeUrlByTitle(String title)
+| Redirects to URL (`@PageEntry` annotation `url`)
+
+| static void cachePages()
+| Creates a repository with all project pages
+|====================

@@ -1,0 +1,141 @@
+==== Attribute checks
+
+:t: Methods could be accessed through `ElementUtils`
+
+{t}
+
+|====================
+| *Method* | *Description*
+
+| static <T extends WebElement> boolean isElementAttributeContains(T element, String attribute, String partialAttributeValue)
+| Checks if element's attribute contains a partialAttributeValue
+
+Returns `true`, if attribute contains value, `false`, if not
+
+| static <T extends WebElement> boolean isElementAttributeEquals(T element, String attribute, String attributeValue)
+| Checks if attribute equals attributeValue
+
+Returns `true`, if value equals attribute,`false`, if not
+|====================
+
+==== Search a list of elements by attribute
+
+{t}
+
+|====================
+| *Method* | *Description*
+
+| static <T extends WebElement> T getElementWithAttributeWithEmptyResult(List<T> elements, String attribute, String attributeValue)
+| Returns element with the attribute equal to attributeValue
+
+If there is no element in list, returns `null`
+
+
+
+| static <T extends WebElement> T getElementWithAttribute(List<T> elements, String attribute, String attributeValue)
+| Returns element with the attribute equal to attributeValue
+
+If there is no element in list, throws exception
+
+
+| static <T extends WebElement> T getElementWithPartAttributeWithEmptyResult(List<T> elements, String attribute, String partialAttributeValue)
+| Returns element with the attribute containing partialAttributeValue
+
+If there is no element in list, returns `null`
+
+
+| static <T extends WebElement> T getElementWithPartAttribute(List<T> elements, String attribute, String partialAttributeValue)
+| Returns element with the attribute containing partialAttributeValue
+
+If there is no element in list, throws exception
+|====================
+
+==== Getting element text values
+
+{t}
+
+|====================
+| *Method* | *Description*
+
+| static <T extends WebElement> List<String> getElementsText(List<T> elements)
+| Get text values from the list of elements
+|====================
+
+==== Getting element from list using text value
+
+{t}
+
+|====================
+| *Method* | *Description*
+
+| static <T extends WebElement> T getElementByTextWithEmptyResult(List<T> elements, String text)
+| Returns element with determined type and determined text value. If there is no element, returns `null`
+
+
+| static <T extends WebElement> T getElementByText(List<T> elements, String text)
+| Returns element with determined type and determined text value.
+
+If there is no element, throws exception
+|====================
+
+==== Getting element by index
+
+{t}
+
+|====================
+| *Method* | *Description*
+
+| static <T extends WebElement> T getElementByIndex(List<T> elements, int index)
+| Return element from list with threshold handling
+|====================
+
+==== Search for element in list using predicate
+
+{t}
+
+|====================
+| *Method* | *Description*
+
+| static <T extends WebElement> T getElementByPredicateWithEmptyResult(List<T> elements, Predicate<T> predicate)
+| Return element from list, according to predicate
+
+If there is no element, returns `null`
+
+
+
+| static <T extends WebElement> T getElementByPredicate(List<T> elements, Predicate<T> predicate)
+| Return element from list, according to predicate
+
+If there is no element, throws exception
+|====================
+
+==== Other helpful methods
+
+{t}
+
+|====================
+| *Method* | *Description*
+
+| static <T extends WebElement> void doubleClick(T element)
+| Double-click the element
+
+| static <T extends WebElement> boolean isListContains(List<T> elements, String text)
+| Check if list of elements contains text strictly equals to text
+
+Returns `true`, if text was found in element list, `false` if not
+
+
+| static <T extends WebElement> void clickOnElementByText(List<T> elements, String text)
+| Find element in list with text defined and clicks it
+
+Check if element is editable, throws exception if not
+
+
+| static <T extends WebElement> String getTextByElementXpath(T currentContext, String xpath)
+| Get element text using its xpath
+
+Element related to search start is used as a parameter
+
+If no element found by xpath, returns empty string
+
+|====================
