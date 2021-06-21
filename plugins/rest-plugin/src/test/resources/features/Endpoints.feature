@@ -15,9 +15,23 @@ Feature: Api action test
   @typed-arrays
   Scenario: Typed Arrays
     * user sends request for "typed arrays" with parameters
-      | valuesString  | "should be quoted", \,one, two, three, four         |
-      | valuesInt     | 1, 2, 3, 4, 5                                       |
-      | valuesBoolean | true, false, true, true, true                       |
+      | valuesString  | "should be quoted", \,one, two, three, four |
+      | valuesInt     | 1, 2, 3, 4, 5                               |
+      | valuesBoolean | true, false, true, true, true               |
+    * system returns "result"
+
+  @fill-array
+  Scenario: Fill Array
+    * user prepares a data array to stash value "ints":
+      | 1 |
+      | 2 |
+      | 3 |
+      | 4 |
+      | 5 |
+    * user sends request for "typed arrays" with parameters
+      | valuesString  | "should be quoted", \,one, two, three, four |
+      | valuesInt     | #{ints}                                     |
+      | valuesBoolean | true, false, true, true, true               |
     * system returns "result"
 
   @put

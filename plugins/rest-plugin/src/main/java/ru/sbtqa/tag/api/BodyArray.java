@@ -21,7 +21,8 @@ public class BodyArray<E> {
         this.array = new ArrayList<>();
         List<Object> collect = Arrays.stream(values.split("(?<!\\\\),\\s*"))
                 .map(value -> ConvertUtils
-                        .convert(value.replace("\"", "\\\""), genericType))
+                        .convert(value.replace("\"", "\\\"")
+                                .replace("\\,", ","), genericType))
                 .collect(Collectors.toList());
         this.array.addAll((Collection<? extends E>) collect);
     }
