@@ -1,4 +1,4 @@
-=== Настройка для JUnit
+=== Configuration for JUnit
 
 {counter:ad}. Add dependency to your `pom.xml`:
 
@@ -57,7 +57,7 @@ For `Adaptavist` reports run:
 
 Check `tm4j_result.json` result file in project root directory.
 
-image:../images/junit.png[]
+image:images/junit.png[]
 
 ====  `JUnit` result synchronization:
 
@@ -89,12 +89,12 @@ Use following params:
 
 After synchronization check `Tests` secti
 
-image:../images/cucumber_tests.png[]
+image:images/cucumber_tests.png[]
 
 Check `Execution` section inside Inside t
 
-image:../images/cucumber-exec.png[]
+image:images/cucumber-exec.png[]
 
 Also launch information will be available for issue linked to test case:
 
-image:../images/cucumber_issue.png[]
+image:images/cucumber_issue.png[]

@@ -57,7 +57,7 @@ For building `Adaptavist` reports use following command:
 
 Afterwards check result json in a directory configured  in "plugin" In our case it is `pagefactory.json` in `target/cucumber` directory
 
-image:../images/cucumber.png[]
+image:images/cucumber.png[]
 
 ====  Result synchronization for `Cucumber`
 
@@ -88,14 +88,14 @@ Use following params:
 ===== Results in Jira
 After synchronization check `Tests` section for launch results ([lime]#green# on screenshot, test case `id` marked [red]#red#)
 
-image:../images/cucumber_tests.png[]
+image:images/cucumber_tests.png[]
 
 Check `Execution` section inside Inside test case info for launch information:
 
-image:../images/cucumber-exec.png[]
+image:images/cucumber-exec.png[]
 
 Also launch information will be available for issue linked to test case:
 
-image:../images/cucumber_issue.png[]
+image:images/cucumber_issue.png[]
 
 

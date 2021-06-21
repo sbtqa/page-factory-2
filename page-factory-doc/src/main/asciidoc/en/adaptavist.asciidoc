@@ -7,29 +7,29 @@ Assume that we have in issue `TAG-945` in `TAG` project, with test cases linked 
 
 Create a test in `Traceability` section:
 
-image:../images/create_case.png[]
+image:images/create_case.png[]
 
 Set up name and other required params, save:
 
-image:../images/save.png[]
+image:images/save.png[]
 
 An info popup with test case `id` should be shown. In our case `TAG-T4`:
 
-image:../images/saved.png[]
+image:images/saved.png[]
 
 You can see test case linked to the issue:
 
-image:../images/saved-issue.png[]
+image:images/saved-issue.png[]
 
 A list with test cases can be checked as follows:
 
 {counter:ab}. Follow to `Tests` section:
 
-image:../images/tests.png[]
+image:images/tests.png[]
 
 {counter:ab}. Find a test case by `id`:
 
-image:../images/tests-id.png[]
+image:images/tests-id.png[]
 
 More information about test model structure you can find in official doc https://support.smartbear.com/zephyr-scale-cloud/docs/[Adaptavist^, role="ext-link"]
 
