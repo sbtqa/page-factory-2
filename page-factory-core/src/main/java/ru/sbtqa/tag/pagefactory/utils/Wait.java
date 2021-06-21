@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.utils;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -103,7 +104,9 @@ public class Wait {
      * @param timeout condition timeout in seconds
      */
     public static void visibility(WebElement element, String message, int timeout) {
-        wait(ExpectedConditions.visibilityOf(element), message, timeout);
+        new WebDriverWait(Environment.getDriverService().getDriver(), timeout)
+                .ignoring(StaleElementReferenceException.class)
+                .withMessage(message).until(ExpectedConditions.visibilityOf(element));
     }
 
     /**
