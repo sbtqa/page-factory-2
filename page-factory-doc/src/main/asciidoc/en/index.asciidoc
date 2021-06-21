@@ -1,0 +1,24 @@
+include::header.asciidoc[]
+
+= Page Factory 2
+
+:linkattrs:
+:toc:
+== Introduction
+
+Page Factory 2 is an open-source java framework for automated testing in BDD (Behaviour Driven Development) style orientated on PageFactory pattern
+
+Framework allows developing of human-readable autotests lowering the barrier to entry for test developers and making it readable for inexperienced users.
+
+Page Factory 2 implements Cucumber-JVM framework, but unlike classical usage of step definitions the accent is put on using the Page Object pattern to reduce step definitions quantity and focus on page description.
+
+Page Factory 2 includes large number of standart steps, so one could start developing automated tests out of the box. Page Factory is a cross-platform framework allowing to launch tests using most of popular web browsers. Also Page Factory supports iOs and Android application testing with the means of Appium.
+To simplify work with *.feature files an https://plugins.jetbrains.com/plugin/13227-test-automation-gears/[Intellij Idea-plugin] was developed, it supports code completion for steps, pages, elements and jumping over them.
+
+//include::web-plugin.asciidoc[Web plugin]
+//include::html-plugin.asciidoc[Html plugin]
+//include::rest-plugin.asciidoc[Rest plugin]
+//include::mq-plugin.asciidoc[MQ plugin]
+//include::mobile-plugin.asciidoc[Mobile plugin]
+
+include::adaptavist.asciidoc[]

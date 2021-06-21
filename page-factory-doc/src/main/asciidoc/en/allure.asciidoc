@@ -1,0 +1,76 @@
+=== Reports
+
+{plug} supports Allure2 reports by default
+
+To configure automated reporting after auto-test launch follow these instructions:
+
+Add launch parameter for `maven-surefire-plugin`. For example:
+
+[source,]
+----
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20</version>
+        <configuration>
+          <argLine>
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+            -Dcucumber.options="--plugin io.qameta.allure.cucumber2jvm.AllureCucumber2Jvm --plugin pretty"
+          </argLine>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+----
+After test launch check `allure-results/` directory for *.json result files. One file for one test. There are also screenshots for failed tests and url's to the video (if recording was enabled in properties)
+
+To form an html reports follow https://docs.qameta.io/allure/#_reporting[one of these instructions^, role="ext-link"]
+
+==== Reports & Fluent API
+If you don't use `cucumber` but need the test steps to be included in report:
+
+{counter:a}. Add `allure` dependency in your project:
+[source,]
+----
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit4</artifactId>
+      <version>2.10.0</version>
+      <scope>test</scope>
+    </dependency>
+----
+
+{counter:a}. Add `listener` to `maven-surefire-plugin` configuration:
+[source,]
+----
+<properties>
+  <property>
+    <name>listener</name>
+    <value>io.qameta.allure.junit4.AllureJunit4</value>
+  </property>
+</properties>
+----
+
+{counter:a}. If you need english localization for framework steps, add this to your `application.properties`
+[source,]
+----
+   junit.lang = en
+----
+TIP: Russian is default language
+
+{counter:a}. Your methods should be annotated as `@Step`
+
+Example:
+[source,java]
+----
+    @Step("My test method \"{parameter}\"")
+    public T yourMethod(String parameter) {
+        ...
+        return (T) this;
+    }
+----

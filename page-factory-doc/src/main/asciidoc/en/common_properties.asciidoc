@@ -1,0 +1,177 @@
+==== Configuration file
+
+The path for default configuration file is `/src/test/resources/config/application.properties`.  +
+But this could be changed using `TagConfigFileFolder` system property so that this directory would be located under (/src/test/resources). By default it is `config` directory.
+Example:
+[source,]
+----
+mvn test -DTagConfigFileFolder=custom-place
+----
+Also the filename could be changed using 'TagConfigFile' systev variable. The default filename is `application`.
+Example:
+[source,]
+----
+mvn test -DTagConfigFile=config.properties
+----
+
+Also different parameters could be set using environmental variables or java system properties.
+
+All properties override previous. The priority is as follows:
+* application.properties is default
+* Then `TagConfigFile` is checked
+* Then environmental variables
+* Then java system properties
+
+==== General configuration
+
+[width="100%",options="header"]
+|====================
+^.^| Parameter ^.^| Description ^.^| Default value
+3.1+^.^| **Mandatory**
+| page.package
+| Path to page classes (pages)
+
+Example:
+
+page.package = ru.myproject.pages
+| Not set
+
+3.1+^.^| **Optional**
+| timeout
+| Operation timeout in seconds
+| 20
+
+| tasks.to.kill
+| Parameter allows to kill system processes before test launch if they exist
+
+Example:
+
+tasks.to.kill = iexplorer,chrome
+| not set
+
+| driver.shared
+| Leave driver launched after single test scenario or not
+
+Possible values: `true` or `false` +
+| `false`
+|====================
+
+
+==== Report configuration
+
+[width="100%",options="header"]
+|====================
+^.^| Parameter ^.^| Description ^.^| Default value
+| screenshot.strategy | Screenshot format
+
+Possible values: `driver` or `raw`. +
+`driver` - screenshot is made by `Selenium WebDriver`, web-page only  +
+`raw` - screenshot of whole desktop is made
+| `raw`
+
+| aspects.report.fill.enabled
+| Add field filling parameters to report +
+| `true`
+
+| aspects.report.click.enabled
+| Add click actions to report  +
+| `true`
+
+32300 - 100
+
+| aspects.report.press.key.enabled
+| Add button press actions to report +
+| `true`
+
+| aspects.report.set.checkbox.enabled
+| Add checkbox actions to report +
+| `true`
+
+| aspects.report.select.enabled
+| Add dropdown list actions to report +
+| `true`
+
+| aspects.report.error.source.enabled
+| Add failed step page source to test +
+| `false`
+|====================
+
+==== Video record configuration
+[width="100%",options="header"]
+|====================
+^.^| Parameter ^.^| Description ^.^| Default value
+| video.enabled
+| Enable or disable video record +
+Possible values: `true` или `false` +
+| `false`
+
+| video.path
+| The path to video storage folder. Network folder path also can be used
+
+Example:
+
+video.path = /tmp/video
+| Default system temporary folder
+|====================
+
+==== Fragment configuration parameters
+[width="100%",options="header"]
+|====================
+^.^| Parameter ^.^| Description ^.^| Default value
+| fragments.enabled
+| Enable or disable fragments +
+Possible values: `true` или `false` +
+| `true`
+
+| fragments.path
+| Path to fragments *.feature folder
+
+Example:
+
+fragments.path = src/test/resources/fragments
+
+| Path to *.features folder from launch configuration (@CucumberOptions)
+|====================
+
+==== Test data parameters
+[width="100%",options="header"]
+|====================
+^.^| Parameter ^.^| Description
+2.1+^.^| Mandatory
+| data.type
+| Data type
+
+Possible values: `json`, `mongo`, `excel`, `properties` +
+
+| data.folder
+| Path to test data folder For `excel` path to the file without extension
+
+Example:
+
+data.folder = src/test/resources/data/
+
+Example for `excel`
+
+data.folder = src/test/resources/data/Data
+
+|data.initial.collection
+| Default data collection. Need to be set without file extension. Tab name for `excel`
+
+Example:
+
+data.initial.collection = Data
+2.1+^.^| Mandatory for `mongodb`
+| data.uri
+| Database address. Used for `data.type = mongo`
+
+Example:
+
+data.uri = mongodb://username:password@host.ru:8080
+
+| data.db
+| Database name. Used for `data.type = mongo`
+
+2.1+^.^| Optional
+| data.extension
+| Test data file extension. (used for non-typical file types). Not used for `excel` (always `xslx`)
+|====================
