@@ -39,8 +39,8 @@ public class TableStepDefs {
 
     @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" в группе \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\"$")
     public void selectRowInGroup(ClickVariation clickVariation,
-                                 String tableName, String gropName, String cellText, String columnName) {
-        tableSteps.selectRowInGroup(clickVariation, tableName, gropName, cellText, columnName);
+                                 String tableName, String groupName, String cellText, String columnName) {
+        tableSteps.selectRowInGroup(clickVariation, tableName, groupName, cellText, columnName);
     }
 
     @Когда("^(?:пользователь |он )?выбирает (одинарным кликом|двойным кликом) в таблице \"([^\"]*)\" строку со значением \"([^\"]*)\" в столбце \"([^\"]*)\" (\\d+) по-порядку$")

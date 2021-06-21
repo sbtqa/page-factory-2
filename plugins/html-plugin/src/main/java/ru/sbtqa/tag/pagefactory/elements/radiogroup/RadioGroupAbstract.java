@@ -7,7 +7,7 @@ import ru.sbtqa.tag.pagefactory.elements.select.SelectValue;
 import ru.sbtqa.tag.pagefactory.web.utils.ElementUtils;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
-import static ru.sbtqa.tag.pagefactory.web.utils.ElementUtils.clickOnElemenByText;
+import static ru.sbtqa.tag.pagefactory.web.utils.ElementUtils.clickOnElementByText;
 
 public abstract class RadioGroupAbstract extends TypifiedElement implements SelectValue {
 
@@ -23,7 +23,7 @@ public abstract class RadioGroupAbstract extends TypifiedElement implements Sele
      */
     @Override
     public void selectByValue(String value) {
-        clickOnElemenByText(getButtons(), value);
+        clickOnElementByText(getButtons(), value);
     }
 
     /**

@@ -32,9 +32,9 @@ public interface Kafka<T> extends Mq<T> {
      * Browse all messages in KafkaImpl topic at the specified partition
      *
      * @param topicName topic name
-     * @param partiton  partition label
+     * @param partition  partition label
      * @return List of ConsumerRecords
      */
-    List<ConsumerRecord<String, String>> browseAllMessagesFromPartition(String topicName, int partiton);
+    List<ConsumerRecord<String, String>> browseAllMessagesFromPartition(String topicName, int partition);
 
 }

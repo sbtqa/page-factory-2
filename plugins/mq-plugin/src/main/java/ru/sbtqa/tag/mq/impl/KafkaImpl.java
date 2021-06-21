@@ -68,10 +68,10 @@ public class KafkaImpl implements Kafka<ConsumerRecord> {
     }
 
     @Override
-    public List<ConsumerRecord<String, String>> browseAllMessagesFromPartition(String topicName, int partiton) {
+    public List<ConsumerRecord<String, String>> browseAllMessagesFromPartition(String topicName, int partition) {
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProperties);
         List<ConsumerRecord<String, String>> buffer = new ArrayList<>();
-        TopicPartition tp = new TopicPartition(topicName, partiton);
+        TopicPartition tp = new TopicPartition(topicName, partition);
         List<TopicPartition> partitions = Collections.singletonList(tp);
         consumer.assign(partitions);
         consumer.seekToBeginning(partitions);

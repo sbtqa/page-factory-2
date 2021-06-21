@@ -114,7 +114,7 @@ public class ReplacerEntry extends EndpointEntry {
 ----
 
 ==== Как писать реализацию проверок 
-Получить ответ запроса можно методом `getResponse()` в любом `Entry`-классе. Этот метод вернет `ValidatableResponse`. О том, как с ним работать и какие проверки он имеет можно узнать в доументации https://github.com/rest-assured/rest-assured/wiki/Usage#verifying-response-data[rest-assured^, role="ext-link"]
+Получить ответ запроса можно методом `getResponse()` в любом `Entry`-классе. Этот метод вернет `ValidatableResponse`. О том, как с ним работать и какие проверки он имеет можно узнать в документации https://github.com/rest-assured/rest-assured/wiki/Usage#verifying-response-data[rest-assured^, role="ext-link"]
 
 Пример:
 [source,]

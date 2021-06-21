@@ -76,7 +76,7 @@ public class WebStepDefs {
     }
 
     @And("^(?:пользователь |он )?проверяет что элемент с текстом \"([^\"]*)\" существует$")
-    @When("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отоброжается$")
+    @When("^(?:пользователь |он )?проверяет что текст \"([^\"]*)\" отображается$")
     public void checkElementWithTextIsPresent(String text) {
         webSteps.checkElementWithTextIsPresent(text);
     }

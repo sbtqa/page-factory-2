@@ -120,7 +120,7 @@
 Вернет `true`, если текст найден в списке элементов и `false`, если не найден 
 
 
-| static <T extends WebElement> void clickOnElemenByText(List<T> elements, String text)
+| static <T extends WebElement> void clickOnElementByText(List<T> elements, String text)
 | Находит элемент в списке элементов с заданным текстом и кликает по нему.
 
 Проверяет, не является ли элемент недоступным для редактирования. Если недоступен, кидает исключение
@@ -129,7 +129,7 @@
 | static <T extends WebElement> String getTextByElementXpath(T currentContext, String xpath)
 | Получает текстовое значение элемента по его xpath выражению
 
-В качетве параметра передается элемент, относительно которого будем выполнять
+В качестве параметра передается элемент, относительно которого будем выполнять
 поиск
 
 Если элемент не был найден по указанному пути, то возвращает пустую строку

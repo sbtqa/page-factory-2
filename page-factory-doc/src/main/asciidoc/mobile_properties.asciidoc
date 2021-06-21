@@ -38,7 +38,7 @@ include::common_properties.asciidoc[]
 | Имя мобильной платформы ANDROID или IOS (регистр важен). По-умолчанию IOS
 
 | appium.strategies.reset
-| Если будет указано 'noreset', то будет активирована стратетия noReset. Если 'fullreset', то fullReset стратегия, в остальных случаях - стратегия по-умолчанию.
+| Если будет указано 'noreset', то будет активирована стратегия noReset. Если 'fullreset', то fullReset стратегия, в остальных случаях - стратегия по-умолчанию.
 
 | appium.permissions
 | iOS-only с applesimutils. Детали https://github.com/appium/appium-xcuitest-driver/blob/master/README.md[здесь]

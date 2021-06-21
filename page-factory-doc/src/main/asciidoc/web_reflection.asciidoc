@@ -13,7 +13,7 @@
 | Возвращает значение аннотации `@ElementTitle` для переданного элемента
 
 | boolean isRequiredElement(Field field, String title)
-| Проверяет, является ли поле объявляением элемента или нет (аннотировано `@ElementTitle` или нет) 
+| Проверяет, является ли поле объявлением элемента или нет (аннотировано `@ElementTitle` или нет)
 
 | String getFieldTitle(Field field)
 | Получает значение аннотации `@ElementTitle` поля

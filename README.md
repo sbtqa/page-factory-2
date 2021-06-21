@@ -30,4 +30,4 @@ Page-Factory-2 выпущен под лицензией Apache 2.0. [Подро�
 ### Big Thanks
 Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
 
-[Jetbrains](https://www.jetbrains.com/?from=page-factory-2) for the most awsome Java IDE ever <3
+[Jetbrains](https://www.jetbrains.com/?from=page-factory-2) for the most awesome Java IDE ever <3

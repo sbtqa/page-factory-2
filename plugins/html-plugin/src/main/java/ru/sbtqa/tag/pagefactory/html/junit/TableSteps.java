@@ -102,13 +102,13 @@ public class TableSteps implements Steps {
      * @param clickVariation {@code ClickVariation.DOUBLE_CLICK}, if you need to make a double-click selection,
      * and {@code ClickVariation.CLICK}, if single
      * @param tableName table name
-     * @param gropName
+     * @param groupName
      * @param cellText cell text
      * @param columnName column name
      * @return Returns itself
      */
-    public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String gropName, String cellText, String columnName) {
-        getTable(tableName).selectRowInGroup(gropName, columnName, cellText, 1, clickVariation.isDoubleClick());
+    public TableSteps selectRowInGroup(ClickVariation clickVariation, String tableName, String groupName, String cellText, String columnName) {
+        getTable(tableName).selectRowInGroup(groupName, columnName, cellText, 1, clickVariation.isDoubleClick());
         return this;
     }
 
