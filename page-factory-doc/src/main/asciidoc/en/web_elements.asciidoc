@@ -1,0 +1,34 @@
+=== Element description
+Web element could be described on page using it's DOM path and name. Name is optional if we don't need to access element from the test scenario for example if it used only in page methods.
+
+Selenium standard annotation `@FindBy` is used for element DOM path. You could find more info on search methods and locators in https://kreisfahrer.gitbooks.io/selenium-webdriver/content/webdriver_intro/tipi_lokatorov.html[selenium documentation, role="ext-link"]
+`@ElementTitle` annotation defines element name
+
+Example::
+[source, java]
+----
+    @ElementTitle(value = "Element")
+    @FindBy(xpath = "//span")
+    public WebElement element;
+----
+
+No need to initialize elements on pages as it is already done on parent page - `{pn}`
+
+
+If this is demanded, you can define page constructor and call parent constructor with the required decorator.
+
+Example::
+[source, java, subs="attributes+"]
+----
+@PageEntry(title = "Your page")
+public abstract class YourPage extends {pn} {
+
+    public YourPage() {
+        super(new HtmlElementDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())));
+    }
+}
+----
+
+
+
+

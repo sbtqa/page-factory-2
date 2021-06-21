@@ -2,7 +2,7 @@
 
 {counter:ad}. Add dependency to your `pom.xml`:
 
-[source,]
+[source, xml]
 ----
     <dependency>
       <groupId>com.adaptavist</groupId>
@@ -14,7 +14,7 @@
 
 {counter:ad}. Add a listener for `maven-surefire-plugin` in `pom.xml`:
 
-[source,]
+[source, xml]
 ----
     <properties>
       <property>
@@ -26,7 +26,7 @@
 
 {counter:ad}. Tag your `JUnit` tests with `Jira id's`:
 
-[source,]
+[source, java]
 ----
     @Test
     @TestCase(key = "TAG-T5")
@@ -37,7 +37,7 @@
 
 Or scenario names:
 
-[source,]
+[source, java]
 ----
     @Test
     @TestCase(name = "JUnit Test")
@@ -50,7 +50,7 @@ Or scenario names:
 
 For `Adaptavist` reports run:
 
-[source,]
+[source, bash]
 ----
   mvn clean test
 ----
@@ -71,7 +71,7 @@ image:images/junit.png[]
 ----
 
 {counter:aj}. Run:
-[source,]
+[source, bash]
 ----
 curl -k --basic --user user:password -F "file=@output_results.zip" https://yourjira.ru/jira/rest/atm/1.0/automation/execution/TAG?autoCreateTestCases=true
 ----
@@ -91,7 +91,7 @@ After synchronization check `Tests` secti
 
 image:images/cucumber_tests.png[]
 
-Check `Execution` section inside Inside t
+Check `Execution` section inside test case info for launch information:
 
 image:images/cucumber-exec.png[]
 

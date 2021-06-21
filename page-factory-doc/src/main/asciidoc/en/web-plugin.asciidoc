@@ -12,7 +12,7 @@ include::web_how_to_start.asciidoc[]
 
 include::web_pages.asciidoc[]
 
-//include::web_elements.asciidoc[]
+include::web_elements.asciidoc[]
 
 === Element search
 

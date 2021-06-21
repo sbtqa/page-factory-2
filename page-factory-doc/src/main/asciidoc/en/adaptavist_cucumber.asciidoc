@@ -2,7 +2,7 @@
 
 {counter:ac}. Add two lines in test runner `plugin` section:
 
-[source,]
+[source, java]
 ----
 @RunWith(Cucumber.class)
 @CucumberOptions(monochrome = true,
@@ -18,7 +18,7 @@ TIP: You can create several run-files forming different result files (`pagefacto
 
 {counter:ac}. If you are using `maven-surefire-plugin` section in your 'pom.xml' for test launch, two following lines should be added:
 
-[source,]
+[source, xml]
 ----
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -37,7 +37,7 @@ TIP: You can create several run-files forming different result files (`pagefacto
 
 Now when `Adaptavist` plugin is active, you shoul set up relations between test cases in project and Test cases in Adaptavist `Jira`. `@TestCaseKey` tags responding to test case Jira id's should be used for it. For example:
 
-[source,]
+[source, ]
 ----
   @TestCaseKey=TAG-T4
   Scenario: Test
@@ -50,7 +50,7 @@ Now when `Adaptavist` plugin is active, you shoul set up relations between test 
 
 For building `Adaptavist` reports use following command:
 
-[source,]
+[source, bash]
 ----
   mvn clean test
 ----
@@ -65,13 +65,13 @@ image:images/cucumber.png[]
 
 {counter:ae}. Use following command in project directory or make a zip archive with generated json-files manually:
 
-[source,]
+[source, bash]
 ----
  zip output_results.zip target/cucumber/*.json
 ----
 
 {counter:ae}. Run:
-[source,]
+[source, bash]
 ----
 curl -k --basic --user user:password -F "file=@output_results.zip" https://yourjira.ru/jira/rest/atm/1.0/automation/execution/cucumber/TAG?autoCreateTestCases=true
 ----
@@ -90,7 +90,7 @@ After synchronization check `Tests` section for launch results ([lime]#green# on
 
 image:images/cucumber_tests.png[]
 
-Check `Execution` section inside Inside test case info for launch information:
+Check `Execution` section inside test case info for launch information:
 
 image:images/cucumber-exec.png[]
 

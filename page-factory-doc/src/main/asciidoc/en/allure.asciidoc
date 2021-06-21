@@ -6,7 +6,7 @@ To configure automated reporting after auto-test launch follow these instruction
 
 Add launch parameter for `maven-surefire-plugin`. For example:
 
-[source,]
+[source, xml]
 ----
     <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -35,7 +35,7 @@ To form an html reports follow https://docs.qameta.io/allure/#_reporting[one of 
 If you don't use `cucumber` but need the test steps to be included in report:
 
 {counter:a}. Add `allure` dependency in your project:
-[source,]
+[source, xml]
 ----
     <dependency>
       <groupId>io.qameta.allure</groupId>
@@ -46,7 +46,7 @@ If you don't use `cucumber` but need the test steps to be included in report:
 ----
 
 {counter:a}. Add `listener` to `maven-surefire-plugin` configuration:
-[source,]
+[source, xml]
 ----
 <properties>
   <property>
@@ -66,7 +66,7 @@ TIP: Russian is default language
 {counter:a}. Your methods should be annotated as `@Step`
 
 Example:
-[source,java]
+[source, java]
 ----
     @Step("My test method \"{parameter}\"")
     public T yourMethod(String parameter) {
