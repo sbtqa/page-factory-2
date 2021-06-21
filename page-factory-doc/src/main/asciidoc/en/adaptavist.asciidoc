@@ -1,0 +1,38 @@
+== Adaptavist (Jira Test Manager)
+TAG allows to use Adaptavist. You need to configure your project and set relations between tests ni Jira and autotests in project.
+
+First you should create a test base in `Jira` - cases with relations to issues.
+
+Assume that we have in issue `TAG-945` in `TAG` project, with test cases linked to it.
+
+Create a test in `Traceability` section:
+
+image:../images/create_case.png[]
+
+Set up name and other required params, save:
+
+image:../images/save.png[]
+
+An info popup with test case `id` should be shown. In our case `TAG-T4`:
+
+image:../images/saved.png[]
+
+You can see test case linked to the issue:
+
+image:../images/saved-issue.png[]
+
+A list with test cases can be checked as follows:
+
+{counter:ab}. Follow to `Tests` section:
+
+image:../images/tests.png[]
+
+{counter:ab}. Find a test case by `id`:
+
+image:../images/tests-id.png[]
+
+More information about test model structure you can find in official doc https://support.smartbear.com/zephyr-scale-cloud/docs/[Adaptavist^, role="ext-link"]
+
+include::adaptavist_cucumber.asciidoc[]
+
+include::adaptavist_junit.asciidoc[]

@@ -1,0 +1,100 @@
+=== Настройка для JUnit
+
+{counter:ad}. Add dependency to your `pom.xml`:
+
+[source,]
+----
+    <dependency>
+      <groupId>com.adaptavist</groupId>
+      <artifactId>tm4j-junit-integration</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
+----
+
+{counter:ad}. Add a listener for `maven-surefire-plugin` in `pom.xml`:
+
+[source,]
+----
+    <properties>
+      <property>
+        <name>listener</name>
+        <value>com.adaptavist.tm4j.junit.ExecutionListener</value>
+      </property>
+    </properties>
+----
+
+{counter:ad}. Tag your `JUnit` tests with `Jira id's`:
+
+[source,]
+----
+    @Test
+    @TestCase(key = "TAG-T5")
+    public void testKey() {
+        ....
+    }
+----
+
+Or scenario names:
+
+[source,]
+----
+    @Test
+    @TestCase(name = "JUnit Test")
+    public void testName() {
+        ....
+    }
+----
+
+==== Test reports
+
+For `Adaptavist` reports run:
+
+[source,]
+----
+  mvn clean test
+----
+
+Check `tm4j_result.json` result file in project root directory.
+
+image:../images/junit.png[]
+
+====  `JUnit` result synchronization:
+
+===== Local launch
+
+{counter:aj}. Use following command in project directory or make a zip archive with generated `tm4j_result.json` manually:
+
+[source,]
+----
+ zip output_results.zip tm4j_result.json
+----
+
+{counter:aj}. Run:
+[source,]
+----
+curl -k --basic --user user:password -F "file=@output_results.zip" https://yourjira.ru/jira/rest/atm/1.0/automation/execution/TAG?autoCreateTestCases=true
+----
+
+Use following params:
+
+* `user` - `Jira` user, `password` - jira
+* Use your own `URL` for `Jira`
+* Your project name instead of `TAG`
+
+===== Jenkins
+`Jenkins` has a plugin for result synchronization. Check https://plugins.jenkins.io/tm4j-automation/[following link for  ^, role="ext-link"] for setup documentation.
+
+===== Results in Jira
+
+After synchronization check `Tests` secti
+
+image:../images/cucumber_tests.png[]
+
+Check `Execution` section inside Inside t
+
+image:../images/cucumber-exec.png[]
+
+Also launch information will be available for issue linked to test case:
+
+image:../images/cucumber_issue.png[]

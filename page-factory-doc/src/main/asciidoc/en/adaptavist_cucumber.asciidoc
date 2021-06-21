@@ -1,0 +1,101 @@
+=== Cucumber configuration
+
+{counter:ac}. Add two lines in test runner `plugin` section:
+
+[source,]
+----
+@RunWith(Cucumber.class)
+@CucumberOptions(monochrome = true,
+        plugin = {"pretty","junit:target/cucumber/result.xml",
+                           "json:target/cucumber/pagefactory.json"},
+        glue = {"ru.sbtqa.tag.stepdefs", "tag.stepdefs"},
+        features = {"src/test/resources/features"}
+)
+public class CucumberTest {}
+----
+
+TIP: You can create several run-files forming different result files (`pagefactory.json`) in our case
+
+{counter:ac}. If you are using `maven-surefire-plugin` section in your 'pom.xml' for test launch, two following lines should be added:
+
+[source,]
+----
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <argLine>
+            -Dcucumber.options="--plugin junit:target/cucumber/result.xml --plugin json:target/cucumber/pagefactory.json"
+          </argLine>
+        </configuration>
+
+        ....
+
+      </plugin>
+----
+
+Now when `Adaptavist` plugin is active, you shoul set up relations between test cases in project and Test cases in Adaptavist `Jira`. `@TestCaseKey` tags responding to test case Jira id's should be used for it. For example:
+
+[source,]
+----
+  @TestCaseKey=TAG-T4
+  Scenario: Test
+    * user checks that the field "first name" is empty
+
+    ....
+
+----
+==== Reports
+
+For building `Adaptavist` reports use following command:
+
+[source,]
+----
+  mvn clean test
+----
+
+Afterwards check result json in a directory configured  in "plugin" In our case it is `pagefactory.json` in `target/cucumber` directory
+
+image:../images/cucumber.png[]
+
+====  Result synchronization for `Cucumber`
+
+===== Local launch
+
+{counter:ae}. Use following command in project directory or make a zip archive with generated json-files manually:
+
+[source,]
+----
+ zip output_results.zip target/cucumber/*.json
+----
+
+{counter:ae}. Run:
+[source,]
+----
+curl -k --basic --user user:password -F "file=@output_results.zip" https://yourjira.ru/jira/rest/atm/1.0/automation/execution/cucumber/TAG?autoCreateTestCases=true
+----
+
+Use following params:
+
+* `user` - `Jira` user, `password` - jira user password
+* Use your own `URL` for `Jira`
+* Your project name instead of `TAG`
+
+===== Jenkins
+`Jenkins` has a plugin for result synchronization. Check https://plugins.jenkins.io/tm4j-automation/[following link for  ^, role="ext-link"] for setup documentation.
+
+===== Results in Jira
+After synchronization check `Tests` section for launch results ([lime]#green# on screenshot, test case `id` marked [red]#red#)
+
+image:../images/cucumber_tests.png[]
+
+Check `Execution` section inside Inside test case info for launch information:
+
+image:../images/cucumber-exec.png[]
+
+Also launch information will be available for issue linked to test case:
+
+image:../images/cucumber_issue.png[]
+
+
