@@ -46,7 +46,7 @@ public class SwipeUtils {
     /**
      * Swipe element to direction
      *
-     * @param element taget element to swipe
+     * @param element target element to swipe
      * @param direction swipe direction
      * @param time how fast element should be swiped
      * @throws SwipeException if there is an error while swiping
