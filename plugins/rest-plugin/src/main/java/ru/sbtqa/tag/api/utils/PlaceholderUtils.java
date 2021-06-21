@@ -33,12 +33,10 @@ public class PlaceholderUtils {
             Object parameterValue = parameter.getValue();
 
             if (isFieldExists(entry, parameterName)) {
-                try {
-                    string = replacePlaceholder(string, entry.getClass()
-                            .getDeclaredField(parameterName), parameterName, parameterValue);
-                } catch (NoSuchFieldException e) {
-                    throw new AutotestError("This error should never appear", e);
-                }
+                Field declaredField = FieldUtils.getAllFieldsList(entry.getClass())
+                        .stream().filter(field -> field.getName().equals(parameterName))
+                        .findFirst().orElseThrow(() -> new AutotestError("This error should never appear"));
+                string = replacePlaceholder(string, declaredField, parameterName, parameterValue);
             } else {
                 string = replacePlaceholder(string, null, parameterName, parameterValue);
             }
@@ -63,12 +61,9 @@ public class PlaceholderUtils {
             Object parameterValue = parameter.getValue();
 
             if (isFieldExists(entry, parameterName)) {
-                Field declaredField;
-                try {
-                    declaredField = entry.getClass().getDeclaredField(parameterName);
-                } catch (NoSuchFieldException e) {
-                    throw new AutotestError("This error should never appear", e);
-                }
+                Field declaredField = FieldUtils.getAllFieldsList(entry.getClass())
+                        .stream().filter(field -> field.getName().equals(parameterName))
+                        .findFirst().orElseThrow(() -> new AutotestError("This error should never appear"));
                 jsonString = replacePlaceholder(jsonString, declaredField, parameterName, parameterValue);
             } else {
                 jsonString = replacePlaceholder(jsonString, null, parameterName, parameterValue);
@@ -80,7 +75,7 @@ public class PlaceholderUtils {
     }
 
     private static boolean isFieldExists(EndpointEntry entry, String fieldName) {
-        return Arrays.stream(FieldUtils.getAllFields(entry.getClass()))
+        return FieldUtils.getAllFieldsList(entry.getClass()).stream()
                 .anyMatch(field -> field.getName().equals(fieldName));
     }
 
