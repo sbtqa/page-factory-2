@@ -11,11 +11,11 @@ import ru.sbtqa.tag.api.utils.FromResponseUtils;
 @Order(0)
 public class FromResponseApplicator extends DefaultApplicator implements Applicator {
 
-    private Class fromEndpoint;
-    private String path;
-    private String header;
-    private String mask;
-    private boolean isNecessity;
+    private final Class fromEndpoint;
+    private final String path;
+    private final String header;
+    private final String mask;
+    private final boolean isNecessity;
 
     public FromResponseApplicator(EndpointEntry entry, Field field) {
         super(entry, field);

@@ -6,6 +6,7 @@ import com.mongodb.MongoClientURI;
 
 import java.lang.reflect.InvocationTargetException;
 
+import com.mongodb.client.MongoDatabase;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class DataFactory {
         EXCEL_DATA_PROVIDER("excel.ExcelDataProvider"),
         MONGO_DATA_PROVIDER("mongo.MongoDataProvider");
 
-        private String value;
+        private final String value;
 
         PROVIDERS(String value) {
             this.value = value;
@@ -76,7 +77,7 @@ public class DataFactory {
                     break;
                 case "mongo":
                     MongoClient mongoClient = new MongoClient(new MongoClientURI(PROPERTIES.getDataUri()));
-                    DB db = mongoClient.getDB(PROPERTIES.getDataDb());
+                    MongoDatabase db = mongoClient.getDatabase(PROPERTIES.getDataDb());
 
                     testDataProvider = initProvider(PROVIDERS.MONGO_DATA_PROVIDER, db, initialCollection);
                     break;

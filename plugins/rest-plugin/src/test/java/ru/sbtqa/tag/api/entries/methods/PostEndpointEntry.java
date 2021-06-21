@@ -16,16 +16,16 @@ import static org.hamcrest.Matchers.equalTo;
 public class PostEndpointEntry extends EndpointEntry {
 
     @Header(name = CONTENT_TYPE)
-    private String header;
+    private final String header;
 
     @Body(name = "id")
-    private int id = Default.ID;
+    private final int id = Default.ID;
 
     @Body(name = "name")
-    private String name = "";
+    private final String name = "";
 
     @Body(name = "email")
-    private String email;
+    private final String email;
 
     public PostEndpointEntry() {
         super();

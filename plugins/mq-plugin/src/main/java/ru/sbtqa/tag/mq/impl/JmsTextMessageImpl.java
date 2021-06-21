@@ -22,7 +22,7 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
     public static final String JMS_MESSAGE_ID = "JMSMessageID";
     public static final String JMS_CORRELATION_ID = "JMSCorrelationID";
 
-    private Connection connection;
+    private final Connection connection;
     private String lastMsgId;
 
     public JmsTextMessageImpl(Connection connection) {
@@ -112,9 +112,9 @@ public class JmsTextMessageImpl implements Jms<TextMessage> {
                     String messageId = getMessageId(message);
                     if (messageId != null && !browsedMessages.contains(messageId)) {
                         browsedMessages.add(messageId);
-                        Message receivedMessage = receiveMessage(session, queue, JMS_MESSAGE_ID, messageId, PROPS.getMqTimeout());
+                        TextMessage receivedMessage = receiveMessage(session, queue, JMS_MESSAGE_ID, messageId, PROPS.getMqTimeout());
                         if (receivedMessage != null) {
-                            messages.add((TextMessage) receivedMessage);
+                            messages.add(receivedMessage);
                         }
                     }
                 } // while has no more elements

@@ -10,7 +10,7 @@ import ru.sbtqa.tag.pagefactory.mobile.junit.MobileSteps;
 
 public class MobileStepDefs {
 
-    private MobileSteps mobileSteps = MobileSteps.getInstance();
+    private final MobileSteps mobileSteps = MobileSteps.getInstance();
 
     @Before(order = 1)
     public void initMobile() {

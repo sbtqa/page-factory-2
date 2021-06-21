@@ -9,7 +9,7 @@ import ru.sbtqa.tag.api.exception.RestPluginException;
  */
 public class BlankStorage {
 
-    List<EndpointBlank> blanks = new ArrayList<>();
+    final List<EndpointBlank> blanks = new ArrayList<>();
 
     public EndpointBlank add(EndpointBlank endpointBlank) {
         blanks.add(endpointBlank);

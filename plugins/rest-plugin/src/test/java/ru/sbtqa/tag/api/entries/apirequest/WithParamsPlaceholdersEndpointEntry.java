@@ -16,10 +16,10 @@ import ru.sbtqa.tag.api.utils.Default;
 public class WithParamsPlaceholdersEndpointEntry extends EndpointEntry {
 
     @Query(name = Default.QUERY_PARAMETER_NAME_1)
-    private String query = "new-${parameter-1}";
+    private final String query = "new-${parameter-1}";
 
     @Header(name = Default.HEADER_PARAMETER_NAME_1)
-    private String header = "[{\"value\":\"${parameter-2}\", \"visible\":true, \"name\":\"${parameter-3}\"}]";
+    private final String header = "[{\"value\":\"${parameter-2}\", \"visible\":true, \"name\":\"${parameter-3}\"}]";
 
     @Header(name = "header2")
     private String header2;

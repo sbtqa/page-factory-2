@@ -10,5 +10,5 @@ public interface Hint extends WebElement {
     <T extends WebElement> T getContent();
     default <T extends WebElement> T getOpenButton(){
         return (T) this;
-    };
+    }
 }

@@ -14,7 +14,7 @@ import setting.JettySettings;
 
 public class JunitTest {
 
-    private static JettySettings server = new JettySettings();
+    private static final JettySettings server = new JettySettings();
 
     @BeforeClass
     public static void beforeClass() throws Exception {

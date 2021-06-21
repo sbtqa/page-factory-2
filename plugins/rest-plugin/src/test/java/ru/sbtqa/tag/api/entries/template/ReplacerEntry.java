@@ -12,25 +12,25 @@ import ru.sbtqa.tag.api.annotation.Validation;
 public class ReplacerEntry extends EndpointEntry {
 
     @Header(name = "Content-Type")
-    private String header = "application/json";
+    private final String header = "application/json";
 
     @Body(name = "day1")
-    private Boolean day1 = null;
+    private final Boolean day1 = null;
 
     @Body(name = "day11")
-    private boolean day11 = true;
+    private final boolean day11 = true;
 
     @Body(name = "day12")
     private boolean day12;
 
     @Body(name = "day13")
-    private boolean day13 = true;
+    private final boolean day13 = true;
 
     @Body(name = "day14")
-    private boolean day14 = true;
+    private final boolean day14 = true;
 
     @Body(name = "day15")
-    private boolean day15 = true;
+    private final boolean day15 = true;
 
     @Validation(title = "works correctly")
     public void validate() {

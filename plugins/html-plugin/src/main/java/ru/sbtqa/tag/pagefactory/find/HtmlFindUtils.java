@@ -378,7 +378,7 @@ public class HtmlFindUtils extends FindUtils {
     public <T extends WebElement> T find(String name, List<Class> clazz, boolean wait) {
         T element = find(name, wait);
         if (!clazz.contains(element.getClass())) {
-            throw new AutotestError(format("Uncorrected element type. Element: %s. Valid types: %s", name, clazz.toString()));
+            throw new AutotestError(format("Uncorrected element type. Element: %s. Valid types: %s", name, clazz));
         }
         return element;
     }
@@ -475,7 +475,7 @@ public class HtmlFindUtils extends FindUtils {
 
     private Class findType(WebElement element) {
         Map<String, Class> elements = getElementTypesMap();
-        Class typeCandidate = WebElement.class;
+        Class<WebElement> typeCandidate = WebElement.class;
         String elementClass = element.getAttribute("class");
         for (String elementString : elements.keySet()) {
             if (elementClass.contains(elementString)) {

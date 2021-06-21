@@ -1,6 +1,8 @@
 package ru.sbtqa.tag.api.utils;
 
 import java.io.IOException;
+import java.util.Objects;
+
 import org.apache.commons.io.IOUtils;
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
@@ -20,7 +22,7 @@ public class TemplateUtils {
      */
     public static String loadFromResources(Class<?> entry, String templatePath, String encoding) {
         try {
-            return IOUtils.toString(entry.getClassLoader().getResourceAsStream(templatePath), encoding)
+            return IOUtils.toString(Objects.requireNonNull(entry.getClassLoader().getResourceAsStream(templatePath)), encoding)
                     .replace(BOM, "");
         } catch (NullPointerException ex) {
             throw new RestPluginException("Can't find file by path " + templatePath, ex);

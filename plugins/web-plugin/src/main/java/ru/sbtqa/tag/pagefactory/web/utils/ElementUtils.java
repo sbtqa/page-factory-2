@@ -3,6 +3,8 @@ package ru.sbtqa.tag.pagefactory.web.utils;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.StringContains;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -351,7 +353,7 @@ public class ElementUtils {
             if (strategy.equals(SearchStrategy.EQUALS)) {
                 Assert.assertEquals(EQUALS_TEXT_ERROR, actualValue, expectedValue);
             } else {
-                Assert.assertThat(CONTAINS_TEXT_ERROR, actualValue, StringContains.containsString(expectedValue));
+                MatcherAssert.assertThat(CONTAINS_TEXT_ERROR, actualValue, StringContains.containsString(expectedValue));
             }
             throw new AllureNonCriticalError("Text verification was successful without paragraphs");
         }

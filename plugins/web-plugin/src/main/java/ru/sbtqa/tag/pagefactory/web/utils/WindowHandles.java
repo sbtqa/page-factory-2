@@ -31,7 +31,7 @@ public class WindowHandles {
      * @throws WaitException in case if new window handle didn't find
      */
     public static String findNewWindowHandle(Set<String> existingHandles, int timeout) throws WaitException, InterruptedException {
-        long timeoutTime = System.currentTimeMillis() + timeout * 1000;
+        long timeoutTime = System.currentTimeMillis() + timeout * 1000L;
 
         while (timeoutTime > System.currentTimeMillis()) {
             Set<String> currentHandles = Environment.getDriverService().getDriver().getWindowHandles();

@@ -38,7 +38,7 @@ public class IndexPage extends HTMLPage {
     
     @ActionTitle("opened page")
     public void openedPage(String page) throws ElementDescriptionException, ElementNotFoundException{
-        HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
+        HtmlFindUtils htmlFindUtils = Environment.getFindUtils();
         List<Link> links = htmlFindUtils.findList(null,"menu with list elements->toolbar");
         String attributeClass = ElementUtils.getElementByText(links, page).findElement(By.xpath("./..")).getAttribute("class");
         Assert.assertEquals("The path to element was compiled incorrectly.", "active", attributeClass);

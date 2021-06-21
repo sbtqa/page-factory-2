@@ -26,7 +26,7 @@ public class AppiumVideoRecorder {
     private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
     private static final String VIDEO_FILENAME_TEMPLATE = "%s." + PROPERTIES.getAppiumVideoExtension();
 
-    private String videoFileName;
+    private final String videoFileName;
     private boolean isRecording = false;
 
     public AppiumVideoRecorder(Scenario scenario) {

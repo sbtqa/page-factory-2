@@ -11,6 +11,6 @@ public class ContainCondition extends Condition {
     }
 
     public boolean isPositive() {
-        return !super.isConditionMatch();
+        return super.isConditionMatch();
     }
 }

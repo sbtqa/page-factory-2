@@ -17,7 +17,7 @@ import static ru.sbtqa.tag.api.utils.CastUtils.toMap;
 
 public class ApiStepDefs {
 
-    ApiSteps apiSteps = ApiSteps.getInstance();
+    final ApiSteps apiSteps = ApiSteps.getInstance();
 
     @Before
     public void iniApi() {

@@ -111,15 +111,11 @@ public class TestIdUtils {
 
     private static By getFindBy(String testId, TestIdType testIdType) {
         By by;
-        try {
-            by = By.xpath(format(".//*[%s or text()='%s']", parseDataTestId(testId, testIdType), testId));
-        } catch (NoSuchAlgorithmException e) {
-            by = By.xpath(format(".//*[text()='%s']", testId));
-        }
+        by = By.xpath(format(".//*[%s or text()='%s']", parseDataTestId(testId, testIdType), testId));
         return by;
     }
 
-    private static String parseDataTestId(String testId, TestIdType testIdType) throws NoSuchAlgorithmException {
+    private static String parseDataTestId(String testId, TestIdType testIdType) {
         String dataTestId = MD5.hash(testId);
         return format("@data-test-id='%sId_%s'", testIdType.toString().toLowerCase(), dataTestId);
     }

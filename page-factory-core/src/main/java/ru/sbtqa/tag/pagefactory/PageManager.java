@@ -48,7 +48,7 @@ public class PageManager {
         if (null == PageContext.getCurrentPage()
                 || !PageContext.getCurrentPageTitle().equals(title)
                 || Environment.getDriverService().isDriverEmpty()) {
-            Class pageClass = getPageClass(title);
+            Class<? extends Page> pageClass = getPageClass(title);
             if (pageClass == null) {
                 throw new AutotestError("Page object with title '" + title + "' is not registered");
             }

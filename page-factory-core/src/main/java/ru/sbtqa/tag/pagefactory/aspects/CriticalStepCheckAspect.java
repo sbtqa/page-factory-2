@@ -28,6 +28,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class CriticalStepCheckAspect {
 
     private final Category nonCriticalCategory = new Category(NON_CRITICAL_CATEGORY_NAME,
             NON_CRITICAL_CATEGORY_MESSAGE, null,
-            Arrays.asList(Status.PASSED.value()));
+            Collections.singletonList(Status.PASSED.value()));
 
     @Pointcut("execution(* cucumber.runtime.StepDefinitionMatch.runStep(..))")
     public void runStep() {
@@ -104,7 +105,7 @@ public class CriticalStepCheckAspect {
         if (hasFailedNonCriticalStep) {
             final Result result = new Result(Result.Type.PASSED, event.result.getDuration(),
                     new AutotestError(NON_CRITICAL_CATEGORY_MESSAGE));
-            event = new TestCaseFinished(event.getTimeStamp(), event.testCase, result);
+            event = new TestCaseFinished(event.getTimeStamp(), event.getTimeStampMillis(), event.testCase, result);
 
             Allure.getLifecycle().updateTestCase(getCurrentTestCaseUid(event.testCase),
                     testResult -> testResult.setStatus(Status.PASSED));

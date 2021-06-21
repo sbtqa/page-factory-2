@@ -19,7 +19,7 @@ public class ErrorHandlerAspect {
 
     private static final Configuration PROPERTIES = Configuration.create();
 
-    private ThreadLocal<String> stepText = ThreadLocal.withInitial(() -> "");
+    private final ThreadLocal<String> stepText = ThreadLocal.withInitial(() -> "");
 
     @Pointcut("execution(* cucumber.runner.EventBus.send(..)) && args(event,..) && if()")
     public static boolean sendStepFinished(Event event) {

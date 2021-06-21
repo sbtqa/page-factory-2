@@ -13,16 +13,16 @@ import ru.sbtqa.tag.api.utils.Default;
 public class PutEndpointEntry extends EndpointEntry {
 
     @Header(name = "Content-Type")
-    private String header = "application/json";
+    private final String header = "application/json";
 
     @Body(name = "id")
-    private int id = Default.ID;
+    private final int id = Default.ID;
 
     @Body(name = "name")
-    private String name = Default.NAME;
+    private final String name = Default.NAME;
 
     @Body(name = "email")
-    private String email = Default.EMAIL;
+    private final String email = Default.EMAIL;
 
     @Validation(title = "result")
     public void validate() {

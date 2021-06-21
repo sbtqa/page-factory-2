@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
  */
 public class GherkinResource implements Resource {
 
-    private InputStream source;
+    private final InputStream source;
     private final URI path;
 
     public GherkinResource(String source, URI path) {

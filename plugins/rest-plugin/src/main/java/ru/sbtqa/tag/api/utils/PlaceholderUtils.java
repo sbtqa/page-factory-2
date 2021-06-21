@@ -63,7 +63,7 @@ public class PlaceholderUtils {
             Object parameterValue = parameter.getValue();
 
             if (isFieldExists(entry, parameterName)) {
-                Field declaredField = null;
+                Field declaredField;
                 try {
                     declaredField = entry.getClass().getDeclaredField(parameterName);
                 } catch (NoSuchFieldException e) {
@@ -90,7 +90,7 @@ public class PlaceholderUtils {
                 .collect(Collectors.toSet());
 
         for (Map.Entry<String, Object> parameter : optionals) {
-            String toRemoveRegex = "(\"[^\"]+\"\\s*:\\s*\"?\\$\\{" + parameter.getKey() + "\\}\"?\\s*,?)";
+            String toRemoveRegex = "(\"[^\"]+\"\\s*:\\s*\"?\\$\\{" + parameter.getKey() + "}\"?\\s*,?)";
             jsonString = jsonString.replaceAll(toRemoveRegex, "");
         }
 

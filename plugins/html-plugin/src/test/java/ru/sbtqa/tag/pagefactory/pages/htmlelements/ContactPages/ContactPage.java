@@ -76,22 +76,22 @@ public class ContactPage extends HTMLPage {
     
     @ActionTitle("check find web element")
     public void findWebElement() {
-        HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
+        HtmlFindUtils htmlFindUtils = Environment.getFindUtils();
         WebElement webElement = htmlFindUtils.find("send", WebElement.class);
-        Assert.assertTrue("Incorrect type", !webElement.getClass().isAssignableFrom(TypifiedElement.class));
+        Assert.assertFalse("Incorrect type", webElement.getClass().isAssignableFrom(TypifiedElement.class));
         checkType(htmlFindUtils.find("send", Button.class), Button.class);
     }
     
     @ActionTitle("check find block")
     public void findBlock() {
-        HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
+        HtmlFindUtils htmlFindUtils = Environment.getFindUtils();
         checkType(htmlFindUtils.find("menu", MenuBlock.class), MenuBlock.class);
         checkType(htmlFindUtils.find("menu", HtmlElement.class), MenuBlock.class);
     }
     
     @ActionTitle("check find typified element")
     public void findTypifiedElement() {
-        HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
+        HtmlFindUtils htmlFindUtils = Environment.getFindUtils();
         checkType(htmlFindUtils.find("first name", TypifiedElement.class), TextInput.class);
         checkType(htmlFindUtils.find("first name", TextInput.class), TextInput.class);
         checkType(htmlFindUtils.find("first name", WebElement.class), TextInput.class);
@@ -99,15 +99,15 @@ public class ContactPage extends HTMLPage {
     
      @ActionTitle("check find element with incorrect type")
      public void findElementWithIncorrectType() {
-         HtmlFindUtils htmlFindUtils = (HtmlFindUtils) Environment.getFindUtils();
+         HtmlFindUtils htmlFindUtils = Environment.getFindUtils();
          try {
              htmlFindUtils.find("first name", Button.class);
              throw new AutotestError("Type check failed.");
-         } catch (IncorrectElementTypeError e) {
+         } catch (IncorrectElementTypeError ignored) {
          }
      }
 
     private <T extends WebElement> void checkType(T element, Class expectedType) {
-        Assert.assertTrue("Incorrect type", element.getClass().equals(expectedType));
+        Assert.assertEquals("Incorrect type", element.getClass(), expectedType);
     }
 }

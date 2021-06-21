@@ -4,8 +4,8 @@ import ru.sbtqa.tag.api.EndpointEntry;
 
 public class EndpointContext {
 
-    private static ThreadLocal<String> currentEndpointTitle = new ThreadLocal<>();
-    private static ThreadLocal<EndpointEntry> currentEndpoint = new ThreadLocal<>();
+    private static final ThreadLocal<String> currentEndpointTitle = new ThreadLocal<>();
+    private static final ThreadLocal<EndpointEntry> currentEndpoint = new ThreadLocal<>();
 
     private EndpointContext() {
     }

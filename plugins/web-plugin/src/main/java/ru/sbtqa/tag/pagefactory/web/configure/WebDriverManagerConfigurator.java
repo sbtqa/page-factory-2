@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
@@ -117,7 +118,7 @@ public class WebDriverManagerConfigurator {
 
     private static JsonObject getResourceJsonFileAsJsonObject(String filePath) {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        InputStreamReader isr = new InputStreamReader(classLoader.getResourceAsStream(filePath));
+        InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(classLoader.getResourceAsStream(filePath)));
         JsonReader reader = new JsonReader(new BufferedReader(isr));
         JsonParser parser = new JsonParser();
         return parser.parse(reader).getAsJsonObject();

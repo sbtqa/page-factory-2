@@ -27,7 +27,7 @@ public class Alert {
     }
 
     private org.openqa.selenium.Alert switchToAlert(int timeout) {
-        long timeoutTime = System.currentTimeMillis() + timeout * 1000;
+        long timeoutTime = System.currentTimeMillis() + timeout * 1000L;
 
         while (timeoutTime > System.currentTimeMillis()) {
             try {

@@ -14,11 +14,11 @@ import java.util.Map;
  */
 public class EndpointBlank {
 
-    private String title;
-    private Map<String, Object> headers = new HashMap<>();
-    private Map<String, Object> cookies = new HashMap<>();
-    private Map<String, Object> queries = new HashMap<>();
-    private Map<String, String> bodies = new HashMap<>();
+    private final String title;
+    private final Map<String, Object> headers = new HashMap<>();
+    private final Map<String, Object> cookies = new HashMap<>();
+    private final Map<String, Object> queries = new HashMap<>();
+    private final Map<String, String> bodies = new HashMap<>();
 
     public EndpointBlank(String title) {
         this.title = title;

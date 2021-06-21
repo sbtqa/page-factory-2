@@ -12,12 +12,12 @@ import ru.sbtqa.tag.pagefactory.reflection.Reflection;
  */
 public class Environment {
 
-    private static ThreadLocal<DriverService> driverService = new ThreadLocal<>();
-    private static ThreadLocal<PageActions> pageActions = new ThreadLocal<>();
-    private static ThreadLocal<PageChecks> pageChecks = new ThreadLocal<>();
-    private static ThreadLocal<Reflection> reflection = new ThreadLocal<>();
-    private static ThreadLocal<Find> findUtils = new ThreadLocal<>();
-    private static ThreadLocal<Scenario> scenario = new ThreadLocal<>();
+    private static final ThreadLocal<DriverService> driverService = new ThreadLocal<>();
+    private static final ThreadLocal<PageActions> pageActions = new ThreadLocal<>();
+    private static final ThreadLocal<PageChecks> pageChecks = new ThreadLocal<>();
+    private static final ThreadLocal<Reflection> reflection = new ThreadLocal<>();
+    private static final ThreadLocal<Find> findUtils = new ThreadLocal<>();
+    private static final ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 
     public static void setDriverService(DriverService driverService) {
         Environment.driverService.set(driverService);

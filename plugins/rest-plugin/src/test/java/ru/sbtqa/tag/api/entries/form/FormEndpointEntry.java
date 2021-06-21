@@ -12,13 +12,13 @@ import ru.sbtqa.tag.api.utils.Default;
 public class FormEndpointEntry extends EndpointEntry {
 
     @Body(name = "id")
-    private int id = Default.ID;
+    private final int id = Default.ID;
 
     @Body(name = "name")
-    private String name = Default.NAME;
+    private final String name = Default.NAME;
 
     @Body(name = "email")
-    private String email = Default.EMAIL;
+    private final String email = Default.EMAIL;
 
     @Validation(title = "result")
     public void validate() {

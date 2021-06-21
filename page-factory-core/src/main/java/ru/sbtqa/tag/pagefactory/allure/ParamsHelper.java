@@ -38,7 +38,7 @@ public class ParamsHelper {
     public static void addParam(String format, String[] parameters) {
         String name = String.format(format, (Object[]) parameters);
         LOG.debug(name);
-        Allure.getLifecycle().startStep(randomUUID().toString(), new StepResult().withName(name).withStatus(Status.PASSED));
+        Allure.getLifecycle().startStep(randomUUID().toString(), new StepResult().setName(name).setStatus(Status.PASSED));
         Allure.getLifecycle().stopStep();
     }
 

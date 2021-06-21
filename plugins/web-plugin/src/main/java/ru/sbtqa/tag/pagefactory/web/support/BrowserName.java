@@ -11,7 +11,7 @@ public enum BrowserName {
     SAFARI("safari"),
     EDGE("edge");
 
-    private String name;
+    private final String name;
 
     BrowserName(String name) {
         this.name = name;

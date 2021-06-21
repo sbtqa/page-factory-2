@@ -12,7 +12,7 @@ import ru.sbtqa.tag.api.utils.Default;
 public class FirstRequestFromFeatureEntry extends EndpointEntry {
 
     @Body(name = "id")
-    private int id = 0;
+    private final int id = 0;
 
     @Validation(title = "result")
     public void validate() {

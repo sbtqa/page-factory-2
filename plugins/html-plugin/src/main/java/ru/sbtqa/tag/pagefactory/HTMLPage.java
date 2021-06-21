@@ -27,9 +27,9 @@ public abstract class HTMLPage extends WebPage {
 
     private static final Logger LOG = LoggerFactory.getLogger(HTMLPage.class);
 
-    private static PageActions pageActions = new HtmlPageActions();
-    private static Reflection reflection = new HtmlReflection();
-    private static Find find = new HtmlFindUtils();
+    private static final PageActions pageActions = new HtmlPageActions();
+    private static final Reflection reflection = new HtmlReflection();
+    private static final Find find = new HtmlFindUtils();
     private static final HtmlConfiguration PROPERTIES = HtmlConfiguration.create();
 
     public HTMLPage() {

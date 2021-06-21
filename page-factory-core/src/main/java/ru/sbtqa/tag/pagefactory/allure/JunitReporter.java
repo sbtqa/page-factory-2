@@ -28,7 +28,7 @@ public class JunitReporter {
         boolean isFromCucumber = Arrays.stream(
                 Thread.currentThread().getStackTrace()
         ).anyMatch(stackTraceElement -> stackTraceElement.getClassName()
-                .matches("ru\\.sbtqa\\.tag\\.stepdefs\\.[en.|ru.].*"));
+                .matches("ru\\.sbtqa\\.tag\\.stepdefs\\.[en|ru]\\..*"));
 
         if (isFromCucumber) {
             return joinPoint.proceed();
@@ -75,7 +75,7 @@ public class JunitReporter {
         return i18n.get(method);
     }
 
-    private static String createUid(ProceedingJoinPoint joinPoint) throws NoSuchAlgorithmException {
+    private static String createUid(ProceedingJoinPoint joinPoint) {
         return MD5.hash(joinPoint.getSignature().toLongString()
                 + Arrays.toString(normalizeArgs(joinPoint.getArgs()))
                 + System.currentTimeMillis());

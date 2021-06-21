@@ -30,10 +30,10 @@ public class EndpointEntryReflection {
 
     private static final Logger LOG = LoggerFactory.getLogger(EndpointEntryReflection.class);
 
-    private EndpointEntry endpoint;
-    private String entryTitle;
-    private List<Field> fields;
-    private Map<String, Method> validations = new HashMap<>();
+    private final EndpointEntry endpoint;
+    private final String entryTitle;
+    private final List<Field> fields;
+    private final Map<String, Method> validations = new HashMap<>();
 
     EndpointEntryReflection(EndpointEntry endpoint) {
         this.endpoint = endpoint;

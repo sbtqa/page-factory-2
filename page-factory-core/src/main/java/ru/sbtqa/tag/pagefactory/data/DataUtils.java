@@ -45,7 +45,7 @@ public class DataUtils {
                 .filter(predicate -> predicate.getName().startsWith(DATA_TAG))
                 .findFirst();
 
-        return dataTag.isPresent() ? getDataTagValue(dataTag.get().getName()) : null;
+        return dataTag.map(tag -> getDataTagValue(tag.getName())).orElse(null);
     }
 
     public static String getDataTagValue (String dataTagName) {
