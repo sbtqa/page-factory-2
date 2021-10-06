@@ -70,17 +70,17 @@ public class HtmlStepDefs {
         htmlSteps.elementsAlwaysPresent(present, elementNames);
     }
 
-    @Когда("^elements is (not )?editable$")
+    @Когда("^elements is (editable|not editable)$")
     public void elementsPresentAndDisabled(ContainCondition condition, List<String> elementNames) {
         htmlSteps.elementsPresentAndDisabled(condition, elementNames);
     }
 
-    @Когда("^element \"([^\"]*)\" is (not )?editable$")
+    @Когда("^element \"([^\"]*)\" is (editable|not editable)$")
     public void elementPresentAndDisabled(String elementName, ContainCondition condition ) {
         htmlSteps.elementPresentAndDisabled(elementName, condition );
     }
 
-    @Когда("^button \"([^\"]*)\" is (not )?selected$")
+    @Когда("^button \"([^\"]*)\" is (selected|not selected)$")
     public void elementsPresentAndSelected(String elementName, ContainCondition condition) {
         htmlSteps.elementsPresentAndSelected(condition, elementName);
     }

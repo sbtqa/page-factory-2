@@ -29,22 +29,22 @@ public class HtmlStepDefs {
     }
     
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\)$")
-    public void actionInBlock(String block, String action) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action) {
         htmlSteps.actionInBlock(block, action);
     }
 
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\) с параметрами из таблицы$")
-    public void actionInBlock(String block, String action, DataTable dataTable) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action, DataTable dataTable) {
         htmlSteps.actionInBlock(block, action, dataTable);
     }
 
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\) с параметром \"([^\"]*)\"$")
-    public void actionInBlock(String block, String action, String param) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action, String param) {
         htmlSteps.actionInBlock(block, action, param);
     }
 
     @И("^(?:пользователь |он )?в блоке \"([^\"]*)\" \\(([^)]*)\\) с параметрами \"([^\"]*)\" \"([^\"]*)\"$")
-    public void actionInBlock(String block, String action, String param1, String param2) throws NoSuchMethodException {
+    public void actionInBlock(String block, String action, String param1, String param2) {
         htmlSteps.actionInBlock(block, action, param1, param2);
     }
 
@@ -60,30 +60,30 @@ public class HtmlStepDefs {
     }
 
     @Когда("^элемент обязательно (при|от)сутствует на странице \"([^\"]*)\"$")
-    @И("^(присутствует|не отображается) элемент \"([^\"]*)\"$")
+    @И("^(присутствует|не отображается|отображается) элемент \"([^\"]*)\"$")
     public void elementAlwaysPresent(Presence present, String elementName) {
         htmlSteps.elementAlwaysPresent(present, elementName);
     }
 
     @Когда("^элементы обязательно (при|от)сутствуют на странице$")
-    @И("^(присутствуют|не отображаются) элементы$")
+    @И("^(присутствуют|не отображаются|отображаются) элементы$")
     public void elementsAlwaysPresent(Presence present, List<String> elementNames) {
         htmlSteps.elementsAlwaysPresent(present, elementNames);
     }
 
-    @Когда("^элементы (не)?доступны для редактирования$")
-    @И("^присутствуют (не)?активные элементы$")
+    @Когда("^элементы (доступны|не доступны) для редактирования$")
+    @И("^присутствуют (активные|не активные) элементы$")
     public void elementsPresentAndDisabled(ContainCondition condition, List<String> elementNames) {
         htmlSteps.elementsPresentAndDisabled(condition, elementNames);
     }
 
-    @Когда("^элемент \"([^\"]*)\" (не)?доступен для редактирования$")
-    @И("^элемент \"([^\"]*)\" (не)?активен$")
+    @Когда("^элемент \"([^\"]*)\" (доступен|не доступен) для редактирования$")
+    @И("^элемент \"([^\"]*)\" (активен|не активен)$")
     public void elementPresentAndDisabled(String elementName, ContainCondition condition) {
         htmlSteps.elementPresentAndDisabled(elementName, condition);
     }
 
-    @Когда("^(не )?выбрана кнопка \"([^\"]*)\"$")
+    @Когда("^(выбрана|не выбрана) кнопка \"([^\"]*)\"$")
     public void elementsPresentAndSelected(ContainCondition condition, String elementName) {
         htmlSteps.elementsPresentAndSelected(condition, elementName);
     }

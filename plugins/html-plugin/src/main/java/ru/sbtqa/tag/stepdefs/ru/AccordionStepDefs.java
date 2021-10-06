@@ -21,7 +21,7 @@ public class AccordionStepDefs {
         accordionSteps.close(accordionName);
     }
 
-    @Когда("^содержимое аккордеона \"([^\"]*)\" (не )?отображается$")
+    @Когда("^содержимое аккордеона \"([^\"]*)\" (отображается|не отображается)$")
     public void checkAccordionOpened(String accordionName, ContainCondition condition) {
         accordionSteps.checkAccordionOpened(condition, accordionName);
     }
