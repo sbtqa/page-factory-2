@@ -21,7 +21,7 @@ public class AccordionStepDefs {
         accordionSteps.close(accordionName);
     }
 
-    @When("^accordion is (not )?opened \"([^\"]*)\"$")
+    @When("^accordion is (opened|not opened) \"([^\"]*)\"$")
     public void checkAccordionOpened(ContainCondition condition, String accordionName) {
         accordionSteps.checkAccordionOpened(condition, accordionName);
     }

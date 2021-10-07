@@ -14,7 +14,7 @@ public class ControlStepDefs {
         controlSteps.select(flagName);
     }
 
-    @Когда("^признак \"([^\"]*)\" (не )?отмечен$")
+    @Когда("^признак \"([^\"]*)\" (отмечен|не отмечен)$")
     public void isSelected(String flagName, ContainCondition condition) {
         controlSteps.isSelected(flagName, condition);
     }
@@ -24,7 +24,7 @@ public class ControlStepDefs {
         controlSteps.selectByValue(flagName, value);
     }
 
-    @И("^в радио группе \"([^\"]*)\" (не )?отмечено значение \"([^\"]*)\"$")
+    @И("^в радио группе \"([^\"]*)\" (отмечено|не отмечено) значение \"([^\"]*)\"$")
     public void isRadiobuttonSelected(String groupName, ContainCondition condition, String value) {
         controlSteps.isRadiobuttonSelected(groupName, condition, value);
     }

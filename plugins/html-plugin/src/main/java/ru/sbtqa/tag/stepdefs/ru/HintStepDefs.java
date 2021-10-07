@@ -31,7 +31,7 @@ public class HintStepDefs {
         hintSteps.containsText(hintName, text);
     }
 
-    @Когда("^(?:пользователь |он )?проверяет что подсказка \"([^\"]*)\" (не )?отображается$")
+    @Когда("^(?:пользователь |он )?проверяет что подсказка \"([^\"]*)\" (отображается|не отображается)$")
     public void isOpen(String hintName, ContainCondition condition) {
         hintSteps.isOpen(condition, hintName);
     }
