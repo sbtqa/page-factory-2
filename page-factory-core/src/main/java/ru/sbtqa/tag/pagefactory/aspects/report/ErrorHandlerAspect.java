@@ -8,6 +8,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.openqa.selenium.InvalidElementStateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.allure.ErrorHandler;
 import ru.sbtqa.tag.pagefactory.allure.ParamsHelper;
 import ru.sbtqa.tag.pagefactory.allure.Type;
@@ -17,6 +20,7 @@ import ru.sbtqa.tag.pagefactory.properties.Configuration;
 @Aspect
 public class ErrorHandlerAspect {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ErrorHandlerAspect.class);
     private static final Configuration PROPERTIES = Configuration.create();
 
     private final ThreadLocal<String> stepText = ThreadLocal.withInitial(() -> "");
@@ -35,10 +39,13 @@ public class ErrorHandlerAspect {
                 && !stepText.get().equals(Allure.getLifecycle().getCurrentTestCaseOrStep().toString())) {
             stepText.set(Allure.getLifecycle().getCurrentTestCaseOrStep().toString());
             ErrorHandler.attachError(testStepFinished.result.getError());
-            System.out.println("    " + testStepFinished.result.getError());
             ErrorHandler.attachScreenshot();
             if (PROPERTIES.isReportXmlAttachEnabled()) {
-                ParamsHelper.addAttachmentToRender(Environment.getDriverService().getDriver().getPageSource().getBytes(), "Page source", Type.XML);
+                try {
+                    ParamsHelper.addAttachmentToRender(Environment.getDriverService().getDriver().getPageSource().getBytes(), "Page source", Type.XML);
+                } catch (InvalidElementStateException e) {
+                    LOG.error("Can't attach page source", e);
+                }
             }
         }
         joinPoint.proceed();
