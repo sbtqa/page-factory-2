@@ -137,6 +137,9 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getFragmentsPath();
 
+    @Key("data.provider.fqdn")
+    @DefaultValue("ru.sbtqa.tag.datajack.providers")
+    String getDataProviderFqdn();
 
     @Key("data.initial.collection")
     @DefaultValue("")
