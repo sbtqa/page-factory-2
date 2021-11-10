@@ -7,6 +7,7 @@
 * properties
 * excel
 * mongo
+* custom test data provider
 
 ====== Тип и расположение файлов тестовых данных
 
@@ -69,6 +70,30 @@ data.db = bd
 ----
 data.arrayDelimiter = !
 ----
+
+====== Подключение своего провайдера тестовых данных
+Есть возможность зарегистрировать свой провайдер данных. Для этого необходимо, реализовать интерфейс https://github.com/sbtqa/datajack/blob/master/datajack-api/src/main/java/ru/sbtqa/tag/datajack/TestDataProvider.java[TestDataProvider].
+
+В классе реализации должен присутствовать конструктор со следующими параметрами: `new MyDataProvider(String initialCollection, String extensionOrDb)`
+
+Конфигурация задается следующими параметрам в `application.properties` (на примере JsonDataProvider):
+----
+# Полное имя java пакета
+data.provider.fqdn=ru.sbtqa.tag.datajack.providers
+
+# Имя артефакта и имя класса реализации
+data.type = json.JsonDataProvider
+
+# Указать изначальную коллекцию
+data.initial.collection = Data
+
+# Задать расширение файла, либо имя базы данных (нельзя задавать оба значения одновременно)
+data.extension = json
+# data.db = bd
+----
+
+Это позволит начать использовать свой провайдер данных по общим правилам фреймворка.
+
 
 ====== Путь к элементу коллекции
 Для обозначения пути внутри коллекции используются фигурные скобки
