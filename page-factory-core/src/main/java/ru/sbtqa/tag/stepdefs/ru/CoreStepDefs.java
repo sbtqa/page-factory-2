@@ -187,22 +187,22 @@ public class CoreStepDefs {
         coreSteps.waitChangeAttribute(timeout, attribute, elementName, attributeValue);
     }
 
-    @Когда("^(?:пользователь |он )?ожидает что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
+    @Когда("^(?:пользователь |он )?ожидает что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (должно|не должно|должен|не должен) содержать \"([^\"]*)\"$")
     public void waitAttributeContains(String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
         coreSteps.waitAttributeContains(attribute, elementName, condition, partAttributeValue);
     }
 
-    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (не )?должно содержать \"([^\"]*)\"$")
+    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что значение атрибута \"([^\"]*)\" в элементе \"([^\"]*)\" (должно|не должно|должен|не должен) содержать \"([^\"]*)\"$")
     public void waitAttributeContains(int timeout, String attribute, String elementName, ContainCondition condition, String partAttributeValue) throws PageException {
         coreSteps.waitAttributeContains(timeout, attribute, elementName, condition, partAttributeValue);
     }
 
-    @Когда("^(?:пользователь |он )?ожидает что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
+    @Когда("^(?:пользователь |он )?ожидает что элемент \"([^\"]*)\" (должно|не должно|должен|не должен) содержать текст \"([^\"]*)\"$")
     public void waitElementContainsText(String elementName, ContainCondition condition, String text) throws PageException {
         coreSteps.waitElementContainsText(elementName, condition, text);
     }
 
-    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" (не )?должен содержать текст \"([^\"]*)\"$")
+    @Когда("^(?:пользователь |он )?ожидает (\\d+) секунд(?:у)? что элемент \"([^\"]*)\" (должно|не должно|должен|не должен) содержать текст \"([^\"]*)\"$")
     public void waitElementContainsText(int timeout, String elementName, ContainCondition condition, String text) throws PageException {
         coreSteps.waitElementContainsText(timeout, elementName, condition, text);
     }
