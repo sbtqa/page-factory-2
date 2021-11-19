@@ -45,6 +45,7 @@ public class EndpointEntry implements ApiEndpoint {
         Endpoint endpoint = this.getClass().getAnnotation(Endpoint.class);
         method = endpoint.method();
         path = endpoint.path();
+        host = endpoint.host();
         template = endpoint.template();
         title = endpoint.title();
 
@@ -71,7 +72,8 @@ public class EndpointEntry implements ApiEndpoint {
         reflection.applyAnnotations(Query.class);
         reflection.applyAnnotations(Stashed.class);
         reflection.applyAnnotations(Mutator.class);
-        String url = PathUtils.unite(host == null || host.isEmpty() ? PROPERTIES.getBaseURI() : host, path);
+
+        String url = PathUtils.unite(host.isEmpty() ? PROPERTIES.getBaseURI() : PlaceholderUtils.replaceTemplatePlaceholders(host), path);
 
         RequestSpecification request = buildRequest();
         Response response;
@@ -191,14 +193,6 @@ public class EndpointEntry implements ApiEndpoint {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
     }
 
     @Override
