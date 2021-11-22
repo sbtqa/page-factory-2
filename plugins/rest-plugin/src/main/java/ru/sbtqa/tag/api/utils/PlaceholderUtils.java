@@ -46,6 +46,22 @@ public class PlaceholderUtils {
     }
 
     /**
+     * Replace placeholders in string
+     *
+     * @param string replace placeholders in this string
+     * @return string with replaced placeholders
+     */
+    public static String replaceTemplatePlaceholders(String string) {
+        if (string.startsWith("${") && string.endsWith("}")) {
+            String unquoteString = string.replaceAll("^\\$\\{", "").replaceAll("\\}$", "");
+            String property = System.getProperty(unquoteString);
+            return property != null ? property : string;
+        }
+
+        return string;
+    }
+
+    /**
      * Replace Json template placeholders in string on parameters
      *
      * @param jsonString replace placeholders in this json string

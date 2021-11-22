@@ -1,10 +1,11 @@
 package ru.sbtqa.tag.pagefactory.annotations.rest;
 
+import ru.sbtqa.tag.pagefactory.Rest;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import ru.sbtqa.tag.pagefactory.Rest;
 
 /**
  * Annotate class that is the inheritor of  ru.sbtqa.tag.api.EndpointEntry
@@ -18,6 +19,12 @@ public @interface Endpoint {
      * @return title of this endpoint entry
      */
     String title();
+
+    /**
+     * if no host is specified, the api.baseURI from application.properties will be taken
+     * @return schema://host[:port]
+     */
+    String host() default "";
 
     /**
      * This should be look like my/endpoint/path.
