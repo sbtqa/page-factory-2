@@ -29,7 +29,7 @@ public class TypedArraysEntry extends EndpointEntry {
                 "\"requisites\" : [" +
                 "{ \"path\" : \"home\", " +
                 "\"valuesString\" : [" +
-                "\"two\", \"three\", \"four\"], " +
+                "\"\\\"should be quoted\\\"\", \",one\", \"two\", \"three\", \"four\"], " +
                 "\"valuesInt\" : [1, 2, 3, 4, 5], " +
                 "\"valuesBoolean\" : [true, false, true, true, true] " +
                 "}] }";
