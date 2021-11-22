@@ -7,9 +7,9 @@ branches:
 
 addons:
   chrome: stable
-#  sonarcloud:
-#    organization: "sbtqasonarkey"
-#    token: $SONAR_TOKEN
+  sonarcloud:
+    organization: "sbtqasonarkey"
+    token: $SONAR_TOKEN
 jdk:
 - openjdk8
 - openjdk11
@@ -23,7 +23,6 @@ before_install:
 install: true
 script:
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Denv.customHost=https://httpbin.org -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
-#
 #  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
 deploy:
 - provider: script

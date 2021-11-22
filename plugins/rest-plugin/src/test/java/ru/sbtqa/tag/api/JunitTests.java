@@ -102,7 +102,7 @@ public class JunitTests {
         ApiSteps.getInstance().validate("result with mutated values", toDataTable(parameters));
     }
 
-    @Test @Ignore
+    @Test
     public void typedArrayTest() {
         ApiSteps.getInstance().fill(TypedArraysEntry.class)
                 .add(ParameterType.HEADER, CONTENT_TYPE, JSON_UTF_8.toString())
