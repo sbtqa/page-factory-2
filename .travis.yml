@@ -7,9 +7,9 @@ branches:
 
 addons:
   chrome: stable
-  sonarcloud:
-    organization: "sbtqasonarkey"
-    token: $SONAR_TOKEN
+#  sonarcloud:
+#    organization: "sbtqasonarkey"
+#    token: $SONAR_TOKEN
 jdk:
 - openjdk8
 - openjdk11
