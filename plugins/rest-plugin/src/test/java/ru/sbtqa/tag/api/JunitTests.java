@@ -3,6 +3,7 @@ package ru.sbtqa.tag.api;
 import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.entries.apirequest.ApiRequestWithMutator;
@@ -101,7 +102,7 @@ public class JunitTests {
         ApiSteps.getInstance().validate("result with mutated values", toDataTable(parameters));
     }
 
-    @Test
+    @Test @Ignore
     public void typedArrayTest() {
         ApiSteps.getInstance().fill(TypedArraysEntry.class)
                 .add(ParameterType.HEADER, CONTENT_TYPE, JSON_UTF_8.toString())
