@@ -20,7 +20,7 @@ public class BlankStorage {
     }
 
     public EndpointBlank get(String title) {
-        Collections.reverse(blanks);
+//        Collections.reverse(blanks);
         for (EndpointBlank blank : blanks) {
             if (blank.getTitle().equals(title)) {
                 return blank;
@@ -47,6 +47,10 @@ public class BlankStorage {
         } else {
             throw new RestPluginException("The blank repository is empty");
         }
+    }
+
+    public void removeAll() {
+        blanks.clear();
     }
 
     @Override
