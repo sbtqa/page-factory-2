@@ -152,8 +152,10 @@ public class EndpointEntry implements ApiEndpoint {
     public String getBody() {
         String body = TemplateUtils.loadFromResources(this.getClass(), template, PROPERTIES.getTemplateEncoding());
         if(template.endsWith(".json")) {
+            System.out.println("template.endsWith(\".json\")");
             return PlaceholderUtils.replaceJsonTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
         } else {
+            System.out.println("no template.endsWith(\".json\")");
             return PlaceholderUtils.replaceTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
         }
     }
@@ -167,7 +169,10 @@ public class EndpointEntry implements ApiEndpoint {
 
         parameters.putAll(reflection.getParameters(BODY));
         parameters.putAll(blankStorage.get(title).getBodies());
-
+        System.out.println("QQQQQQQQ ");
+        System.out.println(blankStorage.get(title));
+        System.out.println(blankStorage.get(title).getBodies());
+        System.out.println(parameters);
         return parameters;
     }
 
