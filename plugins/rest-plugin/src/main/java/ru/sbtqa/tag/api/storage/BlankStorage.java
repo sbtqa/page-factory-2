@@ -2,6 +2,8 @@ package ru.sbtqa.tag.api.storage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
 import ru.sbtqa.tag.api.exception.RestPluginException;
 
 /**
@@ -43,5 +45,15 @@ public class BlankStorage {
         } else {
             throw new RestPluginException("The blank repository is empty");
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder total = new StringBuilder();
+       for (EndpointBlank blank : blanks) {
+           total.append(blank);
+           total.append("\n");
+       }
+       return total.toString();
     }
 }

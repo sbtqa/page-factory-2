@@ -169,7 +169,11 @@ public class EndpointEntry implements ApiEndpoint {
 
         parameters.putAll(reflection.getParameters(BODY));
         parameters.putAll(blankStorage.get(title).getBodies());
+
+
+
         System.out.println("QQQQQQQQ ");
+        System.out.println(blankStorage);
         System.out.println(blankStorage.get(title));
         System.out.println(blankStorage.get(title).getBodies());
         System.out.println(parameters);
