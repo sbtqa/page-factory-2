@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.api.storage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -19,6 +20,7 @@ public class BlankStorage {
     }
 
     public EndpointBlank get(String title) {
+        Collections.reverse(blanks);
         for (EndpointBlank blank : blanks) {
             if (blank.getTitle().equals(title)) {
                 return blank;
