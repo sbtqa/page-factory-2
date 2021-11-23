@@ -28,6 +28,9 @@ public class BlankStorage {
 
     public EndpointBlank getLast() {
         if (!blanks.isEmpty()) {
+
+            System.out.println("!!!! = " + blanks.get(blanks.size() - 1));
+
             return blanks.get(blanks.size() - 1);
         } else {
             throw new RestPluginException("The blank repository is empty");

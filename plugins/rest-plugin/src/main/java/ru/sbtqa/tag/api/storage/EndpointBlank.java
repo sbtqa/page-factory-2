@@ -35,6 +35,10 @@ public class EndpointBlank {
     public void addParameter(ParameterType type, String name, Object valueObj) {
         String value = String.valueOf(valueObj);
 
+        System.out.println("type = " + type);
+        System.out.println("name = " + name);
+        System.out.println("value = " + value);
+
         if (value != null && !value.equals(""))
             switch (type) {
                 case QUERY:
@@ -82,5 +86,14 @@ public class EndpointBlank {
 
     public void addBodyParameter(String name, String value) {
         bodies.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return "EndointBlank = " +title + "  " +
+                headers + "  " +
+                cookies + "  " +
+                queries + "  " +
+                bodies + "  ";
     }
 }
