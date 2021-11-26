@@ -1,0 +1,38 @@
+=== Настройки проекта
+[width="100%",options="header,footer"]
+|====================
+^.^| Параметр ^.^| Описание ^.^| Значение по умолчанию
+| api.baseURI
+| Базовый урл
+
+Пример: https//localhost:8080
+|
+
+| api.endpoint.package
+| Путь к Endpoint объектам
+
+Пример: ru.qa.rest
+|
+
+| api.template.encoding
+| Кодировка шаблона
+| UTF-8
+
+| api.ssl.relaxed
+| Упрощенная схема работы с ssl
+
+Возможные значения: true или false.
+| false
+
+| api.template.remove.optional
+| Удалять опциональные параметры, которые после подстановки параметров в шаблон, остались с плейхолдером
+
+Возможные значения: true или false.
+| true
+
+| api.template.remove.empties
+| Удалять пустые вида "key": { } из шаблона
+
+Возможные значения: true или false.
+| false
+|====================

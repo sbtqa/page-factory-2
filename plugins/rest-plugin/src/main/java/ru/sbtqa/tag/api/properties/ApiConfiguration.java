@@ -20,6 +20,14 @@ public interface ApiConfiguration extends Config {
     @DefaultValue("false")
     boolean isSslRelaxed();
 
+    @Key("api.template.remove.optional")
+    @DefaultValue("true")
+    boolean isRemoveOptional();
+
+    @Key("api.template.remove.empties")
+    @DefaultValue("false")
+    boolean isRemoveEmptyObjects();
+
     static ApiConfiguration create() {
         return Configuration.init(ApiConfiguration.class);
     }

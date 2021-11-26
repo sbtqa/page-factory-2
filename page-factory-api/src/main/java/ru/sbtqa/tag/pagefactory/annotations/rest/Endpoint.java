@@ -48,4 +48,10 @@ public @interface Endpoint {
      * @return path to template
      */
     String template() default "";
+
+    /**
+     * Remove empty objects like "key":{} from template
+     * @return {@link Boolean}
+     */
+    boolean isRemoveEmptyObjects() default false;
 }

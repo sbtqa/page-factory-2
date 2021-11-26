@@ -40,6 +40,7 @@ public class EndpointEntry implements ApiEndpoint {
     private String path;
     private final String template;
     private final String title;
+    private final boolean removeEmptyObjects;
 
     public EndpointEntry() {
         Endpoint endpoint = this.getClass().getAnnotation(Endpoint.class);
@@ -48,6 +49,7 @@ public class EndpointEntry implements ApiEndpoint {
         host = endpoint.host();
         template = endpoint.template();
         title = endpoint.title();
+        removeEmptyObjects = endpoint.isRemoveEmptyObjects();
 
         reflection = new EndpointEntryReflection(this);
         blankStorage = ApiEnvironment.getBlankStorage();
@@ -151,10 +153,18 @@ public class EndpointEntry implements ApiEndpoint {
 
     public String getBody() {
         String body = TemplateUtils.loadFromResources(this.getClass(), template, PROPERTIES.getTemplateEncoding());
+        Map<String, Object> parameters = getParameters();
         if(template.endsWith(".json")) {
-            return PlaceholderUtils.replaceJsonTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
+            String result = PlaceholderUtils.replaceJsonTemplatePlaceholders(this.reflection.getEndpoint(), body, parameters);
+            if (PROPERTIES.isRemoveOptional()) {
+                result = PlaceholderUtils.removeOptionals(result, parameters);
+            }
+            if (PROPERTIES.isRemoveEmptyObjects() || removeEmptyObjects) {
+                result = PlaceholderUtils.removeEmptyArrays(result);
+            }
+            return result;
         } else {
-            return PlaceholderUtils.replaceTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
+            return PlaceholderUtils.replaceTemplatePlaceholders(this.reflection.getEndpoint(), body, parameters);
         }
     }
 
