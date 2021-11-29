@@ -87,7 +87,7 @@ public class PlaceholderUtils {
 
         }
 
-        return removeOptionals(jsonString, parameters);
+        return jsonString;
     }
 
     private static boolean isFieldExists(EndpointEntry entry, String fieldName) {
@@ -95,7 +95,7 @@ public class PlaceholderUtils {
                 .anyMatch(field -> field.getName().equals(fieldName));
     }
 
-    private static String removeOptionals(String jsonString, Map<String, Object> parameters) {
+    public static String removeOptionals(String jsonString, Map<String, Object> parameters) {
         Set<Map.Entry<String, Object>> optionals = parameters.entrySet().stream()
                 .filter(stringObjectEntry -> stringObjectEntry.getValue() == null)
                 .collect(Collectors.toSet());
@@ -107,6 +107,11 @@ public class PlaceholderUtils {
 
         String orphanCommaRegex = "(,)(\\s*})";
         return jsonString.replaceAll(orphanCommaRegex, "$2");
+    }
+
+    public static String removeEmptyObjects(String jsonString) {
+        String regex = "\"[\\w]+\"[\\s\\r\\n]*:[\\s\\r\\n]*\\{[\\s\\r\\n]*}[\\s\\r\\n,]*";
+        return jsonString.replaceAll(regex, "");
     }
 
     /**
