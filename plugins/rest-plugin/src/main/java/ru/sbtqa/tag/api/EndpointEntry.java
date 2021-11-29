@@ -156,7 +156,7 @@ public class EndpointEntry implements ApiEndpoint {
         Map<String, Object> parameters = getParameters();
         if(template.endsWith(".json")) {
             String result = PlaceholderUtils.replaceJsonTemplatePlaceholders(this.reflection.getEndpoint(), body, parameters);
-            if (PROPERTIES.isRemoveOptional()) {
+            if (PROPERTIES.shouldRemoveOptional()) {
                 result = PlaceholderUtils.removeOptionals(result, parameters);
             }
             if (PROPERTIES.shouldRemoveEmptyObjects() || shouldRemoveEmptyObjects) {

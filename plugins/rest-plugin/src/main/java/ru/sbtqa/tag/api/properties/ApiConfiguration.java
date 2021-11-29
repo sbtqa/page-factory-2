@@ -22,7 +22,7 @@ public interface ApiConfiguration extends Config {
 
     @Key("api.template.remove.optional")
     @DefaultValue("true")
-    boolean isRemoveOptional();
+    boolean shouldRemoveOptional();
 
     @Key("api.template.remove.empties")
     @DefaultValue("false")
