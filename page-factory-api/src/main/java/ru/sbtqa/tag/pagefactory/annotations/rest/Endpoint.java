@@ -53,5 +53,5 @@ public @interface Endpoint {
      * Remove empty objects like "key":{} from template
      * @return {@link Boolean}
      */
-    boolean isRemoveEmptyObjects() default false;
+    boolean shouldRemoveEmptyObjects() default false;
 }

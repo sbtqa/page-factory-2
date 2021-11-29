@@ -109,8 +109,8 @@ public class PlaceholderUtils {
         return jsonString.replaceAll(orphanCommaRegex, "$2");
     }
 
-    public static String removeEmptyArrays(String jsonString) {
-        String regex = "\"[\\w]+\"[\\s\\r\\n]*:[\\s\\r\\n]*\\{[\\s\\r\\n]*},?";
+    public static String removeEmptyObjects(String jsonString) {
+        String regex = "\"[\\w]+\"[\\s\\r\\n]*:[\\s\\r\\n]*\\{[\\s\\r\\n]*}[\\s\\r\\n,]*";
         return jsonString.replaceAll(regex, "");
     }
 

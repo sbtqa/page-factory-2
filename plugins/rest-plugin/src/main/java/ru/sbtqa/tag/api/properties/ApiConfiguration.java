@@ -26,7 +26,7 @@ public interface ApiConfiguration extends Config {
 
     @Key("api.template.remove.empties")
     @DefaultValue("false")
-    boolean isRemoveEmptyObjects();
+    boolean shouldRemoveEmptyObjects();
 
     static ApiConfiguration create() {
         return Configuration.init(ApiConfiguration.class);

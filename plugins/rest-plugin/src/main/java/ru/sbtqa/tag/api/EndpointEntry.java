@@ -40,7 +40,7 @@ public class EndpointEntry implements ApiEndpoint {
     private String path;
     private final String template;
     private final String title;
-    private final boolean removeEmptyObjects;
+    private final boolean shouldRemoveEmptyObjects;
 
     public EndpointEntry() {
         Endpoint endpoint = this.getClass().getAnnotation(Endpoint.class);
@@ -49,7 +49,7 @@ public class EndpointEntry implements ApiEndpoint {
         host = endpoint.host();
         template = endpoint.template();
         title = endpoint.title();
-        removeEmptyObjects = endpoint.isRemoveEmptyObjects();
+        shouldRemoveEmptyObjects = endpoint.shouldRemoveEmptyObjects();
 
         reflection = new EndpointEntryReflection(this);
         blankStorage = ApiEnvironment.getBlankStorage();
@@ -159,8 +159,8 @@ public class EndpointEntry implements ApiEndpoint {
             if (PROPERTIES.isRemoveOptional()) {
                 result = PlaceholderUtils.removeOptionals(result, parameters);
             }
-            if (PROPERTIES.isRemoveEmptyObjects() || removeEmptyObjects) {
-                result = PlaceholderUtils.removeEmptyArrays(result);
+            if (PROPERTIES.shouldRemoveEmptyObjects() || shouldRemoveEmptyObjects) {
+                result = PlaceholderUtils.removeEmptyObjects(result);
             }
             return result;
         } else {

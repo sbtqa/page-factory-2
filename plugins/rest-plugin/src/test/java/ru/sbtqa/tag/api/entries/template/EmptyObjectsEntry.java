@@ -9,7 +9,7 @@ import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 
 import static org.hamcrest.Matchers.equalTo;
 
-@Endpoint(method = Rest.POST, path = "client/typed-arrays", title = "empty objects", template = "templates/EmptyObjects.json", isRemoveEmptyObjects = true)
+@Endpoint(method = Rest.POST, path = "client/typed-arrays", title = "empty objects", template = "templates/EmptyObjects.json", shouldRemoveEmptyObjects = true)
 public class EmptyObjectsEntry extends EndpointEntry {
 
     @Body(name = "first")
