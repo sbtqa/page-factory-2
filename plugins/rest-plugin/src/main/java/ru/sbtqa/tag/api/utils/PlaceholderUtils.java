@@ -12,7 +12,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -117,14 +116,46 @@ public class PlaceholderUtils {
     }
 
     public static String removeEmptyObjects(String jsonString) {
-        Type type = new TypeToken<Map<String, Object>>() {
+        Type objectType = new TypeToken<Map<String, Object>>() {
         }.getType();
-        Map<String, Object> data = new Gson().fromJson(jsonString, type);
+        Type arrayType = new TypeToken<ArrayList<?>>() {
+        }.getType();
+        boolean isJsonArray = jsonString.trim().startsWith("[");
 
-        return new GsonBuilder().setPrettyPrinting().create().toJson(jsonCleaner(data));
+        if (isJsonArray) {
+            ArrayList<?> array = new Gson().fromJson(jsonString, arrayType);
+            return new GsonBuilder().setPrettyPrinting().create().toJson(jsonArrayCleaner(array));
+        } else {
+            Map<String, Object> data = new Gson().fromJson(jsonString, objectType);
+            return new GsonBuilder().setPrettyPrinting().create().toJson(jsonObjectCleaner(data));
+        }
+
     }
 
-    private static Map<String, Object> jsonCleaner(Map<String, Object> jsonData) {
+    private static ArrayList<?> jsonArrayCleaner(ArrayList<?> jsonArray) {
+        for (Iterator<?> it = jsonArray.iterator(); it.hasNext(); ) {
+            Object item = it.next();
+            if (item == null
+                    || (item instanceof String && ((String) item).isEmpty())
+                    || (item instanceof Map && ((Map<?, ?>) item).isEmpty())
+                    || (item instanceof ArrayList && ((ArrayList<?>) item).isEmpty())) {
+                it.remove();
+            } else if (item instanceof ArrayList) {
+                item = jsonArrayCleaner((ArrayList<?>) item);
+                if (((ArrayList<?>) item).isEmpty()) {
+                    it.remove();
+                }
+            } else if (item instanceof Map) {
+                item = jsonObjectCleaner((Map<String, Object>) item);
+                if (((Map<?, ?>) item).isEmpty()) {
+                    it.remove();
+                }
+            }
+        }
+        return jsonArray;
+    }
+
+    private static Map<String, Object> jsonObjectCleaner(Map<String, Object> jsonData) {
         for (Iterator<Map.Entry<String, Object>> it = jsonData.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, Object> entry = it.next();
             Object value = entry.getValue();
@@ -134,29 +165,14 @@ public class PlaceholderUtils {
                     || (value instanceof ArrayList && ((ArrayList<?>) value).isEmpty())) {
                 it.remove();
             } else if (value instanceof Map) {
-                value = jsonCleaner((Map<String, Object>) value);
+                value = jsonObjectCleaner((Map<String, Object>) value);
                 if (((Map<?, ?>) value).isEmpty()) {
                     it.remove();
                 }
             } else if (value instanceof ArrayList) {
-                List<?> list = ((ArrayList<?>) value).stream().filter(item -> {
-                    if (item == null
-                            || (item instanceof String && ((String) item).isEmpty())
-                            || (item instanceof Map && ((Map<?, ?>) item).isEmpty())
-                            || (item instanceof ArrayList && ((ArrayList<?>) item).isEmpty())) {
-                        return false;
-                    } else if (item instanceof Map) {
-                        Map<String, Object> parsedArrayItem = jsonCleaner((Map<String, Object>) item);
-                        if (((Map<?, ?>) parsedArrayItem).isEmpty()) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }).collect(Collectors.toList());
-                if (list.isEmpty()) {
+                value = jsonArrayCleaner((ArrayList<?>) value);
+                if (((ArrayList<?>) value).isEmpty()) {
                     it.remove();
-                } else {
-                    value = list;
                 }
             }
             entry.setValue(value);

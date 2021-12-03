@@ -14,3 +14,9 @@ Feature: Test template placeholder replacing
     * user sends request for "empty objects" with parameters
       | first | parameter     |
     * system returns "result"
+
+  @empty-objects
+  Scenario: Test template placeholder replacing with empty arrays
+    * user sends request for "empty arrays" with parameters
+      | first | parameter     |
+    * system returns "result"
