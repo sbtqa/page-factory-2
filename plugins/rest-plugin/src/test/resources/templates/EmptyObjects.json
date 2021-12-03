@@ -2,9 +2,21 @@
   "minusOne": {
 
   },
-  "zero": { },
+  "zero": {
+    "task": [
+      {
+
+      }
+    ]
+  },
   "first": "${first}",
   "second": { },
+  "task": [
+    {
+
+
+    }
+  ],
   "third": {
 
 

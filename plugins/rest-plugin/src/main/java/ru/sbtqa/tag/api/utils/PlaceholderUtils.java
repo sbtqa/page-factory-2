@@ -1,11 +1,18 @@
 package ru.sbtqa.tag.api.utils;
 
+import com.google.common.reflect.TypeToken;
+import gherkin.deps.com.google.gson.Gson;
+import gherkin.deps.com.google.gson.GsonBuilder;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -110,8 +117,53 @@ public class PlaceholderUtils {
     }
 
     public static String removeEmptyObjects(String jsonString) {
-        String regex = "\"[\\w]+\"[\\s\\r\\n]*:[\\s\\r\\n]*\\{[\\s\\r\\n]*}[\\s\\r\\n,]*";
-        return jsonString.replaceAll(regex, "");
+        Type type = new TypeToken<Map<String, Object>>() {
+        }.getType();
+        Map<String, Object> data = new Gson().fromJson(jsonString, type);
+
+        return new GsonBuilder().setPrettyPrinting().create().toJson(jsonCleaner(data));
+    }
+
+    private static Map<String, Object> jsonCleaner(Map<String, Object> jsonData) {
+        for (Iterator<Map.Entry<String, Object>> it = jsonData.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, Object> entry = it.next();
+            Object value = entry.getValue();
+            if (value == null
+                    || (value instanceof String && ((String) value).isEmpty())
+                    || (value instanceof Map && ((Map<?, ?>) value).isEmpty())
+                    || (value instanceof ArrayList && ((ArrayList<?>) value).isEmpty())) {
+                it.remove();
+            } else if (value instanceof Map && !((Map<?, ?>) value).isEmpty()) {
+                entry.setValue(jsonCleaner((Map<String, Object>) value));
+                if (entry.getValue() instanceof Map && ((Map<?, ?>) value).isEmpty()
+                        || (value instanceof ArrayList && ((ArrayList<?>) value).isEmpty())) {
+                    it.remove();
+                }
+            }
+            if (value instanceof ArrayList) {
+                List<?> list = ((ArrayList<?>) value).stream().filter(item -> {
+                    if (item == null
+                            || (item instanceof String && ((String) item).isEmpty())
+                            || (item instanceof Map && ((Map<?, ?>) item).isEmpty())
+                            || (item instanceof ArrayList && ((ArrayList<?>) item).isEmpty())) {
+                        return false;
+                    } else if (item instanceof Map && !((Map<?, ?>) item).isEmpty()) {
+                        Map<String, Object> parsedArrayItem = jsonCleaner((Map<String, Object>) item);
+                        if (parsedArrayItem instanceof Map && ((Map<?, ?>) parsedArrayItem).isEmpty()
+                                || (parsedArrayItem instanceof ArrayList && ((ArrayList<?>) parsedArrayItem).isEmpty())) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }).collect(Collectors.toList());
+                if (list.isEmpty()) {
+                    it.remove();
+                } else {
+                    entry.setValue(list);
+                }
+            }
+        }
+        return jsonData;
     }
 
     /**
