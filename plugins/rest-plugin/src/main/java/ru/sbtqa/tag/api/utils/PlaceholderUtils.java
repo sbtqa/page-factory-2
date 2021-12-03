@@ -133,24 +133,21 @@ public class PlaceholderUtils {
                     || (value instanceof Map && ((Map<?, ?>) value).isEmpty())
                     || (value instanceof ArrayList && ((ArrayList<?>) value).isEmpty())) {
                 it.remove();
-            } else if (value instanceof Map && !((Map<?, ?>) value).isEmpty()) {
-                entry.setValue(jsonCleaner((Map<String, Object>) value));
-                if (entry.getValue() instanceof Map && ((Map<?, ?>) value).isEmpty()
-                        || (value instanceof ArrayList && ((ArrayList<?>) value).isEmpty())) {
+            } else if (value instanceof Map) {
+                value = jsonCleaner((Map<String, Object>) value);
+                if (((Map<?, ?>) value).isEmpty()) {
                     it.remove();
                 }
-            }
-            if (value instanceof ArrayList) {
+            } else if (value instanceof ArrayList) {
                 List<?> list = ((ArrayList<?>) value).stream().filter(item -> {
                     if (item == null
                             || (item instanceof String && ((String) item).isEmpty())
                             || (item instanceof Map && ((Map<?, ?>) item).isEmpty())
                             || (item instanceof ArrayList && ((ArrayList<?>) item).isEmpty())) {
                         return false;
-                    } else if (item instanceof Map && !((Map<?, ?>) item).isEmpty()) {
+                    } else if (item instanceof Map) {
                         Map<String, Object> parsedArrayItem = jsonCleaner((Map<String, Object>) item);
-                        if (parsedArrayItem instanceof Map && ((Map<?, ?>) parsedArrayItem).isEmpty()
-                                || (parsedArrayItem instanceof ArrayList && ((ArrayList<?>) parsedArrayItem).isEmpty())) {
+                        if (((Map<?, ?>) parsedArrayItem).isEmpty()) {
                             return false;
                         }
                     }
@@ -159,9 +156,10 @@ public class PlaceholderUtils {
                 if (list.isEmpty()) {
                     it.remove();
                 } else {
-                    entry.setValue(list);
+                    value = list;
                 }
             }
+            entry.setValue(value);
         }
         return jsonData;
     }
