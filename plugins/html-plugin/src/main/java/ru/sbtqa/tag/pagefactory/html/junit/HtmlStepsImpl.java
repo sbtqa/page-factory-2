@@ -274,7 +274,7 @@ public class HtmlStepsImpl<T extends HtmlStepsImpl<T>> extends WebStepsImpl<T> i
     public T checkForm(DataTable dataTable) {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         dataMap.forEach((key, value) ->
-                Assert.assertEquals("Element value is not as expected.", getText(key), value)
+                Assert.assertEquals(String.format("Element '%s' value is not as expected.", key), getText(key), value)
         );
         return (T) this;
     }
