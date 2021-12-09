@@ -1,11 +1,13 @@
 package ru.sbtqa.tag.api.manager;
 
 import com.google.common.reflect.ClassPath;
+
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.api.EndpointEntry;
@@ -25,11 +27,7 @@ public class EndpointManager {
     }
 
     public static EndpointEntry getEndpoint(String title) {
-        if (null == EndpointContext.getCurrentEndpoint() || !EndpointContext.getCurrentEndpointTitle().equals(title)) {
-            return getEndpointFromCache(title);
-        }
-
-        return EndpointContext.getCurrentEndpoint();
+        return getEndpointFromCache(title);
     }
 
     private static EndpointEntry getEndpointFromCache(String title) {
