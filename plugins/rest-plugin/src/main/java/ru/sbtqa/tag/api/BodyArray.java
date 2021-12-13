@@ -3,10 +3,7 @@ package ru.sbtqa.tag.api;
 import groovy.json.JsonBuilder;
 import org.apache.commons.beanutils.ConvertUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +16,9 @@ public class BodyArray<E> {
 
     public BodyArray(String values, Class<E> genericType) {
         this.array = new ArrayList<>();
+        if (values.isEmpty()){
+            return;
+        }
         List<Object> collect = Arrays.stream(values.split("(?<!\\\\),\\s*"))
                 .map(value -> ConvertUtils
                         .convert(value.replace("\"", "\\\"")
@@ -39,6 +39,9 @@ public class BodyArray<E> {
      */
     @Override
     public String toString() {
+        if (array.isEmpty()){
+            return "[]";
+        }
         JsonBuilder builder = new JsonBuilder();
         builder.call(array);
         return builder.toString();
