@@ -1,0 +1,16 @@
+{
+  "int": "${int}",
+  "intMin": "${intMin}",
+  "intNeg": "${intNeg}",
+  "long": "${long}",
+  "longMin": "${longMin}",
+  "longNeg": "${longNeg}",
+  "bigInt": "${bigInt}",
+  "bigIntMin": "${bigIntMin}",
+  "float": "${float}",
+  "floatMin": "${floatMin}",
+  "double": "${double}",
+  "doubleMin": "${doubleMin}",
+  "bigDec": "${bigDec}",
+  "bigDecMin": "${bigDecMin}"
+}
