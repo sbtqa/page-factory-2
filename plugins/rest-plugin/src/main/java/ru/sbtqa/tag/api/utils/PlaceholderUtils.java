@@ -1,8 +1,9 @@
 package ru.sbtqa.tag.api.utils;
 
 import com.google.common.reflect.TypeToken;
-import gherkin.deps.com.google.gson.Gson;
-import gherkin.deps.com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.ToNumberPolicy;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
@@ -122,12 +123,17 @@ public class PlaceholderUtils {
         }.getType();
         boolean isJsonArray = jsonString.trim().startsWith("[");
 
+        Gson gson = new GsonBuilder()
+                .setObjectToNumberStrategy(ToNumberPolicy.BIG_DECIMAL)
+                .setPrettyPrinting()
+                .create();
+
         if (isJsonArray) {
-            ArrayList<?> array = new Gson().fromJson(jsonString, arrayType);
-            return new GsonBuilder().setPrettyPrinting().create().toJson(jsonArrayCleaner(array));
+            ArrayList<?> array = gson.fromJson(jsonString, arrayType);
+            return gson.toJson(jsonArrayCleaner(array));
         } else {
-            Map<String, Object> data = new Gson().fromJson(jsonString, objectType);
-            return new GsonBuilder().setPrettyPrinting().create().toJson(jsonObjectCleaner(data));
+            Map<String, Object> data = gson.fromJson(jsonString, objectType);
+            return gson.toJson(jsonObjectCleaner(data));
         }
 
     }
