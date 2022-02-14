@@ -9,8 +9,6 @@ import java.util.Map;
 
 public class WebSelenoidCapabilitiesParser extends SelenoidCapabilitiesParser {
 
-    private final DesiredCapabilities capabilities = new DesiredCapabilities();
-
     @Override
     public DesiredCapabilities parse() {
         super.parse();
