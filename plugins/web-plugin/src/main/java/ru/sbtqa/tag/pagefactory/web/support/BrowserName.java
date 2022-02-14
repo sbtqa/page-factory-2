@@ -7,7 +7,7 @@ public enum BrowserName {
     IEXPLORE("iexplore"),
     CHROME("chrome"),
     FIREFOX("firefox"),
-    OPERA("firefox"),
+    OPERA("opera"),
     SAFARI("safari"),
     EDGE("edge");
 
