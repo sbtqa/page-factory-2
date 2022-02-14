@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api.endpoints;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 import jakarta.ws.rs.Consumes;
@@ -203,6 +204,16 @@ public class ClientJsonEndpoint {
         SimpleResult result = new SimpleResult();
         BasicDBObject response = (BasicDBObject) JSON.parse(request);
         result.setResult(response.toJson());
+        return Response.ok(result).build();
+    }
+
+    @POST
+    @Path("arrays-as-is")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response arrayResponse(String request) {
+        SimpleResult result = new SimpleResult();
+        BasicDBList response = (BasicDBList) JSON.parse(request);
+        result.setResult(response.toString());
         return Response.ok(result).build();
     }
 }

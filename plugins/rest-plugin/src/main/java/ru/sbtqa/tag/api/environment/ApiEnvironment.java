@@ -26,7 +26,6 @@ public class ApiEnvironment extends Environment {
     }
 
     public static void clear() {
-        repository.remove();
-        blankStorage.remove();
+        blankStorage.get().removeAll();
     }
 }

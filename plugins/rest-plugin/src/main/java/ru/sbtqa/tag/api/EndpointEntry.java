@@ -36,16 +36,20 @@ public class EndpointEntry implements ApiEndpoint {
     private final EndpointEntryReflection reflection;
     private final BlankStorage blankStorage;
     private final Rest method;
+    private String host;
     private String path;
     private final String template;
     private final String title;
+    private final boolean shouldRemoveEmptyObjects;
 
     public EndpointEntry() {
         Endpoint endpoint = this.getClass().getAnnotation(Endpoint.class);
         method = endpoint.method();
         path = endpoint.path();
+        host = endpoint.host();
         template = endpoint.template();
         title = endpoint.title();
+        shouldRemoveEmptyObjects = endpoint.shouldRemoveEmptyObjects();
 
         reflection = new EndpointEntryReflection(this);
         blankStorage = ApiEnvironment.getBlankStorage();
@@ -70,7 +74,8 @@ public class EndpointEntry implements ApiEndpoint {
         reflection.applyAnnotations(Query.class);
         reflection.applyAnnotations(Stashed.class);
         reflection.applyAnnotations(Mutator.class);
-        String url = PathUtils.unite( PROPERTIES.getBaseURI(), path);
+
+        String url = PathUtils.unite(host.isEmpty() ? PROPERTIES.getBaseURI() : PlaceholderUtils.replaceTemplatePlaceholders(host), path);
 
         RequestSpecification request = buildRequest();
         Response response;
@@ -148,10 +153,18 @@ public class EndpointEntry implements ApiEndpoint {
 
     public String getBody() {
         String body = TemplateUtils.loadFromResources(this.getClass(), template, PROPERTIES.getTemplateEncoding());
+        Map<String, Object> parameters = getParameters();
         if(template.endsWith(".json")) {
-            return PlaceholderUtils.replaceJsonTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
+            String result = PlaceholderUtils.replaceJsonTemplatePlaceholders(this.reflection.getEndpoint(), body, parameters);
+            if (PROPERTIES.shouldRemoveOptional()) {
+                result = PlaceholderUtils.removeOptionals(result, parameters);
+            }
+            if (PROPERTIES.shouldRemoveEmptyObjects() || shouldRemoveEmptyObjects) {
+                result = PlaceholderUtils.removeEmptyObjects(result);
+            }
+            return result;
         } else {
-            return PlaceholderUtils.replaceTemplatePlaceholders(this.reflection.getEndpoint(), body, getParameters());
+            return PlaceholderUtils.replaceTemplatePlaceholders(this.reflection.getEndpoint(), body, parameters);
         }
     }
 

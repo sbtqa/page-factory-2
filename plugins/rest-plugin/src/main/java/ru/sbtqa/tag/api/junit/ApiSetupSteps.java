@@ -45,5 +45,6 @@ public class ApiSetupSteps {
 
     public static void tearDown() {
         EndpointContext.clear();
+        ApiEnvironment.clear();
     }
 }

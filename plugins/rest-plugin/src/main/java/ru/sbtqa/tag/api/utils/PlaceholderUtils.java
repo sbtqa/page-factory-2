@@ -1,11 +1,18 @@
 package ru.sbtqa.tag.api.utils;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.ToNumberPolicy;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.api.EndpointEntry;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -46,6 +53,22 @@ public class PlaceholderUtils {
     }
 
     /**
+     * Replace placeholders in string
+     *
+     * @param string replace placeholders in this string
+     * @return string with replaced placeholders
+     */
+    public static String replaceTemplatePlaceholders(String string) {
+        if (string.startsWith("${") && string.endsWith("}")) {
+            String unquoteString = string.replaceAll("^\\$\\{", "").replaceAll("\\}$", "");
+            String property = System.getProperty(unquoteString);
+            return property != null ? property : string;
+        }
+
+        return string;
+    }
+
+    /**
      * Replace Json template placeholders in string on parameters
      *
      * @param jsonString replace placeholders in this json string
@@ -71,7 +94,7 @@ public class PlaceholderUtils {
 
         }
 
-        return removeOptionals(jsonString, parameters);
+        return jsonString;
     }
 
     private static boolean isFieldExists(EndpointEntry entry, String fieldName) {
@@ -79,7 +102,7 @@ public class PlaceholderUtils {
                 .anyMatch(field -> field.getName().equals(fieldName));
     }
 
-    private static String removeOptionals(String jsonString, Map<String, Object> parameters) {
+    public static String removeOptionals(String jsonString, Map<String, Object> parameters) {
         Set<Map.Entry<String, Object>> optionals = parameters.entrySet().stream()
                 .filter(stringObjectEntry -> stringObjectEntry.getValue() == null)
                 .collect(Collectors.toSet());
@@ -91,6 +114,76 @@ public class PlaceholderUtils {
 
         String orphanCommaRegex = "(,)(\\s*})";
         return jsonString.replaceAll(orphanCommaRegex, "$2");
+    }
+
+    public static String removeEmptyObjects(String jsonString) {
+        Type objectType = new TypeToken<Map<String, Object>>() {
+        }.getType();
+        Type arrayType = new TypeToken<ArrayList<?>>() {
+        }.getType();
+        boolean isJsonArray = jsonString.trim().startsWith("[");
+
+        Gson gson = new GsonBuilder()
+                .setObjectToNumberStrategy(ToNumberPolicy.BIG_DECIMAL)
+                .setPrettyPrinting()
+                .create();
+
+        if (isJsonArray) {
+            ArrayList<?> array = gson.fromJson(jsonString, arrayType);
+            return gson.toJson(jsonArrayCleaner(array));
+        } else {
+            Map<String, Object> data = gson.fromJson(jsonString, objectType);
+            return gson.toJson(jsonObjectCleaner(data));
+        }
+
+    }
+
+    private static ArrayList<?> jsonArrayCleaner(ArrayList<?> jsonArray) {
+        for (Iterator<?> it = jsonArray.iterator(); it.hasNext(); ) {
+            Object item = it.next();
+            if (item == null
+                    || (item instanceof String && ((String) item).isEmpty())
+                    || (item instanceof Map && ((Map<?, ?>) item).isEmpty())
+                    || (item instanceof ArrayList && ((ArrayList<?>) item).isEmpty())) {
+                it.remove();
+            } else if (item instanceof ArrayList) {
+                item = jsonArrayCleaner((ArrayList<?>) item);
+                if (((ArrayList<?>) item).isEmpty()) {
+                    it.remove();
+                }
+            } else if (item instanceof Map) {
+                item = jsonObjectCleaner((Map<String, Object>) item);
+                if (((Map<?, ?>) item).isEmpty()) {
+                    it.remove();
+                }
+            }
+        }
+        return jsonArray;
+    }
+
+    private static Map<String, Object> jsonObjectCleaner(Map<String, Object> jsonData) {
+        for (Iterator<Map.Entry<String, Object>> it = jsonData.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, Object> entry = it.next();
+            Object value = entry.getValue();
+            if (value == null
+                    || (value instanceof String && ((String) value).isEmpty())
+                    || (value instanceof Map && ((Map<?, ?>) value).isEmpty())
+                    || (value instanceof ArrayList && ((ArrayList<?>) value).isEmpty())) {
+                it.remove();
+            } else if (value instanceof Map) {
+                value = jsonObjectCleaner((Map<String, Object>) value);
+                if (((Map<?, ?>) value).isEmpty()) {
+                    it.remove();
+                }
+            } else if (value instanceof ArrayList) {
+                value = jsonArrayCleaner((ArrayList<?>) value);
+                if (((ArrayList<?>) value).isEmpty()) {
+                    it.remove();
+                }
+            }
+            entry.setValue(value);
+        }
+        return jsonData;
     }
 
     /**

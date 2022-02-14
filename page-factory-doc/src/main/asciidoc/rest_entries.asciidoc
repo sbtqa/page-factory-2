@@ -5,18 +5,21 @@
 Параметры метода нужно задать аннотацией `@Endpoint`. С ее помощью определяются:
 
 * `method` - метод (POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD)
+* `host` - url вида <схема>://<хост>[:<порт>]. В случае если не задано, будет использовано `api.baseURI`
 * `path` - путь, относительно заданного в `api.baseURI`
 * `title` - имя метода для обращения из тестового сценария
 * `template` - шаблон запроса
+* `shouldRemoveEmptyObjects` - необходимо ли удалять пустые объекты в шаблоне
 
 *__Пример:__*
 [source,]
 ----
-@Endpoint(method = Rest.GET, path = "repos/qa", title = "Запрос")
+@Endpoint(method = Rest.GET, host = "http://example.pf2.ru:8080", path = "repos/qa", title = "Запрос")
 public class ApiEntry extends EndpointEntry {
 ...
 }
 ----
+TIP: Параметр host можно задавать динамически. Для этого нужно использовать плейсхолдер вида `host = "${env.myHost}"`. В мавен нужно будет передать это параметр как `mvn clean test -Denv.myHost=https://localhost:8888`
 
 Путь до пакета с описанными API-методами необходимо прописать в файле конфигурации. Например:
 

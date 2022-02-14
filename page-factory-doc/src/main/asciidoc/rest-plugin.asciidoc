@@ -33,6 +33,8 @@ include::rest_build_request.asciidoc[]
 
 include::rest_steps_en.asciidoc[]
 
+include::rest_properties.asciidoc[]
+
 === SSL
 Включить упрощенную схему работы с ssl можно следующим образом:
 [source,]
