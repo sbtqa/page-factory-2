@@ -22,9 +22,6 @@ import ru.sbtqa.tag.pagefactory.mobile.utils.AppiumVideoRecorder;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.ANDROID;
-import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
-
 public class MobileDriverService implements DriverService {
 
     private static final Logger LOG = LoggerFactory.getLogger(MobileDriverService.class);

@@ -9,26 +9,15 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import ru.sbtqa.tag.pagefactory.actions.PageActions;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
-import ru.sbtqa.tag.pagefactory.mobile.properties.MobileConfiguration;
 import ru.sbtqa.tag.pagefactory.utils.Wait;
 
-import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
-
 public class MobilePageActions implements PageActions {
-
-    private static final MobileConfiguration PROPERTIES = MobileConfiguration.create();
 
     @Override
     public void fill(Object element, String text) {
         WebElement webElement = (WebElement) element;
         webElement.click();
-
-//        if (PROPERTIES.getAppiumPlatformName() == IOS) {
-            webElement.sendKeys(text);
-//        } else {
-//            AppiumDriver driver = Environment.getDriverService().getDriver();
-//            ((AndroidDriver) driver).key getKeyboard().sendKeys(text);
-//        }
+        webElement.sendKeys(text);
     }
 
     @Override
@@ -41,7 +30,7 @@ public class MobilePageActions implements PageActions {
     @Override
     public void press(Object element, String keyName) {
         Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = new Actions((WebDriver) Environment.getDriverService().getDriver());
+        Actions actions = new Actions(Environment.getDriverService().getDriver());
         actions.sendKeys(key).build().perform();
     }
 

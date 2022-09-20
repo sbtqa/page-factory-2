@@ -16,6 +16,6 @@ public class CreatedSafariDriver implements Supplier<WebDriver> {
 
     @Override
     public WebDriver get() {
-        return new SafariDriver();
+        return new SafariDriver(capabilities);
     }
 }
