@@ -40,7 +40,7 @@ public class AppiumVideoRecorder {
             return;
         }
 
-        if (PROPERTIES.getAppiumPlatformName() == PlatformName.IOS) {
+        if (PROPERTIES.getAppiumPlatformName().equals("IOS")) {
             IOSStartScreenRecordingOptions startOptions = new IOSStartScreenRecordingOptions()
                     .withVideoType(PROPERTIES.getAppiumVideoType())
                     .withVideoScale(PROPERTIES.getAppiumVideoScale())
@@ -71,7 +71,7 @@ public class AppiumVideoRecorder {
         }
 
         // get Base64 encoded video content
-        String encodedString = PROPERTIES.getAppiumPlatformName() == PlatformName.IOS
+        String encodedString = PROPERTIES.getAppiumPlatformName().equals("IOS")
                 ? ((IOSDriver) Environment.getDriverService().getDriver()).stopRecordingScreen()
                 : ((AndroidDriver) Environment.getDriverService().getDriver()).stopRecordingScreen();
 

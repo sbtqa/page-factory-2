@@ -89,44 +89,46 @@ public class SwipeUtils {
      * @throws SwipeException if there is an error while swiping
      */
     private static void swipe(Point location, Dimension size, DirectionStrategy direction, int time) throws SwipeException {
-        int startx;
-        int endx;
-        int starty;
-        int endy;
-        switch (direction) {
-            case DOWN:
-                startx = endx = size.width / 2;
-                starty = (int) (size.height * INDENT_BOTTOM);
-                endy = (int) (size.height * INDENT_TOP);
-                break;
-            case UP:
-                startx = endx = size.width / 2;
-                starty = (int) (size.height * INDENT_TOP);
-                endy = (int) (size.height * INDENT_BOTTOM);
-                break;
-            case RIGHT:
-                startx = (int) (size.width * INDENT_RIGHT);
-                endx = (int) (size.width * INDENT_LEFT);
-                starty = endy = size.height / 2;
-                break;
-            case LEFT:
-                startx = (int) (size.width * INDENT_LEFT);
-                endx = (int) (size.width * INDENT_RIGHT);
-                starty = endy = size.height / 2;
-                break;
-            default:
-                throw new SwipeException("Failed to swipe to direction " + direction);
-        }
+//        int startx;
+//        int endx;
+//        int starty;
+//        int endy;
+//        switch (direction) {
+//            case DOWN:
+//                startx = endx = size.width / 2;
+//                starty = (int) (size.height * INDENT_BOTTOM);
+//                endy = (int) (size.height * INDENT_TOP);
+//                break;
+//            case UP:
+//                startx = endx = size.width / 2;
+//                starty = (int) (size.height * INDENT_TOP);
+//                endy = (int) (size.height * INDENT_BOTTOM);
+//                break;
+//            case RIGHT:
+//                startx = (int) (size.width * INDENT_RIGHT);
+//                endx = (int) (size.width * INDENT_LEFT);
+//                starty = endy = size.height / 2;
+//                break;
+//            case LEFT:
+//                startx = (int) (size.width * INDENT_LEFT);
+//                endx = (int) (size.width * INDENT_RIGHT);
+//                starty = endy = size.height / 2;
+//                break;
+//            default:
+//                throw new SwipeException("Failed to swipe to direction " + direction);
+//        }
+//
+//        int x = location.getX();
+//        int y = location.getY();
+//        LOG.debug("Swipe parameters: location {}, dimension {}, direction {}, time {}", location, size, direction, time);
+//        new TouchAction()
+//                .press(PointOption.point(x + startx, y + starty))
+//                .waitAction()
+//                .moveTo(PointOption.point(x + endx, y + endy))
+//                .release()
+//                .perform();
 
-        int x = location.getX();
-        int y = location.getY();
-        LOG.debug("Swipe parameters: location {}, dimension {}, direction {}, time {}", location, size, direction, time);
-        new TouchAction(appiumDriver)
-                .press(PointOption.point(x + startx, y + starty))
-                .waitAction()
-                .moveTo(PointOption.point(x + endx, y + endy))
-                .release()
-                .perform();
+        throw new SwipeException("Not implemented yet for appium2.0");
     }
 
     /**
@@ -162,30 +164,30 @@ public class SwipeUtils {
      * @throws SwipeException if there is an error while swiping
      */
     public static void swipeToText(DirectionStrategy direction, String text, MatchStrategy strategy, int depth) throws SwipeException {
-        for (int depthCounter = 0; depthCounter < depth; depthCounter++) {
-            String oldPageSource = appiumDriver.getPageSource();
-            if (strategy == MatchStrategy.EXACT) {
-                if (!appiumDriver.findElementsByXPath("//*[@text='" + text + "']").isEmpty()) {
-                    return;
-                }
-            } else {
-                List<WebElement> textViews = appiumDriver.findElementsByClassName("android.widget.TextView");
-                if (!textViews.isEmpty()) {
-                    for (WebElement textView : textViews) {
-                        if (textView.getText().contains(text)) {
-                            return;
-                        }
-                    }
-                }
-            }
-            swipe(direction);
+//        for (int depthCounter = 0; depthCounter < depth; depthCounter++) {
+//            String oldPageSource = appiumDriver.getPageSource();
+//            if (strategy == MatchStrategy.EXACT) {
+//                if (!appiumDriver.findElements(By.xpath("//*[@text='" + text + "']").isEmpty()) {
+//                    return;
+//                }
+//            } else {
+//                List<WebElement> textViews = appiumDriver.findElementsByClassName("android.widget.TextView");
+//                if (!textViews.isEmpty()) {
+//                    for (WebElement textView : textViews) {
+//                        if (textView.getText().contains(text)) {
+//                            return;
+//                        }
+//                    }
+//                }
+//            }
+//            swipe(direction);
+//
+//            if (appiumDriver.getPageSource().equals(oldPageSource)) {
+//                throw new SwipeException("Swiping limit is reached. Text not found");
+//            }
+//        }
 
-            if (appiumDriver.getPageSource().equals(oldPageSource)) {
-                throw new SwipeException("Swiping limit is reached. Text not found");
-            }
-        }
-
-        throw new SwipeException("Swiping depth is reached. Text not found");
+        throw new SwipeException("Not implemented yet for appium2.0");
     }
 
     /**

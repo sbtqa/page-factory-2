@@ -1,6 +1,7 @@
 package ru.sbtqa.tag.pagefactory.mobile.actions;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,12 +23,12 @@ public class MobilePageActions implements PageActions {
         WebElement webElement = (WebElement) element;
         webElement.click();
 
-        if (PROPERTIES.getAppiumPlatformName() == IOS) {
+//        if (PROPERTIES.getAppiumPlatformName() == IOS) {
             webElement.sendKeys(text);
-        } else {
-            AppiumDriver driver = Environment.getDriverService().getDriver();
-            driver.getKeyboard().sendKeys(text);
-        }
+//        } else {
+//            AppiumDriver driver = Environment.getDriverService().getDriver();
+//            ((AndroidDriver) driver).key getKeyboard().sendKeys(text);
+//        }
     }
 
     @Override

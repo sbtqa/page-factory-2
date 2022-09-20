@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.pagefactory.mobile;
 
-import io.appium.java_client.MobileDriver;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.support.PageFactory;
 import ru.sbtqa.tag.pagefactory.Page;
@@ -18,7 +18,7 @@ public abstract class MobilePage implements Page {
     public MobilePage() {
         MobileSetupSteps.initMobile();
 
-        MobileDriver driver =  Environment.getDriverService().getDriver();
+        AppiumDriver driver =  Environment.getDriverService().getDriver();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 
         Environment.setPageActions(new MobilePageActions());

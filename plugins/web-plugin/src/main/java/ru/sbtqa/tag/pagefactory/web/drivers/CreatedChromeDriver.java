@@ -20,6 +20,6 @@ public class CreatedChromeDriver implements Supplier<WebDriver> {
     @Override
     public WebDriver get() {
         WebDriverManagerConfigurator.configureDriver(ChromeDriverManager.getInstance(), BrowserName.CHROME.getName());
-        return new ChromeDriver(capabilities);
+        return new ChromeDriver();
     }
 }
