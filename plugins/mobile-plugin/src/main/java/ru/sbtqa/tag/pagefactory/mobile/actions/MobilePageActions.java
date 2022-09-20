@@ -30,7 +30,7 @@ public class MobilePageActions implements PageActions {
     @Override
     public void press(Object element, String keyName) {
         Keys key = Keys.valueOf(keyName.toUpperCase());
-        Actions actions = new Actions(Environment.getDriverService().getDriver());
+        Actions actions = new Actions((WebDriver) Environment.getDriverService().getDriver());
         actions.sendKeys(key).build().perform();
     }
 
