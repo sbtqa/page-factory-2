@@ -105,7 +105,7 @@ public class Wait {
      * @param timeout condition timeout in seconds
      */
     public static void visibility(WebElement element, String message, int timeout) {
-        new WebDriverWait(Environment.getDriverService().getDriver(), Duration.ofSeconds(timeout))
+        new WebDriverWait(Environment.getDriverService().getDriver(), timeout)
                 .ignoring(StaleElementReferenceException.class)
                 .withMessage(message).until(ExpectedConditions.visibilityOf(element));
     }
@@ -643,7 +643,7 @@ public class Wait {
      * @param message message in case verification failed
      */
     public static void wait(ExpectedCondition condition, String message) {
-        new WebDriverWait(Environment.getDriverService().getDriver(), Duration.ofSeconds(PROPERTIES.getTimeout()))
+        new WebDriverWait(Environment.getDriverService().getDriver(), PROPERTIES.getTimeout())
                 .withMessage(message).until(condition);
     }
 
@@ -656,7 +656,7 @@ public class Wait {
      * @param timeout condition timeout in seconds
      */
     public static void wait(ExpectedCondition condition, String message, int timeout) {
-        new WebDriverWait(Environment.getDriverService().getDriver(), Duration.ofSeconds(timeout))
+        new WebDriverWait(Environment.getDriverService().getDriver(), timeout)
                 .withMessage(message).until(condition);
     }
 }

@@ -20,6 +20,6 @@ public class CreatedEdgeDriver implements Supplier<WebDriver> {
     @Override
     public WebDriver get() {
         WebDriverManagerConfigurator.configureDriver(EdgeDriverManager.getInstance(), BrowserName.EDGE.getName());
-        return new EdgeDriver();
+        return new EdgeDriver(capabilities);
     }
 }
