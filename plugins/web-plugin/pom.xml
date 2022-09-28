@@ -37,27 +37,27 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-chrome-driver</artifactId>
-      <version>${selenium.version}</version>
+      <version>3.141.59</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-firefox-driver</artifactId>
-      <version>${selenium.version}</version>
+      <version>3.141.59</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-safari-driver</artifactId>
-      <version>${selenium.version}</version>
+      <version>3.141.59</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-ie-driver</artifactId>
-      <version>${selenium.version}</version>
+      <version>3.141.59</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-edge-driver</artifactId>
-      <version>${selenium.version}</version>
+      <version>3.141.59</version>
     </dependency>
     <dependency>
       <groupId>net.lightbody.bmp</groupId>
