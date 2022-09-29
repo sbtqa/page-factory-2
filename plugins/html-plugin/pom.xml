@@ -29,16 +29,10 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>ru.yandex.qatools.htmlelements</groupId>
+      <groupId>ru.sbtqa.htmlelements</groupId>
       <artifactId>htmlelements-java</artifactId>
-      <version>1.20.0</version>
+      <version>1.21.4</version>
       <type>jar</type>
-      <exclusions>
-        <exclusion>
-          <groupId>org.seleniumhq.selenium</groupId>
-          <artifactId>selenium-java</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!--test-->

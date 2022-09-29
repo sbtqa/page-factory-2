@@ -15,8 +15,7 @@ public class CreatedInternetExplorerDriver implements Supplier<WebDriver> {
     private final InternetExplorerOptions options;
 
     public CreatedInternetExplorerDriver(final DesiredCapabilities capabilities) {
-        options = new InternetExplorerOptions();
-        options.merge(capabilities);
+        options = new InternetExplorerOptions().merge(capabilities);
     }
 
     @Override

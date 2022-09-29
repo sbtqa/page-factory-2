@@ -21,6 +21,7 @@
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.4.13.v20181111</jetty.version>
     <skipTests>false</skipTests>
+    <plugins.web.selenium.version>4.5.0</plugins.web.selenium.version>
   </properties>
 
   <dependencies>
@@ -35,29 +36,34 @@
       <version>${tag.version.webdrivermanager}</version>
     </dependency>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>31.0.1-jre</version>
+    </dependency>
+    <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-chrome-driver</artifactId>
-      <version>3.141.59</version>
+      <version>${plugins.web.selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-firefox-driver</artifactId>
-      <version>3.141.59</version>
+      <version>${plugins.web.selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-safari-driver</artifactId>
-      <version>3.141.59</version>
+      <version>${plugins.web.selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-ie-driver</artifactId>
-      <version>3.141.59</version>
+      <version>${plugins.web.selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-edge-driver</artifactId>
-      <version>3.141.59</version>
+      <version>${plugins.web.selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>net.lightbody.bmp</groupId>

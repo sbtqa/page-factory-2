@@ -10,6 +10,7 @@ import ru.sbtqa.tag.qautils.properties.Props;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class WebDriverCapabilitiesParser implements CapabilitiesParser {
 
@@ -132,5 +133,12 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
 
     private boolean isBoolean(String string) {
         return "true".equalsIgnoreCase(string) || "false".equalsIgnoreCase(string);
+    }
+
+    public List<String> getOptions(DesiredCapabilities capabilities) {
+        return Arrays.stream(capabilities.getCapability("options.args").toString()
+                        .split(","))
+                .map(arg -> "--" + arg)
+                .collect(Collectors.toList());
     }
 }
