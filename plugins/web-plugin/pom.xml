@@ -21,7 +21,6 @@
     <renamed.war>test-web-app.war</renamed.war>
     <jetty.version>9.4.13.v20181111</jetty.version>
     <skipTests>false</skipTests>
-    <plugins.web.selenium.version>4.5.0</plugins.web.selenium.version>
   </properties>
 
   <dependencies>
@@ -43,27 +42,27 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-chrome-driver</artifactId>
-      <version>${plugins.web.selenium.version}</version>
+      <version>${selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-firefox-driver</artifactId>
-      <version>${plugins.web.selenium.version}</version>
+      <version>${selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-safari-driver</artifactId>
-      <version>${plugins.web.selenium.version}</version>
+      <version>${selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-ie-driver</artifactId>
-      <version>${plugins.web.selenium.version}</version>
+      <version>${selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-edge-driver</artifactId>
-      <version>${plugins.web.selenium.version}</version>
+      <version>${selenium.version}</version>
     </dependency>
     <dependency>
       <groupId>net.lightbody.bmp</groupId>
