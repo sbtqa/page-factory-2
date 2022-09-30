@@ -16,6 +16,6 @@ public class CreatedFirefoxDriver implements Supplier<WebDriver> {
 
     @Override
     public WebDriver get() {
-        return new FirefoxDriver(capabilities);
+        return new FirefoxDriver();
     }
 }

@@ -5,10 +5,8 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.offset.PointOption;
 import java.util.List;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.pagefactory.environment.Environment;
@@ -121,7 +119,7 @@ public class SwipeUtils {
         int x = location.getX();
         int y = location.getY();
         LOG.debug("Swipe parameters: location {}, dimension {}, direction {}, time {}", location, size, direction, time);
-        new TouchAction(appiumDriver)
+        new TouchAction(Environment.getDriverService().getDriver())
                 .press(PointOption.point(x + startx, y + starty))
                 .waitAction()
                 .moveTo(PointOption.point(x + endx, y + endy))
@@ -165,11 +163,11 @@ public class SwipeUtils {
         for (int depthCounter = 0; depthCounter < depth; depthCounter++) {
             String oldPageSource = appiumDriver.getPageSource();
             if (strategy == MatchStrategy.EXACT) {
-                if (!appiumDriver.findElementsByXPath("//*[@text='" + text + "']").isEmpty()) {
+                if (!appiumDriver.findElements(By.xpath("//*[@text='" + text + "']")).isEmpty()) {
                     return;
                 }
             } else {
-                List<WebElement> textViews = appiumDriver.findElementsByClassName("android.widget.TextView");
+                List<WebElement> textViews = appiumDriver.findElements(By.className("android.widget.TextView"));
                 if (!textViews.isEmpty()) {
                     for (WebElement textView : textViews) {
                         if (textView.getText().contains(text)) {

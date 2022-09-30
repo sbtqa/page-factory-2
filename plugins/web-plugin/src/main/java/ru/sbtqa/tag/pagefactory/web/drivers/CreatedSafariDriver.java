@@ -1,8 +1,11 @@
 package ru.sbtqa.tag.pagefactory.web.drivers;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
+import ru.sbtqa.tag.pagefactory.web.capabilities.WebDriverCapabilitiesParser;
 
 import java.util.function.Supplier;
 
@@ -16,6 +19,7 @@ public class CreatedSafariDriver implements Supplier<WebDriver> {
 
     @Override
     public WebDriver get() {
-        return new SafariDriver(capabilities);
+        SafariOptions options = new SafariOptions().merge(capabilities);
+        return new SafariDriver(options);
     }
 }

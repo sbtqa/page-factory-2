@@ -6,6 +6,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,6 @@ import ru.sbtqa.tag.pagefactory.mobile.utils.AppiumVideoRecorder;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.ANDROID;
-import static ru.sbtqa.tag.pagefactory.mobile.utils.PlatformName.IOS;
-
 public class MobileDriverService implements DriverService {
 
     private static final Logger LOG = LoggerFactory.getLogger(MobileDriverService.class);
@@ -35,39 +33,38 @@ public class MobileDriverService implements DriverService {
     @Override
     public void mountDriver() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, PROPERTIES.getAppiumPlatformName());
-        capabilities.setCapability(MobileCapabilityType.APP, PROPERTIES.getAppiumApp());
-        capabilities.setCapability(MobileCapabilityType.APPIUM_VERSION, PROPERTIES.getAppiumVersion());
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, PROPERTIES.getAppiumDeviceName());
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PROPERTIES.getAppiumPlatformVersion());
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, PROPERTIES.getAppiumBrowserName());
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, PROPERTIES.getAppiumAutomationName());
-        capabilities.setCapability(MobileCapabilityType.UDID, PROPERTIES.getAppiumUdid());
-        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, PROPERTIES.getNewCommandTimeout());
-        capabilities.setCapability(MobileCapabilityType.FULL_RESET, PROPERTIES.getAppiumFullReset());
-        capabilities.setCapability(MobileCapabilityType.NO_RESET, PROPERTIES.getAppiumNoReset());
+        setCapability(capabilities, MobileCapabilityType.PLATFORM_NAME, PROPERTIES.getAppiumPlatformName());
+        setCapability(capabilities, MobileCapabilityType.APP, PROPERTIES.getAppiumApp());
+        setCapability(capabilities, MobileCapabilityType.DEVICE_NAME, PROPERTIES.getAppiumDeviceName());
+        setCapability(capabilities, MobileCapabilityType.PLATFORM_VERSION, PROPERTIES.getAppiumPlatformVersion());
+        setCapability(capabilities, MobileCapabilityType.BROWSER_NAME, PROPERTIES.getAppiumBrowserName());
+        setCapability(capabilities, MobileCapabilityType.AUTOMATION_NAME, PROPERTIES.getAppiumAutomationName());
+        setCapability(capabilities, MobileCapabilityType.UDID, PROPERTIES.getAppiumUdid());
+        setCapability(capabilities, MobileCapabilityType.NEW_COMMAND_TIMEOUT, PROPERTIES.getNewCommandTimeout());
+        setCapability(capabilities, MobileCapabilityType.FULL_RESET, PROPERTIES.getAppiumFullReset());
+        setCapability(capabilities, MobileCapabilityType.NO_RESET, PROPERTIES.getAppiumNoReset());
 
-        capabilities.setCapability(IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, PROPERTIES.getAppiumAlertsAutoAccept());
+        setCapability(capabilities, IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, PROPERTIES.getAppiumAlertsAutoAccept());
 
-        capabilities.setCapability("bundleId", PROPERTIES.getAppiumBundleId());
-        capabilities.setCapability("appPackage", PROPERTIES.getAppiumAppPackage());
-        capabilities.setCapability("appActivity", PROPERTIES.getAppiumAppActivity());
-        capabilities.setCapability("permissions", PROPERTIES.getAppiumPermissions());
-        capabilities.setCapability("autoGrantPermissions", PROPERTIES.getAppiumAutoGrantPermissions());
-        capabilities.setCapability("unicodeKeyboard", PROPERTIES.getAppiumKeyboardUnicode());
-        capabilities.setCapability("resetKeyboard", PROPERTIES.getAppiumKeyboardReset());
-        capabilities.setCapability("connectHardwareKeyboard", false);
-        capabilities.setCapability("xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
-        capabilities.setCapability("xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
-        capabilities.setCapability("showIOSLog", PROPERTIES.getAppiumShowIOSLog());
-        capabilities.setCapability("appium:disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
-        capabilities.setCapability("appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
-        capabilities.setCapability("appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
-        capabilities.setCapability("appium:useNewWDA", PROPERTIES.getAppiumUseNewWDA());
-        capabilities.setCapability("appium:usePrebuiltWDA", PROPERTIES.getAppiumUsePrebuiltWDA());
-        capabilities.setCapability("appium:derivedDataPath", PROPERTIES.getAppiumDerivedDataPath());
+        setCapability(capabilities, "bundleId", PROPERTIES.getAppiumBundleId());
+        setCapability(capabilities, "appPackage", PROPERTIES.getAppiumAppPackage());
+        setCapability(capabilities, "appActivity", PROPERTIES.getAppiumAppActivity());
+        setCapability(capabilities, "permissions", PROPERTIES.getAppiumPermissions());
+        setCapability(capabilities, "autoGrantPermissions", PROPERTIES.getAppiumAutoGrantPermissions());
+        setCapability(capabilities, "unicodeKeyboard", PROPERTIES.getAppiumKeyboardUnicode());
+        setCapability(capabilities, "resetKeyboard", PROPERTIES.getAppiumKeyboardReset());
+        capabilities.setCapability( "connectHardwareKeyboard", false);
+        setCapability(capabilities, "xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
+        setCapability(capabilities, "xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
+        setCapability(capabilities, "showIOSLog", PROPERTIES.getAppiumShowIOSLog());
+        capabilities.setCapability( "appium:disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
+        setCapability(capabilities, "appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
+        setCapability(capabilities, "appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
+        setCapability(capabilities, "appium:useNewWDA", PROPERTIES.getAppiumUseNewWDA());
+        setCapability(capabilities, "appium:usePrebuiltWDA", PROPERTIES.getAppiumUsePrebuiltWDA());
+        setCapability(capabilities, "appium:derivedDataPath", PROPERTIES.getAppiumDerivedDataPath());
 
-        if (PROPERTIES.getAppiumPlatformName() == ANDROID) {
+        if (PROPERTIES.getAppiumPlatformName().equals("ANDROID")) {
             capabilities.merge(new SelenoidCapabilitiesParser().parse());
         }
 
@@ -80,9 +77,9 @@ public class MobileDriverService implements DriverService {
             throw new FactoryRuntimeException("Could not parse appium url. Check 'appium.url' property", e);
         }
 
-        mobileDriver = PROPERTIES.getAppiumPlatformName() == IOS ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
+        mobileDriver = PROPERTIES.getAppiumPlatformName().equals("IOS") ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
 
-        if (PROPERTIES.getAppiumPlatformName() == ANDROID) {
+        if (PROPERTIES.getAppiumPlatformName().equals("ANDROID")) {
             ((AndroidDriver) mobileDriver).setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, PROPERTIES.getWaitForIdleTimeout());
         }
 
@@ -92,6 +89,12 @@ public class MobileDriverService implements DriverService {
         }
     }
 
+    private void setCapability(DesiredCapabilities capabilities, String name, String value) {
+        if (value != null && !value.equals("")) {
+            capabilities.setCapability(name, value);
+        }
+    }
+    
     @Override
     public void demountDriver() {
         if (isDriverEmpty()) {

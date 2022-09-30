@@ -43,7 +43,7 @@ public interface MobileConfiguration extends Configuration {
 
     @Key("appium.device.platform.name")
     @DefaultValue("IOS")
-    PlatformName getAppiumPlatformName();
+    String getAppiumPlatformName();
 
     @Key("appium.fullReset")
     @DefaultValue("")

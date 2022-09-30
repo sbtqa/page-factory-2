@@ -30,13 +30,7 @@
     <dependency>
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
-      <version>7.0.0</version>
-      <exclusions>
-      <exclusion>
-        <groupId>cglib</groupId>
-        <artifactId>cglib</artifactId>
-      </exclusion>
-      </exclusions>
+      <version>8.2.0</version>
     </dependency>
     <dependency>
       <groupId>cglib</groupId>
