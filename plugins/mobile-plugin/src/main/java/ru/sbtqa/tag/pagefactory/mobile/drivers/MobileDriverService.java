@@ -6,7 +6,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +79,7 @@ public class MobileDriverService implements DriverService {
         mobileDriver = PROPERTIES.getAppiumPlatformName().equals("IOS") ? new IOSDriver(url, capabilities) : new AndroidDriver(url, capabilities);
 
         if (PROPERTIES.getAppiumPlatformName().equals("ANDROID")) {
-            ((AndroidDriver) mobileDriver).setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, PROPERTIES.getWaitForIdleTimeout());
+            mobileDriver.setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, PROPERTIES.getWaitForIdleTimeout());
         }
 
         if (PROPERTIES.getAppiumVideoEnabled()) {

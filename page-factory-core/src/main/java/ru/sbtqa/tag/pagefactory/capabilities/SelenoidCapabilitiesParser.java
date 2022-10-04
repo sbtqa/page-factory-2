@@ -7,7 +7,9 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class SelenoidCapabilitiesParser implements CapabilitiesParser {
@@ -32,43 +34,36 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         String logName = getProperty(PROPERTIES.getSelenoidLogName());
         String videoName = getProperty(PROPERTIES.getSelenoidVideoName());
 
+        HashMap<String, Object> selenoidOptions = new HashMap<>();
+        selenoidOptions.put("enableVNC", PROPERTIES.getSelenoidEnableVNC());
+        selenoidOptions.put("enableLog", PROPERTIES.getSelenoidEnableLog());
+        selenoidOptions.put("screenResolution", PROPERTIES.getSelenoidScreenResolution());
+        selenoidOptions.put("enableVideo", PROPERTIES.getSelenoidEnableVideo());
+        selenoidOptions.put("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
+        if (!PROPERTIES.getSelenoidVideoFrameRate().equals("")) {
+            selenoidOptions.put("videoFrameRate", Integer.parseInt(PROPERTIES.getSelenoidVideoFrameRate()));
+        }
+        selenoidOptions.put("name", name);
+        selenoidOptions.put("logName", String.format(UNIQUE_NAME_FORMAT + ".log", logName));
+        selenoidOptions.put("videoName", String.format(UNIQUE_NAME_FORMAT + ".mp4", videoName));
+        selenoidOptions.put("timeZone", PROPERTIES.getSelenoidTimeZone());
+        if (!PROPERTIES.getSelenoidApplicationContainers().equals("")) {
+            selenoidOptions.put("applicationContainers", Arrays.asList(PROPERTIES.getSelenoidApplicationContainers().split(",")));
+        }
+        if (!PROPERTIES.getSelenoidHostEntries().equals("")) {
+            selenoidOptions.put("hostsEntries", Arrays.asList(PROPERTIES.getSelenoidHostEntries().split(",")));
+        }
+        if (!PROPERTIES.getSelenoidContainerLabels().equals("")) {
+            selenoidOptions.put("labels", Arrays.asList(PROPERTIES.getSelenoidContainerLabels().split(",")));
+        }
+        selenoidOptions.put("sessionTimeout", PROPERTIES.getSelenoidSessionTimeout());
 
-        setCapability("enableVNC", PROPERTIES.getSelenoidEnableVNC());
-        setCapability("enableLog", PROPERTIES.getSelenoidEnableLog());
-        setCapability("screenResolution", PROPERTIES.getSelenoidScreenResolution());
-        setCapability("enableVideo", PROPERTIES.getSelenoidEnableVideo());
-        setCapability("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
-        setCapability("videoFrameRate", PROPERTIES.getSelenoidVideoFrameRate());
-        setCapability("name", name);
-        setCapability("logName", logName, UNIQUE_NAME_FORMAT + ".log");
-        setCapability("videoName", videoName, UNIQUE_NAME_FORMAT + ".mp4");
-        setCapability("timeZone", PROPERTIES.getSelenoidTimeZone());
-        setCapability("hostsEntries", PROPERTIES.getSelenoidHostEntries());
-        setCapability("applicationContainers", PROPERTIES.getSelenoidApplicationContainers());
-        setCapability("labels", PROPERTIES.getSelenoidContainerLabels());
-        setCapability("sessionTimeout", PROPERTIES.getSelenoidSessionTimeout());
-
+        capabilities.setCapability("selenoid:options", selenoidOptions);
         return capabilities;
     }
 
     private String getProperty(String property) {
         return property.trim().isEmpty() && Environment.getScenario() != null ? Environment.getScenario().getName() : property;
-    }
-
-    private void setCapability(String capabilityName, String capabilityValue, String format) {
-        if (!capabilityValue.isEmpty()) {
-            capabilities.setCapability(capabilityName, String.format(format, capabilityValue));
-        } else {
-            LOG.info("Capability \"{}\" for Selenoid isn't set. Using default capability.", capabilityName);
-        }
-    }
-
-    private void setCapability(String capabilityName, String capabilityValue) {
-        setCapability(capabilityName, capabilityValue, "%s");
-    }
-
-    private void setCapability(String capabilityName, boolean capabilityValue) {
-        capabilities.setCapability(capabilityName, capabilityValue);
     }
 
     private void setVersion(String capabilityValue) {
