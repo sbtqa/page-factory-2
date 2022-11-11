@@ -12,10 +12,10 @@ fi
 
 mvn clean deploy --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=true -Drelease=true -B -U
 
-DOCS_RELEASES_DIR=page-factory-2-site/releases/$DOCS_RELEASE_DIR
+DOCS_RELEASES_DIR=sbtqa.github.io/releases/$DOCS_RELEASE_DIR
 
 rm -rf .git/
-git clone https://${GITHUB_AUTH_TOKEN}@github.com/sbtqa/page-factory-2-site.git
+git clone https://${GITHUB_AUTH_TOKEN}@github.com/sbtqa/sbtqa.github.io.git
 mkdir -p $DOCS_RELEASES_DIR
 rm -rf $DOCS_RELEASES_DIR/*
 cp -r page-factory-doc/target/doc/index.html page-factory-doc/target/doc/images/ $DOCS_RELEASES_DIR/
