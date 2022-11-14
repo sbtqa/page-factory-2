@@ -92,11 +92,11 @@ image::images/dynamic_fragment_ex1.png[]
 
 В ситуации, когда клиент уже известен (Client = User) выполнится фрагмент "Проверка данных клиента"
 
-image::images/dynamic_fragment_ex2.png[]
+image::images/dynamic_fragment_ex3.png[]
 
 И, напротив, для неизвестного клиента (Client = Unauthorized user) выполнится "Заполнение данных клиента"
 
-image::images/dynamic_fragment_ex3.png[]
+image::images/dynamic_fragment_ex2.png[]
 
 
 
