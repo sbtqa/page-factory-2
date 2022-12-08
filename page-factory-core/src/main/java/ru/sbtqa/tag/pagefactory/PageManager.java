@@ -106,7 +106,7 @@ public class PageManager {
             } else {
                 try {
                     pageTitle = (String) FieldUtils.readStaticField(page, "title", true);
-                } catch (IllegalArgumentException | IllegalAccessException ex) {
+                } catch (IllegalArgumentException | IllegalAccessException | NullPointerException ex) {
                     LOG.debug("Failed to read {} because it is not page object", title, ex);
                 }
             }
