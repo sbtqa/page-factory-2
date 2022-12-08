@@ -52,11 +52,11 @@ public class MobileDriverService implements DriverService {
         setCapability(capabilities, "autoGrantPermissions", PROPERTIES.getAppiumAutoGrantPermissions());
         setCapability(capabilities, "unicodeKeyboard", PROPERTIES.getAppiumKeyboardUnicode());
         setCapability(capabilities, "resetKeyboard", PROPERTIES.getAppiumKeyboardReset());
-        capabilities.setCapability( "connectHardwareKeyboard", false);
+        capabilities.setCapability("connectHardwareKeyboard", false);
         setCapability(capabilities, "xcodeOrgId", PROPERTIES.getAppiumXcodeOrgId());
         setCapability(capabilities, "xcodeSigningId", PROPERTIES.getAppiumXcodeSigningId());
         setCapability(capabilities, "showIOSLog", PROPERTIES.getAppiumShowIOSLog());
-        capabilities.setCapability( "appium:disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
+        capabilities.setCapability("appium:disableWindowAnimation", PROPERTIES.getDisableWindowAnimation());
         setCapability(capabilities, "appium:useJSONSource", PROPERTIES.getAppiumUseJSONSource());
         setCapability(capabilities, "appium:simpleIsVisibleCheck", PROPERTIES.getAppiumSimpleIsVisibleCheck());
         setCapability(capabilities, "appium:useNewWDA", PROPERTIES.getAppiumUseNewWDA());
@@ -93,7 +93,7 @@ public class MobileDriverService implements DriverService {
             capabilities.setCapability(name, value);
         }
     }
-    
+
     @Override
     public void demountDriver() {
         if (isDriverEmpty()) {
