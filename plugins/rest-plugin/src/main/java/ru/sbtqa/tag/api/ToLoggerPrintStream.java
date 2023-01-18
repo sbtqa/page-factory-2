@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import org.slf4j.Logger;
@@ -46,11 +47,11 @@ public class ToLoggerPrintStream {
     public PrintStream getPrintStream() {
         if (myPrintStream == null) {
             OutputStream output = new OutputStream() {
-                private StringBuilder myStringBuilder = new StringBuilder();
+                private ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
                 @Override
                 public void write(int b) {
-                    this.myStringBuilder.append((char) b);
+                    this.baos.write(b);
                 }
 
                 /**
@@ -58,7 +59,7 @@ public class ToLoggerPrintStream {
                  */
                 @Override
                 public void flush() {
-                    String dispatch = this.myStringBuilder.toString();
+                    String dispatch = this.baos.toString();
 
                     // ALLURE
                     if (!dispatch.isEmpty() && !dispatch.trim().isEmpty()) {
@@ -68,7 +69,7 @@ public class ToLoggerPrintStream {
 
                     // LOGGING
                     myLog.debug(dispatch);
-                    myStringBuilder = new StringBuilder();
+                    baos = new ByteArrayOutputStream();
                 }
             };
 
