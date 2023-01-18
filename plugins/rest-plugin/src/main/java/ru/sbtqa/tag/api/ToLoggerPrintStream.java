@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import org.slf4j.Logger;
@@ -23,42 +24,20 @@ import ru.sbtqa.tag.pagefactory.allure.Type;
  * </pre>
  */
 public class ToLoggerPrintStream {
-
-    /**
-     * Logger for this class
-     */
-    private final Logger myLog;
+    private final Logger logger;
     private PrintStream myPrintStream;
 
-    /**
-     * Constructor
-     *
-     * @param aLogger
-     */
-    public ToLoggerPrintStream(Logger aLogger) {
+    public ToLoggerPrintStream(Logger logger) {
         super();
-        myLog = aLogger;
+        this.logger = logger;
     }
 
-    /**
-     * @return printStream
-     */
     public PrintStream getPrintStream() {
         if (myPrintStream == null) {
-            OutputStream output = new OutputStream() {
-                private StringBuilder myStringBuilder = new StringBuilder();
-
-                @Override
-                public void write(int b) {
-                    this.myStringBuilder.append((char) b);
-                }
-
-                /**
-                 * @see java.io.OutputStream#flush()
-                 */
+            OutputStream output = new ByteArrayOutputStream() {
                 @Override
                 public void flush() {
-                    String dispatch = this.myStringBuilder.toString();
+                    String dispatch = this.toString();
 
                     // ALLURE
                     if (!dispatch.isEmpty() && !dispatch.trim().isEmpty()) {
@@ -67,12 +46,13 @@ public class ToLoggerPrintStream {
                     }
 
                     // LOGGING
-                    myLog.debug(dispatch);
-                    myStringBuilder = new StringBuilder();
+                    logger.debug(dispatch);
+                    this.reset();
+                    this.buf = new byte[32];
                 }
             };
 
-            myPrintStream = new PrintStream(output, true);  // true: autoflush must be set!
+            myPrintStream = new PrintStream(output, true); // true: autoflush must be set!
         }
 
         return myPrintStream;
