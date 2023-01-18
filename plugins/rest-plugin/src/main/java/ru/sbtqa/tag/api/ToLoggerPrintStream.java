@@ -24,56 +24,43 @@ import ru.sbtqa.tag.pagefactory.allure.Type;
  * </pre>
  */
 public class ToLoggerPrintStream {
+    private static class LoggerOutputStream extends ByteArrayOutputStream {
+        private final Logger logger;
 
-    /**
-     * Logger for this class
-     */
-    private final Logger myLog;
-    private PrintStream myPrintStream;
+        public LoggerOutputStream(Logger logger) {
+            this.logger = logger;
+        }
 
-    /**
-     * Constructor
-     *
-     * @param aLogger
-     */
-    public ToLoggerPrintStream(Logger aLogger) {
-        super();
-        myLog = aLogger;
+        @Override
+        public void flush() {
+            String dispatch = this.toString();
+
+            // ALLURE
+            if (!dispatch.isEmpty() && !dispatch.trim().isEmpty()) {
+                ParamsHelper.addAttachmentToRender(dispatch.getBytes(),
+                        (dispatch.startsWith("Request") ? "request" : "response"), Type.TEXT);
+            }
+
+            // LOGGING
+            logger.debug(dispatch);
+            this.reset();
+            this.buf = new byte[32];
+        }
     }
 
-    /**
-     * @return printStream
-     */
+    private final Logger logger;
+    private PrintStream myPrintStream;
+
+    public ToLoggerPrintStream(Logger logger) {
+        super();
+        this.logger = logger;
+    }
+
     public PrintStream getPrintStream() {
         if (myPrintStream == null) {
-            OutputStream output = new OutputStream() {
-                private ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            OutputStream output = new LoggerOutputStream(logger);
 
-                @Override
-                public void write(int b) {
-                    this.baos.write(b);
-                }
-
-                /**
-                 * @see java.io.OutputStream#flush()
-                 */
-                @Override
-                public void flush() {
-                    String dispatch = this.baos.toString();
-
-                    // ALLURE
-                    if (!dispatch.isEmpty() && !dispatch.trim().isEmpty()) {
-                        ParamsHelper.addAttachmentToRender(dispatch.getBytes(),
-                                (dispatch.startsWith("Request") ? "request" : "response"), Type.TEXT);
-                    }
-
-                    // LOGGING
-                    myLog.debug(dispatch);
-                    baos = new ByteArrayOutputStream();
-                }
-            };
-
-            myPrintStream = new PrintStream(output, true);  // true: autoflush must be set!
+            myPrintStream = new PrintStream(output, true); // true: autoflush must be set!
         }
 
         return myPrintStream;
