@@ -24,30 +24,6 @@ import ru.sbtqa.tag.pagefactory.allure.Type;
  * </pre>
  */
 public class ToLoggerPrintStream {
-    private static class LoggerOutputStream extends ByteArrayOutputStream {
-        private final Logger logger;
-
-        public LoggerOutputStream(Logger logger) {
-            this.logger = logger;
-        }
-
-        @Override
-        public void flush() {
-            String dispatch = this.toString();
-
-            // ALLURE
-            if (!dispatch.isEmpty() && !dispatch.trim().isEmpty()) {
-                ParamsHelper.addAttachmentToRender(dispatch.getBytes(),
-                        (dispatch.startsWith("Request") ? "request" : "response"), Type.TEXT);
-            }
-
-            // LOGGING
-            logger.debug(dispatch);
-            this.reset();
-            this.buf = new byte[32];
-        }
-    }
-
     private final Logger logger;
     private PrintStream myPrintStream;
 
@@ -58,7 +34,23 @@ public class ToLoggerPrintStream {
 
     public PrintStream getPrintStream() {
         if (myPrintStream == null) {
-            OutputStream output = new LoggerOutputStream(logger);
+            OutputStream output = new ByteArrayOutputStream() {
+                @Override
+                public void flush() {
+                    String dispatch = this.toString();
+
+                    // ALLURE
+                    if (!dispatch.isEmpty() && !dispatch.trim().isEmpty()) {
+                        ParamsHelper.addAttachmentToRender(dispatch.getBytes(),
+                                (dispatch.startsWith("Request") ? "request" : "response"), Type.TEXT);
+                    }
+
+                    // LOGGING
+                    logger.debug(dispatch);
+                    this.reset();
+                    this.buf = new byte[32];
+                }
+            };
 
             myPrintStream = new PrintStream(output, true); // true: autoflush must be set!
         }
