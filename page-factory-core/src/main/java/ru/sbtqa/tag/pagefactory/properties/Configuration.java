@@ -79,6 +79,10 @@ public interface Configuration extends Config {
     @DefaultValue("")
     String getSelenoidVideoFrameRate();
 
+    @Key("selenoid.skin")
+    @DefaultValue("")
+    String getSelenoidSkin();
+
     @Key("selenoid.nameOfTests")
     @DefaultValue("")
     String getSelenoidNameOfTests();
