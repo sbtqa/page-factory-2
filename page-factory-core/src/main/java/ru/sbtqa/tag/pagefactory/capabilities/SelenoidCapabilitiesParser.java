@@ -40,6 +40,9 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         selenoidOptions.put("screenResolution", PROPERTIES.getSelenoidScreenResolution());
         selenoidOptions.put("enableVideo", PROPERTIES.getSelenoidEnableVideo());
         selenoidOptions.put("videoScreenSize", PROPERTIES.getSelenoidVideoScreenSize());
+        if (!PROPERTIES.getSelenoidSkin().equals("")) {
+            selenoidOptions.put("skin", PROPERTIES.getSelenoidSkin());
+        }
         if (!PROPERTIES.getSelenoidVideoFrameRate().equals("")) {
             selenoidOptions.put("videoFrameRate", Integer.parseInt(PROPERTIES.getSelenoidVideoFrameRate()));
         }
@@ -47,6 +50,7 @@ public class SelenoidCapabilitiesParser implements CapabilitiesParser {
         selenoidOptions.put("logName", String.format(UNIQUE_NAME_FORMAT + ".log", logName));
         selenoidOptions.put("videoName", String.format(UNIQUE_NAME_FORMAT + ".mp4", videoName));
         selenoidOptions.put("timeZone", PROPERTIES.getSelenoidTimeZone());
+
         if (!PROPERTIES.getSelenoidApplicationContainers().equals("")) {
             selenoidOptions.put("applicationContainers", Arrays.asList(PROPERTIES.getSelenoidApplicationContainers().split(",")));
         }
