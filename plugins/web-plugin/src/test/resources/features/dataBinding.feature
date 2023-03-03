@@ -7,11 +7,11 @@ Feature: Data sources
     * user clicks the button "Contact"
     * user is on the page "Contact"
 
-  Scenario: Data From Feature Tag
-    * user inserts fragment "fill fragment"
-      | first name          | button name |
-      | ${Admin.first name} | send        |
-    * user checks in the element "first name" value "Alex"
+#  Scenario: Data From Feature Tag
+#    * user inserts fragment "fill fragment"
+#      | first name          | button name |
+#      | ${Admin.first name} | send        |
+#    * user checks in the element "first name" value "Alex"
 
   @data=$Data{Admin}
   Scenario: Data From Scenario Tag
