@@ -2,19 +2,27 @@
 @test-data @data=$Data
 Feature: Data sources
 
-  Background:
+#  Background:
+#    * user is on the page "Main"
+#    * user clicks the button "Contact"
+#    * user is on the page "Contact"
+
+  Scenario: Data From Feature Tag
     * user is on the page "Main"
     * user clicks the button "Contact"
     * user is on the page "Contact"
 
-#  Scenario: Data From Feature Tag
-#    * user inserts fragment "fill fragment"
-#      | first name          | button name |
-#      | ${Admin.first name} | send        |
-#    * user checks in the element "first name" value "Alex"
+    * user inserts fragment "fill fragment"
+      | first name          | button name |
+      | ${Admin.first name} | send        |
+    * user checks in the element "first name" value "Alex"
 
   @data=$Data{Admin}
   Scenario: Data From Scenario Tag
+    * user is on the page "Main"
+    * user clicks the button "Contact"
+    * user is on the page "Contact"
+
     * user inserts fragment "fill fragment"
       | first name    | button name |
       | ${first name} | send        |
@@ -22,6 +30,10 @@ Feature: Data sources
 
   @data=$Data{Admin}
   Scenario: Data From Fill Path
+    * user is on the page "Main"
+    * user clicks the button "Contact"
+    * user is on the page "Contact"
+
     * user checks that the field "first name" is empty
     * user fills the field "first name" "$Data{Admin.first name}"
     * user checks that the field "first name" is not empty
@@ -30,6 +42,10 @@ Feature: Data sources
 
   @data=$Data @stash-and-data-outline
   Scenario Outline: Test Stash and data in scenario outline
+    * user is on the page "Main"
+    * user clicks the button "Contact"
+    * user is on the page "Contact"
+
     * user fills the field "first name" with value "$Data{<role>.<field>} <prefix>"
     * user checks in the element "first name" value "Alex <prefix>"
     * user fills the field "first name" with value ""
@@ -65,6 +81,10 @@ Feature: Data sources
 
   @stash-and-data @data=$Data{Admin}
   Scenario: Test Stash and data in scenario
+    * user is on the page "Main"
+    * user clicks the button "Contact"
+    * user is on the page "Contact"
+    
     * user fills the field "first name" with value "$Data{Admin.first name} Plesk"
     * user checks in the element "first name" value "Alex Plesk"
     * user fills the field "first name" with value ""
