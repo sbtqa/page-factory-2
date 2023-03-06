@@ -1,7 +1,5 @@
 language: java
-dist: xenial
-vm:
-  size: x-large
+dist: focal
 branches:
   only:
   - master
