@@ -14,6 +14,7 @@ jdk:
 - openjdk8
 - openjdk11
 before_install:
+- export GPG_TTY=$(tty)
 - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE
   --import; fi
 - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE
