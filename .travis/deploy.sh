@@ -1,4 +1,11 @@
+#!/bin/bash
 set -e
+
+echo $DOCS_KEY > .travis/id_rsa
+eval "$(ssh-agent -s)" # Start ssh-agent cache
+chmod 600 .travis/id_rsa # Allow read access to the private key
+ssh-add .travis/id_rsa # Add the private key to SSH
+
 
 if [ ! -z "$TRAVIS_TAG" ]
 then
@@ -15,7 +22,7 @@ mvn clean deploy --settings $TRAVIS_BUILD_DIR/.travis/settings.xml -DskipTests=t
 DOCS_RELEASES_DIR=sbtqa.github.io/releases/$DOCS_RELEASE_DIR
 
 rm -rf .git/
-git clone https://${GITHUB_AUTH_TOKEN}@github.com/sbtqa/sbtqa.github.io.git
+git clone git@github.com:sbtqa/sbtqa.github.io.git
 mkdir -p $DOCS_RELEASES_DIR
 rm -rf $DOCS_RELEASES_DIR/*
 cp -r page-factory-doc/target/doc/index.html page-factory-doc/target/doc/images/ $DOCS_RELEASES_DIR/
