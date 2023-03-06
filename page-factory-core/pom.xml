@@ -42,6 +42,11 @@
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>video-recorder</artifactId>
       <version>${tag.version.videorecorder}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>ru.sbtqa.tag</groupId>
+          <artifactId>qa-utils</artifactId>
+        </exclusion></exclusions>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag.datajack</groupId>

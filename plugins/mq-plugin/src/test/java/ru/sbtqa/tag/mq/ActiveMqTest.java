@@ -5,6 +5,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
@@ -25,6 +27,7 @@ import java.util.Properties;
  * To start tests type in command line:
  * mvn -pl plugins/mq-plugin -Dtest=ActiveMqTest test
  */
+@RunWith(JUnit4.class)
 public class ActiveMqTest {
     private static final Logger LOG = LoggerFactory.getLogger(ActiveMqTest.class);
     public static final String AMQ_BROKER_URL = "tcp://localhost:61616";

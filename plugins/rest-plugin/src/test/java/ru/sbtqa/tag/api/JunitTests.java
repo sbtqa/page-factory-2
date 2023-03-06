@@ -5,6 +5,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import ru.sbtqa.tag.api.annotation.ParameterType;
 import ru.sbtqa.tag.api.entries.apirequest.ApiRequestWithMutator;
 import ru.sbtqa.tag.api.entries.apirequest.WithParamsEndpointEntry;
@@ -22,6 +24,7 @@ import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.MediaType.JSON_UTF_8;
 import static ru.sbtqa.tag.api.utils.CastUtils.toDataTable;
 
+@RunWith(JUnit4.class)
 public class JunitTests {
 
     private static Server server;
