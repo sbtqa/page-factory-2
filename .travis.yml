@@ -20,6 +20,7 @@ before_install:
   --import-ownertrust; fi
 - ./.travis/apk.sh
 - google-chrome --version
+- free -m
 install: true
 script:
   - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Denv.customHost=https://httpbin.org -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
