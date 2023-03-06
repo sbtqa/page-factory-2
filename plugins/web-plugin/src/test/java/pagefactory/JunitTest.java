@@ -1,10 +1,12 @@
 package pagefactory;
 
-import cucumber.api.java.After;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import pagefactory.pages.webelements.MainPage;
 import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.exceptions.PageInitializationException;
@@ -13,7 +15,7 @@ import ru.sbtqa.tag.pagefactory.web.junit.WebSetupSteps;
 import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 import setting.JettySettings;
 
-@Ignore
+@RunWith(JUnit4.class)
 public class JunitTest {
 
     private static final JettySettings server = new JettySettings();
