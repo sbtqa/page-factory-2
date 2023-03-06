@@ -1,5 +1,3 @@
-vm:
-  size: large
 language: java
 dist: xenial
 branches:
