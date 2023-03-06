@@ -1,5 +1,7 @@
 language: java
 dist: xenial
+vm:
+  size: x-large
 branches:
   only:
   - master
