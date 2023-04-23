@@ -64,7 +64,7 @@
     <surefire.version>2.22.1</surefire.version>
     <tag.version.qautils>1.7.1</tag.version.qautils>
     <tag.version.videorecorder>1.0.7</tag.version.videorecorder>
-    <tag.version.webdrivermanager>2.2.2</tag.version.webdrivermanager>
+    <tag.version.webdrivermanager>2.2.4</tag.version.webdrivermanager>
     <tag.version.datajack>5.1.2</tag.version.datajack>
     <allure.version>2.13.0</allure.version>
   </properties>

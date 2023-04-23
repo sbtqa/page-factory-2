@@ -136,7 +136,11 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
     }
 
     public List<String> getOptions(DesiredCapabilities capabilities) {
-        return Arrays.stream(capabilities.getCapability("options.args").toString()
+        Object args = capabilities.getCapability("options.args");
+
+        return args == null
+            ? new ArrayList<>()
+        : Arrays.stream(capabilities.getCapability("options.args").toString()
                         .split(","))
                 .map(arg -> "--" + arg)
                 .collect(Collectors.toList());
