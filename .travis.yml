@@ -48,4 +48,4 @@ after_success:
   - echo "test" >> test.txt
   - git add test.txt
   - git commit -m "[skip ci] test message"
-  - git push origin HEAD:master --force
+  - git push remote origin master
