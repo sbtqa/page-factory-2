@@ -20,7 +20,7 @@ before_install:
 - google-chrome --version
 install: true
 script:
-  - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Denv.customHost=https://httpbin.org -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -DskipTests=true -B -V
+  - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Denv.customHost=https://httpbin.org -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
 #  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dmaven.javadoc.skip=true -Dgpg.skip -DskipTests=true
 deploy:
 - provider: script
