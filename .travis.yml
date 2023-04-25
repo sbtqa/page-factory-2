@@ -38,3 +38,5 @@ deploy:
     tags: true
     jdk: openjdk8
 
+after_deploy:
+  - ./.travis/pushback.sh
