@@ -1,16 +1,19 @@
 package ru.sbtqa.tag.pagefactory.html.loader;
 
-import java.lang.reflect.InvocationTargetException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import ru.sbtqa.tag.pagefactory.html.loader.decorators.CustomHtmlElementDecorator;
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
+import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 import ru.yandex.qatools.htmlelements.exceptions.HtmlElementsException;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 import ru.yandex.qatools.htmlelements.pagefactory.CustomElementLocatorFactory;
+
+import java.lang.reflect.InvocationTargetException;
+
 import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.newInstance;
 
 public class CustomHtmlElementLoader extends HtmlElementLoader {
@@ -45,7 +48,7 @@ public class CustomHtmlElementLoader extends HtmlElementLoader {
     
 
     public static void populatePageObject(Object page, CustomElementLocatorFactory locatorFactory) {
-        PageFactory.initElements(new CustomHtmlElementDecorator(locatorFactory), page);
+        PageFactory.initElements((FieldDecorator) HtmlReflection.getDecorator(locatorFactory), page);
     }
 
 }

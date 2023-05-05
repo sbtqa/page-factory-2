@@ -1,7 +1,5 @@
 package ru.sbtqa.tag.pagefactory;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -13,12 +11,14 @@ import ru.sbtqa.tag.pagefactory.environment.Environment;
 import ru.sbtqa.tag.pagefactory.find.Find;
 import ru.sbtqa.tag.pagefactory.find.HtmlFindUtils;
 import ru.sbtqa.tag.pagefactory.html.actions.HtmlPageActions;
-import ru.sbtqa.tag.pagefactory.html.loader.decorators.CustomHtmlElementDecorator;
 import ru.sbtqa.tag.pagefactory.html.properties.HtmlConfiguration;
 import ru.sbtqa.tag.pagefactory.reflection.HtmlReflection;
 import ru.sbtqa.tag.pagefactory.reflection.Reflection;
 import ru.sbtqa.tag.pagefactory.utils.PageUtils;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Inherit your html page objects from this class
@@ -33,7 +33,7 @@ public abstract class HTMLPage extends WebPage {
     private static final HtmlConfiguration PROPERTIES = HtmlConfiguration.create();
 
     public HTMLPage() {
-        super(new CustomHtmlElementDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())));
+        super(HtmlReflection.getDecorator(new HtmlElementLocatorFactory(Environment.getDriverService().getDriver())));
         applyEnvironment();
         if (PROPERTIES.getVerifyPage()) {
             PageUtils.verifyPageByDataTestId();
