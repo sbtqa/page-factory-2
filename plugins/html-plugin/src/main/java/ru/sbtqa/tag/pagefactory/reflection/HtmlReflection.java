@@ -35,17 +35,22 @@ public class HtmlReflection extends DefaultReflection {
         }
     }
 
+    /**
+     * Get custom decorator instance
+     *
+     * @param factory custom element locator factory
+     */
     public static <T extends CustomHtmlElementDecorator> T getDecorator(CustomElementLocatorFactory factory) {
-        String referencePath = PROPERTIES.getDecoratorReferencePath();
+        String fullyQualifiedClassName = PROPERTIES.getDecoratorFullyQualifiedClassName();
         try {
-            Class<?> clazz  = Class.forName(referencePath);
+            Class<?> clazz  = Class.forName(fullyQualifiedClassName);
             Constructor<?> constructor = clazz.getConstructor(CustomElementLocatorFactory.class);
             T instance = (T) constructor.newInstance(factory);
-            LOG.debug("Load decorator from path {}", referencePath);
+            LOG.debug("Loaded decorator: {}", fullyQualifiedClassName);
             return instance;
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException e) {
-            throw new ElementSearchError(format("Decorator not found by path '%s'", referencePath), e);
+            throw new ElementSearchError(format("Decorator not found by path '%s'", fullyQualifiedClassName), e);
         }
     }
 }

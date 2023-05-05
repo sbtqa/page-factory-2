@@ -23,9 +23,9 @@ public interface HtmlConfiguration extends WebConfiguration {
     @DefaultValue("false")
     boolean getVerifyPage();
 
-    @Key("decorator.path")
+    @Key("plugins.html.decorator.fqcn")
     @DefaultValue("ru.sbtqa.tag.pagefactory.html.loader.decorators.CustomHtmlElementDecorator")
-    String getDecoratorReferencePath();
+    String getDecoratorFullyQualifiedClassName();
 
     static HtmlConfiguration create() {
         return Configuration.init(HtmlConfiguration.class);
