@@ -30,7 +30,7 @@ public abstract class YourPage extends {pn} {
 ----
 
 
-Также можно переопределлит декоратор для всего проекта, для этого необходимо добавить следующий параметр в файл конфигурации application.properties
+Также можно переопределить декоратор для всего проекта, для этого необходимо добавить следующий параметр в файл конфигурации application.properties
 [source,]
 ----
 plugins.html.decorator.fqcn = ru.sbtqa.tag.pagefactory2example.html.loader.MyCustomHtmlElementDecorator
