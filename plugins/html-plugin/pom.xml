@@ -27,16 +27,6 @@
       <artifactId>web-plugin</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
-      <exclusions>
-        <exclusion>
-          <artifactId>*</artifactId>
-          <groupId>io.netty</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-lang3</artifactId>
-          <groupId>org.apache.commons</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.htmlelements</groupId>

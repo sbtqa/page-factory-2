@@ -146,7 +146,7 @@
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
-      <version>4.1.87.Final</version>
+      <version>${netty.version}</version>
     </dependency>
   </dependencies>
 
