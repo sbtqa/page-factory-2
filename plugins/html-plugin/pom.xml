@@ -33,6 +33,16 @@
       <artifactId>htmlelements-java</artifactId>
       <version>1.21.5</version>
       <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-lang3</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!--test-->
@@ -47,6 +57,12 @@
       <artifactId>apache-jsp</artifactId>
       <version>${jetty.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>jetty-schemas</artifactId>
+          <groupId>org.eclipse.jetty.toolchain</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -59,6 +75,16 @@
       <artifactId>allure-junit4</artifactId>
       <version>2.13.0</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag.datajack.providers</groupId>
