@@ -1,4 +1,6 @@
 language: java
+os: linux
+dist: focal
 branches:
   only:
   - master
