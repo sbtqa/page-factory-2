@@ -1,6 +1,8 @@
 language: java
 os: linux
 dist: jammy
+vm:
+  size: large
 addons:
   chrome: stable
 branches:
