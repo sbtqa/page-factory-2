@@ -1,6 +1,8 @@
 language: java
 os: linux
 dist: focal
+addons:
+  chrome: stable
 branches:
   only:
   - master
