@@ -38,6 +38,10 @@
           <artifactId>guava</artifactId>
           <groupId>com.google.guava</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>commons-lang3</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
 

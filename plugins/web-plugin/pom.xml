@@ -28,35 +28,11 @@
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
       <artifactId>page-factory-core</artifactId>
       <version>${project.version}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-lang3</artifactId>
-          <groupId>org.apache.commons</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-log4j12</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>${tag.version.webdrivermanager}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-log4j12</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -144,6 +120,10 @@
         <exclusion>
           <artifactId>slf4j-api</artifactId>
           <groupId>org.slf4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jackson-core</artifactId>
+          <groupId>com.fasterxml.jackson.core</groupId>
         </exclusion>
       </exclusions>
     </dependency>

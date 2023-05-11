@@ -47,38 +47,16 @@
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>qa-utils</artifactId>
       <version>${tag.version.qautils}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>cucumber-java</artifactId>
-          <groupId>io.cucumber</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag</groupId>
       <artifactId>video-recorder</artifactId>
       <version>${tag.version.videorecorder}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>ru.sbtqa.tag</groupId>
-          <artifactId>qa-utils</artifactId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>ru.sbtqa.tag.datajack</groupId>
       <artifactId>datajack-api</artifactId>
       <version>${tag.version.datajack}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -114,7 +92,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>30.1.1-jre</version>
+      <version>31.0.1-jre</version>
       <type>jar</type>
     </dependency>
     <dependency>
