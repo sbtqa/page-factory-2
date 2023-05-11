@@ -94,12 +94,6 @@
       <groupId>ru.sbtqa.tag.datajack.providers</groupId>
       <artifactId>json-provider</artifactId>
       <version>${tag.version.datajack}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 

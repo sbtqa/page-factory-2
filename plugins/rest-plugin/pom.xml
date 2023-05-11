@@ -27,16 +27,6 @@
       <groupId>ru.sbtqa.tag.pagefactory</groupId>
       <artifactId>page-factory-core</artifactId>
       <version>${project.version}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>jakarta.activation</artifactId>
-          <groupId>com.sun.activation</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>javassist</artifactId>
-          <groupId>org.javassist</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
@@ -66,12 +56,6 @@
       <artifactId>json-provider</artifactId>
       <version>${tag.version.datajack}</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -135,6 +119,10 @@
           <artifactId>jakarta.inject-api</artifactId>
           <groupId>jakarta.inject</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>javassist</artifactId>
+          <groupId>org.javassist</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -142,6 +130,12 @@
       <artifactId>jersey-common</artifactId>
       <version>${jersey.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>jakarta.activation</artifactId>
+          <groupId>com.sun.activation</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>io.qameta.allure</groupId>
