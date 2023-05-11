@@ -1,17 +1,9 @@
 language: java
-dist: focal
 branches:
   only:
   - master
-  - "/^[0-9]+\\.[0-9]+(\\.[0-9])?+(-.*)?$/"
-
-addons:
-  chrome: stable
-  sonarcloud:
-    organization: "sbtqasonarkey"
-    token: $SONAR_TOKEN
+  - "/^\d+\.\d+(\.\d+)?(-.*)?$/"
 jdk:
-- openjdk8
 - openjdk11
 before_install:
 - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --no-tty --batch --yes --import; fi
@@ -29,14 +21,14 @@ deploy:
   on:
     repo: sbtqa/page-factory-2
     branch: master
-    jdk: openjdk8
+    jdk: openjdk11
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
   skip_cleanup: true
   on:
     repo: sbtqa/page-factory-2
     tags: true
-    jdk: openjdk8
+    jdk: openjdk11
 
 after_deploy:
   - ./.travis/pushback.sh
