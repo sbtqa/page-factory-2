@@ -77,10 +77,6 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
-          <artifactId>jackson-core</artifactId>
-          <groupId>com.fasterxml.jackson.core</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>junit</artifactId>
           <groupId>junit</groupId>
         </exclusion>
