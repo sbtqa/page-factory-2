@@ -20,7 +20,7 @@ include::web_elements.asciidoc[]
 
 [source, ]
 ----
-((FindUtils) Environment.getFindUtils()).getElementByTitle("Имя элемента");
+((FindUtils) Environment.getFindUtils()).getElementByTitle(pageInstance, "Имя элемента");
 ----
 
 === Методы работы с элементами
