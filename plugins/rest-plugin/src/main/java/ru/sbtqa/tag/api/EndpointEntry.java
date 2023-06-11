@@ -1,26 +1,37 @@
 package ru.sbtqa.tag.api;
 
+import io.restassured.filter.Filter;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import ru.sbtqa.tag.api.annotation.FromResponse;
 import ru.sbtqa.tag.api.annotation.Mutator;
 import ru.sbtqa.tag.api.annotation.Query;
 import ru.sbtqa.tag.api.annotation.Stashed;
 import ru.sbtqa.tag.api.environment.ApiEnvironment;
+import ru.sbtqa.tag.api.exception.RestPluginException;
 import ru.sbtqa.tag.api.properties.ApiConfiguration;
 import ru.sbtqa.tag.api.repository.ApiPair;
 import ru.sbtqa.tag.api.storage.BlankStorage;
 import ru.sbtqa.tag.api.utils.PlaceholderUtils;
+import ru.sbtqa.tag.api.utils.ReflectionUtils;
 import ru.sbtqa.tag.api.utils.TemplateUtils;
 import ru.sbtqa.tag.pagefactory.ApiEndpoint;
 import ru.sbtqa.tag.pagefactory.Rest;
 import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 import ru.sbtqa.tag.pagefactory.utils.PathUtils;
 
+import static io.restassured.RestAssured.filters;
 import static io.restassured.RestAssured.given;
+import static java.lang.String.format;
 import static ru.sbtqa.tag.api.annotation.ParameterType.*;
 
 /**
@@ -109,7 +120,10 @@ public class EndpointEntry implements ApiEndpoint {
     }
 
     private RequestSpecification buildRequest() {
-        RequestSpecification request = given().log().all(true);
+        RequestSpecification request = given()
+                .filters(getFilters())
+                .log()
+                .all(true);
 
         request.queryParams(getQueryParameters());
         request.headers(getHeaders());
@@ -124,6 +138,16 @@ public class EndpointEntry implements ApiEndpoint {
         return request;
     }
 
+    private List<Filter> getFilters(){
+        return PROPERTIES.getRequestFilters().stream().map(filter -> {
+            try {
+                return (Filter)Class.forName(filter).getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException | ClassNotFoundException e) {
+                throw new RestPluginException(format("Failed to create filter instance \"%s\"", filter), e);
+            }
+        }).collect(Collectors.toList());
+    }
     private Map<String, ?> getQueryParameters() {
         Map<String, Object> queries = new HashMap<>();
 
