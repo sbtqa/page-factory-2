@@ -3,6 +3,8 @@ package ru.sbtqa.tag.api.properties;
 import org.aeonbits.owner.Config;
 import ru.sbtqa.tag.pagefactory.properties.Configuration;
 
+import java.util.List;
+
 public interface ApiConfiguration extends Config {
 
     @Key("api.baseURI")
@@ -27,6 +29,10 @@ public interface ApiConfiguration extends Config {
     @Key("api.template.remove.empties")
     @DefaultValue("false")
     boolean shouldRemoveEmptyObjects();
+
+    @Key("api.request.filters")
+    @DefaultValue("")
+    List<String> getRequestFilters();
 
     static ApiConfiguration create() {
         return Configuration.init(ApiConfiguration.class);
