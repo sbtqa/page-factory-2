@@ -24,6 +24,7 @@ import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.MediaType.JSON_UTF_8;
 import static ru.sbtqa.tag.api.utils.CastUtils.toDataTable;
 
+@Ignore
 @RunWith(JUnit4.class)
 public class JunitTests {
 

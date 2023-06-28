@@ -1,22 +1,23 @@
 package ru.sbtqa.tag.pagefactory.data;
 
+import com.rits.cloning.Cloner;
 import cucumber.api.Argument;
 import cucumber.api.PickleStepTestStep;
-import gherkin.pickles.PickleCell;
-import gherkin.pickles.PickleRow;
-import gherkin.pickles.PickleString;
-import gherkin.pickles.PickleTable;
+import gherkin.pickles.*;
 import io.cucumber.stepexpression.DataTableArgument;
 import io.cucumber.stepexpression.DocStringArgument;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import ru.sbtqa.tag.datajack.Stash;
 import ru.sbtqa.tag.datajack.exceptions.DataException;
 import ru.sbtqa.tag.datajack.exceptions.StashKeyNotFoundException;
 import ru.sbtqa.tag.pagefactory.optional.PickleStepTag;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static ru.sbtqa.tag.datajack.providers.AbstractDataProvider.PATH_PARSE_REGEX;
 
@@ -25,6 +26,11 @@ public class DataReplacer {
     private static final String COLLECTION_SIGNATURE = "$";
     private final static String STASH_PARSE_REGEX = "(?:#\\{([^}]+)})";
 
+    private Map<String, String> replacesDone = new HashMap<>();
+
+    HashMap<Integer, PickleStep> iPickleStep = new HashMap<>();
+    HashMap<Integer, ArrayList> iPickleStepDef = new HashMap<>();
+
     /**
      * Replaces step data (from stash or data files)
      *
@@ -32,11 +38,27 @@ public class DataReplacer {
      * @throws IllegalAccessException in case of a field write error
      * @throws DataException          in case of a data parse error
      */
-    public void replace(PickleStepTestStep testStep) throws IllegalAccessException, DataException {
+    public boolean replace(PickleStepTestStep testStep) throws IllegalAccessException, DataException {
         if (DataFactory.getDataProvider() != null) {
             replace(testStep, false);
         }
         replace(testStep, true);
+
+        return true;
+    }
+
+    /**
+     * Replaces step data (from stash or data files)
+     *
+     * @param testStep step
+     * @throws IllegalAccessException in case of a field write error
+     * @throws DataException          in case of a data parse error
+     */
+    public void replaceRevert(PickleStepTestStep testStep) throws IllegalAccessException, DataException {
+//        if (DataFactory.getDataProvider() != null) {
+//            replace(testStep, false);
+//        }
+        replaceRevert(testStep, true);
     }
 
     private void replace(PickleStepTestStep testStep, boolean isStash) throws IllegalAccessException {
@@ -46,11 +68,24 @@ public class DataReplacer {
         replaceStepText(step, isStash);
     }
 
+    private void replaceRevert(PickleStepTestStep testStep, boolean isStash) throws IllegalAccessException {
+        PickleStepTag step = (PickleStepTag) (testStep.getPickleStep());
+        replacePickleArgumentsRevert(testStep, isStash);
+//        replaceStepArguments(testStep, isStash);
+//        replaceStepText(step, isStash);
+    }
+
     private void replaceStepText(PickleStepTag currentStep, boolean isStash) {
         currentStep.setText(replaceData(currentStep, currentStep.getText(), isStash));
     }
 
     private void replacePickleArguments(PickleStepTestStep currentStep, boolean isStash) throws IllegalAccessException {
+        Cloner cloner = new Cloner();
+
+        if (!iPickleStep.containsKey(currentStep.hashCode())) {
+            PickleStep oldPickleStep = cloner.deepClone(currentStep.getPickleStep());
+            iPickleStep.put(currentStep.hashCode(), oldPickleStep);
+        }
         PickleStepTag pickleStepTag = (PickleStepTag) currentStep.getPickleStep();
         for (gherkin.pickles.Argument argument : currentStep.getPickleStep().getArgument()) {
             if (argument.getClass().equals(PickleTable.class)) {
@@ -63,13 +98,44 @@ public class DataReplacer {
 
         Object definitionMatchArguments = FieldUtils.readField(FieldUtils.readField(currentStep, "definitionMatch", true), "arguments", true);
         if (definitionMatchArguments instanceof ArrayList) {
+
+            ArrayList revertList = new ArrayList();
             for (Object definitionMatchArgument : (ArrayList) definitionMatchArguments) {
                 if (definitionMatchArgument instanceof DataTableArgument) {
+                    revertList.add(cloner.deepClone((List<List<String>>) FieldUtils.readField(definitionMatchArgument, "argument", true)));
                     List<List<String>> newDefinitionMatchArgument = replaceDataTable(definitionMatchArgument, currentStep, isStash);
                     FieldUtils.writeField(definitionMatchArgument, "argument", newDefinitionMatchArgument, true);
                 } else if (definitionMatchArgument instanceof DocStringArgument) {
+                    revertList.add(cloner.deepClone((List<List<String>>) FieldUtils.readField(definitionMatchArgument, "argument", true)));
                     String newDefinitionMatchArgument = replaceData((PickleStepTag) currentStep.getPickleStep(), ((DocStringArgument) definitionMatchArgument).getValue().toString(), isStash);
                     FieldUtils.writeField(definitionMatchArgument, "argument", newDefinitionMatchArgument, true);
+                }
+            }
+
+            if (!iPickleStepDef.containsKey(currentStep.hashCode())) {
+                iPickleStepDef.put(currentStep.hashCode(), revertList);
+            }
+        }
+    }
+
+    private void replacePickleArgumentsRevert(PickleStepTestStep currentStep, boolean isStash) throws IllegalAccessException {
+        if (iPickleStep.containsKey(currentStep.hashCode())) {
+            FieldUtils.writeField(currentStep, "step", iPickleStep.get(currentStep.hashCode()), true);
+        }
+
+        Object definitionMatchArguments = FieldUtils.readField(FieldUtils.readField(currentStep, "definitionMatch", true), "arguments", true);
+        if (definitionMatchArguments instanceof ArrayList) {
+            if (iPickleStepDef.containsKey(currentStep.hashCode())) {
+                int count = 0;
+                for (Object definitionMatchArgument : (ArrayList) definitionMatchArguments) {
+                    if (definitionMatchArgument instanceof DataTableArgument) {
+                        FieldUtils.writeField(definitionMatchArgument, "argument", iPickleStepDef.get(currentStep.hashCode()).get(count), true);
+                        count++;
+//                    } else if (definitionMatchArgument instanceof DocStringArgument) {
+//                        FieldUtils.writeField(definitionMatchArgument, "argument", iPickleStepDef.get(currentStep.hashCode()).get(count), true);
+//                        count++;
+//                    }
+                    }
                 }
             }
         }
@@ -83,7 +149,8 @@ public class DataReplacer {
         }
     }
 
-    private List<List<String>> replaceDataTable(Object definitionMatchArgument, PickleStepTestStep currentStep, boolean isStash) throws IllegalAccessException {
+    private List<List<String>> replaceDataTable(Object definitionMatchArgument, PickleStepTestStep currentStep,
+                                                boolean isStash) throws IllegalAccessException {
         List<List<String>> arguments = (List<List<String>>) FieldUtils.readField(definitionMatchArgument, "argument", true);
 
         for (List<String> row : arguments) {
@@ -99,7 +166,6 @@ public class DataReplacer {
     private void replaceStepArguments(PickleStepTestStep testStep, boolean isStash) throws IllegalAccessException {
         PickleStepTag step = (PickleStepTag) testStep.getPickleStep();
         String stepText = step.getText();
-
         String pattern = isStash ? STASH_PARSE_REGEX : PATH_PARSE_REGEX;
         Pattern stepDataPattern = Pattern.compile(pattern);
         Matcher stepDataMatcher = stepDataPattern.matcher(stepText);

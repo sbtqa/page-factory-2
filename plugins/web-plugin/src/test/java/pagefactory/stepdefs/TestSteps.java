@@ -1,9 +1,9 @@
 package pagefactory.stepdefs;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.cucumber.datatable.DataTable;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.datajack.Stash;
@@ -14,15 +14,30 @@ import ru.sbtqa.tag.pagefactory.exceptions.PageException;
 import ru.sbtqa.tag.pagefactory.web.junit.WebSteps;
 import ru.sbtqa.tag.qautils.errors.AutotestError;
 
+import java.util.List;
 import java.util.Map;
 
 public class TestSteps {
 
+    @Before(order = 10001, value = "@test-stash-1")
+    public void setUp1() {
+        Stash.put("prm", "test1");
+    }
+
+    @Before(order = 10001, value = "@test-stash-2")
+    public void setUp2() {
+        Stash.put("prm", "test2");
+    }
     private static final Logger LOG = LoggerFactory.getLogger(TestSteps.class);
 
     @Given("^failed step$")
     public void fail() {
         throw new AutotestError("It's error");
+    }
+
+    @Given("^do nothing$")
+    public void doNothing() {
+        System.out.println(Stash.getValue("TEMPLATE").toString());
     }
 
     @Given("^test non critical user error$")
@@ -60,4 +75,6 @@ public class TestSteps {
     public void checkStep(List<String> elementName) {
         LOG.info("Check is correct!");
     }
+
+
 }

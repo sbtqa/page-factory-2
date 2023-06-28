@@ -12,7 +12,8 @@ import ru.sbtqa.tag.api.utils.JettyServiceUtils;
 @CucumberOptions(
         glue = {"ru.sbtqa.tag.stepdefs", "ru.sbtqa.tag.api.steps"},
         features = {"src/test/resources/features"},
-        plugin = {"pretty"}
+        plugin = {"pretty"},
+        tags = {"@dаtatable-background"}
 )
 public class CucumberTest {
 

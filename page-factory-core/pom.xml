@@ -6,7 +6,7 @@
   <parent>
     <groupId>ru.sbtqa.tag</groupId>
     <artifactId>page-factory-2</artifactId>
-    <version>17.0-SNAPSHOT</version>
+    <version>20.0-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -125,6 +125,12 @@
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
       <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.kostaskougios</groupId>
+      <artifactId>cloning</artifactId>
+<!--      <scope>compile</scope>-->
+      <version>1.10.3</version>
     </dependency>
   </dependencies>
 
