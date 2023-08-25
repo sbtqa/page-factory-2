@@ -142,6 +142,10 @@ public class WebDriverManagerConfigurator {
             return null;
         }
 
+        if (commandsToGetVersion.isEmpty() {
+            return null;
+        }
+
         ProcessBuilder builder = new ProcessBuilder(commandsToGetVersion);
         builder.redirectErrorStream(true);
         Process p;
