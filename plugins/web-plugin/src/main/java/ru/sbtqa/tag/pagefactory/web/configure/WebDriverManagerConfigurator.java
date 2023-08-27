@@ -118,7 +118,7 @@ public class WebDriverManagerConfigurator {
             return null;
         }
 
-        if (commandsToGetVersion.isEmpty() {
+        if (commandsToGetVersion.isEmpty()) {
             return null;
         }
 
