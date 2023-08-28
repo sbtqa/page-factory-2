@@ -62,10 +62,11 @@ public class WebDriverManagerConfigurator {
                     LOG.warn("You use IE browser. Switching to LATEST driver version. "
                             + "You can specify driver version by using 'webdriver.version' param.");
                 } else {
-                    driverVersion = parseDriverVersionFromMapping(detectBrowserVersion(), browserType.toLowerCase());
+                    String detectedVersion = detectBrowserVersion();
+                    driverVersion = detectedVersion == null ? PROPERTIES.getBrowserVersion() : detectedVersion;
                 }
             } else {
-                driverVersion = parseDriverVersionFromMapping(PROPERTIES.getBrowserVersion(), browserType.toLowerCase());
+                driverVersion = PROPERTIES.getBrowserVersion();
             }
         } else {
             LOG.info("Forcing driver version to {}", PROPERTIES.getWebDriverVersion());
@@ -99,31 +100,6 @@ public class WebDriverManagerConfigurator {
         }
     }
 
-    private static String parseDriverVersionFromMapping(String browserVersion, String browserType) {
-        if (browserVersion == null) {
-            return null;
-        }
-        LOG.info("Trying to find driver corresponding to {} browser version.", browserVersion);
-
-        JsonObject mappingObject = getResourceJsonFileAsJsonObject(MAPPING_FILES_PATH + browserType + MAPPING_FILES_EXTENSION);
-        JsonElement browserVersionElement;
-        if (mappingObject != null && (browserVersionElement = mappingObject.get(browserVersion)) != null) {
-            return browserVersionElement.getAsString();
-        } else {
-            LOG.warn("Can't get corresponding driver for {} browser version. "
-                    + "Using LATEST driver version.", browserVersion);
-            return null;
-        }
-    }
-
-    private static JsonObject getResourceJsonFileAsJsonObject(String filePath) {
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(classLoader.getResourceAsStream(filePath)));
-        JsonReader reader = new JsonReader(new BufferedReader(isr));
-        JsonParser parser = new JsonParser();
-        return parser.parse(reader).getAsJsonObject();
-    }
-
     private static String detectBrowserVersion() {
         LOG.info("The value of property 'webdriver.browser.version' is not specified. "
                 + "Trying to detect your browser version automatically.");
@@ -139,6 +115,10 @@ public class WebDriverManagerConfigurator {
             commandsToGetVersion = getChromeCommands(os);
         } else {
             LOG.error("{} Can't get current OS. {}", errorMessage, recommendMessage);
+            return null;
+        }
+
+        if (commandsToGetVersion.isEmpty()) {
             return null;
         }
 
