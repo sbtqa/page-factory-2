@@ -1,9 +1,5 @@
 package ru.sbtqa.tag.pagefactory.web.configure;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import io.github.bonigarcia.wdm.Architecture;
 import io.github.bonigarcia.wdm.BrowserManager;
 import io.github.bonigarcia.wdm.OperativeSystem;
@@ -14,7 +10,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
@@ -62,8 +57,7 @@ public class WebDriverManagerConfigurator {
                     LOG.warn("You use IE browser. Switching to LATEST driver version. "
                             + "You can specify driver version by using 'webdriver.version' param.");
                 } else {
-                    String detectedVersion = detectBrowserVersion();
-                    driverVersion = detectedVersion == null ? PROPERTIES.getBrowserVersion() : detectedVersion;
+                    driverVersion = detectBrowserVersion();
                 }
             } else {
                 driverVersion = PROPERTIES.getBrowserVersion();
