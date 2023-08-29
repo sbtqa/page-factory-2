@@ -30,9 +30,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ru.sbtqa</groupId>
+      <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
-      <version>${tag.version.webdrivermanager}</version>
+      <version>${webdrivermanager.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>

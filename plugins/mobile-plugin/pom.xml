@@ -28,10 +28,19 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>${gson.version}</version>
+    </dependency>
+    <dependency>
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
       <version>8.3.0</version>
       <exclusions>
+        <exclusion>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>org.seleniumhq.selenium</groupId>
           <artifactId>selenium-remote-driver</artifactId>
