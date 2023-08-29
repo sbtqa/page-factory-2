@@ -17,7 +17,7 @@ public class SecondRequestFromFeatureEntry extends EndpointEntry {
     @Validation(title = "result")
     public void validate() {
         getResponse().body("result", equalTo("q1=" + Default.HEADER_PARAMETER_VALUE_1 + "|" + "q2=" + Default.QUERY_PARAMETER_VALUE_1
-                + "|" + "h1=" + Default.HEADER_PARAMETER_VALUE_1 + "|" + "h2=application/json; charset=UTF-8|"
+                + "|" + "h1=" + Default.HEADER_PARAMETER_VALUE_1 + "|" + "h2=application/json|"
                 + "id=" + Default.ID + "|" + "name=" + Default.NAME + "|" + "email=parameter-value|"));
     }
 }

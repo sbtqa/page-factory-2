@@ -2,6 +2,9 @@ package ru.sbtqa.tag.api;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -20,6 +23,8 @@ public class CucumberTest {
 
     @BeforeClass
     public static void setup() {
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.INFO);
         server = JettyServiceUtils.startJetty();
     }
 

@@ -1,10 +1,9 @@
 package ru.sbtqa.tag.mq;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
@@ -37,6 +36,12 @@ public class ActiveMqTest {
     private StopWatch mStopWatch;
     private QueueConnection mQueueConnection;
     private Jms<TextMessage> mqService;
+
+    @BeforeClass
+    public static void setupClass() {
+        BasicConfigurator.configure();
+        org.apache.log4j.Logger.getRootLogger().setLevel(Level.INFO);
+    }
 
     @Before
     public void beforeTest() {

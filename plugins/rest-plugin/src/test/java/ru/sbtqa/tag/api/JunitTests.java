@@ -1,5 +1,8 @@
 package ru.sbtqa.tag.api;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -31,6 +34,8 @@ public class JunitTests {
 
     @BeforeClass
     public static void setupClass() {
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.INFO);
         server = JettyServiceUtils.startJetty();
     }
 
