@@ -7,7 +7,7 @@ import ru.sbtqa.tag.pagefactory.annotations.rest.Endpoint;
 
 import static org.hamcrest.Matchers.equalTo;
 
-@Endpoint(method = Rest.GET, host = "${env.customHost}", path = "/get", title = "custom host")
+@Endpoint(method = Rest.GET, host = "${env.customHost}", path = "/random/postcodes", title = "custom host")
 public class CustomHost extends EndpointEntry {
 
     @Validation(title = "result")
