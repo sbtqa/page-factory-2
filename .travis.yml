@@ -18,7 +18,7 @@ before_install:
 - google-chrome --version
 install: true
 script:
-  - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Denv.customHost=https://ipinfo.io/127.0.0.1/geo -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
+  - mvn clean --settings $TRAVIS_BUILD_DIR/.travis/settings.xml install -Denv.customHost=https://api.postcodes.io/random/postcodes -Dmaven.javadoc.skip=true -Dgpg.skip -Dappium.url=$SAUCELABS_URL -B -V
 deploy:
 - provider: script
   script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
