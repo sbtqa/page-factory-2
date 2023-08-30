@@ -140,8 +140,8 @@ public class WebDriverCapabilitiesParser implements CapabilitiesParser {
 
         return args == null
             ? new ArrayList<>()
-        : Arrays.stream(capabilities.getCapability("options.args").toString()
-                        .split(","))
+        : Arrays.stream(Arrays.stream(capabilities.getCapability("options.args").toString()
+                        .split(",")).map(String::trim).toArray())
                 .map(arg -> "--" + arg)
                 .collect(Collectors.toList());
     }
