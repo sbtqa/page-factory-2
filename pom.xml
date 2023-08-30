@@ -62,12 +62,13 @@
     <spring.version>4.2.4.RELEASE</spring.version>
     <activemq.version>5.13.0</activemq.version>
     <surefire.version>2.22.1</surefire.version>
-    <tag.version.qautils>1.9.0</tag.version.qautils>
+    <tag.version.qautils>1.9.1</tag.version.qautils>
     <tag.version.videorecorder>1.1.2</tag.version.videorecorder>
-    <tag.version.webdrivermanager>2.4.1</tag.version.webdrivermanager>
+    <webdrivermanager.version>5.5.2</webdrivermanager.version>
     <tag.version.datajack>5.2.3</tag.version.datajack>
     <allure.version>2.13.0</allure.version>
     <netty.version>4.1.87.Final</netty.version>
+    <gson.version>2.10.1</gson.version>
   </properties>
 
   <modules>

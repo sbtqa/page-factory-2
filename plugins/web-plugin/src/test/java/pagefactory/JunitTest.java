@@ -1,5 +1,8 @@
 package pagefactory;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,6 +24,8 @@ public class JunitTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.INFO);
         server.startJetty();
     }
 
