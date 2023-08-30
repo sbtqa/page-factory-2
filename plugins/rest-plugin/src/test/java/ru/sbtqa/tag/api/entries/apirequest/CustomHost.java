@@ -12,6 +12,6 @@ public class CustomHost extends EndpointEntry {
 
     @Validation(title = "result")
     public void validate() {
-        getResponse().body("url", equalTo("https://httpbin.org/get"));
+        getResponse().body("ip", equalTo("127.0.0.1"));
     }
 }
