@@ -13,9 +13,6 @@ public class WebDriverManagerConfigurator {
     private static final Logger LOG = LoggerFactory.getLogger(WebDriverManagerConfigurator.class);
     private static final WebConfiguration PROPERTIES = WebConfiguration.create();
 
-    private static final String MAPPING_FILES_PATH = "drivers/mapping/";
-    private static final String MAPPING_FILES_EXTENSION = ".json";
-
     private WebDriverManagerConfigurator() {}
 
     public static void configureDriver(WebDriverManager webDriverManager, String browserType) {
