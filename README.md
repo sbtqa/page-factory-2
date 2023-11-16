@@ -3,8 +3,6 @@
 
 Page-Factory-2 это opensource java framework для автоматизированного тестирования, который позволяет разрабатывать автотесты в [BDD (Behaviour Driven Development)](https://en.wikipedia.org/wiki/Behavior-driven_development) стиле с акцентом на использование паттерна PageFactory.
 
-# 🚩🚩🚩 WE ARE LOOKING DOCUMENTATION CONTRIBUTOR FOR ENGLISH TRANSLATION! CONTACT US VIA viktor.sidochenko@gmail.com🚩🚩🚩
-
 ## Telegram: https://t.me/tag_support
 
 ### О Page Factory 2
