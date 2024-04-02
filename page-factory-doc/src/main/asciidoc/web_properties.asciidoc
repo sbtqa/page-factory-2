@@ -53,7 +53,7 @@ webdriver.browser.size = 1920x1080
 webdriver.browser.path = src/test/resources/webdrivers/chromedriver.exe
 | Не задано
 
-| webdriver.version
+| webdriver.browser.version
 | Версия драйвера. Если указан этот параметр, то будет выполнена попытка автоматически найти соответствующую версию
 | Не задано
 

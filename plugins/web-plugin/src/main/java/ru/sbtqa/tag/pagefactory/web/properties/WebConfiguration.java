@@ -37,7 +37,7 @@ public interface WebConfiguration extends Configuration {
     @DefaultValue("")
     String getDriversPath();
 
-    @Key("webdriver.version")
+    @Key("webdriver.browser.version")
     @DefaultValue("")
     String getWebDriverVersion();
 
@@ -56,7 +56,6 @@ public interface WebConfiguration extends Configuration {
     @Key("webdriver.proxy")
     @DefaultValue("")
     String getProxy();
-
 
     @Key("aspects.highlight.enabled")
     @DefaultValue("false")
