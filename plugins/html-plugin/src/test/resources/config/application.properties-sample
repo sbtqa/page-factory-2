@@ -59,7 +59,7 @@ webdriver.nexus.url = http://your.nexus.repo.with.drivers.com/
 webdriver.os.arch
 
 #optional. Forces to download this driver version if it is available. LATEST by default
-webdriver.version = 2.35
+webdriver.browser.version = 2.35
 
 #optional. The number of start  attempts webdriver. 3 by default
 webdriver.create.attempts = 3
